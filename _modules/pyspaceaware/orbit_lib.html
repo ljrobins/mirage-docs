@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyspaceaware.orbit_lib &#8212; pyspaceaware 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+    <link rel="apple-touch-icon" href="../../_static/sid_logo.png" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../../index.html">
+    <img class="logo" src="../../_static/sid_logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">Space Domain Awareness in Python</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=liamrobinson1&repo=PyLightCurves&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyspaceaware.html">pyspaceaware package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../references.html">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for pyspaceaware.orbit_lib</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">sgp4.api</span> <span class="kn">import</span> <span class="n">Satrec</span><span class="p">,</span> <span class="n">SatrecArray</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">.astro_constants</span> <span class="kn">import</span> <span class="n">AstroConstants</span>
+<span class="kn">from</span> <span class="nn">.math_utility</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.attitude_lib</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">axis_rotation_matrices</span><span class="p">,</span>
+    <span class="n">quat_kinematics</span><span class="p">,</span>
+    <span class="n">rigid_rotation_dynamics</span><span class="p">,</span>
+    <span class="n">quat_to_dcm</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.astro_coordinates</span> <span class="kn">import</span> <span class="n">sun</span><span class="p">,</span> <span class="n">ecef_to_eci</span>
+<span class="kn">from</span> <span class="nn">.astro_time_utility</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="integrate_orbit_and_attitude"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.orbit_lib.integrate_orbit_and_attitude">[docs]</a><span class="k">def</span> <span class="nf">integrate_orbit_and_attitude</span><span class="p">(</span>
+    <span class="n">r0</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">v0</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">q0</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">w0</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">itensor</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">teval</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">orbit_perturbations</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
+    <span class="n">external_torque</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
+    <span class="n">internal_torque</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
+    <span class="n">int_tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-13</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="n">fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+        <span class="p">(</span>
+            <span class="n">two_body_dynamics</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">6</span><span class="p">])</span>
+            <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+                <span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">orbit_perturbations</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">6</span><span class="p">]))</span>
+            <span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="n">quat_kinematics</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">10</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">13</span><span class="p">]),</span>
+                    <span class="n">rigid_rotation_dynamics</span><span class="p">(</span>
+                        <span class="n">t</span><span class="p">,</span>
+                        <span class="n">y</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">13</span><span class="p">],</span>
+                        <span class="n">itensor</span><span class="p">,</span>
+                        <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">external_torque</span><span class="p">(</span>
+                            <span class="n">t</span><span class="p">,</span> <span class="n">quat_to_dcm</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+                        <span class="p">),</span>
+                    <span class="p">),</span>
+                <span class="p">)</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">y0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">r0</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">v0</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">q0</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">w0</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+    <span class="p">)</span>
+    <span class="n">tspan</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">teval</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">teval</span><span class="p">)]</span>
+    <span class="n">ode_res</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">integrate</span><span class="o">.</span><span class="n">solve_ivp</span><span class="p">(</span>
+        <span class="n">fun</span><span class="p">,</span> <span class="n">tspan</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">t_eval</span><span class="o">=</span><span class="n">teval</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="n">int_tol</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">int_tol</span>
+    <span class="p">)</span>
+    <span class="n">ode_res</span> <span class="o">=</span> <span class="n">ode_res</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">ode_res</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span>
+        <span class="n">ode_res</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">],</span>
+        <span class="n">ode_res</span><span class="p">[:,</span> <span class="mi">6</span><span class="p">:</span><span class="mi">10</span><span class="p">],</span>
+        <span class="n">ode_res</span><span class="p">[:,</span> <span class="mi">10</span><span class="p">:</span><span class="mi">13</span><span class="p">],</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="integrate_orbit_dynamics"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.orbit_lib.integrate_orbit_dynamics">[docs]</a><span class="k">def</span> <span class="nf">integrate_orbit_dynamics</span><span class="p">(</span>
+    <span class="n">rv0</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">perturbations</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">teval</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">int_tol</span><span class="o">=</span><span class="mf">1e-13</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Integration for orbital dynamics with perturbations</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rv0 (np.ndarray 1x6): Initial position and velocity state in Earth-centered inertial coordinates</span>
+<span class="sd">        pertubations (Callable(t,rv0) -&gt; np.ndarray 1x3) [Nm]: Accelerations applied to the body due to perturbing forces</span>
+<span class="sd">        teval (np.ndarray 1xn) [seconds]: Times to return integrated trajectory at</span>
+<span class="sd">        int_tol (float): Integration rtol and atols for RK45</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        np.ndarray nx7: Integrated quaternion [:4, :] and angular velocity [4:, :]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">two_body_dynamics</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+        <span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">perturbations</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+    <span class="p">)</span>
+    <span class="n">tspan</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">teval</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">teval</span><span class="p">)]</span>
+    <span class="n">ode_res</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">integrate</span><span class="o">.</span><span class="n">solve_ivp</span><span class="p">(</span>
+        <span class="n">fun</span><span class="p">,</span> <span class="n">tspan</span><span class="p">,</span> <span class="n">rv0</span><span class="p">,</span> <span class="n">t_eval</span><span class="o">=</span><span class="n">teval</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="n">int_tol</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">int_tol</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">ode_res</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span></div>
+
+
+<div class="viewcode-block" id="sun_acceleration"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.orbit_lib.sun_acceleration">[docs]</a><span class="k">def</span> <span class="nf">sun_acceleration</span><span class="p">(</span><span class="n">rv</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">jd</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Approximate 3rd body acceleration due to the Sun</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rv (np.ndarray 1x6): Position and velocity state in Earth-centered inertial coordinates</span>
+<span class="sd">        jd (float) [days]: Julian date to evaluate at</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        np.ndarray 1x6: Time derivative of position and velocity states</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">earth_to_sun</span> <span class="o">=</span> <span class="n">sun</span><span class="p">(</span><span class="n">jd</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="o">*</span> <span class="n">AstroConstants</span><span class="o">.</span><span class="n">au_to_km</span>
+    <span class="n">sat_to_sun</span> <span class="o">=</span> <span class="n">earth_to_sun</span> <span class="o">-</span> <span class="n">rv</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">AstroConstants</span><span class="o">.</span><span class="n">sun_mu</span> <span class="o">*</span> <span class="p">(</span>
+        <span class="n">earth_to_sun</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">earth_to_sun</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span>
+        <span class="o">-</span> <span class="n">sat_to_sun</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">sat_to_sun</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="two_body_dynamics"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.orbit_lib.two_body_dynamics">[docs]</a><span class="k">def</span> <span class="nf">two_body_dynamics</span><span class="p">(</span><span class="n">rv</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Relative two-body dynamics for orbits</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rv (np.ndarray 1x6) [km, km/s]: Position [:3] and velocity [3:] of the satellite</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        np.ndarray 1x6: Time derivative of position and velocity states</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rvdot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">rv</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">rvdot</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">rv</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+    <span class="n">rvdot</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="o">-</span><span class="n">AstroConstants</span><span class="o">.</span><span class="n">earth_mu</span> <span class="o">*</span> <span class="n">rv</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">rv</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span> <span class="o">**</span> <span class="mi">3</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">rvdot</span></div>
+
+
+<div class="viewcode-block" id="j2_acceleration"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.orbit_lib.j2_acceleration">[docs]</a><span class="k">def</span> <span class="nf">j2_acceleration</span><span class="p">(</span><span class="n">rvec</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Acceleration due to the J2 perturbation (Earth oblateness)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rvec (np.ndarray 1x3) [km]: Position vector of the satellite</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        np.ndarray 1x3 [km/s^2]: Acceleration due to J2</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">re</span> <span class="o">=</span> <span class="n">AstroConstants</span><span class="o">.</span><span class="n">earth_r_eq</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">AstroConstants</span><span class="o">.</span><span class="n">earth_mu</span>
+    <span class="n">j2</span> <span class="o">=</span> <span class="n">AstroConstants</span><span class="o">.</span><span class="n">earth_j2</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">rvec</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">x_eci</span><span class="p">,</span> <span class="n">y_eci</span><span class="p">,</span> <span class="n">z_eci</span><span class="p">)</span> <span class="o">=</span> <span class="n">rvec</span>  <span class="c1"># ECI positions</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="o">-</span><span class="mi">3</span>
+        <span class="o">/</span> <span class="mi">2</span>
+        <span class="o">*</span> <span class="n">j2</span>
+        <span class="o">*</span> <span class="p">(</span><span class="n">mu</span> <span class="o">/</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="o">*</span> <span class="p">(</span><span class="n">re</span> <span class="o">/</span> <span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">5</span> <span class="o">*</span> <span class="p">(</span><span class="n">z_eci</span> <span class="o">/</span> <span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">x_eci</span> <span class="o">/</span> <span class="n">r</span><span class="p">,</span>
+                <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">5</span> <span class="o">*</span> <span class="p">(</span><span class="n">z_eci</span> <span class="o">/</span> <span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">y_eci</span> <span class="o">/</span> <span class="n">r</span><span class="p">,</span>
+                <span class="p">(</span><span class="mi">3</span> <span class="o">-</span> <span class="mi">5</span> <span class="o">*</span> <span class="p">(</span><span class="n">z_eci</span> <span class="o">/</span> <span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">z_eci</span> <span class="o">/</span> <span class="n">r</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="coe_to_rv"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.orbit_lib.coe_to_rv">[docs]</a><span class="k">def</span> <span class="nf">coe_to_rv</span><span class="p">(</span>
+    <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">e</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">i</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">Om</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">om</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">ma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">mu</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">AstroConstants</span><span class="o">.</span><span class="n">earth_mu</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts classical (Keplerian) orbital elements to position/velocity state</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        a (float) [km]: Semi-major axis of the orbit</span>
+<span class="sd">        e (float): Eccentricity</span>
+<span class="sd">        i (float) [deg]: Inclination</span>
+<span class="sd">        Om (float) [deg]: Right Ascension of the Ascending Node (RAAN)</span>
+<span class="sd">        om (float) [deg]: Argument of periapsis</span>
+<span class="sd">        ma (float) [deg]: Mean anomaly</span>
+<span class="sd">        mu (float) [km^3/s^2]: Gravitational parameter of central body</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        np.array 1x6 [km, km/s]: State vector in position/velocity</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">efun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">ea</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">ma</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">ea</span><span class="p">)</span> <span class="o">+</span> <span class="n">e</span> <span class="o">*</span> <span class="n">sind</span><span class="p">(</span><span class="n">ea</span><span class="p">)</span>
+    <span class="n">ea</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">fsolve</span><span class="p">(</span><span class="n">efun</span><span class="p">,</span> <span class="n">ma</span><span class="p">)</span>  <span class="c1"># Eccentric anomaly</span>
+    <span class="n">ta</span> <span class="o">=</span> <span class="n">wrap_to_360</span><span class="p">(</span>
+        <span class="mi">2</span> <span class="o">*</span> <span class="n">atand</span><span class="p">(</span><span class="n">tand</span><span class="p">(</span><span class="n">ea</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="n">e</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">e</span><span class="p">)))</span>
+    <span class="p">)</span>  <span class="c1"># True anomaly</span>
+    <span class="n">ta</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">ta</span><span class="p">)</span>  <span class="c1"># TODO: accept vector arguments</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">e</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># Semi-latus rectum</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">p</span> <span class="o">*</span> <span class="n">mu</span><span class="p">)</span>  <span class="c1"># Angular momentum</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">p</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">e</span> <span class="o">*</span> <span class="n">cosd</span><span class="p">(</span><span class="n">ta</span><span class="p">))</span>  <span class="c1"># Position magnitude</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mu</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="n">r</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">a</span><span class="p">))</span>  <span class="c1"># Velocity magnitude</span>
+    <span class="n">isasc</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">ta</span> <span class="o">&lt;</span> <span class="mi">180</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># 1 if asc, -1 if not</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">isasc</span> <span class="o">*</span> <span class="n">acosd</span><span class="p">(</span>
+        <span class="n">h</span> <span class="o">/</span> <span class="p">(</span><span class="n">r</span> <span class="o">*</span> <span class="n">v</span><span class="p">)</span>
+    <span class="p">)</span>  <span class="c1"># Flight path angle above/below local horizon</span>
+    <span class="n">r_rth</span> <span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>  <span class="c1"># Rotating frame position</span>
+    <span class="n">v_rth</span> <span class="o">=</span> <span class="n">v</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">sind</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">cosd</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="p">)</span>  <span class="c1"># Rotating frame velocity</span>
+
+    <span class="p">(</span><span class="n">R1</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">R3</span><span class="p">)</span> <span class="o">=</span> <span class="n">axis_rotation_matrices</span><span class="p">()</span>  <span class="c1"># Getting basic DCMs</span>
+    <span class="n">D_i2r</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">R3</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">ta</span> <span class="o">+</span> <span class="n">om</span><span class="p">))</span> <span class="o">@</span> <span class="n">R1</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="o">@</span> <span class="n">R3</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">Om</span><span class="p">))</span>
+    <span class="p">)</span>
+    <span class="c1"># DCM from inertial to rotating frame</span>
+    <span class="n">r_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">D_i2r</span><span class="p">)</span> <span class="o">@</span> <span class="n">r_rth</span>  <span class="c1"># Rotating rv to inertial space</span>
+    <span class="n">v_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">D_i2r</span><span class="p">)</span> <span class="o">@</span> <span class="n">v_rth</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">r_i</span><span class="p">,</span> <span class="n">v_i</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="propagate_catalog_to_dates"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.orbit_lib.propagate_catalog_to_dates">[docs]</a><span class="k">def</span> <span class="nf">propagate_catalog_to_dates</span><span class="p">(</span>
+    <span class="n">dates</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">cat_preset</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="n">jds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">date_to_jd</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dates</span><span class="p">])</span>
+    <span class="n">sats</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">cat_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SRCDIR&quot;</span><span class="p">],</span> <span class="s2">&quot;tle&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;tle_latest_</span><span class="si">{</span><span class="n">cat_preset</span><span class="si">}</span><span class="s2">.cat&quot;</span>
+    <span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">cat_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="n">line</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="n">line</span>
+                <span class="n">sats</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Satrec</span><span class="o">.</span><span class="n">twoline2rv</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span>
+
+    <span class="n">sat_coll</span> <span class="o">=</span> <span class="n">SatrecArray</span><span class="p">(</span><span class="n">sats</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">jdays</span><span class="p">,</span> <span class="n">jfracs</span><span class="p">)</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">modf</span><span class="p">(</span><span class="n">jds</span><span class="p">)</span>
+    <span class="n">e</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">sat_coll</span><span class="o">.</span><span class="n">sgp4</span><span class="p">(</span><span class="n">jdays</span><span class="p">,</span> <span class="n">jfracs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="propagate_satnum_to_dates"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.orbit_lib.propagate_satnum_to_dates">[docs]</a><span class="k">def</span> <span class="nf">propagate_satnum_to_dates</span><span class="p">(</span>
+    <span class="n">dates</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">satnum</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">target_frame</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;teme&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="n">jds</span> <span class="o">=</span> <span class="n">date_to_jd</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">jdays</span><span class="p">,</span> <span class="n">jfracs</span><span class="p">)</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">modf</span><span class="p">(</span><span class="n">jds</span><span class="p">)</span>
+    <span class="n">cat_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SRCDIR&quot;</span><span class="p">],</span> <span class="s2">&quot;tle&quot;</span><span class="p">,</span> <span class="s2">&quot;tle_latest_all.cat&quot;</span>
+    <span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">cat_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="n">line</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="n">line</span>
+                <span class="n">sr</span> <span class="o">=</span> <span class="n">Satrec</span><span class="o">.</span><span class="n">twoline2rv</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">sr</span><span class="o">.</span><span class="n">satnum</span> <span class="o">==</span> <span class="n">satnum</span><span class="p">:</span>
+                    <span class="n">_</span><span class="p">,</span> <span class="n">r_teme</span><span class="p">,</span> <span class="n">v_teme</span> <span class="o">=</span> <span class="n">sr</span><span class="o">.</span><span class="n">sgp4_array</span><span class="p">(</span><span class="n">jdays</span><span class="p">,</span> <span class="n">jfracs</span><span class="p">)</span>
+                    <span class="k">break</span>
+
+    <span class="k">if</span> <span class="n">target_frame</span> <span class="o">==</span> <span class="s2">&quot;teme&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">r_teme</span><span class="p">,</span> <span class="n">v_teme</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">target_frame</span> <span class="o">==</span> <span class="s2">&quot;ecef&quot;</span><span class="p">:</span>
+        <span class="n">rot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">([</span><span class="n">ecef_to_eci</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dates</span><span class="p">])</span>
+
+    <span class="n">r_rot</span> <span class="o">=</span> <span class="n">stack_mat_mult</span><span class="p">(</span><span class="n">rot</span><span class="p">,</span> <span class="n">r_teme</span><span class="p">)</span>
+    <span class="n">v_rot</span> <span class="o">=</span> <span class="n">stack_mat_mult</span><span class="p">(</span><span class="n">rot</span><span class="p">,</span> <span class="n">v_teme</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">r_rot</span><span class="p">,</span> <span class="n">v_rot</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2023, Liam Robinson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.1.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
