@@ -93,16 +93,16 @@
           <div class="body" role="main">
             
   <h1>Source code for pyspaceaware.obs_constraints</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">.observer_utility</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.math_utility</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.astro_time_utility</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.astro_coordinates</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span> <span class="nn">observer_utility</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">math_utility</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">astro_time_utility</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">astro_coordinates</span> <span class="kn">import</span> <span class="o">*</span>
 
 
 <div class="viewcode-block" id="is_eclipsed_geodetic_surface"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.obs_constraints.is_eclipsed_geodetic_surface">[docs]</a><span class="k">def</span> <span class="nf">is_eclipsed_geodetic_surface</span><span class="p">(</span>
     <span class="n">lat_geod</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">lon_rad</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">dates</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">datetime</span><span class="p">],</span>
+    <span class="n">dates</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">],</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes whether a geodetic latitude/longitude is eclipsed at times</span>
@@ -123,7 +123,9 @@
 
 
 <div class="viewcode-block" id="is_eclipsed_geocentric_eci"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.obs_constraints.is_eclipsed_geocentric_eci">[docs]</a><span class="k">def</span> <span class="nf">is_eclipsed_geocentric_eci</span><span class="p">(</span>
-    <span class="n">target_pos_eci</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">dates</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">datetime</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="n">target_pos_eci</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">dates</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">],</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes whether a geocentric position in Earth-Centered Inertial</span>
 <span class="sd">    coordinates is in eclipse at given dates</span>
@@ -152,7 +154,7 @@
 
 <div class="viewcode-block" id="is_moon_exclusion"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.obs_constraints.is_moon_exclusion">[docs]</a><span class="k">def</span> <span class="nf">is_moon_exclusion</span><span class="p">(</span>
     <span class="n">look_dir_eci</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-    <span class="n">dates</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">datetime</span><span class="p">],</span>
+    <span class="n">dates</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">],</span>
     <span class="n">moon_exclusion_angle_min_rad</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>

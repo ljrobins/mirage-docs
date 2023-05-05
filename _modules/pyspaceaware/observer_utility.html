@@ -93,9 +93,9 @@
           <div class="body" role="main">
             
   <h1>Source code for pyspaceaware.observer_utility</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">.astro_constants</span> <span class="kn">import</span> <span class="n">AstroConstants</span>
-<span class="kn">from</span> <span class="nn">.math_utility</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.astro_coordinates</span> <span class="kn">import</span> <span class="n">ecef_to_eci</span><span class="p">,</span> <span class="n">sun</span>
+<span></span><span class="kn">from</span> <span class="nn">astro_constants</span> <span class="kn">import</span> <span class="n">AstroConstants</span>
+<span class="kn">from</span> <span class="nn">math_utility</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">astro_coordinates</span> <span class="kn">import</span> <span class="n">ecef_to_eci</span><span class="p">,</span> <span class="n">sun</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
 
@@ -103,12 +103,10 @@
 <div class="viewcode-block" id="geodetic_lat_to_geocentric"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.observer_utility.geodetic_lat_to_geocentric">[docs]</a><span class="k">def</span> <span class="nf">geodetic_lat_to_geocentric</span><span class="p">(</span><span class="n">lat_geod</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts geodetic latitude to geocentric latitude</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        lat_geod (np.ndarray nx1) [rad]: Geodetic latitudes</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray nx1 [rad]: Geocentric latitudes</span>
-
+<span class="sd">    :param lat_geod: Geodetic latitudes [rad]</span>
+<span class="sd">    :type lat_geod: np.ndarray</span>
+<span class="sd">    :return: Geocentric latitudes [rad]</span>
+<span class="sd">    :rtype: np.ndarray</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">f</span> <span class="o">=</span> <span class="n">AstroConstants</span><span class="o">.</span><span class="n">earth_f</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">f</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">lat_geod</span><span class="p">))</span></div>
@@ -117,12 +115,10 @@
 <div class="viewcode-block" id="radius_at_geodetic_lat"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.observer_utility.radius_at_geodetic_lat">[docs]</a><span class="k">def</span> <span class="nf">radius_at_geodetic_lat</span><span class="p">(</span><span class="n">lat_geodetic</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Earth&#39;s radius at the given geodetic latitude</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        lat_geodetic (np.ndarray nx1) [rad]: Geodetic latitudes</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray nx1 [km]: Earth radius at given latitudes</span>
-
+<span class="sd">    :param lat_geodetic: Geodetic latitudes [rad]</span>
+<span class="sd">    :type lat_geodetic: np.ndarray</span>
+<span class="sd">    :return: Earth radius at given latitudes [km]</span>
+<span class="sd">    :rtype: np.ndarray</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">lat_geoc</span> <span class="o">=</span> <span class="n">geodetic_lat_to_geocentric</span><span class="p">(</span><span class="n">lat_geodetic</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">AstroConstants</span><span class="o">.</span><span class="n">earth_r_eq</span> <span class="o">-</span> <span class="mf">21.38</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">lat_geoc</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span></div>
@@ -131,17 +127,16 @@
 <div class="viewcode-block" id="lla_to_itrf"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.observer_utility.lla_to_itrf">[docs]</a><span class="k">def</span> <span class="nf">lla_to_itrf</span><span class="p">(</span>
     <span class="n">lat_geod</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">lon</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts from latitude, longitude, altitude (LLA)</span>
-<span class="sd">    to the International Terrestrial Reference Frame (ITRF)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts from latitude, longitude, altitude (LLA) to the International Terrestrial Reference Frame (ITRF)</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        lat_geod (np.ndarray nx1) [rad]: Geodetic latitudes</span>
-<span class="sd">        lon (np.ndarray nx1) [rad]: Longitudes</span>
-<span class="sd">        a (np.ndarray nx1) [km]: Altitudes above the WGS84 ellipsoid</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray nx3 [km]: ITRF positions for each LLA triplet</span>
-
+<span class="sd">    :param lat_geod: Geodetic latitudes [rad]</span>
+<span class="sd">    :type lat_geod: np.ndarray [nx1]</span>
+<span class="sd">    :param lon: Longitudes [rad]</span>
+<span class="sd">    :type lon: np.ndarray [nx1]</span>
+<span class="sd">    :param a: Altitudes above the WGS84 ellipsoid [km]</span>
+<span class="sd">    :type a: np.ndarray [nx1]</span>
+<span class="sd">    :return: ITRF positions for each LLA triplet [km]</span>
+<span class="sd">    :rtype: np.array [nx3]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">lat_geoc</span> <span class="o">=</span> <span class="n">geodetic_lat_to_geocentric</span><span class="p">(</span><span class="n">lat_geod</span><span class="p">)</span>
     <span class="c1"># Transforms geodetic latitude into geocentric</span>
@@ -156,19 +151,23 @@
 
 
 <div class="viewcode-block" id="lla_to_eci"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.observer_utility.lla_to_eci">[docs]</a><span class="k">def</span> <span class="nf">lla_to_eci</span><span class="p">(</span>
-    <span class="n">lat_geod</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">lon</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">date</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts from latitude, longitude, altitude (LLA) to Earth-centered inertial (ECI) coordinates</span>
+    <span class="n">lat_geod</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">lon</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">date</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts latitude, longitude, altitude (LLA) to Earth-centered inertial (ECI) coordinates</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        lat_geod (np.ndarray nx1) [rad]: Geodetic latitudes</span>
-<span class="sd">        lon (np.ndarray nx1) [rad]: Longitudes</span>
-<span class="sd">        a (np.ndarray nx1) [km]: Altitudes above the WGS84 ellipsoid</span>
-<span class="sd">        date (datetime.datetime) [UTC]: Date to evaluate conversion</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray nx3 [km]: ECI positions for each LLA triplet</span>
-
+<span class="sd">    :param lat_geod: Geodetic latitudes [rad]</span>
+<span class="sd">    :type lat_geod: float</span>
+<span class="sd">    :param lon: Longitudes [rad]</span>
+<span class="sd">    :type lon: float</span>
+<span class="sd">    :param a: Altitudes above the WGS84 ellipsoid [km]</span>
+<span class="sd">    :type a: float</span>
+<span class="sd">    :param date: Date to evaluate conversion [UTC]</span>
+<span class="sd">    :type date: np.ndarray[datetime.datetime]</span>
+<span class="sd">    :return: ECI positions for each LLA triplet [km]</span>
+<span class="sd">    :rtype:  np.ndarray</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">r_itrf</span> <span class="o">=</span> <span class="n">lla_to_itrf</span><span class="p">(</span><span class="n">lat_geod</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
     <span class="n">date</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">date</span><span class="p">])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>

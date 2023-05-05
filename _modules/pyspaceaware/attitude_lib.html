@@ -96,8 +96,8 @@
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Any</span>
-<span class="kn">from</span> <span class="nn">.math_utility</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.astro_constants</span> <span class="kn">import</span> <span class="n">AstroConstants</span>
+<span class="kn">from</span> <span class="nn">math_utility</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">astro_constants</span> <span class="kn">import</span> <span class="n">AstroConstants</span>
 
 
 <div class="viewcode-block" id="RbtfAttitude"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.RbtfAttitude">[docs]</a><span class="k">class</span> <span class="nc">RbtfAttitude</span><span class="p">:</span>
@@ -164,17 +164,18 @@
     <span class="n">itensor</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">torque</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rigid body rotational dynamics (Euler&#39;s EOMs)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rigid body rotational dynamics (Euler&#39;s equations of motion)</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        itensor (np.ndarray 3x3) [kg m^2]: Inertia tensor in principal axes, should be diagonal</span>
-<span class="sd">        t (float) [seconds]: Current integration time</span>
-<span class="sd">        w (np.ndarray 1x3) [rad/s]: Angular velocity vector of body relative to inertial space</span>
-<span class="sd">        torque (Callable(t,y) -&gt; np.ndarray 1x3) [Nm]: Torque applied to the body due to external forces</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray: Time derivative of angular velocity vector</span>
-
+<span class="sd">    :param t: Current integration time [seconds]</span>
+<span class="sd">    :type t: float</span>
+<span class="sd">    :param w: Angular velocity vector of body relative to inertial space [rad/s]</span>
+<span class="sd">    :type w: np.ndarray [1x3]</span>
+<span class="sd">    :param itensor: Inertia tensor in principal axes, should be diagonal [kg m^2]</span>
+<span class="sd">    :type itensor: np.ndarray [3x3]</span>
+<span class="sd">    :param torque: Torque applied to the body due to external forces [N m], defaults to None</span>
+<span class="sd">    :type torque: Callable, optional</span>
+<span class="sd">    :return: Angular acceleration vector [rad/s^2]</span>
+<span class="sd">    :rtype: np.ndarray [1x3]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">dwdt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,))</span>
     <span class="p">(</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">iz</span><span class="p">)</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">itensor</span><span class="p">)</span>
@@ -198,14 +199,14 @@
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes gravity gradient torque in the body frame</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        itensor (np.ndarray 3x3) [kg m^2]: Inertia tensor in body axes</span>
-<span class="sd">        rvec (np.ndarray 1x3) [km]: Position vector of body</span>
-<span class="sd">        mu (float) [km^3/s^2]: Gravitational parameter of central body</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray 1x3 [Nm]: Gravity gradient torque [Nm] in body frame</span>
-
+<span class="sd">    :param itensor: Inertia tensor in body axes [kg m^2]</span>
+<span class="sd">    :type itensor: np.ndarray [3x3]</span>
+<span class="sd">    :param rvec: Position vector of body [km]</span>
+<span class="sd">    :type rvec: np.ndarray [1x3]</span>
+<span class="sd">    :param mu: Gravitational parameter of central body, defaults to AstroConstants.earth_mu</span>
+<span class="sd">    :type mu: float, optional</span>
+<span class="sd">    :return: Gravity gradient torque in body frame [N m]</span>
+<span class="sd">    :rtype: np.ndarray [1x3]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">rmag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">rvec</span><span class="p">)</span>
     <span class="c1"># Distance from central body COM to satellite COM</span>
@@ -222,13 +223,12 @@
 <div class="viewcode-block" id="quat_kinematics"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.quat_kinematics">[docs]</a><span class="k">def</span> <span class="nf">quat_kinematics</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Kinematic differential equations for quaternion time evolution</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        q (np.ndarray 1x4): Current quaternion from inertial to body</span>
-<span class="sd">        w (np.ndarray 1x3) [rad/s]: Current angular velocity in body frame</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray 1x3: Time derivative of input quaternion</span>
-
+<span class="sd">    :param q: Current quaternion from inertial to body</span>
+<span class="sd">    :type q: np.ndarray [1x4]</span>
+<span class="sd">    :param w: Current angular velocity in body frame [rad/s]</span>
+<span class="sd">    :type w: np.ndarray [1x3]</span>
+<span class="sd">    :return: Time derivative of input quaternion</span>
+<span class="sd">    :rtype: np.ndarray [1x3]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">(</span>
         <span class="mi">1</span>
@@ -248,56 +248,51 @@
 <span class="k">def</span> <span class="nf">quat_ang</span><span class="p">(</span><span class="n">q1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">q2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Angle between two quaternion arrays</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        q1 (np.ndarray nx4): Quaternion array</span>
-<span class="sd">        q2 (np.ndarray nx4): Quaternion array</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray nx1 [rad]: Angle between quaternion arrays</span>
-
+<span class="sd">    :param q1: Quaternion array</span>
+<span class="sd">    :type q1: np.ndarray [nx4]</span>
+<span class="sd">    :param q2: Quaternion array</span>
+<span class="sd">    :type q2: np.ndarray [nx4]</span>
+<span class="sd">    :return: Angle between quaternion arrays [rad]</span>
+<span class="sd">    :rtype: np.ndarray [nx1]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="mrp_add"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.mrp_add">[docs]</a><span class="k">def</span> <span class="nf">mrp_add</span><span class="p">(</span><span class="n">s1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">s2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds modified Rodrigues parameters (see docstring for quat_add)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds modified Rodrigues parameters (see quat_add)</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        s1 (np.ndarray nx3): modified Rodrigues parameter array</span>
-<span class="sd">        s2 (np.ndarray nx3): modified Rodrigues parameter array</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray nx3: modified Rodrigues parameter array</span>
-
+<span class="sd">    :param s1: Modified Rodrigues parameter array</span>
+<span class="sd">    :type s1: np.ndarray [nx3]</span>
+<span class="sd">    :param s2: Modified Rodrigues parameter array</span>
+<span class="sd">    :type s2: np.ndarray [nx3]</span>
+<span class="sd">    :return: Modified Rodrigues parameter array</span>
+<span class="sd">    :rtype: np.ndarray [nx3]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">quat_to_mrp</span><span class="p">(</span><span class="n">quat_add</span><span class="p">(</span><span class="n">mrp_to_quat</span><span class="p">(</span><span class="n">s1</span><span class="p">),</span> <span class="n">mrp_to_quat</span><span class="p">(</span><span class="n">s2</span><span class="p">)))</span></div>
 
 
 <div class="viewcode-block" id="rv_add"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.rv_add">[docs]</a><span class="k">def</span> <span class="nf">rv_add</span><span class="p">(</span><span class="n">p1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">p2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds rotation vectors (see docstring for quat_add)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds rotation vectors (see quat_add)</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        p1 (np.ndarray nx3): Rotation vector array</span>
-<span class="sd">        p2 (np.ndarray nx3): Rotation vector array</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray nx3: Rotation vector array</span>
-
+<span class="sd">    :param p1: Rotation vector array</span>
+<span class="sd">    :type p1: np.ndarray [nx3]</span>
+<span class="sd">    :param p2: Rotation vector array</span>
+<span class="sd">    :type p2: np.ndarray [nx3]</span>
+<span class="sd">    :return: Rotation vector array</span>
+<span class="sd">    :rtype: np.ndarray [nx3]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">quat_to_rv</span><span class="p">(</span><span class="n">quat_add</span><span class="p">(</span><span class="n">rv_to_quat</span><span class="p">(</span><span class="n">p1</span><span class="p">),</span> <span class="n">rv_to_quat</span><span class="p">(</span><span class="n">p2</span><span class="p">)))</span></div>
 
 
 <div class="viewcode-block" id="quat_add"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.quat_add">[docs]</a><span class="k">def</span> <span class="nf">quat_add</span><span class="p">(</span><span class="n">q1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">q2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds (multiplies) quaternions together such that</span>
-<span class="sd">    quat_add(inv_quat(q1), q2) gives the rotation between q1 and q2</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds (multiplies) quaternions together such that quat_add(inv_quat(q1), q2) gives the rotation between q1 and q2</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        q1 (np.ndarray nx4): Quaternion array</span>
-<span class="sd">        q2 (np.ndarray nx4): Quaternion array</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray nx4: Quaternion array</span>
-
+<span class="sd">    :param q1: Quaternion array</span>
+<span class="sd">    :type q1: np.ndarray [nx4]</span>
+<span class="sd">    :param q2: Quaternion array</span>
+<span class="sd">    :type q2: np.ndarray [nx4]</span>
+<span class="sd">    :return: Quaternion array</span>
+<span class="sd">    :rtype: np.ndarray [nx4]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">q1</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">q2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">q1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="p">(</span><span class="n">q2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
@@ -321,12 +316,10 @@
 <div class="viewcode-block" id="mrp_to_rv"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.mrp_to_rv">[docs]</a><span class="k">def</span> <span class="nf">mrp_to_rv</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts modified Rodrigues parameters to rotation vectors</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        s (np.ndarray nx3): Modified Rodrigues parameter array</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray nx3: Rotation vector array</span>
-
+<span class="sd">    :param s: Modified Rodrigues parameter array</span>
+<span class="sd">    :type s: np.ndarray [nx3]</span>
+<span class="sd">    :return: Rotation vector array</span>
+<span class="sd">    :rtype: np.ndarray [nx3]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">quat_to_rv</span><span class="p">(</span><span class="n">mrp_to_quat</span><span class="p">(</span><span class="n">s</span><span class="p">))</span></div>
 
@@ -334,12 +327,10 @@
 <div class="viewcode-block" id="mrp_to_dcm"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.mrp_to_dcm">[docs]</a><span class="k">def</span> <span class="nf">mrp_to_dcm</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts modified Rodrigues parameters to direction cosine matrices</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        s (np.ndarray nx3): Modified Rodrigues parameter array</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray 3x3xn: Direction cosine matrix array</span>
-
+<span class="sd">    :param s: Modified Rodrigues parameter array</span>
+<span class="sd">    :type s: np.ndarray [nx3]</span>
+<span class="sd">    :return: Direction cosine matrix array</span>
+<span class="sd">    :rtype: np.ndarray [3x3xn]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">quat_to_dcm</span><span class="p">(</span><span class="n">mrp_to_quat</span><span class="p">(</span><span class="n">s</span><span class="p">))</span></div>
 
@@ -347,12 +338,10 @@
 <div class="viewcode-block" id="mrp_to_quat"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.mrp_to_quat">[docs]</a><span class="k">def</span> <span class="nf">mrp_to_quat</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts modified Rodrigues parameters to quaternions</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        s (np.ndarray nx3): Modified Rodrigues parameter array</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        (np.ndarray nx4): Quaternion array</span>
-
+<span class="sd">    :param s: Modified Rodrigues parameter array</span>
+<span class="sd">    :type s: np.ndarray [nx3]</span>
+<span class="sd">    :return: Quaternion array</span>
+<span class="sd">    :rtype: np.ndarray [nx4]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">s2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">s</span> <span class="o">*</span> <span class="n">s</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">s</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">s2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">s2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">s2</span><span class="p">)))</span></div>
@@ -361,12 +350,10 @@
 <div class="viewcode-block" id="quat_to_mrp"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.quat_to_mrp">[docs]</a><span class="k">def</span> <span class="nf">quat_to_mrp</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts quaternions to modified Rodrigues parameters</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        q (np.ndarray nx4): Quaternion array</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray nx3: modified Rodrigues parameter array</span>
-
+<span class="sd">    :param q: Quaternion array</span>
+<span class="sd">    :type q: np.ndarray [nx4]</span>
+<span class="sd">    :return: Modified Rodrigues parameter array</span>
+<span class="sd">    :rtype: np.ndarray [nx3]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">q</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">q</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">3</span><span class="p">]]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span></div>
 
@@ -374,12 +361,10 @@
 <div class="viewcode-block" id="rv_to_dcm"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.rv_to_dcm">[docs]</a><span class="k">def</span> <span class="nf">rv_to_dcm</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts rotation vectors to direction cosine matrices</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        p (np.ndarray nx3): Rotation vector array</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray 3x3xn: Direction cosine matrix array</span>
-
+<span class="sd">    :param p: Rotation vector array</span>
+<span class="sd">    :type p: np.ndarray [nx3]</span>
+<span class="sd">    :return: Direction cosine matrix array</span>
+<span class="sd">    :rtype: np.ndarray [3x3xn]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">quat_to_dcm</span><span class="p">(</span><span class="n">rv_to_quat</span><span class="p">(</span><span class="n">p</span><span class="p">))</span></div>
 
@@ -387,12 +372,10 @@
 <div class="viewcode-block" id="quat_to_dcm"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.quat_to_dcm">[docs]</a><span class="k">def</span> <span class="nf">quat_to_dcm</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts quaternions to direction cosine matrices</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        q (np.ndarray nx4): Quaternion array</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray 3x3xn: Direction cosine matrix array</span>
-
+<span class="sd">    :param q: Quaternion array</span>
+<span class="sd">    :type q: np.ndarray [nx4]</span>
+<span class="sd">    :return: Direction cosine matrix array</span>
+<span class="sd">    :rtype: np.ndarray [3x3xn]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">q</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
@@ -412,12 +395,10 @@
 <div class="viewcode-block" id="quat_to_rv"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.quat_to_rv">[docs]</a><span class="k">def</span> <span class="nf">quat_to_rv</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts quaternions to rotation vectors</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        q (np.ndarrah nx4): Quaternion array</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray nx3: Rotation vector array</span>
-
+<span class="sd">    :param q: Quaternion array</span>
+<span class="sd">    :type q: np.ndarray [nx4]</span>
+<span class="sd">    :return: Rotation vector array</span>
+<span class="sd">    :rtype: np.ndarray [nx3]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">q</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
         <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
@@ -433,12 +414,10 @@
 <div class="viewcode-block" id="rv_to_quat"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.rv_to_quat">[docs]</a><span class="k">def</span> <span class="nf">rv_to_quat</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts rotation vectors to quaternions</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        p (np.ndarray nx3): Rotation vector array</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray nx3: Quaternion array</span>
-
+<span class="sd">    :param p: Rotation vector array</span>
+<span class="sd">    :type p: np.ndarray [nx3]</span>
+<span class="sd">    :return: Quaternion array</span>
+<span class="sd">    :rtype: np.ndarray [nx4]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">theta</span> <span class="o">=</span> <span class="n">vecnorm</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
     <span class="n">lam</span> <span class="o">=</span> <span class="n">hat</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
@@ -447,14 +426,10 @@
 
 
 <div class="viewcode-block" id="axis_rotation_matrices"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.axis_rotation_matrices">[docs]</a><span class="k">def</span> <span class="nf">axis_rotation_matrices</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns rotation matrices about the three body axes</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rotation matrices about body axes</span>
 
-<span class="sd">    Args:</span>
-
-
-<span class="sd">    Returns:</span>
-<span class="sd">        tuple: callables for body axis rotations</span>
-
+<span class="sd">    :return: Callables for body axis rotations around (x, y, z) rotation angles in [rad]</span>
+<span class="sd">    :rtype: Tuple[Callable, Callable, Callable]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">r1</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
         <span class="p">[</span>
@@ -486,12 +461,10 @@
 <div class="viewcode-block" id="quat_inv"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.quat_inv">[docs]</a><span class="k">def</span> <span class="nf">quat_inv</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Finds the quaternion inverse (conjugate for unit length quaternions)</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        q (np.ndarray nx4): Input quaternion array</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray nx3: Inverse quaternion array</span>
-
+<span class="sd">    :param q: Input quaternion array</span>
+<span class="sd">    :type q: np.ndarray [nx4]</span>
+<span class="sd">    :return: Inverse quaternion array</span>
+<span class="sd">    :rtype: np.ndarray [nx4]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">q</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
         <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
@@ -503,27 +476,22 @@
 <div class="viewcode-block" id="quat_upper_hemisphere"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.quat_upper_hemisphere">[docs]</a><span class="k">def</span> <span class="nf">quat_upper_hemisphere</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Transforms any quaternions in q to the upper hemisphere of S^3 (q[:,3] &gt; 0)</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        q (np.ndarray nx4): Quaternion array</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray nx3: Transformed quaternion array</span>
-
+<span class="sd">    :param q: Quaternion array</span>
+<span class="sd">    :type q: np.ndarray [nx4]</span>
+<span class="sd">    :return: Transformed quaternion array</span>
+<span class="sd">    :rtype: np.ndarray [nx4]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">q</span><span class="p">[</span><span class="n">q</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="o">-</span><span class="n">q</span><span class="p">[</span><span class="n">q</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
     <span class="k">return</span> <span class="n">q</span></div>
 
 
 <div class="viewcode-block" id="dcm_to_ea313"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.dcm_to_ea313">[docs]</a><span class="k">def</span> <span class="nf">dcm_to_ea313</span><span class="p">(</span><span class="n">dcm</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Finds the Euler angle (3-1-3) body frame sequence corresponding</span>
-<span class="sd">    to the input direction cosine matrices</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Finds the Euler angle (3-1-3) body frame sequence corresponding to the input direction cosine matrices</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        dcm (np.ndarray 3x3xn): DCM array</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray nx3: Euler angle array</span>
-
+<span class="sd">    :param dcm: DCM array</span>
+<span class="sd">    :type dcm: np.ndarray [3x3xn]</span>
+<span class="sd">    :return: Euler angle array</span>
+<span class="sd">    :rtype: np.ndarray [nx3]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">eas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">dcm</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
     <span class="n">eas</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">atan2d</span><span class="p">(</span><span class="n">dcm</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="o">-</span><span class="n">dcm</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:])</span>
@@ -540,16 +508,20 @@
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts Euler angle (EA) sequence to DCMs</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        seq (tuple 3x1): Axes to rotate about, ex: (1,2,3) gives 1-2-3 sequence</span>
-<span class="sd">        a1 (np.ndarray nx1): First rotation angle</span>
-<span class="sd">        a2 (np.ndarray nx1): Second rotation angle</span>
-<span class="sd">        a3 (np.ndarray nx1): Third rotation angle</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray 3x3xn: Computed DCMs</span>
-
+<span class="sd">    :param seq: Axes to rotate about, ex: (1,2,3) gives 1-2-3 sequence</span>
+<span class="sd">    :type seq: Tuple[int, int, int]</span>
+<span class="sd">    :param a1: First rotation angle</span>
+<span class="sd">    :type a1: np.ndarray [nx1]</span>
+<span class="sd">    :param a2: Second rotation angle</span>
+<span class="sd">    :type a2: np.ndarray [nx1]</span>
+<span class="sd">    :param a3: Third rotation angle</span>
+<span class="sd">    :type a3: np.ndarray [nx1]</span>
+<span class="sd">    :return: Computed DCMs</span>
+<span class="sd">    :rtype: np.ndarray [3x3xn]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">seq</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">seq</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">),</span> <span class="ne">ValueError</span><span class="p">(</span>
+        <span class="s2">&quot;Euler angle sequence axes must be 1, 2, or 3&quot;</span>
+    <span class="p">)</span>
     <span class="n">rs</span> <span class="o">=</span> <span class="n">axis_rotation_matrices</span><span class="p">()</span>
     <span class="n">r3</span> <span class="o">=</span> <span class="n">rs</span><span class="p">[</span><span class="n">seq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">](</span><span class="n">a3</span><span class="p">)</span>
     <span class="n">r2</span> <span class="o">=</span> <span class="n">rs</span><span class="p">[</span><span class="n">seq</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">](</span><span class="n">a2</span><span class="p">)</span>
@@ -565,14 +537,12 @@
 
 
 <span class="k">def</span> <span class="nf">dcm_to_quat</span><span class="p">(</span><span class="n">c</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts DCMs to quaternions using TODO&#39;s method</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts DCMs to quaternions using Sheppard&#39;s method</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        c (np.ndarray 3x3xn): Input DCMs</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray nx4: Computed quaternions</span>
-
+<span class="sd">    :param c: Input DCM array</span>
+<span class="sd">    :type c: np.ndarray [3x3xn]</span>
+<span class="sd">    :return: Computed quaternions</span>
+<span class="sd">    :rtype: np.ndarray [nx4]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">tr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">axis1</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">axis2</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
@@ -755,16 +725,18 @@
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes quaternion for attitude solution from Euler angle sequence</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        hhat (np.ndarray 1x3): Inertial angular momentum direction</span>
-<span class="sd">        phi (np.ndarray nx1) [rad]: Spin angle</span>
-<span class="sd">        theta (np.ndarray nx1) [rad]: Nutation angle</span>
-<span class="sd">        psi (np.ndarray nx1) [rad]: Precession angle</span>
-<span class="sd">        is_sam (bool): Is the rotation short axis mode (SAM)?</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray nx4: Computed quaternions</span>
-
+<span class="sd">    :param hhat: Inertial angular momentum direction</span>
+<span class="sd">    :type hhat: np.ndarray [1x3]</span>
+<span class="sd">    :param phi: Spin angle [rad]</span>
+<span class="sd">    :type phi: np.ndarray [nx1]</span>
+<span class="sd">    :param theta: Nutation angle [rad]</span>
+<span class="sd">    :type theta: np.ndarray [nx1]</span>
+<span class="sd">    :param psi: Precession angle [rad]</span>
+<span class="sd">    :type psi: np.ndarray [nx1]</span>
+<span class="sd">    :param is_sam: Whether the rotation is short axis mode (SAM)</span>
+<span class="sd">    :type is_sam: bool</span>
+<span class="sd">    :return: Computed quaternions</span>
+<span class="sd">    :rtype: np.ndarray [nx4]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="p">(</span><span class="n">hx</span><span class="p">,</span> <span class="n">hy</span><span class="p">,</span> <span class="n">hz</span><span class="p">)</span> <span class="o">=</span> <span class="n">hhat</span>
     <span class="p">(</span><span class="n">st2</span><span class="p">,</span> <span class="n">ct2</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
@@ -895,19 +867,19 @@
     <span class="n">omega0</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">itensor</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">teval</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes torque free motion for a arbitrary inertia tensor</span>
-<span class="sd">    using elliptic integrals and Jacobi elliptic functions</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes torque free motion for a arbitrary inertia tensor using elliptic integrals and Jacobi elliptic functions</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        quat0 (np.ndarray 1x4): Initial orientation</span>
-<span class="sd">        omega0 (np.ndarray 1x3): Initial angular velocity [rad/s]</span>
-<span class="sd">        itensor (np.ndarray 3x3): Inertia tensor in principal axes [kg m^2]</span>
-<span class="sd">        teval (np.ndarray nx1): Times to evaluate at past initial state [s]</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray nx4: Orientation of body over time as a quaternion</span>
-<span class="sd">        np.ndarray nx3: Angular velocity of body over time [rad/s]</span>
+<span class="sd">    :param quat0: Initial orientation as quaternion</span>
+<span class="sd">    :type quat0: np.ndarray [1x4]</span>
+<span class="sd">    :param omega0: Initial angular velocity [rad/s]</span>
+<span class="sd">    :type omega0: np.ndarray [1x3]</span>
+<span class="sd">    :param itensor: Inertia tensor in principal axes [kg m^2]</span>
+<span class="sd">    :type itensor: np.ndarray [3x3]</span>
+<span class="sd">    :param teval: Times to evaluate at past initial state [second]</span>
+<span class="sd">    :type teval: np.ndarray [nx1]</span>
+<span class="sd">    :return: Orientation of body over time as a quaternion and body frame angular velocity</span>
+<span class="sd">    :rtype: Tuple[np.ndarray, np.ndarray]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">is_spherical_itensor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">itensor</span><span class="p">))</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span>
     <span class="n">is_single_axis</span> <span class="o">=</span> <span class="p">(</span>
@@ -970,15 +942,12 @@
 
 
 <div class="viewcode-block" id="rand_quaternions"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.rand_quaternions">[docs]</a><span class="k">def</span> <span class="nf">rand_quaternions</span><span class="p">(</span><span class="n">num</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates uniform random vectors on S^3</span>
-<span class="sd">    (interpreted as unit quaternions)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates uniform random vectors on :math:`S^3` (interpreted as unit quaternions)</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        num (int): Number of unit vectors to generate</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray num x 4: Sampled quaternions</span>
-
+<span class="sd">    :param num: Number of unit vectors to generate</span>
+<span class="sd">    :type num: int</span>
+<span class="sd">    :return: Sampled quaternions</span>
+<span class="sd">    :rtype: np.ndarray [nx4]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
     <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>

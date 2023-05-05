@@ -96,6 +96,7 @@
 <span></span><span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">math_utility</span> <span class="kn">import</span> <span class="o">*</span>
 
 
 <div class="viewcode-block" id="beginning_of_day"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.astro_time_utility.beginning_of_day">[docs]</a><span class="k">def</span> <span class="nf">beginning_of_day</span><span class="p">(</span>
@@ -158,12 +159,16 @@
 <span class="sd">    :type dates: np.ndarray[datetime.datetime]</span>
 <span class="sd">    :return: Julian date of input dates</span>
 <span class="sd">    :rtype: float</span>
+
+<span class="sd">    &gt;&gt;&gt; date_to_jd(datetime.datetime(year=2000, month=12, day=9, hour=12, minute=30, second=10, tzinfo=datetime.timezone.utc))</span>
+<span class="sd">    2451888.020949074...</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">return_float</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">):</span>
         <span class="n">return_float</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">dates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dates</span><span class="p">])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
+    <span class="n">dates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dates</span><span class="p">])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
     <span class="n">jds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dates</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">date</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dates</span><span class="p">):</span>
         <span class="n">ut</span> <span class="o">=</span> <span class="n">date_to_ut</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
@@ -195,9 +200,13 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a datetime to sidereal time</span>
 
 <span class="sd">    :param date: Date objects (UTC)</span>
-<span class="sd">    :type date: datetim.datetime</span>
+<span class="sd">    :type date: datetime.datetime</span>
 <span class="sd">    :return: Sidereal times [seconds]</span>
 <span class="sd">    :rtype: float</span>
+
+<span class="sd">    &gt;&gt;&gt; date_to_sidereal(datetime.datetime(year=2000, month=12, day=9, hour=12, minute=30, second=10, tzinfo=datetime.timezone.utc))</span>
+<span class="sd">    150263.545124541...</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">beginning_of_day</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span>
         <span class="n">date</span><span class="o">.</span><span class="n">year</span><span class="p">,</span>
@@ -230,13 +239,39 @@
     <span class="k">return</span> <span class="n">sidereal_beginning_of_day</span> <span class="o">+</span> <span class="mf">1.0027279093</span> <span class="o">*</span> <span class="n">ut</span> <span class="o">*</span> <span class="mi">3600</span></div>
 
 
+<div class="viewcode-block" id="siderial_hour_angle"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.astro_time_utility.siderial_hour_angle">[docs]</a><span class="k">def</span> <span class="nf">siderial_hour_angle</span><span class="p">(</span>
+    <span class="n">obs_lon_rad</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">date</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="n">s_time</span> <span class="o">=</span> <span class="n">date_to_sidereal</span><span class="p">(</span>
+        <span class="n">date</span>
+    <span class="p">)</span>  <span class="c1"># Computes exact siderial time at greenwich</span>
+    <span class="n">gmst</span> <span class="o">=</span> <span class="n">s_time</span> <span class="o">%</span> <span class="mi">86400</span>  <span class="c1"># current siderial time at greenwich [s]</span>
+    <span class="n">gmst_frac</span> <span class="o">=</span> <span class="n">gmst</span> <span class="o">/</span> <span class="mi">86400</span>  <span class="c1"># Fraction of a siderial day at greenwich</span>
+    <span class="n">hour_gmst</span> <span class="o">=</span> <span class="n">gmst_frac</span> <span class="o">*</span> <span class="mi">24</span>  <span class="c1"># Hours of siderial time at greenwich</span>
+    <span class="n">greenwich_hour_angle</span> <span class="o">=</span> <span class="n">hour_gmst</span> <span class="o">/</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+    <span class="c1"># Hour angle at this time at greenwich</span>
+    <span class="n">lmst</span> <span class="o">=</span> <span class="n">hour_gmst</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">obs_lon_rad</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">15</span>
+    <span class="c1"># Computes local siderial time [hr]</span>
+    <span class="n">local_hour_angle</span> <span class="o">=</span> <span class="n">wrap_to_two_pi</span><span class="p">(</span><span class="n">lmst</span> <span class="o">/</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+    <span class="c1"># Computes local hour angle in [rad]</span>
+    <span class="k">return</span> <span class="n">local_hour_angle</span></div>
+
+
 <div class="viewcode-block" id="jd_now"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.astro_time_utility.jd_now">[docs]</a><span class="k">def</span> <span class="nf">jd_now</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes the Julian date at function runtime&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes the Julian date at evaluation time</span>
+
+<span class="sd">    :return: Current Julian date [days]</span>
+<span class="sd">    :rtype: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">date_to_jd</span><span class="p">(</span><span class="n">now</span><span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="now"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.astro_time_utility.now">[docs]</a><span class="k">def</span> <span class="nf">now</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the current date object at runtime, set to UTC&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Current ``datetime.datetime`` object</span>
+
+<span class="sd">    :return: Current UTC date object at runtime</span>
+<span class="sd">    :rtype: datetime.datetime</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span></div>
 
 
@@ -271,6 +306,14 @@
         <span class="p">[(</span><span class="n">d</span> <span class="o">-</span> <span class="n">date_start</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">date_space</span><span class="p">]</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">date_space</span><span class="p">,</span> <span class="n">epsec_space</span><span class="p">)</span></div>
+
+
+<span class="c1">## DOCTESTING</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">doctest</span>
+
+    <span class="c1"># doctest.run_docstring_examples(date_to_jd, globals(), verbose=True, optionflags=doctest.ELLIPSIS)</span>
+    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">(</span><span class="n">optionflags</span><span class="o">=</span><span class="n">doctest</span><span class="o">.</span><span class="n">ELLIPSIS</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
           </div>

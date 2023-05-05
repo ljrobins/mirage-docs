@@ -100,16 +100,16 @@
 <span class="kn">from</span> <span class="nn">sgp4.api</span> <span class="kn">import</span> <span class="n">Satrec</span><span class="p">,</span> <span class="n">SatrecArray</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
-<span class="kn">from</span> <span class="nn">.astro_constants</span> <span class="kn">import</span> <span class="n">AstroConstants</span>
-<span class="kn">from</span> <span class="nn">.math_utility</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.attitude_lib</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">astro_constants</span> <span class="kn">import</span> <span class="n">AstroConstants</span>
+<span class="kn">from</span> <span class="nn">math_utility</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">attitude_lib</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">axis_rotation_matrices</span><span class="p">,</span>
     <span class="n">quat_kinematics</span><span class="p">,</span>
     <span class="n">rigid_rotation_dynamics</span><span class="p">,</span>
     <span class="n">quat_to_dcm</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">.astro_coordinates</span> <span class="kn">import</span> <span class="n">sun</span><span class="p">,</span> <span class="n">ecef_to_eci</span>
-<span class="kn">from</span> <span class="nn">.astro_time_utility</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">astro_coordinates</span> <span class="kn">import</span> <span class="n">sun</span><span class="p">,</span> <span class="n">ecef_to_eci</span>
+<span class="kn">from</span> <span class="nn">astro_time_utility</span> <span class="kn">import</span> <span class="o">*</span>
 
 
 <div class="viewcode-block" id="integrate_orbit_and_attitude"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.orbit_lib.integrate_orbit_and_attitude">[docs]</a><span class="k">def</span> <span class="nf">integrate_orbit_and_attitude</span><span class="p">(</span>
@@ -311,7 +311,7 @@
 
 
 <div class="viewcode-block" id="propagate_catalog_to_dates"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.orbit_lib.propagate_catalog_to_dates">[docs]</a><span class="k">def</span> <span class="nf">propagate_catalog_to_dates</span><span class="p">(</span>
-    <span class="n">dates</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">cat_preset</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span>
+    <span class="n">dates</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="n">cat_preset</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
     <span class="n">jds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">date_to_jd</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dates</span><span class="p">])</span>
     <span class="n">sats</span> <span class="o">=</span> <span class="p">[]</span>
@@ -333,7 +333,7 @@
 
 
 <div class="viewcode-block" id="propagate_satnum_to_dates"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.orbit_lib.propagate_satnum_to_dates">[docs]</a><span class="k">def</span> <span class="nf">propagate_satnum_to_dates</span><span class="p">(</span>
-    <span class="n">dates</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">satnum</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">target_frame</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;teme&quot;</span>
+    <span class="n">dates</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="n">satnum</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">target_frame</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;teme&quot;</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
     <span class="n">jds</span> <span class="o">=</span> <span class="n">date_to_jd</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
     <span class="p">(</span><span class="n">jdays</span><span class="p">,</span> <span class="n">jfracs</span><span class="p">)</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">modf</span><span class="p">(</span><span class="n">jds</span><span class="p">)</span>
