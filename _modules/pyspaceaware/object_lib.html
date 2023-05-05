@@ -53,7 +53,7 @@
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../pyspaceaware.html">pyspaceaware package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pyspaceaware</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../references.html">References</a></li>
 </ul>
 
@@ -99,9 +99,32 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 <span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
 
-<span class="kn">from</span> <span class="nn">math_utility</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">light_lib</span> <span class="kn">import</span> <span class="n">Brdf</span>
-<span class="kn">from</span> <span class="nn">orbit_lib</span> <span class="kn">import</span> <span class="n">propagate_satnum_to_dates</span>
+<span class="kn">from</span> <span class="nn">.math_utility</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">close_egi</span><span class="p">,</span>
+    <span class="n">dot</span><span class="p">,</span>
+    <span class="n">hat</span><span class="p">,</span>
+    <span class="n">merge_clusters</span><span class="p">,</span>
+    <span class="n">rand_cone_vectors</span><span class="p">,</span>
+    <span class="n">remove_zero_rows</span><span class="p">,</span>
+    <span class="n">unique_rows</span><span class="p">,</span>
+    <span class="n">vecnorm</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.light_lib</span> <span class="kn">import</span> <span class="n">Brdf</span>
+<span class="kn">from</span> <span class="nn">.orbit_lib</span> <span class="kn">import</span> <span class="n">propagate_satnum_to_dates</span>
+
+<span class="kn">from</span> <span class="nn">.attitude_lib</span> <span class="kn">import</span> <span class="n">quat_to_rv</span><span class="p">,</span> <span class="n">quat_to_dcm</span>
+
+
+<div class="viewcode-block" id="set_model_directory"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.object_lib.set_model_directory">[docs]</a><span class="k">def</span> <span class="nf">set_model_directory</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets the 3D model path used by all tools and methods</span>
+
+<span class="sd">    :param path: Absolute or relative (from cwd) path to the model folder</span>
+<span class="sd">    :type path: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isabs</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;MODELDIR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">path</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;MODELDIR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">path</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SpaceObject"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.object_lib.SpaceObject">[docs]</a><span class="k">class</span> <span class="nc">SpaceObject</span><span class="p">:</span>
@@ -110,22 +133,23 @@
         <span class="n">obj_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">obj_vf</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">is_dual</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">satnum</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">satnum</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes an instance of Object from either:</span>
-<span class="sd">            - a path to a *.obj file</span>
-<span class="sd">            - Vertex and face adjacency information</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes an instance of Object from either a) a path to a *.obj file or b) vertex and face adjacency information</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            obj_file (str): *.obj file to read in $MODELDIR folder</span>
-<span class="sd">            obj_vf (tuple[np.ndarray, np.ndarray]): Vertex and face triangle information</span>
-<span class="sd">            is_dual (bool): Flag to prevent building dual&#39;s dual (leading to infinite recursion)</span>
-
+<span class="sd">        :param obj_file: `*.obj` file to read in the `$MODELDIR` folder, defaults to None</span>
+<span class="sd">        :type obj_file: str, optional</span>
+<span class="sd">        :param obj_vf: Vertex and face triangle information, defaults to None</span>
+<span class="sd">        :type obj_vf: Tuple[np.ndarray, np.ndarray], optional</span>
+<span class="sd">        :param is_dual: Flag to prevent building dual&#39;s dual (leading to infinite recursion), defaults to False</span>
+<span class="sd">        :type is_dual: bool, optional</span>
+<span class="sd">        :param satnum: NORAD satellite number for SGP4 propgation, defaults to None</span>
+<span class="sd">        :type satnum: int, optional</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">obj_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_def_mode</span> <span class="o">=</span> <span class="s2">&quot;file&quot;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span> <span class="o">=</span> <span class="n">obj_file</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MODELDIR&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">obj_file</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;MODELDIR&quot;</span><span class="p">],</span> <span class="n">obj_file</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_mesh</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mesh</span><span class="o">.</span><span class="n">faces</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">:]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mesh</span><span class="o">.</span><span class="n">points</span>
@@ -148,11 +172,15 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_def_mode</span> <span class="o">==</span> <span class="s2">&quot;vf&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">flip_normals</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="n">satnum</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">satnum</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">propagate</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="k">lambda</span> <span class="n">date_space</span><span class="p">:</span> <span class="n">propagate_satnum_to_dates</span><span class="p">(</span>
                     <span class="n">date_space</span><span class="p">,</span> <span class="n">satnum</span><span class="p">,</span> <span class="s2">&quot;teme&quot;</span>
                 <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">propagate</span> <span class="o">=</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Satellite does not have a satnum!&quot;</span>
             <span class="p">)</span>
 
 <div class="viewcode-block" id="SpaceObject.build_properties"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.object_lib.SpaceObject.build_properties">[docs]</a>    <span class="k">def</span> <span class="nf">build_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -169,6 +197,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">compute_inertia_tensor</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_dual</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_dual</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SpaceObject.is_convex"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.object_lib.SpaceObject.is_convex">[docs]</a>    <span class="k">def</span> <span class="nf">is_convex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">volume_tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">convhull_f</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">ConvexHull</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">simplices</span>
+        <span class="n">convhull_obj</span> <span class="o">=</span> <span class="n">SpaceObject</span><span class="p">(</span><span class="n">obj_vf</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">convhull_f</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">volume</span> <span class="o">-</span> <span class="n">convhull_obj</span><span class="o">.</span><span class="n">volume</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">volume_tol</span></div>
 
 <div class="viewcode-block" id="SpaceObject.vertices_on_each_face"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.object_lib.SpaceObject.vertices_on_each_face">[docs]</a>    <span class="k">def</span> <span class="nf">vertices_on_each_face</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Computes a np.ndarray Nx3x3 of vertices on each face&quot;&quot;&quot;</span>
@@ -195,15 +228,16 @@
             <span class="n">vecnorm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">v2</span> <span class="o">-</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v3</span> <span class="o">-</span> <span class="n">v1</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="SpaceObject.compute_supports"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.object_lib.SpaceObject.compute_supports">[docs]</a>    <span class="k">def</span> <span class="nf">compute_supports</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Computs the support (perpendicular distance from plane containing face to origin)&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="SpaceObject.compute_supports"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.object_lib.SpaceObject.compute_supports">[docs]</a>    <span class="k">def</span> <span class="nf">compute_supports</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trunc_limit</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-7</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Computes the support (perpendicular distance from plane containing face to origin)&quot;&quot;&quot;</span>
         <span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_face_vertices</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">supports</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span>
             <span class="n">v1</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">all_to_unique</span><span class="p">,</span> <span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">unique_normals</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">supports</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">supports</span> <span class="o">&lt;</span> <span class="n">trunc_limit</span><span class="p">]</span> <span class="o">=</span> <span class="n">trunc_limit</span></div>
 
 <div class="viewcode-block" id="SpaceObject.compute_volume"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.object_lib.SpaceObject.compute_volume">[docs]</a>    <span class="k">def</span> <span class="nf">compute_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Computs the volume via the supports and unique areas&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Computes the volume via the supports and unique areas&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">volume</span> <span class="o">=</span> <span class="p">(</span>
             <span class="mi">1</span>
             <span class="o">/</span> <span class="mi">3</span>
@@ -260,15 +294,39 @@
             <span class="p">)</span><span class="o">.</span><span class="n">T</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">build_properties</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="SpaceObject.render"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.object_lib.SpaceObject.render">[docs]</a>    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pl</span><span class="p">:</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="SpaceObject.render"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.object_lib.SpaceObject.render">[docs]</a>    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">pl</span><span class="p">:</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">,</span>
+        <span class="n">origin</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
+        <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">quat</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]),</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plots the object mesh using :py:mod:`pyvista`</span>
 
-<span class="sd">        :param pl: Plotter to render object, defaults to None</span>
-<span class="sd">        :type pl: pv.Plotter, optional</span>
+<span class="sd">        :param pl: Plotter to render object with</span>
+<span class="sd">        :type pl: pv.Plotter</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">pl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
-        <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mesh</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="n">scalem</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))),</span>
+                <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">rotm4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">quat_to_dcm</span><span class="p">(</span><span class="n">quat</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))),</span>
+                <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">rotm4</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">origin</span>
+        <span class="n">mat4</span> <span class="o">=</span> <span class="n">rotm4</span> <span class="o">@</span> <span class="n">scalem</span>
+
+        <span class="k">if</span> <span class="s2">&quot;obj&quot;</span> <span class="ow">in</span> <span class="n">pl</span><span class="o">.</span><span class="n">actors</span><span class="p">:</span>
+            <span class="n">obj_actor</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">actors</span><span class="p">[</span><span class="s2">&quot;obj&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">obj_actor</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mesh</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;obj&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">obj_actor</span><span class="o">.</span><span class="n">user_matrix</span> <span class="o">=</span> <span class="n">mat4</span></div>
 
 <div class="viewcode-block" id="SpaceObject.compute_convex_light_curve"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.object_lib.SpaceObject.compute_convex_light_curve">[docs]</a>    <span class="k">def</span> <span class="nf">compute_convex_light_curve</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">brdf</span><span class="p">:</span> <span class="n">Brdf</span><span class="p">,</span> <span class="n">svb</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">ovb</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
@@ -288,6 +346,23 @@
             <span class="n">svb</span><span class="p">,</span> <span class="n">ovb</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">unique_normals</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">g</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">unique_areas</span></div>
+
+<div class="viewcode-block" id="SpaceObject.rotate_by_quat"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.object_lib.SpaceObject.rotate_by_quat">[docs]</a>    <span class="k">def</span> <span class="nf">rotate_by_quat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">quat</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Rotates the object&#39;s mesh by the given quaternion</span>
+
+<span class="sd">        :param quat: Quaternion to apply to all vertices</span>
+<span class="sd">        :type quat: np.ndarray [1x4]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="n">quat_to_rv</span><span class="p">(</span><span class="n">quat</span><span class="p">)</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">vecnorm</span><span class="p">(</span><span class="n">rv</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">lam</span> <span class="o">=</span> <span class="n">hat</span><span class="p">(</span><span class="n">rv</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">theta</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">lam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mesh</span><span class="o">.</span><span class="n">copy_from</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mesh</span><span class="o">.</span><span class="n">rotate_vector</span><span class="p">(</span>
+                <span class="n">vector</span><span class="o">=</span><span class="n">lam</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="SpaceObject.compute_inertia_tensor"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.object_lib.SpaceObject.compute_inertia_tensor">[docs]</a>    <span class="k">def</span> <span class="nf">compute_inertia_tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Computes the body-frame inertia tensor of the object (`MatlabCentral &lt;https://www.mathworks.com/matlabcentral/fileexchange/48913-rigid-body-parameters-of-closed-surface-meshes&gt;`_)&quot;&quot;&quot;</span>

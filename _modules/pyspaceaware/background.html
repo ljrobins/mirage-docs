@@ -1,0 +1,872 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyspaceaware.background &#8212; pyspaceaware 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+    <link rel="apple-touch-icon" href="../../_static/sid_logo.png" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../../index.html">
+    <img class="logo" src="../../_static/sid_logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">Space Domain Awareness in Python</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=liamrobinson1&repo=PyLightCurves&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pyspaceaware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../references.html">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for pyspaceaware.background</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">from</span> <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">fits</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">.math_utility</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">hat</span><span class="p">,</span>
+    <span class="n">vecnorm</span><span class="p">,</span>
+    <span class="n">dot</span><span class="p">,</span>
+    <span class="n">stack_mat_mult</span><span class="p">,</span>
+    <span class="n">cart_to_sph</span><span class="p">,</span>
+    <span class="n">dms_to_rad</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.astro_time_utility</span> <span class="kn">import</span> <span class="n">date_to_jd</span>
+<span class="kn">from</span> <span class="nn">.astro_coordinates</span> <span class="kn">import</span> <span class="n">sun</span><span class="p">,</span> <span class="n">moon</span><span class="p">,</span> <span class="n">eci_to_sun_ec</span>
+<span class="kn">from</span> <span class="nn">.astro_constants</span> <span class="kn">import</span> <span class="n">AstroConstants</span>
+
+
+<span class="k">def</span> <span class="nf">_vega_spectrum</span><span class="p">(</span><span class="n">lambdas</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes the spectrum of the star Vega</span>
+
+<span class="sd">    :param lambdas: Wavelengths to sample [m]</span>
+<span class="sd">    :type lambdas: np.ndarray</span>
+<span class="sd">    :return: Flux in [W/m^2/m]</span>
+<span class="sd">    :rtype: np.ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">hdul</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SRCDIR&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;resources&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;data&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vega_spectrum.fits&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hdul</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">data_lambda</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">])</span> <span class="o">*</span> <span class="mf">1e-10</span>  <span class="c1"># In m</span>
+    <span class="n">data_flux</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">])</span> <span class="o">*</span> <span class="mf">1e7</span>  <span class="c1"># In W/m^2/m</span>
+    <span class="n">f_vega</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span>
+        <span class="n">data_lambda</span><span class="p">,</span>
+        <span class="n">data_flux</span><span class="p">,</span>
+        <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+        <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">fill_value</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">f_vega</span><span class="p">(</span><span class="n">lambdas</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_zodiacal_light_signal</span><span class="p">(</span>
+    <span class="n">ecliptic_lat</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">ecliptic_lon</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">z_obs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">t_int</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">d</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes signal in CCD due to zodiacal light</span>
+
+<span class="sd">    :param ecliptic_lat: Ecliptic latitude of observation [rad]</span>
+<span class="sd">    :type ecliptic_lat: np.ndarray</span>
+<span class="sd">    :param ecliptic_lon: Ecliptic longitude of observation [rad]</span>
+<span class="sd">    :type ecliptic_lon: np.ndarray</span>
+<span class="sd">    :param z_obs: Zenith angle of observation [rad]</span>
+<span class="sd">    :type z_obs: np.ndarray</span>
+<span class="sd">    :param t_int: Integration time [second]</span>
+<span class="sd">    :type t_int: float</span>
+<span class="sd">    :param scale: FOV per pixel (pixel scale) [arcsec]</span>
+<span class="sd">    :type scale: float</span>
+<span class="sd">    :param d: Diameter of aperture [m]</span>
+<span class="sd">    :type d: float</span>
+<span class="sd">    :return: Zodiacal light signal [e-/pixel]</span>
+<span class="sd">    :rtype: np.ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">f_zod</span> <span class="o">=</span> <span class="n">_zodiacal_light</span><span class="p">(</span><span class="n">ecliptic_lat</span><span class="p">,</span> <span class="n">ecliptic_lon</span><span class="p">)</span>
+    <span class="n">bint</span> <span class="o">=</span> <span class="n">_zero_magnitude_signal</span><span class="p">(</span><span class="n">d</span><span class="o">=</span><span class="n">d</span><span class="p">,</span> <span class="n">z_obs</span><span class="o">=</span><span class="n">z_obs</span><span class="p">)</span>
+    <span class="n">s_zod</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="o">*</span> <span class="n">bint</span>
+        <span class="o">*</span> <span class="n">t_int</span>
+        <span class="o">*</span> <span class="n">f_zod</span>
+        <span class="o">*</span> <span class="mf">1e-2</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">s_zod</span>
+
+
+<div class="viewcode-block" id="moonlight_signal"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.background.moonlight_signal">[docs]</a><span class="k">def</span> <span class="nf">moonlight_signal</span><span class="p">(</span>
+    <span class="n">dates</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">],</span>
+    <span class="n">look_dirs_eci_eq</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">obs_pos_eci_eq</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">t_int</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">d</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="n">z_obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">hat</span><span class="p">(</span><span class="n">obs_pos_eci_eq</span><span class="p">),</span> <span class="n">hat</span><span class="p">(</span><span class="n">look_dirs_eci_eq</span><span class="p">)))</span>
+    <span class="n">mv</span> <span class="o">=</span> <span class="n">moon</span><span class="p">(</span><span class="n">date_to_jd</span><span class="p">(</span><span class="n">dates</span><span class="p">))</span>
+    <span class="n">sv</span> <span class="o">=</span> <span class="n">sun</span><span class="p">(</span><span class="n">date_to_jd</span><span class="p">(</span><span class="n">dates</span><span class="p">))</span>
+    <span class="n">moon_to_obs</span> <span class="o">=</span> <span class="n">obs_pos_eci_eq</span> <span class="o">-</span> <span class="n">mv</span>
+    <span class="n">moon_to_sun</span> <span class="o">=</span> <span class="n">sv</span> <span class="o">-</span> <span class="n">mv</span>
+    <span class="n">obs_to_moon</span> <span class="o">=</span> <span class="o">-</span><span class="n">moon_to_obs</span>
+    <span class="n">phase_angle_moon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span>
+        <span class="n">dot</span><span class="p">(</span><span class="n">hat</span><span class="p">(</span><span class="n">moon_to_sun</span><span class="p">),</span> <span class="n">hat</span><span class="p">(</span><span class="n">moon_to_obs</span><span class="p">))</span>
+    <span class="p">)</span>
+    <span class="n">z_moon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">hat</span><span class="p">(</span><span class="n">obs_pos_eci_eq</span><span class="p">),</span> <span class="n">hat</span><span class="p">(</span><span class="n">obs_to_moon</span><span class="p">)))</span>
+
+    <span class="n">look_dir_on_horizon</span> <span class="o">=</span> <span class="n">look_dirs_eci_eq</span> <span class="o">-</span> <span class="n">dot</span><span class="p">(</span>
+        <span class="n">look_dirs_eci_eq</span><span class="p">,</span> <span class="n">hat</span><span class="p">(</span><span class="n">obs_pos_eci_eq</span><span class="p">)</span>
+    <span class="p">)</span> <span class="o">*</span> <span class="n">hat</span><span class="p">(</span><span class="n">obs_pos_eci_eq</span><span class="p">)</span>
+    <span class="n">moon_on_horizon</span> <span class="o">=</span> <span class="n">mv</span> <span class="o">-</span> <span class="n">dot</span><span class="p">(</span><span class="n">mv</span><span class="p">,</span> <span class="n">hat</span><span class="p">(</span><span class="n">obs_pos_eci_eq</span><span class="p">))</span> <span class="o">*</span> <span class="n">hat</span><span class="p">(</span>
+        <span class="n">obs_pos_eci_eq</span>
+    <span class="p">)</span>
+    <span class="n">delta_az</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span>
+        <span class="n">dot</span><span class="p">(</span><span class="n">hat</span><span class="p">(</span><span class="n">look_dir_on_horizon</span><span class="p">),</span> <span class="n">hat</span><span class="p">(</span><span class="n">moon_on_horizon</span><span class="p">))</span>
+    <span class="p">)</span>
+
+    <span class="n">sm</span> <span class="o">=</span> <span class="n">_moonlight_signal</span><span class="p">(</span>
+        <span class="n">phase_angle_moon</span><span class="o">=</span><span class="n">phase_angle_moon</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+        <span class="n">z_moon</span><span class="o">=</span><span class="n">z_moon</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+        <span class="n">z_obs</span><span class="o">=</span><span class="n">z_obs</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+        <span class="n">delta_az</span><span class="o">=</span><span class="n">delta_az</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+        <span class="n">t_int</span><span class="o">=</span><span class="n">t_int</span><span class="p">,</span>
+        <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span>
+        <span class="n">d</span><span class="o">=</span><span class="n">d</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">sm</span></div>
+
+
+<span class="k">def</span> <span class="nf">_moonlight_signal</span><span class="p">(</span>
+    <span class="n">phase_angle_moon</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">z_moon</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">z_obs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">delta_az</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">t_int</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">d</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Signal on CCD sensor due to moonlight</span>
+
+<span class="sd">    :param phase_angle_moon: Angle between Earth and Sun as seen from the Moon</span>
+<span class="sd">    :type phase_angle_moon: np.ndarray</span>
+<span class="sd">    :param z_moon: Zenith angle of the Moon at the observer [rad]</span>
+<span class="sd">    :type z_moon: np.ndarray</span>
+<span class="sd">    :param z_obs: Zenith angle of the observation [rad]</span>
+<span class="sd">    :type z_obs: np.ndarray</span>
+<span class="sd">    :param delta_az: Difference in azimuth between Moon and observation [rad]</span>
+<span class="sd">    :type delta_az: np.ndarray</span>
+<span class="sd">    :param t_int: integration time [second]</span>
+<span class="sd">    :type t_int: float</span>
+<span class="sd">    :param scale: FOV per pixel [arcsec]</span>
+<span class="sd">    :type scale: float</span>
+<span class="sd">    :param d: Diameter of aperture [m]</span>
+<span class="sd">    :type d: float</span>
+<span class="sd">    :return: Signal on CCD [e-/pixel]</span>
+<span class="sd">    :rtype: np.ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">f_mt</span> <span class="o">=</span> <span class="n">_moon_brightness</span><span class="p">(</span><span class="n">phase_angle_moon</span><span class="p">,</span> <span class="n">z_moon</span><span class="p">,</span> <span class="n">z_obs</span><span class="p">,</span> <span class="n">delta_az</span><span class="p">)</span>
+    <span class="n">sint</span> <span class="o">=</span> <span class="n">_raw_object_signal</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">z_obs</span><span class="p">)</span>
+    <span class="c1"># f_corr = AstroConstants.sun_irradiance_vacuum / _sun_spectrum(550e-9)</span>
+    <span class="n">f_corr</span> <span class="o">=</span> <span class="mf">1e-4</span>
+    <span class="k">return</span> <span class="n">sint</span> <span class="o">*</span> <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">f_corr</span> <span class="o">*</span> <span class="n">f_mt</span> <span class="o">*</span> <span class="n">t_int</span>
+
+
+<span class="k">def</span> <span class="nf">_zero_magnitude_signal</span><span class="p">(</span>
+    <span class="n">d</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">z_obs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">lambda_lims</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1e-8</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes CCD response per second for a zero-magnitude star</span>
+
+<span class="sd">    :param d: Diameter of aperture [m]</span>
+<span class="sd">    :type d: float</span>
+<span class="sd">    :param z_obs: Zenith angle of observation [rad]</span>
+<span class="sd">    :type z_obs: np.ndarray</span>
+<span class="sd">    :param lambda_lims: Wavelength integration limits [m], defaults to (1e-8, 1e-6)</span>
+<span class="sd">    :type lambda_lims: Tuple[float], optional</span>
+<span class="sd">    :return: Expected CCD response due to a zero-magnitude star [count/second]</span>
+<span class="sd">    :rtype: np.ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lambdas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">lambda_lims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lambda_lims</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e2</span><span class="p">))</span>
+    <span class="p">(</span><span class="n">gz</span><span class="p">,</span> <span class="n">gl</span><span class="p">)</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">z_obs</span><span class="p">,</span> <span class="n">lambdas</span><span class="p">)</span>
+    <span class="n">strint</span> <span class="o">=</span> <span class="n">_vega_spectrum</span><span class="p">(</span>
+        <span class="n">gl</span>
+    <span class="p">)</span>  <span class="c1"># Approximately same as STRINT TODO: cite Krag thesis</span>
+    <span class="n">atmos_trans</span> <span class="o">=</span> <span class="n">_atmospheric_transmission</span><span class="p">(</span><span class="n">gl</span><span class="p">,</span> <span class="n">zenith_angle</span><span class="o">=</span><span class="n">gz</span><span class="p">)</span>
+    <span class="n">qe</span> <span class="o">=</span> <span class="n">_quantum_efficiency</span><span class="p">(</span><span class="n">gl</span><span class="p">)</span>
+    <span class="n">integrand_num</span> <span class="o">=</span> <span class="n">strint</span> <span class="o">*</span> <span class="n">atmos_trans</span> <span class="o">*</span> <span class="n">qe</span> <span class="o">*</span> <span class="n">gl</span>
+    <span class="n">denom</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">AstroConstants</span><span class="o">.</span><span class="n">planck_constant</span>
+        <span class="o">*</span> <span class="n">AstroConstants</span><span class="o">.</span><span class="n">speed_of_light_vacuum</span>
+    <span class="p">)</span>
+    <span class="n">integral</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span><span class="n">integrand_num</span><span class="p">,</span> <span class="n">gl</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">bint</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">d</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">integral</span> <span class="o">/</span> <span class="n">denom</span>
+    <span class="k">return</span> <span class="n">bint</span>
+
+
+<span class="k">def</span> <span class="nf">_raw_object_signal</span><span class="p">(</span>
+    <span class="n">d</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z_obs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">lambda_lims</span><span class="p">:</span> <span class="n">Tuple</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1e-8</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">)</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes ``sint`` from TODO: cite Krag thesis</span>
+
+<span class="sd">    :param d: Diameter of telescope aperture [m]</span>
+<span class="sd">    :type d: float</span>
+<span class="sd">    :param z_obs: Zenith angle of observation [rad]</span>
+<span class="sd">    :type z_obs: np.ndarray</span>
+<span class="sd">    :param lambda_lims: Wavelength limits to integrate over [m], defaults to (1e-8, 1e-6)</span>
+<span class="sd">    :type lambda_lims: Tuple, optional</span>
+<span class="sd">    :return: Object signal without noise [m^2/(Ws)]</span>
+<span class="sd">    :rtype: np.ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lambdas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">lambda_lims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lambda_lims</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e2</span><span class="p">))</span>
+    <span class="p">(</span><span class="n">gz</span><span class="p">,</span> <span class="n">gl</span><span class="p">)</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">z_obs</span><span class="p">,</span> <span class="n">lambdas</span><span class="p">)</span>
+    <span class="n">sun_spec</span> <span class="o">=</span> <span class="n">_sun_spectrum</span><span class="p">(</span><span class="n">gl</span><span class="p">)</span>
+    <span class="n">atmos_trans</span> <span class="o">=</span> <span class="n">_atmospheric_transmission</span><span class="p">(</span><span class="n">gl</span><span class="p">,</span> <span class="n">zenith_angle</span><span class="o">=</span><span class="n">gz</span><span class="p">)</span>
+    <span class="n">qe</span> <span class="o">=</span> <span class="n">_quantum_efficiency</span><span class="p">(</span><span class="n">gl</span><span class="p">)</span>
+    <span class="n">integrand_num</span> <span class="o">=</span> <span class="n">sun_spec</span> <span class="o">*</span> <span class="n">atmos_trans</span> <span class="o">*</span> <span class="n">qe</span> <span class="o">*</span> <span class="n">gl</span>
+    <span class="n">denom</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">AstroConstants</span><span class="o">.</span><span class="n">planck_constant</span>
+        <span class="o">*</span> <span class="n">AstroConstants</span><span class="o">.</span><span class="n">sun_irradiance_vacuum</span>
+        <span class="o">*</span> <span class="n">AstroConstants</span><span class="o">.</span><span class="n">speed_of_light_vacuum</span>
+    <span class="p">)</span>
+    <span class="n">integral</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span><span class="n">integrand_num</span><span class="p">,</span> <span class="n">gl</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">sint</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">d</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">integral</span> <span class="o">/</span> <span class="n">denom</span>
+    <span class="k">return</span> <span class="n">sint</span>
+
+
+<span class="k">def</span> <span class="nf">_atmospheric_transmission</span><span class="p">(</span>
+    <span class="n">lambdas</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">zenith_angle</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates atmospheric transmission fraction as described in TODO: cite Krag thesis</span>
+
+<span class="sd">    :param lambdas: Wavelengths to sample [m]</span>
+<span class="sd">    :type lambdas: np.ndarray</span>
+<span class="sd">    :param zenith_angle: Angle from point of interest to local zenith [rad]</span>
+<span class="sd">    :type zenith_angle: np.ndarray</span>
+<span class="sd">    :return: Atmospheric transimssion fraction [nondim]</span>
+<span class="sd">    :rtype: np.ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
+        <span class="o">-</span><span class="n">_atmospheric_extinction</span><span class="p">(</span><span class="n">lambdas</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">zenith_angle</span><span class="p">)</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_quantum_efficiency</span><span class="p">(</span><span class="n">lambdas</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes quantum efficiency for a representative CCD sensor TODO: cite Krag thesis</span>
+
+<span class="sd">    :param lambdas: Sample wavelengths [m]</span>
+<span class="sd">    :type lambdas: np.ndarray</span>
+<span class="sd">    :return: Quantum efficiency [electrons/photon]</span>
+<span class="sd">    :rtype: np.ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data_lambda</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">1051</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e-9</span>  <span class="c1"># [m]</span>
+    <span class="n">data_qe</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="mi">0</span><span class="p">,</span>
+            <span class="mf">0.05</span><span class="p">,</span>
+            <span class="mf">0.12</span><span class="p">,</span>
+            <span class="mf">0.17</span><span class="p">,</span>
+            <span class="mf">0.23</span><span class="p">,</span>
+            <span class="mf">0.3</span><span class="p">,</span>
+            <span class="mf">0.36</span><span class="p">,</span>
+            <span class="mf">0.34</span><span class="p">,</span>
+            <span class="mf">0.3</span><span class="p">,</span>
+            <span class="mf">0.26</span><span class="p">,</span>
+            <span class="mf">0.2</span><span class="p">,</span>
+            <span class="mf">0.12</span><span class="p">,</span>
+            <span class="mf">0.04</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">f_qe</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span>
+        <span class="n">data_lambda</span><span class="p">,</span>
+        <span class="n">data_qe</span><span class="p">,</span>
+        <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+        <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">fill_value</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">f_qe</span><span class="p">(</span><span class="n">lambdas</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_atmospheric_extinction</span><span class="p">(</span><span class="n">lambdas</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates atmospheric extinction coefficient as described in TODO: cite Krag thesis</span>
+
+<span class="sd">    :param lambdas: Wavelengths to sample [m]</span>
+<span class="sd">    :type lambdas: np.ndarray</span>
+<span class="sd">    :return: Atmospheric extinction coefficient [nondim]</span>
+<span class="sd">    :rtype: np.ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data_lambda</span> <span class="o">=</span> <span class="mf">1e-6</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="mi">0</span><span class="p">,</span>
+            <span class="mf">0.32</span><span class="p">,</span>
+            <span class="mf">0.34</span><span class="p">,</span>
+            <span class="mf">0.36</span><span class="p">,</span>
+            <span class="mf">0.38</span><span class="p">,</span>
+            <span class="mf">0.40</span><span class="p">,</span>
+            <span class="mf">0.45</span><span class="p">,</span>
+            <span class="mf">0.50</span><span class="p">,</span>
+            <span class="mf">0.55</span><span class="p">,</span>
+            <span class="mf">0.60</span><span class="p">,</span>
+            <span class="mf">0.65</span><span class="p">,</span>
+            <span class="mf">0.70</span><span class="p">,</span>
+            <span class="mf">0.80</span><span class="p">,</span>
+            <span class="mi">1000</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">data_ext</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="mi">5</span><span class="p">,</span>
+            <span class="mf">0.96</span><span class="p">,</span>
+            <span class="mf">0.54</span><span class="p">,</span>
+            <span class="mf">0.42</span><span class="p">,</span>
+            <span class="mf">0.34</span><span class="p">,</span>
+            <span class="mf">0.27</span><span class="p">,</span>
+            <span class="mf">0.17</span><span class="p">,</span>
+            <span class="mf">0.13</span><span class="p">,</span>
+            <span class="mf">0.11</span><span class="p">,</span>
+            <span class="mf">0.11</span><span class="p">,</span>
+            <span class="mf">0.07</span><span class="p">,</span>
+            <span class="mf">0.05</span><span class="p">,</span>
+            <span class="mf">0.03</span><span class="p">,</span>
+            <span class="mf">0.0</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span>
+        <span class="n">data_lambda</span><span class="p">,</span>
+        <span class="n">data_ext</span><span class="p">,</span>
+        <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+        <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">fill_value</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="c1"># 5 added by me as data_ext[0] to get exponential falloff similar to TODO: Krag thesis</span>
+    <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="n">lambdas</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_sun_spectrum</span><span class="p">(</span><span class="n">lambdas</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes sun irradiance contributions at given wavelengths using the `ASTM E-490-00 model &lt;https://www.nrel.gov/grid/solar-resource/spectra-astm-e490.html&gt;`_</span>
+
+<span class="sd">    :param lambdas: Sample wavelengths [m]</span>
+<span class="sd">    :type lambdas: np.ndarray</span>
+<span class="sd">    :return: Irradiance W*m^-2*m^-1</span>
+<span class="sd">    :rtype: np.ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sun_spec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SRCDIR&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;resources&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;data&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;sun_spectrum.txt&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span>
+        <span class="mf">1e-6</span> <span class="o">*</span> <span class="n">sun_spec</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="n">sun_spec</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e6</span><span class="p">,</span>
+        <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+        <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">fill_value</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="n">lambdas</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_zodiacal_light</span><span class="p">(</span>
+    <span class="n">ecliptic_lat</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">ecliptic_lon</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes zodiacal light at a given ecliptic latitude and longitude</span>
+
+<span class="sd">    :param ecliptic_lat: Latitude of observation in ecliptic ECI coordinates [rad]</span>
+<span class="sd">    :type ecliptic_lat: np.ndarray</span>
+<span class="sd">    :param ecliptic_lon: Longitude of observation in ecliptic ECI coordinates [rad]</span>
+<span class="sd">    :type ecliptic_lon: np.ndarray</span>
+<span class="sd">    :return: Zodiacal light in units :math:`S^10`, defined as &quot;The equivalent number of tenth magnitude (visual) stars of solar spectral type per square degree.&quot; [`source &lt;https://link.springer.com/chapter/10.1007/3-540-07615-8_450&gt;`_]</span>
+<span class="sd">    :rtype: np.ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data_values</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="mf">1e2</span>
+        <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">[</span><span class="mf">2.58</span><span class="p">,</span> <span class="mf">2.12</span><span class="p">,</span> <span class="mf">1.83</span><span class="p">,</span> <span class="mf">1.59</span><span class="p">,</span> <span class="mf">1.41</span><span class="p">,</span> <span class="mf">1.27</span><span class="p">,</span> <span class="mf">1.17</span><span class="p">,</span> <span class="mf">1.10</span><span class="p">,</span> <span class="mf">1.03</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">2.11</span><span class="p">,</span> <span class="mf">1.94</span><span class="p">,</span> <span class="mf">1.74</span><span class="p">,</span> <span class="mf">1.53</span><span class="p">,</span> <span class="mf">1.37</span><span class="p">,</span> <span class="mf">1.27</span><span class="p">,</span> <span class="mf">1.20</span><span class="p">,</span> <span class="mf">1.12</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">2.07</span><span class="p">,</span> <span class="mf">1.85</span><span class="p">,</span> <span class="mf">1.68</span><span class="p">,</span> <span class="mf">1.52</span><span class="p">,</span> <span class="mf">1.37</span><span class="p">,</span> <span class="mf">1.28</span><span class="p">,</span> <span class="mf">1.20</span><span class="p">,</span> <span class="mf">1.12</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">2.39</span><span class="p">,</span> <span class="mf">2.17</span><span class="p">,</span> <span class="mf">1.96</span><span class="p">,</span> <span class="mf">1.77</span><span class="p">,</span> <span class="mf">1.61</span><span class="p">,</span> <span class="mf">1.46</span><span class="p">,</span> <span class="mf">1.32</span><span class="p">,</span> <span class="mf">1.20</span><span class="p">,</span> <span class="mf">1.08</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">2.77</span><span class="p">,</span> <span class="mf">2.47</span><span class="p">,</span> <span class="mf">2.20</span><span class="p">,</span> <span class="mf">1.96</span><span class="p">,</span> <span class="mf">1.75</span><span class="p">,</span> <span class="mf">1.56</span><span class="p">,</span> <span class="mf">1.39</span><span class="p">,</span> <span class="mf">1.23</span><span class="p">,</span> <span class="mf">1.11</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">3.65</span><span class="p">,</span> <span class="mf">3.12</span><span class="p">,</span> <span class="mf">2.58</span><span class="p">,</span> <span class="mf">2.19</span><span class="p">,</span> <span class="mf">1.90</span><span class="p">,</span> <span class="mf">1.66</span><span class="p">,</span> <span class="mf">1.46</span><span class="p">,</span> <span class="mf">1.27</span><span class="p">,</span> <span class="mf">1.11</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">5.35</span><span class="p">,</span> <span class="mf">4.18</span><span class="p">,</span> <span class="mf">3.30</span><span class="p">,</span> <span class="mf">2.58</span><span class="p">,</span> <span class="mf">2.04</span><span class="p">,</span> <span class="mf">1.65</span><span class="p">,</span> <span class="mf">1.37</span><span class="p">,</span> <span class="mf">1.18</span><span class="p">,</span> <span class="mf">1.06</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">6.30</span><span class="p">,</span> <span class="mf">4.55</span><span class="p">,</span> <span class="mf">3.39</span><span class="p">,</span> <span class="mf">2.70</span><span class="p">,</span> <span class="mf">2.12</span><span class="p">,</span> <span class="mf">1.66</span><span class="p">,</span> <span class="mf">1.37</span><span class="p">,</span> <span class="mf">1.20</span><span class="p">,</span> <span class="mf">1.07</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">7.56</span><span class="p">,</span> <span class="mf">5.12</span><span class="p">,</span> <span class="mf">3.58</span><span class="p">,</span> <span class="mf">2.82</span><span class="p">,</span> <span class="mf">2.29</span><span class="p">,</span> <span class="mf">1.83</span><span class="p">,</span> <span class="mf">1.47</span><span class="p">,</span> <span class="mf">1.24</span><span class="p">,</span> <span class="mf">1.07</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">9.39</span><span class="p">,</span> <span class="mf">6.03</span><span class="p">,</span> <span class="mf">4.03</span><span class="p">,</span> <span class="mf">2.90</span><span class="p">,</span> <span class="mf">2.27</span><span class="p">,</span> <span class="mf">1.85</span><span class="p">,</span> <span class="mf">1.49</span><span class="p">,</span> <span class="mf">1.24</span><span class="p">,</span> <span class="mf">1.08</span><span class="p">],</span>
+                <span class="p">[</span>
+                    <span class="mf">1.19e1</span><span class="p">,</span>
+                    <span class="mf">6.96</span><span class="p">,</span>
+                    <span class="mf">4.42</span><span class="p">,</span>
+                    <span class="mf">3.04</span><span class="p">,</span>
+                    <span class="mf">2.33</span><span class="p">,</span>
+                    <span class="mf">1.89</span><span class="p">,</span>
+                    <span class="mf">1.50</span><span class="p">,</span>
+                    <span class="mf">1.24</span><span class="p">,</span>
+                    <span class="mf">1.07</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="p">[</span>
+                    <span class="mf">1.49e1</span><span class="p">,</span>
+                    <span class="mf">8.25</span><span class="p">,</span>
+                    <span class="mf">5.12</span><span class="p">,</span>
+                    <span class="mf">3.31</span><span class="p">,</span>
+                    <span class="mf">2.40</span><span class="p">,</span>
+                    <span class="mf">1.86</span><span class="p">,</span>
+                    <span class="mf">1.49</span><span class="p">,</span>
+                    <span class="mf">1.26</span><span class="p">,</span>
+                    <span class="mf">1.11</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="p">[</span>
+                    <span class="mf">2.01e1</span><span class="p">,</span>
+                    <span class="mf">1.15e1</span><span class="p">,</span>
+                    <span class="mf">6.35</span><span class="p">,</span>
+                    <span class="mf">3.63</span><span class="p">,</span>
+                    <span class="mf">2.24</span><span class="p">,</span>
+                    <span class="mf">1.71</span><span class="p">,</span>
+                    <span class="mf">1.37</span><span class="p">,</span>
+                    <span class="mf">1.18</span><span class="p">,</span>
+                    <span class="mf">1.07</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="p">[</span>
+                    <span class="mf">2.94e1</span><span class="p">,</span>
+                    <span class="mf">1.55e1</span><span class="p">,</span>
+                    <span class="mf">8.00</span><span class="p">,</span>
+                    <span class="mf">4.17</span><span class="p">,</span>
+                    <span class="mf">2.41</span><span class="p">,</span>
+                    <span class="mf">1.80</span><span class="p">,</span>
+                    <span class="mf">1.41</span><span class="p">,</span>
+                    <span class="mf">1.20</span><span class="p">,</span>
+                    <span class="mf">1.06</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="p">[</span>
+                    <span class="mf">4.66e1</span><span class="p">,</span>
+                    <span class="mf">1.82e1</span><span class="p">,</span>
+                    <span class="mf">9.32</span><span class="p">,</span>
+                    <span class="mf">4.91</span><span class="p">,</span>
+                    <span class="mf">2.46</span><span class="p">,</span>
+                    <span class="mf">1.83</span><span class="p">,</span>
+                    <span class="mf">1.44</span><span class="p">,</span>
+                    <span class="mf">1.21</span><span class="p">,</span>
+                    <span class="mf">1.08</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="p">[</span>
+                    <span class="mf">7.69e1</span><span class="p">,</span>
+                    <span class="mf">2.14e1</span><span class="p">,</span>
+                    <span class="mf">1.07e1</span><span class="p">,</span>
+                    <span class="mf">5.42</span><span class="p">,</span>
+                    <span class="mf">2.52</span><span class="p">,</span>
+                    <span class="mf">1.86</span><span class="p">,</span>
+                    <span class="mf">1.45</span><span class="p">,</span>
+                    <span class="mf">1.21</span><span class="p">,</span>
+                    <span class="mf">1.08</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="p">[</span>
+                    <span class="mf">1.51e2</span><span class="p">,</span>
+                    <span class="mf">2.76e1</span><span class="p">,</span>
+                    <span class="mf">1.12e1</span><span class="p">,</span>
+                    <span class="mf">5.92</span><span class="p">,</span>
+                    <span class="mf">2.65</span><span class="p">,</span>
+                    <span class="mf">1.90</span><span class="p">,</span>
+                    <span class="mf">1.45</span><span class="p">,</span>
+                    <span class="mf">1.21</span><span class="p">,</span>
+                    <span class="mf">1.08</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="p">[</span>
+                    <span class="mf">3.65e2</span><span class="p">,</span>
+                    <span class="mf">2.72e1</span><span class="p">,</span>
+                    <span class="mf">1.39e1</span><span class="p">,</span>
+                    <span class="mf">6.55</span><span class="p">,</span>
+                    <span class="mf">2.90</span><span class="p">,</span>
+                    <span class="mf">1.99</span><span class="p">,</span>
+                    <span class="mf">1.45</span><span class="p">,</span>
+                    <span class="mf">1.21</span><span class="p">,</span>
+                    <span class="mf">1.08</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="p">[</span>
+                    <span class="mf">1.76e3</span><span class="p">,</span>
+                    <span class="mf">5.63e1</span><span class="p">,</span>
+                    <span class="mf">1.70e1</span><span class="p">,</span>
+                    <span class="mf">7.24</span><span class="p">,</span>
+                    <span class="mf">3.15</span><span class="p">,</span>
+                    <span class="mf">2.09</span><span class="p">,</span>
+                    <span class="mf">1.46</span><span class="p">,</span>
+                    <span class="mf">1.21</span><span class="p">,</span>
+                    <span class="mf">1.08</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="p">[</span>
+                    <span class="mf">1.63e6</span><span class="p">,</span>
+                    <span class="mf">1.99e2</span><span class="p">,</span>
+                    <span class="mf">2.29e1</span><span class="p">,</span>
+                    <span class="mf">7.94</span><span class="p">,</span>
+                    <span class="mf">4.03</span><span class="p">,</span>
+                    <span class="mf">2.52</span><span class="p">,</span>
+                    <span class="mf">1.50</span><span class="p">,</span>
+                    <span class="mf">1.21</span><span class="p">,</span>
+                    <span class="mf">1.08</span><span class="p">,</span>
+                <span class="p">],</span>
+            <span class="p">]</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="p">)</span>
+    <span class="n">data_ecliptic_lat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">81</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="n">data_ecliptic_lon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="mi">180</span><span class="p">,</span>
+                <span class="mi">160</span><span class="p">,</span>
+                <span class="mi">140</span><span class="p">,</span>
+                <span class="mi">120</span><span class="p">,</span>
+                <span class="mi">100</span><span class="p">,</span>
+                <span class="mi">80</span><span class="p">,</span>
+                <span class="mi">65</span><span class="p">,</span>
+                <span class="mi">60</span><span class="p">,</span>
+                <span class="mi">55</span><span class="p">,</span>
+                <span class="mi">50</span><span class="p">,</span>
+                <span class="mi">45</span><span class="p">,</span>
+                <span class="mi">40</span><span class="p">,</span>
+                <span class="mi">35</span><span class="p">,</span>
+                <span class="mi">30</span><span class="p">,</span>
+                <span class="mi">25</span><span class="p">,</span>
+                <span class="mi">20</span><span class="p">,</span>
+                <span class="mi">15</span><span class="p">,</span>
+                <span class="mi">10</span><span class="p">,</span>
+                <span class="mi">5</span><span class="p">,</span>
+                <span class="mi">0</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">scipy</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="n">interpn</span><span class="p">(</span>
+        <span class="n">points</span><span class="o">=</span><span class="p">(</span><span class="n">data_ecliptic_lat</span><span class="p">,</span> <span class="n">data_ecliptic_lon</span><span class="p">),</span>
+        <span class="n">values</span><span class="o">=</span><span class="n">data_values</span><span class="p">,</span>
+        <span class="n">xi</span><span class="o">=</span><span class="p">(</span><span class="n">ecliptic_lat</span><span class="p">,</span> <span class="n">ecliptic_lon</span><span class="p">),</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+        <span class="n">fill_value</span><span class="o">=</span><span class="mi">100</span> <span class="o">*</span> <span class="mf">0.98</span><span class="p">,</span>
+        <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_moon_mie_scattering</span><span class="p">(</span>
+    <span class="n">z_moon</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">z_obs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">delta_az</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes Mie scattered moonlight</span>
+
+<span class="sd">    :param z_moon: Angle from zenith for the Moon from the observer [rad]</span>
+<span class="sd">    :type z_moon: np.ndarray</span>
+<span class="sd">    :param z_obs: Angle of the observation from zenith [rad]</span>
+<span class="sd">    :type z_obs: np.ndarray</span>
+<span class="sd">    :param delta_az: Angle on horizon between the observation and Moon [rad]</span>
+<span class="sd">    :type delta_az: np.ndarray</span>
+<span class="sd">    :return: Mie scattered light radiance :math:`[10^{-10}W/(cm^2\cdot steradian \cdot \mu m)]`</span>
+<span class="sd">    :rtype: np.ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">psi1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">f_rs</span> <span class="o">=</span> <span class="n">_moon_rayleigh_scattering</span><span class="p">(</span><span class="n">z_moon</span><span class="p">,</span> <span class="n">z_obs</span><span class="p">,</span> <span class="n">delta_az</span><span class="p">)</span>
+    <span class="n">psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">z_moon</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">z_obs</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">z_moon</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">z_obs</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">delta_az</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="c1"># Angle between moon and observation directions</span>
+    <span class="n">f_ms</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="mi">75</span>
+        <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">psi</span> <span class="o">/</span> <span class="n">psi1</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.015</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="n">psi</span><span class="p">)</span> <span class="o">/</span> <span class="n">psi1</span><span class="p">))</span>
+        <span class="o">*</span> <span class="n">f_rs</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">f_ms</span>
+
+
+<span class="k">def</span> <span class="nf">_moon_rayleigh_scattering</span><span class="p">(</span>
+    <span class="n">z_moon</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">z_obs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">delta_az</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes Rayleigh scattered moonlight</span>
+
+<span class="sd">    :param z_moon: Angle from zenith for the Moon from the observer [rad]</span>
+<span class="sd">    :type z_moon: np.ndarray</span>
+<span class="sd">    :param z_obs: Angle of the observation from zenith [rad]</span>
+<span class="sd">    :type z_obs: np.ndarray</span>
+<span class="sd">    :param delta_az: Angle on horizon between the observation and Moon [rad]</span>
+<span class="sd">    :type delta_az: np.ndarray</span>
+<span class="sd">    :return: Brightness of the Moon due to Rayleigh scattering :math:`[10^{-10}W/(cm^2\cdot steradian \cdot \mu m)] = [W/(m \cdot steradian \cdot m)]`</span>
+<span class="sd">    :rtype: np.ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data_radiance_z_moon0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="mi">22</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">22</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">22</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">22</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">22</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">22</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">22</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">22</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">23</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">23</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">24</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">24</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">27</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">27</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">34</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">34</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">55</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">58</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">data_radiance_z_moon30</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="mi">19</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">19</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">21</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">18</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">23</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">17</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">16</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">28</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">16</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">31</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">18</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">37</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">22</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">47</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">72</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">58</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">data_radiance_z_moon60</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="mi">13</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">13</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">21</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">14</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">31</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">18</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">39</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">54</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">40</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">89</span><span class="p">,</span> <span class="mi">71</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">61</span><span class="p">,</span> <span class="mi">76</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">data_radiance_z_moon75</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">9.7</span><span class="p">,</span> <span class="mf">9.6</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">13</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">9.9</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">18</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">33</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">26</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">48</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">40</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">82</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">75</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">data_radiance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">(</span>
+        <span class="p">(</span>
+            <span class="n">data_radiance_z_moon0</span><span class="p">,</span>
+            <span class="n">data_radiance_z_moon30</span><span class="p">,</span>
+            <span class="n">data_radiance_z_moon60</span><span class="p">,</span>
+            <span class="n">data_radiance_z_moon75</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">data_z_obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">81</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="p">)</span>  <span class="c1"># Obseravtion angle from zenith, [rad]</span>
+    <span class="n">data_delta_az</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">181</span><span class="p">,</span> <span class="mi">45</span><span class="p">)</span>
+    <span class="p">)</span>  <span class="c1"># Relative azimuth difference between moon and observation [rad]</span>
+    <span class="n">data_z_moon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">75</span><span class="p">])</span>
+    <span class="p">)</span>  <span class="c1"># Zenith angle of the mooon [rad]</span>
+    <span class="k">return</span> <span class="n">scipy</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="n">interpn</span><span class="p">(</span>
+        <span class="n">points</span><span class="o">=</span><span class="p">(</span><span class="n">data_z_obs</span><span class="p">,</span> <span class="n">data_delta_az</span><span class="p">,</span> <span class="n">data_z_moon</span><span class="p">),</span>
+        <span class="n">values</span><span class="o">=</span><span class="n">data_radiance</span><span class="p">,</span>
+        <span class="n">xi</span><span class="o">=</span><span class="p">(</span><span class="n">z_obs</span><span class="p">,</span> <span class="n">delta_az</span><span class="p">,</span> <span class="n">z_moon</span><span class="p">),</span>
+        <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_moon_phase_fraction</span><span class="p">(</span><span class="n">moon_phase_angle</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes the brightness fraction at a given lunar phase angle</span>
+<span class="sd">    :param moon_phase_angle: Angle between Earth and Sun from the perspective of the Moon [rad]</span>
+<span class="sd">    :type moon_phase_angle: np.ndarray</span>
+<span class="sd">    :return: Fraction of full Moon radiance at observer [nondim]</span>
+<span class="sd">    :rtype: np.ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data_lunar_phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">181</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="n">data_normalized_brightness</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="mf">1.00</span><span class="p">,</span>
+            <span class="mf">0.809</span><span class="p">,</span>
+            <span class="mf">0.685</span><span class="p">,</span>
+            <span class="mf">0.483</span><span class="p">,</span>
+            <span class="mf">0.377</span><span class="p">,</span>
+            <span class="mf">0.288</span><span class="p">,</span>
+            <span class="mf">0.225</span><span class="p">,</span>
+            <span class="mf">0.172</span><span class="p">,</span>
+            <span class="mf">0.127</span><span class="p">,</span>
+            <span class="mf">0.089</span><span class="p">,</span>
+            <span class="mf">0.061</span><span class="p">,</span>
+            <span class="mf">0.041</span><span class="p">,</span>
+            <span class="mf">0.077</span><span class="p">,</span>
+            <span class="mf">0.017</span><span class="p">,</span>
+            <span class="mf">0.009</span><span class="p">,</span>
+            <span class="mf">0.004</span><span class="p">,</span>
+            <span class="mf">0.001</span><span class="p">,</span>
+            <span class="mf">0.0</span><span class="p">,</span>
+            <span class="mf">0.0</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">f</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span>
+        <span class="n">data_lunar_phase</span><span class="p">,</span> <span class="n">data_normalized_brightness</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="n">moon_phase_angle</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_moon_brightness</span><span class="p">(</span>
+    <span class="n">phase_angle_moon</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">z_moon</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">z_obs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">delta_az</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes the brightness of the moon in given observation conditions</span>
+
+<span class="sd">    :param phase_angle_moon: Angle between Sun and Earth from the perspective of the Moon [rad]</span>
+<span class="sd">    :type phase_angle_moon: np.ndarray</span>
+<span class="sd">    :param z_moon: Angle from zenith for the Moon from the observer [rad]</span>
+<span class="sd">    :type z_moon: np.ndarray</span>
+<span class="sd">    :param z_obs: Angle of the observation from zenith [rad]</span>
+<span class="sd">    :type z_obs: np.ndarray</span>
+<span class="sd">    :param delta_az: Angle on horizon between the observation and Moon [rad]</span>
+<span class="sd">    :type delta_az: np.ndarray</span>
+<span class="sd">    :return: Brightness of the Moon in :math:`[10^{-10}W/(cm^2\cdot steradian \cdot \mu m)]</span>
+<span class="sd">    :rtype: np.ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">f_theta</span> <span class="o">=</span> <span class="n">_moon_phase_fraction</span><span class="p">(</span><span class="n">phase_angle_moon</span><span class="p">)</span>
+    <span class="n">f_rs</span> <span class="o">=</span> <span class="n">_moon_rayleigh_scattering</span><span class="p">(</span><span class="n">z_moon</span><span class="p">,</span> <span class="n">z_obs</span><span class="p">,</span> <span class="n">delta_az</span><span class="p">)</span>
+    <span class="n">f_ms</span> <span class="o">=</span> <span class="n">_moon_mie_scattering</span><span class="p">(</span><span class="n">z_moon</span><span class="p">,</span> <span class="n">z_obs</span><span class="p">,</span> <span class="n">delta_az</span><span class="p">)</span>
+    <span class="n">f_mt</span> <span class="o">=</span> <span class="n">f_theta</span> <span class="o">*</span> <span class="p">(</span><span class="n">f_ms</span> <span class="o">+</span> <span class="n">f_rs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">f_mt</span>
+
+
+<div class="viewcode-block" id="zodiacal_signal"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.background.zodiacal_signal">[docs]</a><span class="k">def</span> <span class="nf">zodiacal_signal</span><span class="p">(</span>
+    <span class="n">dates</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">],</span>
+    <span class="n">look_dirs_eci_eq</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">obs_pos_eci_eq</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">t_int</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">d</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="n">z_obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">hat</span><span class="p">(</span><span class="n">obs_pos_eci_eq</span><span class="p">),</span> <span class="n">hat</span><span class="p">(</span><span class="n">look_dirs_eci_eq</span><span class="p">)))</span>
+    <span class="n">eq_to_ec</span> <span class="o">=</span> <span class="n">eci_to_sun_ec</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
+    <span class="n">look_dirs_eci_ec</span> <span class="o">=</span> <span class="n">stack_mat_mult</span><span class="p">(</span><span class="n">eq_to_ec</span><span class="p">,</span> <span class="n">look_dirs_eci_eq</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">ec_az</span><span class="p">,</span> <span class="n">ec_el</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">cart_to_sph</span><span class="p">(</span>
+        <span class="n">look_dirs_eci_ec</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="n">look_dirs_eci_ec</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="n">look_dirs_eci_ec</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="n">ec_az</span><span class="p">[</span><span class="n">ec_az</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">ec_el</span><span class="p">[</span><span class="n">ec_el</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">_zodiacal_light_signal</span><span class="p">(</span>
+        <span class="n">ecliptic_lat</span><span class="o">=</span><span class="n">ec_el</span><span class="p">,</span>
+        <span class="n">ecliptic_lon</span><span class="o">=</span><span class="n">ec_az</span><span class="p">,</span>
+        <span class="n">z_obs</span><span class="o">=</span><span class="n">z_obs</span><span class="p">,</span>
+        <span class="n">t_int</span><span class="o">=</span><span class="n">t_int</span><span class="p">,</span>
+        <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span>
+        <span class="n">d</span><span class="o">=</span><span class="n">d</span><span class="p">,</span>
+    <span class="p">)</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2023, Liam Robinson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.1.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

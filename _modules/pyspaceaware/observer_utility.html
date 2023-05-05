@@ -53,7 +53,7 @@
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../pyspaceaware.html">pyspaceaware package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pyspaceaware</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../references.html">References</a></li>
 </ul>
 
@@ -93,11 +93,12 @@
           <div class="body" role="main">
             
   <h1>Source code for pyspaceaware.observer_utility</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">astro_constants</span> <span class="kn">import</span> <span class="n">AstroConstants</span>
-<span class="kn">from</span> <span class="nn">math_utility</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">astro_coordinates</span> <span class="kn">import</span> <span class="n">ecef_to_eci</span><span class="p">,</span> <span class="n">sun</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="kn">from</span> <span class="nn">.astro_constants</span> <span class="kn">import</span> <span class="n">AstroConstants</span>
+<span class="kn">from</span> <span class="nn">.math_utility</span> <span class="kn">import</span> <span class="n">sph_to_cart</span><span class="p">,</span> <span class="n">stack_mat_mult</span>
+<span class="kn">from</span> <span class="nn">.astro_coordinates</span> <span class="kn">import</span> <span class="n">ecef_to_eci</span>
 
 
 <div class="viewcode-block" id="geodetic_lat_to_geocentric"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.observer_utility.geodetic_lat_to_geocentric">[docs]</a><span class="k">def</span> <span class="nf">geodetic_lat_to_geocentric</span><span class="p">(</span><span class="n">lat_geod</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
@@ -165,9 +166,9 @@
 <span class="sd">    :param a: Altitudes above the WGS84 ellipsoid [km]</span>
 <span class="sd">    :type a: float</span>
 <span class="sd">    :param date: Date to evaluate conversion [UTC]</span>
-<span class="sd">    :type date: np.ndarray[datetime.datetime]</span>
+<span class="sd">    :type date: np.ndarray[datetime.datetime] [nx1]</span>
 <span class="sd">    :return: ECI positions for each LLA triplet [km]</span>
-<span class="sd">    :rtype:  np.ndarray</span>
+<span class="sd">    :rtype:  np.ndarray [nx3]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">r_itrf</span> <span class="o">=</span> <span class="n">lla_to_itrf</span><span class="p">(</span><span class="n">lat_geod</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
     <span class="n">date</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">date</span><span class="p">])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>

@@ -53,7 +53,7 @@
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../pyspaceaware.html">pyspaceaware package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pyspaceaware</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../references.html">References</a></li>
 </ul>
 
@@ -93,16 +93,60 @@
           <div class="body" role="main">
             
   <h1>Source code for pyspaceaware.astro_coordinates</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">astro_time_utility</span> <span class="kn">import</span> <span class="n">date_to_sidereal</span><span class="p">,</span> <span class="n">date_to_jd</span>
-<span class="kn">from</span> <span class="nn">attitude_lib</span> <span class="kn">import</span> <span class="n">axis_rotation_matrices</span>
-<span class="kn">from</span> <span class="nn">math_utility</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">astro_constants</span> <span class="kn">import</span> <span class="n">AstroConstants</span>
+<span></span><span class="kn">from</span> <span class="nn">.astro_time_utility</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">date_to_sidereal</span><span class="p">,</span>
+    <span class="n">date_to_jd</span><span class="p">,</span>
+    <span class="n">date_to_capital_t</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.attitude_lib</span> <span class="kn">import</span> <span class="n">axis_rotation_matrices</span>
+<span class="kn">from</span> <span class="nn">.math_utility</span> <span class="kn">import</span> <span class="n">cosd</span><span class="p">,</span> <span class="n">hat</span><span class="p">,</span> <span class="n">sind</span><span class="p">,</span> <span class="n">wrap_to_360</span><span class="p">,</span> <span class="n">dms_to_rad</span>
+<span class="kn">from</span> <span class="nn">.astro_constants</span> <span class="kn">import</span> <span class="n">AstroConstants</span>
 
+<span class="kn">from</span> <span class="nn">astropy.utils.iers</span> <span class="kn">import</span> <span class="n">IERS_A_URL</span><span class="p">,</span> <span class="n">IERS_A</span><span class="p">,</span> <span class="n">IERS</span>
+<span class="kn">from</span> <span class="nn">astropy.utils.data</span> <span class="kn">import</span> <span class="n">download_file</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">iers_provider</span> <span class="o">=</span> <span class="n">IERS_A</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">download_file</span><span class="p">(</span><span class="n">IERS_A_URL</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">nutation_coeffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SRCDIR&quot;</span><span class="p">],</span> <span class="s2">&quot;resources&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;nutation_coeffs.txt&quot;</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="inclination_of_ecliptic"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.astro_coordinates.inclination_of_ecliptic">[docs]</a><span class="k">def</span> <span class="nf">inclination_of_ecliptic</span><span class="p">(</span><span class="n">date</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Inclination of the ecliptic plane [rad]</span>
+
+<span class="sd">    :param date: Date to evaluate at [utc]</span>
+<span class="sd">    :type date: datetime.datetime</span>
+<span class="sd">    :return: Inclination [rad]</span>
+<span class="sd">    :rtype: float</span>
+
+<span class="sd">    &gt;&gt;&gt; date = datetime.datetime(2000, 12, 9, 13, 14, 15, tzinfo=datetime.UTC)</span>
+<span class="sd">    &gt;&gt;&gt; i = inclination_of_ecliptic(date)</span>
+<span class="sd">    &gt;&gt;&gt; 0.4090906724834187</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">date_to_capital_t</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+    <span class="n">epsilon</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">dms_to_rad</span><span class="p">(</span><span class="mf">23.43929111</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="o">-</span> <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">46.8150</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span>
+        <span class="o">-</span> <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.00059</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">2</span>
+        <span class="o">+</span> <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.001813</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">3</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">epsilon</span></div>
 
 
 <div class="viewcode-block" id="eci_to_sun_ec"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.astro_coordinates.eci_to_sun_ec">[docs]</a><span class="k">def</span> <span class="nf">eci_to_sun_ec</span><span class="p">(</span><span class="n">dates</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rotation matrix from Earth-centered inertial (ECI) to Sun-relative ECI</span>
+
+<span class="sd">    :param dates: Dates to evaluate at</span>
+<span class="sd">    :type dates: np.ndarray[datetime.datetime]</span>
+<span class="sd">    :return: Stack of DCMs</span>
+<span class="sd">    :rtype: np.ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">dates</span><span class="o">.</span><span class="n">size</span>
     <span class="n">v1</span> <span class="o">=</span> <span class="n">hat</span><span class="p">(</span><span class="n">sun</span><span class="p">(</span><span class="n">date_to_jd</span><span class="p">(</span><span class="n">dates</span><span class="p">)))</span>
     <span class="n">ref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
@@ -113,11 +157,16 @@
 
 
 <div class="viewcode-block" id="eci_eq_to_eci_ec"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.astro_coordinates.eci_eq_to_eci_ec">[docs]</a><span class="k">def</span> <span class="nf">eci_eq_to_eci_ec</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rotation matrix between equatorial and ecliptic Earth-centered inertial (ECI)</span>
+
+<span class="sd">    :return: Rotation matrix</span>
+<span class="sd">    :rtype: np.ndarray [3x3]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">axis_rotation_matrices</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">r1</span><span class="p">(</span><span class="o">-</span><span class="n">AstroConstants</span><span class="o">.</span><span class="n">inclination_of_ecliptic</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ecef_to_eci"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.astro_coordinates.ecef_to_eci">[docs]</a><span class="k">def</span> <span class="nf">ecef_to_eci</span><span class="p">(</span><span class="n">date</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="ecef_to_eci"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.astro_coordinates.ecef_to_eci">[docs]</a><span class="k">def</span> <span class="nf">ecef_to_eci</span><span class="p">(</span><span class="n">date</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts from Earth-centered, Earth-fixed (ECEF) coordinates to Earth- centered inertial (ECI). Does not account for precession, nutation, or polar motion.</span>
 
 <span class="sd">    :param date: Time</span>
@@ -226,143 +275,184 @@
     <span class="k">return</span> <span class="n">rsun</span> <span class="o">*</span> <span class="n">AstroConstants</span><span class="o">.</span><span class="n">au_to_km</span></div>
 
 
-<div class="viewcode-block" id="moon_brightness"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.astro_coordinates.moon_brightness">[docs]</a><span class="k">def</span> <span class="nf">moon_brightness</span><span class="p">(</span>
-    <span class="n">alpha</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-    <span class="n">rho</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-    <span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-    <span class="n">zm</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-    <span class="n">z</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates brightness of the Moon following `source &lt;https://iopscience.iop.org/article/10.1086/132921/pdf?casa_token=gZtuzfmx-fgAAAAA:D_WKhr-5oTRMBLQyDy5oeBvgeBc9QAd4lHvJKf7gFney_lw6KxzYjf5c7c7h0TYRqkbL7pQR16Ct8jghpbE&gt;`_</span>
+<span class="n">iers_provider</span> <span class="o">=</span> <span class="n">IERS_A</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">download_file</span><span class="p">(</span><span class="n">IERS_A_URL</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 
-<span class="sd">    :param alpha: Lunar phase angle, angular distance between Earth and Sun as seen from Moon [rad]</span>
-<span class="sd">    :type alpha: np.ndarray [nx1]</span>
-<span class="sd">    :param rho: Moon/observation separation angle [rad]</span>
-<span class="sd">    :type rho: np.ndarray [nx1]</span>
-<span class="sd">    :param k: Extinction coefficient [mag/airmass]</span>
-<span class="sd">    :type k: np.ndarray [nx1]</span>
-<span class="sd">    :param zm: Angle of the moon from local zenith</span>
-<span class="sd">    :type zm: np.ndarray [nx1]</span>
-<span class="sd">    :param z: Angle of the observation from local zenith</span>
-<span class="sd">    :type z: np.ndarray [nx1]</span>
-<span class="sd">    :return: Brightness of the moon in given geometries [mag/arcsecond^2]</span>
-<span class="sd">    :rtype: np.ndarray [nx1]</span>
+
+<div class="viewcode-block" id="gtod_to_itrf"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.astro_coordinates.gtod_to_itrf">[docs]</a><span class="k">def</span> <span class="nf">gtod_to_itrf</span><span class="p">(</span><span class="n">date</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rotation matrix from Greenwich True of Date (GTOD) to the Internation Terrestrial Reference Frame (ITRF)</span>
+
+<span class="sd">    :param date: Date to evaluate at [utc]</span>
+<span class="sd">    :type date: datetime.datetime</span>
+<span class="sd">    :return: Rotation matrix</span>
+<span class="sd">    :rtype: np.ndarray [3x3]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
-    <span class="n">istar</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span>
-        <span class="o">-</span><span class="mf">0.4</span> <span class="o">*</span> <span class="p">(</span><span class="mf">3.84</span> <span class="o">+</span> <span class="mf">0.026</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span> <span class="o">+</span> <span class="mf">4e-9</span> <span class="o">*</span> <span class="n">alpha</span><span class="o">**</span><span class="mi">4</span><span class="p">)</span>
-    <span class="p">)</span>
-    <span class="n">frho</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mf">5.36</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.06</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span>
-        <span class="mf">6.15</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span> <span class="o">/</span> <span class="mi">40</span>
-    <span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mf">0.96</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span>
-    <span class="n">bmoon</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">frho</span>
-        <span class="o">*</span> <span class="n">istar</span>
-        <span class="o">*</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.4</span> <span class="o">*</span> <span class="n">k</span> <span class="o">*</span> <span class="n">x</span><span class="p">(</span><span class="n">zm</span><span class="p">))</span>
-        <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.4</span> <span class="o">*</span> <span class="n">k</span> <span class="o">*</span> <span class="n">x</span><span class="p">(</span><span class="n">z</span><span class="p">)))</span>
-    <span class="p">)</span>
-    <span class="n">vmoon_per_sqasec</span> <span class="o">=</span> <span class="p">(</span><span class="mf">20.7233</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">bmoon</span> <span class="o">/</span> <span class="mf">34.08</span><span class="p">))</span> <span class="o">/</span> <span class="mf">0.92104</span>
-    <span class="k">return</span> <span class="n">bmoon</span><span class="p">,</span> <span class="n">vmoon_per_sqasec</span></div>
+    <span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">r3</span> <span class="o">=</span> <span class="n">axis_rotation_matrices</span><span class="p">()</span>
+    <span class="n">x_p</span><span class="p">,</span> <span class="n">y_p</span> <span class="o">=</span> <span class="n">iers_provider</span><span class="o">.</span><span class="n">pm_xy</span><span class="p">(</span><span class="n">date_to_jd</span><span class="p">(</span><span class="n">date</span><span class="p">))</span>
+    <span class="n">x_p</span><span class="p">,</span> <span class="n">y_p</span> <span class="o">=</span> <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">x_p</span><span class="o">.</span><span class="n">value</span><span class="p">),</span> <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y_p</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="n">Pi</span> <span class="o">=</span> <span class="n">r2</span><span class="p">(</span><span class="o">-</span><span class="n">x_p</span><span class="p">)</span> <span class="o">@</span> <span class="n">r1</span><span class="p">(</span><span class="o">-</span><span class="n">y_p</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Pi</span></div>
 
 
-<div class="viewcode-block" id="twilight_brightness"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.astro_coordinates.twilight_brightness">[docs]</a><span class="k">def</span> <span class="nf">twilight_brightness</span><span class="p">(</span>
-    <span class="n">z</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">delta_az</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">h</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates brightness magnitude of twilight sky.</span>
+<div class="viewcode-block" id="tod_to_gtod"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.astro_coordinates.tod_to_gtod">[docs]</a><span class="k">def</span> <span class="nf">tod_to_gtod</span><span class="p">(</span><span class="n">date</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rotation matrix from True of Date (TOD) to Greenwich True of Date (GTOD)</span>
 
-<span class="sd">    :param z: Angle of observation from zenith [rad]</span>
-<span class="sd">    :type z: np.ndarray</span>
-<span class="sd">    :param delta_az: Angle between observation and Sun, on the local horizon [rad]</span>
-<span class="sd">    :type delta_az: np.ndarray</span>
-<span class="sd">    :param h: Elevation of the Sun, ``h&lt;0`` if below horizon [rad]</span>
-<span class="sd">    :type h: np.ndarray</span>
-<span class="sd">    :return: Brightness magnitude due to the setting Sun [mag/arcsec^2]</span>
-<span class="sd">    :rtype: np.ndarray</span>
+<span class="sd">    :param date: Date to evaluate at [utc]</span>
+<span class="sd">    :type date: datetime.datetime</span>
+<span class="sd">    :return: Rotation matrix</span>
+<span class="sd">    :rtype: np.ndarray [3x3]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">z</span><span class="p">,</span> <span class="n">delta_az</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">z</span><span class="p">),</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">delta_az</span><span class="p">),</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">h</span><span class="p">),</span>
+    <span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">r3</span> <span class="o">=</span> <span class="n">axis_rotation_matrices</span><span class="p">()</span>
+    <span class="n">stime</span> <span class="o">=</span> <span class="n">date_to_sidereal</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+    <span class="n">gmst</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">stime</span> <span class="o">%</span> <span class="n">AstroConstants</span><span class="o">.</span><span class="n">earth_sec_in_day</span><span class="p">)</span>
+        <span class="o">/</span> <span class="n">AstroConstants</span><span class="o">.</span><span class="n">earth_sec_in_day</span>
+        <span class="o">*</span> <span class="mi">2</span>
+        <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
     <span class="p">)</span>
-    <span class="n">m_twilight</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="o">-</span><span class="p">(</span><span class="mf">7.5e-5</span> <span class="o">*</span> <span class="n">z</span> <span class="o">+</span> <span class="mf">5.05e-3</span><span class="p">)</span> <span class="o">*</span> <span class="n">delta_az</span>
-        <span class="o">+</span> <span class="p">(</span><span class="mf">3.67e-4</span> <span class="o">*</span> <span class="n">z</span> <span class="o">-</span> <span class="mf">0.458</span><span class="p">)</span> <span class="o">*</span> <span class="n">h</span>
-        <span class="o">+</span> <span class="mf">9.17e-3</span> <span class="o">*</span> <span class="n">z</span>
-        <span class="o">+</span> <span class="mf">3.535</span>
-    <span class="p">)</span>
-    <span class="n">transition_angle</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="mf">4.12e-2</span> <span class="o">*</span> <span class="n">z</span> <span class="o">+</span> <span class="mf">0.582</span><span class="p">)</span> <span class="o">*</span> <span class="n">h</span> <span class="o">+</span> <span class="mf">0.417</span> <span class="o">*</span> <span class="n">z</span> <span class="o">+</span> <span class="mf">97.5</span>
-    <span class="n">m_twilight2</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="o">-</span><span class="mf">0.0010</span> <span class="o">*</span> <span class="n">delta_az</span>
-        <span class="o">+</span> <span class="p">(</span><span class="mf">1.12e-3</span> <span class="o">*</span> <span class="n">z</span> <span class="o">-</span> <span class="mf">0.470</span><span class="p">)</span> <span class="o">*</span> <span class="n">h</span>
-        <span class="o">-</span> <span class="mf">4.17e-3</span> <span class="o">*</span> <span class="n">z</span>
-        <span class="o">+</span> <span class="mf">3.225</span>
-    <span class="p">)</span>
-    <span class="n">m_twilight</span><span class="p">[</span><span class="n">delta_az</span> <span class="o">&gt;</span> <span class="n">transition_angle</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_twilight2</span><span class="p">[</span>
-        <span class="n">delta_az</span> <span class="o">&gt;</span> <span class="n">transition_angle</span>
-    <span class="p">]</span>
-
-    <span class="n">m_twilight</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">h</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>  <span class="c1"># Daylight!</span>
-    <span class="n">m_twilight</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">h</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">18</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>  <span class="c1"># Night!</span>
-    <span class="k">return</span> <span class="n">m_twilight</span></div>
+    <span class="n">Theta</span> <span class="o">=</span> <span class="n">r3</span><span class="p">(</span><span class="n">gmst</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Theta</span></div>
 
 
-<div class="viewcode-block" id="twilight_brightness_correction"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.astro_coordinates.twilight_brightness_correction">[docs]</a><span class="k">def</span> <span class="nf">twilight_brightness_correction</span><span class="p">(</span>
-    <span class="n">z</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">delta_az</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">h</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="n">m90</span> <span class="o">=</span> <span class="n">twilight_brightness</span><span class="p">(</span><span class="n">z</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">delta_az</span><span class="o">=</span><span class="n">delta_az</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="n">h</span><span class="p">)</span>
-    <span class="n">m30</span> <span class="o">=</span> <span class="n">twilight_brightness</span><span class="p">(</span><span class="n">z</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">6</span><span class="p">,</span> <span class="n">delta_az</span><span class="o">=</span><span class="n">delta_az</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="n">h</span><span class="p">)</span>
-    <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">z</span> <span class="o">-</span> <span class="mi">60</span><span class="p">)</span> <span class="o">/</span> <span class="mi">30</span> <span class="o">*</span> <span class="n">m90</span> <span class="o">+</span> <span class="p">(</span><span class="mi">90</span> <span class="o">-</span> <span class="n">z</span><span class="p">)</span> <span class="o">/</span> <span class="mi">30</span> <span class="o">*</span> <span class="n">m30</span></div>
+<div class="viewcode-block" id="mod_to_tod"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.astro_coordinates.mod_to_tod">[docs]</a><span class="k">def</span> <span class="nf">mod_to_tod</span><span class="p">(</span><span class="n">date</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rotation matrix from Mean of Date (MOD) to True of Date (TOD), accounts for nutation</span>
 
-
-<div class="viewcode-block" id="light_pollution_brightness"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.astro_coordinates.light_pollution_brightness">[docs]</a><span class="k">def</span> <span class="nf">light_pollution_brightness</span><span class="p">(</span><span class="n">zlp</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes magnitude of sky brightness due to light pollution.</span>
-
-<span class="sd">    :param zlp: Zenith level of light pollution [mag/arcsec^2]</span>
-<span class="sd">    :type zlp: float</span>
-<span class="sd">    :param z: Angle of observation from zenith [rad]</span>
-<span class="sd">    :type z: np.ndarray</span>
-<span class="sd">    :return: Light pollution level [mag/arcsec^2]</span>
-<span class="sd">    :rtype: np.ndarray</span>
+<span class="sd">    :param date: Date to evaluate at [utc]</span>
+<span class="sd">    :type date: datetime.datetime</span>
+<span class="sd">    :return: Rotation matrix</span>
+<span class="sd">    :rtype: np.ndarray [3x3]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="mf">319.186511755673</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="mf">46.9419919726453</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="mf">0.434369283318305</span>
-    <span class="n">d</span> <span class="o">=</span> <span class="mf">2.39138122541257</span>
-    <span class="n">e</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.00121311966265414</span>
-    <span class="n">f</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.0488735671014705</span>
-    <span class="n">g</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.0396262989070584</span>
-    <span class="n">h</span> <span class="o">=</span> <span class="o">-</span><span class="mf">9.28758741258742e-7</span>
-    <span class="n">i</span> <span class="o">=</span> <span class="mf">0.0000548215089277455</span>
-    <span class="n">j</span> <span class="o">=</span> <span class="mf">0.00134667559232511</span>
-
-    <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
-
-    <span class="n">mlp</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">a</span>
-        <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">zlp</span>
-        <span class="o">+</span> <span class="n">c</span> <span class="o">*</span> <span class="n">z</span>
-        <span class="o">+</span> <span class="n">d</span> <span class="o">*</span> <span class="n">zlp</span><span class="o">**</span><span class="mi">2</span>
-        <span class="o">+</span> <span class="n">e</span> <span class="o">*</span> <span class="n">z</span><span class="o">**</span><span class="mi">2</span>
-        <span class="o">+</span> <span class="n">f</span> <span class="o">*</span> <span class="n">zlp</span> <span class="o">*</span> <span class="n">z</span>
-        <span class="o">+</span> <span class="n">g</span> <span class="o">*</span> <span class="n">zlp</span><span class="o">**</span><span class="mi">3</span>
-        <span class="o">+</span> <span class="n">h</span> <span class="o">*</span> <span class="n">z</span><span class="o">**</span><span class="mi">3</span>
-        <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">zlp</span> <span class="o">*</span> <span class="n">z</span><span class="o">**</span><span class="mi">2</span>
-        <span class="o">+</span> <span class="n">j</span> <span class="o">*</span> <span class="n">zlp</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">z</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">date_to_capital_t</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+    <span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">r3</span> <span class="o">=</span> <span class="n">axis_rotation_matrices</span><span class="p">()</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">134</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mf">46.733</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">477198</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mf">02.633</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span>
+        <span class="o">+</span> <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">31.310</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">2</span>
+        <span class="o">+</span> <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.064</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">3</span>
     <span class="p">)</span>
-    <span class="k">return</span> <span class="n">mlp</span></div>
+    <span class="n">lprime</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">357</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mf">39.804</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">35999</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">01.244</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span>
+        <span class="o">-</span> <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.577</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">2</span>
+        <span class="o">-</span> <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.012</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">3</span>
+    <span class="p">)</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">93</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mf">18.877</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">483202</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">03.137</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span>
+        <span class="o">-</span> <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">13.257</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">2</span>
+        <span class="o">+</span> <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.011</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">3</span>
+    <span class="p">)</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">297</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mf">01.307</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">445267</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mf">41.328</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span>
+        <span class="o">-</span> <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">6.891</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">2</span>
+        <span class="o">+</span> <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.019</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">3</span>
+    <span class="p">)</span>
+    <span class="n">Omega</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">125</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">40.280</span><span class="p">)</span>
+        <span class="o">-</span> <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">1934</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mf">10.539</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span>
+        <span class="o">+</span> <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">7.455</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">2</span>
+        <span class="o">+</span> <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.008</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">3</span>
+    <span class="p">)</span>
+
+    <span class="n">pl</span> <span class="o">=</span> <span class="n">nutation_coeffs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">plprime</span> <span class="o">=</span> <span class="n">nutation_coeffs</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">pf</span> <span class="o">=</span> <span class="n">nutation_coeffs</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span>
+    <span class="n">pd</span> <span class="o">=</span> <span class="n">nutation_coeffs</span><span class="p">[:,</span> <span class="mi">4</span><span class="p">]</span>
+    <span class="n">pomega</span> <span class="o">=</span> <span class="n">nutation_coeffs</span><span class="p">[:,</span> <span class="mi">5</span><span class="p">]</span>
+    <span class="n">deltaPsi_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">nutation_coeffs</span><span class="p">[:,</span> <span class="mi">6</span><span class="p">]</span> <span class="o">+</span> <span class="n">T</span> <span class="o">*</span> <span class="n">nutation_coeffs</span><span class="p">[:,</span> <span class="mi">7</span><span class="p">])</span> <span class="o">/</span> <span class="mf">3600e4</span>
+    <span class="p">)</span>
+    <span class="c1"># Computes the change in the equinox</span>
+    <span class="n">deltaepsilon_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">nutation_coeffs</span><span class="p">[:,</span> <span class="mi">8</span><span class="p">]</span> <span class="o">+</span> <span class="n">T</span> <span class="o">*</span> <span class="n">nutation_coeffs</span><span class="p">[:,</span> <span class="mi">9</span><span class="p">])</span> <span class="o">/</span> <span class="mf">3600e4</span>
+    <span class="p">)</span>
+    <span class="c1"># Computes the change in the ecliptic</span>
+
+    <span class="n">phi_i</span> <span class="o">=</span> <span class="n">pl</span> <span class="o">*</span> <span class="n">l</span> <span class="o">+</span> <span class="n">plprime</span> <span class="o">*</span> <span class="n">lprime</span> <span class="o">+</span> <span class="n">pf</span> <span class="o">*</span> <span class="n">F</span> <span class="o">+</span> <span class="n">pd</span> <span class="o">*</span> <span class="n">D</span> <span class="o">+</span> <span class="n">pomega</span> <span class="o">*</span> <span class="n">Omega</span>
+    <span class="c1"># Series form of phi</span>
+
+    <span class="n">deltaPsi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">deltaPsi_i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi_i</span><span class="p">))</span>
+    <span class="n">deltaepsilon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">deltaepsilon_i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi_i</span><span class="p">))</span>
+    <span class="n">epsilon</span> <span class="o">=</span> <span class="n">inclination_of_ecliptic</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+    <span class="c1"># The nominal inclination of the ecliptic at this time</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">r1</span><span class="p">(</span><span class="o">-</span><span class="n">epsilon</span> <span class="o">-</span> <span class="n">deltaepsilon</span><span class="p">)</span> <span class="o">@</span> <span class="n">r3</span><span class="p">(</span><span class="o">-</span><span class="n">deltaPsi</span><span class="p">)</span> <span class="o">@</span> <span class="n">r1</span><span class="p">(</span><span class="n">epsilon</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">N</span></div>
 
 
-<div class="viewcode-block" id="apparent_magnitude_to_irradiance"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.astro_coordinates.apparent_magnitude_to_irradiance">[docs]</a><span class="k">def</span> <span class="nf">apparent_magnitude_to_irradiance</span><span class="p">(</span><span class="n">m</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes irradiance [W/m^2] from apparent magnitude (assumed same spectrum as sunlight)</span>
+<div class="viewcode-block" id="j2000_to_mod"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.astro_coordinates.j2000_to_mod">[docs]</a><span class="k">def</span> <span class="nf">j2000_to_mod</span><span class="p">(</span><span class="n">date</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rotation matrix from J2000 to Mean of Date (MOD), accounts for precession</span>
 
-<span class="sd">    :param m: Apparent magnitude</span>
-<span class="sd">    :type m: np.ndarray</span>
-<span class="sd">    :return: Irradiance [W/m^2]</span>
-<span class="sd">    :rtype: np.ndarray</span>
+<span class="sd">    :param date: Date to evaluate at [utc]</span>
+<span class="sd">    :type date: datetime.datetime</span>
+<span class="sd">    :return: Rotation matrix</span>
+<span class="sd">    :rtype: np.ndarray [3x3]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">(</span><span class="mf">2.518021002e-8</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.4</span> <span class="o">*</span> <span class="n">m</span><span class="p">)</span></div>
+    <span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">r3</span> <span class="o">=</span> <span class="n">axis_rotation_matrices</span><span class="p">()</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">date_to_capital_t</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+
+    <span class="n">zeta</span> <span class="o">=</span> <span class="n">dms_to_rad</span><span class="p">(</span>
+        <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">2306.2181</span> <span class="o">*</span> <span class="n">T</span> <span class="o">+</span> <span class="mf">0.30188</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">0.017998</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">3</span>
+    <span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">dms_to_rad</span><span class="p">(</span>
+        <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">2004.3109</span> <span class="o">*</span> <span class="n">T</span> <span class="o">-</span> <span class="mf">0.42665</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mf">0.041833</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">3</span>
+    <span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">zeta</span> <span class="o">+</span> <span class="n">dms_to_rad</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.79280</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">0.000205</span> <span class="o">*</span> <span class="n">T</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">r3</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">@</span> <span class="n">r2</span><span class="p">(</span><span class="o">-</span><span class="n">theta</span><span class="p">)</span> <span class="o">@</span> <span class="n">r3</span><span class="p">(</span><span class="n">zeta</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">P</span><span class="o">.</span><span class="n">T</span></div>
+
+
+<div class="viewcode-block" id="EarthFixedFrame"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.astro_coordinates.EarthFixedFrame">[docs]</a><span class="k">class</span> <span class="nc">EarthFixedFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Handles transformations between various Earth-centered reference frames&quot;&quot;&quot;</span>
+
+    <span class="n">_FRAMES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;itrf&quot;</span><span class="p">,</span> <span class="s2">&quot;gtod&quot;</span><span class="p">,</span> <span class="s2">&quot;tod&quot;</span><span class="p">,</span> <span class="s2">&quot;mod&quot;</span><span class="p">,</span> <span class="s2">&quot;j2000&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">home</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">to</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="n">home</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="n">to</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Home and To frmes must be different&quot;</span>
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="n">home</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_FRAMES</span>
+        <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Frame </span><span class="si">{</span><span class="n">home</span><span class="si">}</span><span class="s2"> not in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_FRAMES</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="n">to</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_FRAMES</span>
+        <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Frame </span><span class="si">{</span><span class="n">to</span><span class="si">}</span><span class="s2"> not in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_FRAMES</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">home</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="n">home</span><span class="p">,</span> <span class="n">to</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_functions</span><span class="p">()</span>
+
+<div class="viewcode-block" id="EarthFixedFrame.eval"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.astro_coordinates.EarthFixedFrame.eval">[docs]</a>    <span class="k">def</span> <span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">date</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluates the frame transformation at a given time</span>
+
+<span class="sd">        :param date: Date to evaluate [utc]</span>
+<span class="sd">        :type date: datetime.datetime</span>
+<span class="sd">        :return: DCM from home frame to target frame</span>
+<span class="sd">        :rtype: np.ndarray [3x3]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dcm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fcns</span><span class="p">:</span>
+            <span class="n">dcm</span> <span class="o">=</span> <span class="n">dcm</span> <span class="o">@</span> <span class="n">f</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dcm</span><span class="o">.</span><span class="n">T</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transpose_flag</span> <span class="k">else</span> <span class="n">dcm</span></div>
+
+<div class="viewcode-block" id="EarthFixedFrame.get_functions"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.astro_coordinates.EarthFixedFrame.get_functions">[docs]</a>    <span class="k">def</span> <span class="nf">get_functions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the functions required to transform between the requested frames&quot;&quot;&quot;</span>
+        <span class="n">_FRAME_FCNS</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_FRAMES</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">_to_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_FRAMES</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_FRAMES</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">_home_ind</span><span class="p">,</span> <span class="n">_to_ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_FRAMES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">home</span>
+        <span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_FRAMES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transpose_flag</span> <span class="o">=</span> <span class="n">_home_ind</span> <span class="o">&lt;</span> <span class="n">_to_ind</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">transpose_flag</span>
+        <span class="p">):</span>  <span class="c1"># Then we need to compute the reverse and transpose</span>
+            <span class="n">compose_fcns</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">_FRAME_FCNS</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">_to_ind</span><span class="p">,</span> <span class="n">_home_ind</span><span class="p">)</span>
+            <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># We can compute in order</span>
+            <span class="n">compose_fcns</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">_FRAME_FCNS</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">_home_ind</span><span class="p">,</span> <span class="n">_to_ind</span><span class="p">)</span>
+            <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fcns</span> <span class="o">=</span> <span class="p">[</span><span class="nb">globals</span><span class="p">()[</span><span class="n">f</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">compose_fcns</span><span class="p">))]</span></div></div>
 </pre></div>
 
           </div>

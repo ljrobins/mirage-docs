@@ -53,7 +53,7 @@
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../pyspaceaware.html">pyspaceaware package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pyspaceaware</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../references.html">References</a></li>
 </ul>
 
@@ -96,8 +96,175 @@
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Any</span>
-<span class="kn">from</span> <span class="nn">math_utility</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">astro_constants</span> <span class="kn">import</span> <span class="n">AstroConstants</span>
+<span class="kn">from</span> <span class="nn">.math_utility</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">acosd</span><span class="p">,</span>
+    <span class="n">atan2d</span><span class="p">,</span>
+    <span class="n">dot</span><span class="p">,</span>
+    <span class="n">elliptic_pi_incomplete</span><span class="p">,</span>
+    <span class="n">hat</span><span class="p">,</span>
+    <span class="n">vecnorm</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.astro_constants</span> <span class="kn">import</span> <span class="n">AstroConstants</span>
+
+
+<div class="viewcode-block" id="AttitudeRepresentation"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.AttitudeRepresentation">[docs]</a><span class="k">class</span> <span class="nc">AttitudeRepresentation</span><span class="p">:</span>
+    <span class="n">_RV</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;rv&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;full_name&quot;</span><span class="p">:</span> <span class="s2">&quot;rotation vector&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;num_components&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">&quot;constraint_validator&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">all</span><span class="p">(</span><span class="n">vecnorm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="s2">&quot;constraint_msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Rotation vectors have a singularity at the origin, calculations will be inaccurate&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">_QUAT</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;quat&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;full_name&quot;</span><span class="p">:</span> <span class="s2">&quot;quaternion&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;num_components&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">&quot;constraint_validator&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span>
+            <span class="n">vecnorm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],))</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;constraint_msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Quaternions must have an L2 norm of 1 to represent an orientation, check your inputs&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">_DCM</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;dcm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;full_name&quot;</span><span class="p">:</span> <span class="s2">&quot;direction cosine matrix&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;num_components&quot;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+        <span class="s2">&quot;constraint_validator&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mf">1.0</span>
+        <span class="p">)</span>
+        <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span>
+        <span class="s2">&quot;constraint_msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Direction cosine matrices must have det(A) == 1, inv(A) == transpose(A)&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">_MRP</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;mrp&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;full_name&quot;</span><span class="p">:</span> <span class="s2">&quot;modified Rodrigues parameter&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;num_components&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">&quot;constraint_validator&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span>
+            <span class="n">vecnorm</span><span class="p">(</span><span class="n">mrp_to_rv</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+            <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],)),</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;constraint_msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Modified Rodrigues parameters have a singularity at theta = 2*pi&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">_REGISTERED</span> <span class="o">=</span> <span class="p">[</span><span class="n">_RV</span><span class="p">,</span> <span class="n">_QUAT</span><span class="p">,</span> <span class="n">_DCM</span><span class="p">,</span> <span class="n">_MRP</span><span class="p">]</span>
+    <span class="n">_REGISTERED_NAMES</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_REGISTERED</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repr_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">components</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">repr_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_REGISTERED_NAMES</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">repr_name</span><span class="si">}</span><span class="s2"> not a registered attitude representation, options are: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_REGISTERED_NAMES</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">n</span> <span class="o">==</span> <span class="n">repr_name</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_REGISTERED_NAMES</span><span class="p">]</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_repr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_REGISTERED</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_repr</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">full_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_repr</span><span class="p">[</span><span class="s2">&quot;full_name&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_components</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_repr</span><span class="p">[</span><span class="s2">&quot;num_components&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constraint_validator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_repr</span><span class="p">[</span>
+            <span class="s2">&quot;constraint_validator&quot;</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constraint_msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_repr</span><span class="p">[</span><span class="s2">&quot;constraint_msg&quot;</span><span class="p">]</span>
+
+        <span class="k">assert</span> <span class="n">components</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_components</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Attitude representation </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> must have </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_components</span><span class="si">}</span><span class="s2"> components, </span><span class="si">{</span><span class="n">components</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s2"> components provided&quot;</span>
+        <span class="p">)</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraint_validator</span><span class="p">(</span><span class="n">components</span><span class="p">),</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">constraint_msg</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">components</span> <span class="o">=</span> <span class="n">components</span>
+
+<div class="viewcode-block" id="AttitudeRepresentation.to"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.AttitudeRepresentation.to">[docs]</a>    <span class="k">def</span> <span class="nf">to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_repr_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Converts the attitude in `self` to a new representation</span>
+
+<span class="sd">        :param target_repr_name: Name of the target representation name</span>
+<span class="sd">        :type target_repr_name: str</span>
+<span class="sd">        :return: Coverted attitude representation</span>
+<span class="sd">        :rtype: AttitudeRepresentation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">target_repr_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_REGISTERED_NAMES</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">target_repr_name</span><span class="si">}</span><span class="s2"> not a registered attitude representation, options are: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_REGISTERED_NAMES</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">target_repr_name</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="n">fcn</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_to_</span><span class="si">{</span><span class="n">target_repr_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">AttitudeRepresentation</span><span class="p">(</span>
+            <span class="n">target_repr_name</span><span class="p">,</span> <span class="n">fcn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">)</span>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_match</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Converts the `other` attitude to match the representation of `self`</span>
+
+<span class="sd">        :param other: Attitude representation to be changed</span>
+<span class="sd">        :type other: AttitudeRepresentation</span>
+<span class="sd">        :return: `other` in the representation of `self`</span>
+<span class="sd">        :rtype: AttitudeRepresentation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">other</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">AttitudeRepresentation</span><span class="p">),</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Attitude representation can only be added to other attitude representations, not </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="n">other</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_match</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="n">fcn</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_add&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">AttitudeRepresentation</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">fcn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">components</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">AttitudeRepresentation</span><span class="p">),</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Attitude representation can only be divided by other attitude representations, not </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="n">other</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_match</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="n">fcn</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_add&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">AttitudeRepresentation</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">fcn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span><span class="o">.</span><span class="n">components</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">components</span><span class="p">)</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="AttitudeRepresentation.inverse"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.AttitudeRepresentation.inverse">[docs]</a>    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the inverse of the attitude in the current representation via quaternions</span>
+
+<span class="sd">        :return: Inverse of the current attitude</span>
+<span class="sd">        :rtype: AttitudeRepresentation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">temp_inv</span> <span class="o">=</span> <span class="n">AttitudeRepresentation</span><span class="p">(</span>
+            <span class="s2">&quot;quat&quot;</span><span class="p">,</span> <span class="n">quat_inv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">&quot;quat&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">components</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">temp_inv</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AttitudeRepresentation.identity"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.AttitudeRepresentation.identity">[docs]</a>    <span class="k">def</span> <span class="nf">identity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the identity element of `SO3` as the current representation type, if possible</span>
+
+<span class="sd">        :return: The identity element</span>
+<span class="sd">        :rtype: AttitudeRepresentation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fcn</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="sa">f</span><span class="s2">&quot;quat_to_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">AttitudeRepresentation</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">fcn</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]]))</span>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__pow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span>
+        <span class="n">self_to_the_n</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">self_to_the_n</span> <span class="o">=</span> <span class="n">self_to_the_n</span><span class="o">.</span><span class="fm">__mul__</span><span class="p">(</span><span class="n">self_to_the_n</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">self_to_the_n</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;implement&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="AttitudeRepresentation.to_upper_hemisphere"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.AttitudeRepresentation.to_upper_hemisphere">[docs]</a>    <span class="k">def</span> <span class="nf">to_upper_hemisphere</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Transforms the attitude representation to the upper hemisphere of :math:`S^3` via quaternions</span>
+
+<span class="sd">        :return: Upper hemisphere representation</span>
+<span class="sd">        :rtype: AttitudeRepresentation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fcn</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="sa">f</span><span class="s2">&quot;quat_to_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+        <span class="n">self_as_quat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">&quot;quat&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">components</span> <span class="o">=</span> <span class="n">fcn</span><span class="p">(</span>
+            <span class="n">quat_upper_hemisphere</span><span class="p">(</span><span class="n">self_as_quat</span><span class="o">.</span><span class="n">components</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div></div>
 
 
 <div class="viewcode-block" id="RbtfAttitude"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.RbtfAttitude">[docs]</a><span class="k">class</span> <span class="nc">RbtfAttitude</span><span class="p">:</span>
@@ -294,9 +461,11 @@
 <span class="sd">    :return: Quaternion array</span>
 <span class="sd">    :rtype: np.ndarray [nx4]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">q1</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">q2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">q1</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">q2</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">q2</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)))</span>
+    <span class="k">elif</span> <span class="n">q1</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">q2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">q1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="p">(</span><span class="n">q2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
-    <span class="k">if</span> <span class="n">q1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">q2</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">q1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">q2</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
         <span class="n">q2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">q2</span><span class="p">,</span> <span class="p">(</span><span class="n">q1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
 
     <span class="n">nquats</span> <span class="o">=</span> <span class="n">q1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -310,7 +479,8 @@
         <span class="p">]</span>
     <span class="p">)</span>
     <span class="n">q12</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">q2dmat</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">q1d</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">q12</span><span class="p">,</span> <span class="p">(</span><span class="n">nquats</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span></div>
+    <span class="n">q12</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">q12</span><span class="p">,</span> <span class="p">(</span><span class="n">nquats</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">q12</span></div>
 
 
 <div class="viewcode-block" id="mrp_to_rv"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.mrp_to_rv">[docs]</a><span class="k">def</span> <span class="nf">mrp_to_rv</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
@@ -356,6 +526,28 @@
 <span class="sd">    :rtype: np.ndarray [nx3]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">q</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">q</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">3</span><span class="p">]]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="rv_to_mrp"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.rv_to_mrp">[docs]</a><span class="k">def</span> <span class="nf">rv_to_mrp</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts rotation vectors to modified Rodrigues parameters via quaternions</span>
+
+<span class="sd">    :param p: Rotation vector array</span>
+<span class="sd">    :type p: np.ndarray [nx3]</span>
+<span class="sd">    :return: Quaternion array</span>
+<span class="sd">    :rtype: np.ndarray [nx4]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">quat_to_mrp</span><span class="p">(</span><span class="n">rv_to_quat</span><span class="p">(</span><span class="n">p</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="dcm_to_mrp"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.dcm_to_mrp">[docs]</a><span class="k">def</span> <span class="nf">dcm_to_mrp</span><span class="p">(</span><span class="n">c</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts direction cosine matrices to modified Rodrigues parameters via quaternions</span>
+
+<span class="sd">    :param c: Direction cosine matrix array</span>
+<span class="sd">    :type c: np.ndarray [3x3xn]</span>
+<span class="sd">    :return: MRP array</span>
+<span class="sd">    :rtype: np.ndarray [nx3]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">quat_to_mrp</span><span class="p">(</span><span class="n">dcm_to_quat</span><span class="p">(</span><span class="n">c</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="rv_to_dcm"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.rv_to_dcm">[docs]</a><span class="k">def</span> <span class="nf">rv_to_dcm</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
@@ -405,10 +597,7 @@
     <span class="n">theta</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">q</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">3</span><span class="p">]])</span>
     <span class="n">lam</span> <span class="o">=</span> <span class="n">hat</span><span class="p">(</span><span class="n">q</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span>
     <span class="n">lam</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">lam</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]),</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="k">if</span> <span class="n">q</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">theta</span> <span class="o">*</span> <span class="n">lam</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">theta</span> <span class="o">*</span> <span class="n">lam</span></div>
+    <span class="k">return</span> <span class="n">theta</span> <span class="o">*</span> <span class="n">lam</span></div>
 
 
 <div class="viewcode-block" id="rv_to_quat"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.rv_to_quat">[docs]</a><span class="k">def</span> <span class="nf">rv_to_quat</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
@@ -528,7 +717,7 @@
     <span class="n">r1</span> <span class="o">=</span> <span class="n">rs</span><span class="p">[</span><span class="n">seq</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">](</span><span class="n">a1</span><span class="p">)</span>
     <span class="n">dcms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span>
         <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<div class="viewcode-block" id="dcm_to_quat"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.dcm_to_quat">[docs]</a>        <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">r2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<div class="viewcode-block" id="dcm_to_rv"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.dcm_to_rv">[docs]</a>        <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">r2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">r3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
         <span class="mi">0</span><span class="p">,</span>
         <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
@@ -536,7 +725,18 @@
     <span class="k">return</span> <span class="n">dcms</span></div>
 
 
-<span class="k">def</span> <span class="nf">dcm_to_quat</span><span class="p">(</span><span class="n">c</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">dcm_to_rv</span><span class="p">(</span><span class="n">c</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts DCMs to rotation vectors by way of quaternions</span>
+
+<span class="sd">    :param c: Input DCM array</span>
+<span class="sd">    :type c: np.ndarray [3x3xn]</span>
+<span class="sd">    :return: Computed rotation vectors</span>
+<span class="sd">    :rtype: np.ndarray [nx3]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">quat_to_rv</span><span class="p">(</span><span class="n">dcm_to_quat</span><span class="p">(</span><span class="n">c</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="dcm_to_quat"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.attitude_lib.dcm_to_quat">[docs]</a><span class="k">def</span> <span class="nf">dcm_to_quat</span><span class="p">(</span><span class="n">c</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts DCMs to quaternions using Sheppard&#39;s method</span>
 
 <span class="sd">    :param c: Input DCM array</span>
@@ -560,8 +760,7 @@
     <span class="n">test_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">e1_sq</span><span class="p">,</span> <span class="n">e2_sq</span><span class="p">,</span> <span class="n">e3_sq</span><span class="p">,</span> <span class="n">e4_sq</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
     <span class="c1"># combines all values together</span>
 
-    <span class="n">best</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">test_vals</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">tol</span> <span class="o">=</span> <span class="mf">1e-10</span>
+    <span class="n">best</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">test_vals</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="p">(</span><span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">b3</span><span class="p">,</span> <span class="n">b4</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">best</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">best</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">best</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="n">best</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
 
     <span class="n">q</span><span class="p">[</span><span class="n">b1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">e1_sq</span><span class="p">[</span><span class="n">b1</span><span class="p">])</span>
@@ -782,7 +981,7 @@
     <span class="n">itensor_org_factor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Analytically propogates the angular velocity of an object assuming no torque is being applied.</span>
-
+<span class="sd">    TODO: Make sphinx compliant</span>
 <span class="sd">    Args:</span>
 <span class="sd">        omega0 - 3x1 array, initial angular velocity in the body-fixed frame</span>
 <span class="sd">        itensor - 3x3 array, body&#39;s principal moments of inertia (iz &lt; iy &lt; ix)</span>
@@ -879,7 +1078,7 @@
 <span class="sd">    :param teval: Times to evaluate at past initial state [second]</span>
 <span class="sd">    :type teval: np.ndarray [nx1]</span>
 <span class="sd">    :return: Orientation of body over time as a quaternion and body frame angular velocity</span>
-<span class="sd">    :rtype: Tuple[np.ndarray, np.ndarray]</span>
+<span class="sd">    :rtype: Tuple[np.ndarray [nx4], np.ndarray [nx3]]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">is_spherical_itensor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">itensor</span><span class="p">))</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span>
     <span class="n">is_single_axis</span> <span class="o">=</span> <span class="p">(</span>

@@ -53,7 +53,7 @@
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../pyspaceaware.html">pyspaceaware package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pyspaceaware</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../references.html">References</a></li>
 </ul>
 
@@ -100,16 +100,24 @@
 <span class="kn">from</span> <span class="nn">sgp4.api</span> <span class="kn">import</span> <span class="n">Satrec</span><span class="p">,</span> <span class="n">SatrecArray</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
-<span class="kn">from</span> <span class="nn">astro_constants</span> <span class="kn">import</span> <span class="n">AstroConstants</span>
-<span class="kn">from</span> <span class="nn">math_utility</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">attitude_lib</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">.astro_constants</span> <span class="kn">import</span> <span class="n">AstroConstants</span>
+<span class="kn">from</span> <span class="nn">.attitude_lib</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">axis_rotation_matrices</span><span class="p">,</span>
     <span class="n">quat_kinematics</span><span class="p">,</span>
     <span class="n">rigid_rotation_dynamics</span><span class="p">,</span>
     <span class="n">quat_to_dcm</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">astro_coordinates</span> <span class="kn">import</span> <span class="n">sun</span><span class="p">,</span> <span class="n">ecef_to_eci</span>
-<span class="kn">from</span> <span class="nn">astro_time_utility</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.astro_coordinates</span> <span class="kn">import</span> <span class="n">sun</span><span class="p">,</span> <span class="n">ecef_to_eci</span>
+<span class="kn">from</span> <span class="nn">.math_utility</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">acosd</span><span class="p">,</span>
+    <span class="n">atand</span><span class="p">,</span>
+    <span class="n">cosd</span><span class="p">,</span>
+    <span class="n">sind</span><span class="p">,</span>
+    <span class="n">stack_mat_mult</span><span class="p">,</span>
+    <span class="n">tand</span><span class="p">,</span>
+    <span class="n">wrap_to_360</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.astro_time_utility</span> <span class="kn">import</span> <span class="n">date_to_jd</span>
 
 
 <div class="viewcode-block" id="integrate_orbit_and_attitude"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.orbit_lib.integrate_orbit_and_attitude">[docs]</a><span class="k">def</span> <span class="nf">integrate_orbit_and_attitude</span><span class="p">(</span>
@@ -165,19 +173,20 @@
     <span class="n">rv0</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">perturbations</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
     <span class="n">teval</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-    <span class="n">int_tol</span><span class="o">=</span><span class="mf">1e-13</span><span class="p">,</span>
+    <span class="n">int_tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-13</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Integration for orbital dynamics with perturbations</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        rv0 (np.ndarray 1x6): Initial position and velocity state in Earth-centered inertial coordinates</span>
-<span class="sd">        pertubations (Callable(t,rv0) -&gt; np.ndarray 1x3) [Nm]: Accelerations applied to the body due to perturbing forces</span>
-<span class="sd">        teval (np.ndarray 1xn) [seconds]: Times to return integrated trajectory at</span>
-<span class="sd">        int_tol (float): Integration rtol and atols for RK45</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray nx7: Integrated quaternion [:4, :] and angular velocity [4:, :]</span>
-
+<span class="sd">    :param rv0: Initial position and velocity state in Earth-centered inertial coordinates</span>
+<span class="sd">    :type rv0: np.ndarray [1x6]</span>
+<span class="sd">    :param perturbations: Accelerations applied to the body due to perturbing forces</span>
+<span class="sd">    :type perturbations: Callable -&gt; np.ndarray [1x6], [km/s^2]</span>
+<span class="sd">    :param teval: Times to return integrated trajectory at [EpSec]</span>
+<span class="sd">    :type teval: np.ndarray [nx1]</span>
+<span class="sd">    :param int_tol: Integration rtol and atols for RK45, defaults to 1e-13</span>
+<span class="sd">    :type int_tol: float, optional</span>
+<span class="sd">    :return: Integrated orbit state in ECI in position and velocity</span>
+<span class="sd">    :rtype: np.ndarray [nx3]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">two_body_dynamics</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
         <span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">perturbations</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
@@ -189,16 +198,15 @@
     <span class="k">return</span> <span class="n">ode_res</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span></div>
 
 
-<div class="viewcode-block" id="sun_acceleration"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.orbit_lib.sun_acceleration">[docs]</a><span class="k">def</span> <span class="nf">sun_acceleration</span><span class="p">(</span><span class="n">rv</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">jd</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="sun_acceleration"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.orbit_lib.sun_acceleration">[docs]</a><span class="k">def</span> <span class="nf">sun_acceleration</span><span class="p">(</span><span class="n">rv</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">jd</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Approximate 3rd body acceleration due to the Sun</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        rv (np.ndarray 1x6): Position and velocity state in Earth-centered inertial coordinates</span>
-<span class="sd">        jd (float) [days]: Julian date to evaluate at</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray 1x6: Time derivative of position and velocity states</span>
-
+<span class="sd">    :param rv: Position and velocity state in Earth-centered inertial coordinates</span>
+<span class="sd">    :type rv: np.ndarray [nx3]</span>
+<span class="sd">    :param jd: Julian date to evaluate at</span>
+<span class="sd">    :type jd: np.ndarray [nx3]</span>
+<span class="sd">    :return: Acceleration due to the sun [m/s^2]</span>
+<span class="sd">    :rtype: np.ndarray [nx3]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">earth_to_sun</span> <span class="o">=</span> <span class="n">sun</span><span class="p">(</span><span class="n">jd</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="o">*</span> <span class="n">AstroConstants</span><span class="o">.</span><span class="n">au_to_km</span>
     <span class="n">sat_to_sun</span> <span class="o">=</span> <span class="n">earth_to_sun</span> <span class="o">-</span> <span class="n">rv</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
@@ -211,12 +219,10 @@
 <div class="viewcode-block" id="two_body_dynamics"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.orbit_lib.two_body_dynamics">[docs]</a><span class="k">def</span> <span class="nf">two_body_dynamics</span><span class="p">(</span><span class="n">rv</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Relative two-body dynamics for orbits</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        rv (np.ndarray 1x6) [km, km/s]: Position [:3] and velocity [3:] of the satellite</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray 1x6: Time derivative of position and velocity states</span>
-
+<span class="sd">    :param rv: Position [:3] [km] and velocity [3:] [km/s] of the satellite</span>
+<span class="sd">    :type rv: np.ndarray [6,]</span>
+<span class="sd">    :return: Time derivative of position and velocity states</span>
+<span class="sd">    :rtype: np.ndarray [6,]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">rvdot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">rv</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
     <span class="n">rvdot</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">rv</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
@@ -229,12 +235,10 @@
 <div class="viewcode-block" id="j2_acceleration"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.orbit_lib.j2_acceleration">[docs]</a><span class="k">def</span> <span class="nf">j2_acceleration</span><span class="p">(</span><span class="n">rvec</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Acceleration due to the J2 perturbation (Earth oblateness)</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        rvec (np.ndarray 1x3) [km]: Position vector of the satellite</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray 1x3 [km/s^2]: Acceleration due to J2</span>
-
+<span class="sd">    :param rvec: Position vector of the satellite [km]</span>
+<span class="sd">    :type rvec: np.ndarray [1x3]</span>
+<span class="sd">    :return: Acceleration due to J2 [km/s^2]</span>
+<span class="sd">    :rtype: np.ndarray [1x3]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">re</span> <span class="o">=</span> <span class="n">AstroConstants</span><span class="o">.</span><span class="n">earth_r_eq</span>
     <span class="n">mu</span> <span class="o">=</span> <span class="n">AstroConstants</span><span class="o">.</span><span class="n">earth_mu</span>
@@ -268,18 +272,22 @@
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts classical (Keplerian) orbital elements to position/velocity state</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        a (float) [km]: Semi-major axis of the orbit</span>
-<span class="sd">        e (float): Eccentricity</span>
-<span class="sd">        i (float) [deg]: Inclination</span>
-<span class="sd">        Om (float) [deg]: Right Ascension of the Ascending Node (RAAN)</span>
-<span class="sd">        om (float) [deg]: Argument of periapsis</span>
-<span class="sd">        ma (float) [deg]: Mean anomaly</span>
-<span class="sd">        mu (float) [km^3/s^2]: Gravitational parameter of central body</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.array 1x6 [km, km/s]: State vector in position/velocity</span>
-
+<span class="sd">    :param a: Semi-major axis of the orbit [km]</span>
+<span class="sd">    :type a: float</span>
+<span class="sd">    :param e: Eccentricity</span>
+<span class="sd">    :type e: float</span>
+<span class="sd">    :param i: Inclination</span>
+<span class="sd">    :type i: float</span>
+<span class="sd">    :param Om: Right Ascension of the Ascending Node (RAAN) [deg]</span>
+<span class="sd">    :type Om: float</span>
+<span class="sd">    :param om: Argument of periapsis [deg]</span>
+<span class="sd">    :type om: float</span>
+<span class="sd">    :param ma: Mean anomaly [deg]</span>
+<span class="sd">    :type ma: float</span>
+<span class="sd">    :param mu: Gravitational parameter of central body, defaults to AstroConstants.earth_mu [km^3/s^2]</span>
+<span class="sd">    :type mu: float, optional</span>
+<span class="sd">    :return: ECI state vector in position/velocity</span>
+<span class="sd">    :rtype: np.array [1x6]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">efun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">ea</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">ma</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">ea</span><span class="p">)</span> <span class="o">+</span> <span class="n">e</span> <span class="o">*</span> <span class="n">sind</span><span class="p">(</span><span class="n">ea</span><span class="p">)</span>
     <span class="n">ea</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">fsolve</span><span class="p">(</span><span class="n">efun</span><span class="p">,</span> <span class="n">ma</span><span class="p">)</span>  <span class="c1"># Eccentric anomaly</span>
@@ -313,6 +321,15 @@
 <div class="viewcode-block" id="propagate_catalog_to_dates"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.orbit_lib.propagate_catalog_to_dates">[docs]</a><span class="k">def</span> <span class="nf">propagate_catalog_to_dates</span><span class="p">(</span>
     <span class="n">dates</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="n">cat_preset</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Propgates a satellite catalog to an array of dates</span>
+
+<span class="sd">    :param dates: Array of datetimes [UTC]</span>
+<span class="sd">    :type dates: datetime.datetime [nx1]</span>
+<span class="sd">    :param cat_preset: Catalog preset, defaults to &quot;all&quot;</span>
+<span class="sd">    :type cat_preset: str, optional</span>
+<span class="sd">    :return: Position [km] and velocity [km/s] in TEME</span>
+<span class="sd">    :rtype: Tuple[np.ndarray [nx3], np.ndarray [nx3]]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">jds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">date_to_jd</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dates</span><span class="p">])</span>
     <span class="n">sats</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">cat_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
@@ -335,6 +352,17 @@
 <div class="viewcode-block" id="propagate_satnum_to_dates"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.orbit_lib.propagate_satnum_to_dates">[docs]</a><span class="k">def</span> <span class="nf">propagate_satnum_to_dates</span><span class="p">(</span>
     <span class="n">dates</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="n">satnum</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">target_frame</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;teme&quot;</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Propagates a satellite number to the given UTC datetimes</span>
+
+<span class="sd">    :param dates: Array of datetimes [UTC]</span>
+<span class="sd">    :type dates: datetime.datetime [nx1]</span>
+<span class="sd">    :param satnum: NORAD satellite number</span>
+<span class="sd">    :type satnum: int</span>
+<span class="sd">    :param target_frame: Reference frame to propagate in, defaults to &quot;teme&quot;</span>
+<span class="sd">    :type target_frame: str, optional</span>
+<span class="sd">    :return: Position [km] and velocity [km/s] in the target reference frame</span>
+<span class="sd">    :rtype: Tuple[np.ndarray [nx3], np.ndarray [nx3]]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">jds</span> <span class="o">=</span> <span class="n">date_to_jd</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
     <span class="p">(</span><span class="n">jdays</span><span class="p">,</span> <span class="n">jfracs</span><span class="p">)</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">modf</span><span class="p">(</span><span class="n">jds</span><span class="p">)</span>
     <span class="n">cat_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>

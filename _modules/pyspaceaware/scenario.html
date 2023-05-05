@@ -53,7 +53,7 @@
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../pyspaceaware.html">pyspaceaware package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pyspaceaware</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../references.html">References</a></li>
 </ul>
 
@@ -94,18 +94,26 @@
             
   <h1>Source code for pyspaceaware.scenario</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
 
-<span class="kn">from</span> <span class="nn">math_utility</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">attitude_lib</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">profile_utility</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">astro_time_utility</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">orbit_lib</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">astro_coordinates</span> <span class="kn">import</span> <span class="n">sun</span><span class="p">,</span> <span class="n">moon_brightness</span>
-<span class="kn">from</span> <span class="nn">light_lib</span> <span class="kn">import</span> <span class="n">Brdf</span>
-<span class="kn">from</span> <span class="nn">engine_lib</span> <span class="kn">import</span> <span class="n">run_engine</span>
-<span class="kn">from</span> <span class="nn">obs_constraints</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">object_lib</span> <span class="kn">import</span> <span class="n">SpaceObject</span>
+<span class="kn">from</span> <span class="nn">.attitude_lib</span> <span class="kn">import</span> <span class="n">RbtfAttitude</span>
+<span class="kn">from</span> <span class="nn">.astro_time_utility</span> <span class="kn">import</span> <span class="n">siderial_hour_angle</span><span class="p">,</span> <span class="n">date_to_jd</span>
+<span class="kn">from</span> <span class="nn">.orbit_lib</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">axis_rotation_matrices</span><span class="p">,</span> <span class="n">quat_to_dcm</span>
+<span class="kn">from</span> <span class="nn">.astro_coordinates</span> <span class="kn">import</span> <span class="n">sun</span><span class="p">,</span> <span class="n">moon</span>
+<span class="kn">from</span> <span class="nn">.background</span> <span class="kn">import</span> <span class="n">moonlight_signal</span>
+<span class="kn">from</span> <span class="nn">.observer_utility</span> <span class="kn">import</span> <span class="n">lla_to_eci</span><span class="p">,</span> <span class="n">geodetic_lat_to_geocentric</span>
+<span class="kn">from</span> <span class="nn">.light_lib</span> <span class="kn">import</span> <span class="n">Brdf</span>
+<span class="kn">from</span> <span class="nn">.engine_lib</span> <span class="kn">import</span> <span class="n">run_engine</span>
+<span class="kn">from</span> <span class="nn">.math_utility</span> <span class="kn">import</span> <span class="n">dot</span><span class="p">,</span> <span class="n">hat</span><span class="p">,</span> <span class="n">vecnorm</span><span class="p">,</span> <span class="n">stack_mat_mult</span>
+<span class="kn">from</span> <span class="nn">.obs_constraints</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">is_eclipsed_geocentric_eci</span><span class="p">,</span>
+    <span class="n">is_eclipsed_geodetic_surface</span><span class="p">,</span>
+    <span class="n">is_elevation</span><span class="p">,</span>
+    <span class="n">is_moon_exclusion</span><span class="p">,</span>
+    <span class="n">is_visual_magnitude</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.object_lib</span> <span class="kn">import</span> <span class="n">SpaceObject</span>
 
 
 <div class="viewcode-block" id="Station"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.scenario.Station">[docs]</a><span class="k">class</span> <span class="nc">Station</span><span class="p">:</span>
@@ -223,73 +231,19 @@
         <span class="n">all_constraints_satisfied</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">constraint_results</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">all_constraints_satisfied</span></div>
 
-<div class="viewcode-block" id="Station.moon_brightness_at_dates"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.scenario.Station.moon_brightness_at_dates">[docs]</a>    <span class="k">def</span> <span class="nf">moon_brightness_at_dates</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">dates</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">],</span>
-        <span class="n">look_dir_eci</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-        <span class="n">station_eci</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eci_at_dates</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
-        <span class="n">moon_eci</span> <span class="o">=</span> <span class="n">moon</span><span class="p">(</span><span class="n">date_to_jd</span><span class="p">(</span><span class="n">dates</span><span class="p">))</span>
-        <span class="n">sun_eci</span> <span class="o">=</span> <span class="n">sun</span><span class="p">(</span><span class="n">date_to_jd</span><span class="p">(</span><span class="n">dates</span><span class="p">))</span>
-        <span class="n">station_to_moon</span> <span class="o">=</span> <span class="n">moon_eci</span> <span class="o">-</span> <span class="n">station_eci</span>
-        <span class="n">station_to_sun</span> <span class="o">=</span> <span class="n">sun_eci</span> <span class="o">-</span> <span class="n">station_eci</span>
-        <span class="n">moon_to_sun</span> <span class="o">=</span> <span class="n">station_to_sun</span> <span class="o">-</span> <span class="n">station_to_moon</span>
-        <span class="n">lunar_phase_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span>
-            <span class="n">dot</span><span class="p">(</span><span class="n">hat</span><span class="p">(</span><span class="n">moon_to_sun</span><span class="p">),</span> <span class="o">-</span><span class="n">hat</span><span class="p">(</span><span class="n">station_to_moon</span><span class="p">))</span>
-        <span class="p">)</span>
-        <span class="n">moon_angle_from_zenith</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span>
-            <span class="n">dot</span><span class="p">(</span><span class="n">hat</span><span class="p">(</span><span class="n">station_eci</span><span class="p">),</span> <span class="n">hat</span><span class="p">(</span><span class="n">moon_eci</span><span class="p">))</span>
-        <span class="p">)</span>
-        <span class="n">look_angle_from_zenith</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span>
-            <span class="n">dot</span><span class="p">(</span><span class="n">hat</span><span class="p">(</span><span class="n">station_eci</span><span class="p">),</span> <span class="n">hat</span><span class="p">(</span><span class="n">look_dir_eci</span><span class="p">))</span>
-        <span class="p">)</span>
-        <span class="n">moon_obs_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span>
-            <span class="n">dot</span><span class="p">(</span><span class="n">hat</span><span class="p">(</span><span class="n">look_dir_eci</span><span class="p">),</span> <span class="n">hat</span><span class="p">(</span><span class="n">station_to_moon</span><span class="p">))</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">moon_brightness</span><span class="p">(</span>
-            <span class="n">alpha</span><span class="o">=</span><span class="n">lunar_phase_angle</span><span class="p">,</span>
-            <span class="n">rho</span><span class="o">=</span><span class="n">moon_obs_angle</span><span class="p">,</span>
-            <span class="n">k</span><span class="o">=</span><span class="mf">0.116</span><span class="p">,</span>
-            <span class="n">zm</span><span class="o">=</span><span class="n">moon_angle_from_zenith</span><span class="p">,</span>
-            <span class="n">z</span><span class="o">=</span><span class="n">look_angle_from_zenith</span><span class="p">,</span>
-        <span class="p">)</span></div>
-
     <span class="k">def</span> <span class="nf">_total_sky_brightness</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">dates</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">],</span>
         <span class="n">look_dir_eci</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-        <span class="n">_</span><span class="p">,</span> <span class="n">mmoon_per_asec2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">moon_brightness_at_dates</span><span class="p">(</span>
-            <span class="n">dates</span><span class="p">,</span> <span class="n">look_dir_eci</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">mmoon_per_asec2</span>
-
-    <span class="k">def</span> <span class="nf">_sky_pixel_irradiance</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">dates</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">],</span>
-        <span class="n">look_dir_eci</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-        <span class="n">m_b_per_asec2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_total_sky_brightness</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">look_dir_eci</span><span class="p">)</span>
-        <span class="n">i_b_per_asec2</span> <span class="o">=</span> <span class="n">apparent_magnitude_to_irradiance</span><span class="p">(</span><span class="n">m_b_per_asec2</span><span class="p">)</span>
-        <span class="n">i_b_per_pix</span> <span class="o">=</span> <span class="n">i_b_per_asec2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">pixel_scale</span><span class="o">**</span><span class="mi">2</span>
-        <span class="k">return</span> <span class="n">i_b_per_pix</span>  <span class="c1"># Expected irradiance per pixel</span>
-
-<div class="viewcode-block" id="Station.sky_noise"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.scenario.Station.sky_noise">[docs]</a>    <span class="k">def</span> <span class="nf">sky_noise</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">dates</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">],</span>
-        <span class="n">look_dir_eci</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-        <span class="n">i_obj</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-        <span class="n">i_b_pix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sky_pixel_irradiance</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">look_dir_eci</span><span class="p">)</span>
-        <span class="n">signal_pix</span> <span class="o">=</span> <span class="mi">50</span>
-        <span class="n">i_b_under</span> <span class="o">=</span> <span class="n">i_b_pix</span> <span class="o">*</span> <span class="n">signal_pix</span>
-        <span class="n">snr</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">i_obj</span> <span class="o">/</span> <span class="n">i_b_under</span><span class="p">)</span>
-        <span class="n">noise_background</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span>
-            <span class="n">loc</span><span class="o">=</span><span class="n">i_b_under</span><span class="p">,</span>
-            <span class="n">scale</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">i_b_under</span><span class="p">),</span>
-            <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">dates</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">noise_background</span><span class="p">,</span> <span class="n">snr</span><span class="p">,</span> <span class="n">i_b_under</span></div></div>
+        <span class="k">return</span> <span class="n">moonlight_signal</span><span class="p">(</span>
+            <span class="n">dates</span><span class="o">=</span><span class="n">dates</span><span class="p">,</span>
+            <span class="n">look_dirs_eci_eq</span><span class="o">=</span><span class="n">look_dir_eci</span><span class="p">,</span>
+            <span class="n">obs_pos_eci_eq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">eci_at_dates</span><span class="p">(</span><span class="n">dates</span><span class="p">),</span>
+            <span class="n">t_int</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">integration_time</span><span class="p">,</span>
+            <span class="n">scale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">pixel_scale</span><span class="p">,</span>
+            <span class="n">d</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">aperture_diameter</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Telescope"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.scenario.Telescope">[docs]</a><span class="k">class</span> <span class="nc">Telescope</span><span class="p">:</span>
@@ -303,7 +257,8 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">secondary_diameter</span> <span class="o">=</span> <span class="mf">0.1724660</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">sensor_pixels</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4096</span><span class="p">,</span> <span class="mi">4096</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">pixel_scale</span> <span class="o">=</span> <span class="mf">0.725447016117</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">fov_deg</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.8244251809</span><span class="p">,</span> <span class="mf">0.8241128644</span><span class="p">)</span></div>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fov_deg</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.8244251809</span><span class="p">,</span> <span class="mf">0.8241128644</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">integration_time</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># seconds</span></div>
 
 
 <div class="viewcode-block" id="scenario_light_curve"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.scenario.scenario_light_curve">[docs]</a><span class="k">def</span> <span class="nf">scenario_light_curve</span><span class="p">(</span>
