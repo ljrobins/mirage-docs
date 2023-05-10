@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyspaceaware.observer &#8212; pyspaceaware 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+    <link rel="apple-touch-icon" href="../../_static/sid_logo.png" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../../index.html">
+    <img class="logo" src="../../_static/sid_logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">Space Domain Awareness in Python</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=liamrobinson1&repo=PyLightCurves&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pyspaceaware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../references.html">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for pyspaceaware.observer</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">AstroConstants</span>
+<span class="kn">from</span> <span class="nn">.math</span> <span class="kn">import</span> <span class="n">sph_to_cart</span><span class="p">,</span> <span class="n">stack_mat_mult</span><span class="p">,</span> <span class="n">hat</span><span class="p">,</span> <span class="n">dot</span>
+<span class="kn">from</span> <span class="nn">.coordinates</span> <span class="kn">import</span> <span class="n">ecef_to_eci</span>
+
+
+<div class="viewcode-block" id="geodetic_lat_to_geocentric"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.observer.geodetic_lat_to_geocentric">[docs]</a><span class="k">def</span> <span class="nf">geodetic_lat_to_geocentric</span><span class="p">(</span><span class="n">lat_geod</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts geodetic latitude to geocentric latitude</span>
+
+<span class="sd">    :param lat_geod: Geodetic latitudes [rad]</span>
+<span class="sd">    :type lat_geod: np.ndarray</span>
+<span class="sd">    :return: Geocentric latitudes [rad]</span>
+<span class="sd">    :rtype: np.ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">AstroConstants</span><span class="o">.</span><span class="n">earth_f</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">f</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">lat_geod</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="radius_at_geodetic_lat"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.observer.radius_at_geodetic_lat">[docs]</a><span class="k">def</span> <span class="nf">radius_at_geodetic_lat</span><span class="p">(</span><span class="n">lat_geodetic</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Earth&#39;s radius at the given geodetic latitude</span>
+
+<span class="sd">    :param lat_geodetic: Geodetic latitudes [rad]</span>
+<span class="sd">    :type lat_geodetic: np.ndarray</span>
+<span class="sd">    :return: Earth radius at given latitudes [km]</span>
+<span class="sd">    :rtype: np.ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lat_geoc</span> <span class="o">=</span> <span class="n">geodetic_lat_to_geocentric</span><span class="p">(</span><span class="n">lat_geodetic</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">AstroConstants</span><span class="o">.</span><span class="n">earth_r_eq</span> <span class="o">-</span> <span class="mf">21.38</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">lat_geoc</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span></div>
+
+
+<div class="viewcode-block" id="lla_to_itrf"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.observer.lla_to_itrf">[docs]</a><span class="k">def</span> <span class="nf">lla_to_itrf</span><span class="p">(</span>
+    <span class="n">lat_geod</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">lon</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts from latitude, longitude, altitude (LLA) to the International Terrestrial Reference Frame (ITRF)</span>
+
+<span class="sd">    :param lat_geod: Geodetic latitudes [rad]</span>
+<span class="sd">    :type lat_geod: np.ndarray [nx1]</span>
+<span class="sd">    :param lon: Longitudes [rad]</span>
+<span class="sd">    :type lon: np.ndarray [nx1]</span>
+<span class="sd">    :param a: Altitudes above the WGS84 ellipsoid [km]</span>
+<span class="sd">    :type a: np.ndarray [nx1]</span>
+<span class="sd">    :return: ITRF positions for each LLA triplet [km]</span>
+<span class="sd">    :rtype: np.array [nx3]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nrow</span> <span class="o">=</span> <span class="n">lat_geod</span><span class="o">.</span><span class="n">size</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">lat_geod</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="mi">1</span>
+    <span class="n">lat_geoc</span> <span class="o">=</span> <span class="n">geodetic_lat_to_geocentric</span><span class="p">(</span><span class="n">lat_geod</span><span class="p">)</span>
+    <span class="c1"># Transforms geodetic latitude into geocentric</span>
+
+    <span class="n">r_earth_at_lat</span> <span class="o">=</span> <span class="n">radius_at_geodetic_lat</span><span class="p">(</span><span class="n">lat_geod</span><span class="p">)</span>
+    <span class="c1"># Computes the radius of the earth at the given geodetic latitude</span>
+    <span class="n">r_topo</span> <span class="o">=</span> <span class="n">r_earth_at_lat</span> <span class="o">+</span> <span class="n">a</span>
+    <span class="c1"># Computes the altitude of the observer at this point [km]</span>
+
+    <span class="p">(</span><span class="n">x_itrf</span><span class="p">,</span> <span class="n">y_itrf</span><span class="p">,</span> <span class="n">z_itrf</span><span class="p">)</span> <span class="o">=</span> <span class="n">sph_to_cart</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat_geoc</span><span class="p">,</span> <span class="n">r_topo</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">x_itrf</span><span class="p">,</span> <span class="n">y_itrf</span><span class="p">,</span> <span class="n">z_itrf</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="n">nrow</span><span class="p">))</span><span class="o">.</span><span class="n">T</span></div>
+
+
+<div class="viewcode-block" id="ecef_to_enu"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.observer.ecef_to_enu">[docs]</a><span class="k">def</span> <span class="nf">ecef_to_enu</span><span class="p">(</span><span class="n">r_ecef</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rotation matrix from Earth-centered, Earth-fixed (ECEF) coordinates to East, North, Up (ENU) coordinates</span>
+
+<span class="sd">    :param r_ecef: Point in Earth-fixed coordinates [km]</span>
+<span class="sd">    :type r_ecef: np.ndarray [1x3]</span>
+<span class="sd">    :return: Same point expressed in ENU coordinates</span>
+<span class="sd">    :rtype: np.ndarray [1x3]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">local_up_ecef</span> <span class="o">=</span> <span class="n">hat</span><span class="p">(</span><span class="n">r_ecef</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="n">local_north_ecef</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+        <span class="o">-</span> <span class="n">dot</span><span class="p">(</span><span class="n">local_up_ecef</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]))</span> <span class="o">*</span> <span class="n">local_up_ecef</span>
+    <span class="p">)</span>
+    <span class="n">local_east_ecef</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">local_up_ecef</span><span class="p">,</span> <span class="n">local_north_ecef</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">local_east_ecef</span><span class="p">,</span> <span class="n">local_north_ecef</span><span class="p">,</span> <span class="n">local_up_ecef</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="lla_to_eci"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.observer.lla_to_eci">[docs]</a><span class="k">def</span> <span class="nf">lla_to_eci</span><span class="p">(</span>
+    <span class="n">lat_geod</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">lon</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">date</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts latitude, longitude, altitude (LLA) to Earth-centered inertial (ECI) coordinates</span>
+
+<span class="sd">    :param lat_geod: Geodetic latitudes [rad]</span>
+<span class="sd">    :type lat_geod: float</span>
+<span class="sd">    :param lon: Longitudes [rad]</span>
+<span class="sd">    :type lon: float</span>
+<span class="sd">    :param a: Altitudes above the WGS84 ellipsoid [km]</span>
+<span class="sd">    :type a: float</span>
+<span class="sd">    :param date: Date to evaluate conversion [UTC]</span>
+<span class="sd">    :type date: np.ndarray[datetime.datetime] [nx1]</span>
+<span class="sd">    :return: ECI positions for each LLA triplet [km]</span>
+<span class="sd">    :rtype:  np.ndarray [nx3]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">r_itrf</span> <span class="o">=</span> <span class="n">lla_to_itrf</span><span class="p">(</span><span class="n">lat_geod</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+    <span class="n">date</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">date</span><span class="p">])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">date</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">sidereal_rot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">([</span><span class="n">ecef_to_eci</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">date</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">stack_mat_mult</span><span class="p">(</span>
+            <span class="n">sidereal_rot</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">r_itrf</span><span class="p">,</span> <span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sidereal_rot</span> <span class="o">=</span> <span class="n">ecef_to_eci</span><span class="p">(</span><span class="n">date</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">sidereal_rot</span> <span class="o">@</span> <span class="n">r_itrf</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2023, Liam Robinson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.1.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

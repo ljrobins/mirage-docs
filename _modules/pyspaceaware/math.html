@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyspaceaware.math_utility &#8212; pyspaceaware 0.0.1 documentation</title>
+    <title>pyspaceaware.math &#8212; pyspaceaware 0.0.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
@@ -92,16 +92,16 @@
 
           <div class="body" role="main">
             
-  <h1>Source code for pyspaceaware.math_utility</h1><div class="highlight"><pre>
+  <h1>Source code for pyspaceaware.math</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">elliprf</span><span class="p">,</span> <span class="n">elliprj</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 
 
-<div class="viewcode-block" id="dms_to_rad"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.dms_to_rad">[docs]</a><span class="k">def</span> <span class="nf">dms_to_rad</span><span class="p">(</span>
+<div class="viewcode-block" id="dms_to_rad"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.dms_to_rad">[docs]</a><span class="k">def</span> <span class="nf">dms_to_rad</span><span class="p">(</span>
     <span class="n">deg</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">min</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">sec</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convers from degrees, arcminutes, and arcseconds to radians</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts from degrees, arcminutes, and arcseconds to radians</span>
 
 <span class="sd">    :param deg: Degrees</span>
 <span class="sd">    :type deg: np.ndarray</span>
@@ -115,8 +115,8 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">deg</span> <span class="o">+</span> <span class="nb">min</span> <span class="o">/</span> <span class="mi">60</span> <span class="o">+</span> <span class="n">sec</span> <span class="o">/</span> <span class="mi">3600</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="tilde"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.tilde">[docs]</a><span class="k">def</span> <span class="nf">tilde</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Matrix cross product operator such that :math:`v \\times x = \\tilde{v}x`</span>
+<div class="viewcode-block" id="tilde"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.tilde">[docs]</a><span class="k">def</span> <span class="nf">tilde</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Matrix cross product operator such that :math:`v \\times x = \\left[\\tilde{v}\right]x`</span>
 
 <span class="sd">    :param v: Vector to operate on</span>
 <span class="sd">    :type v: np.ndarray [nx3]</span>
@@ -139,7 +139,7 @@
     <span class="k">return</span> <span class="n">mat_cp</span></div>
 
 
-<div class="viewcode-block" id="look_at_matrix"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.look_at_matrix">[docs]</a><span class="k">def</span> <span class="nf">look_at_matrix</span><span class="p">(</span>
+<div class="viewcode-block" id="look_at_matrix"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.look_at_matrix">[docs]</a><span class="k">def</span> <span class="nf">look_at_matrix</span><span class="p">(</span>
     <span class="n">eye</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">up</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Look matrix for a camera placed at `eye`, looking at `target`, with up vector `up`. Transforms from world frame coordinates to camera frame coordinates. `Source &lt;https://www.geertarien.com/blog/2017/07/30/breakdown-of-the-lookAt-function-in-OpenGL/&gt;`_</span>
@@ -165,7 +165,7 @@
     <span class="k">return</span> <span class="n">result</span></div>
 
 
-<div class="viewcode-block" id="perspective_projection_matrix"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.perspective_projection_matrix">[docs]</a><span class="k">def</span> <span class="nf">perspective_projection_matrix</span><span class="p">(</span>
+<div class="viewcode-block" id="perspective_projection_matrix"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.perspective_projection_matrix">[docs]</a><span class="k">def</span> <span class="nf">perspective_projection_matrix</span><span class="p">(</span>
     <span class="n">fov_deg</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">aspect</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">near</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">far</span><span class="p">:</span> <span class="nb">float</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Transforms from camera coordinates to image plane coordinates for a perspective camera</span>
@@ -201,7 +201,7 @@
     <span class="k">return</span> <span class="n">result</span></div>
 
 
-<div class="viewcode-block" id="sind"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.sind">[docs]</a><span class="k">def</span> <span class="nf">sind</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="sind"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.sind">[docs]</a><span class="k">def</span> <span class="nf">sind</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes :math:`\\sin(x)` with :math:`x` in degrees</span>
 
 <span class="sd">    :param x: Input [deg]</span>
@@ -212,7 +212,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">x</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="cosd"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.cosd">[docs]</a><span class="k">def</span> <span class="nf">cosd</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="cosd"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.cosd">[docs]</a><span class="k">def</span> <span class="nf">cosd</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes :math:`\\cos(x)` with :math:`x` in degrees</span>
 
 <span class="sd">    :param x: Input [deg]</span>
@@ -223,7 +223,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">x</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="tand"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.tand">[docs]</a><span class="k">def</span> <span class="nf">tand</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="tand"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.tand">[docs]</a><span class="k">def</span> <span class="nf">tand</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes :math:`\\tan(x)` with :math:`x` in degrees</span>
 
 <span class="sd">    :param x: Input [deg]</span>
@@ -234,7 +234,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">x</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="acosd"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.acosd">[docs]</a><span class="k">def</span> <span class="nf">acosd</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="acosd"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.acosd">[docs]</a><span class="k">def</span> <span class="nf">acosd</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes :math:`\\cos^{-1}(x)` with :math:`x` in degrees</span>
 
 <span class="sd">    :param x: Input [deg]</span>
@@ -245,7 +245,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">x</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="atand"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.atand">[docs]</a><span class="k">def</span> <span class="nf">atand</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="atand"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.atand">[docs]</a><span class="k">def</span> <span class="nf">atand</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes :math:`\\tan^{-1}(x)` with :math:`x` in degrees</span>
 
 <span class="sd">    :param x: Input [deg]</span>
@@ -256,7 +256,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">x</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="atan2d"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.atan2d">[docs]</a><span class="k">def</span> <span class="nf">atan2d</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="atan2d"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.atan2d">[docs]</a><span class="k">def</span> <span class="nf">atan2d</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Four quadrant inverse tangent :math:`\\tan^{-1}(y/x)` with inputs in degrees</span>
 
 <span class="sd">    :param x: Input [deg]</span>
@@ -267,7 +267,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="hat"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.hat">[docs]</a><span class="k">def</span> <span class="nf">hat</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="hat"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.hat">[docs]</a><span class="k">def</span> <span class="nf">hat</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Normalizes input np.ndarray nx3 such that each row is unit length. If a row is ``[0,0,0]```, ``hat()`` returns it unchanged</span>
 
 <span class="sd">    :param v: Input vectors</span>
@@ -280,7 +280,7 @@
     <span class="k">return</span> <span class="n">v</span> <span class="o">/</span> <span class="n">vm</span></div>
 
 
-<div class="viewcode-block" id="vecnorm"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.vecnorm">[docs]</a><span class="k">def</span> <span class="nf">vecnorm</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="vecnorm"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.vecnorm">[docs]</a><span class="k">def</span> <span class="nf">vecnorm</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Takes the :math:`L_2` norm of the rows of ``v``</span>
 
 <span class="sd">    :param v: Input vector</span>
@@ -292,7 +292,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="dot"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.dot">[docs]</a><span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="n">v1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">v2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="dot"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.dot">[docs]</a><span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="n">v1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">v2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Euclidean dot product between corresponding rows of ``v1`` and ``v2``</span>
 
 <span class="sd">    :param v1: First input vector</span>
@@ -306,7 +306,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">v1</span> <span class="o">*</span> <span class="n">v2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="rdot"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.rdot">[docs]</a><span class="k">def</span> <span class="nf">rdot</span><span class="p">(</span><span class="n">v1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">v2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="rdot"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.rdot">[docs]</a><span class="k">def</span> <span class="nf">rdot</span><span class="p">(</span><span class="n">v1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">v2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Rectified dot product, where ``0 if dot(v1,v2) &lt; 0 else dot(v1,v2)``</span>
 
 <span class="sd">    :param v1: First input vector</span>
@@ -323,7 +323,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="cart_to_sph"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.cart_to_sph">[docs]</a><span class="k">def</span> <span class="nf">cart_to_sph</span><span class="p">(</span>
+<div class="viewcode-block" id="cart_to_sph"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.cart_to_sph">[docs]</a><span class="k">def</span> <span class="nf">cart_to_sph</span><span class="p">(</span>
     <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts from Cartesian ``(x,y,z)`` to spherical ``(azimuth, elevation, range)``</span>
@@ -344,7 +344,7 @@
     <span class="k">return</span> <span class="n">az</span><span class="p">,</span> <span class="n">el</span><span class="p">,</span> <span class="n">r</span></div>
 
 
-<div class="viewcode-block" id="sph_to_cart"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.sph_to_cart">[docs]</a><span class="k">def</span> <span class="nf">sph_to_cart</span><span class="p">(</span>
+<div class="viewcode-block" id="sph_to_cart"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.sph_to_cart">[docs]</a><span class="k">def</span> <span class="nf">sph_to_cart</span><span class="p">(</span>
     <span class="n">az</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">el</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts from spherical ``(azimuth, elevation, range)`` to Cartesian ``(x, y, z)``</span>
@@ -369,7 +369,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Replicates MATLAB&#39;s wrapTo360() functionality&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="wrap_to_360"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.wrap_to_360">[docs]</a><span class="k">def</span> <span class="nf">wrap_to_360</span><span class="p">(</span><span class="n">lon</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="wrap_to_360"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.wrap_to_360">[docs]</a><span class="k">def</span> <span class="nf">wrap_to_360</span><span class="p">(</span><span class="n">lon</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Wraps angular quantities to their remainder on ``[0, 360]``</span>
 
 <span class="sd">    :param lon: Angle to wrap [deg]</span>
@@ -381,7 +381,7 @@
     <span class="k">return</span> <span class="n">lon</span></div>
 
 
-<div class="viewcode-block" id="wrap_to_two_pi"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.wrap_to_two_pi">[docs]</a><span class="k">def</span> <span class="nf">wrap_to_two_pi</span><span class="p">(</span><span class="n">lon</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="wrap_to_two_pi"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.wrap_to_two_pi">[docs]</a><span class="k">def</span> <span class="nf">wrap_to_two_pi</span><span class="p">(</span><span class="n">lon</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Wraps angular quantities to their remainder on ``[0, 2pi]``</span>
 
 <span class="sd">    :param lon: Angle to wrap [rad]</span>
@@ -392,7 +392,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">wrap_to_360</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">lon</span><span class="p">)))</span></div>
 
 
-<div class="viewcode-block" id="angle_between_deg"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.angle_between_deg">[docs]</a><span class="k">def</span> <span class="nf">angle_between_deg</span><span class="p">(</span><span class="n">a1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">a2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="angle_between_deg"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.angle_between_deg">[docs]</a><span class="k">def</span> <span class="nf">angle_between_deg</span><span class="p">(</span><span class="n">a1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">a2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Given two angular quantities, finds smallest angle between their unit circle vectors, ex: ``f(50, 40) -&gt; 10``, ``f(-30, 20) = 50``</span>
 
 <span class="sd">    :param a1: First angle [deg]</span>
@@ -411,7 +411,7 @@
     <span class="k">return</span> <span class="n">mina</span></div>
 
 
-<div class="viewcode-block" id="angle_between_rad"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.angle_between_rad">[docs]</a><span class="k">def</span> <span class="nf">angle_between_rad</span><span class="p">(</span><span class="n">a1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">a2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="angle_between_rad"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.angle_between_rad">[docs]</a><span class="k">def</span> <span class="nf">angle_between_rad</span><span class="p">(</span><span class="n">a1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">a2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Given two angular quantities, finds smallest angle between their unit circle vectors, see ``angle_between_deg``</span>
 
 <span class="sd">    :param a1: First angle [rad]</span>
@@ -424,7 +424,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">angle_between_deg</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">a1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">a2</span><span class="p">)))</span></div>
 
 
-<div class="viewcode-block" id="unique_rows"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.unique_rows">[docs]</a><span class="k">def</span> <span class="nf">unique_rows</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="unique_rows"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.unique_rows">[docs]</a><span class="k">def</span> <span class="nf">unique_rows</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Extracts unique rows from the input 2D array</span>
 
 <span class="sd">    :param v: Input vector</span>
@@ -436,7 +436,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">6</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="merge_clusters"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.merge_clusters">[docs]</a><span class="k">def</span> <span class="nf">merge_clusters</span><span class="p">(</span>
+<div class="viewcode-block" id="merge_clusters"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.merge_clusters">[docs]</a><span class="k">def</span> <span class="nf">merge_clusters</span><span class="p">(</span>
     <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">atol</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">miter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Merges clusters of vectors in :math:`R^3` within an angle tolerance by addition</span>
@@ -478,7 +478,7 @@
     <span class="k">return</span> <span class="n">unique_rows</span><span class="p">(</span><span class="n">v</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="points_to_planes"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.points_to_planes">[docs]</a><span class="k">def</span> <span class="nf">points_to_planes</span><span class="p">(</span>
+<div class="viewcode-block" id="points_to_planes"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.points_to_planes">[docs]</a><span class="k">def</span> <span class="nf">points_to_planes</span><span class="p">(</span>
     <span class="n">pt</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">plane_n</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">support</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes distance from a set of points to a set of planes</span>
@@ -495,7 +495,7 @@
     <span class="k">return</span> <span class="n">dot</span><span class="p">(</span><span class="n">pt</span><span class="p">,</span> <span class="n">plane_n</span><span class="p">)</span> <span class="o">+</span> <span class="n">support</span></div>
 
 
-<div class="viewcode-block" id="close_egi"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.close_egi">[docs]</a><span class="k">def</span> <span class="nf">close_egi</span><span class="p">(</span><span class="n">egi</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="close_egi"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.close_egi">[docs]</a><span class="k">def</span> <span class="nf">close_egi</span><span class="p">(</span><span class="n">egi</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Enforces closure condition by adding mean closure error to each row :cite:p:`robinson2022`</span>
 
 <span class="sd">    :param egi: Extended Gaussian Image (EGI)</span>
@@ -506,7 +506,7 @@
     <span class="k">return</span> <span class="n">egi</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">egi</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">egi</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="remove_zero_rows"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.remove_zero_rows">[docs]</a><span class="k">def</span> <span class="nf">remove_zero_rows</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="remove_zero_rows"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.remove_zero_rows">[docs]</a><span class="k">def</span> <span class="nf">remove_zero_rows</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Removes all rows from the 2D array `v` that have a norm of zero</span>
 
 <span class="sd">    :param v: Array to operate on</span>
@@ -517,7 +517,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">vecnorm</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="elliptic_pi_complete"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.elliptic_pi_complete">[docs]</a><span class="k">def</span> <span class="nf">elliptic_pi_complete</span><span class="p">(</span>
+<div class="viewcode-block" id="elliptic_pi_complete"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.elliptic_pi_complete">[docs]</a><span class="k">def</span> <span class="nf">elliptic_pi_complete</span><span class="p">(</span>
     <span class="n">n</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">ksquared</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes the complete elliptic integral of the third kind based on Carlson symmetric forms :math:`R_f, R_j`</span>
@@ -534,7 +534,7 @@
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="elliptic_pi_incomplete"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.elliptic_pi_incomplete">[docs]</a><span class="k">def</span> <span class="nf">elliptic_pi_incomplete</span><span class="p">(</span>
+<div class="viewcode-block" id="elliptic_pi_incomplete"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.elliptic_pi_incomplete">[docs]</a><span class="k">def</span> <span class="nf">elliptic_pi_incomplete</span><span class="p">(</span>
     <span class="n">n</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">phi</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">ksquared</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes the incomplete elliptic integral of the third kind based on Carlson symmetric forms :math:`R_f, R_j`</span>
@@ -568,7 +568,7 @@
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="stack_mat_mult"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.stack_mat_mult">[docs]</a><span class="k">def</span> <span class="nf">stack_mat_mult</span><span class="p">(</span><span class="n">mats</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="stack_mat_mult"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math.stack_mat_mult">[docs]</a><span class="k">def</span> <span class="nf">stack_mat_mult</span><span class="p">(</span><span class="n">mats</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Multiplies each row in v by each page of mats</span>
 
 <span class="sd">    :param mats: Matrices to multiply by</span>
@@ -585,125 +585,6 @@
     <span class="k">assert</span> <span class="n">mats</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">n</span><span class="p">,</span> <span class="s2">&quot;Matrix dimensions to not match vector!&quot;</span>
     <span class="n">v_deep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">mats</span> <span class="o">@</span> <span class="n">v_deep</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="rand_unit_vectors"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.rand_unit_vectors">[docs]</a><span class="k">def</span> <span class="nf">rand_unit_vectors</span><span class="p">(</span><span class="n">num</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates uniform random vectors on the unit sphere :math:`S^2`</span>
-
-<span class="sd">    :param num: Number of unit vectors to generate</span>
-<span class="sd">    :type num: int</span>
-<span class="sd">    :return: Sampled unit vectors</span>
-<span class="sd">    :rtype: np.ndarray [nx3]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">rand_cone_vectors</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">num</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="rand_cone_vectors"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.rand_cone_vectors">[docs]</a><span class="k">def</span> <span class="nf">rand_cone_vectors</span><span class="p">(</span>
-    <span class="n">cone_axis</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">cone_half_angle</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">num</span><span class="p">:</span> <span class="nb">int</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates uniform random unit vectors in a cone</span>
-
-<span class="sd">    :param cone_axis: Axis of symmetry for the cone</span>
-<span class="sd">    :type cone_axis: np.ndarray [1x3]</span>
-<span class="sd">    :param cone_half_angle: Half-angle of the cone [rad]</span>
-<span class="sd">    :type cone_half_angle: float</span>
-<span class="sd">    :param num: Number of vectors to sample</span>
-<span class="sd">    :type num: int</span>
-<span class="sd">    :return: Sampled unit vectors</span>
-<span class="sd">    :rtype: np.ndarray [nx3]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">r1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
-    <span class="n">r2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
-    <span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">cone_half_angle</span><span class="p">))</span> <span class="o">*</span> <span class="n">r1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">cone_half_angle</span><span class="p">)</span>
-    <span class="n">phi</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">r2</span>
-
-    <span class="n">ref</span> <span class="o">=</span> <span class="n">hat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
-    <span class="n">cone_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-            <span class="p">[</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">z</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi</span><span class="p">),</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">z</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">),</span>
-                <span class="n">z</span><span class="p">,</span>
-            <span class="p">]</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
-    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">ref</span> <span class="o">!=</span> <span class="n">cone_axis</span><span class="p">):</span>
-        <span class="n">rot_vector</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">cone_axis</span><span class="p">,</span> <span class="n">ref</span><span class="p">)</span>
-        <span class="n">rot_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">cone_axis</span><span class="p">,</span> <span class="n">ref</span><span class="p">))</span>
-        <span class="n">rotm</span> <span class="o">=</span> <span class="n">rv_to_dcm</span><span class="p">(</span><span class="n">rot_vector</span> <span class="o">*</span> <span class="n">rot_angle</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">rotm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">cone_vec</span> <span class="o">@</span> <span class="n">rotm</span></div>
-
-
-<div class="viewcode-block" id="rand_point_in_shell"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.rand_point_in_shell">[docs]</a><span class="k">def</span> <span class="nf">rand_point_in_shell</span><span class="p">(</span>
-    <span class="n">r_lims</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">num</span><span class="p">:</span> <span class="nb">int</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Samples a random point in a solid spherical shell defined by `r_lims`</span>
-
-<span class="sd">    :param r_lims: Minimum and maximum shell radii</span>
-<span class="sd">    :type r_lims: Tuple[float, float]</span>
-<span class="sd">    :param num: Number of points to sample</span>
-<span class="sd">    :type num: int</span>
-<span class="sd">    :return: Sampled points</span>
-<span class="sd">    :rtype: np.ndarray [nx3]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="p">(</span><span class="n">rmin</span><span class="p">,</span> <span class="n">rmax</span><span class="p">)</span> <span class="o">=</span> <span class="n">r_lims</span>
-    <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-    <span class="k">if</span> <span class="p">(</span>
-        <span class="n">rmin</span> <span class="o">==</span> <span class="n">rmax</span>
-    <span class="p">):</span>  <span class="c1"># Ok, we&#39;ll just return the sphere sampled unit vectors</span>
-        <span class="k">return</span> <span class="n">rmin</span> <span class="o">*</span> <span class="n">rand_unit_vectors</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
-    <span class="k">while</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">vecnorm</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">rmin</span><span class="p">):</span>
-        <span class="n">failed</span> <span class="o">=</span> <span class="p">(</span><span class="n">vecnorm</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">rmin</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-        <span class="n">nfailed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">failed</span><span class="p">)</span>
-        <span class="n">v</span><span class="p">[</span><span class="n">failed</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">rmax</span> <span class="o">*</span> <span class="n">rand_point_in_ball</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nfailed</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">v</span></div>
-
-
-<div class="viewcode-block" id="rand_point_in_ball"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.rand_point_in_ball">[docs]</a><span class="k">def</span> <span class="nf">rand_point_in_ball</span><span class="p">(</span>
-    <span class="n">r</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">num</span><span class="p">:</span> <span class="nb">int</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Samples random points in a solid ball</span>
-
-<span class="sd">    :param r: Radius of the ball, or one unique radius per sample</span>
-<span class="sd">    :type r: Union[float, np.ndarray]</span>
-<span class="sd">    :param num: Number to sample</span>
-<span class="sd">    :type num: int</span>
-<span class="sd">    :raises ValueError: If the number of provided radii is not 1 or equal to `num`</span>
-<span class="sd">    :return: Sampled points</span>
-<span class="sd">    :rtype: np.ndarray [nx3]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">v</span> <span class="o">=</span> <span class="n">rand_unit_vectors</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
-    <span class="n">ri</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">num</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">r</span> <span class="o">*</span> <span class="n">v</span> <span class="o">*</span> <span class="n">ri</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">v</span> <span class="o">*</span> <span class="n">ri</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;r must be number or array of size num&quot;</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="spiral_sample_sphere"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.math_utility.spiral_sample_sphere">[docs]</a><span class="k">def</span> <span class="nf">spiral_sample_sphere</span><span class="p">(</span><span class="n">num</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates relatively uniform samples on the unit sphere via Fibonacci sampling</span>
-
-<span class="sd">    :param num: Number of vectors to sample</span>
-<span class="sd">    :type num: int</span>
-<span class="sd">    :return: Sampled unit vectors</span>
-<span class="sd">    :rtype: np.ndarray [nx3]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">gr</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># golden ratio</span>
-    <span class="n">ga</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">gr</span><span class="p">)</span>  <span class="c1"># golden angle</span>
-
-    <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num</span><span class="p">)</span>  <span class="c1"># particle (i.e., point sample) index</span>
-    <span class="n">lat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">/</span> <span class="p">(</span><span class="n">num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
-    <span class="c1"># latitude is defined so that particle index is proportional</span>
-    <span class="c1"># to surface area between 0 and lat</span>
-    <span class="n">lon</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">ga</span>  <span class="c1"># position particles at even intervals along longitude</span>
-
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-        <span class="n">sph_to_cart</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">lat</span><span class="p">))</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">T</span></div>
 </pre></div>
 
           </div>

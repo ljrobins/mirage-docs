@@ -1,0 +1,468 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyspaceaware.visualization &#8212; pyspaceaware 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+    <link rel="apple-touch-icon" href="../../_static/sid_logo.png" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../../index.html">
+    <img class="logo" src="../../_static/sid_logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">Space Domain Awareness in Python</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=liamrobinson1&repo=PyLightCurves&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pyspaceaware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../references.html">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for pyspaceaware.visualization</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
+<span class="kn">from</span> <span class="nn">pyvista</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">AstroConstants</span>
+<span class="kn">from</span> <span class="nn">.math</span> <span class="kn">import</span> <span class="n">hat</span>
+<span class="kn">from</span> <span class="nn">.spaceobject</span> <span class="kn">import</span> <span class="n">SpaceObject</span>
+<span class="kn">from</span> <span class="nn">.coordinates</span> <span class="kn">import</span> <span class="n">ecef_to_eci</span>
+<span class="kn">from</span> <span class="nn">.attitude</span> <span class="kn">import</span> <span class="n">axis_rotation_matrices</span>
+
+
+<div class="viewcode-block" id="vis_attitude_motion"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.visualization.vis_attitude_motion">[docs]</a><span class="k">def</span> <span class="nf">vis_attitude_motion</span><span class="p">(</span>
+    <span class="n">obj</span><span class="p">:</span> <span class="n">SpaceObject</span><span class="p">,</span>
+    <span class="n">quat</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">fname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">framerate</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span>
+    <span class="n">quality</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span>
+    <span class="n">background_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;white&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Visualizes attitude motion in terms of quaternions, applied to a 3D model</span>
+
+<span class="sd">    :param obj: Object to visualize orientations with</span>
+<span class="sd">    :type obj: SpaceObject</span>
+<span class="sd">    :param quat: Orientation history</span>
+<span class="sd">    :type quat: np.ndarray [nx4]</span>
+<span class="sd">    :param fname: File name to save movie to, defaults to `None`. If `None`, no video saved</span>
+<span class="sd">    :type fname: str, optional</span>
+<span class="sd">    :param framerate: Frame rate of movie [frames/second], defaults to 60</span>
+<span class="sd">    :type framerate: int, optional</span>
+<span class="sd">    :param quality: Quality of movie file, defaults to 9, less than 10</span>
+<span class="sd">    :type quality: int, optional</span>
+<span class="sd">    :param background_color: Background color of plot window, defaults to &quot;white&quot;</span>
+<span class="sd">    :type background_color: str, optional</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">fname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">open_movie</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;out/</span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">framerate</span><span class="o">=</span><span class="n">framerate</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="n">quality</span>
+        <span class="p">)</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">set_background</span><span class="p">(</span><span class="n">background_color</span><span class="p">)</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">_mesh</span><span class="p">)</span>
+    <span class="n">o_obj</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">_mesh</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">_on_first_render_request</span><span class="p">()</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">quat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">rotate_by_quat</span><span class="p">(</span><span class="n">quat</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span>
+        <span class="k">if</span> <span class="n">fname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pl</span><span class="o">.</span><span class="n">write_frame</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pl</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">_mesh</span><span class="o">.</span><span class="n">copy_from</span><span class="p">(</span><span class="n">o_obj</span><span class="p">)</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="two_sphere"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.visualization.two_sphere">[docs]</a><span class="k">def</span> <span class="nf">two_sphere</span><span class="p">(</span>
+    <span class="n">pl</span><span class="p">:</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">opacity</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plots a sphere :math:`S^2` in :math:`R^3`</span>
+
+<span class="sd">    :param pl: Plotter to add sphere to</span>
+<span class="sd">    :type pl: pv.Plotter</span>
+<span class="sd">    :param radius: Radius of sphere mesh, defaults to 1.0</span>
+<span class="sd">    :type radius: float, optional</span>
+<span class="sd">    :param opacity: Opacity of sphere mesh, defaults to 0.3</span>
+<span class="sd">    :type opacity: float, optional</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sphere</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Sphere</span><span class="p">(</span>
+        <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span>
+        <span class="n">theta_resolution</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span>
+        <span class="n">phi_resolution</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span>
+        <span class="n">start_theta</span><span class="o">=</span><span class="mf">270.001</span><span class="p">,</span>
+        <span class="n">end_theta</span><span class="o">=</span><span class="mi">270</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">sphere</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="n">opacity</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<span class="c1"># def plot_sun(pl: pv.Plotter, date: datetime.datetime, sf: float = 1e3):</span>
+<span class="c1">#     sun_pos = sun(date_to_jd(date))[0] / sf</span>
+<span class="c1">#     pl.camera.clipping_range = (10, vecnorm(sun_pos))</span>
+<span class="c1">#     if &quot;sun&quot; in pl.actors:</span>
+<span class="c1">#         sun_mesh = pl.actors[&quot;sun&quot;]</span>
+<span class="c1">#         sun_mesh.position = sun_pos</span>
+<span class="c1">#     else:</span>
+<span class="c1">#         pl.add_mesh(</span>
+<span class="c1">#             pv.Sphere(</span>
+<span class="c1">#                 center=sun_pos,</span>
+<span class="c1">#                 radius=10 * AstroConstants.sun_radius_km / sf,</span>
+<span class="c1">#                 theta_resolution=200,</span>
+<span class="c1">#                 phi_resolution=200,</span>
+<span class="c1">#             ),</span>
+<span class="c1">#             color=&quot;yellow&quot;,</span>
+<span class="c1">#             emissive=True,</span>
+<span class="c1">#             style=&quot;points_gaussian&quot;,</span>
+<span class="c1">#             name=&quot;sun&quot;,</span>
+<span class="c1">#         )</span>
+
+<span class="c1"># def plot_basis(pl: pv.Plotter, quat: np.ndarray, scale: float = 1,</span>
+<span class="c1">#                origin: np.ndarray = np.array([0,0,0])):</span>
+<span class="c1">#     arrow_kwargs = {</span>
+<span class="c1">#         &quot;tip_length&quot;: 0.2,</span>
+<span class="c1">#         &quot;tip_resolution&quot;: 50,</span>
+<span class="c1">#         &quot;shaft_radius&quot;: 0.03,</span>
+<span class="c1">#         &quot;shaft_resolution&quot;: 50,</span>
+<span class="c1">#         &quot;scale&quot;: scale,</span>
+<span class="c1">#     }</span>
+<span class="c1">#     plot_kwargs = {&quot;show_scalar_bar&quot;: False}</span>
+
+<span class="c1">#     pl.add_mesh(</span>
+<span class="c1">#         pv.Arrow(r[[i], :], v1[[i], :], **arrow_kwargs), name=&quot;arr_v1&quot;, **plot_kwargs</span>
+<span class="c1">#     )</span>
+<span class="c1">#     pl.add_mesh(</span>
+<span class="c1">#         pv.Arrow(r[[i], :], v2[[i], :], **arrow_kwargs), name=&quot;arr_v2&quot;, **plot_kwargs</span>
+<span class="c1">#     )</span>
+<span class="c1">#     pl.add_mesh(</span>
+<span class="c1">#         pv.Arrow(r[[i], :], v3[[i], :], **arrow_kwargs), name=&quot;arr_v3&quot;, **plot_kwargs</span>
+<span class="c1">#     )</span>
+
+
+<div class="viewcode-block" id="plot_earth"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.visualization.plot_earth">[docs]</a><span class="k">def</span> <span class="nf">plot_earth</span><span class="p">(</span>
+    <span class="n">pl</span><span class="p">:</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">,</span>
+    <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;eci&quot;</span><span class="p">,</span>
+    <span class="n">date</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">stars</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pv</span><span class="o">.</span><span class="n">PolyData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plots the Earth as a sphere in [km]</span>
+
+<span class="sd">    :param pl: Plotter to add the Earth to</span>
+<span class="sd">    :type pl: pv.Plotter</span>
+<span class="sd">    :return: Generated spherical mesh</span>
+<span class="sd">    :rtype: pv.PolyData</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;eci&quot;</span><span class="p">,</span> <span class="s2">&quot;ecef&quot;</span><span class="p">],</span> <span class="s2">&quot;Mode must be &#39;eci&#39; or &#39;ecef&#39;&quot;</span>
+    <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">r3</span><span class="p">)</span> <span class="o">=</span> <span class="n">axis_rotation_matrices</span><span class="p">()</span>
+    <span class="n">rotm</span> <span class="o">=</span> <span class="n">r3</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;eci&quot;</span><span class="p">:</span>
+        <span class="n">rotm</span> <span class="o">=</span> <span class="n">rotm</span> <span class="o">@</span> <span class="n">ecef_to_eci</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+    <span class="n">rotm4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">rotm</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))),</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="s2">&quot;earth&quot;</span> <span class="ow">in</span> <span class="n">pl</span><span class="o">.</span><span class="n">actors</span><span class="p">:</span>
+        <span class="n">earth_actor</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">actors</span><span class="p">[</span><span class="s2">&quot;earth&quot;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">AstroConstants</span><span class="o">.</span><span class="n">earth_r_eq</span>
+        <span class="p">)</span>  <span class="c1"># Semi-major axis of Earth ellipsoid</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">AstroConstants</span><span class="o">.</span><span class="n">earth_f</span><span class="p">)</span>  <span class="c1"># Semi-minor axis</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="mi">200</span>
+        <span class="n">earth</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">ParametricEllipsoid</span><span class="p">(</span>
+            <span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">u_res</span><span class="o">=</span><span class="n">res</span><span class="p">,</span> <span class="n">v_res</span><span class="o">=</span><span class="n">res</span><span class="p">,</span> <span class="n">w_res</span><span class="o">=</span><span class="n">res</span>
+        <span class="p">)</span>
+        <span class="n">sph_hat_pts</span> <span class="o">=</span> <span class="n">hat</span><span class="p">(</span><span class="n">earth</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
+        <span class="n">earth</span><span class="o">.</span><span class="n">active_t_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">earth</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">earth</span><span class="o">.</span><span class="n">active_t_coords</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span>
+            <span class="o">-</span><span class="n">sph_hat_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">sph_hat_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+        <span class="n">earth</span><span class="o">.</span><span class="n">active_t_coords</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="mf">0.5</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">sph_hat_pts</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+        <span class="p">)</span>
+
+        <span class="n">tex_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SRCDIR&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;resources&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;textures&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;earth_tex.jpg&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">etex</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Texture</span><span class="p">(</span><span class="n">tex_path</span><span class="p">)</span>
+        <span class="n">earth_actor</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span>
+            <span class="n">earth</span><span class="p">,</span> <span class="n">texture</span><span class="o">=</span><span class="n">etex</span><span class="p">,</span> <span class="n">smooth_shading</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;earth&quot;</span>
+        <span class="p">)</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">set_background</span><span class="p">(</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>  <span class="c1"># Because obviously, space and stuff</span>
+        <span class="k">if</span> <span class="n">stars</span><span class="p">:</span>
+            <span class="n">cubemap</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_cubemap_space_4k</span><span class="p">()</span>
+            <span class="n">pl</span><span class="o">.</span><span class="n">add_actor</span><span class="p">(</span><span class="n">cubemap</span><span class="o">.</span><span class="n">to_skybox</span><span class="p">())</span>
+
+    <span class="n">earth_actor</span><span class="o">.</span><span class="n">user_matrix</span> <span class="o">=</span> <span class="n">rotm4</span></div>
+
+
+<div class="viewcode-block" id="scatter3"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.visualization.scatter3">[docs]</a><span class="k">def</span> <span class="nf">scatter3</span><span class="p">(</span><span class="n">pl</span><span class="p">:</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pv</span><span class="o">.</span><span class="n">PolyData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Replicates MATLAB scatter3() with ``pyvista`` backend</span>
+
+<span class="sd">    :param pl: Plotter object to add points to</span>
+<span class="sd">    :type pl: pv.Plotter</span>
+<span class="sd">    :param v: Vector to scatter</span>
+<span class="sd">    :type v: np.ndarray [nx3]</span>
+<span class="sd">    :param **kwargs: Additional arguments passed to ``pl.add_mesh``</span>
+<span class="sd">    :return: Handle to plotted data</span>
+<span class="sd">    :rtype: pv.PolyData</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="mi">3</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">(</span>
+        <span class="s2">&quot;scatter3 requires a 3xn or nx3 input vector&quot;</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+    <span class="n">pc</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">PolyData</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span> <span class="n">render_points_as_spheres</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pc</span></div>
+
+
+<div class="viewcode-block" id="plot3"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.visualization.plot3">[docs]</a><span class="k">def</span> <span class="nf">plot3</span><span class="p">(</span><span class="n">pl</span><span class="p">:</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pv</span><span class="o">.</span><span class="n">PolyData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Replicates MATLAB plot3() with pyvista backend, please use densely scattered points to avoid confusing splines</span>
+
+<span class="sd">    :param pl: Plotter object to add line to</span>
+<span class="sd">    :type pl: pv.Plotter</span>
+<span class="sd">    :param v: Vector to plot</span>
+<span class="sd">    :type v: np.ndarray [nx3]</span>
+<span class="sd">    :param **kwargs: Additional arguments passed to ``pl.add_mesh``</span>
+<span class="sd">    :return: Plotted spline</span>
+<span class="sd">    :rtype: pv.PolyData</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="mi">3</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">(</span>
+        <span class="s2">&quot;plot3 requires a 3xn or nx3 input vector&quot;</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+    <span class="n">spline</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Spline</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">spline</span><span class="p">,</span> <span class="n">render_lines_as_tubes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">spline</span></div>
+
+
+<div class="viewcode-block" id="texit"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.visualization.texit">[docs]</a><span class="k">def</span> <span class="nf">texit</span><span class="p">(</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">legend</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">axis_label_font_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span>
+    <span class="n">title_font_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;All my prefered plot formatting, all in one place</span>
+
+<span class="sd">    :param title: Title string</span>
+<span class="sd">    :type title: str</span>
+<span class="sd">    :param xlabel: X-axis label</span>
+<span class="sd">    :type xlabel: str</span>
+<span class="sd">    :param ylabel: Y-axis label</span>
+<span class="sd">    :type ylabel: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">title_font_size</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">axis_label_font_size</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">axis_label_font_size</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">legend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">legend</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="show_and_copy"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.visualization.show_and_copy">[docs]</a><span class="k">def</span> <span class="nf">show_and_copy</span><span class="p">(</span><span class="n">ch</span><span class="p">:</span> <span class="n">pv</span><span class="o">.</span><span class="n">Chart2D</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shows and copies a pyvista plot to the clipboard using ffmpeg</span>
+
+<span class="sd">    :param ch: Chart object to copy</span>
+<span class="sd">    :type ch: pv.Chart2D</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">im_arr</span> <span class="o">=</span> <span class="n">ch</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">screenshot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">off_screen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+
+    <span class="n">im</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">im_arr</span><span class="p">)</span>
+    <span class="n">imf</span> <span class="o">=</span> <span class="s2">&quot;imtemp.png&quot;</span>
+    <span class="n">im</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">imf</span><span class="p">)</span>
+
+    <span class="n">cp_cmd</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;osascript -e &#39;on run argv&#39;&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot; -e &#39;set the clipboard to &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;(read POSIX file (POSIX path of first &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;item of argv) as JPEG picture)&#39; &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;-e &#39;end run&#39; </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">imf</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">cp_cmd</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">imf</span><span class="p">)</span>
+    <span class="n">ch</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="plot_basis"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.visualization.plot_basis">[docs]</a><span class="k">def</span> <span class="nf">plot_basis</span><span class="p">(</span>
+    <span class="n">pl</span><span class="p">,</span>
+    <span class="n">dcm</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">origin</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
+    <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;tan&quot;</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">labels</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">direction</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dcm</span><span class="o">.</span><span class="n">T</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">plot_arrow</span><span class="p">(</span>
+                <span class="n">pl</span><span class="p">,</span>
+                <span class="n">origin</span><span class="p">,</span>
+                <span class="n">direction</span><span class="p">,</span>
+                <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">plot_arrow</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">origin</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="plot_angle_between"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.visualization.plot_angle_between">[docs]</a><span class="k">def</span> <span class="nf">plot_angle_between</span><span class="p">(</span>
+    <span class="n">pl</span><span class="p">:</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">,</span>
+    <span class="n">v1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">v2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">center</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">dist</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">linewidth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="n">v1h</span><span class="p">,</span> <span class="n">v2h</span> <span class="o">=</span> <span class="n">hat</span><span class="p">(</span><span class="n">v1</span><span class="p">),</span> <span class="n">hat</span><span class="p">(</span><span class="n">v2</span><span class="p">)</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="n">v1h</span> <span class="o">*</span> <span class="n">dist</span> <span class="o">+</span> <span class="n">center</span>
+    <span class="n">p2</span> <span class="o">=</span> <span class="n">v2h</span> <span class="o">*</span> <span class="n">dist</span> <span class="o">+</span> <span class="n">center</span>
+    <span class="n">arc</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">CircularArc</span><span class="p">(</span><span class="n">p1</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">p2</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">center</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">arc</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="n">linewidth</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="plot_arrow"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.visualization.plot_arrow">[docs]</a><span class="k">def</span> <span class="nf">plot_arrow</span><span class="p">(</span>
+    <span class="n">pl</span><span class="p">:</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">,</span>
+    <span class="n">origin</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">direction</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;tan&quot;</span><span class="p">,</span>
+    <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">shape_opacity</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">arrow_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;tip_length&quot;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span>
+        <span class="s2">&quot;tip_resolution&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+        <span class="s2">&quot;shaft_radius&quot;</span><span class="p">:</span> <span class="mf">0.03</span><span class="p">,</span>
+        <span class="s2">&quot;shaft_resolution&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+        <span class="s2">&quot;scale&quot;</span><span class="p">:</span> <span class="n">scale</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">plot_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;show_scalar_bar&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+    <span class="n">label_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;always_visible&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;show_points&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;font_size&quot;</span><span class="p">:</span> <span class="mi">36</span><span class="p">,</span>
+        <span class="s2">&quot;shape_color&quot;</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;margin&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;shape_opacity&quot;</span><span class="p">:</span> <span class="n">shape_opacity</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span>
+        <span class="n">pv</span><span class="o">.</span><span class="n">Arrow</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="o">**</span><span class="n">arrow_kwargs</span><span class="p">),</span>
+        <span class="o">**</span><span class="n">plot_kwargs</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">add_point_labels</span><span class="p">(</span>
+            <span class="n">origin</span> <span class="o">+</span> <span class="n">direction</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span>
+            <span class="p">[</span><span class="n">label</span><span class="p">],</span>
+            <span class="o">**</span><span class="n">label_kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2023, Liam Robinson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.1.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

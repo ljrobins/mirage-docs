@@ -1,0 +1,665 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyspaceaware.spaceobject &#8212; pyspaceaware 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+    <link rel="apple-touch-icon" href="../../_static/sid_logo.png" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../../index.html">
+    <img class="logo" src="../../_static/sid_logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">Space Domain Awareness in Python</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=liamrobinson1&repo=PyLightCurves&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pyspaceaware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../references.html">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for pyspaceaware.spaceobject</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
+
+<span class="kn">from</span> <span class="nn">.math</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">close_egi</span><span class="p">,</span>
+    <span class="n">dot</span><span class="p">,</span>
+    <span class="n">hat</span><span class="p">,</span>
+    <span class="n">merge_clusters</span><span class="p">,</span>
+    <span class="n">remove_zero_rows</span><span class="p">,</span>
+    <span class="n">unique_rows</span><span class="p">,</span>
+    <span class="n">vecnorm</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.sampling</span> <span class="kn">import</span> <span class="n">rand_cone_vectors</span>
+<span class="kn">from</span> <span class="nn">.lighting</span> <span class="kn">import</span> <span class="n">Brdf</span>
+<span class="kn">from</span> <span class="nn">.orbit</span> <span class="kn">import</span> <span class="n">propagate_satnum_to_dates</span>
+
+<span class="kn">from</span> <span class="nn">.attitude</span> <span class="kn">import</span> <span class="n">quat_to_rv</span><span class="p">,</span> <span class="n">quat_to_dcm</span>
+
+
+<div class="viewcode-block" id="set_model_directory"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.set_model_directory">[docs]</a><span class="k">def</span> <span class="nf">set_model_directory</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets the 3D model path used by all tools and methods</span>
+
+<span class="sd">    :param path: Absolute or relative (from cwd) path to the model folder</span>
+<span class="sd">    :type path: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isabs</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;MODELDIR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">path</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;MODELDIR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SpaceObject"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.SpaceObject">[docs]</a><span class="k">class</span> <span class="nc">SpaceObject</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">obj_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">obj_vf</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">is_dual</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">satnum</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes an instance of Object from either a) a path to a *.obj file or b) vertex and face adjacency information</span>
+
+<span class="sd">        :param obj_file: `*.obj` file to read in the `$MODELDIR` folder, defaults to None</span>
+<span class="sd">        :type obj_file: str, optional</span>
+<span class="sd">        :param obj_vf: Vertex and face triangle information, defaults to None</span>
+<span class="sd">        :type obj_vf: Tuple[np.ndarray, np.ndarray], optional</span>
+<span class="sd">        :param is_dual: Flag to prevent building dual&#39;s dual (leading to infinite recursion), defaults to False</span>
+<span class="sd">        :type is_dual: bool, optional</span>
+<span class="sd">        :param satnum: NORAD satellite number for SGP4 propgation, defaults to None</span>
+<span class="sd">        :type satnum: int, optional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">obj_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_def_mode</span> <span class="o">=</span> <span class="s2">&quot;file&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span> <span class="o">=</span> <span class="n">obj_file</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;MODELDIR&quot;</span><span class="p">],</span> <span class="n">obj_file</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mesh</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mesh</span><span class="o">.</span><span class="n">faces</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">:]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mesh</span><span class="o">.</span><span class="n">points</span>
+        <span class="k">elif</span> <span class="n">obj_vf</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_def_mode</span> <span class="o">=</span> <span class="s2">&quot;vf&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">obj_vf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">obj_vf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">padded_f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mesh</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">PolyData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">padded_f</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Either obj_path or obj_vf must be input&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_dual</span> <span class="o">=</span> <span class="n">is_dual</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">build_properties</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_def_mode</span> <span class="o">==</span> <span class="s2">&quot;vf&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flip_normals</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">satnum</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">propagate</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">date_space</span><span class="p">:</span> <span class="n">propagate_satnum_to_dates</span><span class="p">(</span>
+                    <span class="n">date_space</span><span class="p">,</span> <span class="n">satnum</span><span class="p">,</span> <span class="s2">&quot;teme&quot;</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">propagate</span> <span class="o">=</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Satellite does not have a satnum!&quot;</span>
+            <span class="p">)</span>
+
+<div class="viewcode-block" id="SpaceObject.build_properties"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.SpaceObject.build_properties">[docs]</a>    <span class="k">def</span> <span class="nf">build_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Builds all relevant object properties for shape inversion or visualization&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vertices_on_each_face</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_face_normals</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_face_areas</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unique_areas_and_normals</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_face_centroids</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_supports</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_volume</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_egi</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_inner_vertices</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_inertia_tensor</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_dual</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_dual</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SpaceObject.is_convex"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.SpaceObject.is_convex">[docs]</a>    <span class="k">def</span> <span class="nf">is_convex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">volume_tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">convhull_f</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">ConvexHull</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">simplices</span>
+        <span class="n">convhull_obj</span> <span class="o">=</span> <span class="n">SpaceObject</span><span class="p">(</span><span class="n">obj_vf</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">convhull_f</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">volume</span> <span class="o">-</span> <span class="n">convhull_obj</span><span class="o">.</span><span class="n">volume</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">volume_tol</span></div>
+
+<div class="viewcode-block" id="SpaceObject.vertices_on_each_face"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.SpaceObject.vertices_on_each_face">[docs]</a>    <span class="k">def</span> <span class="nf">vertices_on_each_face</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Computes a np.ndarray Nx3x3 of vertices on each face&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="SpaceObject.get_face_vertices"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.SpaceObject.get_face_vertices">[docs]</a>    <span class="k">def</span> <span class="nf">get_face_vertices</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reshapes face vertices into tuple of all 1st vertices, 2nd vertices, 3rd vertices&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fv</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">fv</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">fv</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">:])</span></div>
+
+<div class="viewcode-block" id="SpaceObject.compute_face_centroids"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.SpaceObject.compute_face_centroids">[docs]</a>    <span class="k">def</span> <span class="nf">compute_face_centroids</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Computes the centroids of each face by averaging vertices&quot;&quot;&quot;</span>
+        <span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_face_vertices</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">face_centroids</span> <span class="o">=</span> <span class="p">(</span><span class="n">v1</span> <span class="o">+</span> <span class="n">v2</span> <span class="o">+</span> <span class="n">v3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span></div>
+
+<div class="viewcode-block" id="SpaceObject.compute_face_normals"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.SpaceObject.compute_face_normals">[docs]</a>    <span class="k">def</span> <span class="nf">compute_face_normals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Computes the normals of each face&quot;&quot;&quot;</span>
+        <span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_face_vertices</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">face_normals</span> <span class="o">=</span> <span class="n">hat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">v2</span> <span class="o">-</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v3</span> <span class="o">-</span> <span class="n">v1</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="SpaceObject.compute_face_areas"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.SpaceObject.compute_face_areas">[docs]</a>    <span class="k">def</span> <span class="nf">compute_face_areas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Computes the area of each face&quot;&quot;&quot;</span>
+        <span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_face_vertices</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">face_areas</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">vecnorm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">v2</span> <span class="o">-</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v3</span> <span class="o">-</span> <span class="n">v1</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="SpaceObject.compute_supports"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.SpaceObject.compute_supports">[docs]</a>    <span class="k">def</span> <span class="nf">compute_supports</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trunc_limit</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-7</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Computes the support (perpendicular distance from plane containing face to origin)&quot;&quot;&quot;</span>
+        <span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_face_vertices</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">supports</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span>
+            <span class="n">v1</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">all_to_unique</span><span class="p">,</span> <span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">unique_normals</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">supports</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">supports</span> <span class="o">&lt;</span> <span class="n">trunc_limit</span><span class="p">]</span> <span class="o">=</span> <span class="n">trunc_limit</span></div>
+
+<div class="viewcode-block" id="SpaceObject.compute_volume"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.SpaceObject.compute_volume">[docs]</a>    <span class="k">def</span> <span class="nf">compute_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Computes the volume via the supports and unique areas&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">volume</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="mi">1</span>
+            <span class="o">/</span> <span class="mi">3</span>
+            <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">supports</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">unique_areas</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="SpaceObject.unique_areas_and_normals"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.SpaceObject.unique_areas_and_normals">[docs]</a>    <span class="k">def</span> <span class="nf">unique_areas_and_normals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Finds groups of unique normals and areas to save rows elsewhere&quot;&quot;&quot;</span>
+        <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">unique_normals</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">all_to_unique</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">unique_to_all</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="n">unique_rows</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">face_normals</span><span class="p">,</span> <span class="n">return_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_inverse</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unique_areas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_normals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="o">.</span><span class="n">at</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">unique_areas</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">unique_to_all</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">face_areas</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="SpaceObject.get_egi"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.SpaceObject.get_egi">[docs]</a>    <span class="k">def</span> <span class="nf">get_egi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Computes the Extended Gaussian Image (EGI)&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">egi</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_areas</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">unique_normals</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="SpaceObject.get_dual"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.SpaceObject.get_dual">[docs]</a>    <span class="k">def</span> <span class="nf">get_dual</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the dual object&quot;&quot;&quot;</span>
+        <span class="n">dual_v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unique_normals</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">supports</span>
+        <span class="n">dual_f</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">dual_v</span><span class="p">)</span><span class="o">.</span><span class="n">simplices</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dual</span> <span class="o">=</span> <span class="n">SpaceObject</span><span class="p">(</span><span class="n">obj_vf</span><span class="o">=</span><span class="p">(</span><span class="n">dual_v</span><span class="p">,</span> <span class="n">dual_f</span><span class="p">),</span> <span class="n">is_dual</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SpaceObject.get_inner_vertices"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.SpaceObject.get_inner_vertices">[docs]</a>    <span class="k">def</span> <span class="nf">get_inner_vertices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Computes which vertices are within the convex hull (not contained in any faces of the convex hull)&quot;&quot;&quot;</span>
+        <span class="n">nvert</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verts_within_convhull</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">setdiff1d</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nvert</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="SpaceObject.flip_normals"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.SpaceObject.flip_normals">[docs]</a>    <span class="k">def</span> <span class="nf">flip_normals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;For convex objects, flips any normal vectors pointing inside the object&quot;&quot;&quot;</span>
+        <span class="n">n_points_in</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">face_centroids</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">face_normals</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">n_points_in</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">[</span><span class="n">n_points_in</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">[</span><span class="n">n_points_in</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">[</span><span class="n">n_points_in</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">[</span><span class="n">n_points_in</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                <span class="p">]</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">T</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">build_properties</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SpaceObject.render"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.SpaceObject.render">[docs]</a>    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">pl</span><span class="p">:</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">,</span>
+        <span class="n">origin</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
+        <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">quat</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]),</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plots the object mesh using :py:mod:`pyvista`</span>
+
+<span class="sd">        :param pl: Plotter to render object with</span>
+<span class="sd">        :type pl: pv.Plotter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">scalem</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))),</span>
+                <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">rotm4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">quat_to_dcm</span><span class="p">(</span><span class="n">quat</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))),</span>
+                <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">rotm4</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">origin</span>
+        <span class="n">mat4</span> <span class="o">=</span> <span class="n">rotm4</span> <span class="o">@</span> <span class="n">scalem</span>
+
+        <span class="k">if</span> <span class="s2">&quot;obj&quot;</span> <span class="ow">in</span> <span class="n">pl</span><span class="o">.</span><span class="n">actors</span><span class="p">:</span>
+            <span class="n">obj_actor</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">actors</span><span class="p">[</span><span class="s2">&quot;obj&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">obj_actor</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mesh</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;obj&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">obj_actor</span><span class="o">.</span><span class="n">user_matrix</span> <span class="o">=</span> <span class="n">mat4</span></div>
+
+<div class="viewcode-block" id="SpaceObject.compute_convex_light_curve"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.SpaceObject.compute_convex_light_curve">[docs]</a>    <span class="k">def</span> <span class="nf">compute_convex_light_curve</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">brdf</span><span class="p">:</span> <span class="n">Brdf</span><span class="p">,</span> <span class="n">svb</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">ovb</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Computes the light curve of a covex object with a given BRDF :cite:t:`fan2020thesis`</span>
+
+<span class="sd">        :param brdf: BRDF to render with</span>
+<span class="sd">        :type brdf: Brdf</span>
+<span class="sd">        :param svb: Sun unit vectors in the body frame</span>
+<span class="sd">        :type svb: np.ndarray [nx1]</span>
+<span class="sd">        :param ovb: Observer unit vectors in the body frame</span>
+<span class="sd">        :type ovb: np.ndarray [nx1]</span>
+<span class="sd">        :return: Observed irradiance at unit distance</span>
+<span class="sd">        :rtype: np.ndarray [nx1]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">brdf</span><span class="o">.</span><span class="n">compute_reflection_matrix</span><span class="p">(</span>
+            <span class="n">svb</span><span class="p">,</span> <span class="n">ovb</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">unique_normals</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">g</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">unique_areas</span></div>
+
+<div class="viewcode-block" id="SpaceObject.rotate_by_quat"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.SpaceObject.rotate_by_quat">[docs]</a>    <span class="k">def</span> <span class="nf">rotate_by_quat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">quat</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Rotates the object&#39;s mesh by the given quaternion</span>
+
+<span class="sd">        :param quat: Quaternion to apply to all vertices</span>
+<span class="sd">        :type quat: np.ndarray [1x4]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="n">quat_to_rv</span><span class="p">(</span><span class="n">quat</span><span class="p">)</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">vecnorm</span><span class="p">(</span><span class="n">rv</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">lam</span> <span class="o">=</span> <span class="n">hat</span><span class="p">(</span><span class="n">rv</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">theta</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">lam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mesh</span><span class="o">.</span><span class="n">copy_from</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mesh</span><span class="o">.</span><span class="n">rotate_vector</span><span class="p">(</span>
+                <span class="n">vector</span><span class="o">=</span><span class="n">lam</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="SpaceObject.compute_inertia_tensor"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.SpaceObject.compute_inertia_tensor">[docs]</a>    <span class="k">def</span> <span class="nf">compute_inertia_tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Computes the body-frame inertia tensor of the object (`MatlabCentral &lt;https://www.mathworks.com/matlabcentral/fileexchange/48913-rigid-body-parameters-of-closed-surface-meshes&gt;`_)&quot;&quot;&quot;</span>
+
+        <span class="n">fn</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">face_areas</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">face_normals</span>
+        <span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_face_vertices</span><span class="p">()</span>
+        <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">z1</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">v1</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">v1</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">v1</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span>
+        <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">z2</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">v2</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">v2</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">v2</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span>
+        <span class="p">(</span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span><span class="p">,</span> <span class="n">z3</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">v3</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">v3</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">v3</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span>
+        <span class="n">m000</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">m000</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="p">):</span>  <span class="c1"># Then the mesh has zero volume, this is waste of time</span>
+            <span class="k">return</span>
+
+        <span class="n">x_2</span> <span class="o">=</span> <span class="p">((</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x2</span> <span class="o">+</span> <span class="n">x3</span><span class="p">)</span> <span class="o">+</span> <span class="n">x1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x3</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">12</span>
+        <span class="n">y_2</span> <span class="o">=</span> <span class="p">((</span><span class="n">y1</span> <span class="o">+</span> <span class="n">y2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">y2</span> <span class="o">+</span> <span class="n">y3</span><span class="p">)</span> <span class="o">+</span> <span class="n">y1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y3</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">12</span>
+        <span class="n">z_2</span> <span class="o">=</span> <span class="p">((</span><span class="n">z1</span> <span class="o">+</span> <span class="n">z2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">z2</span> <span class="o">+</span> <span class="n">z3</span><span class="p">)</span> <span class="o">+</span> <span class="n">z1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">z3</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">12</span>
+        <span class="n">xy</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span> <span class="o">+</span> <span class="n">x3</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">y1</span> <span class="o">+</span> <span class="n">y2</span> <span class="o">+</span> <span class="n">y3</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">x1</span> <span class="o">*</span> <span class="n">y1</span>
+            <span class="o">+</span> <span class="n">x2</span> <span class="o">*</span> <span class="n">y2</span>
+            <span class="o">+</span> <span class="n">x3</span> <span class="o">*</span> <span class="n">y3</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="mi">24</span>
+        <span class="n">xz</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span> <span class="o">+</span> <span class="n">x3</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">z1</span> <span class="o">+</span> <span class="n">z2</span> <span class="o">+</span> <span class="n">z3</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">x1</span> <span class="o">*</span> <span class="n">z1</span>
+            <span class="o">+</span> <span class="n">x2</span> <span class="o">*</span> <span class="n">z2</span>
+            <span class="o">+</span> <span class="n">x3</span> <span class="o">*</span> <span class="n">z3</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="mi">24</span>
+        <span class="n">yz</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">y1</span> <span class="o">+</span> <span class="n">y2</span> <span class="o">+</span> <span class="n">y3</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">z1</span> <span class="o">+</span> <span class="n">z2</span> <span class="o">+</span> <span class="n">z3</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">y1</span> <span class="o">*</span> <span class="n">z1</span>
+            <span class="o">+</span> <span class="n">y2</span> <span class="o">*</span> <span class="n">z2</span>
+            <span class="o">+</span> <span class="n">y3</span> <span class="o">*</span> <span class="n">z3</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="mi">24</span>
+        <span class="n">m100</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">fn</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x_2</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">xy</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">xz</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">6</span>
+        <span class="n">m010</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">fn</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span> <span class="o">*</span> <span class="n">xy</span><span class="p">,</span> <span class="n">y_2</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">yz</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">6</span>
+        <span class="n">m001</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">fn</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span> <span class="o">*</span> <span class="n">xz</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">yz</span><span class="p">,</span> <span class="n">z_2</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">6</span>
+        <span class="c1"># Second order moments (used to determine elements of the inertia tensor)</span>
+        <span class="n">x_3</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span> <span class="o">+</span> <span class="n">x3</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x3</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">x1</span> <span class="o">*</span> <span class="n">x2</span> <span class="o">*</span> <span class="n">x3</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="mi">20</span>
+        <span class="n">y_3</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">y1</span> <span class="o">+</span> <span class="n">y2</span> <span class="o">+</span> <span class="n">y3</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">y1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y3</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">y1</span> <span class="o">*</span> <span class="n">y2</span> <span class="o">*</span> <span class="n">y3</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="mi">20</span>
+        <span class="n">z_3</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">z1</span> <span class="o">+</span> <span class="n">z2</span> <span class="o">+</span> <span class="n">z3</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">z1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">z2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">z3</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">z1</span> <span class="o">*</span> <span class="n">z2</span> <span class="o">*</span> <span class="n">z3</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="mi">20</span>
+        <span class="n">x_2y</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">y1</span> <span class="o">+</span> <span class="n">y2</span> <span class="o">+</span> <span class="n">y3</span><span class="p">)</span> <span class="o">*</span> <span class="n">x1</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">y1</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">y2</span> <span class="o">+</span> <span class="n">y3</span><span class="p">)</span> <span class="o">*</span> <span class="n">x2</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">y1</span> <span class="o">+</span> <span class="n">y2</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">y3</span><span class="p">)</span> <span class="o">*</span> <span class="n">x3</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">y1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">y2</span> <span class="o">+</span> <span class="n">y3</span><span class="p">)</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">*</span> <span class="n">x2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">y1</span> <span class="o">+</span> <span class="n">y2</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">y3</span><span class="p">)</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">*</span> <span class="n">x3</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">y1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">y2</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">y3</span><span class="p">)</span> <span class="o">*</span> <span class="n">x2</span> <span class="o">*</span> <span class="n">x3</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="mi">60</span>
+        <span class="n">x_2z</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">z1</span> <span class="o">+</span> <span class="n">z2</span> <span class="o">+</span> <span class="n">z3</span><span class="p">)</span> <span class="o">*</span> <span class="n">x1</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">z1</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">z2</span> <span class="o">+</span> <span class="n">z3</span><span class="p">)</span> <span class="o">*</span> <span class="n">x2</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">z1</span> <span class="o">+</span> <span class="n">z2</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">z3</span><span class="p">)</span> <span class="o">*</span> <span class="n">x3</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">z1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">z2</span> <span class="o">+</span> <span class="n">z3</span><span class="p">)</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">*</span> <span class="n">x2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">z1</span> <span class="o">+</span> <span class="n">z2</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">z3</span><span class="p">)</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">*</span> <span class="n">x3</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">z1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">z2</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">z3</span><span class="p">)</span> <span class="o">*</span> <span class="n">x2</span> <span class="o">*</span> <span class="n">x3</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="mi">60</span>
+        <span class="n">y_2x</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span> <span class="o">+</span> <span class="n">x3</span><span class="p">)</span> <span class="o">*</span> <span class="n">y1</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x2</span> <span class="o">+</span> <span class="n">x3</span><span class="p">)</span> <span class="o">*</span> <span class="n">y2</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x3</span><span class="p">)</span> <span class="o">*</span> <span class="n">y3</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x2</span> <span class="o">+</span> <span class="n">x3</span><span class="p">)</span> <span class="o">*</span> <span class="n">y1</span> <span class="o">*</span> <span class="n">y2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x3</span><span class="p">)</span> <span class="o">*</span> <span class="n">y1</span> <span class="o">*</span> <span class="n">y3</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x2</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x3</span><span class="p">)</span> <span class="o">*</span> <span class="n">y2</span> <span class="o">*</span> <span class="n">y3</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="mi">60</span>
+        <span class="n">y_2z</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">z1</span> <span class="o">+</span> <span class="n">z2</span> <span class="o">+</span> <span class="n">z3</span><span class="p">)</span> <span class="o">*</span> <span class="n">y1</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">z1</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">z2</span> <span class="o">+</span> <span class="n">z3</span><span class="p">)</span> <span class="o">*</span> <span class="n">y2</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">z1</span> <span class="o">+</span> <span class="n">z2</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">z3</span><span class="p">)</span> <span class="o">*</span> <span class="n">y3</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">z1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">z2</span> <span class="o">+</span> <span class="n">z3</span><span class="p">)</span> <span class="o">*</span> <span class="n">y1</span> <span class="o">*</span> <span class="n">y2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">z1</span> <span class="o">+</span> <span class="n">z2</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">z3</span><span class="p">)</span> <span class="o">*</span> <span class="n">y1</span> <span class="o">*</span> <span class="n">y3</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">z1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">z2</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">z3</span><span class="p">)</span> <span class="o">*</span> <span class="n">y2</span> <span class="o">*</span> <span class="n">y3</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="mi">60</span>
+        <span class="n">z_2y</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">y1</span> <span class="o">+</span> <span class="n">y2</span> <span class="o">+</span> <span class="n">y3</span><span class="p">)</span> <span class="o">*</span> <span class="n">z1</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">y1</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">y2</span> <span class="o">+</span> <span class="n">y3</span><span class="p">)</span> <span class="o">*</span> <span class="n">z2</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">y1</span> <span class="o">+</span> <span class="n">y2</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">y3</span><span class="p">)</span> <span class="o">*</span> <span class="n">z3</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">y1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">y2</span> <span class="o">+</span> <span class="n">y3</span><span class="p">)</span> <span class="o">*</span> <span class="n">z1</span> <span class="o">*</span> <span class="n">z2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">y1</span> <span class="o">+</span> <span class="n">y2</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">y3</span><span class="p">)</span> <span class="o">*</span> <span class="n">z1</span> <span class="o">*</span> <span class="n">z3</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">y1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">y2</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">y3</span><span class="p">)</span> <span class="o">*</span> <span class="n">z2</span> <span class="o">*</span> <span class="n">z3</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="mi">60</span>
+        <span class="n">z_2x</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span> <span class="o">+</span> <span class="n">x3</span><span class="p">)</span> <span class="o">*</span> <span class="n">z1</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x2</span> <span class="o">+</span> <span class="n">x3</span><span class="p">)</span> <span class="o">*</span> <span class="n">z2</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x3</span><span class="p">)</span> <span class="o">*</span> <span class="n">z3</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x2</span> <span class="o">+</span> <span class="n">x3</span><span class="p">)</span> <span class="o">*</span> <span class="n">z1</span> <span class="o">*</span> <span class="n">z2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x3</span><span class="p">)</span> <span class="o">*</span> <span class="n">z1</span> <span class="o">*</span> <span class="n">z3</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x2</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x3</span><span class="p">)</span> <span class="o">*</span> <span class="n">z2</span> <span class="o">*</span> <span class="n">z3</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="mi">60</span>
+        <span class="n">xyz</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span> <span class="o">+</span> <span class="n">x3</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">y1</span> <span class="o">+</span> <span class="n">y2</span> <span class="o">+</span> <span class="n">y3</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">z1</span> <span class="o">+</span> <span class="n">z2</span> <span class="o">+</span> <span class="n">z3</span><span class="p">)</span>
+            <span class="o">-</span> <span class="p">(</span><span class="n">y2</span> <span class="o">*</span> <span class="n">z3</span> <span class="o">+</span> <span class="n">y3</span> <span class="o">*</span> <span class="n">z2</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">y1</span> <span class="o">*</span> <span class="n">z1</span><span class="p">)</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="o">-</span> <span class="p">(</span><span class="n">y1</span> <span class="o">*</span> <span class="n">z3</span> <span class="o">+</span> <span class="n">y3</span> <span class="o">*</span> <span class="n">z1</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">y2</span> <span class="o">*</span> <span class="n">z2</span><span class="p">)</span> <span class="o">*</span> <span class="n">x2</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="o">-</span> <span class="p">(</span><span class="n">y1</span> <span class="o">*</span> <span class="n">z2</span> <span class="o">+</span> <span class="n">y2</span> <span class="o">*</span> <span class="n">z1</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">y3</span> <span class="o">*</span> <span class="n">z3</span><span class="p">)</span> <span class="o">*</span> <span class="n">x3</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="mi">60</span>
+        <span class="n">m110</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">fn</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x_2y</span><span class="p">,</span> <span class="n">y_2x</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">xyz</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">6</span>
+        <span class="n">m101</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">fn</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x_2z</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">z_2x</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">6</span>
+        <span class="n">m011</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">fn</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span> <span class="o">*</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">y_2z</span><span class="p">,</span> <span class="n">z_2y</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">6</span>
+        <span class="n">m200</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">fn</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x_3</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x_2y</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x_2z</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">9</span>
+        <span class="n">m020</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">fn</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span> <span class="o">*</span> <span class="n">y_2x</span><span class="p">,</span> <span class="n">y_3</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">y_2z</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">9</span>
+        <span class="n">m002</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">fn</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span> <span class="o">*</span> <span class="n">z_2x</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">z_2y</span><span class="p">,</span> <span class="n">z_3</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">9</span>
+
+        <span class="c1"># Inertia tensor</span>
+        <span class="n">Ixx</span> <span class="o">=</span> <span class="n">m020</span> <span class="o">+</span> <span class="n">m002</span> <span class="o">-</span> <span class="p">(</span><span class="n">m010</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">m001</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">m000</span>
+        <span class="n">Iyy</span> <span class="o">=</span> <span class="n">m200</span> <span class="o">+</span> <span class="n">m002</span> <span class="o">-</span> <span class="p">(</span><span class="n">m100</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">m001</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">m000</span>
+        <span class="n">Izz</span> <span class="o">=</span> <span class="n">m200</span> <span class="o">+</span> <span class="n">m020</span> <span class="o">-</span> <span class="p">(</span><span class="n">m100</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">m010</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">m000</span>
+        <span class="n">Ixy</span> <span class="o">=</span> <span class="n">m110</span> <span class="o">-</span> <span class="n">m100</span> <span class="o">*</span> <span class="n">m010</span> <span class="o">/</span> <span class="n">m000</span>
+        <span class="n">Ixz</span> <span class="o">=</span> <span class="n">m101</span> <span class="o">-</span> <span class="n">m100</span> <span class="o">*</span> <span class="n">m001</span> <span class="o">/</span> <span class="n">m000</span>
+        <span class="n">Iyz</span> <span class="o">=</span> <span class="n">m011</span> <span class="o">-</span> <span class="n">m010</span> <span class="o">*</span> <span class="n">m001</span> <span class="o">/</span> <span class="n">m000</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">itensor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[[</span><span class="n">Ixx</span><span class="p">,</span> <span class="o">-</span><span class="n">Ixy</span><span class="p">,</span> <span class="o">-</span><span class="n">Ixz</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">Ixy</span><span class="p">,</span> <span class="n">Iyy</span><span class="p">,</span> <span class="o">-</span><span class="n">Iyz</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">Ixz</span><span class="p">,</span> <span class="o">-</span><span class="n">Iyz</span><span class="p">,</span> <span class="n">Izz</span><span class="p">]]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">itensor</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">itensor</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-7</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># Extracting principal axes and PMOIs</span>
+        <span class="p">(</span><span class="n">eig_vals</span><span class="p">,</span> <span class="n">eig_vecs</span><span class="p">)</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">itensor</span><span class="p">)</span>
+        <span class="n">eig_vecs</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">eig_vecs</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">eig_vecs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">principal_itensor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">eig_vals</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">body_to_principal_axes</span> <span class="o">=</span> <span class="n">eig_vecs</span></div></div>
+
+
+<div class="viewcode-block" id="build_dual"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.build_dual">[docs]</a><span class="k">def</span> <span class="nf">build_dual</span><span class="p">(</span><span class="n">normals</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">supports</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpaceObject</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes the polyhedral dual of the set of normals and supports</span>
+
+<span class="sd">    :param normals: Outward-facing normal vectors</span>
+<span class="sd">    :type normals: np.array [nx3]</span>
+<span class="sd">    :param supports: Support of each face (see :py:meth:`get_supports`)</span>
+<span class="sd">    :type supports: np.array [nx1]</span>
+<span class="sd">    :return: Dual object defined by the normals and supports</span>
+<span class="sd">    :rtype: SpaceObject</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dual_v</span> <span class="o">=</span> <span class="n">normals</span> <span class="o">/</span> <span class="n">supports</span>
+    <span class="n">dual_f</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">dual_v</span><span class="p">)</span><span class="o">.</span><span class="n">simplices</span>
+    <span class="k">return</span> <span class="n">SpaceObject</span><span class="p">(</span><span class="n">obj_vf</span><span class="o">=</span><span class="p">(</span><span class="n">dual_v</span><span class="p">,</span> <span class="n">dual_f</span><span class="p">),</span> <span class="n">is_dual</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="construct_from_egi_and_supports"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.construct_from_egi_and_supports">[docs]</a><span class="k">def</span> <span class="nf">construct_from_egi_and_supports</span><span class="p">(</span>
+    <span class="n">egi</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">support</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpaceObject</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Constructs an object from an input Extended Gaussian Image (EGI) and support set</span>
+
+<span class="sd">    :param egi: EGI of the object</span>
+<span class="sd">    :type egi: np.array [nx3]</span>
+<span class="sd">    :param support: Supports of each face in the EGI</span>
+<span class="sd">    :type support: np.array [nx1]</span>
+<span class="sd">    :return: Resulting convex object, with potentially fewer faces than the original EGI depending on supports selected</span>
+<span class="sd">    :rtype: SpaceObject</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dual_obj</span> <span class="o">=</span> <span class="n">build_dual</span><span class="p">(</span><span class="n">hat</span><span class="p">(</span><span class="n">egi</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">support</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">dual_obj</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">rec_obj_verts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">dual_obj</span><span class="o">.</span><span class="n">fv</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="p">(</span><span class="n">dual_obj</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">rec_obj_faces</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">rec_obj_verts</span><span class="p">)</span><span class="o">.</span><span class="n">simplices</span>
+    <span class="n">rec_obj</span> <span class="o">=</span> <span class="n">SpaceObject</span><span class="p">(</span><span class="n">obj_vf</span><span class="o">=</span><span class="p">(</span><span class="n">rec_obj_verts</span><span class="p">,</span> <span class="n">rec_obj_faces</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">rec_obj</span><span class="p">,</span> <span class="n">dual_obj</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="optimize_egi"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.optimize_egi">[docs]</a><span class="k">def</span> <span class="nf">optimize_egi</span><span class="p">(</span>
+    <span class="n">lc</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">svb</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">ovb</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">brdf</span><span class="p">:</span> <span class="n">Brdf</span><span class="p">,</span>
+    <span class="n">num_candidates</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e3</span><span class="p">),</span>
+    <span class="n">merge_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">merge_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">10</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Optimizes an Extended Gaussian Image (EGI) to fit observed irradiances :cite:p:`robinson2022`</span>
+
+<span class="sd">    :param lc: Unit irradiance light curve</span>
+<span class="sd">    :type lc: np.ndarray [nx1]</span>
+<span class="sd">    :param svb: Sun unit vectors in the body frame for each observation</span>
+<span class="sd">    :type svb: np.ndarray [nx3]</span>
+<span class="sd">    :param ovb: Observer unit vectors in the body frame</span>
+<span class="sd">    :type ovb: np.ndarray [nx3]</span>
+<span class="sd">    :param brdf: BRDF to use</span>
+<span class="sd">    :type brdf: Brdf</span>
+<span class="sd">    :param num_candidates: Number of candidate normal vectors to fit, defaults to int(1e3)</span>
+<span class="sd">    :type num_candidates: int, optional</span>
+<span class="sd">    :param merge_iter: Number of iterations for the merging step, defaults to 1</span>
+<span class="sd">    :type merge_iter: int, optional</span>
+<span class="sd">    :param merge_angle: Angle between vectors to merge by, defaults to np.pi/10</span>
+<span class="sd">    :type merge_angle: float, optional</span>
+<span class="sd">    :return: Optimized EGI</span>
+<span class="sd">    :rtype: np.ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">normal_candidates</span> <span class="o">=</span> <span class="n">rand_cone_vectors</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">num_candidates</span>
+    <span class="p">)</span>
+    <span class="n">g_candidates</span> <span class="o">=</span> <span class="n">brdf</span><span class="o">.</span><span class="n">compute_reflection_matrix</span><span class="p">(</span>
+        <span class="n">svb</span><span class="p">,</span> <span class="n">ovb</span><span class="p">,</span> <span class="n">normal_candidates</span>
+    <span class="p">)</span>
+    <span class="n">a_candidates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span>
+        <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">nnls</span><span class="p">(</span><span class="n">g_candidates</span><span class="p">,</span> <span class="n">lc</span><span class="o">.</span><span class="n">flatten</span><span class="p">())[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+    <span class="n">egi_candidate</span> <span class="o">=</span> <span class="n">normal_candidates</span> <span class="o">*</span> <span class="n">a_candidates</span>
+    <span class="n">egi_candidate</span> <span class="o">=</span> <span class="n">remove_zero_rows</span><span class="p">(</span><span class="n">egi_candidate</span><span class="p">)</span>
+    <span class="n">egi_candidate</span> <span class="o">=</span> <span class="n">merge_clusters</span><span class="p">(</span>
+        <span class="n">egi_candidate</span><span class="p">,</span> <span class="n">merge_angle</span><span class="p">,</span> <span class="n">miter</span><span class="o">=</span><span class="n">merge_iter</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">close_egi</span><span class="p">(</span><span class="n">egi_candidate</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_volume"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.get_volume">[docs]</a><span class="k">def</span> <span class="nf">get_volume</span><span class="p">(</span><span class="n">h</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">egi</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes the volume of the polytope represented by the supports and EGI input</span>
+
+<span class="sd">    :param h: Support vector</span>
+<span class="sd">    :type h: np.ndarray [nx1]</span>
+<span class="sd">    :param egi: Extended Gaussian image to reconstruct from</span>
+<span class="sd">    :type egi: np.ndarray [nx3]</span>
+<span class="sd">    :return: Volume of the reconstructed convex polytope</span>
+<span class="sd">    :rtype: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">construct_from_egi_and_supports</span><span class="p">(</span><span class="n">egi</span><span class="o">=</span><span class="n">egi</span><span class="p">,</span> <span class="n">support</span><span class="o">=</span><span class="n">h</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">p</span><span class="o">.</span><span class="n">volume</span></div>
+
+
+<div class="viewcode-block" id="little_fun"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.little_fun">[docs]</a><span class="k">def</span> <span class="nf">little_fun</span><span class="p">(</span><span class="n">h</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">egi</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Little&#39;s objective function for support vector optimization :cite:t:`little1983`</span>
+
+<span class="sd">    :param h: Supports vector</span>
+<span class="sd">    :type h: np.ndarray [nx1]</span>
+<span class="sd">    :param egi: Extended Gaussian image to reconstruct from</span>
+<span class="sd">    :type egi: np.ndarray [nx3]</span>
+<span class="sd">    :return: Objective function value :math:`f=(h \cdot a)`</span>
+<span class="sd">    :rtype: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">vecnorm</span><span class="p">(</span><span class="n">egi</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">v</span></div>
+
+
+<div class="viewcode-block" id="optimize_supports_little"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.optimize_supports_little">[docs]</a><span class="k">def</span> <span class="nf">optimize_supports_little</span><span class="p">(</span><span class="n">egi</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Optimizes a support vector to construct the polytope with the given Extended Gaussian Image (EGI) :cite:t:`little1983`</span>
+
+<span class="sd">    :param egi: EGI to find supports for, convergence only possible if the sum of rows is zero. See :meth:`close_egi`</span>
+<span class="sd">    :type egi: np.ndarray [nx3]</span>
+<span class="sd">    :return: Optimal set of supports</span>
+<span class="sd">    :rtype: np.ndarray [nx1]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">jac</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">h</span><span class="p">:</span> <span class="n">vecnorm</span><span class="p">(</span><span class="n">egi</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">hess</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">h</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">egi</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+    <span class="n">cons</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;eq&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;fun&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">h</span><span class="p">:</span> <span class="n">get_volume</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">egi</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;keep_feasible&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">h</span><span class="p">:</span> <span class="n">little_fun</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">egi</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">egi</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">vecnorm</span><span class="p">(</span><span class="n">egi</span><span class="p">)),</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;trust-constr&quot;</span><span class="p">,</span>
+        <span class="n">constraints</span><span class="o">=</span><span class="n">cons</span><span class="p">,</span>
+        <span class="n">jac</span><span class="o">=</span><span class="n">jac</span><span class="p">,</span>
+        <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;disp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;gtol&quot;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">},</span>
+        <span class="n">bounds</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">egi</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])],</span>
+    <span class="p">)</span>
+
+    <span class="p">(</span><span class="n">rec_obj_unit</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">construct_from_egi_and_supports</span><span class="p">(</span>
+        <span class="n">egi</span><span class="o">=</span><span class="n">egi</span><span class="p">,</span> <span class="n">support</span><span class="o">=</span><span class="n">res</span><span class="o">.</span><span class="n">x</span>
+    <span class="p">)</span>
+    <span class="n">h_opt</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">vecnorm</span><span class="p">(</span><span class="n">egi</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">vecnorm</span><span class="p">(</span><span class="n">rec_obj_unit</span><span class="o">.</span><span class="n">egi</span><span class="p">))</span>
+        <span class="p">)</span>
+        <span class="o">*</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">h_opt</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2023, Liam Robinson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.1.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
