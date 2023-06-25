@@ -62,6 +62,8 @@
 <ul>
   <li><a href="../../index.html">Documentation overview</a><ul>
   <li><a href="../index.html">Module code</a><ul>
+  <li><a href="../pyspaceaware.html">pyspaceaware</a><ul>
+  </ul></li>
   </ul></li>
   </ul></li>
 </ul>
@@ -100,6 +102,10 @@
 <span class="kn">from</span> <span class="nn">spacetrack</span> <span class="kn">import</span> <span class="n">SpaceTrackClient</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 
+<span class="n">_TLE_CAT_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SRCDIR&quot;</span><span class="p">],</span> <span class="s2">&quot;resources&quot;</span><span class="p">,</span> <span class="s2">&quot;tle&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">_TLE_CAT_DIR</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">_TLE_CAT_DIR</span><span class="p">)</span>
+
 
 <div class="viewcode-block" id="get_spacetrack_client"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.tle.get_spacetrack_client">[docs]</a><span class="k">def</span> <span class="nf">get_spacetrack_client</span><span class="p">(</span>
     <span class="n">is_async</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -121,6 +127,10 @@
         <span class="k">return</span> <span class="n">SpaceTrackClient</span><span class="p">(</span><span class="n">identity</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">pword</span><span class="p">)</span></div>
 
 
+<span class="k">def</span> <span class="nf">_cat_path</span><span class="p">(</span><span class="n">preset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_TLE_CAT_DIR</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;tle_latest_</span><span class="si">{</span><span class="n">preset</span><span class="si">}</span><span class="s2">.cat&quot;</span><span class="p">)</span>
+
+
 <div class="viewcode-block" id="download_latest_tles"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.tle.download_latest_tles">[docs]</a><span class="k">async</span> <span class="k">def</span> <span class="nf">download_latest_tles</span><span class="p">(</span>
     <span class="n">preset</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="n">epoch_tol_days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -132,12 +142,7 @@
 <span class="sd">    :type epoch_tol_days: int, optional</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">st</span> <span class="o">=</span> <span class="n">get_spacetrack_client</span><span class="p">(</span><span class="n">is_async</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">save_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)),</span> <span class="s2">&quot;tle&quot;</span>
-    <span class="p">)</span>
-    <span class="n">cat_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;tle_latest_</span><span class="si">{</span><span class="n">preset</span><span class="si">}</span><span class="s2">.cat&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">save_dir</span><span class="p">):</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">save_dir</span><span class="p">)</span>
+    <span class="n">cat_path</span> <span class="o">=</span> <span class="n">_cat_path</span><span class="p">(</span><span class="n">preset</span><span class="p">)</span>
     <span class="k">async</span> <span class="k">with</span> <span class="n">st</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">preset</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;geo&quot;</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">st</span><span class="o">.</span><span class="n">tle_latest</span><span class="p">(</span>
@@ -169,12 +174,19 @@
                 <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="download_catalog_tles"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.tle.download_catalog_tles">[docs]</a><span class="k">def</span> <span class="nf">download_catalog_tles</span><span class="p">(</span><span class="n">preset</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="download_catalog_tles"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.tle.download_catalog_tles">[docs]</a><span class="k">def</span> <span class="nf">download_catalog_tles</span><span class="p">(</span>
+    <span class="n">preset</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="n">only_run_if_empty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Downloads catalog TLEs for a given preset</span>
 
 <span class="sd">    :param preset: Preset TLE set, either &quot;all&quot;, &quot;leo&quot;, or &quot;geo&quot;, defaults to &quot;all&quot;</span>
 <span class="sd">    :type preset: str, optional</span>
+<span class="sd">    :param only_run_if_empty: If True, checks whether a catalog of the given preset already exists. If it does, the download is skipped</span>
+<span class="sd">    :type only_run_if_empty: bool</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">only_run_if_empty</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">_cat_path</span><span class="p">(</span><span class="n">preset</span><span class="p">)):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;TLE catalog already downloaded, skipping&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading TLE catalog for preset &#39;</span><span class="si">{</span><span class="n">preset</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
     <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">new_event_loop</span><span class="p">()</span>
     <span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">download_latest_tles</span><span class="p">(</span><span class="n">preset</span><span class="o">=</span><span class="n">preset</span><span class="p">))</span>

@@ -62,6 +62,8 @@
 <ul>
   <li><a href="../../index.html">Documentation overview</a><ul>
   <li><a href="../index.html">Module code</a><ul>
+  <li><a href="../pyspaceaware.html">pyspaceaware</a><ul>
+  </ul></li>
   </ul></li>
   </ul></li>
 </ul>
@@ -108,11 +110,13 @@
     <span class="n">unique_rows</span><span class="p">,</span>
     <span class="n">vecnorm</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">.sampling</span> <span class="kn">import</span> <span class="n">rand_cone_vectors</span>
+<span class="kn">from</span> <span class="nn">.sampling</span> <span class="kn">import</span> <span class="n">rand_cone_vectors</span><span class="p">,</span> <span class="n">rand_unit_vectors</span>
 <span class="kn">from</span> <span class="nn">.lighting</span> <span class="kn">import</span> <span class="n">Brdf</span>
 <span class="kn">from</span> <span class="nn">.orbit</span> <span class="kn">import</span> <span class="n">propagate_satnum_to_dates</span>
+<span class="kn">from</span> <span class="nn">.tle</span> <span class="kn">import</span> <span class="n">download_catalog_tles</span>
 
 <span class="kn">from</span> <span class="nn">.attitude</span> <span class="kn">import</span> <span class="n">quat_to_rv</span><span class="p">,</span> <span class="n">quat_to_dcm</span>
+<span class="kn">from</span> <span class="nn">.modelio</span> <span class="kn">import</span> <span class="n">download_model_file</span>
 
 
 <div class="viewcode-block" id="set_model_directory"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.set_model_directory">[docs]</a><span class="k">def</span> <span class="nf">set_model_directory</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -146,11 +150,22 @@
 <span class="sd">        :param satnum: NORAD satellite number for SGP4 propgation, defaults to None</span>
 <span class="sd">        :type satnum: int, optional</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">satnum</span> <span class="o">=</span> <span class="n">satnum</span>
         <span class="k">if</span> <span class="n">obj_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_def_mode</span> <span class="o">=</span> <span class="s2">&quot;file&quot;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span> <span class="o">=</span> <span class="n">obj_file</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;MODELDIR&quot;</span><span class="p">],</span> <span class="n">obj_file</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_mesh</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_mesh</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Model file </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">file_name</span><span class="si">}</span><span class="s2"> not found in current model folder (</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MODELDIR&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">), checking model repository...&quot;</span>
+                <span class="p">)</span>
+                <span class="n">download_model_file</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span>
+                <span class="p">)</span>  <span class="c1"># All further error handling done in this method</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_mesh</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+
             <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mesh</span><span class="o">.</span><span class="n">faces</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">:]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mesh</span><span class="o">.</span><span class="n">points</span>
         <span class="k">elif</span> <span class="n">obj_vf</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -172,7 +187,8 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_def_mode</span> <span class="o">==</span> <span class="s2">&quot;vf&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">flip_normals</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="n">satnum</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">satnum</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">download_catalog_tles</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="n">only_run_if_empty</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">propagate</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="k">lambda</span> <span class="n">date_space</span><span class="p">:</span> <span class="n">propagate_satnum_to_dates</span><span class="p">(</span>
                     <span class="n">date_space</span><span class="p">,</span> <span class="n">satnum</span><span class="p">,</span> <span class="s2">&quot;teme&quot;</span>
@@ -300,7 +316,7 @@
         <span class="n">origin</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
         <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">quat</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]),</span>
-        <span class="o">**</span><span class="n">kwargs</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plots the object mesh using :py:mod:`pyvista`</span>
 
@@ -495,13 +511,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">body_to_principal_axes</span> <span class="o">=</span> <span class="n">eig_vecs</span></div></div>
 
 
-<div class="viewcode-block" id="build_dual"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.build_dual">[docs]</a><span class="k">def</span> <span class="nf">build_dual</span><span class="p">(</span><span class="n">normals</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">supports</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpaceObject</span><span class="p">:</span>
+<div class="viewcode-block" id="build_dual"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.build_dual">[docs]</a><span class="k">def</span> <span class="nf">build_dual</span><span class="p">(</span>
+    <span class="n">normals</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">supports</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpaceObject</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes the polyhedral dual of the set of normals and supports</span>
 
 <span class="sd">    :param normals: Outward-facing normal vectors</span>
-<span class="sd">    :type normals: np.array [nx3]</span>
+<span class="sd">    :type normals: np.ndarray [nx3]</span>
 <span class="sd">    :param supports: Support of each face (see :py:meth:`get_supports`)</span>
-<span class="sd">    :type supports: np.array [nx1]</span>
+<span class="sd">    :type supports: np.ndarray [nx1]</span>
 <span class="sd">    :return: Dual object defined by the normals and supports</span>
 <span class="sd">    :rtype: SpaceObject</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -511,14 +529,14 @@
 
 
 <div class="viewcode-block" id="construct_from_egi_and_supports"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.construct_from_egi_and_supports">[docs]</a><span class="k">def</span> <span class="nf">construct_from_egi_and_supports</span><span class="p">(</span>
-    <span class="n">egi</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">support</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span>
+    <span class="n">egi</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">support</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpaceObject</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Constructs an object from an input Extended Gaussian Image (EGI) and support set</span>
 
 <span class="sd">    :param egi: EGI of the object</span>
-<span class="sd">    :type egi: np.array [nx3]</span>
+<span class="sd">    :type egi: np.ndarray [nx3]</span>
 <span class="sd">    :param support: Supports of each face in the EGI</span>
-<span class="sd">    :type support: np.array [nx1]</span>
+<span class="sd">    :type support: np.ndarray [nx1]</span>
 <span class="sd">    :return: Resulting convex object, with potentially fewer faces than the original EGI depending on supports selected</span>
 <span class="sd">    :rtype: SpaceObject</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -529,7 +547,7 @@
     <span class="p">)</span>
     <span class="n">rec_obj_faces</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">rec_obj_verts</span><span class="p">)</span><span class="o">.</span><span class="n">simplices</span>
     <span class="n">rec_obj</span> <span class="o">=</span> <span class="n">SpaceObject</span><span class="p">(</span><span class="n">obj_vf</span><span class="o">=</span><span class="p">(</span><span class="n">rec_obj_verts</span><span class="p">,</span> <span class="n">rec_obj_faces</span><span class="p">))</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">rec_obj</span><span class="p">,</span> <span class="n">dual_obj</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">rec_obj</span></div>
 
 
 <div class="viewcode-block" id="optimize_egi"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.optimize_egi">[docs]</a><span class="k">def</span> <span class="nf">optimize_egi</span><span class="p">(</span>
@@ -560,9 +578,7 @@
 <span class="sd">    :return: Optimized EGI</span>
 <span class="sd">    :rtype: np.ndarray</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">normal_candidates</span> <span class="o">=</span> <span class="n">rand_cone_vectors</span><span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">num_candidates</span>
-    <span class="p">)</span>
+    <span class="n">normal_candidates</span> <span class="o">=</span> <span class="n">rand_unit_vectors</span><span class="p">(</span><span class="n">num_candidates</span><span class="p">)</span>
     <span class="n">g_candidates</span> <span class="o">=</span> <span class="n">brdf</span><span class="o">.</span><span class="n">compute_reflection_matrix</span><span class="p">(</span>
         <span class="n">svb</span><span class="p">,</span> <span class="n">ovb</span><span class="p">,</span> <span class="n">normal_candidates</span>
     <span class="p">)</span>
@@ -587,8 +603,7 @@
 <span class="sd">    :return: Volume of the reconstructed convex polytope</span>
 <span class="sd">    :rtype: float</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">construct_from_egi_and_supports</span><span class="p">(</span><span class="n">egi</span><span class="o">=</span><span class="n">egi</span><span class="p">,</span> <span class="n">support</span><span class="o">=</span><span class="n">h</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">p</span><span class="o">.</span><span class="n">volume</span></div>
+    <span class="k">return</span> <span class="n">construct_from_egi_and_supports</span><span class="p">(</span><span class="n">egi</span><span class="o">=</span><span class="n">egi</span><span class="p">,</span> <span class="n">support</span><span class="o">=</span><span class="n">h</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span></div>
 
 
 <div class="viewcode-block" id="little_fun"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.spaceobject.little_fun">[docs]</a><span class="k">def</span> <span class="nf">little_fun</span><span class="p">(</span><span class="n">h</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">egi</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -615,7 +630,6 @@
 <span class="sd">    :rtype: np.ndarray [nx1]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">jac</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">h</span><span class="p">:</span> <span class="n">vecnorm</span><span class="p">(</span><span class="n">egi</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-    <span class="n">hess</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">h</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">egi</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
     <span class="n">cons</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;eq&quot;</span><span class="p">,</span>
         <span class="s2">&quot;fun&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">h</span><span class="p">:</span> <span class="n">get_volume</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">egi</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
@@ -627,11 +641,11 @@
         <span class="n">method</span><span class="o">=</span><span class="s2">&quot;trust-constr&quot;</span><span class="p">,</span>
         <span class="n">constraints</span><span class="o">=</span><span class="n">cons</span><span class="p">,</span>
         <span class="n">jac</span><span class="o">=</span><span class="n">jac</span><span class="p">,</span>
-        <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;disp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;gtol&quot;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">},</span>
+        <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;disp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;gtol&quot;</span><span class="p">:</span> <span class="mf">1e-2</span><span class="p">},</span>
         <span class="n">bounds</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">egi</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])],</span>
     <span class="p">)</span>
 
-    <span class="p">(</span><span class="n">rec_obj_unit</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">construct_from_egi_and_supports</span><span class="p">(</span>
+    <span class="n">rec_obj_unit</span> <span class="o">=</span> <span class="n">construct_from_egi_and_supports</span><span class="p">(</span>
         <span class="n">egi</span><span class="o">=</span><span class="n">egi</span><span class="p">,</span> <span class="n">support</span><span class="o">=</span><span class="n">res</span><span class="o">.</span><span class="n">x</span>
     <span class="p">)</span>
     <span class="n">h_opt</span> <span class="o">=</span> <span class="p">(</span>

@@ -62,6 +62,8 @@
 <ul>
   <li><a href="../../index.html">Documentation overview</a><ul>
   <li><a href="../index.html">Module code</a><ul>
+  <li><a href="../pyspaceaware.html">pyspaceaware</a><ul>
+  </ul></li>
   </ul></li>
   </ul></li>
 </ul>
@@ -98,14 +100,17 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
 
-<span class="kn">from</span> <span class="nn">.math</span> <span class="kn">import</span> <span class="n">cart_to_sph</span><span class="p">,</span> <span class="n">sph_to_cart</span>
+<span class="kn">from</span> <span class="nn">.math</span> <span class="kn">import</span> <span class="n">cart_to_sph</span><span class="p">,</span> <span class="n">sph_to_cart</span><span class="p">,</span> <span class="n">wrap_to_pi</span>
 <span class="kn">from</span> <span class="nn">.engine</span> <span class="kn">import</span> <span class="n">run_engine</span>
 <span class="kn">from</span> <span class="nn">.lighting</span> <span class="kn">import</span> <span class="n">Brdf</span>
 <span class="kn">from</span> <span class="nn">.spaceobject</span> <span class="kn">import</span> <span class="n">SpaceObject</span>
 
 
 <div class="viewcode-block" id="InterpBrightnessModel"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.interp.InterpBrightnessModel">[docs]</a><span class="k">class</span> <span class="nc">InterpBrightnessModel</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interpolates brightness by evaluating full non-convex rendered brightness in 4D rectilinear grid of azimuth and elevation to parameterize the observer and lighting directions&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Interpolates brightness by evaluating full non-convex rendered brightness in 4D rectilinear grid of azimuth and elevation to parameterize the observer and lighting directions</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>

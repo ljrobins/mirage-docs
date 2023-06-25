@@ -62,6 +62,8 @@
 <ul>
   <li><a href="../../index.html">Documentation overview</a><ul>
   <li><a href="../index.html">Module code</a><ul>
+  <li><a href="../pyspaceaware.html">pyspaceaware</a><ul>
+  </ul></li>
   </ul></li>
   </ul></li>
 </ul>
@@ -104,7 +106,7 @@
     <span class="k">global</span> <span class="n">tstart</span>
     <span class="k">if</span> <span class="n">tstart</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;tic() called with another tic() active!&quot;</span><span class="p">)</span>
-    <span class="n">tstart</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter_ns</span><span class="p">()</span></div>
+    <span class="n">tstart</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="toc"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.profiling.toc">[docs]</a><span class="k">def</span> <span class="nf">toc</span><span class="p">():</span>
@@ -112,8 +114,8 @@
     <span class="k">global</span> <span class="n">tstart</span>
     <span class="k">if</span> <span class="n">tstart</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;toc() called without an active tic()!&quot;</span><span class="p">)</span>
-    <span class="n">tend</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter_ns</span><span class="p">()</span>
-    <span class="n">telapsed</span> <span class="o">=</span> <span class="p">(</span><span class="n">tend</span> <span class="o">-</span> <span class="n">tstart</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e9</span>
+    <span class="n">tend</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+    <span class="n">telapsed</span> <span class="o">=</span> <span class="n">tend</span> <span class="o">-</span> <span class="n">tstart</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Elapsed time: </span><span class="si">{</span><span class="n">telapsed</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
     <span class="n">tstart</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">return</span> <span class="n">telapsed</span></div>

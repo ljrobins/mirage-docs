@@ -62,6 +62,8 @@
 <ul>
   <li><a href="../../index.html">Documentation overview</a><ul>
   <li><a href="../index.html">Module code</a><ul>
+  <li><a href="../pyspaceaware.html">pyspaceaware</a><ul>
+  </ul></li>
   </ul></li>
   </ul></li>
 </ul>
@@ -95,16 +97,231 @@
   <h1>Source code for pyspaceaware.constraints</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">terrainman</span> <span class="k">as</span> <span class="nn">tm</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 
 <span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">AstroConstants</span>
-<span class="kn">from</span> <span class="nn">.observer</span> <span class="kn">import</span> <span class="n">lla_to_eci</span>
 <span class="kn">from</span> <span class="nn">.time</span> <span class="kn">import</span> <span class="n">date_to_jd</span>
-<span class="kn">from</span> <span class="nn">.math</span> <span class="kn">import</span> <span class="n">dot</span><span class="p">,</span> <span class="n">hat</span><span class="p">,</span> <span class="n">vecnorm</span>
-<span class="kn">from</span> <span class="nn">.coordinates</span> <span class="kn">import</span> <span class="n">moon</span><span class="p">,</span> <span class="n">sun</span>
+<span class="kn">from</span> <span class="nn">.math</span> <span class="kn">import</span> <span class="n">dot</span><span class="p">,</span> <span class="n">hat</span><span class="p">,</span> <span class="n">vecnorm</span><span class="p">,</span> <span class="n">wrap_to_two_pi</span>
+<span class="kn">from</span> <span class="nn">.coordinates</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">moon</span><span class="p">,</span>
+    <span class="n">sun</span><span class="p">,</span>
+    <span class="n">lla_to_itrf</span><span class="p">,</span>
+    <span class="n">ecef_to_enu</span><span class="p">,</span>
+    <span class="n">lla_to_eci</span><span class="p">,</span>
+    <span class="n">az_el_to_enu</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.profiling</span> <span class="kn">import</span> <span class="n">tic</span><span class="p">,</span> <span class="n">toc</span>
+
+
+<div class="viewcode-block" id="HorizonMask"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.constraints.HorizonMask">[docs]</a><span class="k">class</span> <span class="nc">HorizonMask</span><span class="p">:</span>
+    <span class="n">_STORAGE_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SRCDIR&quot;</span><span class="p">],</span> <span class="s2">&quot;resources&quot;</span><span class="p">,</span> <span class="s2">&quot;masks&quot;</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">_STORAGE_DIR</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">_STORAGE_DIR</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">station_lat_rad</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">station_lon_rad</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">station_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">terrain_res</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+        <span class="n">geodetic_degrees_limit</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">station_m_above_terrain</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">mask_resolution</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="n">iterations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">force_rebuild</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">station_lat_deg</span><span class="p">,</span> <span class="n">station_lon_deg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span>
+            <span class="n">station_lat_rad</span>
+        <span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">station_lon_rad</span><span class="p">)</span>
+        <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">station_lat_deg</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">station_lon_deg</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">station_name</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">station_lat_deg</span><span class="p">,</span> <span class="n">station_lon_deg</span><span class="p">,</span> <span class="n">station_name</span><span class="p">)</span>
+
+        <span class="n">tdh</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">TerrainDataHandler</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tile</span> <span class="o">=</span> <span class="n">tdh</span><span class="o">.</span><span class="n">load_tiles_containing</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">station_lat_deg</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">station_lon_deg</span>
+        <span class="p">)</span>
+
+        <span class="n">station_terrain_alt_km</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tile</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">station_lat_deg</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">station_lon_deg</span>
+            <span class="p">)</span>
+            <span class="o">/</span> <span class="mf">1e3</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">station_ecef</span> <span class="o">=</span> <span class="n">lla_to_itrf</span><span class="p">(</span>
+            <span class="n">station_lat_rad</span><span class="p">,</span>
+            <span class="n">station_lon_rad</span><span class="p">,</span>
+            <span class="n">station_terrain_alt_km</span> <span class="o">+</span> <span class="n">station_m_above_terrain</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">station_enu</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">ecef_to_enu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">station_ecef</span><span class="p">)</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">station_ecef</span><span class="o">.</span><span class="n">T</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">force_rebuild</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_build_searcher</span><span class="p">(</span>
+                    <span class="n">geodetic_degrees_limit</span><span class="p">,</span> <span class="n">terrain_res</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">mask_resolution</span><span class="p">,</span> <span class="n">iterations</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_save</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_load</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mask does not exist for this station, building...&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_build_searcher</span><span class="p">(</span><span class="n">geodetic_degrees_limit</span><span class="p">,</span> <span class="n">terrain_res</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">mask_resolution</span><span class="p">,</span> <span class="n">iterations</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_save</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_load</span><span class="p">()</span>
+        <span class="c1"># self.el = np.zeros_like(self.el)</span>
+
+    <span class="k">def</span> <span class="nf">_build_searcher</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">geodetic_degrees_limit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">terrain_res</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">):</span>
+        <span class="n">enu_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">]])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Collecting elevation data from terrain tile...&quot;</span><span class="p">)</span>
+        <span class="n">tic</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span>
+            <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">5</span>
+        <span class="p">):</span>  <span class="c1"># Each iteration, halve radius and append</span>
+            <span class="n">deg_lim</span> <span class="o">=</span> <span class="n">geodetic_degrees_limit</span> <span class="o">/</span> <span class="n">i</span>
+            <span class="n">lat_space</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">station_lat_deg</span> <span class="o">+</span> <span class="n">deg_lim</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
+                <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">deg_lim</span><span class="p">,</span> <span class="n">terrain_res</span>
+            <span class="p">)</span>
+            <span class="n">lon_space</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">station_lon_deg</span> <span class="o">-</span> <span class="n">deg_lim</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
+                <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">deg_lim</span><span class="p">,</span> <span class="n">terrain_res</span>
+            <span class="p">)</span>
+            <span class="n">lat_grid</span><span class="p">,</span> <span class="n">lon_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">lat_space</span><span class="p">,</span> <span class="n">lon_space</span><span class="p">)</span>
+            <span class="n">elev_grid_km</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">tile</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">lat_grid</span><span class="p">,</span> <span class="n">lon_grid</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e3</span>
+            <span class="p">)</span>
+            <span class="n">ecef</span> <span class="o">=</span> <span class="n">lla_to_itrf</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">lat_grid</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">lon_grid</span><span class="p">),</span> <span class="n">elev_grid_km</span>
+            <span class="p">)</span>
+            <span class="n">enu</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">ecef_to_enu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">station_ecef</span><span class="p">)</span> <span class="o">@</span> <span class="n">ecef</span><span class="o">.</span><span class="n">T</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">station_enu</span>
+            <span class="n">enu_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">hat</span><span class="p">(</span><span class="n">enu</span><span class="p">),</span> <span class="n">enu_hat</span><span class="p">))</span>
+        <span class="n">toc</span><span class="p">()</span>
+
+        <span class="n">include_idx</span> <span class="o">=</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">enu_hat</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">searcher</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">KDTree</span><span class="p">(</span><span class="n">enu_hat</span><span class="p">[</span><span class="n">include_idx</span><span class="p">,</span> <span class="p">:])</span>
+
+<div class="viewcode-block" id="HorizonMask.terrain_grids"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.constraints.HorizonMask.terrain_grids">[docs]</a>    <span class="k">def</span> <span class="nf">terrain_grids</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">terrain_res</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3000</span><span class="p">,</span>
+        <span class="n">geodetic_degrees_limit</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">lat_space</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">station_lat_deg</span> <span class="o">+</span> <span class="n">geodetic_degrees_limit</span>
+        <span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">geodetic_degrees_limit</span><span class="p">,</span> <span class="n">terrain_res</span><span class="p">)</span>
+        <span class="n">lon_space</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">station_lon_deg</span> <span class="o">-</span> <span class="n">geodetic_degrees_limit</span>
+        <span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">geodetic_degrees_limit</span><span class="p">,</span> <span class="n">terrain_res</span><span class="p">)</span>
+        <span class="n">lat_grid</span><span class="p">,</span> <span class="n">lon_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">lat_space</span><span class="p">,</span> <span class="n">lon_space</span><span class="p">)</span>
+        <span class="n">elev_grid_km</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tile</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">lat_grid</span><span class="p">,</span> <span class="n">lon_grid</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e3</span>
+        <span class="n">ecef</span> <span class="o">=</span> <span class="n">lla_to_itrf</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">lat_grid</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">lon_grid</span><span class="p">),</span> <span class="n">elev_grid_km</span>
+        <span class="p">)</span>
+        <span class="n">enu</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">ecef_to_enu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">station_ecef</span><span class="p">)</span> <span class="o">@</span> <span class="n">ecef</span><span class="o">.</span><span class="n">T</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">station_enu</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;x_enu_grid&quot;</span><span class="p">:</span> <span class="n">enu</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">lat_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span>
+            <span class="s2">&quot;y_enu_grid&quot;</span><span class="p">:</span> <span class="n">enu</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">lat_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span>
+            <span class="s2">&quot;z_enu_grid&quot;</span><span class="p">:</span> <span class="n">enu</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">lat_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span>
+            <span class="s2">&quot;lat_grid&quot;</span><span class="p">:</span> <span class="n">lat_grid</span><span class="p">,</span>
+            <span class="s2">&quot;lon_grid&quot;</span><span class="p">:</span> <span class="n">lon_grid</span><span class="p">,</span>
+            <span class="s2">&quot;elev_grid_km&quot;</span><span class="p">:</span> <span class="n">elev_grid_km</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+<div class="viewcode-block" id="HorizonMask.interpolate"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.constraints.HorizonMask.interpolate">[docs]</a>    <span class="k">def</span> <span class="nf">interpolate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">az</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Interpoaltes elevation linearly between mask points</span>
+
+<span class="sd">        :param az: Queried azimuths [rad]</span>
+<span class="sd">        :type az: np.ndarray</span>
+<span class="sd">        :return: Interpolated elevations [rad]</span>
+<span class="sd">        :rtype: np.ndarray</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">az_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(([</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">az</span><span class="p">))</span>
+        <span class="n">el_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(([</span><span class="bp">self</span><span class="o">.</span><span class="n">el</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="bp">self</span><span class="o">.</span><span class="n">el</span><span class="p">))</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">az_data</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">el_data</span><span class="p">,</span>
+            <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="n">az</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_save_fpath</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_STORAGE_DIR</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">station_name</span><span class="si">}</span><span class="s2">.hzm&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_save_fpath</span><span class="p">(),</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;# Horizon mask file for station </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">station_name</span><span class="si">}</span><span class="se">\n</span><span class="s2"># Local azimuth [rad], local elevation [rad]</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span>
+                <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">az</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">el</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">az</span><span class="p">,</span> <span class="n">el</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">az</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">el</span><span class="p">)]</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_load</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads saved mask file</span>
+
+<span class="sd">        :return: Azimuth [rad], Elevation [rad] of mask</span>
+<span class="sd">        :rtype: Tuple[np.ndarray, np.ndarray]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_save_fpath</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">az</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">el</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+<div class="viewcode-block" id="HorizonMask.build"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.constraints.HorizonMask.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mask_resolution</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">iterations</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">az_ray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">mask_resolution</span><span class="p">)</span>
+        <span class="n">el_ray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">az_ray</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span>
+
+        <span class="n">hit_horizon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">el_ray</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Computing horizon azimuth/elevation pairs&quot;</span><span class="p">)</span>
+        <span class="n">tic</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
+            <span class="n">rays</span> <span class="o">=</span> <span class="n">az_el_to_enu</span><span class="p">(</span><span class="n">az_ray</span><span class="p">,</span> <span class="n">el_ray</span><span class="p">)</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">cindx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">searcher</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">rays</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">closest_to_rays</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">searcher</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">cindx</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">ang_to_closest</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span>
+                <span class="n">dot</span><span class="p">(</span><span class="n">closest_to_rays</span><span class="p">,</span> <span class="n">rays</span><span class="p">)</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="n">ang_difference_to_neighbor</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">el_ray</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">el_ray</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">el_ray</span>
+            <span class="p">)</span>
+            <span class="n">update_down</span> <span class="o">=</span> <span class="p">(</span><span class="n">ang_to_closest</span> <span class="o">&gt;</span> <span class="mf">0.01</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">hit_horizon</span>
+            <span class="n">update_up</span> <span class="o">=</span> <span class="o">~</span><span class="n">update_down</span> <span class="o">&amp;</span> <span class="n">hit_horizon</span>
+            <span class="n">el_ray</span><span class="p">[</span><span class="n">update_down</span><span class="p">]</span> <span class="o">+=</span> <span class="o">-</span><span class="n">ang_to_closest</span><span class="p">[</span><span class="n">update_down</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="n">el_ray</span><span class="p">[</span><span class="n">update_up</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span>
+                <span class="n">ang_difference_to_neighbor</span><span class="p">[</span><span class="n">update_up</span><span class="p">]</span> <span class="o">/</span> <span class="mi">4</span>
+            <span class="p">)</span>
+            <span class="n">el_ray</span><span class="p">[</span><span class="n">el_ray</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># Prevents negative elevations</span>
+            <span class="n">hit_horizon</span> <span class="o">=</span> <span class="p">(</span><span class="o">~</span><span class="n">update_down</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">hit_horizon</span><span class="p">)</span> <span class="o">|</span> <span class="n">hit_horizon</span>
+        <span class="n">toc</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">az</span> <span class="o">=</span> <span class="n">az_ray</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">el</span> <span class="o">=</span> <span class="n">el_ray</span></div></div>
 
 
 <div class="viewcode-block" id="ObserverConstraint"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.constraints.ObserverConstraint">[docs]</a><span class="k">class</span> <span class="nc">ObserverConstraint</span><span class="p">:</span>
     <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="HorizonMaskConstraint"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.constraints.HorizonMaskConstraint">[docs]</a><span class="k">class</span> <span class="nc">HorizonMaskConstraint</span><span class="p">(</span><span class="n">ObserverConstraint</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">station</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">horizon_mask</span> <span class="o">=</span> <span class="n">HorizonMask</span><span class="p">(</span>
+            <span class="n">station</span><span class="o">.</span><span class="n">lat_geod_rad</span><span class="p">,</span> <span class="n">station</span><span class="o">.</span><span class="n">lon_rad</span><span class="p">,</span> <span class="n">station</span><span class="o">.</span><span class="n">name</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eval_fcn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">_horizon</span><span class="p">(</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">horizon_mask</span><span class="o">=</span><span class="n">horizon_mask</span><span class="p">,</span> <span class="n">station</span><span class="o">=</span><span class="n">station</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SnrConstraint"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.constraints.SnrConstraint">[docs]</a><span class="k">class</span> <span class="nc">SnrConstraint</span><span class="p">(</span><span class="n">ObserverConstraint</span><span class="p">):</span>
@@ -156,7 +373,23 @@
         <span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">_snr</span><span class="p">(</span><span class="n">snr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">snr_limit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_horizon</span><span class="p">(</span>
+    <span class="n">look_dir_eci</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">horizon_mask</span><span class="p">:</span> <span class="n">HorizonMask</span><span class="p">,</span>
+    <span class="n">dates</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">],</span>
+    <span class="n">station</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+    <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">eci_to_az_el</span><span class="p">(</span>
+        <span class="n">dates</span><span class="p">,</span> <span class="n">look_dir_eci</span> <span class="o">+</span> <span class="n">station</span><span class="o">.</span><span class="n">eci_at_dates</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">terrain_el_at_az</span> <span class="o">=</span> <span class="n">horizon_mask</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">wrap_to_two_pi</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">h</span> <span class="o">&gt;</span> <span class="n">terrain_el_at_az</span>
+
+
+<span class="k">def</span> <span class="nf">_snr</span><span class="p">(</span>
+    <span class="n">snr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">snr_limit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
     <span class="k">return</span> <span class="n">snr</span> <span class="o">&gt;</span> <span class="n">snr_limit</span>
 
 
