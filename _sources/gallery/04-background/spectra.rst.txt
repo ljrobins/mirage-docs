@@ -23,7 +23,7 @@ Astrometric Spectra
 
 A few useful spectra for simulating CCD measurements
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-33
+.. GENERATED FROM PYTHON SOURCE LINES 7-36
 
 
 
@@ -49,11 +49,13 @@ A few useful spectra for simulating CCD measurements
     isuntot = np.trapz(isun, ltest)
     tee = ps.atmospheric_transmission(ltest, 0 * ltest + np.pi / 4)
     qe = ps.quantum_efficiency(ltest)
+    zm = ps.proof_zero_mag_stellar_spectrum(ltest)
 
     sns.set_theme(style="whitegrid")
     sns.lineplot(x=ltest, y=isun, ci=None)
     sns.lineplot(x=ltest, y=qe, ci=None)
     sns.lineplot(x=ltest, y=tee, ci=None)
+    sns.lineplot(x=ltest, y=zm, ci=None)
     plt.legend(
         title="",
         loc="upper left",
@@ -61,6 +63,7 @@ A few useful spectra for simulating CCD measurements
             "Sun irradiance [W/cm^2/um]",
             "Quantum efficiency [-]",
             "Atmospheric transmission [-]",
+            "Zero magnitude source [-]",
         ],
     )
     plt.show()
@@ -68,7 +71,7 @@ A few useful spectra for simulating CCD measurements
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.458 seconds)
+   **Total running time of the script:** ( 0 minutes  0.193 seconds)
 
 
 .. _sphx_glr_download_gallery_04-background_spectra.py:

@@ -8,6 +8,7 @@
         <title>pyspaceaware.coordinates - pyspaceaware 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=e6660623a769aa55fea372102b9bf3151b292993" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
@@ -188,9 +189,18 @@
 <li class="toctree-l3"><a class="reference internal" href="../../gallery/03-coordinate-systems/eci_over_time.html">ITRF to J2000</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../gallery/04-background/index.html">Coordinate Frames</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of Coordinate Frames</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../gallery/04-background/index.html">Background Model</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of Background Model</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../gallery/04-background/spectra.html">Astrometric Spectra</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../gallery/04-background/background_signals.html">Background Signals</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../gallery/05-vis/index.html">Plotting Options</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of Plotting Options</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../gallery/05-vis/plot_earth.html">Plotting Earth</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../gallery/06-attitude/index.html">Rigid Body Attitudes</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of Rigid Body Attitudes</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../gallery/06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../gallery/06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
 </ul>
 </li>
 </ul>
@@ -828,6 +838,15 @@
 <div class="viewcode-block" id="sun_angle_to_horizon"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.coordinates.sun_angle_to_horizon">[docs]</a><span class="k">def</span> <span class="nf">sun_angle_to_horizon</span><span class="p">(</span>
     <span class="n">date</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">],</span> <span class="n">r_ecef</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The angle between the Sun and a set of earth-fixed points at a given date, with positive angles meaning the Sun is above the horizon</span>
+
+<span class="sd">    :param date: UTC datetime to evaluate at</span>
+<span class="sd">    :type date: np.ndarray[datetime.datetime]</span>
+<span class="sd">    :param r_ecef: Array of position vectors in ECEF coordinates to test</span>
+<span class="sd">    :type r_ecef: np.ndarray [nx3]</span>
+<span class="sd">    :return: Angle between Sun and horizon [rad]</span>
+<span class="sd">    :rtype: np.ndarray [nx1]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">r_eci</span> <span class="o">=</span> <span class="p">(</span><span class="n">ecef_to_eci</span><span class="p">(</span><span class="n">date</span><span class="p">)</span> <span class="o">@</span> <span class="n">r_ecef</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
     <span class="n">lat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">r_eci</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">vecnorm</span><span class="p">(</span><span class="n">r_eci</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]))</span>
     <span class="n">re_at_lat</span> <span class="o">=</span> <span class="n">radius_at_geodetic_lat</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span>
@@ -887,5 +906,7 @@
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/scripts/furo.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
     </body>
 </html>

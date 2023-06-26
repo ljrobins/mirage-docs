@@ -64,3 +64,49 @@ ps.plot_earth(
     high_def=True,
 )
 pl.show()
+
+# %%
+# We can also plot a range of dates and save the result as a movie
+
+import numpy as np
+
+dates = ps.now() + ps.days(np.linspace(0, 1, 40))
+
+pre_render_fcn = lambda pl: (
+    ps.plot_earth(pl, mode="eci", night_lights=True, date=dates[0]),
+    pl.enable_anti_aliasing("msaa"),
+)
+
+
+def render_fcn(
+    pl: pv.Plotter,
+    i: int,
+    dates: datetime.datetime = None,
+):
+    ps.plot_earth(
+        pl,
+        mode="eci",
+        night_lights=True,
+        high_def=True,
+        stars=True,
+        atmosphere=True,
+        date=dates[i],
+    )
+    pl.camera.focal_point = (0.0, 0.0, 0.0)
+    pl.camera.position = (20000.0, -20000.0, 10000.0)
+    pl.camera.up = (0.0, 0.0, 1.0)
+    pl.add_text(
+        f'{dates[i].strftime("%m/%d/%Y, %H:%M:%S")} UTC',
+        name="utc_str",
+        font="courier",
+    )
+
+
+ps.render_video(
+    pre_render_fcn,
+    lambda pl, i: render_fcn(pl, i, dates),
+    lambda pl, i: None,
+    dates.size,
+    "earth_with_nightlights.gif",
+    framerate=10,
+)

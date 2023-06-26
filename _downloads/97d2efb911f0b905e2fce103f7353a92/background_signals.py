@@ -126,3 +126,14 @@ signal_kwargs = {
     "zodiac": False,
 }
 hemisphere_signal(station, date, signal_kwargs)
+
+# %%
+# Plotting the full background signal with all sources enabled
+signal_kwargs = {
+    "atmos_scattered": True,
+    "moonlight": True,
+    "airglow": True,
+    "integrated_starlight": True,
+    "zodiac": True,
+}
+hemisphere_signal(station, date, signal_kwargs)

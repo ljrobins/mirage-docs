@@ -176,7 +176,7 @@ Star background
 
 All photorealistic settings
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-67
+.. GENERATED FROM PYTHON SOURCE LINES 57-68
 
 .. code-block:: default
 
@@ -190,6 +190,7 @@ All photorealistic settings
         high_def=True,
     )
     pl.show()
+
 
 
 
@@ -208,10 +209,79 @@ All photorealistic settings
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 69-70
+
+We can also plot a range of dates and save the result as a movie
+
+.. GENERATED FROM PYTHON SOURCE LINES 70-113
+
+.. code-block:: default
+
+
+    import numpy as np
+
+    dates = ps.now() + ps.days(np.linspace(0, 1, 40))
+
+    pre_render_fcn = lambda pl: (
+        ps.plot_earth(pl, mode="eci", night_lights=True, date=dates[0]),
+        pl.enable_anti_aliasing("msaa"),
+    )
+
+
+    def render_fcn(
+        pl: pv.Plotter,
+        i: int,
+        dates: datetime.datetime = None,
+    ):
+        ps.plot_earth(
+            pl,
+            mode="eci",
+            night_lights=True,
+            high_def=True,
+            stars=True,
+            atmosphere=True,
+            date=dates[i],
+        )
+        pl.camera.focal_point = (0.0, 0.0, 0.0)
+        pl.camera.position = (20000.0, -20000.0, 10000.0)
+        pl.camera.up = (0.0, 0.0, 1.0)
+        pl.add_text(
+            f'{dates[i].strftime("%m/%d/%Y, %H:%M:%S")} UTC',
+            name="utc_str",
+            font="courier",
+        )
+
+
+    ps.render_video(
+        pre_render_fcn,
+        lambda pl, i: render_fcn(pl, i, dates),
+        lambda pl, i: None,
+        dates.size,
+        "earth_with_nightlights.gif",
+        framerate=10,
+    )
+
+
+
+.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_006.gif
+   :alt: plot earth
+   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_006.gif
+   :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    [1.65369551] [0.40778564]
+
+
+
+
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  32.177 seconds)
+   **Total running time of the script:** ( 0 minutes  58.843 seconds)
 
 
 .. _sphx_glr_download_gallery_05-vis_plot_earth.py:
