@@ -1,0 +1,627 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="prev" title="Summer 2023 Studies" href="index.html" />
+
+    <!-- Generated with Sphinx 6.1.3 and Furo 2023.05.20 -->
+        <title>Earth Albedo BRDF - pyspaceaware 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=e6660623a769aa55fea372102b9bf3151b292993" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">pyspaceaware 0.0.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../_static/sid_logo_light.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../_static/sid_logo_dark.png" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">pyspaceaware 0.0.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">pyspaceaware</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of pyspaceaware</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../pyspaceaware.html">pyspaceaware package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../references.html">References</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">Examples Gallery</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Examples Gallery</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../00-tle/index.html">Working with TLEs</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Working with TLEs</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../00-tle/propagate_catalog.html">Propagating the catalog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../00-tle/propagate_single_tle.html">Propagating single TLE</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../01-light_curves/index.html">Light Curves</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Light Curves</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../01-light_curves/convex_light_curve.html">Convex Light Curves</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../02-lighting/index.html">Lighting</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of Lighting</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../02-lighting/brdfs.html">BRDFs on the local hemisphere</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../03-coordinate-systems/index.html">Coordinate Frames</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Coordinate Frames</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../03-coordinate-systems/eci_over_time.html">ITRF to J2000</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../04-background/index.html">Background Model</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of Background Model</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../04-background/spectra.html">Astrometric Spectra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../04-background/background_signals.html">Background Signals</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../05-vis/index.html">Plotting Options</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of Plotting Options</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../05-vis/plot_earth.html">Plotting Earth</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../06-attitude/index.html">Rigid Body Attitudes</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of Rigid Body Attitudes</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current has-children"><a class="reference internal" href="index.html">Summer 2023 Studies</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of Summer 2023 Studies</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">Earth Albedo BRDF</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-gallery-07-summer-2023-albedo-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="earth-albedo-brdf">
+<span id="sphx-glr-gallery-07-summer-2023-albedo-py"></span><h1>Earth Albedo BRDF<a class="headerlink" href="#earth-albedo-brdf" title="Permalink to this heading">#</a></h1>
+<p>Modeling the incident radiation at a spacecraft due to reflected sunlight from the Earth</p>
+<p>Useful papers not cited below:
+<a class="reference external" href="https://arc.aiaa.org/doi/pdf/10.2514/1.A33349">Kuvyrkin 2016</a>
+<a class="reference external" href="https://modis.gsfc.nasa.gov/data/atbd/atbd_mod09.pdf">Strahler 1999</a></p>
+<p>Let’s first load the coefficient arrays <span class="math notranslate nohighlight">\(f_{iso}\)</span>, <span class="math notranslate nohighlight">\(f_{geo}\)</span>, and <span class="math notranslate nohighlight">\(f_{vol}\)</span> from file</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.axes_grid1</span> <span class="kn">import</span> <span class="n">make_axes_locatable</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="n">save_dict</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">load_albedo_file</span><span class="p">()</span>
+<span class="n">fiso_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">save_dict</span><span class="p">[</span><span class="s2">&quot;fiso_map&quot;</span><span class="p">])</span>
+<span class="n">fgeo_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">save_dict</span><span class="p">[</span><span class="s2">&quot;fgeo_map&quot;</span><span class="p">])</span>
+<span class="n">fvol_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">save_dict</span><span class="p">[</span><span class="s2">&quot;fvol_map&quot;</span><span class="p">])</span>
+<span class="n">lat_geod_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">save_dict</span><span class="p">[</span><span class="s2">&quot;lat_geod_grid&quot;</span><span class="p">])</span>
+<span class="n">lon_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">save_dict</span><span class="p">[</span><span class="s2">&quot;lon_grid&quot;</span><span class="p">])</span>
+<span class="n">lat_geod_space</span> <span class="o">=</span> <span class="n">lat_geod_grid</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">lon_space</span> <span class="o">=</span> <span class="n">lon_grid</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
+<span class="n">mapshape</span> <span class="o">=</span> <span class="n">lon_grid</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+<p>The surface BRDF function in <a class="reference external" href="https://hal-mines-paristech.archives-ouvertes.fr/file/index/docid/1024989/filename/2014_igarss_albedo_blanc.pdf">Blanc 2014</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pws</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">ts</span><span class="p">,</span> <span class="n">fiso</span><span class="p">,</span> <span class="n">fgeo</span><span class="p">,</span> <span class="n">fvol</span><span class="p">:</span> <span class="n">fiso</span>
+    <span class="o">+</span> <span class="n">fvol</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.007574</span> <span class="o">-</span> <span class="mf">0.070987</span> <span class="o">*</span> <span class="n">ts</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">0.307588</span> <span class="o">*</span> <span class="n">ts</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">fgeo</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.284909</span> <span class="o">-</span> <span class="mf">0.166314</span> <span class="o">*</span> <span class="n">ts</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">0.041840</span> <span class="o">*</span> <span class="n">ts</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">pbs</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">ts</span><span class="p">,</span> <span class="n">fiso</span><span class="p">,</span> <span class="n">fgeo</span><span class="p">,</span> <span class="n">fvol</span><span class="p">:</span> <span class="n">fiso</span>
+    <span class="o">+</span> <span class="mf">0.189184</span> <span class="o">*</span> <span class="n">fvol</span>
+    <span class="o">-</span> <span class="mf">1.377622</span> <span class="o">*</span> <span class="n">fgeo</span>
+<span class="p">)</span>
+<span class="n">albedo</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">ts</span><span class="p">,</span> <span class="n">fiso</span><span class="p">,</span> <span class="n">fgeo</span><span class="p">,</span> <span class="n">fvol</span><span class="p">:</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">pws</span><span class="p">(</span>
+    <span class="n">ts</span><span class="p">,</span> <span class="n">fiso</span><span class="p">,</span> <span class="n">fgeo</span><span class="p">,</span> <span class="n">fvol</span>
+<span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">pbs</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">fiso</span><span class="p">,</span> <span class="n">fgeo</span><span class="p">,</span> <span class="n">fvol</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we define the date to evaluate the reflected albedo irradiance at and the ECEF position of the satellite</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">date</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="n">datestr</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1"> UTC&#39;</span>
+<span class="n">sat_pos_ecef</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6378</span> <span class="o">+</span> <span class="mf">4e4</span><span class="p">)</span> <span class="o">*</span> <span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]))</span>
+</pre></div>
+</div>
+<p>Now we identify all the useful geometry: the ECEF positions of the grid cells, the Sun vector, the solar zenith angle at each grid cell, and the albedo at each point</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ecef_grid</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">lla_to_itrf</span><span class="p">(</span>
+    <span class="n">lat_geod</span><span class="o">=</span><span class="n">lat_geod_grid</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+    <span class="n">lon</span><span class="o">=</span><span class="n">lon_grid</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+    <span class="n">a</span><span class="o">=</span><span class="mi">0</span> <span class="o">*</span> <span class="n">lon_grid</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="n">eci_to_ecef_rotm</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">ecef_to_eci</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">sun_ecef_hat</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">eci_to_ecef_rotm</span> <span class="o">@</span> <span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">sun</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">date_to_jd</span><span class="p">(</span><span class="n">date</span><span class="p">)))</span><span class="o">.</span><span class="n">T</span>
+<span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">sun_dir</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">sun_ecef_hat</span><span class="p">,</span> <span class="p">(</span><span class="n">ecef_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">solar_zenith</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">ecef_grid</span><span class="p">),</span> <span class="n">sun_dir</span><span class="p">))</span>
+<span class="n">solar_zenith_grid</span> <span class="o">=</span> <span class="n">solar_zenith</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mapshape</span><span class="p">)</span>
+<span class="n">albedo_grid</span> <span class="o">=</span> <span class="n">albedo</span><span class="p">(</span><span class="n">solar_zenith_grid</span><span class="p">,</span> <span class="n">fiso_map</span><span class="p">,</span> <span class="n">fgeo_map</span><span class="p">,</span> <span class="n">fvol_map</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For fun, let’s classify the types of twilight to plot later</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">solar_type_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">solar_zenith_grid</span><span class="p">)</span>
+<span class="n">solar_type_grid</span><span class="p">[</span>
+    <span class="p">(</span><span class="n">solar_zenith_grid</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="o">&amp;</span> <span class="p">(</span><span class="n">solar_zenith_grid</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mi">18</span><span class="p">))</span>
+<span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="c1"># Astronomical twilight</span>
+<span class="n">solar_type_grid</span><span class="p">[</span>
+    <span class="p">(</span><span class="n">solar_zenith_grid</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="o">&amp;</span> <span class="p">(</span><span class="n">solar_zenith_grid</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mi">12</span><span class="p">))</span>
+<span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="c1"># Nautical twilight</span>
+<span class="n">solar_type_grid</span><span class="p">[</span>
+    <span class="p">(</span><span class="n">solar_zenith_grid</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="o">&amp;</span> <span class="p">(</span><span class="n">solar_zenith_grid</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+<span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c1"># Civil twilight</span>
+<span class="n">solar_type_grid</span><span class="p">[</span><span class="n">solar_zenith_grid</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mi">16</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="c1"># Night</span>
+</pre></div>
+</div>
+<p>Computing which grid cells are visible from the satellite</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">surf_to_sat</span> <span class="o">=</span> <span class="n">sat_pos_ecef</span> <span class="o">-</span> <span class="n">ecef_grid</span>
+<span class="n">surf_to_sat_dir</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">surf_to_sat</span><span class="p">)</span>
+<span class="n">surf_to_sat_rmag_m_grid</span> <span class="o">=</span> <span class="mf">1e3</span> <span class="o">*</span> <span class="n">ps</span><span class="o">.</span><span class="n">vecnorm</span><span class="p">(</span><span class="n">surf_to_sat</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+    <span class="n">mapshape</span>
+<span class="p">)</span>
+<span class="n">tosat_to_normal_ang</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span>
+    <span class="n">ps</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">ecef_grid</span><span class="p">),</span> <span class="n">surf_to_sat_dir</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">tosat_to_normal_grid</span> <span class="o">=</span> <span class="n">tosat_to_normal_ang</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mapshape</span><span class="p">)</span>
+<span class="n">pt_visible_from_sat</span> <span class="o">=</span> <span class="n">tosat_to_normal_grid</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span>
+
+<span class="c1"># Visible and illuminated points</span>
+<span class="n">ill_and_vis</span> <span class="o">=</span> <span class="n">pt_visible_from_sat</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">solar_type_grid</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">loss_at_surf</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">solar_zenith_grid</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">tosat_to_normal_grid</span><span class="p">)</span>
+<span class="p">)</span> <span class="o">*</span> <span class="n">ill_and_vis</span>
+<span class="n">is_ocean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">albedo_grid</span> <span class="o">-</span> <span class="n">albedo_grid</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mf">1e-8</span>
+<span class="n">loss_at_surface_specular</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">ps</span><span class="o">.</span><span class="n">brdf_phong</span><span class="p">(</span>
+        <span class="n">sun_dir</span><span class="p">,</span> <span class="n">surf_to_sat_dir</span><span class="p">,</span> <span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">ecef_grid</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mi">10</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mapshape</span><span class="p">)</span>
+    <span class="o">*</span> <span class="n">is_ocean</span>
+<span class="p">)</span>
+
+<span class="n">obs_type_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">solar_zenith_grid</span><span class="p">)</span>
+<span class="n">obs_type_grid</span><span class="p">[</span><span class="n">pt_visible_from_sat</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">obs_type_grid</span><span class="p">[(</span><span class="n">solar_type_grid</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">pt_visible_from_sat</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">obs_type_grid</span><span class="p">[</span><span class="n">ill_and_vis</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p>Computes the areas of each grid cell</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dp</span><span class="p">,</span> <span class="n">dt</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">lat_geod_space</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">lat_geod_space</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">lon_space</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">lon_space</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">cell_area_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">ps</span><span class="o">.</span><span class="n">lat_lon_cell_area</span><span class="p">((</span><span class="n">p</span> <span class="o">+</span> <span class="n">dp</span><span class="p">,</span> <span class="n">p</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dt</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">lat_geod_space</span>
+        <span class="p">]</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">lon_space</span><span class="o">.</span><span class="n">size</span><span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Computing Lambertian reflection (for the land) and Phong reflection (for the ocean) from each grid cell</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rmag_loss_grid</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">surf_to_sat_rmag_m_grid</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">irrad_from_surf</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="mi">1361</span>
+    <span class="o">*</span> <span class="n">rmag_loss_grid</span>
+    <span class="o">*</span> <span class="n">cell_area_grid</span>
+    <span class="o">*</span> <span class="p">(</span><span class="n">loss_at_surf</span> <span class="o">*</span> <span class="n">albedo_grid</span> <span class="o">+</span> <span class="n">loss_at_surface_specular</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">irrad_from_surf</span><span class="p">)</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>7.40e+00
+</pre></div>
+</div>
+<p>Let’s compare with the implementation in the pyspaceaware package</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ps</span><span class="o">.</span><span class="n">tic</span><span class="p">()</span>
+<span class="n">alb_irrad</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">albedo_irradiance</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">sat_pos_ecef</span><span class="p">)</span>
+<span class="n">ps</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">alb_irrad</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 2.60e-01 seconds
+7.40e+00
+</pre></div>
+</div>
+<p>Defining a few useful functions to simplify the plotting process</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bcmap</span> <span class="o">=</span> <span class="s2">&quot;PiYG&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">plt_map_under</span><span class="p">(</span><span class="n">ax</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
+        <span class="n">albedo_grid</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">]</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_cbar_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">make_axes_locatable</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span><span class="o">.</span><span class="n">append_axes</span><span class="p">(</span>
+        <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s2">&quot;5%&quot;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.05</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">label_map_axes</span><span class="p">(</span><span class="n">ax</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Longitude [deg]&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Latitude [deg]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Plotting the albedo across the grid</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">albedo_grid</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;PuBuGn_r&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;March Mean Albedo&quot;</span><span class="p">)</span>
+<span class="n">cb</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Surface Albedo&quot;</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">get_cbar_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">))</span>
+<span class="n">label_map_axes</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_albedo_001.png" srcset="../../_images/sphx_glr_albedo_001.png" alt="March Mean Albedo" class = "sphx-glr-single-img"/><p>Plotting the solar zenith angle</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
+        <span class="n">solar_zenith_grid</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">]</span>
+    <span class="p">),</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Solar zenith angle [rad]&quot;</span><span class="p">,</span>
+    <span class="n">cax</span><span class="o">=</span><span class="n">get_cbar_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">plt_map_under</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Solar Zenith Angles: </span><span class="si">{</span><span class="n">datestr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">label_map_axes</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_albedo_002.png" srcset="../../_images/sphx_glr_albedo_002.png" alt="Solar Zenith Angles: 2023-06-29 06:12:06 UTC" class = "sphx-glr-single-img"/><p>Plotting the twilight types</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">cb</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
+        <span class="n">solar_type_grid</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">]</span>
+    <span class="p">),</span>
+    <span class="n">cax</span><span class="o">=</span><span class="n">get_cbar_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">cb</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">cb</span><span class="o">.</span><span class="n">set_ticklabels</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;Day&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Civil twilight&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Nautical twilight&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Astronomical twilight&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Night&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="n">plt_map_under</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Twilight Types: </span><span class="si">{</span><span class="n">datestr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">label_map_axes</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_albedo_003.png" srcset="../../_images/sphx_glr_albedo_003.png" alt="Twilight Types: 2023-06-29 06:12:06 UTC" class = "sphx-glr-single-img"/><p>Plotting grid cell visibility and illumination conditions</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">cb</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
+        <span class="n">obs_type_grid</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s2">&quot;Paired&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+        <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">,</span>
+        <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">],</span>
+    <span class="p">),</span>
+    <span class="n">cax</span><span class="o">=</span><span class="n">get_cbar_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">cb</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">cb</span><span class="o">.</span><span class="n">set_ticklabels</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;Not visible or illum.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Visible not illum.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Illum. not visible&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Illum. and visible&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="n">plt_map_under</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Observation Conditions: </span><span class="si">{</span><span class="n">datestr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">label_map_axes</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_albedo_004.png" srcset="../../_images/sphx_glr_albedo_004.png" alt="Observation Conditions: 2023-06-29 06:12:06 UTC" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/Users/liamrobinson/Documents/PyLightCurves/examples/07-summer-2023/albedo.py:236: MatplotlibDeprecationWarning: The get_cmap function was deprecated in Matplotlib 3.7 and will be removed two minor releases later. Use ``matplotlib.colormaps[name]`` or ``matplotlib.colormaps.get_cmap(obj)`` instead.
+  cmap=plt.cm.get_cmap(&quot;Paired&quot;, 4),
+</pre></div>
+</div>
+<p>BRDF kernel values at each point</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
+        <span class="n">loss_at_surf</span> <span class="o">+</span> <span class="n">loss_at_surface_specular</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">,</span>
+        <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">],</span>
+    <span class="p">),</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">cax</span><span class="o">=</span><span class="n">get_cbar_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">plt_map_under</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;BRDF Kernel: </span><span class="si">{</span><span class="n">datestr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">label_map_axes</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_albedo_005.png" srcset="../../_images/sphx_glr_albedo_005.png" alt="BRDF Kernel: 2023-06-29 06:12:06 UTC" class = "sphx-glr-single-img"/><p>Plotting the areas of each grid cell</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
+        <span class="n">cell_area_grid</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">]</span>
+    <span class="p">),</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$[m^2]$&quot;</span><span class="p">,</span>
+    <span class="n">cax</span><span class="o">=</span><span class="n">get_cbar_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">plt_map_under</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cell Areas: </span><span class="si">{</span><span class="n">datestr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">label_map_axes</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_albedo_006.png" srcset="../../_images/sphx_glr_albedo_006.png" alt="Cell Areas: 2023-06-29 06:12:06 UTC" class = "sphx-glr-single-img"/><p>Plotting the irradiance from each grid cell</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">plt_map_under</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">irrad_from_surf</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;hot&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">]),</span>
+    <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\left[W/m^2\right]$&quot;</span><span class="p">,</span>
+    <span class="n">cax</span><span class="o">=</span><span class="n">get_cbar_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">rf</span><span class="s2">&quot;Reflected Irradiance: </span><span class="si">{</span><span class="n">datestr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">label_map_axes</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_albedo_007.png" srcset="../../_images/sphx_glr_albedo_007.png" alt="Reflected Irradiance: 2023-06-29 06:12:06 UTC" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.609 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-07-summer-2023-albedo-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/7953f280b20ced09e4621dee85b89f92/albedo.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">albedo.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/cf18caee9d5e8d1f8e7653f318c9b96a/albedo.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">albedo.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          <a class="prev-page" href="index.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Summer 2023 Studies</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2023, Liam Robinson
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/liamrobinson1/pyspaceaware" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/furo.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+</html>

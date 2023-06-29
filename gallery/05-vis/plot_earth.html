@@ -205,6 +205,10 @@
 <li class="toctree-l3"><a class="reference internal" href="../06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
 </ul>
 </li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../07-summer-2023/index.html">Summer 2023 Studies</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of Summer 2023 Studies</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../07-summer-2023/albedo.html">Earth Albedo BRDF</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -325,7 +329,7 @@ to download the full example code</p>
 <p>We can also plot a range of dates and save the result as a movie</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="n">dates</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">ps</span><span class="o">.</span><span class="n">days</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">40</span><span class="p">))</span>
+<span class="n">dates</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">ps</span><span class="o">.</span><span class="n">days</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 
 <span class="n">pre_render_fcn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">pl</span><span class="p">:</span> <span class="p">(</span>
     <span class="n">ps</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;eci&quot;</span><span class="p">,</span> <span class="n">night_lights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">dates</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
@@ -363,14 +367,14 @@ to download the full example code</p>
     <span class="k">lambda</span> <span class="n">pl</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">dates</span><span class="o">.</span><span class="n">size</span><span class="p">,</span>
     <span class="s2">&quot;earth_with_nightlights.gif&quot;</span><span class="p">,</span>
-    <span class="n">framerate</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">framerate</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_plot_earth_006.gif" srcset="../../_images/sphx_glr_plot_earth_006.gif" alt="plot earth" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[1.65369551] [0.40778564]
+<img src="../../_images/sphx_glr_plot_earth_006.gif" srcset="../../_images/sphx_glr_plot_earth_006.gif" alt="plot earth" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[1.70919537] [0.40554493]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  58.843 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 1 minutes  23.819 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-05-vis-plot-earth-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/3e8874221a1ae1def191698df6f585ac/plot_earth.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_earth.py</span></code></a></p>

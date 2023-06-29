@@ -70,7 +70,7 @@ pl.show()
 
 import numpy as np
 
-dates = ps.now() + ps.days(np.linspace(0, 1, 40))
+dates = ps.now() + ps.days(np.linspace(0, 1, 80, endpoint=False))
 
 pre_render_fcn = lambda pl: (
     ps.plot_earth(pl, mode="eci", night_lights=True, date=dates[0]),
@@ -108,5 +108,5 @@ ps.render_video(
     lambda pl, i: None,
     dates.size,
     "earth_with_nightlights.gif",
-    framerate=10,
+    framerate=24,
 )
