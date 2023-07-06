@@ -199,8 +199,16 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../gallery/06-attitude/index.html">Rigid Body Attitudes</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of Rigid Body Attitudes</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../gallery/06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../gallery/06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../gallery/06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../gallery/07-summer-2023/index.html">Summer 2023 Studies</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of Summer 2023 Studies</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../gallery/07-summer-2023/spice.html">SPICE vs Vallado</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../gallery/07-summer-2023/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../gallery/07-summer-2023/horizon_mask.html">Horizon Masks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../gallery/07-summer-2023/albedo.html">Earth Albedo BRDF</a></li>
 </ul>
 </li>
 </ul>
@@ -256,6 +264,7 @@
     <span class="n">sph_to_cart</span><span class="p">,</span>
     <span class="n">cart_to_sph</span><span class="p">,</span>
     <span class="n">wrap_to_two_pi</span><span class="p">,</span>
+    <span class="n">vecnorm</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">.geodetic</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">geodetic_lat_to_geocentric</span><span class="p">,</span>
@@ -270,6 +279,7 @@
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">import</span> <span class="nn">spiceypy</span> <span class="k">as</span> <span class="nn">spice</span>
 
 <span class="n">iers_provider</span> <span class="o">=</span> <span class="n">IERS_A</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">download_file</span><span class="p">(</span><span class="n">IERS_A_URL</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 <span class="n">nutation_coeffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span>
@@ -355,6 +365,39 @@
 <span class="sd">    :rtype: np.ndarray [3x3]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">ecef_to_eci</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">.</span><span class="n">T</span></div>
+
+
+<div class="viewcode-block" id="spice_moon"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.coordinates.spice_moon">[docs]</a><span class="k">def</span> <span class="nf">spice_moon</span><span class="p">(</span><span class="n">dates</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes the position of the Moon in equatorial J2000 using the JPL NAIF SPICE toolkit</span>
+
+<span class="sd">    :param dates: Array of UTC dates</span>
+<span class="sd">    :type dates: np.ndarray[datetime.datetime] [nx1]</span>
+<span class="sd">    :return: Vector to Moon from Earth center [km]</span>
+<span class="sd">    :rtype: np.ndarray [nx3]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">):</span>
+        <span class="n">dates</span> <span class="o">=</span> <span class="p">[</span><span class="n">dates</span><span class="p">]</span>
+    <span class="n">spice_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;DATADIR&quot;</span><span class="p">],</span> <span class="s2">&quot;spice&quot;</span><span class="p">)</span>
+    <span class="n">moon_bsp</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">spice_dir</span><span class="p">,</span> <span class="s2">&quot;de440s.bsp&quot;</span><span class="p">)</span>
+    <span class="n">tpc_kernel</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">spice_dir</span><span class="p">,</span> <span class="s2">&quot;pck00011.tpc&quot;</span><span class="p">)</span>
+    <span class="n">ls_kernel</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">spice_dir</span><span class="p">,</span> <span class="s2">&quot;latest_leapseconds.tls&quot;</span><span class="p">)</span>
+
+    <span class="n">target</span> <span class="o">=</span> <span class="s2">&quot;Moon&quot;</span>
+    <span class="n">observer</span> <span class="o">=</span> <span class="s2">&quot;Earth&quot;</span>
+
+    <span class="n">spice</span><span class="o">.</span><span class="n">furnsh</span><span class="p">(</span><span class="n">moon_bsp</span><span class="p">)</span>
+    <span class="n">spice</span><span class="o">.</span><span class="n">furnsh</span><span class="p">(</span><span class="n">tpc_kernel</span><span class="p">)</span>
+    <span class="n">spice</span><span class="o">.</span><span class="n">furnsh</span><span class="p">(</span><span class="n">ls_kernel</span><span class="p">)</span>
+    <span class="c1"># Convert UTC time to ET</span>
+    <span class="n">utc_strs</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dates</span><span class="p">]</span>
+    <span class="n">ets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">spice</span><span class="o">.</span><span class="n">utc2et</span><span class="p">(</span><span class="n">utc_str</span><span class="p">)</span> <span class="k">for</span> <span class="n">utc_str</span> <span class="ow">in</span> <span class="n">utc_strs</span><span class="p">])</span>
+    <span class="n">moon_pos</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">spice</span><span class="o">.</span><span class="n">spkpos</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">ets</span><span class="p">,</span> <span class="s2">&quot;J2000&quot;</span><span class="p">,</span> <span class="s2">&quot;LT+S&quot;</span><span class="p">,</span> <span class="n">observer</span><span class="p">)</span>
+
+    <span class="n">spice</span><span class="o">.</span><span class="n">unload</span><span class="p">(</span><span class="n">moon_bsp</span><span class="p">)</span>
+    <span class="n">spice</span><span class="o">.</span><span class="n">unload</span><span class="p">(</span><span class="n">tpc_kernel</span><span class="p">)</span>
+    <span class="n">spice</span><span class="o">.</span><span class="n">furnsh</span><span class="p">(</span><span class="n">ls_kernel</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">moon_pos</span></div>
 
 
 <div class="viewcode-block" id="moon"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.coordinates.moon">[docs]</a><span class="k">def</span> <span class="nf">moon</span><span class="p">(</span><span class="n">jd</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
@@ -758,9 +801,17 @@
     <span class="k">return</span> <span class="p">(</span><span class="n">wrap_to_two_pi</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">theta</span><span class="p">),</span> <span class="n">phi</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="az_el_to_enu"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.coordinates.az_el_to_enu">[docs]</a><span class="k">def</span> <span class="nf">az_el_to_enu</span><span class="p">(</span><span class="n">az</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">el</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-    <span class="n">r_hat_enu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">sph_to_cart</span><span class="p">(</span><span class="o">-</span><span class="n">az</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">el</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
-    <span class="k">return</span> <span class="n">r_hat_enu</span></div>
+<div class="viewcode-block" id="az_el_to_enu"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.coordinates.az_el_to_enu">[docs]</a><span class="k">def</span> <span class="nf">az_el_to_enu</span><span class="p">(</span><span class="n">az</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">el</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts from azimuth and eleation on the local viewing sphere to East North Up (ENU) vectors</span>
+
+<span class="sd">    :param az: Azimuth [rad], measured CCW from the East vector</span>
+<span class="sd">    :type az: np.ndarray [nx1]</span>
+<span class="sd">    :param el: Elevation [rad], measured from the East-North plane, with positive elevations above the plane</span>
+<span class="sd">    :type el: np.ndarray [nx1]</span>
+<span class="sd">    :return: ECI unit vectors</span>
+<span class="sd">    :rtype: np.ndarray [nx3]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">sph_to_cart</span><span class="p">(</span><span class="o">-</span><span class="n">az</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">el</span><span class="p">))</span><span class="o">.</span><span class="n">T</span></div>
 
 
 <div class="viewcode-block" id="eci_to_ra_dec"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.coordinates.eci_to_ra_dec">[docs]</a><span class="k">def</span> <span class="nf">eci_to_ra_dec</span><span class="p">(</span><span class="n">eci_dir</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
@@ -774,12 +825,7 @@
     <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cart_to_sph</span><span class="p">(</span>
         <span class="n">eci_dir</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">eci_dir</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">eci_dir</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
     <span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">wrap_to_two_pi</span><span class="p">(</span><span class="n">ra</span><span class="p">),</span> <span class="n">dec</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">wrap_to_two_pi</span><span class="p">(</span><span class="n">ra</span><span class="p">),</span> <span class="n">dec</span></div>
-
-
-<span class="kn">from</span> <span class="nn">.math</span> <span class="kn">import</span> <span class="n">vecnorm</span>
-<span class="kn">from</span> <span class="nn">.geodetic</span> <span class="kn">import</span> <span class="n">radius_at_geodetic_lat</span>
 
 
 <div class="viewcode-block" id="sun_irradiance_fraction"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.coordinates.sun_irradiance_fraction">[docs]</a><span class="k">def</span> <span class="nf">sun_irradiance_fraction</span><span class="p">(</span>

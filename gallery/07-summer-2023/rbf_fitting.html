@@ -1,0 +1,586 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Earth Albedo BRDF" href="albedo.html" /><link rel="prev" title="Horizon Masks" href="horizon_mask.html" />
+
+    <!-- Generated with Sphinx 6.1.3 and Furo 2023.05.20 -->
+        <title>Neural Network Brightness - pyspaceaware 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=e6660623a769aa55fea372102b9bf3151b292993" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">pyspaceaware 0.0.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../_static/sid_logo_light.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../_static/sid_logo_dark.png" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">pyspaceaware 0.0.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">pyspaceaware</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of pyspaceaware</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../pyspaceaware.html">pyspaceaware package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../references.html">References</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">Examples Gallery</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Examples Gallery</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../00-tle/index.html">Working with TLEs</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Working with TLEs</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../00-tle/propagate_catalog.html">Propagating the catalog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../00-tle/propagate_single_tle.html">Propagating single TLE</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../01-light_curves/index.html">Light Curves</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Light Curves</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../01-light_curves/convex_light_curve.html">Convex Light Curves</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../02-lighting/index.html">Lighting</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of Lighting</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../02-lighting/brdfs.html">BRDFs on the local hemisphere</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../03-coordinate-systems/index.html">Coordinate Frames</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Coordinate Frames</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../03-coordinate-systems/eci_over_time.html">ITRF to J2000</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../04-background/index.html">Background Model</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of Background Model</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../04-background/spectra.html">Astrometric Spectra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../04-background/background_signals.html">Background Signals</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../05-vis/index.html">Plotting Options</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of Plotting Options</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../05-vis/plot_earth.html">Plotting Earth</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../06-attitude/index.html">Rigid Body Attitudes</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of Rigid Body Attitudes</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current has-children"><a class="reference internal" href="index.html">Summer 2023 Studies</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of Summer 2023 Studies</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="spice.html">SPICE vs Vallado</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="horizon_mask.html">Horizon Masks</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">Neural Network Brightness</a></li>
+<li class="toctree-l3"><a class="reference internal" href="albedo.html">Earth Albedo BRDF</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-gallery-07-summer-2023-rbf-fitting-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="neural-network-brightness">
+<span id="sphx-glr-gallery-07-summer-2023-rbf-fitting-py"></span><h1>Neural Network Brightness<a class="headerlink" href="#neural-network-brightness" title="Permalink to this heading">#</a></h1>
+<p>Trains a neural network to predict the brightness of a specular cube in an arbitrary lighting and observation conditions and compares the results to the truth</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;./src&quot;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+</pre></div>
+</div>
+<p>Let’s define the object and the BRDF</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">obj</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">SpaceObject</span><span class="p">(</span><span class="s2">&quot;cube.obj&quot;</span><span class="p">)</span>
+<span class="n">brdf</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">Brdf</span><span class="p">(</span><span class="s2">&quot;phong&quot;</span><span class="p">,</span> <span class="n">cd</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">cs</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We now define the Multi-Layer Perceptron (MLP) brightness model. Note that the <code class="docutils literal notranslate"><span class="pre">layers=(150,</span> <span class="pre">50,</span> <span class="pre">150)</span></code> keyword argument defines the number of neurons in each densely-connected layer.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mlp_bm</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">MLPBrightnessModel</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">brdf</span><span class="p">,</span> <span class="n">use_engine</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we train the model on a set number of training lighting and observation configurations. Usually <code class="docutils literal notranslate"><span class="pre">1e5</span></code>-<code class="docutils literal notranslate"><span class="pre">1e6</span></code> are required for a <em>good</em> fit</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">num_train</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e3</span><span class="p">)</span>
+<span class="n">mlp_bm</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">num_train</span><span class="o">=</span><span class="n">num_train</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/Users/liamrobinson/Documents/PyLightCurves/src/pyspaceaware/lighting.py:48: RuntimeWarning: invalid value encountered in divide
+  fs = cs * (n + 1) / (2 * np.pi) * rdot(R, O) ** n / NdL
+Compute training LC: 2.88e-03 seconds
+Iteration 1, loss = 0.18774222
+Iteration 2, loss = 0.15324416
+Iteration 3, loss = 0.13543048
+Iteration 4, loss = 0.13446600
+Iteration 5, loss = 0.12605517
+Iteration 6, loss = 0.12319239
+Iteration 7, loss = 0.11897641
+Iteration 8, loss = 0.11686532
+Iteration 9, loss = 0.11366989
+Iteration 10, loss = 0.11116266
+Iteration 11, loss = 0.10929433
+Iteration 12, loss = 0.10593984
+Iteration 13, loss = 0.10337925
+Iteration 14, loss = 0.10022938
+Iteration 15, loss = 0.09782853
+Iteration 16, loss = 0.09642232
+Iteration 17, loss = 0.09404759
+Iteration 18, loss = 0.08964537
+Iteration 19, loss = 0.08579700
+Iteration 20, loss = 0.08286149
+Iteration 21, loss = 0.07855742
+Iteration 22, loss = 0.07480672
+Iteration 23, loss = 0.06964270
+Iteration 24, loss = 0.06745349
+Iteration 25, loss = 0.06228476
+Iteration 26, loss = 0.05872266
+Iteration 27, loss = 0.05658078
+Iteration 28, loss = 0.05222204
+Iteration 29, loss = 0.05094390
+Iteration 30, loss = 0.05050217
+Iteration 31, loss = 0.04613178
+Iteration 32, loss = 0.04381322
+Iteration 33, loss = 0.04148543
+Iteration 34, loss = 0.04157464
+Iteration 35, loss = 0.03952520
+Iteration 36, loss = 0.03741160
+Iteration 37, loss = 0.03641320
+Iteration 38, loss = 0.03744549
+Iteration 39, loss = 0.03473975
+Iteration 40, loss = 0.03411813
+Iteration 41, loss = 0.03071803
+Iteration 42, loss = 0.03100968
+Iteration 43, loss = 0.02992572
+Iteration 44, loss = 0.02673110
+Iteration 45, loss = 0.02672399
+Iteration 46, loss = 0.02519214
+Iteration 47, loss = 0.02367260
+Iteration 48, loss = 0.02207933
+Iteration 49, loss = 0.02069449
+Iteration 50, loss = 0.01978055
+Iteration 51, loss = 0.01940418
+Iteration 52, loss = 0.02051941
+Iteration 53, loss = 0.01951438
+Iteration 54, loss = 0.01879431
+Iteration 55, loss = 0.01700520
+Iteration 56, loss = 0.01541692
+Iteration 57, loss = 0.01523817
+Iteration 58, loss = 0.01504424
+Iteration 59, loss = 0.01447218
+Iteration 60, loss = 0.01410180
+Iteration 61, loss = 0.01263857
+Iteration 62, loss = 0.01224513
+Iteration 63, loss = 0.01205522
+Iteration 64, loss = 0.01175556
+Iteration 65, loss = 0.01243286
+Iteration 66, loss = 0.01192899
+Iteration 67, loss = 0.01169406
+Iteration 68, loss = 0.01023293
+Iteration 69, loss = 0.01046588
+Iteration 70, loss = 0.00976087
+Iteration 71, loss = 0.01034684
+Iteration 72, loss = 0.00889451
+Iteration 73, loss = 0.00912081
+Iteration 74, loss = 0.00865496
+Iteration 75, loss = 0.00798171
+Iteration 76, loss = 0.00746062
+Iteration 77, loss = 0.00733258
+Iteration 78, loss = 0.00679631
+Iteration 79, loss = 0.00641806
+Iteration 80, loss = 0.00695642
+Iteration 81, loss = 0.00728598
+Iteration 82, loss = 0.00682302
+Iteration 83, loss = 0.00700397
+Iteration 84, loss = 0.00746141
+Iteration 85, loss = 0.00702924
+Iteration 86, loss = 0.00633443
+Iteration 87, loss = 0.00559587
+Iteration 88, loss = 0.00546087
+Iteration 89, loss = 0.00606288
+Iteration 90, loss = 0.00551222
+Iteration 91, loss = 0.00492960
+Iteration 92, loss = 0.00497260
+Iteration 93, loss = 0.00520899
+Iteration 94, loss = 0.00511297
+Iteration 95, loss = 0.00492487
+Iteration 96, loss = 0.00479248
+Iteration 97, loss = 0.00452820
+Iteration 98, loss = 0.00425425
+Iteration 99, loss = 0.00384369
+Iteration 100, loss = 0.00378233
+Iteration 101, loss = 0.00371302
+Iteration 102, loss = 0.00354938
+Iteration 103, loss = 0.00353461
+Iteration 104, loss = 0.00341815
+Iteration 105, loss = 0.00384953
+Iteration 106, loss = 0.00341347
+Iteration 107, loss = 0.00320110
+Iteration 108, loss = 0.00321307
+Iteration 109, loss = 0.00327607
+Iteration 110, loss = 0.00296173
+Iteration 111, loss = 0.00292938
+Iteration 112, loss = 0.00297904
+Iteration 113, loss = 0.00272970
+Iteration 114, loss = 0.00275413
+Iteration 115, loss = 0.00282040
+Iteration 116, loss = 0.00335087
+Iteration 117, loss = 0.00312735
+Iteration 118, loss = 0.00290171
+Iteration 119, loss = 0.00244897
+Iteration 120, loss = 0.00231949
+Iteration 121, loss = 0.00232882
+Iteration 122, loss = 0.00272240
+Iteration 123, loss = 0.00235640
+Iteration 124, loss = 0.00250213
+Iteration 125, loss = 0.00250526
+Iteration 126, loss = 0.00228289
+Iteration 127, loss = 0.00244699
+Iteration 128, loss = 0.00223582
+Iteration 129, loss = 0.00195448
+Iteration 130, loss = 0.00193931
+Iteration 131, loss = 0.00186323
+Iteration 132, loss = 0.00187579
+Iteration 133, loss = 0.00199710
+Iteration 134, loss = 0.00273512
+Iteration 135, loss = 0.00220252
+Iteration 136, loss = 0.00203277
+Iteration 137, loss = 0.00181513
+Iteration 138, loss = 0.00183299
+Iteration 139, loss = 0.00179257
+Iteration 140, loss = 0.00172292
+Training loss did not improve more than tol=0.000100 for 10 consecutive epochs. Stopping.
+Fit against 1000 pts: : 2.36e+02 seconds
+Serialize model: 8.88e-02 seconds
+</pre></div>
+</div>
+<p>We can now simulate a torque-free attitude profile to inspect the quality of the fit</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">t_eval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">q</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">propagate_attitude_torque_free</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]),</span>
+    <span class="n">t_eval</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">dcm</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">quat_to_dcm</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+<span class="n">ovb</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">stack_mat_mult</span><span class="p">(</span><span class="n">dcm</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]))</span>
+<span class="n">svb</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">stack_mat_mult</span><span class="p">(</span><span class="n">dcm</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]))</span>
+</pre></div>
+</div>
+<p>Evaluating the model in its two available formats - as a native <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> model and as an Open Neural Network eXchange (ONNX) model</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ps</span><span class="o">.</span><span class="n">tic</span><span class="p">(</span><span class="s2">&quot;Evaluate trained model with sklearn&quot;</span><span class="p">)</span>
+<span class="n">mdl_b_sklearn</span> <span class="o">=</span> <span class="n">mlp_bm</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">ovb</span><span class="p">,</span> <span class="n">svb</span><span class="p">,</span> <span class="n">eval_mode_pref</span><span class="o">=</span><span class="s2">&quot;sklearn&quot;</span><span class="p">)</span>
+<span class="n">ps</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
+<span class="n">ps</span><span class="o">.</span><span class="n">tic</span><span class="p">(</span><span class="s2">&quot;Evaluate trained model with onnx&quot;</span><span class="p">)</span>
+<span class="n">mdl_b_onnx</span> <span class="o">=</span> <span class="n">mlp_bm</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">ovb</span><span class="p">,</span> <span class="n">svb</span><span class="p">,</span> <span class="n">eval_mode_pref</span><span class="o">=</span><span class="s2">&quot;onnx&quot;</span><span class="p">)</span>
+<span class="n">ps</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Evaluate trained model with sklearn: 1.56e-01 seconds
+Evaluate trained model with onnx: 6.31e-03 seconds
+</pre></div>
+</div>
+<p>We can save both of these representations to file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mlp_bm</span><span class="o">.</span><span class="n">save_to_file</span><span class="p">(</span><span class="n">save_as_format</span><span class="o">=</span><span class="s2">&quot;onnx&quot;</span><span class="p">)</span>
+<span class="n">mlp_bm</span><span class="o">.</span><span class="n">save_to_file</span><span class="p">(</span><span class="n">save_as_format</span><span class="o">=</span><span class="s2">&quot;sklearn&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we load the model from its <code class="docutils literal notranslate"><span class="pre">.onxx</span></code> file we just saved and evaluate the brightness</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mlp_bm</span><span class="o">.</span><span class="n">load_from_file</span><span class="p">(</span><span class="n">mlp_bm</span><span class="o">.</span><span class="n">onnx_file_name</span><span class="p">)</span>
+<span class="n">ps</span><span class="o">.</span><span class="n">tic</span><span class="p">(</span><span class="s2">&quot;Evaluate loaded model with onxx&quot;</span><span class="p">)</span>
+<span class="n">mdl_onnx_loaded</span> <span class="o">=</span> <span class="n">mlp_bm</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">ovb</span><span class="p">,</span> <span class="n">svb</span><span class="p">,</span> <span class="n">eval_mode_pref</span><span class="o">=</span><span class="s2">&quot;onnx&quot;</span><span class="p">)</span>
+<span class="n">ps</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Evaluate loaded model with onxx: 1.54e-03 seconds
+</pre></div>
+</div>
+<p>And we do the same for the <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> <code class="docutils literal notranslate"><span class="pre">.plk</span></code> file we saved</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mlp_bm</span><span class="o">.</span><span class="n">load_from_file</span><span class="p">(</span><span class="n">mlp_bm</span><span class="o">.</span><span class="n">sklearn_file_name</span><span class="p">)</span>
+<span class="n">ps</span><span class="o">.</span><span class="n">tic</span><span class="p">(</span><span class="s2">&quot;Evaluate loaded model with sklearn&quot;</span><span class="p">)</span>
+<span class="n">mdl_sklearn_loaded</span> <span class="o">=</span> <span class="n">mlp_bm</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">ovb</span><span class="p">,</span> <span class="n">svb</span><span class="p">,</span> <span class="n">eval_mode_pref</span><span class="o">=</span><span class="s2">&quot;sklearn&quot;</span><span class="p">)</span>
+<span class="n">ps</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Evaluate loaded model with sklearn: 1.34e-01 seconds
+</pre></div>
+</div>
+<p>We can easily confirm that all four model evaluations have produced the same prediction</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">mdl_b_sklearn</span> <span class="o">-</span> <span class="n">mdl_onnx_loaded</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">mdl_b_onnx</span> <span class="o">-</span> <span class="n">mdl_onnx_loaded</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">mdl_b_sklearn</span> <span class="o">-</span> <span class="n">mdl_sklearn_loaded</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">mdl_b_onnx</span> <span class="o">-</span> <span class="n">mdl_sklearn_loaded</span><span class="p">)))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>1.1707782774372788e-06
+0.0
+0.0
+1.1707782774372788e-06
+</pre></div>
+</div>
+<p>We can now finish off by evaluating the true brightness in this attitude profile and plot the results</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">true_b</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">compute_convex_light_curve</span><span class="p">(</span><span class="n">brdf</span><span class="p">,</span> <span class="n">ovb</span><span class="p">,</span> <span class="n">svb</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">t_eval</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">true_b</span><span class="p">,</span> <span class="n">errorbar</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">t_eval</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">mdl_b_sklearn</span><span class="p">,</span> <span class="n">errorbar</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;Light Curves for </span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">file_name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">num_train</span><span class="si">}</span><span class="s2"> Training Points&quot;</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time [s]&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Normalized brightness&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s2">&quot;True&quot;</span><span class="p">,</span> <span class="s2">&quot;Model&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_rbf_fitting_001.png" srcset="../../_images/sphx_glr_rbf_fitting_001.png" alt="Light Curves for cube.obj, 1000 Training Points" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 3 minutes  56.500 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-07-summer-2023-rbf-fitting-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/593cfc33898d119330690d42df6b4705/rbf_fitting.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">rbf_fitting.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/0c3649a1c6f46af0cfed47d9f9663e60/rbf_fitting.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">rbf_fitting.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="albedo.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Earth Albedo BRDF</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="horizon_mask.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Horizon Masks</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2023, Liam Robinson
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/liamrobinson1/pyspaceaware" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/furo.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    </body>
+</html>

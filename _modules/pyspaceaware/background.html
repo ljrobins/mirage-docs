@@ -205,6 +205,8 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../gallery/07-summer-2023/index.html">Summer 2023 Studies</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of Summer 2023 Studies</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../gallery/07-summer-2023/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../gallery/07-summer-2023/horizon_mask.html">Horizon Masks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../gallery/07-summer-2023/albedo.html">Earth Albedo BRDF</a></li>
 </ul>
 </li>
@@ -254,6 +256,7 @@
 <span class="kn">from</span> <span class="nn">.math</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">hat</span><span class="p">,</span>
     <span class="n">dot</span><span class="p">,</span>
+    <span class="n">angle_between</span><span class="p">,</span>
     <span class="n">stack_mat_mult</span><span class="p">,</span>
     <span class="n">dms_to_rad</span><span class="p">,</span>
     <span class="n">vecnorm</span><span class="p">,</span>
@@ -859,7 +862,7 @@
 <span class="sd">    :return: Signal on CCD [e-/pixel]</span>
 <span class="sd">    :rtype: np.ndarray</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">z_obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">hat</span><span class="p">(</span><span class="n">obs_pos_eci_eq</span><span class="p">),</span> <span class="n">hat</span><span class="p">(</span><span class="n">look_dirs_eci_eq</span><span class="p">)))</span>
+    <span class="n">z_obs</span> <span class="o">=</span> <span class="n">angle_between</span><span class="p">(</span><span class="n">obs_pos_eci_eq</span><span class="p">,</span> <span class="n">look_dirs_eci_eq</span><span class="p">)</span>
     <span class="p">(</span><span class="n">ec_az</span><span class="p">,</span> <span class="n">ec_el</span><span class="p">)</span> <span class="o">=</span> <span class="n">equatorial_dir_to_ecliptic_azel</span><span class="p">(</span>
         <span class="n">dates</span><span class="p">,</span> <span class="n">look_dirs_eci_eq</span>
     <span class="p">)</span>
@@ -928,7 +931,7 @@
 <span class="sd">    :return: Signal on CCD [e-/pixel]</span>
 <span class="sd">    :rtype: np.ndarray</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">z_obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">hat</span><span class="p">(</span><span class="n">obs_pos_eci_eq</span><span class="p">),</span> <span class="n">hat</span><span class="p">(</span><span class="n">look_dirs_eci_eq</span><span class="p">)))</span>
+    <span class="n">z_obs</span> <span class="o">=</span> <span class="n">angle_between</span><span class="p">(</span><span class="n">obs_pos_eci_eq</span><span class="p">,</span> <span class="n">look_dirs_eci_eq</span><span class="p">)</span>
     <span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">)</span> <span class="o">=</span> <span class="n">eci_to_ra_dec</span><span class="p">(</span><span class="n">look_dirs_eci_eq</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_integrated_starlight_signal</span><span class="p">(</span>
         <span class="n">ra_rad</span><span class="o">=</span><span class="n">ra</span><span class="p">,</span>
@@ -1062,9 +1065,7 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span>
             <span class="n">obs_pos_eci_eq</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
         <span class="p">)</span>  <span class="c1"># No atmosphere to scatter through</span>
-    <span class="n">z_obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span>
-        <span class="n">dot</span><span class="p">(</span><span class="n">look_dirs_eci_eq</span><span class="p">,</span> <span class="n">hat</span><span class="p">(</span><span class="n">obs_pos_eci_eq</span><span class="p">))</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">z_obs</span> <span class="o">=</span> <span class="n">angle_between</span><span class="p">(</span><span class="n">look_dirs_eci_eq</span><span class="p">,</span> <span class="n">obs_pos_eci_eq</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
     <span class="n">aint</span> <span class="o">=</span> <span class="n">_raw_signal</span><span class="p">(</span>
         <span class="n">d</span><span class="p">,</span> <span class="n">z_obs</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;aint&quot;</span><span class="p">,</span> <span class="n">is_ground_based</span><span class="o">=</span><span class="n">is_ground_based</span>
     <span class="p">)</span>

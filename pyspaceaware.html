@@ -206,6 +206,10 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="gallery/07-summer-2023/index.html">Summer 2023 Studies</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of Summer 2023 Studies</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="gallery/07-summer-2023/spice.html">SPICE vs Vallado</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gallery/07-summer-2023/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gallery/07-summer-2023/horizon_mask.html">Horizon Masks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gallery/07-summer-2023/rbf_fitting.html">Neural Network Brightness</a></li>
 <li class="toctree-l3"><a class="reference internal" href="gallery/07-summer-2023/albedo.html">Earth Albedo BRDF</a></li>
 </ul>
 </li>
@@ -1337,8 +1341,23 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.coordinates.az_el_to_enu">
-<span class="sig-prename descclassname"><span class="pre">pyspaceaware.coordinates.</span></span><span class="sig-name descname"><span class="pre">az_el_to_enu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">az</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">el</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspaceaware/coordinates.html#az_el_to_enu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspaceaware.coordinates.az_el_to_enu" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.coordinates.</span></span><span class="sig-name descname"><span class="pre">az_el_to_enu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">az</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">el</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/pyspaceaware/coordinates.html#az_el_to_enu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspaceaware.coordinates.az_el_to_enu" title="Permalink to this definition">#</a></dt>
+<dd><p>Converts from azimuth and eleation on the local viewing sphere to East North Up (ENU) vectors</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>az</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Azimuth [rad], measured CCW from the East vector</p></li>
+<li><p><strong>el</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Elevation [rad], measured from the East-North plane, with positive elevations above the plane</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ECI unit vectors</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray [nx3]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.coordinates.ecef_to_eci">
@@ -1627,6 +1646,23 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.coordinates.spice_moon">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.coordinates.</span></span><span class="sig-name descname"><span class="pre">spice_moon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/pyspaceaware/coordinates.html#spice_moon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspaceaware.coordinates.spice_moon" title="Permalink to this definition">#</a></dt>
+<dd><p>Computes the position of the Moon in equatorial J2000 using the JPL NAIF SPICE toolkit</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>] </em><em>[</em><em>nx1</em><em>]</em>) – Array of UTC dates</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Vector to Moon from Earth center [km]</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray [nx3]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.coordinates.sun">
 <span class="sig-prename descclassname"><span class="pre">pyspaceaware.coordinates.</span></span><span class="sig-name descname"><span class="pre">sun</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/pyspaceaware/coordinates.html#sun"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspaceaware.coordinates.sun" title="Permalink to this definition">#</a></dt>
 <dd><p>Translation of Vallado’s MATLAB method of the same name, approximating the position of the sun.</p>
@@ -1861,9 +1897,15 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <section id="module-pyspaceaware.interp">
 <span id="pyspaceaware-interp-module"></span><h2>pyspaceaware.interp module<a class="headerlink" href="#module-pyspaceaware.interp" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="pyspaceaware.interp.InterpBrightnessModel">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspaceaware.interp.</span></span><span class="sig-name descname"><span class="pre">InterpBrightnessModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">brdf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyspaceaware.lighting.Brdf" title="pyspaceaware.lighting.Brdf"><span class="pre">Brdf</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_engine</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'linear'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspaceaware/interp.html#InterpBrightnessModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspaceaware.interp.InterpBrightnessModel" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="pyspaceaware.interp.BrightnessModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspaceaware.interp.</span></span><span class="sig-name descname"><span class="pre">BrightnessModel</span></span><a class="reference internal" href="_modules/pyspaceaware/interp.html#BrightnessModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspaceaware.interp.BrightnessModel" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspaceaware.interp.InterpBrightnessModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspaceaware.interp.</span></span><span class="sig-name descname"><span class="pre">InterpBrightnessModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">brdf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyspaceaware.lighting.Brdf" title="pyspaceaware.lighting.Brdf"><span class="pre">Brdf</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_engine</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'linear'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspaceaware/interp.html#InterpBrightnessModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspaceaware.interp.InterpBrightnessModel" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyspaceaware.interp.BrightnessModel" title="pyspaceaware.interp.BrightnessModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">BrightnessModel</span></code></a></p>
 <p>Interpolates brightness by evaluating full non-convex rendered brightness in 4D rectilinear grid of azimuth and elevation to parameterize the observer and lighting directions</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyspaceaware.interp.InterpBrightnessModel.build_from_engine">
@@ -1923,6 +1965,78 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>directory</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory to save model in, defaults to “”</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyspaceaware.interp.MLPBrightnessModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspaceaware.interp.</span></span><span class="sig-name descname"><span class="pre">MLPBrightnessModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyspaceaware.spaceobject.SpaceObject" title="pyspaceaware.spaceobject.SpaceObject"><span class="pre">SpaceObject</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">brdf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyspaceaware.lighting.Brdf" title="pyspaceaware.lighting.Brdf"><span class="pre">Brdf</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_engine</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(150,</span> <span class="pre">50,</span> <span class="pre">150)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspaceaware/interp.html#MLPBrightnessModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspaceaware.interp.MLPBrightnessModel" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyspaceaware.interp.BrightnessModel" title="pyspaceaware.interp.BrightnessModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">BrightnessModel</span></code></a></p>
+<p>Predicts brightness by evaluating full non-convex rendered brightness over a 6D cloud of lighting and illumination unit vectors, used to train a Multi-Layer Perceptron (MLP)</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspaceaware.interp.MLPBrightnessModel.eval">
+<span class="sig-name descname"><span class="pre">eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">svb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ovb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_mode_pref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'sklearn'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/pyspaceaware/interp.html#MLPBrightnessModel.eval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspaceaware.interp.MLPBrightnessModel.eval" title="Permalink to this definition">#</a></dt>
+<dd><p>Evaluates the brightness model with the given observer and sun unit vectors in the body frame</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>svb</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Sun vector in body frame, length irrelevant</p></li>
+<li><p><strong>ovb</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Observer vector in body frame, length irrelevant</p></li>
+<li><p><strong>eval_mode_pref</strong> (<em>str</em>) – Evaluation mode preference, defaults to ‘sklearn’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>AttributeError</strong> – If the model has not been built yet</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Predicted normalized irradiances [W/m^2]</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>np.ndarray [nx1]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspaceaware.interp.MLPBrightnessModel.gen_train_dataset">
+<span class="sig-name descname"><span class="pre">gen_train_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pyspaceaware/interp.html#MLPBrightnessModel.gen_train_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspaceaware.interp.MLPBrightnessModel.gen_train_dataset" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspaceaware.interp.MLPBrightnessModel.load_from_file">
+<span class="sig-name descname"><span class="pre">load_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pyspaceaware/interp.html#MLPBrightnessModel.load_from_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspaceaware.interp.MLPBrightnessModel.load_from_file" title="Permalink to this definition">#</a></dt>
+<dd><p>Loads the model from a saved pickle file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – Path to the pickle file containing the saved model</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspaceaware.interp.MLPBrightnessModel.save_to_file">
+<span class="sig-name descname"><span class="pre">save_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_as_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'onnx'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pyspaceaware/interp.html#MLPBrightnessModel.save_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspaceaware.interp.MLPBrightnessModel.save_to_file" title="Permalink to this definition">#</a></dt>
+<dd><p>Saves the model to the directory provided</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>directory</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory to save model in, defaults to “”</p></li>
+<li><p><strong>save_as_format</strong> (<em>str</em>) – Format to save the file to, either ‘onnx’ or ‘sklearn’, defaults to ‘onnx’</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspaceaware.interp.MLPBrightnessModel.train">
+<span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100000</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pyspaceaware/interp.html#MLPBrightnessModel.train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspaceaware.interp.MLPBrightnessModel.train" title="Permalink to this definition">#</a></dt>
+<dd><p>Builds the MLP model, enables <code class="docutils literal notranslate"><span class="pre">self.eval(points)</span></code> after completion</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>num_train</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of points to train on, actually uses closest square</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2104,6 +2218,26 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.math.angle_between">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.math.</span></span><span class="sig-name descname"><span class="pre">angle_between</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/pyspaceaware/math.html#angle_between"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspaceaware.math.angle_between" title="Permalink to this definition">#</a></dt>
+<dd><p>The angle between two vectors in [rad]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> (<em>np.ndarray</em><em> [</em><em>nxm</em><em>]</em>) – First input vector</p></li>
+<li><p><strong>v2</strong> (<em>np.ndarray</em><em> [</em><em>nxm</em><em>]</em>) – Second input vector</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Angle between the two vectors</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray [nx1]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2557,6 +2691,26 @@ ight]x\)</span></p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.math.udot">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.math.</span></span><span class="sig-name descname"><span class="pre">udot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/pyspaceaware/math.html#udot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspaceaware.math.udot" title="Permalink to this definition">#</a></dt>
+<dd><p>Unit dot product, clips the result of the dot product to [-1,1]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> (<em>np.ndarray</em><em> [</em><em>nxm</em><em>]</em>) – First input vector</p></li>
+<li><p><strong>v2</strong> (<em>np.ndarray</em><em> [</em><em>nxm</em><em>]</em>) – Second input vector</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dot product of <code class="docutils literal notranslate"><span class="pre">v1</span></code> with <code class="docutils literal notranslate"><span class="pre">v2</span></code>, clipped to [-1,1]</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray [nx1]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.math.unique_rows">
 <span class="sig-prename descclassname"><span class="pre">pyspaceaware.math.</span></span><span class="sig-name descname"><span class="pre">unique_rows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/pyspaceaware/math.html#unique_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspaceaware.math.unique_rows" title="Permalink to this definition">#</a></dt>
 <dd><p>Extracts unique rows from the input 2D array</p>
@@ -2835,19 +2989,70 @@ ight]x\)</span></p>
 <span id="pyspaceaware-profiling-module"></span><h2>pyspaceaware.profiling module<a class="headerlink" href="#module-pyspaceaware.profiling" title="Permalink to this heading">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.profiling.tic">
-<span class="sig-prename descclassname"><span class="pre">pyspaceaware.profiling.</span></span><span class="sig-name descname"><span class="pre">tic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspaceaware/profiling.html#tic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspaceaware.profiling.tic" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.profiling.</span></span><span class="sig-name descname"><span class="pre">tic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspaceaware/profiling.html#tic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspaceaware.profiling.tic" title="Permalink to this definition">#</a></dt>
 <dd><p>Starts a timer, ended by toc()</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.profiling.toc">
-<span class="sig-prename descclassname"><span class="pre">pyspaceaware.profiling.</span></span><span class="sig-name descname"><span class="pre">toc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspaceaware/profiling.html#toc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspaceaware.profiling.toc" title="Permalink to this definition">#</a></dt>
-<dd><p>Ends the timer, returns the elapsed time</p>
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.profiling.</span></span><span class="sig-name descname"><span class="pre">toc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_elapsed_seconds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="reference internal" href="_modules/pyspaceaware/profiling.html#toc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspaceaware.profiling.toc" title="Permalink to this definition">#</a></dt>
+<dd><p>Ends the timer began by <code class="docutils literal notranslate"><span class="pre">tic()</span></code>, returns the elapsed time</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>return_elapsed_seconds</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to return the time as well as printing it, defaults to False</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Exception</strong> – If there’s no active <code class="docutils literal notranslate"><span class="pre">tic()</span></code> timer running</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The elapsed time in seconds, if requested</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Union[None, float]</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
 <section id="module-pyspaceaware.sampling">
 <span id="pyspaceaware-sampling-module"></span><h2>pyspaceaware.sampling module<a class="headerlink" href="#module-pyspaceaware.sampling" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.sampling.closest_fibonacci_index">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.sampling.</span></span><span class="sig-name descname"><span class="pre">closest_fibonacci_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/pyspaceaware/sampling.html#closest_fibonacci_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspaceaware.sampling.closest_fibonacci_index" title="Permalink to this definition">#</a></dt>
+<dd><p>Finds the index of the Fibonacci sphere sampling closest to the given point following [Keinert et al. 2015]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p</strong> (<em>np.ndarray</em><em> [</em><em>1x3</em><em>]</em>) – Point to find the closest neighbor of</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – Number of points in the Fibonacci point set</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Index of the closest point</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.sampling.fibonacci_sample_sphere">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.sampling.</span></span><span class="sig-name descname"><span class="pre">fibonacci_sample_sphere</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/pyspaceaware/sampling.html#fibonacci_sample_sphere"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspaceaware.sampling.fibonacci_sample_sphere" title="Permalink to this definition">#</a></dt>
+<dd><p>Computes a point set of <code class="docutils literal notranslate"><span class="pre">num</span></code> points of the form described by Marques et al. in 2013</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>num</strong> (<em>int</em>) – Number of vectors to sample</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sampled unit vectors</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray [nx3]</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.sampling.rand_cone_vectors">
 <span class="sig-prename descclassname"><span class="pre">pyspaceaware.sampling.</span></span><span class="sig-name descname"><span class="pre">rand_cone_vectors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cone_axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cone_half_angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/pyspaceaware/sampling.html#rand_cone_vectors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyspaceaware.sampling.rand_cone_vectors" title="Permalink to this definition">#</a></dt>
@@ -3899,6 +4104,7 @@ ight]x\)</span></p>
 <li><a class="reference internal" href="#pyspaceaware.coordinates.lla_to_itrf"><code class="docutils literal notranslate"><span class="pre">lla_to_itrf()</span></code></a></li>
 <li><a class="reference internal" href="#pyspaceaware.coordinates.mod_to_tod"><code class="docutils literal notranslate"><span class="pre">mod_to_tod()</span></code></a></li>
 <li><a class="reference internal" href="#pyspaceaware.coordinates.moon"><code class="docutils literal notranslate"><span class="pre">moon()</span></code></a></li>
+<li><a class="reference internal" href="#pyspaceaware.coordinates.spice_moon"><code class="docutils literal notranslate"><span class="pre">spice_moon()</span></code></a></li>
 <li><a class="reference internal" href="#pyspaceaware.coordinates.sun"><code class="docutils literal notranslate"><span class="pre">sun()</span></code></a></li>
 <li><a class="reference internal" href="#pyspaceaware.coordinates.sun_angle_to_horizon"><code class="docutils literal notranslate"><span class="pre">sun_angle_to_horizon()</span></code></a></li>
 <li><a class="reference internal" href="#pyspaceaware.coordinates.sun_irradiance_fraction"><code class="docutils literal notranslate"><span class="pre">sun_irradiance_fraction()</span></code></a></li>
@@ -3921,12 +4127,21 @@ ight]x\)</span></p>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-pyspaceaware.interp">pyspaceaware.interp module</a><ul>
+<li><a class="reference internal" href="#pyspaceaware.interp.BrightnessModel"><code class="docutils literal notranslate"><span class="pre">BrightnessModel</span></code></a></li>
 <li><a class="reference internal" href="#pyspaceaware.interp.InterpBrightnessModel"><code class="docutils literal notranslate"><span class="pre">InterpBrightnessModel</span></code></a><ul>
 <li><a class="reference internal" href="#pyspaceaware.interp.InterpBrightnessModel.build_from_engine"><code class="docutils literal notranslate"><span class="pre">InterpBrightnessModel.build_from_engine()</span></code></a></li>
 <li><a class="reference internal" href="#pyspaceaware.interp.InterpBrightnessModel.eval"><code class="docutils literal notranslate"><span class="pre">InterpBrightnessModel.eval()</span></code></a></li>
 <li><a class="reference internal" href="#pyspaceaware.interp.InterpBrightnessModel.load_from_file"><code class="docutils literal notranslate"><span class="pre">InterpBrightnessModel.load_from_file()</span></code></a></li>
 <li><a class="reference internal" href="#pyspaceaware.interp.InterpBrightnessModel.make_interpolator"><code class="docutils literal notranslate"><span class="pre">InterpBrightnessModel.make_interpolator()</span></code></a></li>
 <li><a class="reference internal" href="#pyspaceaware.interp.InterpBrightnessModel.save_to_file"><code class="docutils literal notranslate"><span class="pre">InterpBrightnessModel.save_to_file()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyspaceaware.interp.MLPBrightnessModel"><code class="docutils literal notranslate"><span class="pre">MLPBrightnessModel</span></code></a><ul>
+<li><a class="reference internal" href="#pyspaceaware.interp.MLPBrightnessModel.eval"><code class="docutils literal notranslate"><span class="pre">MLPBrightnessModel.eval()</span></code></a></li>
+<li><a class="reference internal" href="#pyspaceaware.interp.MLPBrightnessModel.gen_train_dataset"><code class="docutils literal notranslate"><span class="pre">MLPBrightnessModel.gen_train_dataset()</span></code></a></li>
+<li><a class="reference internal" href="#pyspaceaware.interp.MLPBrightnessModel.load_from_file"><code class="docutils literal notranslate"><span class="pre">MLPBrightnessModel.load_from_file()</span></code></a></li>
+<li><a class="reference internal" href="#pyspaceaware.interp.MLPBrightnessModel.save_to_file"><code class="docutils literal notranslate"><span class="pre">MLPBrightnessModel.save_to_file()</span></code></a></li>
+<li><a class="reference internal" href="#pyspaceaware.interp.MLPBrightnessModel.train"><code class="docutils literal notranslate"><span class="pre">MLPBrightnessModel.train()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -3947,6 +4162,7 @@ ight]x\)</span></p>
 </li>
 <li><a class="reference internal" href="#module-pyspaceaware.math">pyspaceaware.math module</a><ul>
 <li><a class="reference internal" href="#pyspaceaware.math.acosd"><code class="docutils literal notranslate"><span class="pre">acosd()</span></code></a></li>
+<li><a class="reference internal" href="#pyspaceaware.math.angle_between"><code class="docutils literal notranslate"><span class="pre">angle_between()</span></code></a></li>
 <li><a class="reference internal" href="#pyspaceaware.math.angle_between_deg"><code class="docutils literal notranslate"><span class="pre">angle_between_deg()</span></code></a></li>
 <li><a class="reference internal" href="#pyspaceaware.math.angle_between_rad"><code class="docutils literal notranslate"><span class="pre">angle_between_rad()</span></code></a></li>
 <li><a class="reference internal" href="#pyspaceaware.math.atan2d"><code class="docutils literal notranslate"><span class="pre">atan2d()</span></code></a></li>
@@ -3970,6 +4186,7 @@ ight]x\)</span></p>
 <li><a class="reference internal" href="#pyspaceaware.math.stack_mat_mult"><code class="docutils literal notranslate"><span class="pre">stack_mat_mult()</span></code></a></li>
 <li><a class="reference internal" href="#pyspaceaware.math.tand"><code class="docutils literal notranslate"><span class="pre">tand()</span></code></a></li>
 <li><a class="reference internal" href="#pyspaceaware.math.tilde"><code class="docutils literal notranslate"><span class="pre">tilde()</span></code></a></li>
+<li><a class="reference internal" href="#pyspaceaware.math.udot"><code class="docutils literal notranslate"><span class="pre">udot()</span></code></a></li>
 <li><a class="reference internal" href="#pyspaceaware.math.unique_rows"><code class="docutils literal notranslate"><span class="pre">unique_rows()</span></code></a></li>
 <li><a class="reference internal" href="#pyspaceaware.math.vecnorm"><code class="docutils literal notranslate"><span class="pre">vecnorm()</span></code></a></li>
 <li><a class="reference internal" href="#pyspaceaware.math.wrap_to_360"><code class="docutils literal notranslate"><span class="pre">wrap_to_360()</span></code></a></li>
@@ -4002,6 +4219,8 @@ ight]x\)</span></p>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-pyspaceaware.sampling">pyspaceaware.sampling module</a><ul>
+<li><a class="reference internal" href="#pyspaceaware.sampling.closest_fibonacci_index"><code class="docutils literal notranslate"><span class="pre">closest_fibonacci_index()</span></code></a></li>
+<li><a class="reference internal" href="#pyspaceaware.sampling.fibonacci_sample_sphere"><code class="docutils literal notranslate"><span class="pre">fibonacci_sample_sphere()</span></code></a></li>
 <li><a class="reference internal" href="#pyspaceaware.sampling.rand_cone_vectors"><code class="docutils literal notranslate"><span class="pre">rand_cone_vectors()</span></code></a></li>
 <li><a class="reference internal" href="#pyspaceaware.sampling.rand_point_in_ball"><code class="docutils literal notranslate"><span class="pre">rand_point_in_ball()</span></code></a></li>
 <li><a class="reference internal" href="#pyspaceaware.sampling.rand_point_in_shell"><code class="docutils literal notranslate"><span class="pre">rand_point_in_shell()</span></code></a></li>
