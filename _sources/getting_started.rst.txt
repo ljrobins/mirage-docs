@@ -1,35 +1,37 @@
 Getting Started
 ===============
 
-**pyspaceaware** is a python-based ecosystem for simulating Space Domain Awareness tasks, including orbit and attitude propagation, catalog management, with a focus on generating light curves for human-made satellites and debris
+Installation
+~~~~~~~~~~~~
 
-**Installation**
+* Create a virtual environment to hold the ``pyspaceaware`` installation
+* Create a personal access token on GitHub, described `here <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-token>`_.
+* Make sure it has access to read (and/or write) to repositories
+* Pull the new package updates into your old environment with
 
-Mac (Intel or Apple CPU)
-------------------------
-- Prerequisites: 
-    - ``clang`` C compiler from XCode Command Line Tools. If installed, running ``clang -v`` in Terminal should return version information. If that errors, install directly via ``xcode-select --install`` or through the `web <https://developer.apple.com/download/all/>`_
-    - ``python3`` should be installed by default on all Macs
-    - ``OpenGL`` installed by default
-- Clone repository to local folder
-- Open terminal at repository top-level folder
-- Run ``source init_venv`` to create and activate a python virtual environment, install dependencies, compile C executables for OpenGL light curve simulation, and run unit tests
-- If all tests pass, the repository is fully initialized and all functions work as expected!
-- Run ``shape_invert_script.py`` to perform a sample convex shape inversion
+::
+  
+  pip install git+https://${GITHUB_TOKEN}@github.com/liamrobinson1/pyspaceaware.git --upgrade
 
-Windows
--------
-- TBD, working on this on Friday with Alex
-- Prerequisites:
-    - A C compiler, follow `this guide <https://learn.microsoft.com/en-us/cpp/build/walkthrough-compile-a-c-program-on-the-command-line?view=msvc-170>`_ to download a compiler and compile a basic ``hello_world.c`` executable
-    - `Python 3.10 <https://www.python.org/downloads/windows/>`_
+Where you set ``GITHUB_TOKEN`` as an environmental variable equal to the token created earlier. Alternatively, you can just plug the token directly into the pip install, it'll just look ugly. Let me know if you encounter any weirdness.
 
-    - User ``bash`` through WSL to run ``init_venv``
-    - ``source bin/activate`` should be ``source Scripts/activate``
-    - Still not sure how exactly to compile with ``cl`` correctly
+License
+~~~~~~~
 
-**Configuration**
-- The ``MODELDIR`` path set within ``init_venv`` can be set to a new directory containing ``.obj`` and ``.mtl`` files
+This codebase is proprietary to Dr. Carolin Frueh's Purdue Space Information Dynamics Group with all rights reserved. It comes with the following limitations:
 
-**Error Handling** 
-- test
+* Use of the codebase must be limited to academic or personal use
+* Modification of the source code is allowed, but modifications must be marked as such
+* Distribution of the source code in its original form or modifications is forbidden.
+* Academic works published with the help of ``pyspaceaware`` must cite its contributions
+
+.. code-block:: Bash
+
+  @misc{cvx,
+    author       = {Liam Robinson and Carolin Frueh},
+    title        = {pyspaceaware},
+    howpublished = {\url{https://github.com/liamrobinson1/pyspaceaware}},
+    month        = jul,
+    year         = 2023
+  }
+

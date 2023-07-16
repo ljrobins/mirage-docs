@@ -23,7 +23,7 @@ Neural Network Brightness
 
 Trains a neural network to predict the brightness of a specular cube in an arbitrary lighting and observation conditions and compares the results to the truth
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-16
+.. GENERATED FROM PYTHON SOURCE LINES 7-17
 
 .. code-block:: default
 
@@ -33,6 +33,7 @@ Trains a neural network to predict the brightness of a specular cube in an arbit
     sys.path.append("./src")
     import numpy as np
     import pyspaceaware as ps
+    import pyspaceaware.sim as pssim
     import matplotlib.pyplot as plt
     import seaborn as sns
 
@@ -43,11 +44,11 @@ Trains a neural network to predict the brightness of a specular cube in an arbit
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-18
+.. GENERATED FROM PYTHON SOURCE LINES 18-19
 
 Let's define the object and the BRDF
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-20
+.. GENERATED FROM PYTHON SOURCE LINES 19-21
 
 .. code-block:: default
 
@@ -60,15 +61,17 @@ Let's define the object and the BRDF
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-22
+.. GENERATED FROM PYTHON SOURCE LINES 22-23
 
 We now define the Multi-Layer Perceptron (MLP) brightness model. Note that the ``layers=(150, 50, 150)`` keyword argument defines the number of neurons in each densely-connected layer.
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-23
+.. GENERATED FROM PYTHON SOURCE LINES 23-26
 
 .. code-block:: default
 
-    mlp_bm = ps.MLPBrightnessModel(obj, brdf, use_engine=False)
+    mlp_bm = pssim.MLPBrightnessModel(
+        obj, brdf, use_engine=False, train_on="magnitude"
+    )
 
 
 
@@ -76,16 +79,16 @@ We now define the Multi-Layer Perceptron (MLP) brightness model. Note that the `
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-25
+.. GENERATED FROM PYTHON SOURCE LINES 27-28
 
 Now we train the model on a set number of training lighting and observation configurations. Usually ``1e5``-``1e6`` are required for a *good* fit
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-28
+.. GENERATED FROM PYTHON SOURCE LINES 28-31
 
 .. code-block:: default
 
     num_train = int(1e3)
-    mlp_bm.train(num_train=num_train)
+    mlp_bm.train(num_train)
 
 
 
@@ -95,161 +98,220 @@ Now we train the model on a set number of training lighting and observation conf
 
  .. code-block:: none
 
-    /Users/liamrobinson/Documents/PyLightCurves/src/pyspaceaware/lighting.py:48: RuntimeWarning: invalid value encountered in divide
-      fs = cs * (n + 1) / (2 * np.pi) * rdot(R, O) ** n / NdL
-    Compute training LC: 2.88e-03 seconds
-    Iteration 1, loss = 0.18774222
-    Iteration 2, loss = 0.15324416
-    Iteration 3, loss = 0.13543048
-    Iteration 4, loss = 0.13446600
-    Iteration 5, loss = 0.12605517
-    Iteration 6, loss = 0.12319239
-    Iteration 7, loss = 0.11897641
-    Iteration 8, loss = 0.11686532
-    Iteration 9, loss = 0.11366989
-    Iteration 10, loss = 0.11116266
-    Iteration 11, loss = 0.10929433
-    Iteration 12, loss = 0.10593984
-    Iteration 13, loss = 0.10337925
-    Iteration 14, loss = 0.10022938
-    Iteration 15, loss = 0.09782853
-    Iteration 16, loss = 0.09642232
-    Iteration 17, loss = 0.09404759
-    Iteration 18, loss = 0.08964537
-    Iteration 19, loss = 0.08579700
-    Iteration 20, loss = 0.08286149
-    Iteration 21, loss = 0.07855742
-    Iteration 22, loss = 0.07480672
-    Iteration 23, loss = 0.06964270
-    Iteration 24, loss = 0.06745349
-    Iteration 25, loss = 0.06228476
-    Iteration 26, loss = 0.05872266
-    Iteration 27, loss = 0.05658078
-    Iteration 28, loss = 0.05222204
-    Iteration 29, loss = 0.05094390
-    Iteration 30, loss = 0.05050217
-    Iteration 31, loss = 0.04613178
-    Iteration 32, loss = 0.04381322
-    Iteration 33, loss = 0.04148543
-    Iteration 34, loss = 0.04157464
-    Iteration 35, loss = 0.03952520
-    Iteration 36, loss = 0.03741160
-    Iteration 37, loss = 0.03641320
-    Iteration 38, loss = 0.03744549
-    Iteration 39, loss = 0.03473975
-    Iteration 40, loss = 0.03411813
-    Iteration 41, loss = 0.03071803
-    Iteration 42, loss = 0.03100968
-    Iteration 43, loss = 0.02992572
-    Iteration 44, loss = 0.02673110
-    Iteration 45, loss = 0.02672399
-    Iteration 46, loss = 0.02519214
-    Iteration 47, loss = 0.02367260
-    Iteration 48, loss = 0.02207933
-    Iteration 49, loss = 0.02069449
-    Iteration 50, loss = 0.01978055
-    Iteration 51, loss = 0.01940418
-    Iteration 52, loss = 0.02051941
-    Iteration 53, loss = 0.01951438
-    Iteration 54, loss = 0.01879431
-    Iteration 55, loss = 0.01700520
-    Iteration 56, loss = 0.01541692
-    Iteration 57, loss = 0.01523817
-    Iteration 58, loss = 0.01504424
-    Iteration 59, loss = 0.01447218
-    Iteration 60, loss = 0.01410180
-    Iteration 61, loss = 0.01263857
-    Iteration 62, loss = 0.01224513
-    Iteration 63, loss = 0.01205522
-    Iteration 64, loss = 0.01175556
-    Iteration 65, loss = 0.01243286
-    Iteration 66, loss = 0.01192899
-    Iteration 67, loss = 0.01169406
-    Iteration 68, loss = 0.01023293
-    Iteration 69, loss = 0.01046588
-    Iteration 70, loss = 0.00976087
-    Iteration 71, loss = 0.01034684
-    Iteration 72, loss = 0.00889451
-    Iteration 73, loss = 0.00912081
-    Iteration 74, loss = 0.00865496
-    Iteration 75, loss = 0.00798171
-    Iteration 76, loss = 0.00746062
-    Iteration 77, loss = 0.00733258
-    Iteration 78, loss = 0.00679631
-    Iteration 79, loss = 0.00641806
-    Iteration 80, loss = 0.00695642
-    Iteration 81, loss = 0.00728598
-    Iteration 82, loss = 0.00682302
-    Iteration 83, loss = 0.00700397
-    Iteration 84, loss = 0.00746141
-    Iteration 85, loss = 0.00702924
-    Iteration 86, loss = 0.00633443
-    Iteration 87, loss = 0.00559587
-    Iteration 88, loss = 0.00546087
-    Iteration 89, loss = 0.00606288
-    Iteration 90, loss = 0.00551222
-    Iteration 91, loss = 0.00492960
-    Iteration 92, loss = 0.00497260
-    Iteration 93, loss = 0.00520899
-    Iteration 94, loss = 0.00511297
-    Iteration 95, loss = 0.00492487
-    Iteration 96, loss = 0.00479248
-    Iteration 97, loss = 0.00452820
-    Iteration 98, loss = 0.00425425
-    Iteration 99, loss = 0.00384369
-    Iteration 100, loss = 0.00378233
-    Iteration 101, loss = 0.00371302
-    Iteration 102, loss = 0.00354938
-    Iteration 103, loss = 0.00353461
-    Iteration 104, loss = 0.00341815
-    Iteration 105, loss = 0.00384953
-    Iteration 106, loss = 0.00341347
-    Iteration 107, loss = 0.00320110
-    Iteration 108, loss = 0.00321307
-    Iteration 109, loss = 0.00327607
-    Iteration 110, loss = 0.00296173
-    Iteration 111, loss = 0.00292938
-    Iteration 112, loss = 0.00297904
-    Iteration 113, loss = 0.00272970
-    Iteration 114, loss = 0.00275413
-    Iteration 115, loss = 0.00282040
-    Iteration 116, loss = 0.00335087
-    Iteration 117, loss = 0.00312735
-    Iteration 118, loss = 0.00290171
-    Iteration 119, loss = 0.00244897
-    Iteration 120, loss = 0.00231949
-    Iteration 121, loss = 0.00232882
-    Iteration 122, loss = 0.00272240
-    Iteration 123, loss = 0.00235640
-    Iteration 124, loss = 0.00250213
-    Iteration 125, loss = 0.00250526
-    Iteration 126, loss = 0.00228289
-    Iteration 127, loss = 0.00244699
-    Iteration 128, loss = 0.00223582
-    Iteration 129, loss = 0.00195448
-    Iteration 130, loss = 0.00193931
-    Iteration 131, loss = 0.00186323
-    Iteration 132, loss = 0.00187579
-    Iteration 133, loss = 0.00199710
-    Iteration 134, loss = 0.00273512
-    Iteration 135, loss = 0.00220252
-    Iteration 136, loss = 0.00203277
-    Iteration 137, loss = 0.00181513
-    Iteration 138, loss = 0.00183299
-    Iteration 139, loss = 0.00179257
-    Iteration 140, loss = 0.00172292
-    Training loss did not improve more than tol=0.000100 for 10 consecutive epochs. Stopping.
-    Fit against 1000 pts: : 2.36e+02 seconds
-    Serialize model: 8.88e-02 seconds
+    Compute training LC: 1.29e-03 seconds
+    Iteration 1, loss = 139.29740334
+    Iteration 2, loss = 129.82571509
+    Iteration 3, loss = 116.16802489
+    Iteration 4, loss = 94.19217805
+    Iteration 5, loss = 62.55064596
+    Iteration 6, loss = 27.62856542
+    Iteration 7, loss = 11.63233642
+    Iteration 8, loss = 14.13066712
+    Iteration 9, loss = 9.54296038
+    Iteration 10, loss = 7.44069032
+    Iteration 11, loss = 7.61938266
+    Iteration 12, loss = 6.94411835
+    Iteration 13, loss = 6.58563234
+    Iteration 14, loss = 6.48472877
+    Iteration 15, loss = 6.15612226
+    Iteration 16, loss = 5.94015493
+    Iteration 17, loss = 5.83427409
+    Iteration 18, loss = 5.66641135
+    Iteration 19, loss = 5.54268119
+    Iteration 20, loss = 5.42908673
+    Iteration 21, loss = 5.36173868
+    Iteration 22, loss = 5.28686006
+    Iteration 23, loss = 5.23004695
+    Iteration 24, loss = 5.19279371
+    Iteration 25, loss = 5.13002290
+    Iteration 26, loss = 5.08792897
+    Iteration 27, loss = 5.04360576
+    Iteration 28, loss = 5.01033948
+    Iteration 29, loss = 4.99037904
+    Iteration 30, loss = 4.95331582
+    Iteration 31, loss = 4.93392566
+    Iteration 32, loss = 4.91815218
+    Iteration 33, loss = 4.89786630
+    Iteration 34, loss = 4.87245487
+    Iteration 35, loss = 4.86070467
+    Iteration 36, loss = 4.84167330
+    Iteration 37, loss = 4.84372527
+    Iteration 38, loss = 4.80761324
+    Iteration 39, loss = 4.78691507
+    Iteration 40, loss = 4.77186236
+    Iteration 41, loss = 4.76266789
+    Iteration 42, loss = 4.74954057
+    Iteration 43, loss = 4.72765830
+    Iteration 44, loss = 4.71603126
+    Iteration 45, loss = 4.71212058
+    Iteration 46, loss = 4.68972383
+    Iteration 47, loss = 4.67582655
+    Iteration 48, loss = 4.65753963
+    Iteration 49, loss = 4.65178464
+    Iteration 50, loss = 4.63368441
+    Iteration 51, loss = 4.63175336
+    Iteration 52, loss = 4.61138968
+    Iteration 53, loss = 4.58612959
+    Iteration 54, loss = 4.60066069
+    Iteration 55, loss = 4.60705347
+    Iteration 56, loss = 4.60054886
+    Iteration 57, loss = 4.57078519
+    Iteration 58, loss = 4.55027626
+    Iteration 59, loss = 4.52727119
+    Iteration 60, loss = 4.52549431
+    Iteration 61, loss = 4.52043905
+    Iteration 62, loss = 4.49995718
+    Iteration 63, loss = 4.47913800
+    Iteration 64, loss = 4.49590840
+    Iteration 65, loss = 4.45323702
+    Iteration 66, loss = 4.44484139
+    Iteration 67, loss = 4.41156039
+    Iteration 68, loss = 4.39259190
+    Iteration 69, loss = 4.37970413
+    Iteration 70, loss = 4.35844193
+    Iteration 71, loss = 4.36477535
+    Iteration 72, loss = 4.32584863
+    Iteration 73, loss = 4.32536910
+    Iteration 74, loss = 4.30661692
+    Iteration 75, loss = 4.29091825
+    Iteration 76, loss = 4.35157354
+    Iteration 77, loss = 4.32879267
+    Iteration 78, loss = 4.28893802
+    Iteration 79, loss = 4.24735366
+    Iteration 80, loss = 4.22762052
+    Iteration 81, loss = 4.21028339
+    Iteration 82, loss = 4.18469200
+    Iteration 83, loss = 4.16959190
+    Iteration 84, loss = 4.17031785
+    Iteration 85, loss = 4.16320721
+    Iteration 86, loss = 4.16226408
+    Iteration 87, loss = 4.13279993
+    Iteration 88, loss = 4.08477760
+    Iteration 89, loss = 4.09395633
+    Iteration 90, loss = 4.03614383
+    Iteration 91, loss = 4.02132652
+    Iteration 92, loss = 4.03919009
+    Iteration 93, loss = 4.01759403
+    Iteration 94, loss = 3.98192345
+    Iteration 95, loss = 3.94497532
+    Iteration 96, loss = 3.92148530
+    Iteration 97, loss = 3.90661068
+    Iteration 98, loss = 3.87508504
+    Iteration 99, loss = 3.88285274
+    Iteration 100, loss = 3.81587122
+    Iteration 101, loss = 3.83206538
+    Iteration 102, loss = 3.82673466
+    Iteration 103, loss = 3.77042707
+    Iteration 104, loss = 3.74419403
+    Iteration 105, loss = 3.77131482
+    Iteration 106, loss = 3.71470273
+    Iteration 107, loss = 3.67653781
+    Iteration 108, loss = 3.65890583
+    Iteration 109, loss = 3.61087052
+    Iteration 110, loss = 3.58983659
+    Iteration 111, loss = 3.57673463
+    Iteration 112, loss = 3.54756345
+    Iteration 113, loss = 3.52865317
+    Iteration 114, loss = 3.53264355
+    Iteration 115, loss = 3.49026721
+    Iteration 116, loss = 3.50453784
+    Iteration 117, loss = 3.47670654
+    Iteration 118, loss = 3.47282358
+    Iteration 119, loss = 3.40202077
+    Iteration 120, loss = 3.34849060
+    Iteration 121, loss = 3.33068359
+    Iteration 122, loss = 3.28342261
+    Iteration 123, loss = 3.27882210
+    Iteration 124, loss = 3.22990070
+    Iteration 125, loss = 3.22357279
+    Iteration 126, loss = 3.19256610
+    Iteration 127, loss = 3.15460276
+    Iteration 128, loss = 3.12826529
+    Iteration 129, loss = 3.11034019
+    Iteration 130, loss = 3.06871543
+    Iteration 131, loss = 3.04409255
+    Iteration 132, loss = 3.02694306
+    Iteration 133, loss = 2.96596510
+    Iteration 134, loss = 2.97463241
+    Iteration 135, loss = 2.94416130
+    Iteration 136, loss = 2.91226303
+    Iteration 137, loss = 2.88685970
+    Iteration 138, loss = 2.84050111
+    Iteration 139, loss = 2.81519580
+    Iteration 140, loss = 2.77341467
+    Iteration 141, loss = 2.73938459
+    Iteration 142, loss = 2.71793989
+    Iteration 143, loss = 2.70756352
+    Iteration 144, loss = 2.66217181
+    Iteration 145, loss = 2.64087343
+    Iteration 146, loss = 2.63365178
+    Iteration 147, loss = 2.58711843
+    Iteration 148, loss = 2.52619930
+    Iteration 149, loss = 2.52631883
+    Iteration 150, loss = 2.47317633
+    Iteration 151, loss = 2.46040305
+    Iteration 152, loss = 2.42700933
+    Iteration 153, loss = 2.40201998
+    Iteration 154, loss = 2.35322699
+    Iteration 155, loss = 2.39682181
+    Iteration 156, loss = 2.32558121
+    Iteration 157, loss = 2.34915611
+    Iteration 158, loss = 2.27712105
+    Iteration 159, loss = 2.27583665
+    Iteration 160, loss = 2.23415746
+    Iteration 161, loss = 2.20238619
+    Iteration 162, loss = 2.18447505
+    Iteration 163, loss = 2.15278982
+    Iteration 164, loss = 2.16409371
+    Iteration 165, loss = 2.10763622
+    Iteration 166, loss = 2.08508613
+    Iteration 167, loss = 2.07212255
+    Iteration 168, loss = 2.05011599
+    Iteration 169, loss = 2.10216286
+    Iteration 170, loss = 2.11944616
+    Iteration 171, loss = 2.04418278
+    Iteration 172, loss = 2.01363959
+    Iteration 173, loss = 2.00287885
+    Iteration 174, loss = 1.95664458
+    Iteration 175, loss = 1.91091132
+    Iteration 176, loss = 1.94684859
+    Iteration 177, loss = 1.90797552
+    Iteration 178, loss = 1.87533792
+    Iteration 179, loss = 1.84455528
+    Iteration 180, loss = 1.89495352
+    Iteration 181, loss = 1.80815723
+    Iteration 182, loss = 1.86115078
+    Iteration 183, loss = 1.81389244
+    Iteration 184, loss = 1.74748755
+    Iteration 185, loss = 1.74486884
+    Iteration 186, loss = 1.72121785
+    Iteration 187, loss = 1.72297410
+    Iteration 188, loss = 1.69126895
+    Iteration 189, loss = 1.67684064
+    Iteration 190, loss = 1.70836410
+    Iteration 191, loss = 1.61829380
+    Iteration 192, loss = 1.61266851
+    Iteration 193, loss = 1.58581058
+    Iteration 194, loss = 1.60664303
+    Iteration 195, loss = 1.59154285
+    Iteration 196, loss = 1.58206390
+    Iteration 197, loss = 1.61949294
+    Iteration 198, loss = 1.61991019
+    Iteration 199, loss = 1.60580448
+    Iteration 200, loss = 1.54425112
+    /Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/sklearn/neural_network/_multilayer_perceptron.py:686: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (200) reached and the optimization hasn't converged yet.
+      warnings.warn(
+    Fit against 1000 pts: : 2.72e+00 seconds
+    Serialize model: 6.68e-02 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 29-30
+.. GENERATED FROM PYTHON SOURCE LINES 32-33
 
 We can now simulate a torque-free attitude profile to inspect the quality of the fit
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-41
+.. GENERATED FROM PYTHON SOURCE LINES 33-44
 
 .. code-block:: default
 
@@ -271,11 +333,11 @@ We can now simulate a torque-free attitude profile to inspect the quality of the
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-43
+.. GENERATED FROM PYTHON SOURCE LINES 45-46
 
 Evaluating the model in its two available formats - as a native ``scikit-learn`` model and as an Open Neural Network eXchange (ONNX) model
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-50
+.. GENERATED FROM PYTHON SOURCE LINES 46-53
 
 .. code-block:: default
 
@@ -294,17 +356,17 @@ Evaluating the model in its two available formats - as a native ``scikit-learn``
 
  .. code-block:: none
 
-    Evaluate trained model with sklearn: 1.56e-01 seconds
-    Evaluate trained model with onnx: 6.31e-03 seconds
+    Evaluate trained model with sklearn: 2.62e-03 seconds
+    Evaluate trained model with onnx: 1.21e-02 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 51-52
+.. GENERATED FROM PYTHON SOURCE LINES 54-55
 
 We can save both of these representations to file:
 
-.. GENERATED FROM PYTHON SOURCE LINES 52-55
+.. GENERATED FROM PYTHON SOURCE LINES 55-58
 
 .. code-block:: default
 
@@ -318,11 +380,11 @@ We can save both of these representations to file:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-57
+.. GENERATED FROM PYTHON SOURCE LINES 59-60
 
 Now we load the model from its ``.onxx`` file we just saved and evaluate the brightness
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-62
+.. GENERATED FROM PYTHON SOURCE LINES 60-65
 
 .. code-block:: default
 
@@ -339,16 +401,16 @@ Now we load the model from its ``.onxx`` file we just saved and evaluate the bri
 
  .. code-block:: none
 
-    Evaluate loaded model with onxx: 1.54e-03 seconds
+    Evaluate loaded model with onxx: 1.14e-03 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 63-64
+.. GENERATED FROM PYTHON SOURCE LINES 66-67
 
 And we do the same for the ``scikit-learn`` ``.plk`` file we saved
 
-.. GENERATED FROM PYTHON SOURCE LINES 64-69
+.. GENERATED FROM PYTHON SOURCE LINES 67-72
 
 .. code-block:: default
 
@@ -365,16 +427,16 @@ And we do the same for the ``scikit-learn`` ``.plk`` file we saved
 
  .. code-block:: none
 
-    Evaluate loaded model with sklearn: 1.34e-01 seconds
+    Evaluate loaded model with sklearn: 9.30e-03 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 70-71
+.. GENERATED FROM PYTHON SOURCE LINES 73-74
 
 We can easily confirm that all four model evaluations have produced the same prediction
 
-.. GENERATED FROM PYTHON SOURCE LINES 71-76
+.. GENERATED FROM PYTHON SOURCE LINES 74-79
 
 .. code-block:: default
 
@@ -391,23 +453,23 @@ We can easily confirm that all four model evaluations have produced the same pre
 
  .. code-block:: none
 
-    1.1707782774372788e-06
+    1.1603756700395707e-05
     0.0
     0.0
-    1.1707782774372788e-06
+    1.1603756700395707e-05
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 77-78
+.. GENERATED FROM PYTHON SOURCE LINES 80-81
 
 We can now finish off by evaluating the true brightness in this attitude profile and plot the results
 
-.. GENERATED FROM PYTHON SOURCE LINES 78-91
+.. GENERATED FROM PYTHON SOURCE LINES 81-94
 
 .. code-block:: default
 
-    true_b = obj.compute_convex_light_curve(brdf, ovb, svb)
+    true_b = mlp_bm.brightness(svb, ovb, "magnitude")
 
     plt.figure()
     sns.lineplot(x=t_eval, y=true_b, errorbar=None)
@@ -435,7 +497,7 @@ We can now finish off by evaluating the true brightness in this attitude profile
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 3 minutes  56.500 seconds)
+   **Total running time of the script:** ( 0 minutes  3.118 seconds)
 
 
 .. _sphx_glr_download_gallery_07-summer-2023_rbf_fitting.py:

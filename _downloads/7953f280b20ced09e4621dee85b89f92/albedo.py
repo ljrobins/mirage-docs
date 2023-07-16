@@ -13,11 +13,15 @@ Modeling the incident radiation at a spacecraft due to reflected sunlight from t
 # %%
 # Let's first load the coefficient arrays :math:`f_{iso}`, :math:`f_{geo}`, and :math:`f_{vol}` from file
 
+import sys
+
+sys.path.append("./src")
+import pyspaceaware as ps
+
 import matplotlib.pyplot as plt
 import numpy as np
-import pyspaceaware as ps
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-import json
+import datetime
 
 save_dict = ps.load_albedo_file()
 fiso_map = np.array(save_dict["fiso_map"])
@@ -48,7 +52,9 @@ albedo = lambda ts, fiso, fgeo, fvol: 0.5 * pws(
 
 # %%
 # Now we define the date to evaluate the reflected albedo irradiance at and the ECEF position of the satellite
-date = ps.now()
+date = datetime.datetime(
+    2022, 6, 23, 5, 53, 0, tzinfo=datetime.timezone.utc
+)
 datestr = f'{date.strftime("%Y-%m-%d %H:%M:%S")} UTC'
 sat_pos_ecef = (6378 + 4e4) * ps.hat(np.array([[1, 1, 0]]))
 
@@ -60,9 +66,7 @@ ecef_grid = ps.lla_to_itrf(
     a=0 * lon_grid.flatten(),
 )
 eci_to_ecef_rotm = ps.ecef_to_eci(date).T
-sun_ecef_hat = (
-    eci_to_ecef_rotm @ ps.hat(ps.sun(ps.date_to_jd(date))).T
-).T
+sun_ecef_hat = (eci_to_ecef_rotm @ ps.hat(ps.sun(date)).T).T
 sun_dir = np.tile(sun_ecef_hat, (ecef_grid.shape[0], 1))
 solar_zenith = np.arccos(ps.dot(ps.hat(ecef_grid), sun_dir))
 solar_zenith_grid = solar_zenith.reshape(mapshape)
@@ -104,15 +108,17 @@ pt_visible_from_sat = tosat_to_normal_grid < np.pi / 2
 
 # Visible and illuminated points
 ill_and_vis = pt_visible_from_sat & (solar_type_grid == 0)
-loss_at_surf = (
-    np.cos(solar_zenith_grid) * np.cos(tosat_to_normal_grid)
-) * ill_and_vis
+brdf_to_brightness = np.cos(solar_zenith_grid) * np.cos(
+    tosat_to_normal_grid
+)
+loss_at_surf_diffuse = brdf_to_brightness * ill_and_vis * albedo_grid
 is_ocean = np.abs(albedo_grid - albedo_grid[0, 0]) < 1e-8
 loss_at_surface_specular = (
     ps.brdf_phong(
         sun_dir, surf_to_sat_dir, ps.hat(ecef_grid), 0, 0.4, 10
     ).reshape(mapshape)
     * is_ocean
+    * brdf_to_brightness
 )
 
 obs_type_grid = np.zeros_like(solar_zenith_grid)
@@ -140,10 +146,10 @@ cell_area_grid = np.tile(
 # Computing Lambertian reflection (for the land) and Phong reflection (for the ocean) from each grid cell
 rmag_loss_grid = 1 / surf_to_sat_rmag_m_grid**2
 irrad_from_surf = (
-    1361
+    ps.total_solar_irradiance_at_dates(date)
     * rmag_loss_grid
     * cell_area_grid
-    * (loss_at_surf * albedo_grid + loss_at_surface_specular)
+    * (loss_at_surf_diffuse + loss_at_surface_specular)
 )
 print(f"{np.sum(irrad_from_surf):.2e}")
 
@@ -259,7 +265,7 @@ plt.show()
 fig, ax = plt.subplots()
 plt.colorbar(
     ax.imshow(
-        loss_at_surf + loss_at_surface_specular,
+        loss_at_surf_diffuse + loss_at_surface_specular,
         cmap="Blues",
         extent=[-180, 180, -90, 90],
     ),

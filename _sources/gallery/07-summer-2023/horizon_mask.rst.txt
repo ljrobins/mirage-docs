@@ -23,11 +23,27 @@ Horizon Masks
 
 Builds a terrain-driven horizon mask for a given station and displays the result
 
-.. GENERATED FROM PYTHON SOURCE LINES 9-10
+.. GENERATED FROM PYTHON SOURCE LINES 7-12
+
+.. code-block:: default
+
+
+    import sys
+
+    sys.path.append("./src")
+
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 13-14
 
 Defining the station at Katmandu, where ``station.name`` informs the name of the resulting mask file
 
-.. GENERATED FROM PYTHON SOURCE LINES 10-24
+.. GENERATED FROM PYTHON SOURCE LINES 14-28
 
 .. code-block:: default
 
@@ -60,11 +76,11 @@ Defining the station at Katmandu, where ``station.name`` informs the name of the
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-26
+.. GENERATED FROM PYTHON SOURCE LINES 29-30
 
 Loads a terrain tile containing the station and create a mask for the station location
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-36
+.. GENERATED FROM PYTHON SOURCE LINES 30-40
 
 .. code-block:: default
 
@@ -96,11 +112,11 @@ Loads a terrain tile containing the station and create a mask for the station lo
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-38
+.. GENERATED FROM PYTHON SOURCE LINES 41-42
 
 Build an interpolated from from the raw tile data
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-53
+.. GENERATED FROM PYTHON SOURCE LINES 42-57
 
 .. code-block:: default
 
@@ -126,11 +142,11 @@ Build an interpolated from from the raw tile data
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 54-55
+.. GENERATED FROM PYTHON SOURCE LINES 58-59
 
 Convert the terrain data into East North Up (ENU) coordinates and plot the result
 
-.. GENERATED FROM PYTHON SOURCE LINES 55-83
+.. GENERATED FROM PYTHON SOURCE LINES 59-98
 
 .. code-block:: default
 
@@ -158,16 +174,27 @@ Convert the terrain data into East North Up (ENU) coordinates and plot the resul
     )
 
     ps.scatter3(pl, enu_rays, color="w", show_scalar_bar=False)
-    pl.camera.focal_point = (0.0, 0.0, 0.0)
-    pl.camera.position = (-1e-4, 0.0, 0.0)
     pl.add_text("Katmandu Horizon Mask", font="courier")
-    pl.show()
+
+    # pl.show(auto_close=False)
+    path = pv.Polygon(
+        center=(0.0, 0.0, 0.0),
+        radius=0.0001,
+        normal=(0.0, 0.0, 1.0),
+        n_sides=200,
+    )
+    pl.open_gif("orbit_horizon.gif", fps=30)
+    for campos in path.points:
+        pl.camera.position = campos
+        pl.camera.focal_point = (0.0, 0.0, 0.0)
+        pl.write_frame()
+    pl.close()
 
 
 
-.. image-sg:: /gallery/07-summer-2023/images/sphx_glr_horizon_mask_001.png
+.. image-sg:: /gallery/07-summer-2023/images/sphx_glr_horizon_mask_001.gif
    :alt: horizon mask
-   :srcset: /gallery/07-summer-2023/images/sphx_glr_horizon_mask_001.png
+   :srcset: /gallery/07-summer-2023/images/sphx_glr_horizon_mask_001.gif
    :class: sphx-glr-single-img
 
 
@@ -177,7 +204,7 @@ Convert the terrain data into East North Up (ENU) coordinates and plot the resul
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  8.752 seconds)
+   **Total running time of the script:** ( 0 minutes  49.247 seconds)
 
 
 .. _sphx_glr_download_gallery_07-summer-2023_horizon_mask.py:

@@ -5,6 +5,10 @@ Horizon Masks
 Builds a terrain-driven horizon mask for a given station and displays the result
 """
 
+import sys
+
+sys.path.append("./src")
+
 # %%
 # Defining the station at Katmandu, where ``station.name`` informs the name of the resulting mask file
 import pyspaceaware as ps
@@ -76,7 +80,18 @@ pl.add_mesh(
 )
 
 ps.scatter3(pl, enu_rays, color="w", show_scalar_bar=False)
-pl.camera.focal_point = (0.0, 0.0, 0.0)
-pl.camera.position = (-1e-4, 0.0, 0.0)
 pl.add_text("Katmandu Horizon Mask", font="courier")
-pl.show()
+
+# pl.show(auto_close=False)
+path = pv.Polygon(
+    center=(0.0, 0.0, 0.0),
+    radius=0.0001,
+    normal=(0.0, 0.0, 1.0),
+    n_sides=200,
+)
+pl.open_gif("orbit_horizon.gif", fps=30)
+for campos in path.points:
+    pl.camera.position = campos
+    pl.camera.focal_point = (0.0, 0.0, 0.0)
+    pl.write_frame()
+pl.close()

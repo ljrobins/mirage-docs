@@ -49,7 +49,7 @@ Let's set up the dates we want to evaluate at, here choosing the next year
 
     import pyspaceaware as ps
 
-    dates, _ = ps.date_linspace(ps.now(), ps.now() + ps.days(365), int(1e4))
+    dates, _ = ps.date_linspace(ps.now(), ps.now() + ps.days(365), int(1e3))
 
 
 
@@ -67,7 +67,7 @@ Compute the position of the Moon relative to the Earth using SPICE
 .. code-block:: default
 
     ps.tic()
-    spice_moon_state_eci = ps.spice_moon(dates)
+    spice_moon_state_eci = ps.moon(dates, "spice")
     ps.toc()
 
 
@@ -78,7 +78,7 @@ Compute the position of the Moon relative to the Earth using SPICE
 
  .. code-block:: none
 
-    Elapsed time: 4.14e-01 seconds
+    Elapsed time: 1.47e-01 seconds
 
 
 
@@ -92,7 +92,7 @@ And using Vallado's approximation
 .. code-block:: default
 
     ps.tic()
-    ps_moon_state_eci = ps.moon(ps.date_to_jd(dates))
+    ps_moon_state_eci = ps.moon(dates, "vallado")
     ps.toc()
 
 
@@ -103,7 +103,7 @@ And using Vallado's approximation
 
  .. code-block:: none
 
-    Elapsed time: 2.40e-01 seconds
+    Elapsed time: 2.59e-02 seconds
 
 
 
@@ -112,7 +112,7 @@ And using Vallado's approximation
 
 And plot the results
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-47
+.. GENERATED FROM PYTHON SOURCE LINES 32-53
 
 .. code-block:: default
 
@@ -120,15 +120,21 @@ And plot the results
 
     pl = pv.Plotter()
     pl.set_background("k")
-    ps.scatter3(
+    ps.plot3(
         pl,
         spice_moon_state_eci - ps_moon_state_eci,
         scalars=ps.vecnorm(
             spice_moon_state_eci - ps_moon_state_eci
         ).flatten(),
-        cmap="cividis",
+        cmap="isolum",
+        lighting=False,
+        line_width=3,
     )
-    pl.view_xy()
+    pl.view_isometric()
+
+    ps.plot_moon(
+        pl, date=dates[0], mode="mci"
+    )  # Display the Moon centered in inertial coordinates
     pl.show()
 
 
@@ -143,14 +149,14 @@ And plot the results
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-49
+.. GENERATED FROM PYTHON SOURCE LINES 54-55
 
 As we can see, the Vallado approximation is usually a few thousand kilometers off from SPICE, and takes about half the time to evaluate
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.178 seconds)
+   **Total running time of the script:** ( 0 minutes  3.446 seconds)
 
 
 .. _sphx_glr_download_gallery_07-summer-2023_spice.py:

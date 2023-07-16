@@ -4,20 +4,43 @@ Plotting Earth
 
 Plotting the Earth with a variety of options
 """
+import sys
+
+sys.path.append("./src")
 
 import pyspaceaware as ps
 import pyvista as pv
 import datetime
+import numpy as np
 
 date = datetime.datetime(
-    2022, 9, 1, 12, 0, 0, tzinfo=datetime.timezone.utc
+    2023, 6, 4, 12, 0, 0, tzinfo=datetime.timezone.utc
 )
+date_space_day = date + ps.days(np.linspace(0, 1, 100, endpoint=False))
 
 # %%
-# Night lights
+# Just so that the thumbnail of this example is exciting, let's animate a full photorealistic Earth over the course of a day
 pl = pv.Plotter()
-ps.plot_earth(pl, date=date, night_lights=True)
-pl.show()
+pl.open_gif("earth_day.gif", fps=20)
+for date in date_space_day:
+    ps.plot_earth(pl, date=date, night_lights=True, atmosphere=True)
+    pl.camera.position = (40e3, 0.0, 0.0)
+    pl.write_frame()
+pl.close()
+
+# %%
+# We can also plot over the course of the year to show the variation of the Sun
+date_space_year = date + ps.days(
+    np.round(np.linspace(0, 365.25, 100, endpoint=False))
+)
+pl = pv.Plotter()
+pl.open_gif("earth_year.gif", fps=20)
+for date in date_space_year:
+    ps.plot_earth(pl, date=date, night_lights=True, atmosphere=True)
+    pl.camera.position = (40e3, 0.0, 0.0)
+    pl.write_frame()
+pl.close()
+
 
 # %%
 # Elevation data and texture map
@@ -28,7 +51,6 @@ ps.plot_earth(
     elevation=True,
     use_elevation_texture=True,
     lighting=False,
-    atmosphere=False,
 )
 pl.show()
 
@@ -53,6 +75,16 @@ ps.plot_earth(
 pl.show()
 
 # %%
+# Country borders
+pl = pv.Plotter()
+ps.plot_earth(
+    pl,
+    date=date,
+    borders=True,
+)
+pl.show()
+
+# %%
 # All photorealistic settings
 pl = pv.Plotter()
 ps.plot_earth(
@@ -64,49 +96,3 @@ ps.plot_earth(
     high_def=True,
 )
 pl.show()
-
-# %%
-# We can also plot a range of dates and save the result as a movie
-
-import numpy as np
-
-dates = ps.now() + ps.days(np.linspace(0, 1, 80, endpoint=False))
-
-pre_render_fcn = lambda pl: (
-    ps.plot_earth(pl, mode="eci", night_lights=True, date=dates[0]),
-    pl.enable_anti_aliasing("msaa"),
-)
-
-
-def render_fcn(
-    pl: pv.Plotter,
-    i: int,
-    dates: datetime.datetime = None,
-):
-    ps.plot_earth(
-        pl,
-        mode="eci",
-        night_lights=True,
-        high_def=True,
-        stars=True,
-        atmosphere=True,
-        date=dates[i],
-    )
-    pl.camera.focal_point = (0.0, 0.0, 0.0)
-    pl.camera.position = (20000.0, -20000.0, 10000.0)
-    pl.camera.up = (0.0, 0.0, 1.0)
-    pl.add_text(
-        f'{dates[i].strftime("%m/%d/%Y, %H:%M:%S")} UTC',
-        name="utc_str",
-        font="courier",
-    )
-
-
-ps.render_video(
-    pre_render_fcn,
-    lambda pl, i: render_fcn(pl, i, dates),
-    lambda pl, i: None,
-    dates.size,
-    "earth_with_nightlights.gif",
-    framerate=24,
-)

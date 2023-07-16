@@ -10,6 +10,7 @@ import sys
 sys.path.append("./src")
 import numpy as np
 import pyspaceaware as ps
+import pyspaceaware.sim as pssim
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -19,11 +20,13 @@ obj = ps.SpaceObject("cube.obj")
 brdf = ps.Brdf("phong", cd=0.5, cs=0.5, n=10)
 # %%
 # We now define the Multi-Layer Perceptron (MLP) brightness model. Note that the ``layers=(150, 50, 150)`` keyword argument defines the number of neurons in each densely-connected layer.
-mlp_bm = ps.MLPBrightnessModel(obj, brdf, use_engine=False)
+mlp_bm = pssim.MLPBrightnessModel(
+    obj, brdf, use_engine=False, train_on="magnitude"
+)
 # %%
 # Now we train the model on a set number of training lighting and observation configurations. Usually ``1e5``-``1e6`` are required for a *good* fit
 num_train = int(1e3)
-mlp_bm.train(num_train=num_train)
+mlp_bm.train(num_train)
 
 # %%
 # We can now simulate a torque-free attitude profile to inspect the quality of the fit
@@ -75,7 +78,7 @@ print(np.max(np.abs(mdl_b_onnx - mdl_sklearn_loaded)))
 
 # %%
 # We can now finish off by evaluating the true brightness in this attitude profile and plot the results
-true_b = obj.compute_convex_light_curve(brdf, ovb, svb)
+true_b = mlp_bm.brightness(svb, ovb, "magnitude")
 
 plt.figure()
 sns.lineplot(x=t_eval, y=true_b, errorbar=None)

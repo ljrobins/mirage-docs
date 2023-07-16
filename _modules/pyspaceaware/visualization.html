@@ -1,272 +1,379 @@
-<!doctype html>
-<html class="no-js" lang="en">
-  <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <!-- Generated with Sphinx 6.1.3 and Furo 2023.05.20 -->
-        <title>pyspaceaware.visualization - pyspaceaware 0.0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=e6660623a769aa55fea372102b9bf3151b292993" />
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyspaceaware.visualization &#8212; pyspaceaware 0.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
-    
-    
-
-
-<style>
-  body {
-    --color-code-background: #f8f8f8;
-  --color-code-foreground: black;
   
-  }
-  @media not print {
-    body[data-theme="dark"] {
-      --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pyspaceaware/visualization';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
   
-    }
-    @media (prefers-color-scheme: dark) {
-      body:not([data-theme="light"]) {
-        --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
   
-      }
-    }
-  }
-</style></head>
-  <body>
-    
-    <script>
-      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
-    </script>
-    
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-  <symbol id="svg-toc" viewBox="0 0 24 24">
-    <title>Contents</title>
-    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
-      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
-    </svg>
-  </symbol>
-  <symbol id="svg-menu" viewBox="0 0 24 24">
-    <title>Menu</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
-      <line x1="3" y1="12" x2="21" y2="12"></line>
-      <line x1="3" y1="6" x2="21" y2="6"></line>
-      <line x1="3" y1="18" x2="21" y2="18"></line>
-    </svg>
-  </symbol>
-  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
-    <title>Expand</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
-      <polyline points="9 18 15 12 9 6"></polyline>
-    </svg>
-  </symbol>
-  <symbol id="svg-sun" viewBox="0 0 24 24">
-    <title>Light mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
-      <circle cx="12" cy="12" r="5"></circle>
-      <line x1="12" y1="1" x2="12" y2="3"></line>
-      <line x1="12" y1="21" x2="12" y2="23"></line>
-      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-      <line x1="1" y1="12" x2="3" y2="12"></line>
-      <line x1="21" y1="12" x2="23" y2="12"></line>
-      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-    </svg>
-  </symbol>
-  <symbol id="svg-moon" viewBox="0 0 24 24">
-    <title>Dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
-    </svg>
-  </symbol>
-  <symbol id="svg-sun-half" viewBox="0 0 24 24">
-    <title>Auto light/dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
-      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M13 12h5" />
-      <path d="M13 15h4" />
-      <path d="M13 18h1" />
-      <path d="M13 9h4" />
-      <path d="M13 6h1" />
-    </svg>
-  </symbol>
-</svg>
-
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
-<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
-<label class="overlay sidebar-overlay" for="__navigation">
-  <div class="visually-hidden">Hide navigation sidebar</div>
-</label>
-<label class="overlay toc-overlay" for="__toc">
-  <div class="visually-hidden">Hide table of contents sidebar</div>
-</label>
-
-
-
-<div class="page">
-  <header class="mobile-header">
-    <div class="header-left">
-      <label class="nav-overlay-icon" for="__navigation">
-        <div class="visually-hidden">Toggle site navigation sidebar</div>
-        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
-      </label>
-    </div>
-    <div class="header-center">
-      <a href="../../index.html"><div class="brand">pyspaceaware 0.0.1 documentation</div></a>
-    </div>
-    <div class="header-right">
-      <div class="theme-toggle-container theme-toggle-header">
-        <button class="theme-toggle">
-          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
-          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
-          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
-          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
-        </button>
-      </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
-        <div class="visually-hidden">Toggle table of contents sidebar</div>
-        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
-      </label>
-    </div>
-  </header>
-  <aside class="sidebar-drawer">
-    <div class="sidebar-container">
-      
-      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
-  <div class="sidebar-logo-container">
-    <img class="sidebar-logo only-light" src="../../_static/sid_logo_light.png" alt="Light Logo"/>
-    <img class="sidebar-logo only-dark" src="../../_static/sid_logo_dark.png" alt="Dark Logo"/>
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
   </div>
   
-  <span class="sidebar-brand-text">pyspaceaware 0.0.1 documentation</span>
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
   
-</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
-  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
-  <input type="hidden" name="check_keywords" value="yes">
-  <input type="hidden" name="area" value="default">
-</form>
-<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">pyspaceaware</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of pyspaceaware</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../pyspaceaware.html">pyspaceaware package</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../references.html">References</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../gallery/index.html">Examples Gallery</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Examples Gallery</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../gallery/00-tle/index.html">Working with TLEs</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Working with TLEs</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../gallery/00-tle/propagate_catalog.html">Propagating the catalog</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../gallery/00-tle/propagate_single_tle.html">Propagating single TLE</a></li>
-</ul>
-</li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../gallery/01-light_curves/index.html">Light Curves</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Light Curves</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../gallery/01-light_curves/convex_light_curve.html">Convex Light Curves</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../gallery/01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
-</ul>
-</li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../gallery/02-lighting/index.html">Lighting</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of Lighting</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../gallery/02-lighting/brdfs.html">BRDFs on the local hemisphere</a></li>
-</ul>
-</li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../gallery/03-coordinate-systems/index.html">Coordinate Frames</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Coordinate Frames</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../gallery/03-coordinate-systems/eci_over_time.html">ITRF to J2000</a></li>
-</ul>
-</li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../gallery/04-background/index.html">Background Model</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of Background Model</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../gallery/04-background/spectra.html">Astrometric Spectra</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../gallery/04-background/background_signals.html">Background Signals</a></li>
-</ul>
-</li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../gallery/05-vis/index.html">Plotting Options</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of Plotting Options</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../gallery/05-vis/plot_earth.html">Plotting Earth</a></li>
-</ul>
-</li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../gallery/06-attitude/index.html">Rigid Body Attitudes</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of Rigid Body Attitudes</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../gallery/06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../gallery/06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../gallery/06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
 
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/sid_logo_light.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/sid_logo_dark.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+    <p class="title logo__title">Pyspaceaware</p>
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../modules.html">
+                        pyspaceaware
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../references.html">
+                        References
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../gallery/index.html">
+                        Examples Gallery
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
 </div>
-</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../modules.html">
+                        pyspaceaware
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../references.html">
+                        References
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../gallery/index.html">
+                        Examples Gallery
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
 
       </div>
       
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../pyspaceaware.html" class="nav-link">pyspaceaware</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">pyspaceaware.visualization</li>
+  </ul>
+</nav>
+</div>
+      
     </div>
-  </aside>
-  <div class="main">
-    <div class="content">
-      <div class="article-container">
-        <a href="#" class="back-to-top muted-link">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
-          </svg>
-          <span>Back to top</span>
-        </a>
-        <div class="content-icon-container">
-          <div class="theme-toggle-container theme-toggle-content">
-            <button class="theme-toggle">
-              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
-              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
-              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
-              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
-            </button>
-          </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
-            <div class="visually-hidden">Toggle table of contents sidebar</div>
-            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
-          </label>
-        </div>
-        <article role="main">
-          <h1>Source code for pyspaceaware.visualization</h1><div class="highlight"><pre>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for pyspaceaware.visualization</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
 <span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">import</span> <span class="nn">shapefile</span>
 
 <span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">AstroConstants</span>
-<span class="kn">from</span> <span class="nn">.math</span> <span class="kn">import</span> <span class="n">hat</span><span class="p">,</span> <span class="n">vecnorm</span><span class="p">,</span> <span class="n">wrap_to_pi</span>
+<span class="kn">from</span> <span class="nn">.math</span> <span class="kn">import</span> <span class="n">hat</span><span class="p">,</span> <span class="n">wrap_to_pi</span>
 <span class="kn">from</span> <span class="nn">.spaceobject</span> <span class="kn">import</span> <span class="n">SpaceObject</span>
+<span class="kn">from</span> <span class="nn">.time</span> <span class="kn">import</span> <span class="n">now</span>
 <span class="kn">from</span> <span class="nn">.coordinates</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">sun_angle_to_horizon</span><span class="p">,</span>
-    <span class="n">itrf_to_lla</span><span class="p">,</span>
     <span class="n">lla_to_itrf</span><span class="p">,</span>
-    <span class="n">eci_to_ra_dec</span><span class="p">,</span>
+    <span class="n">itrf_to_lla</span><span class="p">,</span>
     <span class="n">sun</span><span class="p">,</span>
+    <span class="n">moon</span><span class="p">,</span>
     <span class="n">ecef_to_eci</span><span class="p">,</span>
+    <span class="n">eci_to_ecef</span><span class="p">,</span>
+    <span class="n">mcmf_to_j2000</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">.time</span> <span class="kn">import</span> <span class="n">date_to_jd</span>
 <span class="kn">from</span> <span class="nn">.attitude</span> <span class="kn">import</span> <span class="n">axis_rotation_matrices</span>
-<span class="kn">from</span> <span class="nn">.profiling</span> <span class="kn">import</span> <span class="n">tic</span><span class="p">,</span> <span class="n">toc</span>
 
 <span class="n">Image</span><span class="o">.</span><span class="n">MAX_IMAGE_PIXELS</span> <span class="o">=</span> <span class="mi">466560000</span>
-<span class="n">_TEX_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SRCDIR&quot;</span><span class="p">],</span> <span class="s2">&quot;resources&quot;</span><span class="p">,</span> <span class="s2">&quot;textures&quot;</span><span class="p">)</span>
+<span class="n">_PLANET_RES</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">_SUNLIGHT</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Light</span><span class="p">(</span>
+    <span class="n">intensity</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <div class="viewcode-block" id="render_video"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.visualization.render_video">[docs]</a><span class="k">def</span> <span class="nf">render_video</span><span class="p">(</span>
@@ -332,7 +439,7 @@
 <span class="sd">    :type obj: SpaceObject</span>
 <span class="sd">    :param quat: Orientation history</span>
 <span class="sd">    :type quat: np.ndarray [nx4]</span>
-<span class="sd">    :param fname: File name to save movie to, defaults to `None`. If `None`, no video saved</span>
+<span class="sd">    :param fname: File name to save movie to, defaults to ``None``. If ``None``, no video saved</span>
 <span class="sd">    :type fname: str, optional</span>
 <span class="sd">    :param framerate: Frame rate of movie [frames/second], defaults to 60</span>
 <span class="sd">    :type framerate: int, optional</span>
@@ -384,27 +491,6 @@
     <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">sphere</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="n">opacity</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-<span class="c1"># def plot_sun(pl: pv.Plotter, date: datetime.datetime, sf: float = 1e3):</span>
-<span class="c1">#     sun_pos = sun(date_to_jd(date))[0] / sf</span>
-<span class="c1">#     pl.camera.clipping_range = (10, vecnorm(sun_pos))</span>
-<span class="c1">#     if &quot;sun&quot; in pl.actors:</span>
-<span class="c1">#         sun_mesh = pl.actors[&quot;sun&quot;]</span>
-<span class="c1">#         sun_mesh.position = sun_pos</span>
-<span class="c1">#     else:</span>
-<span class="c1">#         pl.add_mesh(</span>
-<span class="c1">#             pv.Sphere(</span>
-<span class="c1">#                 center=sun_pos,</span>
-<span class="c1">#                 radius=10 * AstroConstants.sun_radius_km / sf,</span>
-<span class="c1">#                 theta_resolution=200,</span>
-<span class="c1">#                 phi_resolution=200,</span>
-<span class="c1">#             ),</span>
-<span class="c1">#             color=&quot;yellow&quot;,</span>
-<span class="c1">#             emissive=True,</span>
-<span class="c1">#             style=&quot;points_gaussian&quot;,</span>
-<span class="c1">#             name=&quot;sun&quot;,</span>
-<span class="c1">#         )</span>
-
-
 <span class="k">def</span> <span class="nf">_build_topo_interpolator</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Builds interpolators for elevation and bathymetry data from internal high-res image datasets</span>
 
@@ -413,7 +499,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">max_elev_meters</span><span class="p">,</span> <span class="n">min_bathy_meters</span> <span class="o">=</span> <span class="mi">6400</span><span class="p">,</span> <span class="o">-</span><span class="mi">8000</span>
     <span class="k">with</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_TEX_DIR</span><span class="p">,</span> <span class="s2">&quot;earth_elev21600x10800.png&quot;</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;TEXDIR&quot;</span><span class="p">],</span> <span class="s2">&quot;earth_elev21600x10800.png&quot;</span><span class="p">)</span>
     <span class="p">)</span> <span class="k">as</span> <span class="n">im</span><span class="p">:</span>
         <span class="n">im_elev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
         <span class="n">_LAT_SPACES</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
@@ -432,7 +518,9 @@
             <span class="n">method</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">with</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_TEX_DIR</span><span class="p">,</span> <span class="s2">&quot;gebco_08_rev_bath_21600x10800.png&quot;</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;TEXDIR&quot;</span><span class="p">],</span> <span class="s2">&quot;gebco_08_rev_bath_21600x10800.png&quot;</span>
+        <span class="p">)</span>
     <span class="p">)</span> <span class="k">as</span> <span class="n">im</span><span class="p">:</span>
         <span class="n">im_bathy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
         <span class="n">_LAT_SPACES</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
@@ -456,7 +544,44 @@
     <span class="p">)</span>  <span class="c1"># /1e3 to output meters</span>
 
 
-<span class="k">global</span> <span class="n">earth_night_lights</span><span class="p">,</span> <span class="n">earth_atmosphere</span><span class="p">,</span> <span class="n">atmos_ecef</span>
+<span class="k">def</span> <span class="nf">_textured_ellipsoid</span><span class="p">(</span>
+    <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rotm</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pv</span><span class="o">.</span><span class="n">ParametricEllipsoid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns a parametric ellipsoid based on the given semimajor axis and flattening ratio, ready for texturing</span>
+
+<span class="sd">    :param a: Semimajor axis of the body</span>
+<span class="sd">    :type a: float</span>
+<span class="sd">    :param f: Flattening ratio of the body</span>
+<span class="sd">    :type f: float</span>
+<span class="sd">    :param rotm: Rotation matrix to apply to the body points, defaults to np.eye(3)</span>
+<span class="sd">    :type rotm: np.ndarray [3x3]</span>
+<span class="sd">    :return: Ellipsoid parametrized by ``a``, ``f``</span>
+<span class="sd">    :rtype: pv.ParametricEllipsoid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">f</span><span class="p">)</span>  <span class="c1"># Semi-minor axis</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">ParametricEllipsoid</span><span class="p">(</span>
+        <span class="n">a</span><span class="p">,</span>
+        <span class="n">a</span><span class="p">,</span>
+        <span class="n">b</span><span class="p">,</span>
+        <span class="n">u_res</span><span class="o">=</span><span class="n">_PLANET_RES</span><span class="p">,</span>
+        <span class="n">v_res</span><span class="o">=</span><span class="n">_PLANET_RES</span><span class="p">,</span>
+        <span class="n">w_res</span><span class="o">=</span><span class="n">_PLANET_RES</span><span class="p">,</span>
+        <span class="n">min_u</span><span class="o">=-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">0.00001</span><span class="p">,</span>
+        <span class="n">max_u</span><span class="o">=</span><span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">0.00001</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">sph_hat_pts</span> <span class="o">=</span> <span class="n">hat</span><span class="p">(</span><span class="n">body</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
+    <span class="n">body</span><span class="o">.</span><span class="n">active_t_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">body</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">body</span><span class="o">.</span><span class="n">active_t_coords</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span>
+        <span class="o">-</span><span class="n">sph_hat_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">sph_hat_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+    <span class="n">body</span><span class="o">.</span><span class="n">active_t_coords</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="mf">0.5</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">sph_hat_pts</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+    <span class="p">)</span>
+    <span class="n">body</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="p">(</span><span class="n">rotm</span> <span class="o">@</span> <span class="n">body</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="k">return</span> <span class="n">body</span>
+
+
+<span class="k">global</span> <span class="n">earth_night_lights</span><span class="p">,</span> <span class="n">earth_atmosphere</span>
 
 
 <div class="viewcode-block" id="plot_earth"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.visualization.plot_earth">[docs]</a><span class="k">def</span> <span class="nf">plot_earth</span><span class="p">(</span>
@@ -470,112 +595,128 @@
     <span class="n">use_elevation_texture</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">atmosphere</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">lighting</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">borders</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pv</span><span class="o">.</span><span class="n">PolyData</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plots the Earth as a sphere in [km]</span>
 
-<span class="sd">    :param pl: Plotter to add the Earth to</span>
+<span class="sd">    :param pl: Plotter to use</span>
 <span class="sd">    :type pl: pv.Plotter</span>
 <span class="sd">    :return: Generated spherical mesh</span>
 <span class="sd">    :rtype: pv.PolyData</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">date</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">now</span><span class="p">()</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">enable_terrain_style</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">enable_anti_aliasing</span><span class="p">(</span><span class="s2">&quot;ssaa&quot;</span><span class="p">,</span> <span class="n">all_renderers</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">elevation</span><span class="p">:</span>
         <span class="n">interp_elev</span> <span class="o">=</span> <span class="n">_build_topo_interpolator</span><span class="p">()</span>
-    <span class="k">global</span> <span class="n">earth_night_lights</span><span class="p">,</span> <span class="n">earth_atmosphere</span><span class="p">,</span> <span class="n">atmos_ecef</span>
-    <span class="n">sunset_tol</span><span class="p">,</span> <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="mi">500</span>
+    <span class="k">global</span> <span class="n">earth_night_lights</span><span class="p">,</span> <span class="n">earth_atmosphere</span>
+    <span class="n">sunset_tol</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;eci&quot;</span><span class="p">,</span> <span class="s2">&quot;ecef&quot;</span><span class="p">],</span> <span class="s2">&quot;Mode must be &#39;eci&#39; or &#39;ecef&#39;&quot;</span>
     <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">r3</span><span class="p">)</span> <span class="o">=</span> <span class="n">axis_rotation_matrices</span><span class="p">()</span>
-    <span class="n">rotm</span> <span class="o">=</span> <span class="n">r3</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">rotm4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;eci&quot;</span><span class="p">:</span>
-        <span class="n">rotm</span> <span class="o">=</span> <span class="n">rotm</span> <span class="o">@</span> <span class="n">ecef_to_eci</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
-    <span class="n">rotm4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
-        <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">rotm</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))),</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
-    <span class="p">)</span>
-    <span class="n">rotm4_nl</span> <span class="o">=</span> <span class="n">rotm4</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
-        <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">r3</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))),</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
-    <span class="p">)</span>
+        <span class="n">rotm4</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">ecef_to_eci</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="s2">&quot;earth&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pl</span><span class="o">.</span><span class="n">actors</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;eci&quot;</span> <span class="ow">and</span> <span class="n">lighting</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">lighting</span><span class="p">:</span>
             <span class="n">pl</span><span class="o">.</span><span class="n">remove_all_lights</span><span class="p">(</span><span class="n">only_active</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="n">light</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Light</span><span class="p">(</span>
-                <span class="n">intensity</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
-                <span class="c1"># position=40e3 * hat(sun(date_to_jd(date)))[0, :],</span>
-            <span class="p">)</span>
-            <span class="n">sun_ra_dec</span> <span class="o">=</span> <span class="n">eci_to_ra_dec</span><span class="p">(</span><span class="n">sun</span><span class="p">(</span><span class="n">date_to_jd</span><span class="p">(</span><span class="n">date</span><span class="p">)))</span>
-            <span class="n">light</span><span class="o">.</span><span class="n">set_direction_angle</span><span class="p">(</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">sun_ra_dec</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">sun_ra_dec</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span>
-            <span class="p">)</span>
-            <span class="n">pl</span><span class="o">.</span><span class="n">add_light</span><span class="p">(</span><span class="n">light</span><span class="p">,</span> <span class="n">only_active</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-        <span class="n">lat_space</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
-        <span class="n">lon_space</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-        <span class="n">alt_space</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-        <span class="n">latg</span><span class="p">,</span> <span class="n">long</span><span class="p">,</span> <span class="n">altg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
-            <span class="n">lat_space</span><span class="p">,</span> <span class="n">lon_space</span><span class="p">,</span> <span class="n">alt_space</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span>
-        <span class="p">)</span>
-        <span class="n">atmos_ecef</span> <span class="o">=</span> <span class="n">lla_to_itrf</span><span class="p">(</span>
-            <span class="n">latg</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">long</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">altg</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-        <span class="p">)</span>
-        <span class="n">ecefg</span> <span class="o">=</span> <span class="n">atmos_ecef</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">*</span><span class="n">latg</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-        <span class="n">earth_atmosphere</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">StructuredGrid</span><span class="p">(</span>
-            <span class="n">ecefg</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">ecefg</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ecefg</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
-        <span class="p">)</span>
-        <span class="n">earth_atmosphere</span><span class="p">[</span><span class="s2">&quot;density&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">altg</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-        <span class="n">atmos_ecef</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
-            <span class="p">(</span>
-                <span class="n">ecefg</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="p">),</span>
-                <span class="n">ecefg</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="p">),</span>
-                <span class="n">ecefg</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="p">),</span>
-            <span class="p">)</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">pl</span><span class="o">.</span><span class="n">add_light</span><span class="p">(</span><span class="n">_SUNLIGHT</span><span class="p">,</span> <span class="n">only_active</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">atmosphere</span><span class="p">:</span>
-            <span class="c1"># atmos_ecef = atmos_ecef @ r3(np.pi / 2).T</span>
-            <span class="n">ang_atmos</span> <span class="o">=</span> <span class="o">-</span><span class="n">sun_angle_to_horizon</span><span class="p">(</span>
-                <span class="n">date</span><span class="p">,</span> <span class="n">atmos_ecef</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-            <span class="n">is_day</span> <span class="o">=</span> <span class="n">ang_atmos</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">sunset_tol</span>
-            <span class="n">earth_atmosphere</span><span class="p">[</span><span class="s2">&quot;density&quot;</span><span class="p">][</span><span class="o">~</span><span class="n">is_day</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-
-            <span class="n">pl</span><span class="o">.</span><span class="n">add_volume</span><span class="p">(</span>
+            <span class="n">earth_atmosphere</span> <span class="o">=</span> <span class="n">_textured_ellipsoid</span><span class="p">(</span>
+                <span class="n">AstroConstants</span><span class="o">.</span><span class="n">earth_r_eq</span> <span class="o">+</span> <span class="mi">100</span><span class="p">,</span>
+                <span class="n">AstroConstants</span><span class="o">.</span><span class="n">earth_f</span><span class="p">,</span>
+                <span class="n">r3</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span>
                 <span class="n">earth_atmosphere</span><span class="p">,</span>
-                <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span>
-                <span class="n">opacity</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span>
-                <span class="n">opacity_unit_distance</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+                <span class="n">opacity</span><span class="o">=</span><span class="mi">0</span> <span class="o">*</span> <span class="n">earth_atmosphere</span><span class="o">.</span><span class="n">points</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
                 <span class="n">name</span><span class="o">=</span><span class="s2">&quot;atmosphere&quot;</span><span class="p">,</span>
                 <span class="n">show_scalar_bar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                <span class="n">culling</span><span class="o">=</span><span class="s2">&quot;back&quot;</span><span class="p">,</span>
+                <span class="n">texture</span><span class="o">=</span><span class="n">pv</span><span class="o">.</span><span class="n">Texture</span><span class="p">(</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;TEXDIR&quot;</span><span class="p">],</span>
+                        <span class="s2">&quot;storm_clouds_8k_edited.png&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="p">),</span>  <span class="c1"># http://shadedrelief.com/natural3/ne3_data/8192/clouds/storm_clouds_8k.jpg</span>
+                <span class="n">specular_power</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+                <span class="n">specular</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">diffuse</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">smooth_shading</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="p">)</span>
+            <span class="n">pl</span><span class="o">.</span><span class="n">actors</span><span class="p">[</span><span class="s2">&quot;atmosphere&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">prop</span><span class="o">.</span><span class="n">culling</span> <span class="o">=</span> <span class="s2">&quot;front&quot;</span>
 
-        <span class="n">a</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">AstroConstants</span><span class="o">.</span><span class="n">earth_r_eq</span>
-        <span class="p">)</span>  <span class="c1"># Semi-major axis of Earth ellipsoid</span>
-        <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">AstroConstants</span><span class="o">.</span><span class="n">earth_f</span><span class="p">)</span>  <span class="c1"># Semi-minor axis</span>
-        <span class="n">earth</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">ParametricEllipsoid</span><span class="p">(</span>
-            <span class="n">a</span><span class="p">,</span>
-            <span class="n">a</span><span class="p">,</span>
-            <span class="n">b</span><span class="p">,</span>
-            <span class="n">u_res</span><span class="o">=</span><span class="n">res</span><span class="p">,</span>
-            <span class="n">v_res</span><span class="o">=</span><span class="n">res</span><span class="p">,</span>
-            <span class="n">w_res</span><span class="o">=</span><span class="n">res</span><span class="p">,</span>
-            <span class="n">min_u</span><span class="o">=-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">0.00001</span><span class="p">,</span>
-            <span class="n">max_u</span><span class="o">=</span><span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">0.00001</span><span class="p">,</span>
+        <span class="n">earth</span> <span class="o">=</span> <span class="n">_textured_ellipsoid</span><span class="p">(</span>
+            <span class="n">AstroConstants</span><span class="o">.</span><span class="n">earth_r_eq</span><span class="p">,</span>
+            <span class="n">AstroConstants</span><span class="o">.</span><span class="n">earth_f</span><span class="p">,</span>
+            <span class="n">r3</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="n">sph_hat_pts</span> <span class="o">=</span> <span class="n">hat</span><span class="p">(</span><span class="n">earth</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
-        <span class="n">earth</span><span class="o">.</span><span class="n">active_t_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">earth</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">))</span>
-        <span class="n">earth</span><span class="o">.</span><span class="n">active_t_coords</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span>
-            <span class="o">-</span><span class="n">sph_hat_pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">sph_hat_pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
-        <span class="n">earth</span><span class="o">.</span><span class="n">active_t_coords</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="mf">0.5</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">sph_hat_pts</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
-        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">borders</span><span class="p">:</span>
+            <span class="n">sf</span> <span class="o">=</span> <span class="n">shapefile</span><span class="o">.</span><span class="n">Reader</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SRCDIR&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;resources&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;shp&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;World_Countries_Generalized.shp&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">shapes</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">shapes</span><span class="p">()</span>
+            <span class="n">plot_shape</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">r_itrf</span><span class="p">:</span> <span class="n">plot3</span><span class="p">(</span>
+                <span class="n">pl</span><span class="p">,</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">r_itrf</span><span class="p">,</span> <span class="n">r_itrf</span><span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">:])),</span>
+                <span class="n">lighting</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">line_width</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span>
+                <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;borders&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">shape_itrf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="n">shapes</span><span class="p">:</span>
+                <span class="n">shape_lla</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">points</span><span class="p">))</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">parts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">part_itrf</span> <span class="o">=</span> <span class="n">lla_to_itrf</span><span class="p">(</span>
+                        <span class="n">shape_lla</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+                        <span class="n">shape_lla</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+                        <span class="mi">0</span> <span class="o">*</span> <span class="n">shape_lla</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="p">)</span>
+                    <span class="n">shape_itrf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
+                        <span class="p">(</span>
+                            <span class="n">shape_itrf</span><span class="p">,</span>
+                            <span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">]],</span>
+                            <span class="n">part_itrf</span><span class="p">,</span>
+                            <span class="n">part_itrf</span><span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">:],</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">parts</span><span class="p">)):</span>
+                        <span class="n">sind</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">parts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                        <span class="n">eind</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">shape</span><span class="o">.</span><span class="n">parts</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+                            <span class="k">if</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">parts</span><span class="p">)</span>
+                            <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">points</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+                        <span class="p">)</span>
+                        <span class="k">if</span> <span class="n">eind</span> <span class="o">-</span> <span class="n">sind</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">:</span>
+                            <span class="n">part_itrf</span> <span class="o">=</span> <span class="n">lla_to_itrf</span><span class="p">(</span>
+                                <span class="n">shape_lla</span><span class="p">[</span><span class="n">sind</span><span class="p">:</span><span class="n">eind</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                                <span class="n">shape_lla</span><span class="p">[</span><span class="n">sind</span><span class="p">:</span><span class="n">eind</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                <span class="mi">0</span> <span class="o">*</span> <span class="n">shape_lla</span><span class="p">[</span><span class="n">sind</span><span class="p">:</span><span class="n">eind</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                            <span class="p">)</span>
+                            <span class="n">shape_itrf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
+                                <span class="p">(</span>
+                                    <span class="n">shape_itrf</span><span class="p">,</span>
+                                    <span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">]],</span>
+                                    <span class="n">part_itrf</span><span class="p">,</span>
+                                    <span class="n">part_itrf</span><span class="p">[[</span><span class="mi">0</span><span class="p">],</span> <span class="p">:],</span>
+                                <span class="p">)</span>
+                            <span class="p">)</span>
+
+            <span class="n">plot_shape</span><span class="p">(</span><span class="n">shape_itrf</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">elevation</span><span class="p">:</span>
             <span class="p">(</span><span class="n">lat_pts</span><span class="p">,</span> <span class="n">lon_pts</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">itrf_to_lla</span><span class="p">(</span><span class="n">earth</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
-            <span class="n">lon_shifted</span> <span class="o">=</span> <span class="n">wrap_to_pi</span><span class="p">(</span><span class="n">lon_pts</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.99999</span>
-            <span class="n">elev_at_pts</span> <span class="o">=</span> <span class="n">interp_elev</span><span class="p">(</span><span class="n">lat_pts</span><span class="p">,</span> <span class="n">lon_shifted</span><span class="p">)</span>
+            <span class="n">elev_at_pts</span> <span class="o">=</span> <span class="n">interp_elev</span><span class="p">(</span><span class="n">lat_pts</span><span class="p">,</span> <span class="n">lon_pts</span><span class="p">)</span>
             <span class="n">elev_at_pts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">elev_at_pts</span><span class="p">))</span>
             <span class="n">earth</span><span class="p">[</span><span class="s2">&quot;elev_vector&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="mi">20</span> <span class="o">*</span> <span class="n">elev_at_pts</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">hat</span><span class="p">(</span><span class="n">earth</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
@@ -585,12 +726,12 @@
 
         <span class="k">if</span> <span class="n">high_def</span><span class="p">:</span>
             <span class="n">tex_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                <span class="n">_TEX_DIR</span><span class="p">,</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;TEXDIR&quot;</span><span class="p">],</span>
                 <span class="s2">&quot;blue_marble.jpg&quot;</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">tex_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                <span class="n">_TEX_DIR</span><span class="p">,</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;TEXDIR&quot;</span><span class="p">],</span>
                 <span class="s2">&quot;earth_tex.jpg&quot;</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="n">etex</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Texture</span><span class="p">(</span><span class="n">tex_path</span><span class="p">)</span>
@@ -601,30 +742,29 @@
             <span class="n">smooth_shading</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;earth&quot;</span><span class="p">,</span>
             <span class="n">scalars</span><span class="o">=</span><span class="s2">&quot;elev_scalar&quot;</span> <span class="k">if</span> <span class="n">use_elevation_texture</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">diffuse</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+            <span class="n">specular</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+            <span class="n">specular_power</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">pl</span><span class="o">.</span><span class="n">set_background</span><span class="p">(</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>  <span class="c1"># Because obviously, space and stuff</span>
         <span class="k">if</span> <span class="n">stars</span><span class="p">:</span>
             <span class="n">cubemap</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">cubemap</span><span class="p">(</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_TEX_DIR</span><span class="p">,</span> <span class="s2">&quot;16k&quot;</span><span class="p">),</span> <span class="n">ext</span><span class="o">=</span><span class="s2">&quot;.png&quot;</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;TEXDIR&quot;</span><span class="p">],</span> <span class="s2">&quot;16k&quot;</span><span class="p">),</span> <span class="n">ext</span><span class="o">=</span><span class="s2">&quot;.png&quot;</span>
             <span class="p">)</span>
             <span class="n">pl</span><span class="o">.</span><span class="n">add_actor</span><span class="p">(</span><span class="n">cubemap</span><span class="o">.</span><span class="n">to_skybox</span><span class="p">())</span>
 
         <span class="k">if</span> <span class="n">night_lights</span><span class="p">:</span>
             <span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_TEX_DIR</span><span class="p">,</span> <span class="s2">&quot;night_lights_ecef_tol_255.pkl&quot;</span><span class="p">)</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-            <span class="k">if</span> <span class="n">date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">ang_nl</span> <span class="o">=</span> <span class="o">-</span><span class="n">sun_angle_to_horizon</span><span class="p">(</span>
-                    <span class="n">date</span><span class="p">,</span> <span class="n">pts</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
-                <span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-                <span class="n">ang_atmos</span> <span class="o">=</span> <span class="o">-</span><span class="n">sun_angle_to_horizon</span><span class="p">(</span>
-                    <span class="n">date</span><span class="p">,</span> <span class="n">atmos_ecef</span>
-                <span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-                <span class="n">pts</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">ang_nl</span><span class="p">,</span> <span class="o">-</span><span class="n">sunset_tol</span><span class="p">,</span> <span class="n">sunset_tol</span><span class="p">)</span>
-                    <span class="o">/</span> <span class="n">sunset_tol</span>
-                    <span class="o">+</span> <span class="mi">1</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;TEXDIR&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;night_lights_ecef_tol_255.pkl&quot;</span><span class="p">,</span>
                 <span class="p">)</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+            <span class="n">ang_nl</span> <span class="o">=</span> <span class="o">-</span><span class="n">sun_angle_to_horizon</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">pts</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="n">pts</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">ang_nl</span><span class="p">,</span> <span class="o">-</span><span class="n">sunset_tol</span><span class="p">,</span> <span class="n">sunset_tol</span><span class="p">)</span> <span class="o">/</span> <span class="n">sunset_tol</span>
+                <span class="o">+</span> <span class="mi">1</span>
+            <span class="p">)</span>
 
             <span class="n">earth_night_lights</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">PolyData</span><span class="p">(</span><span class="n">pts</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">])</span>
             <span class="n">pl</span><span class="o">.</span><span class="n">add_points</span><span class="p">(</span>
@@ -636,37 +776,124 @@
                 <span class="n">name</span><span class="o">=</span><span class="s2">&quot;earth_night_lights&quot;</span><span class="p">,</span>
             <span class="p">)</span>
 
+    <span class="c1"># Every time:</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">actors</span><span class="p">[</span><span class="s2">&quot;earth&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">user_matrix</span> <span class="o">=</span> <span class="n">rotm4</span>
-    <span class="k">if</span> <span class="n">night_lights</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">ang_nl</span> <span class="o">=</span> <span class="o">-</span><span class="n">sun_angle_to_horizon</span><span class="p">(</span>
-                <span class="n">date</span><span class="p">,</span> <span class="n">earth_night_lights</span><span class="o">.</span><span class="n">points</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-            <span class="n">new_nl_opacity</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">ang_nl</span><span class="p">,</span> <span class="o">-</span><span class="n">sunset_tol</span><span class="p">,</span> <span class="n">sunset_tol</span><span class="p">)</span> <span class="o">/</span> <span class="n">sunset_tol</span>
-                <span class="o">+</span> <span class="mi">1</span>
-            <span class="p">)</span>
-            <span class="n">new_nl_scalars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
-                <span class="p">(</span>
-                    <span class="n">earth_night_lights</span><span class="o">.</span><span class="n">active_scalars</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span>
-                    <span class="n">new_nl_opacity</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
-                <span class="p">)</span>
-            <span class="p">)</span>
-            <span class="n">pl</span><span class="o">.</span><span class="n">update_scalars</span><span class="p">(</span><span class="n">new_nl_scalars</span><span class="p">,</span> <span class="n">earth_night_lights</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">lighting</span><span class="p">:</span>
+        <span class="n">_update_sunlight</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
 
-        <span class="n">pl</span><span class="o">.</span><span class="n">actors</span><span class="p">[</span><span class="s2">&quot;earth_night_lights&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">user_matrix</span> <span class="o">=</span> <span class="n">rotm4_nl</span>
-        <span class="n">pl</span><span class="o">.</span><span class="n">actors</span><span class="p">[</span><span class="s2">&quot;earth&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">visibility</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">pl</span><span class="o">.</span><span class="n">actors</span><span class="p">[</span><span class="s2">&quot;earth_night_lights&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">visibility</span> <span class="o">=</span> <span class="kc">True</span></div>
+    <span class="k">if</span> <span class="n">borders</span><span class="p">:</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">actors</span><span class="p">[</span><span class="s2">&quot;borders&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">user_matrix</span> <span class="o">=</span> <span class="n">rotm4</span>
+
+    <span class="k">if</span> <span class="n">atmosphere</span><span class="p">:</span>
+        <span class="n">ang</span> <span class="o">=</span> <span class="n">sun_angle_to_horizon</span><span class="p">(</span>
+            <span class="n">date</span><span class="p">,</span> <span class="n">earth_atmosphere</span><span class="o">.</span><span class="n">points</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">new_scalars</span> <span class="o">=</span> <span class="n">earth_atmosphere</span><span class="o">.</span><span class="n">active_scalars</span>
+        <span class="n">new_scalars</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">ang</span> <span class="o">-</span> <span class="n">sunset_tol</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># new_scalars[:, -1] = 255</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">update_scalars</span><span class="p">(</span><span class="n">new_scalars</span><span class="p">,</span> <span class="n">earth_atmosphere</span><span class="p">)</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">actors</span><span class="p">[</span><span class="s2">&quot;atmosphere&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">user_matrix</span> <span class="o">=</span> <span class="n">rotm4</span>
+
+    <span class="k">if</span> <span class="n">night_lights</span><span class="p">:</span>
+        <span class="n">ang_nl</span> <span class="o">=</span> <span class="o">-</span><span class="n">sun_angle_to_horizon</span><span class="p">(</span>
+            <span class="n">date</span><span class="p">,</span> <span class="n">earth_night_lights</span><span class="o">.</span><span class="n">points</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">new_scalars</span> <span class="o">=</span> <span class="n">earth_night_lights</span><span class="o">.</span><span class="n">active_scalars</span>
+        <span class="n">new_scalars</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">ang_nl</span><span class="p">,</span> <span class="o">-</span><span class="n">sunset_tol</span><span class="p">,</span> <span class="n">sunset_tol</span><span class="p">)</span> <span class="o">/</span> <span class="n">sunset_tol</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="p">)</span>
+
+        <span class="n">pl</span><span class="o">.</span><span class="n">update_scalars</span><span class="p">(</span><span class="n">new_scalars</span><span class="p">,</span> <span class="n">earth_night_lights</span><span class="p">)</span>
+
+        <span class="n">pl</span><span class="o">.</span><span class="n">actors</span><span class="p">[</span><span class="s2">&quot;earth_night_lights&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">user_matrix</span> <span class="o">=</span> <span class="n">rotm4</span></div>
+
+
+<div class="viewcode-block" id="plot_moon"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.visualization.plot_moon">[docs]</a><span class="k">def</span> <span class="nf">plot_moon</span><span class="p">(</span>
+    <span class="n">pl</span><span class="p">:</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">,</span>
+    <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;eci&quot;</span><span class="p">,</span>
+    <span class="n">date</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">lighting</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pv</span><span class="o">.</span><span class="n">PolyData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plots the Moon as a sphere in [km]</span>
+
+<span class="sd">    :param pl: Plotter to use</span>
+<span class="sd">    :type pl: pv.Plotter</span>
+<span class="sd">    :return: Generated spherical mesh</span>
+<span class="sd">    :rtype: pv.PolyData</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">[</span>
+        <span class="s2">&quot;eci&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ecef&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;mci&quot;</span><span class="p">,</span>
+    <span class="p">],</span> <span class="s2">&quot;Mode must be &#39;eci&#39;, &#39;ecef&#39;, or &#39;mci&#39;&quot;</span>
+
+    <span class="n">transm4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">rotm4orb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;eci&quot;</span><span class="p">:</span>
+        <span class="n">transm4</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">moon</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+        <span class="n">rotm4orb</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">mcmf_to_j2000</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;ecef&quot;</span><span class="p">:</span>
+        <span class="n">transm4</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">eci_to_ecef</span><span class="p">(</span><span class="n">date</span><span class="p">)</span> <span class="o">@</span> <span class="n">moon</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">rotm4orb</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">eci_to_ecef</span><span class="p">(</span><span class="n">date</span><span class="p">)</span> <span class="o">@</span> <span class="n">mcmf_to_j2000</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;emi&quot;</span><span class="p">:</span>
+        <span class="n">transm4</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="s2">&quot;moon&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pl</span><span class="o">.</span><span class="n">actors</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">lighting</span><span class="p">:</span>
+            <span class="n">pl</span><span class="o">.</span><span class="n">remove_all_lights</span><span class="p">(</span><span class="n">only_active</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">pl</span><span class="o">.</span><span class="n">add_light</span><span class="p">(</span><span class="n">_SUNLIGHT</span><span class="p">,</span> <span class="n">only_active</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">enable_terrain_style</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">enable_anti_aliasing</span><span class="p">(</span><span class="s2">&quot;ssaa&quot;</span><span class="p">,</span> <span class="n">all_renderers</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">moon_mesh</span> <span class="o">=</span> <span class="n">_textured_ellipsoid</span><span class="p">(</span>
+            <span class="n">AstroConstants</span><span class="o">.</span><span class="n">moon_r_eq</span><span class="p">,</span> <span class="n">AstroConstants</span><span class="o">.</span><span class="n">moon_f</span>
+        <span class="p">)</span>
+        <span class="n">moon_mesh</span><span class="o">.</span><span class="n">rotate_z</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="n">point</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+        <span class="n">tex_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;TEXDIR&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;moon_tex.jpg&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">tex</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Texture</span><span class="p">(</span><span class="n">tex_path</span><span class="p">)</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span>
+            <span class="n">moon_mesh</span><span class="p">,</span>
+            <span class="n">texture</span><span class="o">=</span><span class="n">tex</span><span class="p">,</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;topo&quot;</span><span class="p">,</span>
+            <span class="n">smooth_shading</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;moon&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">set_background</span><span class="p">(</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>  <span class="c1"># Because obviously, space and stuff</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">actors</span><span class="p">[</span><span class="s2">&quot;moon&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">user_matrix</span> <span class="o">=</span> <span class="n">transm4</span> <span class="o">@</span> <span class="n">rotm4orb</span>
+
+    <span class="k">if</span> <span class="n">lighting</span><span class="p">:</span>
+        <span class="n">_update_sunlight</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_update_sunlight</span><span class="p">(</span>
+    <span class="n">pl</span><span class="p">:</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">,</span> <span class="n">date</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># Assumes that there is only one light in the renderer</span>
+    <span class="n">light_coll</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">renderer</span><span class="o">.</span><span class="n">GetLights</span><span class="p">()</span>
+    <span class="n">light_coll</span><span class="o">.</span><span class="n">InitTraversal</span><span class="p">()</span>
+    <span class="n">sun_light</span> <span class="o">=</span> <span class="n">light_coll</span><span class="o">.</span><span class="n">GetNextItem</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;eci&quot;</span> <span class="ow">or</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;mci&quot;</span><span class="p">:</span>
+        <span class="n">sun_light</span><span class="o">.</span><span class="n">SetPosition</span><span class="p">(</span><span class="o">*</span><span class="n">sun</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;ecef&quot;</span><span class="p">:</span>
+        <span class="n">sun_light</span><span class="o">.</span><span class="n">SetPosition</span><span class="p">(</span>
+            <span class="o">*</span><span class="p">(</span><span class="n">eci_to_ecef</span><span class="p">(</span><span class="n">date</span><span class="p">)</span> <span class="o">@</span> <span class="n">sun</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="p">)</span>
 
 
 <div class="viewcode-block" id="scatter3"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.visualization.scatter3">[docs]</a><span class="k">def</span> <span class="nf">scatter3</span><span class="p">(</span><span class="n">pl</span><span class="p">:</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pv</span><span class="o">.</span><span class="n">PolyData</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Replicates MATLAB scatter3() with ``pyvista`` backend</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Replicates MATLAB&#39;s ``scatter3()`` with ``pyvista`` backend</span>
 
 <span class="sd">    :param pl: Plotter object to add points to</span>
 <span class="sd">    :type pl: pv.Plotter</span>
 <span class="sd">    :param v: Vector to scatter</span>
 <span class="sd">    :type v: np.ndarray [nx3]</span>
-<span class="sd">    :param **kwargs: Additional arguments passed to ``pl.add_mesh``</span>
+<span class="sd">    :param **kwargs: Additional arguments passed to ``pl.add_mesh()``</span>
 <span class="sd">    :return: Handle to plotted data</span>
 <span class="sd">    :rtype: pv.PolyData</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -678,17 +905,22 @@
 
     <span class="n">pc</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">PolyData</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span> <span class="n">render_points_as_spheres</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">focal_point</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">pc</span></div>
 
 
-<div class="viewcode-block" id="plot3"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.visualization.plot3">[docs]</a><span class="k">def</span> <span class="nf">plot3</span><span class="p">(</span><span class="n">pl</span><span class="p">:</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pv</span><span class="o">.</span><span class="n">PolyData</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Replicates MATLAB plot3() with pyvista backend, please use densely scattered points to avoid confusing splines</span>
+<div class="viewcode-block" id="plot3"><a class="viewcode-back" href="../../pyspaceaware.html#pyspaceaware.visualization.plot3">[docs]</a><span class="k">def</span> <span class="nf">plot3</span><span class="p">(</span>
+    <span class="n">pl</span><span class="p">:</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">use_spline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pv</span><span class="o">.</span><span class="n">PolyData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Replicates MATLAB&#39;s ``plot3()`` with a ``pyvista`` backend, please use densely scattered points to avoid confusing splines</span>
 
 <span class="sd">    :param pl: Plotter object to add line to</span>
 <span class="sd">    :type pl: pv.Plotter</span>
 <span class="sd">    :param v: Vector to plot</span>
 <span class="sd">    :type v: np.ndarray [nx3]</span>
-<span class="sd">    :param **kwargs: Additional arguments passed to ``pl.add_mesh``</span>
+<span class="sd">    :param use_spline: Whether to plot as a spline, defaults to False</span>
+<span class="sd">    :type use_spline: bool</span>
+<span class="sd">    :param **kwargs: Additional arguments passed to ``pl.add_mesh()``</span>
 <span class="sd">    :return: Plotted spline</span>
 <span class="sd">    :rtype: pv.PolyData</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -698,8 +930,11 @@
     <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
         <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
 
-    <span class="n">spline</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Spline</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">spline</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">pv</span><span class="o">.</span><span class="n">Spline</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="n">use_spline</span> <span class="k">else</span> <span class="n">pv</span><span class="o">.</span><span class="n">MultipleLines</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="p">)</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">spline</span><span class="p">,</span> <span class="n">render_lines_as_tubes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">focal_point</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">spline</span></div>
 
 
@@ -845,49 +1080,75 @@
             <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
         <span class="p">)</span></div>
 </pre></div>
-        </article>
-      </div>
-      <footer>
-        
-        <div class="related-pages">
-          
-          
-        </div>
-        <div class="bottom-of-page">
-          <div class="left-details">
-            <div class="copyright">
-                Copyright &#169; 2023, Liam Robinson
-            </div>
-            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
-            
-            <a href="https://github.com/pradyunsg/furo">Furo</a>
-            
-          </div>
-          <div class="right-details">
-            <div class="icons">
-              <a class="muted-link " href="https://github.com/liamrobinson1/pyspaceaware" aria-label="GitHub">
-                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
-                </svg>
-            </a>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
               
             </div>
+            
+            
+              
+            
           </div>
-        </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
         
-      </footer>
+      </main>
     </div>
-    <aside class="toc-drawer no-toc">
-      
-      
-      
-    </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/scripts/furo.js"></script>
-    <script src="../../_static/clipboard.min.js"></script>
-    <script src="../../_static/copybutton.js"></script>
-    </body>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2023, Liam Robinson.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
 </html>

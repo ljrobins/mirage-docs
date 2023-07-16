@@ -40,7 +40,6 @@ Simulates and animates an aligned and constrained attitude profile
  .. code-block:: none
 
     TLE catalog already downloaded, skipping
-    [1.65370126] [0.40778547]
 
 
 
@@ -69,7 +68,7 @@ Simulates and animates an aligned and constrained attitude profile
     t = epsec_space / np.max(epsec_space) * 4 * np.pi
     jd_space = ps.date_to_jd(date_space)
 
-    sat_sun = ps.hat(ps.sun(jd_space))
+    sat_sun = ps.hat(ps.sun(date_space))
     att = ps.AlignedAndConstrainedAttitude(
         sat_nadir, sat_sun, jd_space, axis_order=(2, 0, 1)
     )
@@ -123,7 +122,7 @@ Simulates and animates an aligned and constrained attitude profile
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 1 minutes  11.324 seconds)
+   **Total running time of the script:** ( 1 minutes  41.536 seconds)
 
 
 .. _sphx_glr_download_gallery_06-attitude_aligned_angle_constrained.py:

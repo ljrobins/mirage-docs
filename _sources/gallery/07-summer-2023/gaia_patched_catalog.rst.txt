@@ -27,10 +27,13 @@ Displays the patched GAIA catalog
 
 Let's set up a grid of directions to plot the starlight signal at in J2000
 
-.. GENERATED FROM PYTHON SOURCE LINES 10-22
+.. GENERATED FROM PYTHON SOURCE LINES 10-25
 
 .. code-block:: default
 
+    import sys
+
+    sys.path.append("./src")
     import pyspaceaware as ps
     import matplotlib.pyplot as plt
     import numpy as np
@@ -50,16 +53,17 @@ Let's set up a grid of directions to plot the starlight signal at in J2000
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-24
+.. GENERATED FROM PYTHON SOURCE LINES 26-27
 
 Now we define the telescope we want to perform the observations with, we'll use the Purdue Optical Ground Station (POGS)
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-33
+.. GENERATED FROM PYTHON SOURCE LINES 27-37
 
 .. code-block:: default
 
     ts = ps.Telescope(preset="pogs")
     sig = ps.integrated_starlight_signal(
+        dates=None,
         look_dirs_eci_eq=sample_dirs_eci,
         obs_pos_eci_eq=sample_dirs_eci,
         t_int=ts.integration_time,
@@ -74,23 +78,38 @@ Now we define the telescope we want to perform the observations with, we'll use 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-35
+.. GENERATED FROM PYTHON SOURCE LINES 38-40
 
 Now we reshape the signal into the original grid and display the plot as an image
+We'll also overlay the Tycho 2 RA/Dec coordinates to confirm that both overlap correctly
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-46
+.. GENERATED FROM PYTHON SOURCE LINES 40-65
 
 .. code-block:: default
+
 
     plt.imshow(
         np.flipud(sig.reshape(dec_grid.shape)),
         cmap="hot",
         extent=(-180, 180, -90, 90),
     )
+
+    t2 = ps.load_json_data("tycho2.json")
+    tycho2_ra_rad = t2["j2000_ra"][::10]
+    tycho2_dec_rad = t2["j2000_dec"][::10]
+    vm = t2["visual_magnitude"][::10]
+
+    plt.scatter(
+        x=np.rad2deg(tycho2_ra_rad),
+        y=np.rad2deg(tycho2_dec_rad),
+        marker=",",
+        s=0.01,
+        alpha=1 - vm / np.max(vm),
+    )
     plt.colorbar(label="Total signal [e-/pix]")
     plt.title("Patched GAIA Catalog Above Magnitude 16")
     plt.xlabel("Inertial Right Ascension [deg]")
-    plt.xlabel("Inertial Declination [deg]")
+    plt.ylabel("Inertial Declination [deg]")
     plt.show()
 
 
@@ -105,15 +124,19 @@ Now we reshape the signal into the original grid and display the plot as an imag
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-48
+.. GENERATED FROM PYTHON SOURCE LINES 66-67
 
-We can also display this on the ECI unit sphere:
+We can also display the GAIA patched catalog and the Tycho 2 unit vectors on the ECI unit sphere:
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-63
+.. GENERATED FROM PYTHON SOURCE LINES 67-93
 
 .. code-block:: default
 
     import pyvista as pv
+
+    tycho2_unit_vectors = np.vstack(
+        ps.sph_to_cart(az=tycho2_ra_rad, el=tycho2_dec_rad)
+    ).T
 
     pl = pv.Plotter()
     pl.set_background("black")
@@ -122,8 +145,15 @@ We can also display this on the ECI unit sphere:
         sample_dirs_eci,
         scalars=sig,
         point_size=10,
-        cmap="hot",
+        cmap="fire",
         opacity=sig / np.max(sig),
+    )
+    ps.scatter3(
+        pl,
+        tycho2_unit_vectors,
+        scalars=1 - vm / np.max(vm),
+        point_size=0.05,
+        cmap="cool",
     )
     ps.plot_basis(pl, np.eye(3), ["x", "y", "z"], scale=1.3, color="cyan")
     pl.view_isometric()
@@ -143,7 +173,7 @@ We can also display this on the ECI unit sphere:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.954 seconds)
+   **Total running time of the script:** ( 0 minutes  2.602 seconds)
 
 
 .. _sphx_glr_download_gallery_07-summer-2023_gaia_patched_catalog.py:

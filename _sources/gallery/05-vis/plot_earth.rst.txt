@@ -23,18 +23,23 @@ Plotting Earth
 
 Plotting the Earth with a variety of options
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-16
+.. GENERATED FROM PYTHON SOURCE LINES 7-21
 
 .. code-block:: default
 
+    import sys
+
+    sys.path.append("./src")
 
     import pyspaceaware as ps
     import pyvista as pv
     import datetime
+    import numpy as np
 
     date = datetime.datetime(
-        2022, 9, 1, 12, 0, 0, tzinfo=datetime.timezone.utc
+        2023, 6, 4, 12, 0, 0, tzinfo=datetime.timezone.utc
     )
+    date_space_day = date + ps.days(np.linspace(0, 1, 100, endpoint=False))
 
 
 
@@ -43,41 +48,71 @@ Plotting the Earth with a variety of options
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-18
+.. GENERATED FROM PYTHON SOURCE LINES 22-23
 
-Night lights
+Just so that the thumbnail of this example is exciting, let's animate a full photorealistic Earth over the course of a day
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-22
+.. GENERATED FROM PYTHON SOURCE LINES 23-31
 
 .. code-block:: default
 
     pl = pv.Plotter()
-    ps.plot_earth(pl, date=date, night_lights=True)
-    pl.show()
+    pl.open_gif("earth_day.gif", fps=20)
+    for date in date_space_day:
+        ps.plot_earth(pl, date=date, night_lights=True, atmosphere=True)
+        pl.camera.position = (40e3, 0.0, 0.0)
+        pl.write_frame()
+    pl.close()
 
 
 
 
-.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_001.png
+.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_001.gif
    :alt: plot earth
-   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_001.png
+   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_001.gif
    :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    [2.80363722] [0.14275049]
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 32-33
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-24
+We can also plot over the course of the year to show the variation of the Sun
+
+.. GENERATED FROM PYTHON SOURCE LINES 33-45
+
+.. code-block:: default
+
+    date_space_year = date + ps.days(
+        np.round(np.linspace(0, 365.25, 100, endpoint=False))
+    )
+    pl = pv.Plotter()
+    pl.open_gif("earth_year.gif", fps=20)
+    for date in date_space_year:
+        ps.plot_earth(pl, date=date, night_lights=True, atmosphere=True)
+        pl.camera.position = (40e3, 0.0, 0.0)
+        pl.write_frame()
+    pl.close()
+
+
+
+
+
+.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_002.gif
+   :alt: plot earth
+   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_002.gif
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 46-47
 
 Elevation data and texture map
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-35
+.. GENERATED FROM PYTHON SOURCE LINES 47-57
 
 .. code-block:: default
 
@@ -88,27 +123,26 @@ Elevation data and texture map
         elevation=True,
         use_elevation_texture=True,
         lighting=False,
-        atmosphere=False,
     )
     pl.show()
 
 
 
 
-.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_002.png
+.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_003.png
    :alt: plot earth
-   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_002.png
+   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_003.png
    :class: sphx-glr-single-img
 
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-37
+.. GENERATED FROM PYTHON SOURCE LINES 58-59
 
 Night lights
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-45
+.. GENERATED FROM PYTHON SOURCE LINES 59-67
 
 .. code-block:: default
 
@@ -123,26 +157,20 @@ Night lights
 
 
 
-.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_003.png
+.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_004.png
    :alt: plot earth
-   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_003.png
+   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_004.png
    :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    [2.80363722] [0.14275049]
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 46-47
+.. GENERATED FROM PYTHON SOURCE LINES 68-69
 
 Star background
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-55
+.. GENERATED FROM PYTHON SOURCE LINES 69-77
 
 .. code-block:: default
 
@@ -157,26 +185,48 @@ Star background
 
 
 
-.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_004.png
+.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_005.png
    :alt: plot earth
-   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_004.png
+   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_005.png
    :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    [2.80363722] [0.14275049]
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 78-79
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-57
+Country borders
+
+.. GENERATED FROM PYTHON SOURCE LINES 79-87
+
+.. code-block:: default
+
+    pl = pv.Plotter()
+    ps.plot_earth(
+        pl,
+        date=date,
+        borders=True,
+    )
+    pl.show()
+
+
+
+
+.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_006.png
+   :alt: plot earth
+   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_006.png
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 88-89
 
 All photorealistic settings
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-68
+.. GENERATED FROM PYTHON SOURCE LINES 89-99
 
 .. code-block:: default
 
@@ -193,87 +243,11 @@ All photorealistic settings
 
 
 
-
-.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_005.png
+.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_007.png
    :alt: plot earth
-   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_005.png
+   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_007.png
    :class: sphx-glr-single-img
 
-
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    [2.80363722] [0.14275049]
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 69-70
-
-We can also plot a range of dates and save the result as a movie
-
-.. GENERATED FROM PYTHON SOURCE LINES 70-113
-
-.. code-block:: default
-
-
-    import numpy as np
-
-    dates = ps.now() + ps.days(np.linspace(0, 1, 80, endpoint=False))
-
-    pre_render_fcn = lambda pl: (
-        ps.plot_earth(pl, mode="eci", night_lights=True, date=dates[0]),
-        pl.enable_anti_aliasing("msaa"),
-    )
-
-
-    def render_fcn(
-        pl: pv.Plotter,
-        i: int,
-        dates: datetime.datetime = None,
-    ):
-        ps.plot_earth(
-            pl,
-            mode="eci",
-            night_lights=True,
-            high_def=True,
-            stars=True,
-            atmosphere=True,
-            date=dates[i],
-        )
-        pl.camera.focal_point = (0.0, 0.0, 0.0)
-        pl.camera.position = (20000.0, -20000.0, 10000.0)
-        pl.camera.up = (0.0, 0.0, 1.0)
-        pl.add_text(
-            f'{dates[i].strftime("%m/%d/%Y, %H:%M:%S")} UTC',
-            name="utc_str",
-            font="courier",
-        )
-
-
-    ps.render_video(
-        pre_render_fcn,
-        lambda pl, i: render_fcn(pl, i, dates),
-        lambda pl, i: None,
-        dates.size,
-        "earth_with_nightlights.gif",
-        framerate=24,
-    )
-
-
-
-.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_006.gif
-   :alt: plot earth
-   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_006.gif
-   :class: sphx-glr-single-img
-
-
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    [1.70919537] [0.40554493]
 
 
 
@@ -281,7 +255,7 @@ We can also plot a range of dates and save the result as a movie
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 1 minutes  23.819 seconds)
+   **Total running time of the script:** ( 3 minutes  18.957 seconds)
 
 
 .. _sphx_glr_download_gallery_05-vis_plot_earth.py:

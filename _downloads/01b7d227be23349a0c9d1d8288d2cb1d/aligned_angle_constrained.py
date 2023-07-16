@@ -24,7 +24,7 @@ sat_nadir = -ps.hat(r)
 t = epsec_space / np.max(epsec_space) * 4 * np.pi
 jd_space = ps.date_to_jd(date_space)
 
-sat_sun = ps.hat(ps.sun(jd_space))
+sat_sun = ps.hat(ps.sun(date_space))
 att = ps.AlignedAndConstrainedAttitude(
     sat_nadir, sat_sun, jd_space, axis_order=(2, 0, 1)
 )
