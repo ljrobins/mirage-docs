@@ -7,9 +7,6 @@ Displays the patched GAIA catalog
 
 # %%
 # Let's set up a grid of directions to plot the starlight signal at in J2000
-import sys
-
-sys.path.append("./src")
 import pyspaceaware as ps
 import matplotlib.pyplot as plt
 import numpy as np
@@ -66,9 +63,7 @@ plt.show()
 # We can also display the GAIA patched catalog and the Tycho 2 unit vectors on the ECI unit sphere:
 import pyvista as pv
 
-tycho2_unit_vectors = np.vstack(
-    ps.sph_to_cart(az=tycho2_ra_rad, el=tycho2_dec_rad)
-).T
+tycho2_unit_vectors = np.vstack(ps.sph_to_cart(az=tycho2_ra_rad, el=tycho2_dec_rad)).T
 
 pl = pv.Plotter()
 pl.set_background("black")

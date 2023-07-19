@@ -23,7 +23,7 @@ Zenith Light Pollution
 
 Plotting and querying a large dataset of zenith light pollution from `here <https://www.lightpollutionmap.info/help.html#FAQ31>`_, with the raw file `here <https://www2.lightpollutionmap.info/data/viirs_2022_raw.zip>`_ 
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-39
+.. GENERATED FROM PYTHON SOURCE LINES 7-34
 
 .. code-block:: default
 
@@ -33,9 +33,6 @@ Plotting and querying a large dataset of zenith light pollution from `here <http
     import numpy as np
     from scipy.ndimage import gaussian_filter
     import os
-    import sys
-
-    sys.path.append("./src")
     import pyspaceaware as ps
 
     sz = 20
@@ -44,9 +41,7 @@ Plotting and querying a large dataset of zenith light pollution from `here <http
 
     lats, lons = np.meshgrid(lat_space, lon_space, indexing="ij")
 
-    with rasterio.open(
-        os.path.join(os.environ["DATADIR"], "viirs_2022_raw.tif"), "r"
-    ) as f:
+    with rasterio.open(os.path.join(os.environ["DATADIR"], "viirs_2022_raw.tif"), "r") as f:
         ps.tic()
         x = f.read().squeeze()  # nW / cm^2 / sr
         ps.toc()
@@ -67,18 +62,18 @@ Plotting and querying a large dataset of zenith light pollution from `here <http
 
  .. code-block:: none
 
-    Elapsed time: 2.86e+01 seconds
-    /Users/liamrobinson/Documents/PyLightCurves/src/pyspaceaware/lighting.py:201: RuntimeWarning: divide by zero encountered in log10
+    Elapsed time: 3.17e+01 seconds
+    /Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/lighting.py:187: RuntimeWarning: divide by zero encountered in log10
       return -2.5 * np.log10(E / 2.518021002e-8)
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-41
+.. GENERATED FROM PYTHON SOURCE LINES 35-36
 
 Plotting zenith light pollution
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-52
+.. GENERATED FROM PYTHON SOURCE LINES 36-47
 
 .. code-block:: default
 
@@ -90,7 +85,7 @@ Plotting zenith light pollution
     plt.ylabel("Latitude [deg]")
     plt.title("Zenith Light Pollution in Eastern US")
     plt.colorbar(
-        label=r"$log_{10}$ VIIRS/NPP Lunar BRDF-Adjusted Night Lights $\left[\frac{nW}{cm^2sr}\right]$"
+        label=r"VIIRS/NPP Lunar BRDF-Adjusted Night Lights $\left[\frac{mag}{arcsec^2}\right]$"
     )
     plt.show()
 
@@ -108,7 +103,7 @@ Plotting zenith light pollution
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  30.265 seconds)
+   **Total running time of the script:** ( 0 minutes  33.230 seconds)
 
 
 .. _sphx_glr_download_gallery_07-summer-2023_nightlights.py:

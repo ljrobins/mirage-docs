@@ -7,9 +7,6 @@ The signal mean model due to various sources
 
 # %%
 # Defining a function we can use to plot various background signals
-import sys
-
-sys.path.append("./src")
 import pyspaceaware as ps
 import numpy as np
 import pyvista as pv
@@ -36,9 +33,7 @@ def hemisphere_signal(
     stat_eci = station.eci_at_dates(date)
 
     ps.tic()
-    sb = station.sky_brightness(
-        dates, look_dirs_eci_eq, **signal_kwargs
-    )
+    sb = station.sky_brightness(dates, look_dirs_eci_eq, **signal_kwargs)
     ps.toc()
     ps.plot_earth(
         pl,
@@ -76,7 +71,7 @@ def hemisphere_signal(
     )
     pl.scalar_bar.SetTitle("[e-/pix]")
     pl.camera.focal_point = stat_eci.flatten()
-    cpos = (stat_eci + ps.hat(stat_eci) * view_dist).flatten()
+    cpos = (stat_eci + ps.hat(stat_eci) * view_dist).flatten() - np.array([0, 0, 1e4])
     pl.camera.position = cpos
     pl.camera.zoom(zoom)
 
@@ -106,6 +101,7 @@ signal_kwargs = {
     "airglow": False,
     "integrated_starlight": False,
     "zodiac": False,
+    "pollution": False,
 }
 hemisphere_signal(station, date, signal_kwargs)
 
@@ -117,6 +113,7 @@ signal_kwargs = {
     "airglow": False,
     "integrated_starlight": True,
     "zodiac": False,
+    "pollution": False,
 }
 hemisphere_signal(station, date, signal_kwargs)
 
@@ -140,6 +137,7 @@ signal_kwargs = {
     "airglow": False,
     "integrated_starlight": False,
     "zodiac": True,
+    "pollution": False,
 }
 hemisphere_signal(station, date, signal_kwargs)
 
@@ -151,6 +149,7 @@ signal_kwargs = {
     "airglow": True,
     "integrated_starlight": False,
     "zodiac": False,
+    "pollution": False,
 }
 hemisphere_signal(station, date, signal_kwargs)
 
@@ -162,6 +161,7 @@ signal_kwargs = {
     "airglow": False,
     "integrated_starlight": False,
     "zodiac": False,
+    "pollution": False,
 }
 hemisphere_signal(station, date, signal_kwargs)
 
@@ -173,5 +173,6 @@ signal_kwargs = {
     "airglow": True,
     "integrated_starlight": True,
     "zodiac": True,
+    "pollution": True,
 }
 hemisphere_signal(station, date, signal_kwargs)

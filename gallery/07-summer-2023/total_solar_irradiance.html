@@ -302,8 +302,9 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../00-tle/index.html">Working with TLEs</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../00-tle/propagate_catalog.html">Propagating the catalog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-tle/gravity_model_propagation.html">Propagating with Perturbations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-tle/propagate_single_tle.html">Propagating single TLE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-tle/propagate_catalog.html">Propagating the catalog</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../01-light_curves/index.html">Light Curves</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -337,10 +338,10 @@ document.write(`
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Summer 2023 Studies</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="moon_libration.html">Moon Librations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spice.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Total Solar Irradiance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tle_switching.html">TLE Switching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spice.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="horizon_mask.html">Horizon Masks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rbf_fitting.html">Neural Network Brightness</a></li>
@@ -415,10 +416,7 @@ to download the full example code</p>
 <section class="sphx-glr-example-title" id="total-solar-irradiance">
 <span id="sphx-glr-gallery-07-summer-2023-total-solar-irradiance-py"></span><h1>Total Solar Irradiance<a class="headerlink" href="#total-solar-irradiance" title="Permalink to this heading">#</a></h1>
 <p>Modeling the variations in solar energy output at 1 AU. This example explains the rationale behind the function <code class="docutils literal notranslate"><span class="pre">pyspaceaware.total_solar_irradiance_at_dates</span></code></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;./src&quot;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
 <span class="kn">from</span> <span class="nn">terrainman</span> <span class="kn">import</span> <span class="n">TsiDataHandler</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -426,10 +424,8 @@ to download the full example code</p>
 </pre></div>
 </div>
 <p>Let’s plot the variation in the total solar irradiance from the beginning of the J2000 epoch till now</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span>
-    <span class="mi">2000</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span>
-<span class="p">)</span>
-<span class="n">dates</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">date_linspace</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">ps</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="mi">10_000</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+<span class="n">dates</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">date_linspace</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">ps</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="mi">10_000</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">terrainman.TsiDataHandler</span></code> class deals with downloading the relevant netCDF4 files from <a class="reference external" href="https://www.ncei.noaa.gov/data/total-solar-irradiance/access/daily/">here</a>. Outside of the interval covered by this dataset (1882-current_year) <span class="math notranslate nohighlight">\(1361 \frac{W}{m^2}\)</span> is used as a default.</p>
@@ -439,7 +435,7 @@ to download the full example code</p>
 <span class="n">ps</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 1.15e-01 seconds
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 1.34e-01 seconds
 </pre></div>
 </div>
 <p>Plotting the irradiance over time</p>
@@ -477,15 +473,13 @@ to download the full example code</p>
 .. autofunction:: pyspaceaware.total_solar_irradiance_at_dates</p>
 <p>We can prove that this function produces identical outputs to the implementation above:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tsi</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">total_solar_irradiance_at_dates</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;Implemented function max error: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">tsi</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">sc_at_earth_radius</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Implemented function max error: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">tsi</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">sc_at_earth_radius</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Implemented function max error: 0.0
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.319 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.279 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-07-summer-2023-total-solar-irradiance-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/92f85b428f6efa52e390a40fe78c5169/total_solar_irradiance.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">total_solar_irradiance.py</span></code></a></p>

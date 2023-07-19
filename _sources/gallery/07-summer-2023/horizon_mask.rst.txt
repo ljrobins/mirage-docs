@@ -23,27 +23,11 @@ Horizon Masks
 
 Builds a terrain-driven horizon mask for a given station and displays the result
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-12
-
-.. code-block:: default
-
-
-    import sys
-
-    sys.path.append("./src")
-
-
-
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 13-14
+.. GENERATED FROM PYTHON SOURCE LINES 10-11
 
 Defining the station at Katmandu, where ``station.name`` informs the name of the resulting mask file
 
-.. GENERATED FROM PYTHON SOURCE LINES 14-28
+.. GENERATED FROM PYTHON SOURCE LINES 11-25
 
 .. code-block:: default
 
@@ -70,17 +54,15 @@ Defining the station at Katmandu, where ``station.name`` informs the name of the
  .. code-block:: none
 
     Downloading tiles for N27E085.hgt
-    Checking if N27E085.hgt is in /Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/terrainman/data/terrain
-    Tile already downloaded, skipping
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 29-30
+.. GENERATED FROM PYTHON SOURCE LINES 26-27
 
 Loads a terrain tile containing the station and create a mask for the station location
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-40
+.. GENERATED FROM PYTHON SOURCE LINES 27-37
 
 .. code-block:: default
 
@@ -103,30 +85,22 @@ Loads a terrain tile containing the station and create a mask for the station lo
  .. code-block:: none
 
     Downloading tiles for N27E085.hgt
-    Checking if N27E085.hgt is in /Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/terrainman/data/terrain
-    Tile already downloaded, skipping
     Downloading tiles for N27E085.hgt
-    Checking if N27E085.hgt is in /Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/terrainman/data/terrain
-    Tile already downloaded, skipping
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-42
+.. GENERATED FROM PYTHON SOURCE LINES 38-39
 
 Build an interpolated from from the raw tile data
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-57
+.. GENERATED FROM PYTHON SOURCE LINES 39-50
 
 .. code-block:: default
 
     sz, deg_radius = 3000, 1.0
-    lat_space = (station.lat_geod_deg + deg_radius) - np.linspace(
-        0, 2 * deg_radius, sz
-    )
-    lon_space = (station.lon_deg - deg_radius) + np.linspace(
-        0, 2 * deg_radius, sz
-    )
+    lat_space = (station.lat_geod_deg + deg_radius) - np.linspace(0, 2 * deg_radius, sz)
+    lon_space = (station.lon_deg - deg_radius) + np.linspace(0, 2 * deg_radius, sz)
     lat_grid, lon_grid = np.meshgrid(lat_space, lon_space)
     elev_grid = tile.interpolate(lat_grid, lon_grid) / 1e3
     itrf_terrain = ps.lla_to_itrf(
@@ -142,17 +116,15 @@ Build an interpolated from from the raw tile data
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-59
+.. GENERATED FROM PYTHON SOURCE LINES 51-52
 
 Convert the terrain data into East North Up (ENU) coordinates and plot the result
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-98
+.. GENERATED FROM PYTHON SOURCE LINES 52-89
 
 .. code-block:: default
 
-    enu_terrain = (
-        ps.ecef_to_enu(station.ecef) @ (itrf_terrain - station.ecef).T
-    ).T
+    enu_terrain = (ps.ecef_to_enu(station.ecef) @ (itrf_terrain - station.ecef).T).T
     dem = pv.StructuredGrid(
         enu_terrain[:, 0].reshape(elev_grid.shape),
         enu_terrain[:, 1].reshape(elev_grid.shape),
@@ -192,9 +164,9 @@ Convert the terrain data into East North Up (ENU) coordinates and plot the resul
 
 
 
-.. image-sg:: /gallery/07-summer-2023/images/sphx_glr_horizon_mask_001.gif
+.. image-sg:: /gallery/07-summer-2023/images/sphx_glr_horizon_mask_001.png
    :alt: horizon mask
-   :srcset: /gallery/07-summer-2023/images/sphx_glr_horizon_mask_001.gif
+   :srcset: /gallery/07-summer-2023/images/sphx_glr_horizon_mask_001.png
    :class: sphx-glr-single-img
 
 
@@ -204,7 +176,7 @@ Convert the terrain data into East North Up (ENU) coordinates and plot the resul
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  49.247 seconds)
+   **Total running time of the script:** ( 0 minutes  29.029 seconds)
 
 
 .. _sphx_glr_download_gallery_07-summer-2023_horizon_mask.py:

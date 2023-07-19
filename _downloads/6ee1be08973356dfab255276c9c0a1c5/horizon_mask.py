@@ -5,9 +5,6 @@ Horizon Masks
 Builds a terrain-driven horizon mask for a given station and displays the result
 """
 
-import sys
-
-sys.path.append("./src")
 
 # %%
 # Defining the station at Katmandu, where ``station.name`` informs the name of the resulting mask file
@@ -40,12 +37,8 @@ mask = ps.HorizonMask(
 # %%
 # Build an interpolated from from the raw tile data
 sz, deg_radius = 3000, 1.0
-lat_space = (station.lat_geod_deg + deg_radius) - np.linspace(
-    0, 2 * deg_radius, sz
-)
-lon_space = (station.lon_deg - deg_radius) + np.linspace(
-    0, 2 * deg_radius, sz
-)
+lat_space = (station.lat_geod_deg + deg_radius) - np.linspace(0, 2 * deg_radius, sz)
+lon_space = (station.lon_deg - deg_radius) + np.linspace(0, 2 * deg_radius, sz)
 lat_grid, lon_grid = np.meshgrid(lat_space, lon_space)
 elev_grid = tile.interpolate(lat_grid, lon_grid) / 1e3
 itrf_terrain = ps.lla_to_itrf(
@@ -56,9 +49,7 @@ itrf_terrain = ps.lla_to_itrf(
 
 # %%
 # Convert the terrain data into East North Up (ENU) coordinates and plot the result
-enu_terrain = (
-    ps.ecef_to_enu(station.ecef) @ (itrf_terrain - station.ecef).T
-).T
+enu_terrain = (ps.ecef_to_enu(station.ecef) @ (itrf_terrain - station.ecef).T).T
 dem = pv.StructuredGrid(
     enu_terrain[:, 0].reshape(elev_grid.shape),
     enu_terrain[:, 1].reshape(elev_grid.shape),

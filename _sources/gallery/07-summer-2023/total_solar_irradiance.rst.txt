@@ -23,14 +23,11 @@ Total Solar Irradiance
 
 Modeling the variations in solar energy output at 1 AU. This example explains the rationale behind the function ``pyspaceaware.total_solar_irradiance_at_dates``
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-18
+.. GENERATED FROM PYTHON SOURCE LINES 8-15
 
 .. code-block:: default
 
 
-    import sys
-
-    sys.path.append("./src")
     import pyspaceaware as ps
     from terrainman import TsiDataHandler
     import datetime
@@ -44,19 +41,17 @@ Modeling the variations in solar energy output at 1 AU. This example explains th
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-20
+.. GENERATED FROM PYTHON SOURCE LINES 16-17
 
 Let's plot the variation in the total solar irradiance from the beginning of the J2000 epoch till now
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-26
+.. GENERATED FROM PYTHON SOURCE LINES 17-21
 
 .. code-block:: default
 
 
-    date = datetime.datetime(
-        2000, 1, 1, 12, 0, 0, tzinfo=datetime.timezone.utc
-    )
-    dates, _ = ps.date_linspace(date, ps.now(), 10_000)
+    date = datetime.datetime(2000, 1, 1, 12, 0, 0, tzinfo=datetime.timezone.utc)
+    dates = ps.date_linspace(date, ps.now(), 10_000)
 
 
 
@@ -65,11 +60,11 @@ Let's plot the variation in the total solar irradiance from the beginning of the
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-28
+.. GENERATED FROM PYTHON SOURCE LINES 22-23
 
 The ``terrainman.TsiDataHandler`` class deals with downloading the relevant netCDF4 files from `here <https://www.ncei.noaa.gov/data/total-solar-irradiance/access/daily/>`_. Outside of the interval covered by this dataset (1882-current_year) :math:`1361 \frac{W}{m^2}` is used as a default.
 
-.. GENERATED FROM PYTHON SOURCE LINES 28-33
+.. GENERATED FROM PYTHON SOURCE LINES 23-28
 
 .. code-block:: default
 
@@ -86,16 +81,16 @@ The ``terrainman.TsiDataHandler`` class deals with downloading the relevant netC
 
  .. code-block:: none
 
-    Elapsed time: 1.15e-01 seconds
+    Elapsed time: 1.34e-01 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-35
+.. GENERATED FROM PYTHON SOURCE LINES 29-30
 
 Plotting the irradiance over time
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-42
+.. GENERATED FROM PYTHON SOURCE LINES 30-37
 
 .. code-block:: default
 
@@ -118,11 +113,11 @@ Plotting the irradiance over time
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-44
+.. GENERATED FROM PYTHON SOURCE LINES 38-39
 
 This isn't the end of the story, as the distance to the Sun changes over the course of the year. Let's compute the distance from the Sun to the Earth in AU over this time period we just plotted
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-55
+.. GENERATED FROM PYTHON SOURCE LINES 39-50
 
 .. code-block:: default
 
@@ -149,11 +144,11 @@ This isn't the end of the story, as the distance to the Sun changes over the cou
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-57
+.. GENERATED FROM PYTHON SOURCE LINES 51-52
 
 With this distance information, we can augment the Total Solar Irradiance plot to show the actual irradiance felt by a shell at Earth's instantaneous orbital radius. We can do this by noting that doubling the radius of a sphere squares its area, so we just have to divide by the square of the ``earth_to_sun_dist_au``
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-66
+.. GENERATED FROM PYTHON SOURCE LINES 52-61
 
 .. code-block:: default
 
@@ -178,24 +173,22 @@ With this distance information, we can augment the Total Solar Irradiance plot t
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 67-69
+.. GENERATED FROM PYTHON SOURCE LINES 62-64
 
 This has all been packaged up into a single function which evaluates the Total Solar Irradiance at Earth's radius at an array of dates:
 .. autofunction:: pyspaceaware.total_solar_irradiance_at_dates
 
-.. GENERATED FROM PYTHON SOURCE LINES 71-72
+.. GENERATED FROM PYTHON SOURCE LINES 66-67
 
 We can prove that this function produces identical outputs to the implementation above:
 
-.. GENERATED FROM PYTHON SOURCE LINES 72-77
+.. GENERATED FROM PYTHON SOURCE LINES 67-70
 
 .. code-block:: default
 
 
     tsi = ps.total_solar_irradiance_at_dates(dates)
-    print(
-        f"Implemented function max error: {np.max(np.abs(tsi - sc_at_earth_radius))}"
-    )
+    print(f"Implemented function max error: {np.max(np.abs(tsi - sc_at_earth_radius))}")
 
 
 
@@ -212,7 +205,7 @@ We can prove that this function produces identical outputs to the implementation
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.319 seconds)
+   **Total running time of the script:** ( 0 minutes  1.279 seconds)
 
 
 .. _sphx_glr_download_gallery_07-summer-2023_total_solar_irradiance.py:

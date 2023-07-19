@@ -23,28 +23,18 @@ Rigid Body Torque Free Attitudes
 
 Animates the attitude motion of an object in torque free motion
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-27
+.. GENERATED FROM PYTHON SOURCE LINES 7-25
 
 
 
-.. image-sg:: /gallery/06-attitude/images/sphx_glr_vis_attitude_motion_001.gif
+.. image-sg:: /gallery/06-attitude/images/sphx_glr_vis_attitude_motion_001.png
    :alt: vis attitude motion
-   :srcset: /gallery/06-attitude/images/sphx_glr_vis_attitude_motion_001.gif
+   :srcset: /gallery/06-attitude/images/sphx_glr_vis_attitude_motion_001.png
    :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    TLE catalog already downloaded, skipping
 
 
-
-
-
-
-|
 
 .. code-block:: default
 
@@ -54,9 +44,9 @@ Animates the attitude motion of an object in torque free motion
     import pyvista as pv
 
     (dates, epsecs) = ps.date_linspace(
-        ps.now(), ps.now() + ps.seconds(10), 300
+        ps.now(), ps.now() + ps.seconds(10), 300, return_epsecs=True
     )
-    obj = ps.SpaceObject("tess.obj", satnum=36411)
+    obj = ps.SpaceObject("tess.obj", identifier=36411)
     obj_attitude = ps.RbtfAttitude(
         w0=1 * np.array([1, 1, 1]),
         q0=ps.hat(np.array([0, 0, 0, 1])),
@@ -65,14 +55,12 @@ Animates the attitude motion of an object in torque free motion
 
     (q, w) = obj_attitude.propagate(epsecs)
 
-    ps.vis_attitude_motion(
-        obj, q, "tess.gif", framerate=30, background_color="black"
-    )
+    ps.vis_attitude_motion(obj, q, "tess.gif", framerate=30, background_color="black")
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  17.299 seconds)
+   **Total running time of the script:** ( 0 minutes  19.118 seconds)
 
 
 .. _sphx_glr_download_gallery_06-attitude_vis_attitude_motion.py:

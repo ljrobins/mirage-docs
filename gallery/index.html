@@ -301,8 +301,9 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="00-tle/index.html">Working with TLEs</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="00-tle/propagate_catalog.html">Propagating the catalog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00-tle/gravity_model_propagation.html">Propagating with Perturbations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="00-tle/propagate_single_tle.html">Propagating single TLE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00-tle/propagate_catalog.html">Propagating the catalog</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="01-light_curves/index.html">Light Curves</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -336,10 +337,10 @@ document.write(`
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="07-summer-2023/index.html">Summer 2023 Studies</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="07-summer-2023/moon_libration.html">Moon Librations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="07-summer-2023/spice.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07-summer-2023/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07-summer-2023/total_solar_irradiance.html">Total Solar Irradiance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07-summer-2023/tle_switching.html">TLE Switching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07-summer-2023/spice.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07-summer-2023/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07-summer-2023/horizon_mask.html">Horizon Masks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07-summer-2023/rbf_fitting.html">Neural Network Brightness</a></li>
@@ -405,12 +406,15 @@ document.write(`
 <div class="sphx-glr-thumbnails"></div><section id="working-with-tles">
 <h2>Working with TLEs<a class="headerlink" href="#working-with-tles" title="Permalink to this heading">#</a></h2>
 <p>Downloading, propagating, and plotting individual TLEs or entire catalogs</p>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Load the full TLE catalog and propagate all objects to a given epoch"><img alt="" src="../_images/sphx_glr_propagate_catalog_thumb.png" />
-<p><a class="reference internal" href="00-tle/propagate_catalog.html#sphx-glr-gallery-00-tle-propagate-catalog-py"><span class="std std-ref">Propagating the catalog</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Propagating the catalog</div>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Propagating an orbit with spherical harmonics and third body effects"><img alt="" src="../_images/sphx_glr_gravity_model_propagation_thumb.png" />
+<p><a class="reference internal" href="00-tle/gravity_model_propagation.html#sphx-glr-gallery-00-tle-gravity-model-propagation-py"><span class="std std-ref">Propagating with Perturbations</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Propagating with Perturbations</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Propagates a single TLE for a given NORAD ID and propagates the trajectory"><img alt="" src="../_images/sphx_glr_propagate_single_tle_thumb.png" />
 <p><a class="reference internal" href="00-tle/propagate_single_tle.html#sphx-glr-gallery-00-tle-propagate-single-tle-py"><span class="std std-ref">Propagating single TLE</span></a></p>
   <div class="sphx-glr-thumbnail-title">Propagating single TLE</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Load the full TLE catalog and propagate all objects to a given epoch"><img alt="" src="../_images/sphx_glr_propagate_catalog_thumb.png" />
+<p><a class="reference internal" href="00-tle/propagate_catalog.html#sphx-glr-gallery-00-tle-propagate-catalog-py"><span class="std std-ref">Propagating the catalog</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Propagating the catalog</div>
 </div></div></section>
 <section id="light-curves">
 <h2>Light Curves<a class="headerlink" href="#light-curves" title="Permalink to this heading">#</a></h2>
@@ -459,7 +463,7 @@ document.write(`
 <section id="rigid-body-attitudes">
 <h2>Rigid Body Attitudes<a class="headerlink" href="#rigid-body-attitudes" title="Permalink to this heading">#</a></h2>
 <p>Visualizing various attitude profiles and parameterizations</p>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Animates the attitude motion of an object in torque free motion"><img alt="" src="../_images/sphx_glr_vis_attitude_motion_thumb.gif" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Animates the attitude motion of an object in torque free motion"><img alt="" src="../_images/sphx_glr_vis_attitude_motion_thumb.png" />
 <p><a class="reference internal" href="06-attitude/vis_attitude_motion.html#sphx-glr-gallery-06-attitude-vis-attitude-motion-py"><span class="std std-ref">Rigid Body Torque Free Attitudes</span></a></p>
   <div class="sphx-glr-thumbnail-title">Rigid Body Torque Free Attitudes</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Three consecutive axis rotations forming an Euler angle sequence"><img alt="" src="../_images/sphx_glr_euler_sequence_thumb.png" />
@@ -472,12 +476,9 @@ document.write(`
 <section id="summer-2023-studies">
 <h2>Summer 2023 Studies<a class="headerlink" href="#summer-2023-studies" title="Permalink to this heading">#</a></h2>
 <p>Various things from the Summer of 2023</p>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Animations the librations of the Moon: the apparent motion of the Moon as viewed from the Earth"><img alt="" src="../_images/sphx_glr_moon_libration_thumb.gif" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Animations the librations of the Moon: the apparent motion of the Moon as viewed from the Earth"><img alt="" src="../_images/sphx_glr_moon_libration_thumb.png" />
 <p><a class="reference internal" href="07-summer-2023/moon_libration.html#sphx-glr-gallery-07-summer-2023-moon-libration-py"><span class="std std-ref">Moon Librations</span></a></p>
   <div class="sphx-glr-thumbnail-title">Moon Librations</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Computes the difference between the Vallado approximations of the Moon ephemerides and the JPL ..."><img alt="" src="../_images/sphx_glr_spice_thumb.png" />
-<p><a class="reference internal" href="07-summer-2023/spice.html#sphx-glr-gallery-07-summer-2023-spice-py"><span class="std std-ref">SPICE vs Vallado</span></a></p>
-  <div class="sphx-glr-thumbnail-title">SPICE vs Vallado</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plotting and querying a large dataset of zenith light pollution from here, with the raw file he..."><img alt="" src="../_images/sphx_glr_nightlights_thumb.png" />
 <p><a class="reference internal" href="07-summer-2023/nightlights.html#sphx-glr-gallery-07-summer-2023-nightlights-py"><span class="std std-ref">Zenith Light Pollution</span></a></p>
   <div class="sphx-glr-thumbnail-title">Zenith Light Pollution</div>
@@ -487,6 +488,9 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="Various methods to switch between TLEs for more accurate long-term propagation"><img alt="" src="../_images/sphx_glr_tle_switching_thumb.png" />
 <p><a class="reference internal" href="07-summer-2023/tle_switching.html#sphx-glr-gallery-07-summer-2023-tle-switching-py"><span class="std std-ref">TLE Switching</span></a></p>
   <div class="sphx-glr-thumbnail-title">TLE Switching</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Computes the difference between the Vallado approximations of the Moon ephemerides and the JPL ..."><img alt="" src="../_images/sphx_glr_spice_thumb.png" />
+<p><a class="reference internal" href="07-summer-2023/spice.html#sphx-glr-gallery-07-summer-2023-spice-py"><span class="std std-ref">SPICE vs Vallado</span></a></p>
+  <div class="sphx-glr-thumbnail-title">SPICE vs Vallado</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Displays the patched GAIA catalog"><img alt="" src="../_images/sphx_glr_gaia_patched_catalog_thumb.png" />
 <p><a class="reference internal" href="07-summer-2023/gaia_patched_catalog.html#sphx-glr-gallery-07-summer-2023-gaia-patched-catalog-py"><span class="std std-ref">GAIA Patched Catalog</span></a></p>
   <div class="sphx-glr-thumbnail-title">GAIA Patched Catalog</div>

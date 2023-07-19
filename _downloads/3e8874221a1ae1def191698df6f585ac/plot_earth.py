@@ -4,18 +4,13 @@ Plotting Earth
 
 Plotting the Earth with a variety of options
 """
-import sys
-
-sys.path.append("./src")
 
 import pyspaceaware as ps
 import pyvista as pv
 import datetime
 import numpy as np
 
-date = datetime.datetime(
-    2023, 6, 4, 12, 0, 0, tzinfo=datetime.timezone.utc
-)
+date = datetime.datetime(2023, 6, 4, 12, 0, 0, tzinfo=datetime.timezone.utc)
 date_space_day = date + ps.days(np.linspace(0, 1, 100, endpoint=False))
 
 # %%
@@ -30,9 +25,7 @@ pl.close()
 
 # %%
 # We can also plot over the course of the year to show the variation of the Sun
-date_space_year = date + ps.days(
-    np.round(np.linspace(0, 365.25, 100, endpoint=False))
-)
+date_space_year = date + ps.days(np.round(np.linspace(0, 365.25, 100, endpoint=False)))
 pl = pv.Plotter()
 pl.open_gif("earth_year.gif", fps=20)
 for date in date_space_year:

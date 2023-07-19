@@ -27,13 +27,10 @@ Displays the patched GAIA catalog
 
 Let's set up a grid of directions to plot the starlight signal at in J2000
 
-.. GENERATED FROM PYTHON SOURCE LINES 10-25
+.. GENERATED FROM PYTHON SOURCE LINES 10-22
 
 .. code-block:: default
 
-    import sys
-
-    sys.path.append("./src")
     import pyspaceaware as ps
     import matplotlib.pyplot as plt
     import numpy as np
@@ -53,11 +50,11 @@ Let's set up a grid of directions to plot the starlight signal at in J2000
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-27
+.. GENERATED FROM PYTHON SOURCE LINES 23-24
 
 Now we define the telescope we want to perform the observations with, we'll use the Purdue Optical Ground Station (POGS)
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-37
+.. GENERATED FROM PYTHON SOURCE LINES 24-34
 
 .. code-block:: default
 
@@ -78,12 +75,12 @@ Now we define the telescope we want to perform the observations with, we'll use 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-40
+.. GENERATED FROM PYTHON SOURCE LINES 35-37
 
 Now we reshape the signal into the original grid and display the plot as an image
 We'll also overlay the Tycho 2 RA/Dec coordinates to confirm that both overlap correctly
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-65
+.. GENERATED FROM PYTHON SOURCE LINES 37-62
 
 .. code-block:: default
 
@@ -124,19 +121,17 @@ We'll also overlay the Tycho 2 RA/Dec coordinates to confirm that both overlap c
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 66-67
+.. GENERATED FROM PYTHON SOURCE LINES 63-64
 
 We can also display the GAIA patched catalog and the Tycho 2 unit vectors on the ECI unit sphere:
 
-.. GENERATED FROM PYTHON SOURCE LINES 67-93
+.. GENERATED FROM PYTHON SOURCE LINES 64-88
 
 .. code-block:: default
 
     import pyvista as pv
 
-    tycho2_unit_vectors = np.vstack(
-        ps.sph_to_cart(az=tycho2_ra_rad, el=tycho2_dec_rad)
-    ).T
+    tycho2_unit_vectors = np.vstack(ps.sph_to_cart(az=tycho2_ra_rad, el=tycho2_dec_rad)).T
 
     pl = pv.Plotter()
     pl.set_background("black")
@@ -173,7 +168,7 @@ We can also display the GAIA patched catalog and the Tycho 2 unit vectors on the
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.602 seconds)
+   **Total running time of the script:** ( 0 minutes  2.278 seconds)
 
 
 .. _sphx_glr_download_gallery_07-summer-2023_gaia_patched_catalog.py:

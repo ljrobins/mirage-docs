@@ -7,17 +7,21 @@ Simulates and animates an aligned and constrained attitude profile
 .. note:: If you want to record a .mp4 video instead, try ``pl.open_movie("aligned_and_constrained.mov", framerate=30, quality=9)``
 """
 
+
 import pyspaceaware as ps
 import numpy as np
 import pyvista as pv
 import datetime
 
 data_points = 100
-obj = ps.SpaceObject("tess.obj", satnum=15873)
+obj = ps.SpaceObject("tess.obj", identifier="INTELSAT 511")
 (date_space, epsec_space) = ps.date_linspace(
-    ps.now(), ps.now() + datetime.timedelta(hours=24), data_points
+    ps.now(),
+    ps.now() + datetime.timedelta(hours=24),
+    data_points,
+    return_epsecs=True,
 )
-(r, v) = obj.propagate(date_space)
+(r, v) = obj.propagate(date_space, return_velocity=True)
 
 orbit_normal = ps.hat(np.cross(r, v))
 sat_nadir = -ps.hat(r)
@@ -35,7 +39,7 @@ quat = ps.dcm_to_quat(c)
 sun_in_body = ps.stack_mat_mult(c, sat_sun)
 obs_in_body = ps.stack_mat_mult(c, sat_nadir)
 
-pl = pv.Plotter(window_size=[512, 512])
+pl = pv.Plotter()
 pl.open_gif("aligned_and_constrained.gif")
 
 ps.plot3(pl, r, color="cyan")
@@ -48,14 +52,10 @@ pl._on_first_render_request()
 pl.render()
 for i in range(data_points - 1):
     pl.camera.position = (
-        r[i, :]
-        - cdist * sat_nadir[i, :]
-        + cdist / 10 * orbit_normal[i, :]
+        r[i, :] - cdist * sat_nadir[i, :] + cdist / 10 * orbit_normal[i, :]
     )
     pl.camera.focal_point = r[i, :]
-    obj.render(
-        pl, origin=r[i, :], scale=10, opacity=1.0, quat=quat[i, :]
-    )
+    obj.render(pl, origin=r[i, :], scale=10, opacity=1.0, quat=quat[i, :])
     ps.plot_arrow(pl, r[i, :], v1[i, :], scale=pdist, name="arr_v1")
     ps.plot_arrow(pl, r[i, :], v2[i, :], scale=pdist, name="arr_v2")
     ps.plot_arrow(pl, r[i, :], v3[i, :], scale=pdist, name="arr_v3")
@@ -68,9 +68,7 @@ for i in range(data_points - 1):
         color="y",
         label="Sun",
     )
-    ps.plot_earth(
-        pl, date=date_space[i], atmosphere=False, night_lights=True
-    )
+    ps.plot_earth(pl, date=date_space[i], atmosphere=True, night_lights=True)
     pl.write_frame()
     obj._mesh.copy_from(omesh)
 pl.close()

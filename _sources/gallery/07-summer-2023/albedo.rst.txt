@@ -33,14 +33,11 @@ Useful papers not cited below:
 
 Let's first load the coefficient arrays :math:`f_{iso}`, :math:`f_{geo}`, and :math:`f_{vol}` from file
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-36
+.. GENERATED FROM PYTHON SOURCE LINES 15-33
 
 .. code-block:: default
 
 
-    import sys
-
-    sys.path.append("./src")
     import pyspaceaware as ps
 
     import matplotlib.pyplot as plt
@@ -65,11 +62,11 @@ Let's first load the coefficient arrays :math:`f_{iso}`, :math:`f_{geo}`, and :m
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-38
+.. GENERATED FROM PYTHON SOURCE LINES 34-35
 
 The surface BRDF function in `Blanc 2014 <https://hal-mines-paristech.archives-ouvertes.fr/file/index/docid/1024989/filename/2014_igarss_albedo_blanc.pdf>`_
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-53
+.. GENERATED FROM PYTHON SOURCE LINES 35-46
 
 .. code-block:: default
 
@@ -79,14 +76,10 @@ The surface BRDF function in `Blanc 2014 <https://hal-mines-paristech.archives-o
         + fvol * (-0.007574 - 0.070987 * ts**2 + 0.307588 * ts**3)
         + fgeo * (-1.284909 - 0.166314 * ts**2 + 0.041840 * ts**3)
     )
-    pbs = (
-        lambda ts, fiso, fgeo, fvol: fiso
-        + 0.189184 * fvol
-        - 1.377622 * fgeo
-    )
-    albedo = lambda ts, fiso, fgeo, fvol: 0.5 * pws(
+    pbs = lambda ts, fiso, fgeo, fvol: fiso + 0.189184 * fvol - 1.377622 * fgeo
+    albedo = lambda ts, fiso, fgeo, fvol: 0.5 * pws(ts, fiso, fgeo, fvol) + 0.5 * pbs(
         ts, fiso, fgeo, fvol
-    ) + 0.5 * pbs(ts, fiso, fgeo, fvol)
+    )
 
 
 
@@ -95,17 +88,15 @@ The surface BRDF function in `Blanc 2014 <https://hal-mines-paristech.archives-o
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 54-55
+.. GENERATED FROM PYTHON SOURCE LINES 47-48
 
 Now we define the date to evaluate the reflected albedo irradiance at and the ECEF position of the satellite
 
-.. GENERATED FROM PYTHON SOURCE LINES 55-61
+.. GENERATED FROM PYTHON SOURCE LINES 48-52
 
 .. code-block:: default
 
-    date = datetime.datetime(
-        2022, 6, 23, 5, 53, 0, tzinfo=datetime.timezone.utc
-    )
+    date = datetime.datetime(2022, 6, 23, 5, 53, 0, tzinfo=datetime.timezone.utc)
     datestr = f'{date.strftime("%Y-%m-%d %H:%M:%S")} UTC'
     sat_pos_ecef = (6378 + 4e4) * ps.hat(np.array([[1, 1, 0]]))
 
@@ -116,11 +107,11 @@ Now we define the date to evaluate the reflected albedo irradiance at and the EC
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-63
+.. GENERATED FROM PYTHON SOURCE LINES 53-54
 
 Now we identify all the useful geometry: the ECEF positions of the grid cells, the Sun vector, the solar zenith angle at each grid cell, and the albedo at each point
 
-.. GENERATED FROM PYTHON SOURCE LINES 63-75
+.. GENERATED FROM PYTHON SOURCE LINES 54-66
 
 .. code-block:: default
 
@@ -143,28 +134,25 @@ Now we identify all the useful geometry: the ECEF positions of the grid cells, t
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 76-77
+.. GENERATED FROM PYTHON SOURCE LINES 67-68
 
 For fun, let's classify the types of twilight to plot later
 
-.. GENERATED FROM PYTHON SOURCE LINES 77-96
+.. GENERATED FROM PYTHON SOURCE LINES 68-84
 
 .. code-block:: default
 
     solar_type_grid = np.zeros_like(solar_zenith_grid)
     solar_type_grid[
-        (solar_zenith_grid > np.pi / 2)
-        & (solar_zenith_grid < np.pi / 2 + np.deg2rad(18))
+        (solar_zenith_grid > np.pi / 2) & (solar_zenith_grid < np.pi / 2 + np.deg2rad(18))
     ] = 3
     # Astronomical twilight
     solar_type_grid[
-        (solar_zenith_grid > np.pi / 2)
-        & (solar_zenith_grid < np.pi / 2 + np.deg2rad(12))
+        (solar_zenith_grid > np.pi / 2) & (solar_zenith_grid < np.pi / 2 + np.deg2rad(12))
     ] = 2
     # Nautical twilight
     solar_type_grid[
-        (solar_zenith_grid > np.pi / 2)
-        & (solar_zenith_grid < np.pi / 2 + np.deg2rad(6))
+        (solar_zenith_grid > np.pi / 2) & (solar_zenith_grid < np.pi / 2 + np.deg2rad(6))
     ] = 1
     # Civil twilight
     solar_type_grid[solar_zenith_grid > np.pi / 2 + np.deg2rad(16)] = 4
@@ -177,36 +165,30 @@ For fun, let's classify the types of twilight to plot later
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 97-98
+.. GENERATED FROM PYTHON SOURCE LINES 85-86
 
 Computing which grid cells are visible from the satellite
 
-.. GENERATED FROM PYTHON SOURCE LINES 98-129
+.. GENERATED FROM PYTHON SOURCE LINES 86-111
 
 .. code-block:: default
 
     surf_to_sat = sat_pos_ecef - ecef_grid
     surf_to_sat_dir = ps.hat(surf_to_sat)
-    surf_to_sat_rmag_m_grid = 1e3 * ps.vecnorm(surf_to_sat).reshape(
-        mapshape
-    )
-    tosat_to_normal_ang = np.arccos(
-        ps.dot(ps.hat(ecef_grid), surf_to_sat_dir)
-    )
+    surf_to_sat_rmag_m_grid = 1e3 * ps.vecnorm(surf_to_sat).reshape(mapshape)
+    tosat_to_normal_ang = np.arccos(ps.dot(ps.hat(ecef_grid), surf_to_sat_dir))
     tosat_to_normal_grid = tosat_to_normal_ang.reshape(mapshape)
     pt_visible_from_sat = tosat_to_normal_grid < np.pi / 2
 
     # Visible and illuminated points
     ill_and_vis = pt_visible_from_sat & (solar_type_grid == 0)
-    brdf_to_brightness = np.cos(solar_zenith_grid) * np.cos(
-        tosat_to_normal_grid
-    )
+    brdf_to_brightness = np.cos(solar_zenith_grid) * np.cos(tosat_to_normal_grid)
     loss_at_surf_diffuse = brdf_to_brightness * ill_and_vis * albedo_grid
     is_ocean = np.abs(albedo_grid - albedo_grid[0, 0]) < 1e-8
     loss_at_surface_specular = (
-        ps.brdf_phong(
-            sun_dir, surf_to_sat_dir, ps.hat(ecef_grid), 0, 0.4, 10
-        ).reshape(mapshape)
+        ps.brdf_phong(sun_dir, surf_to_sat_dir, ps.hat(ecef_grid), 0, 0.4, 10).reshape(
+            mapshape
+        )
         * is_ocean
         * brdf_to_brightness
     )
@@ -223,11 +205,11 @@ Computing which grid cells are visible from the satellite
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 130-131
+.. GENERATED FROM PYTHON SOURCE LINES 112-113
 
 Computes the areas of each grid cell
 
-.. GENERATED FROM PYTHON SOURCE LINES 131-145
+.. GENERATED FROM PYTHON SOURCE LINES 113-124
 
 .. code-block:: default
 
@@ -237,10 +219,7 @@ Computes the areas of each grid cell
     )
     cell_area_grid = np.tile(
         np.array(
-            [
-                ps.lat_lon_cell_area((p + dp, p), (0, dt))
-                for p in lat_geod_space
-            ]
+            [ps.lat_lon_cell_area((p + dp, p), (0, dt)) for p in lat_geod_space]
         ).reshape(-1, 1),
         (1, lon_space.size),
     )
@@ -252,11 +231,11 @@ Computes the areas of each grid cell
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 146-147
+.. GENERATED FROM PYTHON SOURCE LINES 125-126
 
 Computing Lambertian reflection (for the land) and Phong reflection (for the ocean) from each grid cell
 
-.. GENERATED FROM PYTHON SOURCE LINES 147-156
+.. GENERATED FROM PYTHON SOURCE LINES 126-135
 
 .. code-block:: default
 
@@ -282,11 +261,11 @@ Computing Lambertian reflection (for the land) and Phong reflection (for the oce
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 157-158
+.. GENERATED FROM PYTHON SOURCE LINES 136-137
 
 Let's compare with the implementation in the pyspaceaware package
 
-.. GENERATED FROM PYTHON SOURCE LINES 158-163
+.. GENERATED FROM PYTHON SOURCE LINES 137-142
 
 .. code-block:: default
 
@@ -303,17 +282,17 @@ Let's compare with the implementation in the pyspaceaware package
 
  .. code-block:: none
 
-    Elapsed time: 3.32e-01 seconds
+    Elapsed time: 6.57e-01 seconds
     6.30e+00
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 164-165
+.. GENERATED FROM PYTHON SOURCE LINES 143-144
 
 Defining a few useful functions to simplify the plotting process
 
-.. GENERATED FROM PYTHON SOURCE LINES 165-185
+.. GENERATED FROM PYTHON SOURCE LINES 144-160
 
 .. code-block:: default
 
@@ -321,15 +300,11 @@ Defining a few useful functions to simplify the plotting process
 
 
     def plt_map_under(ax):
-        ax.imshow(
-            albedo_grid, cmap="gray", alpha=0.3, extent=[-180, 180, -90, 90]
-        )
+        ax.imshow(albedo_grid, cmap="gray", alpha=0.3, extent=[-180, 180, -90, 90])
 
 
     def get_cbar_ax(ax):
-        return make_axes_locatable(ax).append_axes(
-            "right", size="5%", pad=0.05
-        )
+        return make_axes_locatable(ax).append_axes("right", size="5%", pad=0.05)
 
 
     def label_map_axes(ax):
@@ -344,11 +319,11 @@ Defining a few useful functions to simplify the plotting process
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 186-187
+.. GENERATED FROM PYTHON SOURCE LINES 161-162
 
 Plotting the albedo across the grid
 
-.. GENERATED FROM PYTHON SOURCE LINES 187-195
+.. GENERATED FROM PYTHON SOURCE LINES 162-170
 
 .. code-block:: default
 
@@ -372,19 +347,17 @@ Plotting the albedo across the grid
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 196-197
+.. GENERATED FROM PYTHON SOURCE LINES 171-172
 
 Plotting the solar zenith angle
 
-.. GENERATED FROM PYTHON SOURCE LINES 197-211
+.. GENERATED FROM PYTHON SOURCE LINES 172-184
 
 .. code-block:: default
 
     fig, ax = plt.subplots()
     plt.colorbar(
-        ax.imshow(
-            solar_zenith_grid, cmap="Blues", extent=[-180, 180, -90, 90]
-        ),
+        ax.imshow(solar_zenith_grid, cmap="Blues", extent=[-180, 180, -90, 90]),
         label="Solar zenith angle [rad]",
         cax=get_cbar_ax(ax),
     )
@@ -406,19 +379,17 @@ Plotting the solar zenith angle
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 212-213
+.. GENERATED FROM PYTHON SOURCE LINES 185-186
 
 Plotting the twilight types
 
-.. GENERATED FROM PYTHON SOURCE LINES 213-236
+.. GENERATED FROM PYTHON SOURCE LINES 186-207
 
 .. code-block:: default
 
     fig, ax = plt.subplots()
     cb = plt.colorbar(
-        ax.imshow(
-            solar_type_grid, cmap="Blues", extent=[-180, 180, -90, 90]
-        ),
+        ax.imshow(solar_type_grid, cmap="Blues", extent=[-180, 180, -90, 90]),
         cax=get_cbar_ax(ax),
     )
     cb.set_ticks(range(5))
@@ -449,11 +420,11 @@ Plotting the twilight types
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 237-238
+.. GENERATED FROM PYTHON SOURCE LINES 208-209
 
 Plotting grid cell visibility and illumination conditions
 
-.. GENERATED FROM PYTHON SOURCE LINES 238-263
+.. GENERATED FROM PYTHON SOURCE LINES 209-234
 
 .. code-block:: default
 
@@ -495,17 +466,17 @@ Plotting grid cell visibility and illumination conditions
 
  .. code-block:: none
 
-    /Users/liamrobinson/Documents/PyLightCurves/examples/07-summer-2023/albedo.py:242: MatplotlibDeprecationWarning: The get_cmap function was deprecated in Matplotlib 3.7 and will be removed two minor releases later. Use ``matplotlib.colormaps[name]`` or ``matplotlib.colormaps.get_cmap(obj)`` instead.
+    /Users/liamrobinson/Documents/PyLightCurves/examples/07-summer-2023/albedo.py:213: MatplotlibDeprecationWarning: The get_cmap function was deprecated in Matplotlib 3.7 and will be removed two minor releases later. Use ``matplotlib.colormaps[name]`` or ``matplotlib.colormaps.get_cmap(obj)`` instead.
       cmap=plt.cm.get_cmap("Paired", 4),
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 264-265
+.. GENERATED FROM PYTHON SOURCE LINES 235-236
 
 BRDF kernel values at each point
 
-.. GENERATED FROM PYTHON SOURCE LINES 265-281
+.. GENERATED FROM PYTHON SOURCE LINES 236-252
 
 .. code-block:: default
 
@@ -537,19 +508,17 @@ BRDF kernel values at each point
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 282-283
+.. GENERATED FROM PYTHON SOURCE LINES 253-254
 
 Plotting the areas of each grid cell
 
-.. GENERATED FROM PYTHON SOURCE LINES 283-297
+.. GENERATED FROM PYTHON SOURCE LINES 254-266
 
 .. code-block:: default
 
     fig, ax = plt.subplots()
     plt.colorbar(
-        ax.imshow(
-            cell_area_grid, cmap="Blues", extent=[-180, 180, -90, 90]
-        ),
+        ax.imshow(cell_area_grid, cmap="Blues", extent=[-180, 180, -90, 90]),
         label="$[m^2]$",
         cax=get_cbar_ax(ax),
     )
@@ -571,11 +540,11 @@ Plotting the areas of each grid cell
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 298-299
+.. GENERATED FROM PYTHON SOURCE LINES 267-268
 
 Plotting the irradiance from each grid cell
 
-.. GENERATED FROM PYTHON SOURCE LINES 299-310
+.. GENERATED FROM PYTHON SOURCE LINES 268-279
 
 .. code-block:: default
 
@@ -605,7 +574,7 @@ Plotting the irradiance from each grid cell
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.034 seconds)
+   **Total running time of the script:** ( 0 minutes  3.274 seconds)
 
 
 .. _sphx_glr_download_gallery_07-summer-2023_albedo.py:

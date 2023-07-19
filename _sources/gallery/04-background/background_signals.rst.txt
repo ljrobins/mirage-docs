@@ -27,13 +27,10 @@ The signal mean model due to various sources
 
 Defining a function we can use to plot various background signals
 
-.. GENERATED FROM PYTHON SOURCE LINES 10-92
+.. GENERATED FROM PYTHON SOURCE LINES 10-87
 
 .. code-block:: default
 
-    import sys
-
-    sys.path.append("./src")
     import pyspaceaware as ps
     import numpy as np
     import pyvista as pv
@@ -60,9 +57,7 @@ Defining a function we can use to plot various background signals
         stat_eci = station.eci_at_dates(date)
 
         ps.tic()
-        sb = station.sky_brightness(
-            dates, look_dirs_eci_eq, **signal_kwargs
-        )
+        sb = station.sky_brightness(dates, look_dirs_eci_eq, **signal_kwargs)
         ps.toc()
         ps.plot_earth(
             pl,
@@ -100,7 +95,7 @@ Defining a function we can use to plot various background signals
         )
         pl.scalar_bar.SetTitle("[e-/pix]")
         pl.camera.focal_point = stat_eci.flatten()
-        cpos = (stat_eci + ps.hat(stat_eci) * view_dist).flatten()
+        cpos = (stat_eci + ps.hat(stat_eci) * view_dist).flatten() - np.array([0, 0, 1e4])
         pl.camera.position = cpos
         pl.camera.zoom(zoom)
 
@@ -120,12 +115,12 @@ Defining a function we can use to plot various background signals
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 93-95
+.. GENERATED FROM PYTHON SOURCE LINES 88-90
 
 Setting up observation conditions using an example Liquid Mirror Telescope preset
 station = ps.Station(preset="lmt", lat_deg=33.776864, lon_deg=-84.363777) # Atlanta, GA
 
-.. GENERATED FROM PYTHON SOURCE LINES 95-101
+.. GENERATED FROM PYTHON SOURCE LINES 90-96
 
 .. code-block:: default
 
@@ -142,11 +137,11 @@ station = ps.Station(preset="lmt", lat_deg=33.776864, lon_deg=-84.363777) # Atla
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 102-103
+.. GENERATED FROM PYTHON SOURCE LINES 97-98
 
 Plotting the background signal for scattered moonlight
 
-.. GENERATED FROM PYTHON SOURCE LINES 103-112
+.. GENERATED FROM PYTHON SOURCE LINES 98-108
 
 .. code-block:: default
 
@@ -156,6 +151,7 @@ Plotting the background signal for scattered moonlight
         "airglow": False,
         "integrated_starlight": False,
         "zodiac": False,
+        "pollution": False,
     }
     hemisphere_signal(station, date, signal_kwargs)
 
@@ -172,16 +168,16 @@ Plotting the background signal for scattered moonlight
 
  .. code-block:: none
 
-    Elapsed time: 8.09e+00 seconds
+    Elapsed time: 7.83e+00 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 113-114
+.. GENERATED FROM PYTHON SOURCE LINES 109-110
 
 Plotting the background signal for integrated starlight
 
-.. GENERATED FROM PYTHON SOURCE LINES 114-123
+.. GENERATED FROM PYTHON SOURCE LINES 110-120
 
 .. code-block:: default
 
@@ -191,6 +187,7 @@ Plotting the background signal for integrated starlight
         "airglow": False,
         "integrated_starlight": True,
         "zodiac": False,
+        "pollution": False,
     }
     hemisphere_signal(station, date, signal_kwargs)
 
@@ -207,16 +204,16 @@ Plotting the background signal for integrated starlight
 
  .. code-block:: none
 
-    Elapsed time: 4.68e+00 seconds
+    Elapsed time: 4.41e+00 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 124-125
+.. GENERATED FROM PYTHON SOURCE LINES 121-122
 
 Plotting the background signal for light pollution
 
-.. GENERATED FROM PYTHON SOURCE LINES 125-135
+.. GENERATED FROM PYTHON SOURCE LINES 122-132
 
 .. code-block:: default
 
@@ -243,16 +240,16 @@ Plotting the background signal for light pollution
 
  .. code-block:: none
 
-    Elapsed time: 4.34e+00 seconds
+    Elapsed time: 4.38e+00 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 136-137
+.. GENERATED FROM PYTHON SOURCE LINES 133-134
 
 Plotting the background signal for zodiac light
 
-.. GENERATED FROM PYTHON SOURCE LINES 137-146
+.. GENERATED FROM PYTHON SOURCE LINES 134-144
 
 .. code-block:: default
 
@@ -262,6 +259,7 @@ Plotting the background signal for zodiac light
         "airglow": False,
         "integrated_starlight": False,
         "zodiac": True,
+        "pollution": False,
     }
     hemisphere_signal(station, date, signal_kwargs)
 
@@ -278,16 +276,16 @@ Plotting the background signal for zodiac light
 
  .. code-block:: none
 
-    Elapsed time: 6.31e+00 seconds
+    Elapsed time: 6.02e+00 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 147-148
+.. GENERATED FROM PYTHON SOURCE LINES 145-146
 
 Plotting the background signal for airglow
 
-.. GENERATED FROM PYTHON SOURCE LINES 148-157
+.. GENERATED FROM PYTHON SOURCE LINES 146-156
 
 .. code-block:: default
 
@@ -297,6 +295,7 @@ Plotting the background signal for airglow
         "airglow": True,
         "integrated_starlight": False,
         "zodiac": False,
+        "pollution": False,
     }
     hemisphere_signal(station, date, signal_kwargs)
 
@@ -313,16 +312,16 @@ Plotting the background signal for airglow
 
  .. code-block:: none
 
-    Elapsed time: 4.65e+00 seconds
+    Elapsed time: 4.38e+00 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 158-159
+.. GENERATED FROM PYTHON SOURCE LINES 157-158
 
 Plotting the background signal for atmospherically scattered light
 
-.. GENERATED FROM PYTHON SOURCE LINES 159-168
+.. GENERATED FROM PYTHON SOURCE LINES 158-168
 
 .. code-block:: default
 
@@ -332,6 +331,7 @@ Plotting the background signal for atmospherically scattered light
         "airglow": False,
         "integrated_starlight": False,
         "zodiac": False,
+        "pollution": False,
     }
     hemisphere_signal(station, date, signal_kwargs)
 
@@ -348,7 +348,7 @@ Plotting the background signal for atmospherically scattered light
 
  .. code-block:: none
 
-    Elapsed time: 4.70e+00 seconds
+    Elapsed time: 4.37e+00 seconds
 
 
 
@@ -357,7 +357,7 @@ Plotting the background signal for atmospherically scattered light
 
 Plotting the full background signal with all sources enabled
 
-.. GENERATED FROM PYTHON SOURCE LINES 170-178
+.. GENERATED FROM PYTHON SOURCE LINES 170-179
 
 .. code-block:: default
 
@@ -367,6 +367,7 @@ Plotting the full background signal with all sources enabled
         "airglow": True,
         "integrated_starlight": True,
         "zodiac": True,
+        "pollution": True,
     }
     hemisphere_signal(station, date, signal_kwargs)
 
@@ -382,7 +383,7 @@ Plotting the full background signal with all sources enabled
 
  .. code-block:: none
 
-    Elapsed time: 1.09e+01 seconds
+    Elapsed time: 1.10e+01 seconds
 
 
 
@@ -390,7 +391,7 @@ Plotting the full background signal with all sources enabled
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 1 minutes  45.855 seconds)
+   **Total running time of the script:** ( 1 minutes  45.143 seconds)
 
 
 .. _sphx_glr_download_gallery_04-background_background_signals.py:

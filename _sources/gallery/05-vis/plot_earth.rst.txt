@@ -23,22 +23,17 @@ Plotting Earth
 
 Plotting the Earth with a variety of options
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-21
+.. GENERATED FROM PYTHON SOURCE LINES 7-16
 
 .. code-block:: default
 
-    import sys
-
-    sys.path.append("./src")
 
     import pyspaceaware as ps
     import pyvista as pv
     import datetime
     import numpy as np
 
-    date = datetime.datetime(
-        2023, 6, 4, 12, 0, 0, tzinfo=datetime.timezone.utc
-    )
+    date = datetime.datetime(2023, 6, 4, 12, 0, 0, tzinfo=datetime.timezone.utc)
     date_space_day = date + ps.days(np.linspace(0, 1, 100, endpoint=False))
 
 
@@ -48,11 +43,11 @@ Plotting the Earth with a variety of options
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-23
+.. GENERATED FROM PYTHON SOURCE LINES 17-18
 
 Just so that the thumbnail of this example is exciting, let's animate a full photorealistic Earth over the course of a day
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-31
+.. GENERATED FROM PYTHON SOURCE LINES 18-26
 
 .. code-block:: default
 
@@ -67,26 +62,24 @@ Just so that the thumbnail of this example is exciting, let's animate a full pho
 
 
 
-.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_001.gif
+.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_001.png
    :alt: plot earth
-   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_001.gif
+   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_001.png
    :class: sphx-glr-single-img
 
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-33
+.. GENERATED FROM PYTHON SOURCE LINES 27-28
 
 We can also plot over the course of the year to show the variation of the Sun
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-45
+.. GENERATED FROM PYTHON SOURCE LINES 28-38
 
 .. code-block:: default
 
-    date_space_year = date + ps.days(
-        np.round(np.linspace(0, 365.25, 100, endpoint=False))
-    )
+    date_space_year = date + ps.days(np.round(np.linspace(0, 365.25, 100, endpoint=False)))
     pl = pv.Plotter()
     pl.open_gif("earth_year.gif", fps=20)
     for date in date_space_year:
@@ -99,20 +92,20 @@ We can also plot over the course of the year to show the variation of the Sun
 
 
 
-.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_002.gif
+.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_002.png
    :alt: plot earth
-   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_002.gif
+   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_002.png
    :class: sphx-glr-single-img
 
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-47
+.. GENERATED FROM PYTHON SOURCE LINES 39-40
 
 Elevation data and texture map
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-57
+.. GENERATED FROM PYTHON SOURCE LINES 40-50
 
 .. code-block:: default
 
@@ -138,11 +131,11 @@ Elevation data and texture map
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-59
+.. GENERATED FROM PYTHON SOURCE LINES 51-52
 
 Night lights
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-67
+.. GENERATED FROM PYTHON SOURCE LINES 52-60
 
 .. code-block:: default
 
@@ -166,11 +159,11 @@ Night lights
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 68-69
+.. GENERATED FROM PYTHON SOURCE LINES 61-62
 
 Star background
 
-.. GENERATED FROM PYTHON SOURCE LINES 69-77
+.. GENERATED FROM PYTHON SOURCE LINES 62-70
 
 .. code-block:: default
 
@@ -194,11 +187,11 @@ Star background
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 78-79
+.. GENERATED FROM PYTHON SOURCE LINES 71-72
 
 Country borders
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-87
+.. GENERATED FROM PYTHON SOURCE LINES 72-80
 
 .. code-block:: default
 
@@ -222,11 +215,11 @@ Country borders
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 88-89
+.. GENERATED FROM PYTHON SOURCE LINES 81-82
 
 All photorealistic settings
 
-.. GENERATED FROM PYTHON SOURCE LINES 89-99
+.. GENERATED FROM PYTHON SOURCE LINES 82-92
 
 .. code-block:: default
 
@@ -255,7 +248,7 @@ All photorealistic settings
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 3 minutes  18.957 seconds)
+   **Total running time of the script:** ( 3 minutes  52.544 seconds)
 
 
 .. _sphx_glr_download_gallery_05-vis_plot_earth.py:

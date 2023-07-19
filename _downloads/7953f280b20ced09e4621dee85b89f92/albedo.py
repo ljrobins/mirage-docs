@@ -13,9 +13,6 @@ Modeling the incident radiation at a spacecraft due to reflected sunlight from t
 # %%
 # Let's first load the coefficient arrays :math:`f_{iso}`, :math:`f_{geo}`, and :math:`f_{vol}` from file
 
-import sys
-
-sys.path.append("./src")
 import pyspaceaware as ps
 
 import matplotlib.pyplot as plt
@@ -41,20 +38,14 @@ pws = (
     + fvol * (-0.007574 - 0.070987 * ts**2 + 0.307588 * ts**3)
     + fgeo * (-1.284909 - 0.166314 * ts**2 + 0.041840 * ts**3)
 )
-pbs = (
-    lambda ts, fiso, fgeo, fvol: fiso
-    + 0.189184 * fvol
-    - 1.377622 * fgeo
-)
-albedo = lambda ts, fiso, fgeo, fvol: 0.5 * pws(
+pbs = lambda ts, fiso, fgeo, fvol: fiso + 0.189184 * fvol - 1.377622 * fgeo
+albedo = lambda ts, fiso, fgeo, fvol: 0.5 * pws(ts, fiso, fgeo, fvol) + 0.5 * pbs(
     ts, fiso, fgeo, fvol
-) + 0.5 * pbs(ts, fiso, fgeo, fvol)
+)
 
 # %%
 # Now we define the date to evaluate the reflected albedo irradiance at and the ECEF position of the satellite
-date = datetime.datetime(
-    2022, 6, 23, 5, 53, 0, tzinfo=datetime.timezone.utc
-)
+date = datetime.datetime(2022, 6, 23, 5, 53, 0, tzinfo=datetime.timezone.utc)
 datestr = f'{date.strftime("%Y-%m-%d %H:%M:%S")} UTC'
 sat_pos_ecef = (6378 + 4e4) * ps.hat(np.array([[1, 1, 0]]))
 
@@ -76,18 +67,15 @@ albedo_grid = albedo(solar_zenith_grid, fiso_map, fgeo_map, fvol_map)
 # For fun, let's classify the types of twilight to plot later
 solar_type_grid = np.zeros_like(solar_zenith_grid)
 solar_type_grid[
-    (solar_zenith_grid > np.pi / 2)
-    & (solar_zenith_grid < np.pi / 2 + np.deg2rad(18))
+    (solar_zenith_grid > np.pi / 2) & (solar_zenith_grid < np.pi / 2 + np.deg2rad(18))
 ] = 3
 # Astronomical twilight
 solar_type_grid[
-    (solar_zenith_grid > np.pi / 2)
-    & (solar_zenith_grid < np.pi / 2 + np.deg2rad(12))
+    (solar_zenith_grid > np.pi / 2) & (solar_zenith_grid < np.pi / 2 + np.deg2rad(12))
 ] = 2
 # Nautical twilight
 solar_type_grid[
-    (solar_zenith_grid > np.pi / 2)
-    & (solar_zenith_grid < np.pi / 2 + np.deg2rad(6))
+    (solar_zenith_grid > np.pi / 2) & (solar_zenith_grid < np.pi / 2 + np.deg2rad(6))
 ] = 1
 # Civil twilight
 solar_type_grid[solar_zenith_grid > np.pi / 2 + np.deg2rad(16)] = 4
@@ -97,26 +85,20 @@ solar_type_grid[solar_zenith_grid > np.pi / 2 + np.deg2rad(16)] = 4
 # Computing which grid cells are visible from the satellite
 surf_to_sat = sat_pos_ecef - ecef_grid
 surf_to_sat_dir = ps.hat(surf_to_sat)
-surf_to_sat_rmag_m_grid = 1e3 * ps.vecnorm(surf_to_sat).reshape(
-    mapshape
-)
-tosat_to_normal_ang = np.arccos(
-    ps.dot(ps.hat(ecef_grid), surf_to_sat_dir)
-)
+surf_to_sat_rmag_m_grid = 1e3 * ps.vecnorm(surf_to_sat).reshape(mapshape)
+tosat_to_normal_ang = np.arccos(ps.dot(ps.hat(ecef_grid), surf_to_sat_dir))
 tosat_to_normal_grid = tosat_to_normal_ang.reshape(mapshape)
 pt_visible_from_sat = tosat_to_normal_grid < np.pi / 2
 
 # Visible and illuminated points
 ill_and_vis = pt_visible_from_sat & (solar_type_grid == 0)
-brdf_to_brightness = np.cos(solar_zenith_grid) * np.cos(
-    tosat_to_normal_grid
-)
+brdf_to_brightness = np.cos(solar_zenith_grid) * np.cos(tosat_to_normal_grid)
 loss_at_surf_diffuse = brdf_to_brightness * ill_and_vis * albedo_grid
 is_ocean = np.abs(albedo_grid - albedo_grid[0, 0]) < 1e-8
 loss_at_surface_specular = (
-    ps.brdf_phong(
-        sun_dir, surf_to_sat_dir, ps.hat(ecef_grid), 0, 0.4, 10
-    ).reshape(mapshape)
+    ps.brdf_phong(sun_dir, surf_to_sat_dir, ps.hat(ecef_grid), 0, 0.4, 10).reshape(
+        mapshape
+    )
     * is_ocean
     * brdf_to_brightness
 )
@@ -134,10 +116,7 @@ dp, dt = (
 )
 cell_area_grid = np.tile(
     np.array(
-        [
-            ps.lat_lon_cell_area((p + dp, p), (0, dt))
-            for p in lat_geod_space
-        ]
+        [ps.lat_lon_cell_area((p + dp, p), (0, dt)) for p in lat_geod_space]
     ).reshape(-1, 1),
     (1, lon_space.size),
 )
@@ -166,15 +145,11 @@ bcmap = "PiYG"
 
 
 def plt_map_under(ax):
-    ax.imshow(
-        albedo_grid, cmap="gray", alpha=0.3, extent=[-180, 180, -90, 90]
-    )
+    ax.imshow(albedo_grid, cmap="gray", alpha=0.3, extent=[-180, 180, -90, 90])
 
 
 def get_cbar_ax(ax):
-    return make_axes_locatable(ax).append_axes(
-        "right", size="5%", pad=0.05
-    )
+    return make_axes_locatable(ax).append_axes("right", size="5%", pad=0.05)
 
 
 def label_map_axes(ax):
@@ -196,9 +171,7 @@ plt.show()
 # Plotting the solar zenith angle
 fig, ax = plt.subplots()
 plt.colorbar(
-    ax.imshow(
-        solar_zenith_grid, cmap="Blues", extent=[-180, 180, -90, 90]
-    ),
+    ax.imshow(solar_zenith_grid, cmap="Blues", extent=[-180, 180, -90, 90]),
     label="Solar zenith angle [rad]",
     cax=get_cbar_ax(ax),
 )
@@ -212,9 +185,7 @@ plt.show()
 # Plotting the twilight types
 fig, ax = plt.subplots()
 cb = plt.colorbar(
-    ax.imshow(
-        solar_type_grid, cmap="Blues", extent=[-180, 180, -90, 90]
-    ),
+    ax.imshow(solar_type_grid, cmap="Blues", extent=[-180, 180, -90, 90]),
     cax=get_cbar_ax(ax),
 )
 cb.set_ticks(range(5))
@@ -282,9 +253,7 @@ plt.show()
 # Plotting the areas of each grid cell
 fig, ax = plt.subplots()
 plt.colorbar(
-    ax.imshow(
-        cell_area_grid, cmap="Blues", extent=[-180, 180, -90, 90]
-    ),
+    ax.imshow(cell_area_grid, cmap="Blues", extent=[-180, 180, -90, 90]),
     label="$[m^2]$",
     cax=get_cbar_ax(ax),
 )

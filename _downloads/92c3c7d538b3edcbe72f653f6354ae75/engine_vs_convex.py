@@ -6,9 +6,6 @@ Comparing light curves produced by the LightCurveEngine renderer and a simplifie
 """
 
 
-import sys
-
-sys.path.append("./src")
 import numpy as np
 import pyspaceaware as ps
 import matplotlib.pyplot as plt
@@ -37,9 +34,7 @@ svb = ps.stack_mat_mult(dcm, np.array([[0, 1, 0]]))
 # %%
 # We can now run the engine and compute a convex light curve:
 
-b_non_convex = ps.run_engine(
-    brdf, obj.file_name, svb, ovb, instance_count=1
-)
+b_non_convex = ps.run_engine(brdf, obj.file_name, svb, ovb, instance_count=1)
 b_convex = obj.compute_convex_light_curve(brdf, svb, ovb)
 
 # %%
@@ -72,9 +67,7 @@ plt.show()
 obj = ps.SpaceObject("tess.obj")
 brdf = ps.Brdf("phong", cd=0.5, cs=0.5, n=10)
 
-b_non_convex = ps.run_engine(
-    brdf, obj.file_name, svb, ovb, instance_count=1
-)
+b_non_convex = ps.run_engine(brdf, obj.file_name, svb, ovb, instance_count=1)
 b_convex = obj.compute_convex_light_curve(brdf, svb, ovb)
 
 

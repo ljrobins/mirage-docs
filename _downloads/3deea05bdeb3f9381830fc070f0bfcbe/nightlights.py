@@ -10,9 +10,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.ndimage import gaussian_filter
 import os
-import sys
-
-sys.path.append("./src")
 import pyspaceaware as ps
 
 sz = 20
@@ -21,9 +18,7 @@ lon_space = np.linspace(-180, 180, sz)
 
 lats, lons = np.meshgrid(lat_space, lon_space, indexing="ij")
 
-with rasterio.open(
-    os.path.join(os.environ["DATADIR"], "viirs_2022_raw.tif"), "r"
-) as f:
+with rasterio.open(os.path.join(os.environ["DATADIR"], "viirs_2022_raw.tif"), "r") as f:
     ps.tic()
     x = f.read().squeeze()  # nW / cm^2 / sr
     ps.toc()
@@ -46,6 +41,6 @@ plt.xlabel("Longitude [deg]")
 plt.ylabel("Latitude [deg]")
 plt.title("Zenith Light Pollution in Eastern US")
 plt.colorbar(
-    label=r"$log_{10}$ VIIRS/NPP Lunar BRDF-Adjusted Night Lights $\left[\frac{nW}{cm^2sr}\right]$"
+    label=r"VIIRS/NPP Lunar BRDF-Adjusted Night Lights $\left[\frac{mag}{arcsec^2}\right]$"
 )
 plt.show()

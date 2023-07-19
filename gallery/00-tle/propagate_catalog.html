@@ -49,8 +49,8 @@
     <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Propagating single TLE" href="propagate_single_tle.html" />
-    <link rel="prev" title="Working with TLEs" href="index.html" />
+    <link rel="next" title="Light Curves" href="../01-light_curves/index.html" />
+    <link rel="prev" title="Propagating single TLE" href="propagate_single_tle.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -301,8 +301,9 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Working with TLEs</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Propagating the catalog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gravity_model_propagation.html">Propagating with Perturbations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="propagate_single_tle.html">Propagating single TLE</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Propagating the catalog</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../01-light_curves/index.html">Light Curves</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -336,10 +337,10 @@ document.write(`
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-summer-2023/index.html">Summer 2023 Studies</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/moon_libration.html">Moon Librations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/spice.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/total_solar_irradiance.html">Total Solar Irradiance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/tle_switching.html">TLE Switching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/spice.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/horizon_mask.html">Horizon Masks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/rbf_fitting.html">Neural Network Brightness</a></li>
@@ -418,35 +419,42 @@ to download the full example code</p>
 <span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="n">date_start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span>
-    <span class="mi">2023</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span>
-<span class="p">)</span>
-
-<span class="p">(</span><span class="n">r_eci</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">propagate_catalog_to_dates</span><span class="p">(</span><span class="n">date_start</span><span class="p">)</span>
-<span class="n">r_eci</span> <span class="o">=</span> <span class="n">r_eci</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Sometimes, propagating a TLE too far past its last collection point leads to enormous position magnitudes, let’s filter those out</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">invalid</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">vecnorm</span><span class="p">(</span><span class="n">r_eci</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">1e5</span>
-<span class="n">r_eci</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">r_eci</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">invalid</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<p>First, let’s define a function that plots the catalog at a given date</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_catalog_at_date</span><span class="p">(</span><span class="n">date</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">):</span>
+    <span class="n">r_eci</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">propagate_catalog_to_dates</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+    <span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
+    <span class="n">ps</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span>
+        <span class="n">pl</span><span class="p">,</span>
+        <span class="n">date</span><span class="o">=</span><span class="n">date</span><span class="p">,</span>
+        <span class="n">atmosphere</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">night_lights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">ps</span><span class="o">.</span><span class="n">scatter3</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">r_eci</span><span class="p">,</span> <span class="n">show_scalar_bar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">lighting</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">focal_point</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="mf">90e3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">])</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Let’s scatter plot the object positions we’ve propagated</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
-<span class="n">ps</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span>
-    <span class="n">pl</span><span class="p">,</span>
-    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;eci&quot;</span><span class="p">,</span>
-    <span class="n">date</span><span class="o">=</span><span class="n">date_start</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">ps</span><span class="o">.</span><span class="n">scatter3</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">r_eci</span><span class="p">,</span> <span class="n">show_scalar_bar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">focal_point</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-<span class="c1"># Otherwise it&#39;ll use the mean of all vertices, including the sats</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="mf">70e3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">])</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<section id="space-in-2023">
+<h2>Space in 2023<a class="headerlink" href="#space-in-2023" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot_catalog_at_date</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">today</span><span class="p">())</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_propagate_catalog_001.png" srcset="../../_images/sphx_glr_propagate_catalog_001.png" alt="propagate catalog" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.043 seconds)</p>
+<img src="../../_images/sphx_glr_propagate_catalog_001.png" srcset="../../_images/sphx_glr_propagate_catalog_001.png" alt="propagate catalog" class = "sphx-glr-single-img"/></section>
+<section id="space-in-2000">
+<h2>Space in 2000<a class="headerlink" href="#space-in-2000" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot_catalog_at_date</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">today</span><span class="p">()</span> <span class="o">-</span> <span class="n">ps</span><span class="o">.</span><span class="n">years</span><span class="p">(</span><span class="mi">23</span><span class="p">))</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_propagate_catalog_002.png" srcset="../../_images/sphx_glr_propagate_catalog_002.png" alt="propagate catalog" class = "sphx-glr-single-img"/></section>
+<section id="space-in-1980">
+<h2>Space in 1980<a class="headerlink" href="#space-in-1980" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot_catalog_at_date</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">today</span><span class="p">()</span> <span class="o">-</span> <span class="n">ps</span><span class="o">.</span><span class="n">years</span><span class="p">(</span><span class="mi">43</span><span class="p">))</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_propagate_catalog_003.png" srcset="../../_images/sphx_glr_propagate_catalog_003.png" alt="propagate catalog" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  16.624 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-00-tle-propagate-catalog-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/0add8bdfad02ca2a264448bc882b9067/propagate_catalog.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">propagate_catalog.py</span></code></a></p>
@@ -456,6 +464,7 @@ to download the full example code</p>
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
 </section>
 
 
@@ -470,20 +479,20 @@ to download the full example code</p>
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="index.html"
+       href="propagate_single_tle.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Working with TLEs</p>
+        <p class="prev-next-title">Propagating single TLE</p>
       </div>
     </a>
     <a class="right-next"
-       href="propagate_single_tle.html"
+       href="../01-light_curves/index.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Propagating single TLE</p>
+        <p class="prev-next-title">Light Curves</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -498,6 +507,18 @@ to download the full example code</p>
             
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#space-in-2023">Space in 2023</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#space-in-2000">Space in 2000</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#space-in-1980">Space in 1980</a></li>
+</ul>
+  </nav></div>
 
   <div class="sidebar-secondary-item">
   <div class="tocsection sourcelink">

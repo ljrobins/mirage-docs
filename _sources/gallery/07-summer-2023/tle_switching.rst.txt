@@ -23,13 +23,10 @@ TLE Switching
 
 Various methods to switch between TLEs for more accurate long-term propagation
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-14
+.. GENERATED FROM PYTHON SOURCE LINES 7-11
 
 .. code-block:: default
 
-    import sys
-
-    sys.path.append("./src")
     import pyspaceaware as ps
     import pyvista as pv
     import numpy as np
@@ -41,11 +38,11 @@ Various methods to switch between TLEs for more accurate long-term propagation
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-16
+.. GENERATED FROM PYTHON SOURCE LINES 12-13
 
 Let's use the SUPERBIRD 6 satellite
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-19
+.. GENERATED FROM PYTHON SOURCE LINES 13-16
 
 .. code-block:: default
 
@@ -59,16 +56,16 @@ Let's use the SUPERBIRD 6 satellite
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-21
+.. GENERATED FROM PYTHON SOURCE LINES 17-18
 
 And propagate for the previous 30 days
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-25
+.. GENERATED FROM PYTHON SOURCE LINES 18-22
 
 .. code-block:: default
 
     dtimes, epsec_space = ps.date_linspace(
-        ps.now() - ps.days(30), ps.now(), int(1e4)
+        ps.now() - ps.days(30), ps.now(), int(1e4), return_epsecs=True
     )
 
 
@@ -78,14 +75,14 @@ And propagate for the previous 30 days
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-30
+.. GENERATED FROM PYTHON SOURCE LINES 23-27
 
 We can then propagate with three switching strategies:
   - ``closest`` choses the closest TLE epoch to the current time
   - ``newest`` choses the most previous recent TLE at each time
   - ``interp`` choses the most recent and next TLEs and linearly interpolates between their propogated positions
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-40
+.. GENERATED FROM PYTHON SOURCE LINES 27-37
 
 .. code-block:: default
 
@@ -106,18 +103,16 @@ We can then propagate with three switching strategies:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-42
+.. GENERATED FROM PYTHON SOURCE LINES 38-39
 
 We can plot these trajectories to show that they result in similar trajectories
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-57
+.. GENERATED FROM PYTHON SOURCE LINES 39-52
 
 .. code-block:: default
 
     pl = pv.Plotter()
-    ps.plot_earth(
-        pl, date=dtimes[0], mode="eci", night_lights=True, atmosphere=True
-    )
+    ps.plot_earth(pl, date=dtimes[0], mode="eci", night_lights=True, atmosphere=True)
     lw = 6
     ps.plot3(pl, r_closest, color="c", lighting=False, line_width=lw)
     ps.plot3(pl, r_newest, color="m", lighting=False, line_width=lw)
@@ -141,11 +136,11 @@ We can plot these trajectories to show that they result in similar trajectories
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-59
+.. GENERATED FROM PYTHON SOURCE LINES 53-54
 
 We can also plot the error between these switching methods. Clearly, the interpolated switching strategy is the most accurate choice
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-69
+.. GENERATED FROM PYTHON SOURCE LINES 54-64
 
 .. code-block:: default
 
@@ -174,7 +169,7 @@ We can also plot the error between these switching methods. Clearly, the interpo
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  11.087 seconds)
+   **Total running time of the script:** ( 0 minutes  7.523 seconds)
 
 
 .. _sphx_glr_download_gallery_07-summer-2023_tle_switching.py:

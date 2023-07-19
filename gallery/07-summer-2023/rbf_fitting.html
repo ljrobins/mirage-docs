@@ -301,8 +301,9 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../00-tle/index.html">Working with TLEs</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../00-tle/propagate_catalog.html">Propagating the catalog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-tle/gravity_model_propagation.html">Propagating with Perturbations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-tle/propagate_single_tle.html">Propagating single TLE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-tle/propagate_catalog.html">Propagating the catalog</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../01-light_curves/index.html">Light Curves</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -336,10 +337,10 @@ document.write(`
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Summer 2023 Studies</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="moon_libration.html">Moon Librations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spice.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="total_solar_irradiance.html">Total Solar Irradiance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tle_switching.html">TLE Switching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spice.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="horizon_mask.html">Horizon Masks</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Neural Network Brightness</a></li>
@@ -416,7 +417,8 @@ to download the full example code</p>
 <p>Trains a neural network to predict the brightness of a specular cube in an arbitrary lighting and observation conditions and compares the results to the truth</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;./src&quot;</span><span class="p">)</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
 <span class="kn">import</span> <span class="nn">pyspaceaware.sim</span> <span class="k">as</span> <span class="nn">pssim</span>
@@ -430,9 +432,7 @@ to download the full example code</p>
 </pre></div>
 </div>
 <p>We now define the Multi-Layer Perceptron (MLP) brightness model. Note that the <code class="docutils literal notranslate"><span class="pre">layers=(150,</span> <span class="pre">50,</span> <span class="pre">150)</span></code> keyword argument defines the number of neurons in each densely-connected layer.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mlp_bm</span> <span class="o">=</span> <span class="n">pssim</span><span class="o">.</span><span class="n">MLPBrightnessModel</span><span class="p">(</span>
-    <span class="n">obj</span><span class="p">,</span> <span class="n">brdf</span><span class="p">,</span> <span class="n">use_engine</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">train_on</span><span class="o">=</span><span class="s2">&quot;magnitude&quot;</span>
-<span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mlp_bm</span> <span class="o">=</span> <span class="n">pssim</span><span class="o">.</span><span class="n">MLPBrightnessModel</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">brdf</span><span class="p">,</span> <span class="n">use_engine</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">train_on</span><span class="o">=</span><span class="s2">&quot;irradiance&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Now we train the model on a set number of training lighting and observation configurations. Usually <code class="docutils literal notranslate"><span class="pre">1e5</span></code>-<code class="docutils literal notranslate"><span class="pre">1e6</span></code> are required for a <em>good</em> fit</p>
@@ -440,211 +440,158 @@ to download the full example code</p>
 <span class="n">mlp_bm</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">num_train</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Compute training LC: 1.29e-03 seconds
-Iteration 1, loss = 139.29740334
-Iteration 2, loss = 129.82571509
-Iteration 3, loss = 116.16802489
-Iteration 4, loss = 94.19217805
-Iteration 5, loss = 62.55064596
-Iteration 6, loss = 27.62856542
-Iteration 7, loss = 11.63233642
-Iteration 8, loss = 14.13066712
-Iteration 9, loss = 9.54296038
-Iteration 10, loss = 7.44069032
-Iteration 11, loss = 7.61938266
-Iteration 12, loss = 6.94411835
-Iteration 13, loss = 6.58563234
-Iteration 14, loss = 6.48472877
-Iteration 15, loss = 6.15612226
-Iteration 16, loss = 5.94015493
-Iteration 17, loss = 5.83427409
-Iteration 18, loss = 5.66641135
-Iteration 19, loss = 5.54268119
-Iteration 20, loss = 5.42908673
-Iteration 21, loss = 5.36173868
-Iteration 22, loss = 5.28686006
-Iteration 23, loss = 5.23004695
-Iteration 24, loss = 5.19279371
-Iteration 25, loss = 5.13002290
-Iteration 26, loss = 5.08792897
-Iteration 27, loss = 5.04360576
-Iteration 28, loss = 5.01033948
-Iteration 29, loss = 4.99037904
-Iteration 30, loss = 4.95331582
-Iteration 31, loss = 4.93392566
-Iteration 32, loss = 4.91815218
-Iteration 33, loss = 4.89786630
-Iteration 34, loss = 4.87245487
-Iteration 35, loss = 4.86070467
-Iteration 36, loss = 4.84167330
-Iteration 37, loss = 4.84372527
-Iteration 38, loss = 4.80761324
-Iteration 39, loss = 4.78691507
-Iteration 40, loss = 4.77186236
-Iteration 41, loss = 4.76266789
-Iteration 42, loss = 4.74954057
-Iteration 43, loss = 4.72765830
-Iteration 44, loss = 4.71603126
-Iteration 45, loss = 4.71212058
-Iteration 46, loss = 4.68972383
-Iteration 47, loss = 4.67582655
-Iteration 48, loss = 4.65753963
-Iteration 49, loss = 4.65178464
-Iteration 50, loss = 4.63368441
-Iteration 51, loss = 4.63175336
-Iteration 52, loss = 4.61138968
-Iteration 53, loss = 4.58612959
-Iteration 54, loss = 4.60066069
-Iteration 55, loss = 4.60705347
-Iteration 56, loss = 4.60054886
-Iteration 57, loss = 4.57078519
-Iteration 58, loss = 4.55027626
-Iteration 59, loss = 4.52727119
-Iteration 60, loss = 4.52549431
-Iteration 61, loss = 4.52043905
-Iteration 62, loss = 4.49995718
-Iteration 63, loss = 4.47913800
-Iteration 64, loss = 4.49590840
-Iteration 65, loss = 4.45323702
-Iteration 66, loss = 4.44484139
-Iteration 67, loss = 4.41156039
-Iteration 68, loss = 4.39259190
-Iteration 69, loss = 4.37970413
-Iteration 70, loss = 4.35844193
-Iteration 71, loss = 4.36477535
-Iteration 72, loss = 4.32584863
-Iteration 73, loss = 4.32536910
-Iteration 74, loss = 4.30661692
-Iteration 75, loss = 4.29091825
-Iteration 76, loss = 4.35157354
-Iteration 77, loss = 4.32879267
-Iteration 78, loss = 4.28893802
-Iteration 79, loss = 4.24735366
-Iteration 80, loss = 4.22762052
-Iteration 81, loss = 4.21028339
-Iteration 82, loss = 4.18469200
-Iteration 83, loss = 4.16959190
-Iteration 84, loss = 4.17031785
-Iteration 85, loss = 4.16320721
-Iteration 86, loss = 4.16226408
-Iteration 87, loss = 4.13279993
-Iteration 88, loss = 4.08477760
-Iteration 89, loss = 4.09395633
-Iteration 90, loss = 4.03614383
-Iteration 91, loss = 4.02132652
-Iteration 92, loss = 4.03919009
-Iteration 93, loss = 4.01759403
-Iteration 94, loss = 3.98192345
-Iteration 95, loss = 3.94497532
-Iteration 96, loss = 3.92148530
-Iteration 97, loss = 3.90661068
-Iteration 98, loss = 3.87508504
-Iteration 99, loss = 3.88285274
-Iteration 100, loss = 3.81587122
-Iteration 101, loss = 3.83206538
-Iteration 102, loss = 3.82673466
-Iteration 103, loss = 3.77042707
-Iteration 104, loss = 3.74419403
-Iteration 105, loss = 3.77131482
-Iteration 106, loss = 3.71470273
-Iteration 107, loss = 3.67653781
-Iteration 108, loss = 3.65890583
-Iteration 109, loss = 3.61087052
-Iteration 110, loss = 3.58983659
-Iteration 111, loss = 3.57673463
-Iteration 112, loss = 3.54756345
-Iteration 113, loss = 3.52865317
-Iteration 114, loss = 3.53264355
-Iteration 115, loss = 3.49026721
-Iteration 116, loss = 3.50453784
-Iteration 117, loss = 3.47670654
-Iteration 118, loss = 3.47282358
-Iteration 119, loss = 3.40202077
-Iteration 120, loss = 3.34849060
-Iteration 121, loss = 3.33068359
-Iteration 122, loss = 3.28342261
-Iteration 123, loss = 3.27882210
-Iteration 124, loss = 3.22990070
-Iteration 125, loss = 3.22357279
-Iteration 126, loss = 3.19256610
-Iteration 127, loss = 3.15460276
-Iteration 128, loss = 3.12826529
-Iteration 129, loss = 3.11034019
-Iteration 130, loss = 3.06871543
-Iteration 131, loss = 3.04409255
-Iteration 132, loss = 3.02694306
-Iteration 133, loss = 2.96596510
-Iteration 134, loss = 2.97463241
-Iteration 135, loss = 2.94416130
-Iteration 136, loss = 2.91226303
-Iteration 137, loss = 2.88685970
-Iteration 138, loss = 2.84050111
-Iteration 139, loss = 2.81519580
-Iteration 140, loss = 2.77341467
-Iteration 141, loss = 2.73938459
-Iteration 142, loss = 2.71793989
-Iteration 143, loss = 2.70756352
-Iteration 144, loss = 2.66217181
-Iteration 145, loss = 2.64087343
-Iteration 146, loss = 2.63365178
-Iteration 147, loss = 2.58711843
-Iteration 148, loss = 2.52619930
-Iteration 149, loss = 2.52631883
-Iteration 150, loss = 2.47317633
-Iteration 151, loss = 2.46040305
-Iteration 152, loss = 2.42700933
-Iteration 153, loss = 2.40201998
-Iteration 154, loss = 2.35322699
-Iteration 155, loss = 2.39682181
-Iteration 156, loss = 2.32558121
-Iteration 157, loss = 2.34915611
-Iteration 158, loss = 2.27712105
-Iteration 159, loss = 2.27583665
-Iteration 160, loss = 2.23415746
-Iteration 161, loss = 2.20238619
-Iteration 162, loss = 2.18447505
-Iteration 163, loss = 2.15278982
-Iteration 164, loss = 2.16409371
-Iteration 165, loss = 2.10763622
-Iteration 166, loss = 2.08508613
-Iteration 167, loss = 2.07212255
-Iteration 168, loss = 2.05011599
-Iteration 169, loss = 2.10216286
-Iteration 170, loss = 2.11944616
-Iteration 171, loss = 2.04418278
-Iteration 172, loss = 2.01363959
-Iteration 173, loss = 2.00287885
-Iteration 174, loss = 1.95664458
-Iteration 175, loss = 1.91091132
-Iteration 176, loss = 1.94684859
-Iteration 177, loss = 1.90797552
-Iteration 178, loss = 1.87533792
-Iteration 179, loss = 1.84455528
-Iteration 180, loss = 1.89495352
-Iteration 181, loss = 1.80815723
-Iteration 182, loss = 1.86115078
-Iteration 183, loss = 1.81389244
-Iteration 184, loss = 1.74748755
-Iteration 185, loss = 1.74486884
-Iteration 186, loss = 1.72121785
-Iteration 187, loss = 1.72297410
-Iteration 188, loss = 1.69126895
-Iteration 189, loss = 1.67684064
-Iteration 190, loss = 1.70836410
-Iteration 191, loss = 1.61829380
-Iteration 192, loss = 1.61266851
-Iteration 193, loss = 1.58581058
-Iteration 194, loss = 1.60664303
-Iteration 195, loss = 1.59154285
-Iteration 196, loss = 1.58206390
-Iteration 197, loss = 1.61949294
-Iteration 198, loss = 1.61991019
-Iteration 199, loss = 1.60580448
-Iteration 200, loss = 1.54425112
-/Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/sklearn/neural_network/_multilayer_perceptron.py:686: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (200) reached and the optimization hasn&#39;t converged yet.
-  warnings.warn(
-Fit against 1000 pts: : 2.72e+00 seconds
-Serialize model: 6.68e-02 seconds
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Compute training LC: 1.04e-03 seconds
+(1024, 6) (1024,)
+Iteration 1, loss = 0.18095249
+Iteration 2, loss = 0.14640666
+Iteration 3, loss = 0.14005882
+Iteration 4, loss = 0.13225562
+Iteration 5, loss = 0.12836644
+Iteration 6, loss = 0.12449848
+Iteration 7, loss = 0.12071439
+Iteration 8, loss = 0.11913433
+Iteration 9, loss = 0.11584764
+Iteration 10, loss = 0.11336659
+Iteration 11, loss = 0.11001032
+Iteration 12, loss = 0.10720550
+Iteration 13, loss = 0.10534705
+Iteration 14, loss = 0.10194273
+Iteration 15, loss = 0.10076958
+Iteration 16, loss = 0.09751841
+Iteration 17, loss = 0.09418561
+Iteration 18, loss = 0.09249793
+Iteration 19, loss = 0.08848264
+Iteration 20, loss = 0.08523206
+Iteration 21, loss = 0.08159767
+Iteration 22, loss = 0.07854724
+Iteration 23, loss = 0.07490195
+Iteration 24, loss = 0.07267357
+Iteration 25, loss = 0.06975110
+Iteration 26, loss = 0.06469218
+Iteration 27, loss = 0.06001270
+Iteration 28, loss = 0.05934727
+Iteration 29, loss = 0.05553069
+Iteration 30, loss = 0.05186045
+Iteration 31, loss = 0.04907514
+Iteration 32, loss = 0.04725548
+Iteration 33, loss = 0.04681777
+Iteration 34, loss = 0.04508149
+Iteration 35, loss = 0.04283801
+Iteration 36, loss = 0.04086024
+Iteration 37, loss = 0.03788387
+Iteration 38, loss = 0.03578739
+Iteration 39, loss = 0.03530624
+Iteration 40, loss = 0.03376498
+Iteration 41, loss = 0.03328052
+Iteration 42, loss = 0.03679195
+Iteration 43, loss = 0.03219176
+Iteration 44, loss = 0.02991238
+Iteration 45, loss = 0.02861791
+Iteration 46, loss = 0.02730108
+Iteration 47, loss = 0.02692169
+Iteration 48, loss = 0.02723644
+Iteration 49, loss = 0.02524807
+Iteration 50, loss = 0.02445508
+Iteration 51, loss = 0.02485191
+Iteration 52, loss = 0.02250715
+Iteration 53, loss = 0.02166788
+Iteration 54, loss = 0.02026530
+Iteration 55, loss = 0.02142712
+Iteration 56, loss = 0.01910512
+Iteration 57, loss = 0.01823218
+Iteration 58, loss = 0.01894662
+Iteration 59, loss = 0.01759952
+Iteration 60, loss = 0.01689946
+Iteration 61, loss = 0.01809555
+Iteration 62, loss = 0.01792591
+Iteration 63, loss = 0.01725627
+Iteration 64, loss = 0.01738492
+Iteration 65, loss = 0.01438838
+Iteration 66, loss = 0.01327804
+Iteration 67, loss = 0.01325182
+Iteration 68, loss = 0.01480330
+Iteration 69, loss = 0.01354486
+Iteration 70, loss = 0.01347507
+Iteration 71, loss = 0.01188523
+Iteration 72, loss = 0.01119953
+Iteration 73, loss = 0.01144304
+Iteration 74, loss = 0.01135139
+Iteration 75, loss = 0.01042723
+Iteration 76, loss = 0.01025823
+Iteration 77, loss = 0.00997638
+Iteration 78, loss = 0.00927968
+Iteration 79, loss = 0.00883671
+Iteration 80, loss = 0.00877693
+Iteration 81, loss = 0.00833386
+Iteration 82, loss = 0.00828652
+Iteration 83, loss = 0.00883547
+Iteration 84, loss = 0.00914050
+Iteration 85, loss = 0.00841608
+Iteration 86, loss = 0.00793634
+Iteration 87, loss = 0.00708725
+Iteration 88, loss = 0.00666650
+Iteration 89, loss = 0.00653728
+Iteration 90, loss = 0.00637530
+Iteration 91, loss = 0.00628998
+Iteration 92, loss = 0.00651358
+Iteration 93, loss = 0.00596042
+Iteration 94, loss = 0.00624294
+Iteration 95, loss = 0.00624367
+Iteration 96, loss = 0.00565770
+Iteration 97, loss = 0.00512091
+Iteration 98, loss = 0.00523370
+Iteration 99, loss = 0.00504340
+Iteration 100, loss = 0.00549373
+Iteration 101, loss = 0.00513092
+Iteration 102, loss = 0.00478389
+Iteration 103, loss = 0.00484590
+Iteration 104, loss = 0.00435374
+Iteration 105, loss = 0.00429958
+Iteration 106, loss = 0.00405772
+Iteration 107, loss = 0.00395370
+Iteration 108, loss = 0.00376955
+Iteration 109, loss = 0.00392229
+Iteration 110, loss = 0.00397361
+Iteration 111, loss = 0.00402111
+Iteration 112, loss = 0.00384727
+Iteration 113, loss = 0.00384327
+Iteration 114, loss = 0.00365110
+Iteration 115, loss = 0.00351652
+Iteration 116, loss = 0.00324856
+Iteration 117, loss = 0.00321488
+Iteration 118, loss = 0.00309184
+Iteration 119, loss = 0.00337832
+Iteration 120, loss = 0.00323078
+Iteration 121, loss = 0.00322610
+Iteration 122, loss = 0.00295040
+Iteration 123, loss = 0.00294284
+Iteration 124, loss = 0.00303346
+Iteration 125, loss = 0.00288025
+Iteration 126, loss = 0.00277306
+Iteration 127, loss = 0.00280407
+Iteration 128, loss = 0.00296272
+Iteration 129, loss = 0.00285207
+Iteration 130, loss = 0.00255526
+Iteration 131, loss = 0.00251801
+Iteration 132, loss = 0.00241840
+Iteration 133, loss = 0.00229502
+Iteration 134, loss = 0.00226048
+Iteration 135, loss = 0.00229330
+Iteration 136, loss = 0.00215994
+Iteration 137, loss = 0.00206468
+Iteration 138, loss = 0.00217153
+Iteration 139, loss = 0.00198404
+Iteration 140, loss = 0.00205371
+Iteration 141, loss = 0.00207161
+Iteration 142, loss = 0.00203983
+Iteration 143, loss = 0.00217962
+Iteration 144, loss = 0.00232694
+Iteration 145, loss = 0.00262853
+Iteration 146, loss = 0.00229988
+Iteration 147, loss = 0.00218153
+Training loss did not improve more than tol=0.000100 for 10 consecutive epochs. Stopping.
+Fit against 1000 pts: : 3.38e+00 seconds
+Serialize model: 7.19e-02 seconds
 </pre></div>
 </div>
 <p>We can now simulate a torque-free attitude profile to inspect the quality of the fit</p>
@@ -669,8 +616,8 @@ Serialize model: 6.68e-02 seconds
 <span class="n">ps</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Evaluate trained model with sklearn: 2.62e-03 seconds
-Evaluate trained model with onnx: 1.21e-02 seconds
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Evaluate trained model with sklearn: 6.70e-03 seconds
+Evaluate trained model with onnx: 1.58e-03 seconds
 </pre></div>
 </div>
 <p>We can save both of these representations to file:</p>
@@ -685,7 +632,7 @@ Evaluate trained model with onnx: 1.21e-02 seconds
 <span class="n">ps</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Evaluate loaded model with onxx: 1.14e-03 seconds
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Evaluate loaded model with onxx: 1.61e-03 seconds
 </pre></div>
 </div>
 <p>And we do the same for the <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> <code class="docutils literal notranslate"><span class="pre">.plk</span></code> file we saved</p>
@@ -695,7 +642,7 @@ Evaluate trained model with onnx: 1.21e-02 seconds
 <span class="n">ps</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Evaluate loaded model with sklearn: 9.30e-03 seconds
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Evaluate loaded model with sklearn: 3.22e-02 seconds
 </pre></div>
 </div>
 <p>We can easily confirm that all four model evaluations have produced the same prediction</p>
@@ -705,21 +652,19 @@ Evaluate trained model with onnx: 1.21e-02 seconds
 <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">mdl_b_onnx</span> <span class="o">-</span> <span class="n">mdl_sklearn_loaded</span><span class="p">)))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>1.1603756700395707e-05
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>1.5996596340883684e-06
 0.0
 0.0
-1.1603756700395707e-05
+1.5996596340883684e-06
 </pre></div>
 </div>
 <p>We can now finish off by evaluating the true brightness in this attitude profile and plot the results</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">true_b</span> <span class="o">=</span> <span class="n">mlp_bm</span><span class="o">.</span><span class="n">brightness</span><span class="p">(</span><span class="n">svb</span><span class="p">,</span> <span class="n">ovb</span><span class="p">,</span> <span class="s2">&quot;magnitude&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">true_b</span> <span class="o">=</span> <span class="n">mlp_bm</span><span class="o">.</span><span class="n">brightness</span><span class="p">(</span><span class="n">svb</span><span class="p">,</span> <span class="n">ovb</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">t_eval</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">true_b</span><span class="p">,</span> <span class="n">errorbar</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">t_eval</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">mdl_b_sklearn</span><span class="p">,</span> <span class="n">errorbar</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;Light Curves for </span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">file_name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">num_train</span><span class="si">}</span><span class="s2"> Training Points&quot;</span>
-<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Light Curves for </span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">file_name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">num_train</span><span class="si">}</span><span class="s2"> Training Points&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time [s]&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Normalized brightness&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s2">&quot;True&quot;</span><span class="p">,</span> <span class="s2">&quot;Model&quot;</span><span class="p">])</span>
@@ -727,7 +672,246 @@ Evaluate trained model with onnx: 1.21e-02 seconds
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_rbf_fitting_001.png" srcset="../../_images/sphx_glr_rbf_fitting_001.png" alt="Light Curves for cube.obj, 1000 Training Points" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.118 seconds)</p>
+<img src="../../_images/sphx_glr_rbf_fitting_001.png" srcset="../../_images/sphx_glr_rbf_fitting_001.png" alt="Light Curves for cube.obj, 1000 Training Points" class = "sphx-glr-single-img"/><p>We can also train on magnitude data instead of irradiance:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mlp_bm</span> <span class="o">=</span> <span class="n">pssim</span><span class="o">.</span><span class="n">MLPBrightnessModel</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">brdf</span><span class="p">,</span> <span class="n">use_engine</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">train_on</span><span class="o">=</span><span class="s2">&quot;magnitude&quot;</span><span class="p">)</span>
+<span class="n">mlp_bm</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">num_train</span><span class="p">)</span>
+
+<span class="n">ps</span><span class="o">.</span><span class="n">tic</span><span class="p">(</span><span class="s2">&quot;Evaluate trained model with onnx&quot;</span><span class="p">)</span>
+<span class="n">mdl_b_onnx</span> <span class="o">=</span> <span class="n">mlp_bm</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">ovb</span><span class="p">,</span> <span class="n">svb</span><span class="p">)</span>
+<span class="n">ps</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Running Light Curve Engine:
+/Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/ctools/engine/LightCurveEngine -m /Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/resources/models/cube.obj -i 9 -c 1024 -r light_curve0.lcr -x /Users/liamrobinson/Documents/PyLightCurves/examples/07-summer-2023/out  -b 1 -D 0.5 -S 0.5 -N 10
+
+Compute training LC: 6.71e-01 seconds
+(1024, 6) (1024,)
+Iteration 1, loss = 133.97533708
+Iteration 2, loss = 121.30508334
+Iteration 3, loss = 103.60609111
+Iteration 4, loss = 78.01354754
+Iteration 5, loss = 45.42295229
+Iteration 6, loss = 15.80479231
+Iteration 7, loss = 10.30363829
+Iteration 8, loss = 13.27971339
+Iteration 9, loss = 7.95553930
+Iteration 10, loss = 7.56227465
+Iteration 11, loss = 7.44747362
+Iteration 12, loss = 6.54939671
+Iteration 13, loss = 6.43897739
+Iteration 14, loss = 6.19737931
+Iteration 15, loss = 5.96044432
+Iteration 16, loss = 5.83583662
+Iteration 17, loss = 5.67359716
+Iteration 18, loss = 5.55008371
+Iteration 19, loss = 5.47288303
+Iteration 20, loss = 5.38651666
+Iteration 21, loss = 5.31713563
+Iteration 22, loss = 5.24218978
+Iteration 23, loss = 5.18508121
+Iteration 24, loss = 5.15380893
+Iteration 25, loss = 5.10261614
+Iteration 26, loss = 5.05773356
+Iteration 27, loss = 5.04182273
+Iteration 28, loss = 5.00045094
+Iteration 29, loss = 4.97101445
+Iteration 30, loss = 4.96239999
+Iteration 31, loss = 4.93497581
+Iteration 32, loss = 4.91766831
+Iteration 33, loss = 4.89861693
+Iteration 34, loss = 4.85736085
+Iteration 35, loss = 4.84559266
+Iteration 36, loss = 4.84512654
+Iteration 37, loss = 4.83177970
+Iteration 38, loss = 4.79710908
+Iteration 39, loss = 4.79168075
+Iteration 40, loss = 4.77897808
+Iteration 41, loss = 4.76918155
+Iteration 42, loss = 4.74932468
+Iteration 43, loss = 4.72668818
+Iteration 44, loss = 4.71666442
+Iteration 45, loss = 4.70558476
+Iteration 46, loss = 4.69581582
+Iteration 47, loss = 4.69073521
+Iteration 48, loss = 4.69079199
+Iteration 49, loss = 4.65408189
+Iteration 50, loss = 4.65887126
+Iteration 51, loss = 4.65385016
+Iteration 52, loss = 4.63430897
+Iteration 53, loss = 4.61479573
+Iteration 54, loss = 4.60154413
+Iteration 55, loss = 4.58921984
+Iteration 56, loss = 4.57365679
+Iteration 57, loss = 4.57601688
+Iteration 58, loss = 4.55404573
+Iteration 59, loss = 4.54307249
+Iteration 60, loss = 4.53711308
+Iteration 61, loss = 4.51914496
+Iteration 62, loss = 4.50203995
+Iteration 63, loss = 4.49542370
+Iteration 64, loss = 4.49300920
+Iteration 65, loss = 4.48090940
+Iteration 66, loss = 4.45586888
+Iteration 67, loss = 4.44473785
+Iteration 68, loss = 4.44060888
+Iteration 69, loss = 4.41491834
+Iteration 70, loss = 4.41021105
+Iteration 71, loss = 4.39965782
+Iteration 72, loss = 4.38824682
+Iteration 73, loss = 4.42293537
+Iteration 74, loss = 4.37417282
+Iteration 75, loss = 4.41660045
+Iteration 76, loss = 4.36710238
+Iteration 77, loss = 4.35049985
+Iteration 78, loss = 4.32853967
+Iteration 79, loss = 4.32434065
+Iteration 80, loss = 4.30735071
+Iteration 81, loss = 4.29137524
+Iteration 82, loss = 4.30552492
+Iteration 83, loss = 4.31725042
+Iteration 84, loss = 4.29235765
+Iteration 85, loss = 4.25104920
+Iteration 86, loss = 4.24989681
+Iteration 87, loss = 4.22963490
+Iteration 88, loss = 4.23130031
+Iteration 89, loss = 4.23319052
+Iteration 90, loss = 4.21757662
+Iteration 91, loss = 4.19501872
+Iteration 92, loss = 4.19502125
+Iteration 93, loss = 4.15590416
+Iteration 94, loss = 4.15108990
+Iteration 95, loss = 4.12219648
+Iteration 96, loss = 4.17152915
+Iteration 97, loss = 4.10661034
+Iteration 98, loss = 4.08214747
+Iteration 99, loss = 4.10879395
+Iteration 100, loss = 4.05983926
+Iteration 101, loss = 4.07150498
+Iteration 102, loss = 4.05173375
+Iteration 103, loss = 4.02291087
+Iteration 104, loss = 4.00427372
+Iteration 105, loss = 3.99121090
+Iteration 106, loss = 3.97570210
+Iteration 107, loss = 3.95759826
+Iteration 108, loss = 3.96442648
+Iteration 109, loss = 3.94338434
+Iteration 110, loss = 3.92189776
+Iteration 111, loss = 3.89425454
+Iteration 112, loss = 3.87833271
+Iteration 113, loss = 3.84914969
+Iteration 114, loss = 3.83807349
+Iteration 115, loss = 3.83638119
+Iteration 116, loss = 3.78631785
+Iteration 117, loss = 3.76367034
+Iteration 118, loss = 3.78321566
+Iteration 119, loss = 3.77205568
+Iteration 120, loss = 3.74524154
+Iteration 121, loss = 3.68813077
+Iteration 122, loss = 3.73918539
+Iteration 123, loss = 3.69870192
+Iteration 124, loss = 3.66344300
+Iteration 125, loss = 3.61101086
+Iteration 126, loss = 3.60252218
+Iteration 127, loss = 3.56788880
+Iteration 128, loss = 3.54830742
+Iteration 129, loss = 3.53283829
+Iteration 130, loss = 3.52991013
+Iteration 131, loss = 3.47224007
+Iteration 132, loss = 3.47364415
+Iteration 133, loss = 3.43016783
+Iteration 134, loss = 3.42899211
+Iteration 135, loss = 3.38850848
+Iteration 136, loss = 3.36963984
+Iteration 137, loss = 3.38665478
+Iteration 138, loss = 3.33738244
+Iteration 139, loss = 3.31504560
+Iteration 140, loss = 3.32499004
+Iteration 141, loss = 3.27387919
+Iteration 142, loss = 3.26832378
+Iteration 143, loss = 3.29674735
+Iteration 144, loss = 3.26453786
+Iteration 145, loss = 3.22029019
+Iteration 146, loss = 3.18547526
+Iteration 147, loss = 3.14942827
+Iteration 148, loss = 3.13167669
+Iteration 149, loss = 3.13044477
+Iteration 150, loss = 3.11679265
+Iteration 151, loss = 3.10022521
+Iteration 152, loss = 3.05407645
+Iteration 153, loss = 3.02694512
+Iteration 154, loss = 3.00746350
+Iteration 155, loss = 3.03609741
+Iteration 156, loss = 3.06298064
+Iteration 157, loss = 3.03867889
+Iteration 158, loss = 2.95329137
+Iteration 159, loss = 2.92412077
+Iteration 160, loss = 2.89206477
+Iteration 161, loss = 2.89706183
+Iteration 162, loss = 2.94536844
+Iteration 163, loss = 2.92860363
+Iteration 164, loss = 2.83014350
+Iteration 165, loss = 2.81557194
+Iteration 166, loss = 2.77519477
+Iteration 167, loss = 2.75830526
+Iteration 168, loss = 2.75552653
+Iteration 169, loss = 2.71864363
+Iteration 170, loss = 2.77027142
+Iteration 171, loss = 2.70971107
+Iteration 172, loss = 2.67782508
+Iteration 173, loss = 2.62797203
+Iteration 174, loss = 2.60492389
+Iteration 175, loss = 2.59062499
+Iteration 176, loss = 2.57284195
+Iteration 177, loss = 2.54147908
+Iteration 178, loss = 2.54075740
+Iteration 179, loss = 2.48232354
+Iteration 180, loss = 2.48409895
+Iteration 181, loss = 2.46835260
+Iteration 182, loss = 2.55667135
+Iteration 183, loss = 2.51779866
+Iteration 184, loss = 2.43978052
+Iteration 185, loss = 2.39911192
+Iteration 186, loss = 2.37991175
+Iteration 187, loss = 2.35260950
+Iteration 188, loss = 2.33535643
+Iteration 189, loss = 2.32663316
+Iteration 190, loss = 2.27930341
+Iteration 191, loss = 2.27213910
+Iteration 192, loss = 2.24413448
+Iteration 193, loss = 2.27355180
+Iteration 194, loss = 2.23343623
+Iteration 195, loss = 2.20419765
+Iteration 196, loss = 2.14777425
+Iteration 197, loss = 2.15785776
+Iteration 198, loss = 2.15658907
+Iteration 199, loss = 2.13793203
+Iteration 200, loss = 2.10468701
+/Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/sklearn/neural_network/_multilayer_perceptron.py:686: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (200) reached and the optimization hasn&#39;t converged yet.
+  warnings.warn(
+Fit against 1000 pts: : 4.77e+00 seconds
+Serialize model: 4.76e-02 seconds
+Evaluate trained model with onnx: 4.42e-03 seconds
+</pre></div>
+</div>
+<p>We can now finish off by evaluating the true brightness in this attitude profile and plot the results</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">true_b</span> <span class="o">=</span> <span class="n">mlp_bm</span><span class="o">.</span><span class="n">brightness</span><span class="p">(</span><span class="n">svb</span><span class="p">,</span> <span class="n">ovb</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">t_eval</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">true_b</span><span class="p">,</span> <span class="n">errorbar</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">t_eval</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">mdl_b_onnx</span><span class="p">,</span> <span class="n">errorbar</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Light Curves for </span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">file_name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">)</span><span class="si">}</span><span class="s2"> Training Points&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time [s]&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Apparent Magnitude&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s2">&quot;True&quot;</span><span class="p">,</span> <span class="s2">&quot;Model&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_rbf_fitting_002.png" srcset="../../_images/sphx_glr_rbf_fitting_002.png" alt="Light Curves for cube.obj, 1000000 Training Points" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Running Light Curve Engine:
+/Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/ctools/engine/LightCurveEngine -m /Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/resources/models/cube.obj -i 9 -c 1000 -r light_curve0.lcr -x /Users/liamrobinson/Documents/PyLightCurves/examples/07-summer-2023/out  -b 1 -D 0.5 -S 0.5 -N 10
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  10.320 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-07-summer-2023-rbf-fitting-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/593cfc33898d119330690d42df6b4705/rbf_fitting.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">rbf_fitting.py</span></code></a></p>

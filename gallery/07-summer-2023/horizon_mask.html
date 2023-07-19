@@ -301,8 +301,9 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../00-tle/index.html">Working with TLEs</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../00-tle/propagate_catalog.html">Propagating the catalog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-tle/gravity_model_propagation.html">Propagating with Perturbations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-tle/propagate_single_tle.html">Propagating single TLE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-tle/propagate_catalog.html">Propagating the catalog</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../01-light_curves/index.html">Light Curves</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -336,10 +337,10 @@ document.write(`
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Summer 2023 Studies</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="moon_libration.html">Moon Librations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spice.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="total_solar_irradiance.html">Total Solar Irradiance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tle_switching.html">TLE Switching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spice.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Horizon Masks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rbf_fitting.html">Neural Network Brightness</a></li>
@@ -414,11 +415,6 @@ to download the full example code</p>
 <section class="sphx-glr-example-title" id="horizon-masks">
 <span id="sphx-glr-gallery-07-summer-2023-horizon-mask-py"></span><h1>Horizon Masks<a class="headerlink" href="#horizon-masks" title="Permalink to this heading">#</a></h1>
 <p>Builds a terrain-driven horizon mask for a given station and displays the result</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;./src&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
 <p>Defining the station at Katmandu, where <code class="docutils literal notranslate"><span class="pre">station.name</span></code> informs the name of the resulting mask file</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -436,8 +432,6 @@ to download the full example code</p>
 </pre></div>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Downloading tiles for N27E085.hgt
-Checking if N27E085.hgt is in /Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/terrainman/data/terrain
-Tile already downloaded, skipping
 </pre></div>
 </div>
 <p>Loads a terrain tile containing the station and create a mask for the station location</p>
@@ -452,21 +446,13 @@ Tile already downloaded, skipping
 </pre></div>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Downloading tiles for N27E085.hgt
-Checking if N27E085.hgt is in /Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/terrainman/data/terrain
-Tile already downloaded, skipping
 Downloading tiles for N27E085.hgt
-Checking if N27E085.hgt is in /Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/terrainman/data/terrain
-Tile already downloaded, skipping
 </pre></div>
 </div>
 <p>Build an interpolated from from the raw tile data</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sz</span><span class="p">,</span> <span class="n">deg_radius</span> <span class="o">=</span> <span class="mi">3000</span><span class="p">,</span> <span class="mf">1.0</span>
-<span class="n">lat_space</span> <span class="o">=</span> <span class="p">(</span><span class="n">station</span><span class="o">.</span><span class="n">lat_geod_deg</span> <span class="o">+</span> <span class="n">deg_radius</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
-    <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">deg_radius</span><span class="p">,</span> <span class="n">sz</span>
-<span class="p">)</span>
-<span class="n">lon_space</span> <span class="o">=</span> <span class="p">(</span><span class="n">station</span><span class="o">.</span><span class="n">lon_deg</span> <span class="o">-</span> <span class="n">deg_radius</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
-    <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">deg_radius</span><span class="p">,</span> <span class="n">sz</span>
-<span class="p">)</span>
+<span class="n">lat_space</span> <span class="o">=</span> <span class="p">(</span><span class="n">station</span><span class="o">.</span><span class="n">lat_geod_deg</span> <span class="o">+</span> <span class="n">deg_radius</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">deg_radius</span><span class="p">,</span> <span class="n">sz</span><span class="p">)</span>
+<span class="n">lon_space</span> <span class="o">=</span> <span class="p">(</span><span class="n">station</span><span class="o">.</span><span class="n">lon_deg</span> <span class="o">-</span> <span class="n">deg_radius</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">deg_radius</span><span class="p">,</span> <span class="n">sz</span><span class="p">)</span>
 <span class="n">lat_grid</span><span class="p">,</span> <span class="n">lon_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">lat_space</span><span class="p">,</span> <span class="n">lon_space</span><span class="p">)</span>
 <span class="n">elev_grid</span> <span class="o">=</span> <span class="n">tile</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">lat_grid</span><span class="p">,</span> <span class="n">lon_grid</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e3</span>
 <span class="n">itrf_terrain</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">lla_to_itrf</span><span class="p">(</span>
@@ -477,9 +463,7 @@ Tile already downloaded, skipping
 </pre></div>
 </div>
 <p>Convert the terrain data into East North Up (ENU) coordinates and plot the result</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">enu_terrain</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">ps</span><span class="o">.</span><span class="n">ecef_to_enu</span><span class="p">(</span><span class="n">station</span><span class="o">.</span><span class="n">ecef</span><span class="p">)</span> <span class="o">@</span> <span class="p">(</span><span class="n">itrf_terrain</span> <span class="o">-</span> <span class="n">station</span><span class="o">.</span><span class="n">ecef</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
-<span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">enu_terrain</span> <span class="o">=</span> <span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">ecef_to_enu</span><span class="p">(</span><span class="n">station</span><span class="o">.</span><span class="n">ecef</span><span class="p">)</span> <span class="o">@</span> <span class="p">(</span><span class="n">itrf_terrain</span> <span class="o">-</span> <span class="n">station</span><span class="o">.</span><span class="n">ecef</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
 <span class="n">dem</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">StructuredGrid</span><span class="p">(</span>
     <span class="n">enu_terrain</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">elev_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span>
     <span class="n">enu_terrain</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">elev_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span>
@@ -518,7 +502,7 @@ Tile already downloaded, skipping
 <span class="n">pl</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_horizon_mask_001.gif" srcset="../../_images/sphx_glr_horizon_mask_001.gif" alt="horizon mask" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  49.247 seconds)</p>
+<img src="../../_images/sphx_glr_horizon_mask_001.png" srcset="../../_images/sphx_glr_horizon_mask_001.png" alt="horizon mask" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  29.029 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-07-summer-2023-horizon-mask-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/6ee1be08973356dfab255276c9c0a1c5/horizon_mask.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">horizon_mask.py</span></code></a></p>

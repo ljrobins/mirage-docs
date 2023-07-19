@@ -13,16 +13,14 @@ import numpy as np
 
 # %%
 # Setting up analysis times
-date_start = datetime.datetime(
-    2023, 5, 20, 20, 45, 0, tzinfo=datetime.timezone.utc
-)
+date_start = datetime.datetime(2023, 5, 20, 20, 45, 0, tzinfo=datetime.timezone.utc)
 (dates, epsecs) = ps.date_linspace(
-    date_start - ps.days(1), date_start, 1e3
+    date_start - ps.days(1), date_start, 1e3, return_epsecs=True
 )
 
 # %%
 # Setting up the scenario objects
-obj = ps.SpaceObject("tess.obj", satnum=36411)  # GOES 15
+obj = ps.SpaceObject("tess.obj", identifier="goes 15")
 brdf = ps.Brdf("phong")
 station = ps.Station(preset="pogs")
 # Observing from the Purdue Optical Ground Station in New Mexico
@@ -50,7 +48,7 @@ obj_attitude = ps.RbtfAttitude(
 # %%
 # Computing the full noisy light curve
 (lc_noisy, aux_data) = station.observe_light_curve(
-    obj, obj_attitude, brdf, dates
+    obj, obj_attitude, brdf, dates, use_engine=True
 )
 
 # %%

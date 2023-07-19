@@ -301,8 +301,9 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../00-tle/index.html">Working with TLEs</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../00-tle/propagate_catalog.html">Propagating the catalog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-tle/gravity_model_propagation.html">Propagating with Perturbations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-tle/propagate_single_tle.html">Propagating single TLE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-tle/propagate_catalog.html">Propagating the catalog</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../01-light_curves/index.html">Light Curves</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -336,10 +337,10 @@ document.write(`
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-summer-2023/index.html">Summer 2023 Studies</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/moon_libration.html">Moon Librations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/spice.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/total_solar_irradiance.html">Total Solar Irradiance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/tle_switching.html">TLE Switching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/spice.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/horizon_mask.html">Horizon Masks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/rbf_fitting.html">Neural Network Brightness</a></li>
@@ -418,23 +419,20 @@ to download the full example code</p>
 <p class="admonition-title">Note</p>
 <p>If you want to record a .mp4 video instead, try <code class="docutils literal notranslate"><span class="pre">pl.open_movie(&quot;aligned_and_constrained.mov&quot;,</span> <span class="pre">framerate=30,</span> <span class="pre">quality=9)</span></code></p>
 </div>
-<img src="../../_images/sphx_glr_aligned_angle_constrained_001.gif" srcset="../../_images/sphx_glr_aligned_angle_constrained_001.gif" alt="aligned angle constrained" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>TLE catalog already downloaded, skipping
-</pre></div>
-</div>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
+<img src="../../_images/sphx_glr_aligned_angle_constrained_001.png" srcset="../../_images/sphx_glr_aligned_angle_constrained_001.png" alt="aligned angle constrained" class = "sphx-glr-single-img"/><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
 
 <span class="n">data_points</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">obj</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">SpaceObject</span><span class="p">(</span><span class="s2">&quot;tess.obj&quot;</span><span class="p">,</span> <span class="n">satnum</span><span class="o">=</span><span class="mi">15873</span><span class="p">)</span>
+<span class="n">obj</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">SpaceObject</span><span class="p">(</span><span class="s2">&quot;tess.obj&quot;</span><span class="p">,</span> <span class="n">identifier</span><span class="o">=</span><span class="s2">&quot;INTELSAT 511&quot;</span><span class="p">)</span>
 <span class="p">(</span><span class="n">date_space</span><span class="p">,</span> <span class="n">epsec_space</span><span class="p">)</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">date_linspace</span><span class="p">(</span>
-    <span class="n">ps</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="n">ps</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">24</span><span class="p">),</span> <span class="n">data_points</span>
+    <span class="n">ps</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span>
+    <span class="n">ps</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">24</span><span class="p">),</span>
+    <span class="n">data_points</span><span class="p">,</span>
+    <span class="n">return_epsecs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">propagate</span><span class="p">(</span><span class="n">date_space</span><span class="p">)</span>
+<span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">propagate</span><span class="p">(</span><span class="n">date_space</span><span class="p">,</span> <span class="n">return_velocity</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">orbit_normal</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
 <span class="n">sat_nadir</span> <span class="o">=</span> <span class="o">-</span><span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
@@ -452,7 +450,7 @@ to download the full example code</p>
 <span class="n">sun_in_body</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">stack_mat_mult</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">sat_sun</span><span class="p">)</span>
 <span class="n">obs_in_body</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">stack_mat_mult</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">sat_nadir</span><span class="p">)</span>
 
-<span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">window_size</span><span class="o">=</span><span class="p">[</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">])</span>
+<span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">open_gif</span><span class="p">(</span><span class="s2">&quot;aligned_and_constrained.gif&quot;</span><span class="p">)</span>
 
 <span class="n">ps</span><span class="o">.</span><span class="n">plot3</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;cyan&quot;</span><span class="p">)</span>
@@ -465,14 +463,10 @@ to download the full example code</p>
 <span class="n">pl</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data_points</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span>
-        <span class="o">-</span> <span class="n">cdist</span> <span class="o">*</span> <span class="n">sat_nadir</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span>
-        <span class="o">+</span> <span class="n">cdist</span> <span class="o">/</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">orbit_normal</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">cdist</span> <span class="o">*</span> <span class="n">sat_nadir</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">cdist</span> <span class="o">/</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">orbit_normal</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span>
     <span class="p">)</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">focal_point</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span>
-    <span class="n">obj</span><span class="o">.</span><span class="n">render</span><span class="p">(</span>
-        <span class="n">pl</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">quat</span><span class="o">=</span><span class="n">quat</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span>
-    <span class="p">)</span>
+    <span class="n">obj</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">quat</span><span class="o">=</span><span class="n">quat</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span>
     <span class="n">ps</span><span class="o">.</span><span class="n">plot_arrow</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">v1</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">scale</span><span class="o">=</span><span class="n">pdist</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;arr_v1&quot;</span><span class="p">)</span>
     <span class="n">ps</span><span class="o">.</span><span class="n">plot_arrow</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">v2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">scale</span><span class="o">=</span><span class="n">pdist</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;arr_v2&quot;</span><span class="p">)</span>
     <span class="n">ps</span><span class="o">.</span><span class="n">plot_arrow</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">v3</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">scale</span><span class="o">=</span><span class="n">pdist</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;arr_v3&quot;</span><span class="p">)</span>
@@ -485,15 +479,13 @@ to download the full example code</p>
         <span class="n">color</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span>
         <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Sun&quot;</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">ps</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span>
-        <span class="n">pl</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">date_space</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">atmosphere</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">night_lights</span><span class="o">=</span><span class="kc">True</span>
-    <span class="p">)</span>
+    <span class="n">ps</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">date_space</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">atmosphere</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">night_lights</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">write_frame</span><span class="p">()</span>
     <span class="n">obj</span><span class="o">.</span><span class="n">_mesh</span><span class="o">.</span><span class="n">copy_from</span><span class="p">(</span><span class="n">omesh</span><span class="p">)</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 1 minutes  41.536 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 2 minutes  15.204 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-06-attitude-aligned-angle-constrained-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/01b7d227be23349a0c9d1d8288d2cb1d/aligned_angle_constrained.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">aligned_angle_constrained.py</span></code></a></p>

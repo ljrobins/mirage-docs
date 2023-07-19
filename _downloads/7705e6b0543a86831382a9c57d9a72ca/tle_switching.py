@@ -4,9 +4,6 @@ TLE Switching
 
 Various methods to switch between TLEs for more accurate long-term propagation
 """
-import sys
-
-sys.path.append("./src")
 import pyspaceaware as ps
 import pyvista as pv
 import numpy as np
@@ -19,7 +16,7 @@ satnum = satdefs.get_satnum_by_name("SUPERBIRD 6")
 # %%
 # And propagate for the previous 30 days
 dtimes, epsec_space = ps.date_linspace(
-    ps.now() - ps.days(30), ps.now(), int(1e4)
+    ps.now() - ps.days(30), ps.now(), int(1e4), return_epsecs=True
 )
 
 # %%
@@ -40,9 +37,7 @@ r_newest = ps.tle_propagate_with_switching(
 # %%
 # We can plot these trajectories to show that they result in similar trajectories
 pl = pv.Plotter()
-ps.plot_earth(
-    pl, date=dtimes[0], mode="eci", night_lights=True, atmosphere=True
-)
+ps.plot_earth(pl, date=dtimes[0], mode="eci", night_lights=True, atmosphere=True)
 lw = 6
 ps.plot3(pl, r_closest, color="c", lighting=False, line_width=lw)
 ps.plot3(pl, r_newest, color="m", lighting=False, line_width=lw)

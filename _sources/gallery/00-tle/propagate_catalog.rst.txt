@@ -23,10 +23,9 @@ Propagating the catalog
 
 Load the full TLE catalog and propagate all objects to a given epoch
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-21
+.. GENERATED FROM PYTHON SOURCE LINES 7-14
 
 .. code-block:: default
-
 
 
     import pyspaceaware as ps
@@ -34,12 +33,6 @@ Load the full TLE catalog and propagate all objects to a given epoch
     import datetime
     import numpy as np
 
-    date_start = datetime.datetime(
-        2023, 12, 21, 4, 0, 0, tzinfo=datetime.timezone.utc
-    )
-
-    (r_eci, _) = ps.propagate_catalog_to_dates(date_start)
-    r_eci = r_eci.squeeze()
 
 
 
@@ -48,16 +41,27 @@ Load the full TLE catalog and propagate all objects to a given epoch
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-23
+.. GENERATED FROM PYTHON SOURCE LINES 15-16
 
-Sometimes, propagating a TLE too far past its last collection point leads to enormous position magnitudes, let's filter those out
+First, let's define a function that plots the catalog at a given date
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-26
+.. GENERATED FROM PYTHON SOURCE LINES 16-31
 
 .. code-block:: default
 
-    invalid = ps.vecnorm(r_eci).flatten() > 1e5
-    r_eci = np.delete(r_eci, np.argwhere(invalid), axis=0)
+    def plot_catalog_at_date(date: datetime.datetime):
+        r_eci = ps.propagate_catalog_to_dates(date)
+        pl = pv.Plotter()
+        ps.plot_earth(
+            pl,
+            date=date,
+            atmosphere=True,
+            night_lights=True,
+        )
+        ps.scatter3(pl, r_eci, show_scalar_bar=False, point_size=3, lighting=False)
+        pl.camera.focal_point = (0.0, 0.0, 0.0)
+        pl.camera.position = 90e3 * np.array([1, 1, 0.3])
+        pl.show()
 
 
 
@@ -66,25 +70,18 @@ Sometimes, propagating a TLE too far past its last collection point leads to eno
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-28
 
-Let's scatter plot the object positions we've propagated
+.. GENERATED FROM PYTHON SOURCE LINES 32-34
 
-.. GENERATED FROM PYTHON SOURCE LINES 28-39
+Space in 2023
+~~~~~~~~~~~~~
+
+.. GENERATED FROM PYTHON SOURCE LINES 34-36
 
 .. code-block:: default
 
-    pl = pv.Plotter()
-    ps.plot_earth(
-        pl,
-        mode="eci",
-        date=date_start,
-    )
-    ps.scatter3(pl, r_eci, show_scalar_bar=False, point_size=1)
-    pl.camera.focal_point = (0.0, 0.0, 0.0)
-    # Otherwise it'll use the mean of all vertices, including the sats
-    pl.camera.position = 70e3 * np.array([1, -1, 0.3])
-    pl.show()
+    plot_catalog_at_date(ps.today())
+
 
 
 
@@ -97,10 +94,55 @@ Let's scatter plot the object positions we've propagated
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 37-39
+
+Space in 2000
+~~~~~~~~~~~~~
+
+.. GENERATED FROM PYTHON SOURCE LINES 39-41
+
+.. code-block:: default
+
+    plot_catalog_at_date(ps.today() - ps.years(23))
+
+
+
+
+.. image-sg:: /gallery/00-tle/images/sphx_glr_propagate_catalog_002.png
+   :alt: propagate catalog
+   :srcset: /gallery/00-tle/images/sphx_glr_propagate_catalog_002.png
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 42-44
+
+Space in 1980
+~~~~~~~~~~~~~
+
+.. GENERATED FROM PYTHON SOURCE LINES 44-45
+
+.. code-block:: default
+
+    plot_catalog_at_date(ps.today() - ps.years(43))
+
+
+
+.. image-sg:: /gallery/00-tle/images/sphx_glr_propagate_catalog_003.png
+   :alt: propagate catalog
+   :srcset: /gallery/00-tle/images/sphx_glr_propagate_catalog_003.png
+   :class: sphx-glr-single-img
+
+
+
+
+
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.043 seconds)
+   **Total running time of the script:** ( 0 minutes  16.624 seconds)
 
 
 .. _sphx_glr_download_gallery_00-tle_propagate_catalog.py:

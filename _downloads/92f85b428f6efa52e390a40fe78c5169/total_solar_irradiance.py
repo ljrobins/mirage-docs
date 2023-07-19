@@ -6,9 +6,6 @@ Modeling the variations in solar energy output at 1 AU. This example explains th
 
 """
 
-import sys
-
-sys.path.append("./src")
 import pyspaceaware as ps
 from terrainman import TsiDataHandler
 import datetime
@@ -18,10 +15,8 @@ import numpy as np
 # %%
 # Let's plot the variation in the total solar irradiance from the beginning of the J2000 epoch till now
 
-date = datetime.datetime(
-    2000, 1, 1, 12, 0, 0, tzinfo=datetime.timezone.utc
-)
-dates, _ = ps.date_linspace(date, ps.now(), 10_000)
+date = datetime.datetime(2000, 1, 1, 12, 0, 0, tzinfo=datetime.timezone.utc)
+dates = ps.date_linspace(date, ps.now(), 10_000)
 
 # %%
 # The ``terrainman.TsiDataHandler`` class deals with downloading the relevant netCDF4 files from `here <https://www.ncei.noaa.gov/data/total-solar-irradiance/access/daily/>`_. Outside of the interval covered by this dataset (1882-current_year) :math:`1361 \frac{W}{m^2}` is used as a default.
@@ -71,6 +66,4 @@ plt.show()
 # We can prove that this function produces identical outputs to the implementation above:
 
 tsi = ps.total_solar_irradiance_at_dates(dates)
-print(
-    f"Implemented function max error: {np.max(np.abs(tsi - sc_at_earth_radius))}"
-)
+print(f"Implemented function max error: {np.max(np.abs(tsi - sc_at_earth_radius))}")

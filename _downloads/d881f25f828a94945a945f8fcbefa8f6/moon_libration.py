@@ -5,15 +5,12 @@ Moon Librations
 Animations the librations of the Moon: the apparent motion of the Moon as viewed from the Earth
 """
 
-import sys
-
-sys.path.append("./src")
 import pyspaceaware as ps
 import pyvista as pv
 
 # %%
 # Let's animate the librations of the Moon over the course of a synodic month (the time required for the Moon to complete an orbit with respect to the Sun-Earth line).
-dates, _ = ps.date_linspace(
+dates = ps.date_linspace(
     ps.now(),
     ps.now() + ps.days(ps.AstroConstants.moon_synodic_period_days),
     100,

@@ -5,9 +5,11 @@ Neural Network Brightness
 Trains a neural network to predict the brightness of a specular cube in an arbitrary lighting and observation conditions and compares the results to the truth
 """
 
+
 import sys
 
-sys.path.append("./src")
+sys.path.append(".")
+
 import numpy as np
 import pyspaceaware as ps
 import pyspaceaware.sim as pssim
@@ -20,9 +22,7 @@ obj = ps.SpaceObject("cube.obj")
 brdf = ps.Brdf("phong", cd=0.5, cs=0.5, n=10)
 # %%
 # We now define the Multi-Layer Perceptron (MLP) brightness model. Note that the ``layers=(150, 50, 150)`` keyword argument defines the number of neurons in each densely-connected layer.
-mlp_bm = pssim.MLPBrightnessModel(
-    obj, brdf, use_engine=False, train_on="magnitude"
-)
+mlp_bm = pssim.MLPBrightnessModel(obj, brdf, use_engine=False, train_on="irradiance")
 # %%
 # Now we train the model on a set number of training lighting and observation configurations. Usually ``1e5``-``1e6`` are required for a *good* fit
 num_train = int(1e3)
@@ -78,16 +78,37 @@ print(np.max(np.abs(mdl_b_onnx - mdl_sklearn_loaded)))
 
 # %%
 # We can now finish off by evaluating the true brightness in this attitude profile and plot the results
-true_b = mlp_bm.brightness(svb, ovb, "magnitude")
+true_b = mlp_bm.brightness(svb, ovb)
 
 plt.figure()
 sns.lineplot(x=t_eval, y=true_b, errorbar=None)
 sns.lineplot(x=t_eval, y=mdl_b_sklearn, errorbar=None)
-plt.title(
-    f"Light Curves for {obj.file_name}, {num_train} Training Points"
-)
+plt.title(f"Light Curves for {obj.file_name}, {num_train} Training Points")
 plt.xlabel("Time [s]")
 plt.ylabel("Normalized brightness")
+plt.legend(["True", "Model"])
+plt.grid()
+plt.show()
+
+# %%
+# We can also train on magnitude data instead of irradiance:
+mlp_bm = pssim.MLPBrightnessModel(obj, brdf, use_engine=True, train_on="magnitude")
+mlp_bm.train(num_train)
+
+ps.tic("Evaluate trained model with onnx")
+mdl_b_onnx = mlp_bm.eval(ovb, svb)
+ps.toc()
+
+# %%
+# We can now finish off by evaluating the true brightness in this attitude profile and plot the results
+true_b = mlp_bm.brightness(svb, ovb)
+
+plt.figure()
+sns.lineplot(x=t_eval, y=true_b, errorbar=None)
+sns.lineplot(x=t_eval, y=mdl_b_onnx, errorbar=None)
+plt.title(f"Light Curves for {obj.file_name}, {int(1e6)} Training Points")
+plt.xlabel("Time [s]")
+plt.ylabel("Apparent Magnitude")
 plt.legend(["True", "Model"])
 plt.grid()
 plt.show()

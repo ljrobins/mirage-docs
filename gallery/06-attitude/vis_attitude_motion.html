@@ -301,8 +301,9 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../00-tle/index.html">Working with TLEs</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../00-tle/propagate_catalog.html">Propagating the catalog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-tle/gravity_model_propagation.html">Propagating with Perturbations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-tle/propagate_single_tle.html">Propagating single TLE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-tle/propagate_catalog.html">Propagating the catalog</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../01-light_curves/index.html">Light Curves</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -336,10 +337,10 @@ document.write(`
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-summer-2023/index.html">Summer 2023 Studies</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/moon_libration.html">Moon Librations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/spice.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/total_solar_irradiance.html">Total Solar Irradiance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/tle_switching.html">TLE Switching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/spice.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/horizon_mask.html">Horizon Masks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/rbf_fitting.html">Neural Network Brightness</a></li>
@@ -414,20 +415,14 @@ to download the full example code</p>
 <section class="sphx-glr-example-title" id="rigid-body-torque-free-attitudes">
 <span id="sphx-glr-gallery-06-attitude-vis-attitude-motion-py"></span><h1>Rigid Body Torque Free Attitudes<a class="headerlink" href="#rigid-body-torque-free-attitudes" title="Permalink to this heading">#</a></h1>
 <p>Animates the attitude motion of an object in torque free motion</p>
-<img src="../../_images/sphx_glr_vis_attitude_motion_001.gif" srcset="../../_images/sphx_glr_vis_attitude_motion_001.gif" alt="vis attitude motion" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>TLE catalog already downloaded, skipping
-</pre></div>
-</div>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
+<img src="../../_images/sphx_glr_vis_attitude_motion_001.png" srcset="../../_images/sphx_glr_vis_attitude_motion_001.png" alt="vis attitude motion" class = "sphx-glr-single-img"/><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
 
 <span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">epsecs</span><span class="p">)</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">date_linspace</span><span class="p">(</span>
-    <span class="n">ps</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="n">ps</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">ps</span><span class="o">.</span><span class="n">seconds</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="mi">300</span>
+    <span class="n">ps</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="n">ps</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">ps</span><span class="o">.</span><span class="n">seconds</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="mi">300</span><span class="p">,</span> <span class="n">return_epsecs</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
-<span class="n">obj</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">SpaceObject</span><span class="p">(</span><span class="s2">&quot;tess.obj&quot;</span><span class="p">,</span> <span class="n">satnum</span><span class="o">=</span><span class="mi">36411</span><span class="p">)</span>
+<span class="n">obj</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">SpaceObject</span><span class="p">(</span><span class="s2">&quot;tess.obj&quot;</span><span class="p">,</span> <span class="n">identifier</span><span class="o">=</span><span class="mi">36411</span><span class="p">)</span>
 <span class="n">obj_attitude</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">RbtfAttitude</span><span class="p">(</span>
     <span class="n">w0</span><span class="o">=</span><span class="mi">1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
     <span class="n">q0</span><span class="o">=</span><span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])),</span>
@@ -436,12 +431,10 @@ to download the full example code</p>
 
 <span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="o">=</span> <span class="n">obj_attitude</span><span class="o">.</span><span class="n">propagate</span><span class="p">(</span><span class="n">epsecs</span><span class="p">)</span>
 
-<span class="n">ps</span><span class="o">.</span><span class="n">vis_attitude_motion</span><span class="p">(</span>
-    <span class="n">obj</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="s2">&quot;tess.gif&quot;</span><span class="p">,</span> <span class="n">framerate</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">background_color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span>
-<span class="p">)</span>
+<span class="n">ps</span><span class="o">.</span><span class="n">vis_attitude_motion</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="s2">&quot;tess.gif&quot;</span><span class="p">,</span> <span class="n">framerate</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">background_color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  17.299 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  19.118 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-06-attitude-vis-attitude-motion-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/4f441d3b4614420e4f9c33215bb36377/vis_attitude_motion.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">vis_attitude_motion.py</span></code></a></p>

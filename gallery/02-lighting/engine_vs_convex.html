@@ -301,8 +301,9 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../00-tle/index.html">Working with TLEs</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../00-tle/propagate_catalog.html">Propagating the catalog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-tle/gravity_model_propagation.html">Propagating with Perturbations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-tle/propagate_single_tle.html">Propagating single TLE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-tle/propagate_catalog.html">Propagating the catalog</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../01-light_curves/index.html">Light Curves</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -336,10 +337,10 @@ document.write(`
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-summer-2023/index.html">Summer 2023 Studies</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/moon_libration.html">Moon Librations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/spice.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/total_solar_irradiance.html">Total Solar Irradiance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/tle_switching.html">TLE Switching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/spice.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/horizon_mask.html">Horizon Masks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-summer-2023/rbf_fitting.html">Neural Network Brightness</a></li>
@@ -414,10 +415,7 @@ to download the full example code</p>
 <section class="sphx-glr-example-title" id="convex-vs-engine-light-curves">
 <span id="sphx-glr-gallery-02-lighting-engine-vs-convex-py"></span><h1>Convex vs Engine Light Curves<a class="headerlink" href="#convex-vs-engine-light-curves" title="Permalink to this heading">#</a></h1>
 <p>Comparing light curves produced by the LightCurveEngine renderer and a simplified convex method</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;./src&quot;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
@@ -443,14 +441,12 @@ to download the full example code</p>
 </pre></div>
 </div>
 <p>We can now run the engine and compute a convex light curve:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">b_non_convex</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">run_engine</span><span class="p">(</span>
-    <span class="n">brdf</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span> <span class="n">svb</span><span class="p">,</span> <span class="n">ovb</span><span class="p">,</span> <span class="n">instance_count</span><span class="o">=</span><span class="mi">1</span>
-<span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">b_non_convex</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">run_engine</span><span class="p">(</span><span class="n">brdf</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span> <span class="n">svb</span><span class="p">,</span> <span class="n">ovb</span><span class="p">,</span> <span class="n">instance_count</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">b_convex</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">compute_convex_light_curve</span><span class="p">(</span><span class="n">brdf</span><span class="p">,</span> <span class="n">svb</span><span class="p">,</span> <span class="n">ovb</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Running Light Curve Engine:
-/Users/liamrobinson/Documents/PyLightCurves/src/pyspaceaware/ctools/engine/LightCurveEngine -m /Users/liamrobinson/Documents/PyLightCurves/src/pyspaceaware/resources/models/cube.obj -i 1 -c 1000 -r light_curve0.lcr -x /Users/liamrobinson/Documents/PyLightCurves/examples/02-lighting/out  -b 1 -D 0.5 -S 0.5 -N 10
+/Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/ctools/engine/LightCurveEngine -m /Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/resources/models/cube.obj -i 1 -c 1000 -r light_curve0.lcr -x /Users/liamrobinson/Documents/PyLightCurves/examples/02-lighting/out  -b 1 -D 0.5 -S 0.5 -N 10
 </pre></div>
 </div>
 <p>And plot the results</p>
@@ -479,9 +475,7 @@ to download the full example code</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">obj</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">SpaceObject</span><span class="p">(</span><span class="s2">&quot;tess.obj&quot;</span><span class="p">)</span>
 <span class="n">brdf</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">Brdf</span><span class="p">(</span><span class="s2">&quot;phong&quot;</span><span class="p">,</span> <span class="n">cd</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">cs</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
-<span class="n">b_non_convex</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">run_engine</span><span class="p">(</span>
-    <span class="n">brdf</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span> <span class="n">svb</span><span class="p">,</span> <span class="n">ovb</span><span class="p">,</span> <span class="n">instance_count</span><span class="o">=</span><span class="mi">1</span>
-<span class="p">)</span>
+<span class="n">b_non_convex</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">run_engine</span><span class="p">(</span><span class="n">brdf</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span> <span class="n">svb</span><span class="p">,</span> <span class="n">ovb</span><span class="p">,</span> <span class="n">instance_count</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">b_convex</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">compute_convex_light_curve</span><span class="p">(</span><span class="n">brdf</span><span class="p">,</span> <span class="n">svb</span><span class="p">,</span> <span class="n">ovb</span><span class="p">)</span>
 
 
@@ -497,10 +491,10 @@ to download the full example code</p>
 </pre></div>
 </div>
 <img src="../../_images/sphx_glr_engine_vs_convex_003.png" srcset="../../_images/sphx_glr_engine_vs_convex_003.png" alt="Light Curves for tess.obj" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Running Light Curve Engine:
-/Users/liamrobinson/Documents/PyLightCurves/src/pyspaceaware/ctools/engine/LightCurveEngine -m /Users/liamrobinson/Documents/PyLightCurves/src/pyspaceaware/resources/models/tess.obj -i 1 -c 1000 -r light_curve0.lcr -x /Users/liamrobinson/Documents/PyLightCurves/examples/02-lighting/out  -b 1 -D 0.5 -S 0.5 -N 10
+/Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/ctools/engine/LightCurveEngine -m /Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/resources/models/tess.obj -i 1 -c 1000 -r light_curve0.lcr -x /Users/liamrobinson/Documents/PyLightCurves/examples/02-lighting/out  -b 1 -D 0.5 -S 0.5 -N 10
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  9.797 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  10.247 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-02-lighting-engine-vs-convex-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/92c3c7d538b3edcbe72f653f6354ae75/engine_vs_convex.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">engine_vs_convex.py</span></code></a></p>

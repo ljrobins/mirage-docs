@@ -16,9 +16,7 @@ import numpy as np
 ntimes = 4
 date = ps.now()
 bod = ps.beginning_of_day(date)
-dspace, _ = ps.date_linspace(
-    bod, bod + datetime.timedelta(days=1), ntimes
-)
+dspace = ps.date_linspace(bod, bod + datetime.timedelta(days=1), ntimes)
 
 # %%
 # We can use :class:`ps.EarthFixedFrame` to set up the coordinate frame transformation we are about.
@@ -33,9 +31,9 @@ def plot_bases_at_date(pl: pv.Plotter, d: datetime.datetime) -> None:
         pl,
         mode="eci",
         date=d,
-        night_lights=False,
-        atmosphere=False,
-        lighting=False,
+        night_lights=True,
+        atmosphere=True,
+        lighting=True,
     )
     ps.plot_basis(
         pl,
@@ -71,12 +69,8 @@ pl.show()
 # It's easy to get confused about what the vernal equinox really *is*. Is it a time? Is it a direction?
 # To dig into this, let's look at the transformation between ITRF and J2000 at noon on the equinoxes and solstices
 
-vernal_equinox = datetime.datetime(
-    2023, 3, 19, 12, 0, 0, tzinfo=datetime.timezone.utc
-)
-summer_solstice = datetime.datetime(
-    2023, 6, 21, 12, 0, 0, tzinfo=datetime.timezone.utc
-)
+vernal_equinox = datetime.datetime(2023, 3, 19, 12, 0, 0, tzinfo=datetime.timezone.utc)
+summer_solstice = datetime.datetime(2023, 6, 21, 12, 0, 0, tzinfo=datetime.timezone.utc)
 autumnal_solstice = datetime.datetime(
     2023, 9, 23, 12, 0, 0, tzinfo=datetime.timezone.utc
 )

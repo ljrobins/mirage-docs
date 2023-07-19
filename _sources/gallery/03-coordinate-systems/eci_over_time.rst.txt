@@ -44,7 +44,7 @@ Visualizes the transformation from ITRF to J2000 over the course of a day
 
 Let's set up a space of dates over a single day
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-23
+.. GENERATED FROM PYTHON SOURCE LINES 15-21
 
 .. code-block:: default
 
@@ -52,9 +52,7 @@ Let's set up a space of dates over a single day
     ntimes = 4
     date = ps.now()
     bod = ps.beginning_of_day(date)
-    dspace, _ = ps.date_linspace(
-        bod, bod + datetime.timedelta(days=1), ntimes
-    )
+    dspace = ps.date_linspace(bod, bod + datetime.timedelta(days=1), ntimes)
 
 
 
@@ -63,11 +61,11 @@ Let's set up a space of dates over a single day
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-25
+.. GENERATED FROM PYTHON SOURCE LINES 22-23
 
 We can use :class:`ps.EarthFixedFrame` to set up the coordinate frame transformation we are about.
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-28
+.. GENERATED FROM PYTHON SOURCE LINES 23-26
 
 .. code-block:: default
 
@@ -81,11 +79,11 @@ We can use :class:`ps.EarthFixedFrame` to set up the coordinate frame transforma
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 29-30
+.. GENERATED FROM PYTHON SOURCE LINES 27-28
 
 We can then plot the basis vectors at each of the selected times, labeling them in each subplot
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-70
+.. GENERATED FROM PYTHON SOURCE LINES 28-68
 
 .. code-block:: default
 
@@ -95,9 +93,9 @@ We can then plot the basis vectors at each of the selected times, labeling them 
             pl,
             mode="eci",
             date=d,
-            night_lights=False,
-            atmosphere=False,
-            lighting=False,
+            night_lights=True,
+            atmosphere=True,
+            lighting=True,
         )
         ps.plot_basis(
             pl,
@@ -141,22 +139,18 @@ We can then plot the basis vectors at each of the selected times, labeling them 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 71-73
+.. GENERATED FROM PYTHON SOURCE LINES 69-71
 
 It's easy to get confused about what the vernal equinox really *is*. Is it a time? Is it a direction?
 To dig into this, let's look at the transformation between ITRF and J2000 at noon on the equinoxes and solstices
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-100
+.. GENERATED FROM PYTHON SOURCE LINES 71-94
 
 .. code-block:: default
 
 
-    vernal_equinox = datetime.datetime(
-        2023, 3, 19, 12, 0, 0, tzinfo=datetime.timezone.utc
-    )
-    summer_solstice = datetime.datetime(
-        2023, 6, 21, 12, 0, 0, tzinfo=datetime.timezone.utc
-    )
+    vernal_equinox = datetime.datetime(2023, 3, 19, 12, 0, 0, tzinfo=datetime.timezone.utc)
+    summer_solstice = datetime.datetime(2023, 6, 21, 12, 0, 0, tzinfo=datetime.timezone.utc)
     autumnal_solstice = datetime.datetime(
         2023, 9, 23, 12, 0, 0, tzinfo=datetime.timezone.utc
     )
@@ -192,7 +186,7 @@ To dig into this, let's look at the transformation between ITRF and J2000 at noo
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  11.905 seconds)
+   **Total running time of the script:** ( 0 minutes  36.297 seconds)
 
 
 .. _sphx_glr_download_gallery_03-coordinate-systems_eci_over_time.py:

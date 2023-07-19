@@ -10,9 +10,9 @@ import numpy as np
 import pyvista as pv
 
 (dates, epsecs) = ps.date_linspace(
-    ps.now(), ps.now() + ps.seconds(10), 300
+    ps.now(), ps.now() + ps.seconds(10), 300, return_epsecs=True
 )
-obj = ps.SpaceObject("tess.obj", satnum=36411)
+obj = ps.SpaceObject("tess.obj", identifier=36411)
 obj_attitude = ps.RbtfAttitude(
     w0=1 * np.array([1, 1, 1]),
     q0=ps.hat(np.array([0, 0, 0, 1])),
@@ -21,6 +21,4 @@ obj_attitude = ps.RbtfAttitude(
 
 (q, w) = obj_attitude.propagate(epsecs)
 
-ps.vis_attitude_motion(
-    obj, q, "tess.gif", framerate=30, background_color="black"
-)
+ps.vis_attitude_motion(obj, q, "tess.gif", framerate=30, background_color="black")
