@@ -83,7 +83,7 @@ We can use :class:`ps.EarthFixedFrame` to set up the coordinate frame transforma
 
 We can then plot the basis vectors at each of the selected times, labeling them in each subplot
 
-.. GENERATED FROM PYTHON SOURCE LINES 28-68
+.. GENERATED FROM PYTHON SOURCE LINES 28-67
 
 .. code-block:: default
 
@@ -99,7 +99,7 @@ We can then plot the basis vectors at each of the selected times, labeling them 
         )
         ps.plot_basis(
             pl,
-            frame_conversion.eval(d),
+            frame_conversion.rotms_at_dates(d),
             color="r",
             labels=["$ITRF_x$", "$ITRF_y$", "$z$"],
             **label_kwargs
@@ -123,8 +123,7 @@ We can then plot the basis vectors at each of the selected times, labeling them 
     for i, d in enumerate(dspace):
         pl.subplot(i // 2, i % 2)
         plot_bases_at_date(pl, d)
-
-    pl.view_isometric()
+        pl.camera.position = (40e3, -40e3, 40e3)
     pl.show()
 
 
@@ -139,12 +138,12 @@ We can then plot the basis vectors at each of the selected times, labeling them 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 69-71
+.. GENERATED FROM PYTHON SOURCE LINES 68-70
 
 It's easy to get confused about what the vernal equinox really *is*. Is it a time? Is it a direction?
 To dig into this, let's look at the transformation between ITRF and J2000 at noon on the equinoxes and solstices
 
-.. GENERATED FROM PYTHON SOURCE LINES 71-94
+.. GENERATED FROM PYTHON SOURCE LINES 70-93
 
 .. code-block:: default
 
@@ -169,7 +168,7 @@ To dig into this, let's look at the transformation between ITRF and J2000 at noo
     for i, d in enumerate(important_dates):
         pl.subplot(i // 2, i % 2)
         plot_bases_at_date(pl, d)
-    pl.view_isometric()
+        pl.camera.position = (40e3, -40e3, 40e3)
     pl.show()
 
 
@@ -186,7 +185,7 @@ To dig into this, let's look at the transformation between ITRF and J2000 at noo
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  36.297 seconds)
+   **Total running time of the script:** ( 0 minutes  40.909 seconds)
 
 
 .. _sphx_glr_download_gallery_03-coordinate-systems_eci_over_time.py:

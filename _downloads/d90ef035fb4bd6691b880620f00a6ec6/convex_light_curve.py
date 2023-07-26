@@ -31,11 +31,11 @@ dcm = ps.quat_to_dcm(q)  # Converting to quaternion
 # Transforming fixed inertial Sun and Observer vectors into the body frame
 svi = np.array([[1, 0, 0]])
 # Sun vector in the inertial frame
-svb = ps.stack_mat_mult(dcm, svi)
+svb = ps.stack_mat_mult_vec(dcm, svi)
 # Sun vector in the body frame
 ovi = np.array([[0, 1, 0]])
 # Observer vector in the inertial frame
-ovb = ps.stack_mat_mult(dcm, ovi)
+ovb = ps.stack_mat_mult_vec(dcm, ovi)
 # Observer vector in the body frame
 
 lc = obj.compute_convex_light_curve(brdf, svb, ovb)

@@ -10,7 +10,7 @@ import pyvista as pv
 import datetime
 import numpy as np
 
-date = datetime.datetime(2023, 6, 4, 12, 0, 0, tzinfo=datetime.timezone.utc)
+date = datetime.datetime(2022, 6, 4, 12, 0, 0, tzinfo=datetime.timezone.utc)
 date_space_day = date + ps.days(np.linspace(0, 1, 100, endpoint=False))
 
 # %%

@@ -23,11 +23,14 @@ Propagating the catalog
 
 Load the full TLE catalog and propagate all objects to a given epoch
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-14
+.. GENERATED FROM PYTHON SOURCE LINES 7-17
 
 .. code-block:: default
 
 
+    import sys
+
+    sys.path.append(".")
     import pyspaceaware as ps
     import pyvista as pv
     import datetime
@@ -41,11 +44,11 @@ Load the full TLE catalog and propagate all objects to a given epoch
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-16
+.. GENERATED FROM PYTHON SOURCE LINES 18-19
 
 First, let's define a function that plots the catalog at a given date
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-31
+.. GENERATED FROM PYTHON SOURCE LINES 19-36
 
 .. code-block:: default
 
@@ -58,7 +61,9 @@ First, let's define a function that plots the catalog at a given date
             atmosphere=True,
             night_lights=True,
         )
-        ps.scatter3(pl, r_eci, show_scalar_bar=False, point_size=3, lighting=False)
+        ps.scatter3(
+            pl, r_eci, show_scalar_bar=False, point_size=5, lighting=False, color="lime"
+        )
         pl.camera.focal_point = (0.0, 0.0, 0.0)
         pl.camera.position = 90e3 * np.array([1, 1, 0.3])
         pl.show()
@@ -71,12 +76,12 @@ First, let's define a function that plots the catalog at a given date
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-34
+.. GENERATED FROM PYTHON SOURCE LINES 37-39
 
 Space in 2023
 ~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-36
+.. GENERATED FROM PYTHON SOURCE LINES 39-41
 
 .. code-block:: default
 
@@ -94,12 +99,12 @@ Space in 2023
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-39
+.. GENERATED FROM PYTHON SOURCE LINES 42-44
 
 Space in 2000
 ~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-41
+.. GENERATED FROM PYTHON SOURCE LINES 44-46
 
 .. code-block:: default
 
@@ -117,12 +122,12 @@ Space in 2000
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-44
+.. GENERATED FROM PYTHON SOURCE LINES 47-49
 
 Space in 1980
 ~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-45
+.. GENERATED FROM PYTHON SOURCE LINES 49-50
 
 .. code-block:: default
 
@@ -142,7 +147,7 @@ Space in 1980
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  16.624 seconds)
+   **Total running time of the script:** ( 0 minutes  27.616 seconds)
 
 
 .. _sphx_glr_download_gallery_00-tle_propagate_catalog.py:

@@ -5,6 +5,10 @@ Noisy Light Curves
 Simulates torque-free rigid body motion for a simple object and computes the full light curve, informed by station constraints and a high-fidelity background signal model
 """
 
+import sys
+
+sys.path.append(".")
+
 import pyspaceaware as ps
 import datetime
 import seaborn as sns

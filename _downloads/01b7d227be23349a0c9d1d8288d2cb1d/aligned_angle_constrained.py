@@ -16,8 +16,8 @@ import datetime
 data_points = 100
 obj = ps.SpaceObject("tess.obj", identifier="INTELSAT 511")
 (date_space, epsec_space) = ps.date_linspace(
-    ps.now(),
-    ps.now() + datetime.timedelta(hours=24),
+    ps.now() - ps.days(10),
+    ps.now() + datetime.timedelta(hours=24) - ps.days(10),
     data_points,
     return_epsecs=True,
 )
@@ -36,8 +36,8 @@ c = att.dcm_at_jds(jd_space)
 quat = ps.dcm_to_quat(c)
 (v1, v2, v3) = att.basis_vectors_at_jds(jd_space)
 
-sun_in_body = ps.stack_mat_mult(c, sat_sun)
-obs_in_body = ps.stack_mat_mult(c, sat_nadir)
+sun_in_body = ps.stack_mat_mult_vec(c, sat_sun)
+obs_in_body = ps.stack_mat_mult_vec(c, sat_nadir)
 
 pl = pv.Plotter()
 pl.open_gif("aligned_and_constrained.gif")

@@ -37,7 +37,7 @@ def plot_bases_at_date(pl: pv.Plotter, d: datetime.datetime) -> None:
     )
     ps.plot_basis(
         pl,
-        frame_conversion.eval(d),
+        frame_conversion.rotms_at_dates(d),
         color="r",
         labels=["$ITRF_x$", "$ITRF_y$", "$z$"],
         **label_kwargs
@@ -61,8 +61,7 @@ pl = pv.Plotter(shape=(ntimes // 2, ntimes // 2))
 for i, d in enumerate(dspace):
     pl.subplot(i // 2, i % 2)
     plot_bases_at_date(pl, d)
-
-pl.view_isometric()
+    pl.camera.position = (40e3, -40e3, 40e3)
 pl.show()
 
 # %%
@@ -89,5 +88,5 @@ pl = pv.Plotter(shape=(ntimes // 2, ntimes // 2))
 for i, d in enumerate(important_dates):
     pl.subplot(i // 2, i % 2)
     plot_bases_at_date(pl, d)
-pl.view_isometric()
+    pl.camera.position = (40e3, -40e3, 40e3)
 pl.show()

@@ -93,11 +93,11 @@ Transforming fixed inertial Sun and Observer vectors into the body frame
 
     svi = np.array([[1, 0, 0]])
     # Sun vector in the inertial frame
-    svb = ps.stack_mat_mult(dcm, svi)
+    svb = ps.stack_mat_mult_vec(dcm, svi)
     # Sun vector in the body frame
     ovi = np.array([[0, 1, 0]])
     # Observer vector in the inertial frame
-    ovb = ps.stack_mat_mult(dcm, ovi)
+    ovb = ps.stack_mat_mult_vec(dcm, ovi)
     # Observer vector in the body frame
 
     lc = obj.compute_convex_light_curve(brdf, svb, ovb)
@@ -124,7 +124,7 @@ Transforming fixed inertial Sun and Observer vectors into the body frame
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.158 seconds)
+   **Total running time of the script:** ( 0 minutes  0.244 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_convex_light_curve.py:

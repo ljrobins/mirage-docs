@@ -4,6 +4,9 @@ TLE Switching
 
 Various methods to switch between TLEs for more accurate long-term propagation
 """
+import sys
+
+sys.path.append(".")
 import pyspaceaware as ps
 import pyvista as pv
 import numpy as np
@@ -40,13 +43,14 @@ pl = pv.Plotter()
 ps.plot_earth(pl, date=dtimes[0], mode="eci", night_lights=True, atmosphere=True)
 lw = 6
 ps.plot3(pl, r_closest, color="c", lighting=False, line_width=lw)
-ps.plot3(pl, r_newest, color="m", lighting=False, line_width=lw)
-ps.plot3(pl, r_interp, color="lime", lighting=False, line_width=lw)
+# ps.plot3(pl, r_newest, color="m", lighting=False, line_width=lw)
+# ps.plot3(pl, r_interp, color="lime", lighting=False, line_width=lw)
 mid_point = r_interp[r_interp.shape[0] // 2, :]
 pl.camera.focal_point = mid_point
 pl.camera.position = (np.linalg.norm(mid_point) + 100_000) * (
     ps.hat(mid_point) + np.array([0.0, 0.0, 0.4])
 )
+pv.rcParams["transparent_background"] = True
 pl.show()
 
 # %%
