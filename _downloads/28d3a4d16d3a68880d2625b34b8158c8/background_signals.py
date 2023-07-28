@@ -5,6 +5,9 @@ Background Signals
 The signal mean model due to various sources
 """
 
+import sys
+
+sys.path.append(".")
 # %%
 # Defining a function we can use to plot various background signals
 import pyspaceaware as ps
@@ -30,7 +33,7 @@ def hemisphere_signal(
     ).squeeze()
 
     dates = np.tile(date, (g_az.size, 1))
-    stat_eci = station.eci_at_dates(date)
+    stat_eci = station.j2000_at_dates(date)
 
     ps.tic()
     sb = station.sky_brightness(dates, look_dirs_eci_eq, **signal_kwargs)
