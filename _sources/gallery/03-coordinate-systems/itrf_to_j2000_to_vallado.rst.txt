@@ -23,14 +23,15 @@ IAU-76 J2000 Reduction
 
 Converting an ITRF vector to J2000 using the IAU-76 nutation theory, comparing results to Vallado's Fundamentals of Astrodynamics 4th edition
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-13
+.. GENERATED FROM PYTHON SOURCE LINES 7-14
 
 .. code-block:: default
 
 
-    import pyspaceaware as ps
+    import sys
 
-    import datetime
+    sys.path.append(".")
+    import pyspaceaware as ps
     import numpy as np
 
 
@@ -40,11 +41,11 @@ Converting an ITRF vector to J2000 using the IAU-76 nutation theory, comparing r
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 14-15
+.. GENERATED FROM PYTHON SOURCE LINES 15-16
 
 Truth values presented here are copied from Vallado Example 3-15 (pg. 230)
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-32
+.. GENERATED FROM PYTHON SOURCE LINES 16-33
 
 .. code-block:: default
 
@@ -72,11 +73,11 @@ Truth values presented here are copied from Vallado Example 3-15 (pg. 230)
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-34
+.. GENERATED FROM PYTHON SOURCE LINES 34-35
 
 We can now compute these values for ourselves
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-41
+.. GENERATED FROM PYTHON SOURCE LINES 35-42
 
 .. code-block:: default
 
@@ -94,11 +95,11 @@ We can now compute these values for ourselves
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-43
+.. GENERATED FROM PYTHON SOURCE LINES 43-44
 
 We can compute the error in the assorted quantities we computed
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-58
+.. GENERATED FROM PYTHON SOURCE LINES 44-59
 
 .. code-block:: default
 
@@ -124,11 +125,11 @@ We can compute the error in the assorted quantities we computed
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-60
+.. GENERATED FROM PYTHON SOURCE LINES 60-61
 
 And assert that these errors are sufficiently small to the Vallado values
 
-.. GENERATED FROM PYTHON SOURCE LINES 60-71
+.. GENERATED FROM PYTHON SOURCE LINES 61-72
 
 .. code-block:: default
 
@@ -150,12 +151,12 @@ And assert that these errors are sufficiently small to the Vallado values
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 72-74
+.. GENERATED FROM PYTHON SOURCE LINES 73-75
 
 As well as the individual frame transformations in the chain from ITRF to J2000.
 In each transformation, we start with the truth Vallado value so that the error does not accumulate from earlier transformations. This lets us see how much error each transformation introduces by itself
 
-.. GENERATED FROM PYTHON SOURCE LINES 74-79
+.. GENERATED FROM PYTHON SOURCE LINES 75-80
 
 .. code-block:: default
 
@@ -171,11 +172,11 @@ In each transformation, we start with the truth Vallado value so that the error 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 80-81
+.. GENERATED FROM PYTHON SOURCE LINES 81-82
 
 Likewise, we compute the componentwise errors in each transformation in meters
 
-.. GENERATED FROM PYTHON SOURCE LINES 81-87
+.. GENERATED FROM PYTHON SOURCE LINES 82-88
 
 .. code-block:: default
 
@@ -192,11 +193,11 @@ Likewise, we compute the componentwise errors in each transformation in meters
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 88-89
+.. GENERATED FROM PYTHON SOURCE LINES 89-90
 
 And assert that these must also be small -- for now we use 1 meter as the target error accumulation per transformation
 
-.. GENERATED FROM PYTHON SOURCE LINES 89-94
+.. GENERATED FROM PYTHON SOURCE LINES 90-95
 
 .. code-block:: default
 
@@ -212,11 +213,11 @@ And assert that these must also be small -- for now we use 1 meter as the target
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 95-96
+.. GENERATED FROM PYTHON SOURCE LINES 96-97
 
 Let's collect these error results
 
-.. GENERATED FROM PYTHON SOURCE LINES 96-113
+.. GENERATED FROM PYTHON SOURCE LINES 97-114
 
 .. code-block:: default
 
@@ -255,7 +256,7 @@ Let's collect these error results
     eps_error=array([-0.00014287]) [arcsec]
 
 
-    gtod_error=array([-5.72663339e-06, -1.46492312e-05, -1.13323040e-06]) [m]
+    gtod_error=array([-0.00541334,  0.02784564, -0.03537874]) [m]
     tod_error=array([ 2.71740207e-01, -2.25618291e-01, -4.99994712e-05]) [m]
     mod_error=array([ 0.64090278,  0.12025729, -0.62743727]) [m]
     j2000_error=array([-0.6420751 , -0.12929804,  0.62820185]) [m]
@@ -263,11 +264,11 @@ Let's collect these error results
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 114-115
+.. GENERATED FROM PYTHON SOURCE LINES 115-116
 
 We can now perform a simultaneous transformation that deals with all the sub-rotations behind the scenes
 
-.. GENERATED FROM PYTHON SOURCE LINES 115-125
+.. GENERATED FROM PYTHON SOURCE LINES 116-127
 
 .. code-block:: default
 
@@ -285,13 +286,47 @@ We can now perform a simultaneous transformation that deals with all the sub-rot
 
 
 
+
 .. rst-class:: sphx-glr-script-out
 
  .. code-block:: none
 
-    MINE: [5102.5098702  6123.01129448 6378.13630035]
+    MINE: [5102.50988698 6123.01131736 6378.13626496]
     VALL: [5102.5096  6123.01153 6378.1363 ]
-    Transformation error: 0.3584414318768359 [m]
+    Transformation error: 0.3588836219175323 [m]
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 128-129
+
+Finally, let's run the transformation in reverse to make sure we can both directions
+
+.. GENERATED FROM PYTHON SOURCE LINES 129-139
+
+.. code-block:: default
+
+
+    itrf_mine_combined = ps.EarthFixedFrame("j2000", "itrf").vecs_at_dates(
+        date, j2000_vallado
+    )
+
+    print(f"MINE: {itrf_mine_combined}")
+    print(f"VALL: {itrf_vallado}")
+    print(
+        f"Transformation error: {np.linalg.norm(itrf_mine_combined - itrf_vallado) * 1e3} [m]"
+    )
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    MINE: [-1033.47973396  7901.29520903  6380.35663073]
+    VALL: [-1033.479383   7901.2952754  6380.3565958]
+    Transformation error: 0.35888362173668825 [m]
 
 
 
@@ -299,7 +334,7 @@ We can now perform a simultaneous transformation that deals with all the sub-rot
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.024 seconds)
+   **Total running time of the script:** ( 0 minutes  0.599 seconds)
 
 
 .. _sphx_glr_download_gallery_03-coordinate-systems_itrf_to_j2000_to_vallado.py:

@@ -5,9 +5,7 @@ Propagating the catalog
 Load the full TLE catalog and propagate all objects to a given epoch
 """
 
-import sys
 
-sys.path.append(".")
 import pyspaceaware as ps
 import pyvista as pv
 import datetime

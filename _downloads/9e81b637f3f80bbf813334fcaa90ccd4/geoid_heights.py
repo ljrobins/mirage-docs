@@ -5,9 +5,7 @@ Geoid Heights
 Display grid of EGM96 geoid height above the WGS84 ellipsoid
 """
 
-import sys
 
-sys.path.append(".")
 import pyspaceaware as ps
 import os
 import rasterio

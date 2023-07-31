@@ -25,7 +25,7 @@ Simulates and animates an aligned and constrained attitude profile
 
 .. note:: If you want to record a .mp4 video instead, try ``pl.open_movie("aligned_and_constrained.mov", framerate=30, quality=9)``
 
-.. GENERATED FROM PYTHON SOURCE LINES 9-75
+.. GENERATED FROM PYTHON SOURCE LINES 9-76
 
 
 
@@ -49,9 +49,10 @@ Simulates and animates an aligned and constrained attitude profile
 
     data_points = 100
     obj = ps.SpaceObject("tess.obj", identifier="INTELSAT 511")
+    date = ps.utc(2022, 12, 9, 14)
     (date_space, epsec_space) = ps.date_linspace(
-        ps.now() - ps.days(10),
-        ps.now() + datetime.timedelta(hours=24) - ps.days(10),
+        date,
+        date + datetime.timedelta(hours=24),
         data_points,
         return_epsecs=True,
     )
@@ -110,7 +111,7 @@ Simulates and animates an aligned and constrained attitude profile
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 2 minutes  12.465 seconds)
+   **Total running time of the script:** ( 1 minutes  42.203 seconds)
 
 
 .. _sphx_glr_download_gallery_06-attitude_aligned_angle_constrained.py:

@@ -17,9 +17,9 @@ station = ps.Station(
     preset="pogs",
     lat_deg=27.7172,
     lon_deg=85.3240,
-    alt_km=2.5,
+    alt_km=0,
     name="Katmandu",
-    use_terrain_data=True,
+    altitude_reference="terrain",
 )
 
 # %%
@@ -32,24 +32,22 @@ mask = ps.HorizonMask(
     station.lat_geod_rad,
     station.lon_rad,
     station.name,
+    mask_resolution=2000,
 )
 
 # %%
-# Build an interpolated from from the raw tile data
-sz, deg_radius = 3000, 1.0
-lat_space = (station.lat_geod_deg + deg_radius) - np.linspace(0, 2 * deg_radius, sz)
-lon_space = (station.lon_deg - deg_radius) + np.linspace(0, 2 * deg_radius, sz)
-lat_grid, lon_grid = np.meshgrid(lat_space, lon_space)
-elev_grid = tile.interpolate(lat_grid, lon_grid) / 1e3
+# Build a tile from the raw tile data
+lat_grid, lon_grid = tile.lat_grid, tile.lon_grid
+elev_grid = tile.elev_grid / 1e3
 itrf_terrain = ps.lla_to_itrf(
     np.deg2rad(lat_grid).flatten(),
     np.deg2rad(lon_grid).flatten(),
-    elev_grid.flatten(),
+    elev_grid.flatten() + ps.geoid_height_at_lla(station.lat_geod_rad, station.lon_rad),
 )
 
 # %%
 # Convert the terrain data into East North Up (ENU) coordinates and plot the result
-enu_terrain = (ps.ecef_to_enu(station.ecef) @ (itrf_terrain - station.ecef).T).T
+enu_terrain = (ps.ecef_to_enu(station.itrf) @ (itrf_terrain - station.itrf).T).T
 dem = pv.StructuredGrid(
     enu_terrain[:, 0].reshape(elev_grid.shape),
     enu_terrain[:, 1].reshape(elev_grid.shape),
@@ -66,14 +64,13 @@ pl.add_mesh(
     smooth_shading=True,
     scalars="Elevation [km]",
     cmap="terrain",
-    opacity=0.6,
-    show_scalar_bar=False,
+    opacity=1.0,
+    show_scalar_bar=True,
 )
 
 ps.scatter3(pl, enu_rays, color="w", show_scalar_bar=False)
 pl.add_text("Katmandu Horizon Mask", font="courier")
 
-# pl.show(auto_close=False)
 path = pv.Polygon(
     center=(0.0, 0.0, 0.0),
     radius=0.0001,

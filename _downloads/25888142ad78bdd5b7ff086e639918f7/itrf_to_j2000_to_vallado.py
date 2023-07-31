@@ -5,9 +5,10 @@ IAU-76 J2000 Reduction
 Converting an ITRF vector to J2000 using the IAU-76 nutation theory, comparing results to Vallado's Fundamentals of Astrodynamics 4th edition
 """
 
-import pyspaceaware as ps
+import sys
 
-import datetime
+sys.path.append(".")
+import pyspaceaware as ps
 import numpy as np
 
 # %%
@@ -121,4 +122,17 @@ print(f"MINE: {j2000_mine_combined}")
 print(f"VALL: {j2000_vallado}")
 print(
     f"Transformation error: {np.linalg.norm(j2000_mine_combined - j2000_vallado) * 1e3} [m]"
+)
+
+# %%
+# Finally, let's run the transformation in reverse to make sure we can both directions
+
+itrf_mine_combined = ps.EarthFixedFrame("j2000", "itrf").vecs_at_dates(
+    date, j2000_vallado
+)
+
+print(f"MINE: {itrf_mine_combined}")
+print(f"VALL: {itrf_vallado}")
+print(
+    f"Transformation error: {np.linalg.norm(itrf_mine_combined - itrf_vallado) * 1e3} [m]"
 )

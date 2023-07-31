@@ -6,10 +6,6 @@ Trains a neural network to predict the brightness of a specular cube in an arbit
 """
 
 
-import sys
-
-sys.path.append(".")
-
 import numpy as np
 import pyspaceaware as ps
 import pyspaceaware.sim as pssim
@@ -106,7 +102,7 @@ true_b = mlp_bm.brightness(svb, ovb)
 plt.figure()
 sns.lineplot(x=t_eval, y=true_b, errorbar=None)
 sns.lineplot(x=t_eval, y=mdl_b_onnx, errorbar=None)
-plt.title(f"Light Curves for {obj.file_name}, {int(1e6)} Training Points")
+plt.title(f"Light Curves for {obj.file_name}, {num_train} Training Points")
 plt.xlabel("Time [s]")
 plt.ylabel("Apparent Magnitude")
 plt.legend(["True", "Model"])

@@ -1,0 +1,669 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>IAU-76 J2000 Reduction &#8212; pyspaceaware 0.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gallery/03-coordinate-systems/itrf_to_j2000';</script>
+    <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Environment" href="../04-environment/index.html" />
+    <link rel="prev" title="Equinoxes and Solstices" href="equinoxes.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/sid_logo_light.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/sid_logo_dark.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+    <p class="title logo__title">pyspaceaware</p>
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../modules.html">
+                        pyspaceaware
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../references.html">
+                        References
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples Gallery
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../modules.html">
+                        pyspaceaware
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../references.html">
+                        References
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples Gallery
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-orbits/index.html">Orbits</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/hifi_propagation.html">Propagating with Perturbations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/propagate_single_tle.html">Propagating single TLE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/propagate_catalog.html">Propagating the catalog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/ground_track.html">Ground Tracks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/tle_switching.html">TLE Switching</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-light_curves/index.html">Light Curves</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/convex_light_curve.html">Convex Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_grid.html">BRDFs on the local hemisphere</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Coordinate Frames</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="time_systems.html">Time Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="earth_pole_motion.html">Precession and Nutation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spice_comparison.html">SPICE vs Vallado</a></li>
+<li class="toctree-l2"><a class="reference internal" href="equinoxes.html">Equinoxes and Solstices</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">IAU-76 J2000 Reduction</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-environment/index.html">Environment</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/geoid_heights.html">Geoid Heights</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometric Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/total_solar_irradiance.html">Total Solar Irradiance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/reflected_albedo.html">Earth Albedo BRDF</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-vis/index.html">Plotting Options</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-vis/moon_libration.html">Moon Librations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-vis/plot_earth.html">Plotting Earth</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-attitude/index.html">Rigid Body Attitudes</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/horizon_mask.html">Horizon Masks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/visualize_constraints.html">Horizon Masked Observations</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Examples Gallery</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Coordinate Frames</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">IAU-76 J2000 Reduction</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-gallery-03-coordinate-systems-itrf-to-j2000-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="iau-76-j2000-reduction">
+<span id="sphx-glr-gallery-03-coordinate-systems-itrf-to-j2000-py"></span><h1>IAU-76 J2000 Reduction<a class="headerlink" href="#iau-76-j2000-reduction" title="Permalink to this heading">#</a></h1>
+<p>Converting an ITRF vector to J2000 using the IAU-76 nutation theory, comparing results to Vallado’s Fundamentals of Astrodynamics 4th edition</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+<p>Truth values presented here are copied from Vallado Example 3-15 (pg. 230)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">date</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">utc</span><span class="p">(</span><span class="mi">2004</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">386_009</span><span class="p">)</span>
+
+<span class="n">itrf_vallado</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">1033.479_383_00</span><span class="p">,</span> <span class="mf">7901.295_275_40</span><span class="p">,</span> <span class="mf">6380.356_595_80</span><span class="p">])</span>
+<span class="n">gtod_vallado</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">1033.475_03_13</span><span class="p">,</span> <span class="mf">7901.305_585_6</span><span class="p">,</span> <span class="mf">6380.344_532_75</span><span class="p">])</span>
+<span class="n">tod_vallado</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">5094.514_780_00</span><span class="p">,</span> <span class="mf">6127.366_461_2</span><span class="p">,</span> <span class="mf">6380.344_532_80</span><span class="p">])</span>
+<span class="n">mod_vallado</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">5094.028_374_50</span><span class="p">,</span> <span class="mf">6127.870_816_40</span><span class="p">,</span> <span class="mf">6380.248_516_40</span><span class="p">])</span>
+<span class="n">j2000_vallado</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">5102.509_600_00</span><span class="p">,</span> <span class="mf">6123.011_530</span><span class="p">,</span> <span class="mf">6378.136_30</span><span class="p">])</span>
+<span class="n">gmst_vallado</span> <span class="o">=</span> <span class="mf">312.809_894_3</span>
+<span class="n">gast_vallado</span> <span class="o">=</span> <span class="mf">312.806_765_4</span>
+
+<span class="n">tt_vallado</span> <span class="o">=</span> <span class="mf">0.042_6236_319</span>
+<span class="n">ut1_minus_utc_vallado</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.4399_619</span>
+<span class="n">delta_psi_vallado</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.0034108</span>
+<span class="n">delta_eps_vallado</span> <span class="o">=</span> <span class="mf">0.0020316</span>
+<span class="n">eps_bar_vallado</span> <span class="o">=</span> <span class="mf">23.4387368</span>
+<span class="n">eps_vallado</span> <span class="o">=</span> <span class="mf">23.4407685</span>
+</pre></div>
+</div>
+<p>We can now compute these values for ourselves</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tt_mine</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">date_to_julian_centuries</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+<span class="n">ut1_minus_utc_mine</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">ut1_minus_utc</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+<span class="n">gmst_mine</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">date_to_gmst</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+<span class="n">gast_mine</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">date_to_gast</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+<span class="n">delta_psi_mine</span><span class="p">,</span> <span class="n">delta_eps_mine</span><span class="p">,</span> <span class="n">eps_bar_mine</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">delta_psi_delta_epsilon</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+<span class="n">eps_mine</span> <span class="o">=</span> <span class="n">eps_bar_mine</span> <span class="o">+</span> <span class="n">delta_eps_mine</span>
+</pre></div>
+</div>
+<p>We can compute the error in the assorted quantities we computed</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tt_error</span> <span class="o">=</span> <span class="n">tt_mine</span> <span class="o">-</span> <span class="n">tt_vallado</span>
+<span class="n">ut1_minus_utc_error</span> <span class="o">=</span> <span class="n">ut1_minus_utc_mine</span> <span class="o">-</span> <span class="n">ut1_minus_utc_vallado</span>
+<span class="n">gmst_error</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">gmst_mine</span><span class="p">)</span> <span class="o">-</span> <span class="n">gmst_vallado</span><span class="p">)</span> <span class="o">/</span> <span class="mi">360</span> <span class="o">*</span> <span class="mi">86400</span>
+<span class="n">gast_error</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">gast_mine</span><span class="p">)</span> <span class="o">-</span> <span class="n">gast_vallado</span><span class="p">)</span> <span class="o">/</span> <span class="mi">360</span> <span class="o">*</span> <span class="mi">86400</span>
+<span class="n">delta_psi_error</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">delta_psi_mine</span><span class="p">)</span> <span class="o">-</span> <span class="n">delta_psi_vallado</span>
+<span class="p">)</span> <span class="o">*</span> <span class="n">ps</span><span class="o">.</span><span class="n">AstroConstants</span><span class="o">.</span><span class="n">deg_to_arcsecond</span>
+<span class="n">delta_eps_error</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">delta_eps_mine</span><span class="p">)</span> <span class="o">-</span> <span class="n">delta_eps_vallado</span>
+<span class="p">)</span> <span class="o">*</span> <span class="n">ps</span><span class="o">.</span><span class="n">AstroConstants</span><span class="o">.</span><span class="n">deg_to_arcsecond</span>
+<span class="n">eps_bar_error</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">eps_bar_mine</span><span class="p">)</span> <span class="o">-</span> <span class="n">eps_bar_vallado</span>
+<span class="p">)</span> <span class="o">*</span> <span class="n">ps</span><span class="o">.</span><span class="n">AstroConstants</span><span class="o">.</span><span class="n">deg_to_arcsecond</span>
+<span class="n">eps_error</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">eps_mine</span><span class="p">)</span> <span class="o">-</span> <span class="n">eps_vallado</span><span class="p">)</span> <span class="o">*</span> <span class="n">ps</span><span class="o">.</span><span class="n">AstroConstants</span><span class="o">.</span><span class="n">deg_to_arcsecond</span>
+</pre></div>
+</div>
+<p>And assert that these errors are sufficiently small to the Vallado values</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">tt_error</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-6</span><span class="p">,</span> <span class="s2">&quot;TT error &gt; 1e-6 days&quot;</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ut1_minus_utc_error</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="s2">&quot;UT1-UTC error &gt; 1e-3 sec&quot;</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gmst_error</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="s2">&quot;GMST error &gt; 1e-3 sec&quot;</span>
+<span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gast_error</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-3</span><span class="p">),</span> <span class="s2">&quot;GAST error &gt; 1e-3 sec&quot;</span>
+<span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">delta_psi_error</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-3</span><span class="p">),</span> <span class="s2">&quot;DeltaPsi error &gt; 1e-3 arcsec&quot;</span>
+<span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">delta_eps_error</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-3</span><span class="p">),</span> <span class="s2">&quot;DeltaEpsilon error &gt; 1e-3 arcsec&quot;</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">eps_bar_error</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="s2">&quot;EpsilonBar error &gt; 1e-4 arcsec&quot;</span>
+<span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">eps_error</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-3</span><span class="p">),</span> <span class="s2">&quot;Epsilon error &gt; 1e-4 arcsec&quot;</span>
+</pre></div>
+</div>
+<p>As well as the individual frame transformations in the chain from ITRF to J2000.
+In each transformation, we start with the truth Vallado value so that the error does not accumulate from earlier transformations. This lets us see how much error each transformation introduces by itself</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gtod_mine</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">EarthFixedFrame</span><span class="p">(</span><span class="s2">&quot;itrf&quot;</span><span class="p">,</span> <span class="s2">&quot;gtod&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">vecs_at_dates</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">itrf_vallado</span><span class="p">)</span>
+<span class="n">tod_mine</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">EarthFixedFrame</span><span class="p">(</span><span class="s2">&quot;gtod&quot;</span><span class="p">,</span> <span class="s2">&quot;tod&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">vecs_at_dates</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">gtod_vallado</span><span class="p">)</span>
+<span class="n">mod_mine</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">EarthFixedFrame</span><span class="p">(</span><span class="s2">&quot;tod&quot;</span><span class="p">,</span> <span class="s2">&quot;mod&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">vecs_at_dates</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">tod_vallado</span><span class="p">)</span>
+<span class="n">j2000_mine</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">EarthFixedFrame</span><span class="p">(</span><span class="s2">&quot;mod&quot;</span><span class="p">,</span> <span class="s2">&quot;j2000&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">vecs_at_dates</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">mod_vallado</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Likewise, we compute the componentwise errors in each transformation in meters</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gtod_error</span> <span class="o">=</span> <span class="mf">1e3</span> <span class="o">*</span> <span class="p">(</span><span class="n">gtod_mine</span> <span class="o">-</span> <span class="n">gtod_vallado</span><span class="p">)</span>
+<span class="n">tod_error</span> <span class="o">=</span> <span class="mf">1e3</span> <span class="o">*</span> <span class="p">(</span><span class="n">tod_mine</span> <span class="o">-</span> <span class="n">tod_vallado</span><span class="p">)</span>
+<span class="n">mod_error</span> <span class="o">=</span> <span class="mf">1e3</span> <span class="o">*</span> <span class="p">(</span><span class="n">mod_mine</span> <span class="o">-</span> <span class="n">mod_vallado</span><span class="p">)</span>
+<span class="n">j2000_error</span> <span class="o">=</span> <span class="mf">1e3</span> <span class="o">*</span> <span class="p">(</span><span class="n">j2000_mine</span> <span class="o">-</span> <span class="n">j2000_vallado</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And assert that these must also be small – for now we use 1 meter as the target error accumulation per transformation</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gtod_error</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;ITRF-&gt;GTOD error &gt; 1 m&quot;</span>
+<span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">tod_error</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;GTID-&gt;TOD error &gt; 1 m&quot;</span>
+<span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">mod_error</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;TOD-&gt;MOD error &gt; 1 m&quot;</span>
+<span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">j2000_error</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;MOD-&gt;J2000 error &gt; 1 m&quot;</span>
+</pre></div>
+</div>
+<p>Let’s collect these error results</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tt_error</span><span class="si">=}</span><span class="s2"> [days]&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ut1_minus_utc_error</span><span class="si">=}</span><span class="s2"> [sec]&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">gmst_error</span><span class="si">=}</span><span class="s2"> [sec]&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">gast_error</span><span class="si">=}</span><span class="s2"> [sec]&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">delta_psi_error</span><span class="si">=}</span><span class="s2"> [arcsec]&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">delta_eps_error</span><span class="si">=}</span><span class="s2"> [arcsec]&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">eps_bar_error</span><span class="si">=}</span><span class="s2"> [arcsec]&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">eps_error</span><span class="si">=}</span><span class="s2"> [arcsec]&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">gtod_error</span><span class="si">=}</span><span class="s2"> [m]&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tod_error</span><span class="si">=}</span><span class="s2"> [m]&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mod_error</span><span class="si">=}</span><span class="s2"> [m]&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">j2000_error</span><span class="si">=}</span><span class="s2"> [m]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>tt_error=-1.100584207103239e-11 [days]
+ut1_minus_utc_error=-0.00047023129043577416 [sec]
+gmst_error=-0.0004931977036903845 [sec]
+gast_error=array([-0.00048926]) [sec]
+delta_psi_error=array([-0.00014329]) [arcsec]
+delta_eps_error=array([0.00012739]) [arcsec]
+eps_bar_error=8.974162852837253e-05 [arcsec]
+eps_error=array([-0.00014287]) [arcsec]
+
+
+gtod_error=array([-0.00541334,  0.02784564, -0.03537874]) [m]
+tod_error=array([ 2.71740207e-01, -2.25618291e-01, -4.99994712e-05]) [m]
+mod_error=array([ 0.64090278,  0.12025729, -0.62743727]) [m]
+j2000_error=array([-0.6420751 , -0.12929804,  0.62820185]) [m]
+</pre></div>
+</div>
+<p>We can now perform a simultaneous transformation that deals with all the sub-rotations behind the scenes</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">j2000_mine_combined</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">EarthFixedFrame</span><span class="p">(</span><span class="s2">&quot;itrf&quot;</span><span class="p">,</span> <span class="s2">&quot;j2000&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">vecs_at_dates</span><span class="p">(</span>
+    <span class="n">date</span><span class="p">,</span> <span class="n">itrf_vallado</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MINE: </span><span class="si">{</span><span class="n">j2000_mine_combined</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VALL: </span><span class="si">{</span><span class="n">j2000_vallado</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;Transformation error: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">j2000_mine_combined</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">j2000_vallado</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1e3</span><span class="si">}</span><span class="s2"> [m]&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>MINE: [5102.50988698 6123.01131736 6378.13626496]
+VALL: [5102.5096  6123.01153 6378.1363 ]
+Transformation error: 0.3588836219175323 [m]
+</pre></div>
+</div>
+<p>Finally, let’s run the transformation in reverse to make sure we can both directions</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">itrf_mine_combined</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">EarthFixedFrame</span><span class="p">(</span><span class="s2">&quot;j2000&quot;</span><span class="p">,</span> <span class="s2">&quot;itrf&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">vecs_at_dates</span><span class="p">(</span>
+    <span class="n">date</span><span class="p">,</span> <span class="n">j2000_vallado</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MINE: </span><span class="si">{</span><span class="n">itrf_mine_combined</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VALL: </span><span class="si">{</span><span class="n">itrf_vallado</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;Transformation error: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">itrf_mine_combined</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">itrf_vallado</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1e3</span><span class="si">}</span><span class="s2"> [m]&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>MINE: [-1033.47973396  7901.29520903  6380.35663073]
+VALL: [-1033.479383   7901.2952754  6380.3565958]
+Transformation error: 0.35888362173668825 [m]
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.018 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-03-coordinate-systems-itrf-to-j2000-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/973590a9f7b6fbf65681478563f8a884/itrf_to_j2000.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">itrf_to_j2000.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/5526bbfb3b000912b58341faa3f5d2b1/itrf_to_j2000.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">itrf_to_j2000.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="equinoxes.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Equinoxes and Solstices</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../04-environment/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Environment</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2023, Liam Robinson.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

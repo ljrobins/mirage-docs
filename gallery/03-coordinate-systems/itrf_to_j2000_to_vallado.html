@@ -345,6 +345,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/horizon_mask.html">Horizon Masks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/visualize_constraints.html">Horizon Masked Observations</a></li>
 </ul>
@@ -417,9 +418,10 @@ to download the full example code</p>
 <section class="sphx-glr-example-title" id="iau-76-j2000-reduction">
 <span id="sphx-glr-gallery-03-coordinate-systems-itrf-to-j2000-to-vallado-py"></span><h1>IAU-76 J2000 Reduction<a class="headerlink" href="#iau-76-j2000-reduction" title="Permalink to this heading">#</a></h1>
 <p>Converting an ITRF vector to J2000 using the IAU-76 nutation theory, comparing results to Vallado’s Fundamentals of Astrodynamics 4th edition</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 
-<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
 </div>
@@ -528,7 +530,7 @@ eps_bar_error=8.974162852837253e-05 [arcsec]
 eps_error=array([-0.00014287]) [arcsec]
 
 
-gtod_error=array([-5.72663339e-06, -1.46492312e-05, -1.13323040e-06]) [m]
+gtod_error=array([-0.00541334,  0.02784564, -0.03537874]) [m]
 tod_error=array([ 2.71740207e-01, -2.25618291e-01, -4.99994712e-05]) [m]
 mod_error=array([ 0.64090278,  0.12025729, -0.62743727]) [m]
 j2000_error=array([-0.6420751 , -0.12929804,  0.62820185]) [m]
@@ -546,12 +548,29 @@ j2000_error=array([-0.6420751 , -0.12929804,  0.62820185]) [m]
 <span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>MINE: [5102.5098702  6123.01129448 6378.13630035]
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>MINE: [5102.50988698 6123.01131736 6378.13626496]
 VALL: [5102.5096  6123.01153 6378.1363 ]
-Transformation error: 0.3584414318768359 [m]
+Transformation error: 0.3588836219175323 [m]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.024 seconds)</p>
+<p>Finally, let’s run the transformation in reverse to make sure we can both directions</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">itrf_mine_combined</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">EarthFixedFrame</span><span class="p">(</span><span class="s2">&quot;j2000&quot;</span><span class="p">,</span> <span class="s2">&quot;itrf&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">vecs_at_dates</span><span class="p">(</span>
+    <span class="n">date</span><span class="p">,</span> <span class="n">j2000_vallado</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MINE: </span><span class="si">{</span><span class="n">itrf_mine_combined</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VALL: </span><span class="si">{</span><span class="n">itrf_vallado</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;Transformation error: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">itrf_mine_combined</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">itrf_vallado</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1e3</span><span class="si">}</span><span class="s2"> [m]&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>MINE: [-1033.47973396  7901.29520903  6380.35663073]
+VALL: [-1033.479383   7901.2952754  6380.3565958]
+Transformation error: 0.35888362173668825 [m]
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.599 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-03-coordinate-systems-itrf-to-j2000-to-vallado-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/25888142ad78bdd5b7ff086e639918f7/itrf_to_j2000_to_vallado.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">itrf_to_j2000_to_vallado.py</span></code></a></p>

@@ -5,9 +5,7 @@ Background Signals
 The signal mean model due to various sources
 """
 
-import sys
 
-sys.path.append(".")
 # %%
 # Defining a function we can use to plot various background signals
 import pyspaceaware as ps
@@ -17,7 +15,9 @@ import datetime
 
 
 def hemisphere_signal(
-    station: ps.Station, date: datetime.datetime, signal_kwargs: dict
+    station: ps.Station,
+    date: datetime.datetime,
+    signal_kwargs: dict,
 ) -> None:
     pl = pv.Plotter()
     (g_az, g_el) = np.meshgrid(
@@ -25,12 +25,9 @@ def hemisphere_signal(
         np.linspace(np.deg2rad(10), np.pi / 2, 250),
     )
 
-    look_dirs_eci_eq = np.array(
-        [
-            station.az_el_to_eci(az, el, date)
-            for az, el in zip(g_az.flatten(), g_el.flatten())
-        ]
-    ).squeeze()
+    ps.tic()
+    look_dirs_eci_eq = station.az_el_to_eci(g_az.flatten(), g_el.flatten(), date)
+    ps.toc()
 
     dates = np.tile(date, (g_az.size, 1))
     stat_eci = station.j2000_at_dates(date)

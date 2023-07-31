@@ -5,9 +5,9 @@ Propagating with Perturbations
 Propagating an orbit with spherical harmonics and third body effects
 """
 
+
 import pyspaceaware as ps
 import pyvista as pv
-import gravitas as gr
 import numpy as np
 
 # %%

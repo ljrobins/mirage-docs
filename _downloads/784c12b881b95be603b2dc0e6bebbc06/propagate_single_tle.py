@@ -4,9 +4,7 @@ Propagating single TLE
 
 Propagates a single TLE for a given NORAD ID and propagates the trajectory
 """
-import sys
 
-sys.path.append(".")
 import pyspaceaware as ps
 import pyvista as pv
 import numpy as np

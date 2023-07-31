@@ -4,9 +4,7 @@ TLE Switching
 
 Various methods to switch between TLEs for more accurate long-term propagation
 """
-import sys
 
-sys.path.append(".")
 import pyspaceaware as ps
 import pyvista as pv
 import numpy as np

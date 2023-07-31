@@ -5,10 +5,6 @@ Convex vs Engine Light Curves
 Comparing light curves produced by the LightCurveEngine renderer and a simplified convex method
 """
 
-import sys
-
-sys.path.append(".")
-
 import numpy as np
 import pyspaceaware as ps
 import matplotlib.pyplot as plt
@@ -17,14 +13,14 @@ import seaborn as sns
 # %%
 # Defining the object and BRDF
 obj = ps.SpaceObject("gem.obj")
-brdf = ps.Brdf("phong", cd=0.5, cs=0.5, n=10)
+brdf = ps.Brdf("phong", cd=0.1, cs=0.9, n=30)
 
 # %%
 # Defining the attitude profile
 
 t_eval = np.linspace(0, 10, 1000)
 q, _ = ps.propagate_attitude_torque_free(
-    np.array([0.0, 0.0, 0.0, 1.0]),
+    ps.hat(np.array([0.0, 0.0, 0.0, 1.0])),
     np.array([1.0, 1.0, 1.0]),
     np.diag([1, 2, 3]),
     t_eval,
@@ -37,7 +33,9 @@ svb = ps.stack_mat_mult_vec(dcm, np.array([[0, 1, 0]]))
 # %%
 # We can now run the engine and compute a convex light curve:
 
-b_non_convex = ps.run_engine(brdf, obj.file_name, svb, ovb, instance_count=1)
+b_non_convex = ps.run_engine(
+    brdf, obj.file_name, svb, ovb, instance_count=1, show_window=False, frame_rate=1000
+)
 b_convex = obj.compute_convex_light_curve(brdf, svb, ovb)
 
 # %%

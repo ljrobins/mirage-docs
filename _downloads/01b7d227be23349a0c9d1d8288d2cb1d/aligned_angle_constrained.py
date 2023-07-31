@@ -15,9 +15,10 @@ import datetime
 
 data_points = 100
 obj = ps.SpaceObject("tess.obj", identifier="INTELSAT 511")
+date = ps.utc(2022, 12, 9, 14)
 (date_space, epsec_space) = ps.date_linspace(
-    ps.now() - ps.days(10),
-    ps.now() + datetime.timedelta(hours=24) - ps.days(10),
+    date,
+    date + datetime.timedelta(hours=24),
     data_points,
     return_epsecs=True,
 )

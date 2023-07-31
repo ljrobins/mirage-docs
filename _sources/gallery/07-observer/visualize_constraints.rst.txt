@@ -21,13 +21,11 @@
 Horizon Masked Observations
 ===========================
 
-.. GENERATED FROM PYTHON SOURCE LINES 5-15
+.. GENERATED FROM PYTHON SOURCE LINES 5-13
 
 .. code-block:: default
 
-    import sys
 
-    sys.path.append(".")
 
     import pyspaceaware as ps
     import numpy as np
@@ -42,11 +40,11 @@ Horizon Masked Observations
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-17
+.. GENERATED FROM PYTHON SOURCE LINES 14-15
 
 Let's define an observation station right before an ISS pass
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-28
+.. GENERATED FROM PYTHON SOURCE LINES 15-26
 
 .. code-block:: default
 
@@ -58,7 +56,7 @@ Let's define an observation station right before an ISS pass
         lon_deg=-70.19252101245867,
         alt_km=0.0,
         name="Peaks_Island_Maine",
-        use_terrain_height=True,
+        altitude_reference="terrain",
     )
 
 
@@ -74,11 +72,11 @@ Let's define an observation station right before an ISS pass
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 29-30
+.. GENERATED FROM PYTHON SOURCE LINES 27-28
 
 And grab the ISS, which will propagate using the closest available TLEs for accuracy
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-34
+.. GENERATED FROM PYTHON SOURCE LINES 28-32
 
 .. code-block:: default
 
@@ -93,11 +91,11 @@ And grab the ISS, which will propagate using the closest available TLEs for accu
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-36
+.. GENERATED FROM PYTHON SOURCE LINES 33-34
 
 We can now apply a bunch of constraints to the observation, including a horizon mask for the local terrain
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-65
+.. GENERATED FROM PYTHON SOURCE LINES 34-63
 
 .. code-block:: default
 
@@ -145,11 +143,11 @@ We can now apply a bunch of constraints to the observation, including a horizon 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 66-67
+.. GENERATED FROM PYTHON SOURCE LINES 64-65
 
 We can now define the object's attitude profile and observe a light curve
 
-.. GENERATED FROM PYTHON SOURCE LINES 67-84
+.. GENERATED FROM PYTHON SOURCE LINES 65-82
 
 .. code-block:: default
 
@@ -185,15 +183,15 @@ We can now define the object's attitude profile and observe a light curve
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 85-86
+.. GENERATED FROM PYTHON SOURCE LINES 83-84
 
 We can now plot an animation of the pass with the horizon mask superimposed on the local terrain
 
-.. GENERATED FROM PYTHON SOURCE LINES 86-148
+.. GENERATED FROM PYTHON SOURCE LINES 84-144
 
 .. code-block:: default
 
-    enu_terrain = (ps.ecef_to_enu(station.ecef) @ (itrf_terrain - station.ecef).T).T
+    enu_terrain = (ps.ecef_to_enu(station.itrf) @ (itrf_terrain - station.itrf).T).T
     dem = pv.StructuredGrid(
         enu_terrain[:, 0].reshape(elev_grid.shape),
         enu_terrain[:, 1].reshape(elev_grid.shape),
@@ -216,9 +214,7 @@ We can now plot an animation of the pass with the horizon mask superimposed on t
         ps.plot3(pl, enu_rays, color="c", line_width=5),
         ps.plot3(
             pl,
-            ps.az_el_to_enu(
-                *station.eci_to_az_el(dates, look_dir_eci + station.j2000_at_dates(dates))
-            ),
+            ps.az_el_to_enu(*station.eci_to_az_el(dates, look_dir_eci)),
             line_width=5,
         ),
     )
@@ -244,7 +240,7 @@ We can now plot an animation of the pass with the horizon mask superimposed on t
         )
 
 
-    az, el = station.eci_to_az_el(dates, look_dir_eci + station.j2000_at_dates(dates))
+    az, el = station.eci_to_az_el(dates, look_dir_eci)
     obj_enu = ps.az_el_to_enu(az, el)
 
     ps.render_video(
@@ -270,7 +266,7 @@ We can now plot an animation of the pass with the horizon mask superimposed on t
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  24.050 seconds)
+   **Total running time of the script:** ( 0 minutes  24.411 seconds)
 
 
 .. _sphx_glr_download_gallery_07-observer_visualize_constraints.py:

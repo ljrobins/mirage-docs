@@ -11,8 +11,7 @@ import pyvista as pv
 
 # %%
 # Let's get the body axis rotation matrices and define an Euler (3-1-3) sequence
-rx, _, rz = ps.axis_rotation_matrices()
-r1, r2, r3 = rz(np.pi / 4), rx(np.pi / 3), rz(np.pi / 5)
+r1, r2, r3 = ps.r3(np.pi / 4), ps.r1(np.pi / 3), ps.r3(np.pi / 5)
 a = np.eye(3)
 ap = r1
 app = r2 @ ap

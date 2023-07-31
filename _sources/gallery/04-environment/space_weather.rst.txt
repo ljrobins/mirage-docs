@@ -23,9 +23,10 @@ Space Weather
 
 Plotting the :math:`K_p`, :math:`A_p`, and F10.7 space weather indices
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-14
+.. GENERATED FROM PYTHON SOURCE LINES 7-15
 
 .. code-block:: default
+
 
 
     import os
@@ -41,18 +42,19 @@ Plotting the :math:`K_p`, :math:`A_p`, and F10.7 space weather indices
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-16
+.. GENERATED FROM PYTHON SOURCE LINES 16-17
 
 Loading the space weather file and extracting the dates and indices
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-23
+.. GENERATED FROM PYTHON SOURCE LINES 17-25
 
 .. code-block:: default
 
     sw_file_path = os.path.join(os.environ["DATADIR"], "SW-Last5Years.csv")
     sw_df = pd.read_csv(sw_file_path, header=0)
     dates = [datetime.datetime.strptime(x, "%Y-%m-%d") for x in sw_df["DATE"]]
-    f107 = sw_df["F10.7_ADJ"]
+    f107_1au = sw_df["F10.7_ADJ"]
+    f107_obs = sw_df["F10.7_OBS"]
     ap = sw_df["AP_AVG"]
     kp = sw_df["KP_SUM"]
 
@@ -63,23 +65,24 @@ Loading the space weather file and extracting the dates and indices
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-25
+.. GENERATED FROM PYTHON SOURCE LINES 26-27
 
 Plotting F10.7 radio flux
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-29
+.. GENERATED FROM PYTHON SOURCE LINES 27-32
 
 .. code-block:: default
 
-    plt.scatter(dates, f107, s=1)
-    ps.texit("F10.7 Radio Flux at 1 AU", "Date", "F10.7")
+    plt.scatter(dates, f107_1au, s=1)
+    plt.scatter(dates, f107_obs, s=1)
+    ps.texit("F10.7 Radio Flux", "Date", "F10.7", ["1 AU", "Observed"])
     plt.show()
 
 
 
 
 .. image-sg:: /gallery/04-environment/images/sphx_glr_space_weather_001.png
-   :alt: F10.7 Radio Flux at 1 AU
+   :alt: F10.7 Radio Flux
    :srcset: /gallery/04-environment/images/sphx_glr_space_weather_001.png
    :class: sphx-glr-single-img
 
@@ -87,11 +90,11 @@ Plotting F10.7 radio flux
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-31
+.. GENERATED FROM PYTHON SOURCE LINES 33-34
 
 Plotting the geomagnetic index :math:`K_p`
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-35
+.. GENERATED FROM PYTHON SOURCE LINES 34-38
 
 .. code-block:: default
 
@@ -111,11 +114,11 @@ Plotting the geomagnetic index :math:`K_p`
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-37
+.. GENERATED FROM PYTHON SOURCE LINES 39-40
 
 Plotting the geomagnetic index :math:`K_p`
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-41
+.. GENERATED FROM PYTHON SOURCE LINES 40-44
 
 .. code-block:: default
 
@@ -135,14 +138,14 @@ Plotting the geomagnetic index :math:`K_p`
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-43
+.. GENERATED FROM PYTHON SOURCE LINES 45-46
 
 Reference for the CSV format found `at CelesTrak <https://celestrak.org/SpaceData/SpaceWx-format.php>`_
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.371 seconds)
+   **Total running time of the script:** ( 0 minutes  0.516 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_space_weather.py:

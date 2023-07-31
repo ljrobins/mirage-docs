@@ -1,0 +1,660 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Earth Albedo BRDF &#8212; pyspaceaware 0.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gallery/02-lighting/reflected_albedo';</script>
+    <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/sid_logo_light.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/sid_logo_dark.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+    <p class="title logo__title">pyspaceaware</p>
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../modules.html">
+                        pyspaceaware
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../references.html">
+                        References
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples Gallery
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../modules.html">
+                        pyspaceaware
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../references.html">
+                        References
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples Gallery
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Earth Albedo BRDF</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-gallery-02-lighting-reflected-albedo-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="earth-albedo-brdf">
+<span id="sphx-glr-gallery-02-lighting-reflected-albedo-py"></span><h1>Earth Albedo BRDF<a class="headerlink" href="#earth-albedo-brdf" title="Permalink to this heading">#</a></h1>
+<p>Modeling the incident radiation at a spacecraft due to reflected sunlight from the Earth</p>
+<p>Useful papers not cited below:
+<a class="reference external" href="https://arc.aiaa.org/doi/pdf/10.2514/1.A33349">Kuvyrkin 2016</a>
+<a class="reference external" href="https://modis.gsfc.nasa.gov/data/atbd/atbd_mod09.pdf">Strahler 1999</a></p>
+<p>Let’s first load the coefficient arrays <span class="math notranslate nohighlight">\(f_{iso}\)</span>, <span class="math notranslate nohighlight">\(f_{geo}\)</span>, and <span class="math notranslate nohighlight">\(f_{vol}\)</span> from file</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="n">save_dict</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">load_albedo_file</span><span class="p">()</span>
+<span class="n">fiso_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">save_dict</span><span class="p">[</span><span class="s2">&quot;fiso_map&quot;</span><span class="p">])</span>
+<span class="n">fgeo_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">save_dict</span><span class="p">[</span><span class="s2">&quot;fgeo_map&quot;</span><span class="p">])</span>
+<span class="n">fvol_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">save_dict</span><span class="p">[</span><span class="s2">&quot;fvol_map&quot;</span><span class="p">])</span>
+<span class="n">lat_geod_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">save_dict</span><span class="p">[</span><span class="s2">&quot;lat_geod_grid&quot;</span><span class="p">])</span>
+<span class="n">lon_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">save_dict</span><span class="p">[</span><span class="s2">&quot;lon_grid&quot;</span><span class="p">])</span>
+<span class="n">lat_geod_space</span> <span class="o">=</span> <span class="n">lat_geod_grid</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">lon_space</span> <span class="o">=</span> <span class="n">lon_grid</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
+<span class="n">mapshape</span> <span class="o">=</span> <span class="n">lon_grid</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+<p>The surface BRDF function in <a class="reference external" href="https://hal-mines-paristech.archives-ouvertes.fr/file/index/docid/1024989/filename/2014_igarss_albedo_blanc.pdf">Blanc 2014</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pws</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">ts</span><span class="p">,</span> <span class="n">fiso</span><span class="p">,</span> <span class="n">fgeo</span><span class="p">,</span> <span class="n">fvol</span><span class="p">:</span> <span class="n">fiso</span>
+    <span class="o">+</span> <span class="n">fvol</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.007574</span> <span class="o">-</span> <span class="mf">0.070987</span> <span class="o">*</span> <span class="n">ts</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">0.307588</span> <span class="o">*</span> <span class="n">ts</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">fgeo</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.284909</span> <span class="o">-</span> <span class="mf">0.166314</span> <span class="o">*</span> <span class="n">ts</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">0.041840</span> <span class="o">*</span> <span class="n">ts</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">pbs</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">ts</span><span class="p">,</span> <span class="n">fiso</span><span class="p">,</span> <span class="n">fgeo</span><span class="p">,</span> <span class="n">fvol</span><span class="p">:</span> <span class="n">fiso</span> <span class="o">+</span> <span class="mf">0.189184</span> <span class="o">*</span> <span class="n">fvol</span> <span class="o">-</span> <span class="mf">1.377622</span> <span class="o">*</span> <span class="n">fgeo</span>
+<span class="n">albedo</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">ts</span><span class="p">,</span> <span class="n">fiso</span><span class="p">,</span> <span class="n">fgeo</span><span class="p">,</span> <span class="n">fvol</span><span class="p">:</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">pws</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">fiso</span><span class="p">,</span> <span class="n">fgeo</span><span class="p">,</span> <span class="n">fvol</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">pbs</span><span class="p">(</span>
+    <span class="n">ts</span><span class="p">,</span> <span class="n">fiso</span><span class="p">,</span> <span class="n">fgeo</span><span class="p">,</span> <span class="n">fvol</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we define the date to evaluate the reflected albedo irradiance at and the ECEF position of the satellite</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+<span class="n">datestr</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1"> UTC&#39;</span>
+<span class="n">sat_pos_ecef</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6378</span> <span class="o">+</span> <span class="mf">4e4</span><span class="p">)</span> <span class="o">*</span> <span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]))</span>
+</pre></div>
+</div>
+<p>Now we identify all the useful geometry: the ECEF positions of the grid cells, the Sun vector, the solar zenith angle at each grid cell, and the albedo at each point</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ecef_grid</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">lla_to_itrf</span><span class="p">(</span>
+    <span class="n">lat_geod</span><span class="o">=</span><span class="n">lat_geod_grid</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+    <span class="n">lon</span><span class="o">=</span><span class="n">lon_grid</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+    <span class="n">alt_km</span><span class="o">=</span><span class="mi">0</span> <span class="o">*</span> <span class="n">lon_grid</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="n">j2000_to_itrf_rotm</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">itrf_to_j2000</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">sun_ecef_hat</span> <span class="o">=</span> <span class="p">(</span><span class="n">j2000_to_itrf_rotm</span> <span class="o">@</span> <span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">sun</span><span class="p">(</span><span class="n">date</span><span class="p">))</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">sun_dir</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">sun_ecef_hat</span><span class="p">,</span> <span class="p">(</span><span class="n">ecef_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">solar_zenith</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">ecef_grid</span><span class="p">),</span> <span class="n">sun_dir</span><span class="p">))</span>
+<span class="n">solar_zenith_grid</span> <span class="o">=</span> <span class="n">solar_zenith</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mapshape</span><span class="p">)</span>
+<span class="n">albedo_grid</span> <span class="o">=</span> <span class="n">albedo</span><span class="p">(</span><span class="n">solar_zenith_grid</span><span class="p">,</span> <span class="n">fiso_map</span><span class="p">,</span> <span class="n">fgeo_map</span><span class="p">,</span> <span class="n">fvol_map</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For fun, let’s classify the types of twilight to plot later</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">solar_type_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">solar_zenith_grid</span><span class="p">)</span>
+<span class="n">solar_type_grid</span><span class="p">[</span>
+    <span class="p">(</span><span class="n">solar_zenith_grid</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">solar_zenith_grid</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mi">18</span><span class="p">))</span>
+<span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="c1"># Astronomical twilight</span>
+<span class="n">solar_type_grid</span><span class="p">[</span>
+    <span class="p">(</span><span class="n">solar_zenith_grid</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">solar_zenith_grid</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mi">12</span><span class="p">))</span>
+<span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="c1"># Nautical twilight</span>
+<span class="n">solar_type_grid</span><span class="p">[</span>
+    <span class="p">(</span><span class="n">solar_zenith_grid</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">solar_zenith_grid</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+<span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c1"># Civil twilight</span>
+<span class="n">solar_type_grid</span><span class="p">[</span><span class="n">solar_zenith_grid</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mi">16</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="c1"># Night</span>
+</pre></div>
+</div>
+<p>Computing which grid cells are visible from the satellite</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">surf_to_sat</span> <span class="o">=</span> <span class="n">sat_pos_ecef</span> <span class="o">-</span> <span class="n">ecef_grid</span>
+<span class="n">surf_to_sat_dir</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">surf_to_sat</span><span class="p">)</span>
+<span class="n">surf_to_sat_rmag_m_grid</span> <span class="o">=</span> <span class="mf">1e3</span> <span class="o">*</span> <span class="n">ps</span><span class="o">.</span><span class="n">vecnorm</span><span class="p">(</span><span class="n">surf_to_sat</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mapshape</span><span class="p">)</span>
+<span class="n">tosat_to_normal_ang</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">ecef_grid</span><span class="p">),</span> <span class="n">surf_to_sat_dir</span><span class="p">))</span>
+<span class="n">tosat_to_normal_grid</span> <span class="o">=</span> <span class="n">tosat_to_normal_ang</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mapshape</span><span class="p">)</span>
+<span class="n">pt_visible_from_sat</span> <span class="o">=</span> <span class="n">tosat_to_normal_grid</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span>
+
+<span class="c1"># Visible and illuminated points</span>
+<span class="n">ill_and_vis</span> <span class="o">=</span> <span class="n">pt_visible_from_sat</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">solar_type_grid</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">brdf_to_brightness</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">solar_zenith_grid</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">tosat_to_normal_grid</span><span class="p">)</span>
+<span class="n">loss_at_surf_diffuse</span> <span class="o">=</span> <span class="n">brdf_to_brightness</span> <span class="o">*</span> <span class="n">ill_and_vis</span> <span class="o">*</span> <span class="n">albedo_grid</span>
+<span class="n">is_ocean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">albedo_grid</span> <span class="o">-</span> <span class="n">albedo_grid</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mf">1e-8</span>
+<span class="n">loss_at_surface_specular</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">ps</span><span class="o">.</span><span class="n">brdf_phong</span><span class="p">(</span><span class="n">sun_dir</span><span class="p">,</span> <span class="n">surf_to_sat_dir</span><span class="p">,</span> <span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">ecef_grid</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+        <span class="n">mapshape</span>
+    <span class="p">)</span>
+    <span class="o">*</span> <span class="n">is_ocean</span>
+    <span class="o">*</span> <span class="n">brdf_to_brightness</span>
+<span class="p">)</span>
+
+<span class="n">obs_type_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">solar_zenith_grid</span><span class="p">)</span>
+<span class="n">obs_type_grid</span><span class="p">[</span><span class="n">pt_visible_from_sat</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">obs_type_grid</span><span class="p">[(</span><span class="n">solar_type_grid</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">pt_visible_from_sat</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">obs_type_grid</span><span class="p">[</span><span class="n">ill_and_vis</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p>Computes the areas of each grid cell</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dp</span><span class="p">,</span> <span class="n">dt</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">lat_geod_space</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">lat_geod_space</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">lon_space</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">lon_space</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">cell_area_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">ps</span><span class="o">.</span><span class="n">lat_lon_cell_area</span><span class="p">((</span><span class="n">p</span> <span class="o">+</span> <span class="n">dp</span><span class="p">,</span> <span class="n">p</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dt</span><span class="p">))</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">lat_geod_space</span><span class="p">]</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">lon_space</span><span class="o">.</span><span class="n">size</span><span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Computing Lambertian reflection (for the land) and Phong reflection (for the ocean) from each grid cell</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rmag_loss_grid</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">surf_to_sat_rmag_m_grid</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">irrad_from_surf</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">ps</span><span class="o">.</span><span class="n">total_solar_irradiance_at_dates</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+    <span class="o">*</span> <span class="n">rmag_loss_grid</span>
+    <span class="o">*</span> <span class="n">cell_area_grid</span>
+    <span class="o">*</span> <span class="p">(</span><span class="n">loss_at_surf_diffuse</span> <span class="o">+</span> <span class="n">loss_at_surface_specular</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">irrad_from_surf</span><span class="p">)</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>6.28e+00
+</pre></div>
+</div>
+<p>Let’s compare with the implementation in the pyspaceaware package</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ps</span><span class="o">.</span><span class="n">tic</span><span class="p">()</span>
+<span class="n">alb_irrad</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">albedo_irradiance</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">sat_pos_ecef</span><span class="p">)</span>
+<span class="n">ps</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">alb_irrad</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 3.26e-01 seconds
+6.28e+00
+</pre></div>
+</div>
+<p>Defining a few useful functions to simplify the plotting process</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bcmap</span> <span class="o">=</span> <span class="s2">&quot;PiYG&quot;</span>
+</pre></div>
+</div>
+<p>Plotting the albedo across the grid</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ps</span><span class="o">.</span><span class="n">plot_map_with_grid</span><span class="p">(</span>
+    <span class="n">albedo_grid</span><span class="p">,</span> <span class="s2">&quot;March Mean Albedo&quot;</span><span class="p">,</span> <span class="s2">&quot;Surface Albedo&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;PuBuGn_r&quot;</span><span class="p">,</span> <span class="n">borders</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_reflected_albedo_001.png" srcset="../../_images/sphx_glr_reflected_albedo_001.png" alt="March Mean Albedo" class = "sphx-glr-single-img"/><p>Plotting the solar zenith angle</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ps</span><span class="o">.</span><span class="n">plot_map_with_grid</span><span class="p">(</span>
+    <span class="n">solar_zenith_grid</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;Solar Zenith Angles: </span><span class="si">{</span><span class="n">datestr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Solar zenith angle [rad]&quot;</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">,</span>
+    <span class="n">borders</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_reflected_albedo_002.png" srcset="../../_images/sphx_glr_reflected_albedo_002.png" alt="Solar Zenith Angles: 2022-06-23 05:53:00 UTC" class = "sphx-glr-single-img"/><p>Plotting the twilight types</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ps</span><span class="o">.</span><span class="n">plot_map_with_grid</span><span class="p">(</span>
+    <span class="n">solar_type_grid</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;Twilight Types: </span><span class="si">{</span><span class="n">datestr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Solar zenith angle [rad]&quot;</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">,</span>
+    <span class="n">borders</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">cbar_tick_labels</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">&quot;Day&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Civil twilight&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Nautical twilight&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Astronomical twilight&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Night&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_reflected_albedo_003.png" srcset="../../_images/sphx_glr_reflected_albedo_003.png" alt="Twilight Types: 2022-06-23 05:53:00 UTC" class = "sphx-glr-single-img"/><p>Plotting grid cell visibility and illumination conditions</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ps</span><span class="o">.</span><span class="n">plot_map_with_grid</span><span class="p">(</span>
+    <span class="n">obs_type_grid</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;Observation Conditions: </span><span class="si">{</span><span class="n">datestr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;Twilight Types&quot;</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s2">&quot;Paired&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="n">borders</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">,</span>
+    <span class="n">cbar_tick_labels</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">&quot;Not visible or illum.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Visible not illum.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Illum. not visible&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Illum. and visible&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_reflected_albedo_004.png" srcset="../../_images/sphx_glr_reflected_albedo_004.png" alt="Observation Conditions: 2022-06-23 05:53:00 UTC" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/Users/liamrobinson/Documents/PyLightCurves/examples/02-lighting/reflected_albedo.py:186: MatplotlibDeprecationWarning: The get_cmap function was deprecated in Matplotlib 3.7 and will be removed two minor releases later. Use ``matplotlib.colormaps[name]`` or ``matplotlib.colormaps.get_cmap(obj)`` instead.
+  cmap=plt.cm.get_cmap(&quot;Paired&quot;, 4),
+</pre></div>
+</div>
+<p>BRDF kernel values at each point</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ps</span><span class="o">.</span><span class="n">plot_map_with_grid</span><span class="p">(</span>
+    <span class="n">loss_at_surf_diffuse</span> <span class="o">+</span> <span class="n">loss_at_surface_specular</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;BRDF Kernel: </span><span class="si">{</span><span class="n">datestr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">,</span>
+    <span class="n">borders</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_reflected_albedo_005.png" srcset="../../_images/sphx_glr_reflected_albedo_005.png" alt="BRDF Kernel: 2022-06-23 05:53:00 UTC" class = "sphx-glr-single-img"/><p>Plotting the areas of each grid cell</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ps</span><span class="o">.</span><span class="n">plot_map_with_grid</span><span class="p">(</span>
+    <span class="n">cell_area_grid</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;Cell Areas: </span><span class="si">{</span><span class="n">datestr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;$[m^2]$&quot;</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">,</span>
+    <span class="n">borders</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_reflected_albedo_006.png" srcset="../../_images/sphx_glr_reflected_albedo_006.png" alt="Cell Areas: 2022-06-23 05:53:00 UTC" class = "sphx-glr-single-img"/><p>Plotting the irradiance from each grid cell</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ps</span><span class="o">.</span><span class="n">plot_map_with_grid</span><span class="p">(</span>
+    <span class="n">irrad_from_surf</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;Reflected Irradiance: </span><span class="si">{</span><span class="n">datestr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="sa">r</span><span class="s2">&quot;$\left[W/m^2\right]$&quot;</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;hot&quot;</span><span class="p">,</span>
+    <span class="n">borders</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">border_color</span><span class="o">=</span><span class="s2">&quot;lime&quot;</span><span class="p">,</span>
+    <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_reflected_albedo_007.png" srcset="../../_images/sphx_glr_reflected_albedo_007.png" alt="Reflected Irradiance: 2022-06-23 05:53:00 UTC" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  4.405 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-02-lighting-reflected-albedo-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/7c461b58c86e224abd6502a0a5446632/reflected_albedo.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">reflected_albedo.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/031ef68b0b8206450cb07bd7a40de8ce/reflected_albedo.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">reflected_albedo.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2023, Liam Robinson.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

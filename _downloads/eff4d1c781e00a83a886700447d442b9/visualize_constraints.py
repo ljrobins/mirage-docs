@@ -2,9 +2,7 @@
 Horizon Masked Observations
 ===========================
 """
-import sys
 
-sys.path.append(".")
 
 import pyspaceaware as ps
 import numpy as np
@@ -22,7 +20,7 @@ station = ps.Station(
     lon_deg=-70.19252101245867,
     alt_km=0.0,
     name="Peaks_Island_Maine",
-    use_terrain_height=True,
+    altitude_reference="terrain",
 )
 
 # %%
@@ -83,7 +81,7 @@ look_dir_eci = ps.hat(obj_eci - station_eci)
 
 # %%
 # We can now plot an animation of the pass with the horizon mask superimposed on the local terrain
-enu_terrain = (ps.ecef_to_enu(station.ecef) @ (itrf_terrain - station.ecef).T).T
+enu_terrain = (ps.ecef_to_enu(station.itrf) @ (itrf_terrain - station.itrf).T).T
 dem = pv.StructuredGrid(
     enu_terrain[:, 0].reshape(elev_grid.shape),
     enu_terrain[:, 1].reshape(elev_grid.shape),
@@ -106,9 +104,7 @@ pre_render_fcn = lambda pl: (
     ps.plot3(pl, enu_rays, color="c", line_width=5),
     ps.plot3(
         pl,
-        ps.az_el_to_enu(
-            *station.eci_to_az_el(dates, look_dir_eci + station.j2000_at_dates(dates))
-        ),
+        ps.az_el_to_enu(*station.eci_to_az_el(dates, look_dir_eci)),
         line_width=5,
     ),
 )
@@ -134,7 +130,7 @@ def render_fcn(pl: pv.Plotter, i: int, dates=None, horizon_constraint=None):
     )
 
 
-az, el = station.eci_to_az_el(dates, look_dir_eci + station.j2000_at_dates(dates))
+az, el = station.eci_to_az_el(dates, look_dir_eci)
 obj_enu = ps.az_el_to_enu(az, el)
 
 ps.render_video(

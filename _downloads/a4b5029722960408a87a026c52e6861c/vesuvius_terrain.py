@@ -2,9 +2,7 @@
 Terrain Tiles
 =============
 """
-import sys
 
-sys.path.append(".")
 
 import pyspaceaware as ps
 import numpy as np
@@ -20,7 +18,7 @@ elev_grid = tile.elev_grid / 1e3 + ps.geoid_height_at_lla(lat_rad, lon_rad)
 itrf_terrain = ps.lla_to_itrf(
     np.deg2rad(tile.lat_grid).flatten(),
     np.deg2rad(tile.lon_grid).flatten(),
-    elev_grid.T.flatten(),
+    elev_grid.flatten(),
 )
 
 dem = pv.StructuredGrid(
@@ -28,7 +26,7 @@ dem = pv.StructuredGrid(
     itrf_terrain[:, 1].reshape(elev_grid.shape),
     itrf_terrain[:, 2].reshape(elev_grid.shape),
 )
-dem["Elevation [km]"] = elev_grid.T.flatten(order="f")
+dem["Elevation [km]"] = elev_grid.flatten(order="f")
 dem["Latitude"] = tile.lat_grid.flatten(order="f")
 dem["Longitude"] = tile.lon_grid.flatten(order="f")
 
@@ -37,10 +35,12 @@ pl.add_mesh(
     dem,
     smooth_shading=True,
     scalars="Elevation [km]",
-    opacity=0.9,
+    opacity=0.6,
     show_scalar_bar=True,
 )
-ps.plot_earth(pl, mode="ecef", date=ps.now(), high_def=True, ocean_floor=False)
+ps.plot_earth(
+    pl, mode="ecef", date=ps.utc(2023, 12, 9, 12), high_def=True, ocean_floor=False
+)
 pl.camera.focal_point = np.mean(itrf_terrain, axis=0)
 pl.camera.position = 6800 * ps.hat(np.mean(itrf_terrain, axis=0))
 
