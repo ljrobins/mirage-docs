@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>GAIA Patched Catalog &#8212; pyspaceaware 0.0.1 documentation</title>
+    <title>GAIA Patched Catalog &#8212; pyspaceaware  documentation</title>
   
   
   
@@ -49,7 +49,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Background Signals" href="background_signals.html" />
-    <link rel="prev" title="Total Solar Irradiance" href="total_solar_irradiance.html" />
+    <link rel="prev" title="Global Elevation" href="geoid_heights.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -299,8 +299,9 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/hifi_propagation.html">Propagating with Perturbations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/propagate_single_tle.html">Propagating single TLE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/propagate_catalog.html">Propagating the catalog</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../00-orbits/ground_track.html">Ground Tracks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/tle_switching.html">TLE Switching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/ground_track.html">Ground Tracks</a></li>
+
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../01-light_curves/index.html">Light Curves</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -320,12 +321,13 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Environment</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="geoid_heights.html">Geoid Heights</a></li>
 <li class="toctree-l2"><a class="reference internal" href="space_weather.html">Space Weather</a></li>
 <li class="toctree-l2"><a class="reference internal" href="astro_spectra.html">Astrometric Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vesuvius_terrain.html">Terrain Tiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="total_solar_irradiance.html">Total Solar Irradiance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoid_heights.html">Global Elevation</a></li>
+
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="background_signals.html">Background Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reflected_albedo.html">Earth Albedo BRDF</a></li>
@@ -345,7 +347,13 @@ document.write(`
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/horizon_mask.html">Horizon Masks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/pogs_local_terrain.html">POGS Local Terrain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/visualize_constraints.html">Horizon Masked Observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/local_hemisphere.html">Live Satellites From Observer</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../08-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/nnls_vs_fnnls.html">FNNLS vs NNLS</a></li>
 </ul>
 </li>
 </ul>
@@ -416,10 +424,12 @@ to download the full example code</p>
 <section class="sphx-glr-example-title" id="gaia-patched-catalog">
 <span id="sphx-glr-gallery-04-environment-gaia-patched-catalog-py"></span><h1>GAIA Patched Catalog<a class="headerlink" href="#gaia-patched-catalog" title="Permalink to this heading">#</a></h1>
 <p>Displays the patched GAIA catalog</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
 <p>Let’s set up a grid of directions to plot the starlight signal at in J2000</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="n">dec_grid</span><span class="p">,</span> <span class="n">ra_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
     <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span>
@@ -469,7 +479,7 @@ We’ll also overlay the Tycho 2 RA/Dec coordinates to confirm that both overlap
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_gaia_patched_catalog_001.png" srcset="../../_images/sphx_glr_gaia_patched_catalog_001.png" alt="Patched GAIA Catalog Above Magnitude 16" class = "sphx-glr-single-img"/><p>We can also display the GAIA patched catalog and the Tycho 2 unit vectors on the ECI unit sphere:</p>
+<img src="../../_images/sphx_glr_gaia_patched_catalog_001.png" srcset="../../_images/sphx_glr_gaia_patched_catalog_001.png, ../../_images/sphx_glr_gaia_patched_catalog_001_2_00x.png 2.00x" alt="Patched GAIA Catalog Above Magnitude 16" class = "sphx-glr-single-img"/><p>We can also display the GAIA patched catalog and the Tycho 2 unit vectors on the ECI unit sphere:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
 
 <span class="n">tycho2_unit_vectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">sph_to_cart</span><span class="p">(</span><span class="n">az</span><span class="o">=</span><span class="n">tycho2_ra_rad</span><span class="p">,</span> <span class="n">el</span><span class="o">=</span><span class="n">tycho2_dec_rad</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
@@ -496,7 +506,7 @@ We’ll also overlay the Tycho 2 RA/Dec coordinates to confirm that both overlap
 <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_gaia_patched_catalog_002.png" srcset="../../_images/sphx_glr_gaia_patched_catalog_002.png" alt="gaia patched catalog" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.387 seconds)</p>
+<img src="../../_images/sphx_glr_gaia_patched_catalog_002.png" srcset="../../_images/sphx_glr_gaia_patched_catalog_002.png" alt="gaia patched catalog" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.257 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-04-environment-gaia-patched-catalog-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/d02f8f744ee9d560f2c87159a12a9b86/gaia_patched_catalog.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">gaia_patched_catalog.py</span></code></a></p>
@@ -520,12 +530,12 @@ We’ll also overlay the Tycho 2 RA/Dec coordinates to confirm that both overlap
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="total_solar_irradiance.html"
+       href="geoid_heights.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Total Solar Irradiance</p>
+        <p class="prev-next-title">Global Elevation</p>
       </div>
     </a>
     <a class="right-next"
@@ -569,7 +579,7 @@ We’ll also overlay the Tycho 2 RA/Dec coordinates to confirm that both overlap
         <div class="footer-item">
   <p class="copyright">
     
-      © Copyright 2023, Liam Robinson.
+      © Copyright 2022-2023, Liam Robinson.
       <br/>
     
   </p>

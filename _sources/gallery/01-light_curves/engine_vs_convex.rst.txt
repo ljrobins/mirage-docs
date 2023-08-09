@@ -23,16 +23,16 @@ Convex vs Engine Light Curves
 
 Comparing light curves produced by the LightCurveEngine renderer and a simplified convex method
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-13
+.. GENERATED FROM PYTHON SOURCE LINES 7-14
 
 .. code-block:: default
 
 
-    import numpy as np
-    import pyspaceaware as ps
     import matplotlib.pyplot as plt
+    import numpy as np
     import seaborn as sns
 
+    import pyspaceaware as ps
 
 
 
@@ -40,11 +40,12 @@ Comparing light curves produced by the LightCurveEngine renderer and a simplifie
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 14-15
+
+.. GENERATED FROM PYTHON SOURCE LINES 15-16
 
 Defining the object and BRDF
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-18
+.. GENERATED FROM PYTHON SOURCE LINES 16-19
 
 .. code-block:: default
 
@@ -58,11 +59,11 @@ Defining the object and BRDF
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-20
+.. GENERATED FROM PYTHON SOURCE LINES 20-21
 
 Defining the attitude profile
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-33
+.. GENERATED FROM PYTHON SOURCE LINES 21-34
 
 .. code-block:: default
 
@@ -83,43 +84,41 @@ Defining the attitude profile
 
 
 
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 34-35
-
-We can now run the engine and compute a convex light curve:
-
-.. GENERATED FROM PYTHON SOURCE LINES 35-41
-
-.. code-block:: default
-
-
-    b_non_convex = ps.run_engine(
-        brdf, obj.file_name, svb, ovb, instance_count=1, show_window=False, frame_rate=1000
-    )
-    b_convex = obj.compute_convex_light_curve(brdf, svb, ovb)
-
-
-
-
-
 .. rst-class:: sphx-glr-script-out
 
  .. code-block:: none
 
-    Running Light Curve Engine: 
-    /Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/ctools/engine/LightCurveEngine-mac-arm -m /Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/resources/models/gem.obj -i 1 -c 1000 -r light_curve0.lcr -x /Users/liamrobinson/Documents/PyLightCurves/examples/01-light_curves/out  -b 1 -D 0.1 -S 0.9 -N 30 -f 1000
+    [1. 1. 1.] False
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 35-36
+
+We can now run the engine and compute a convex light curve:
+
+.. GENERATED FROM PYTHON SOURCE LINES 36-42
+
+.. code-block:: default
+
+
+    b_non_convex = ps.run_light_curve_engine(
+        brdf, obj.file_name, svb, ovb, instance_count=1, show_window=False, frame_rate=1000
+    )
+    b_convex = obj.convex_light_curve(brdf, svb, ovb)
 
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-43
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 43-44
 
 And plot the results
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-54
+.. GENERATED FROM PYTHON SOURCE LINES 44-55
 
 .. code-block:: default
 
@@ -139,18 +138,18 @@ And plot the results
 
 .. image-sg:: /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_001.png
    :alt: Light Curves for gem.obj
-   :srcset: /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_001.png
+   :srcset: /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_001.png, /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_001_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 55-56
+.. GENERATED FROM PYTHON SOURCE LINES 56-57
 
 Plotting the error instead of the brightness values
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-65
+.. GENERATED FROM PYTHON SOURCE LINES 57-66
 
 .. code-block:: default
 
@@ -168,18 +167,18 @@ Plotting the error instead of the brightness values
 
 .. image-sg:: /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_002.png
    :alt: Light Curves Error for gem.obj
-   :srcset: /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_002.png
+   :srcset: /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_002.png, /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_002_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 66-67
+.. GENERATED FROM PYTHON SOURCE LINES 67-68
 
 This is nice and small, which we like to see. If we repeat this process for a non-convex object, the error quickly becomes clear
 
-.. GENERATED FROM PYTHON SOURCE LINES 67-84
+.. GENERATED FROM PYTHON SOURCE LINES 68-87
 
 .. code-block:: default
 
@@ -187,8 +186,10 @@ This is nice and small, which we like to see. If we repeat this process for a no
     obj = ps.SpaceObject("tess.obj")
     brdf = ps.Brdf("phong", cd=0.5, cs=0.5, n=10)
 
-    b_non_convex = ps.run_engine(brdf, obj.file_name, svb, ovb, instance_count=1)
-    b_convex = obj.compute_convex_light_curve(brdf, svb, ovb)
+    b_non_convex = ps.run_light_curve_engine(
+        brdf, obj.file_name, svb, ovb, instance_count=1
+    )
+    b_convex = obj.convex_light_curve(brdf, svb, ovb)
 
 
     plt.figure()
@@ -205,16 +206,8 @@ This is nice and small, which we like to see. If we repeat this process for a no
 
 .. image-sg:: /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_003.png
    :alt: Light Curves for tess.obj
-   :srcset: /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_003.png
+   :srcset: /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_003.png, /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_003_2_00x.png 2.00x
    :class: sphx-glr-single-img
-
-
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    Running Light Curve Engine: 
-    /Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/ctools/engine/LightCurveEngine-mac-arm -m /Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/resources/models/tess.obj -i 1 -c 1000 -r light_curve0.lcr -x /Users/liamrobinson/Documents/PyLightCurves/examples/01-light_curves/out  -b 1 -D 0.5 -S 0.5 -N 10 -f 1000
 
 
 
@@ -223,7 +216,7 @@ This is nice and small, which we like to see. If we repeat this process for a no
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  9.136 seconds)
+   **Total running time of the script:** ( 0 minutes  9.041 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_engine_vs_convex.py:

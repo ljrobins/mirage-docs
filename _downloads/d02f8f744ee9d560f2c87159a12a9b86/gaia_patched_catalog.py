@@ -5,11 +5,12 @@ GAIA Patched Catalog
 Displays the patched GAIA catalog
 """
 
+import matplotlib.pyplot as plt
+import numpy as np
+
 # %%
 # Let's set up a grid of directions to plot the starlight signal at in J2000
 import pyspaceaware as ps
-import matplotlib.pyplot as plt
-import numpy as np
 
 dec_grid, ra_grid = np.meshgrid(
     np.linspace(-np.pi / 2, np.pi / 2, 180),

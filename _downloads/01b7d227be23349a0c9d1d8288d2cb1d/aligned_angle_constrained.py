@@ -8,10 +8,12 @@ Simulates and animates an aligned and constrained attitude profile
 """
 
 
-import pyspaceaware as ps
+import datetime
+
 import numpy as np
 import pyvista as pv
-import datetime
+
+import pyspaceaware as ps
 
 data_points = 100
 obj = ps.SpaceObject("tess.obj", identifier="INTELSAT 511")
@@ -27,15 +29,14 @@ date = ps.utc(2022, 12, 9, 14)
 orbit_normal = ps.hat(np.cross(r, v))
 sat_nadir = -ps.hat(r)
 t = epsec_space / np.max(epsec_space) * 4 * np.pi
-jd_space = ps.date_to_jd(date_space)
 
 sat_sun = ps.hat(ps.sun(date_space))
 att = ps.AlignedAndConstrainedAttitude(
-    sat_nadir, sat_sun, jd_space, axis_order=(2, 0, 1)
+    sat_nadir, sat_sun, date_space, axis_order=(2, 0, 1)
 )
-c = att.dcm_at_jds(jd_space)
+c = att.dcm_at_dates(date_space)
 quat = ps.dcm_to_quat(c)
-(v1, v2, v3) = att.basis_vectors_at_jds(jd_space)
+(v1, v2, v3) = att.basis_vectors_at_dates(date_space)
 
 sun_in_body = ps.stack_mat_mult_vec(c, sat_sun)
 obs_in_body = ps.stack_mat_mult_vec(c, sat_nadir)

@@ -4,11 +4,13 @@ Horizon Masked Observations
 """
 
 
-import pyspaceaware as ps
-import numpy as np
 import datetime
+
+import numpy as np
 import pyvista as pv
 import terrainman as tm
+
+import pyspaceaware as ps
 
 # %%
 # Let's define an observation station right before an ISS pass
@@ -28,16 +30,9 @@ station = ps.Station(
 obj = ps.SpaceObject("tess.obj", identifier=25544)
 brdf = ps.Brdf("phong")
 
-
 # %%
 # We can now apply a bunch of constraints to the observation, including a horizon mask for the local terrain
 station.constraints = [
-    ps.SnrConstraint(3),
-    ps.ElevationConstraint(10),
-    ps.TargetIlluminatedConstraint(),
-    ps.ObserverEclipseConstraint(station),
-    ps.VisualMagnitudeConstraint(20),
-    ps.MoonExclusionConstraint(10),
     ps.HorizonMaskConstraint(station),
 ]
 tile = tm.TerrainDataHandler().load_tiles_containing(
@@ -69,15 +64,10 @@ obj_attitude = ps.RbtfAttitude(
     itensor=obj.principal_itensor,
 )
 
-(lc_noisy, aux_data) = station.observe_light_curve(
-    obj, obj_attitude, brdf, dates, use_engine=True
-)
-
-cnstr = aux_data["individual_constraints_satisfied"]
-horizon_constraint = cnstr[:, -1]
-obj_eci = aux_data["object_pos_eci"]
-station_eci = aux_data["station_pos_eci"]
+obj_eci = obj.propagate(dates)
+station_eci = station.j2000_at_dates(dates)
 look_dir_eci = ps.hat(obj_eci - station_eci)
+horizon_constraint = station.eval_constraints(look_dir_eci=look_dir_eci, dates=dates)
 
 # %%
 # We can now plot an animation of the pass with the horizon mask superimposed on the local terrain

@@ -23,15 +23,16 @@ Azimuth/Elevation Conversion
 
 Given a station and a target in inertial space we can compute the azimuth and elevation of the object, or invert an azimuth and elevation into a new look direction
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-13
+.. GENERATED FROM PYTHON SOURCE LINES 7-14
 
 .. code-block:: default
 
 
-    import pyspaceaware as ps
+    import matplotlib.pyplot as plt
     import numpy as np
     import pyvista as pv
-    import matplotlib.pyplot as plt
+
+    import pyspaceaware as ps
 
 
 
@@ -40,11 +41,11 @@ Given a station and a target in inertial space we can compute the azimuth and el
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 14-15
+.. GENERATED FROM PYTHON SOURCE LINES 15-16
 
 Let's use the Purdue Optical Ground Station for this example
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-18
+.. GENERATED FROM PYTHON SOURCE LINES 16-19
 
 .. code-block:: default
 
@@ -58,11 +59,11 @@ Let's use the Purdue Optical Ground Station for this example
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-20
+.. GENERATED FROM PYTHON SOURCE LINES 20-21
 
 Let's extract the station's position in J2000 and create an ECI look direction which is just outwards and down towards the equator
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-28
+.. GENERATED FROM PYTHON SOURCE LINES 21-29
 
 .. code-block:: default
 
@@ -81,11 +82,11 @@ Let's extract the station's position in J2000 and create an ECI look direction w
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 29-30
+.. GENERATED FROM PYTHON SOURCE LINES 30-31
 
 We can then turn this target direction into an azimuth/elevation pair
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-34
+.. GENERATED FROM PYTHON SOURCE LINES 31-35
 
 .. code-block:: default
 
@@ -101,17 +102,17 @@ We can then turn this target direction into an azimuth/elevation pair
 
  .. code-block:: none
 
-    az[0]=3.1442657991158502 [rad]
-    el[0]=0.4292312390092236 [rad]
+    az[0]=3.1438832805675734 [rad]
+    el[0]=0.43092306467422387 [rad]
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-36
+.. GENERATED FROM PYTHON SOURCE LINES 36-37
 
 And easily invert that into the same unit vector direction
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-41
+.. GENERATED FROM PYTHON SOURCE LINES 37-42
 
 .. code-block:: default
 
@@ -128,16 +129,16 @@ And easily invert that into the same unit vector direction
 
  .. code-block:: none
 
-    ECI vector reconstruction error: 4.0125770192081414e-16
+    ECI vector reconstruction error: 5.551115123125783e-17
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-43
+.. GENERATED FROM PYTHON SOURCE LINES 43-44
 
 We can also display this resulting unit vector as a ray cast out from the observer, hitting the target
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-64
+.. GENERATED FROM PYTHON SOURCE LINES 44-65
 
 .. code-block:: default
 
@@ -177,7 +178,7 @@ We can also display this resulting unit vector as a ray cast out from the observ
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  11.794 seconds)
+   **Total running time of the script:** ( 0 minutes  10.804 seconds)
 
 
 .. _sphx_glr_download_gallery_07-observer_az_el_parallel.py:

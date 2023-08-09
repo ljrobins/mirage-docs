@@ -18,21 +18,22 @@
 .. _sphx_glr_gallery_04-environment_geoid_heights.py:
 
 
-Geoid Heights
-=============
+Global Elevation
+================
 
-Display grid of EGM96 geoid height above the WGS84 ellipsoid
+Plots global elevations
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-13
+.. GENERATED FROM PYTHON SOURCE LINES 7-15
 
 .. code-block:: default
 
 
 
-    import pyspaceaware as ps
     import os
+
     import rasterio
 
+    import pyspaceaware as ps
 
 
 
@@ -40,11 +41,12 @@ Display grid of EGM96 geoid height above the WGS84 ellipsoid
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 14-15
+
+.. GENERATED FROM PYTHON SOURCE LINES 16-17
 
 Let's open the GeoTIFF file for the geoid heights
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-22
+.. GENERATED FROM PYTHON SOURCE LINES 17-24
 
 .. code-block:: default
 
@@ -63,16 +65,16 @@ Let's open the GeoTIFF file for the geoid heights
 
  .. code-block:: none
 
-    Elapsed time: 4.13e-02 seconds
+    Elapsed time: 4.08e-02 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-24
+.. GENERATED FROM PYTHON SOURCE LINES 25-26
 
 And plot with a map of the Earth below
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-33
+.. GENERATED FROM PYTHON SOURCE LINES 26-36
 
 .. code-block:: default
 
@@ -88,9 +90,115 @@ And plot with a map of the Earth below
 
 
 
+
 .. image-sg:: /gallery/04-environment/images/sphx_glr_geoid_heights_001.png
    :alt: EGM96 Geoid Undulations
-   :srcset: /gallery/04-environment/images/sphx_glr_geoid_heights_001.png
+   :srcset: /gallery/04-environment/images/sphx_glr_geoid_heights_001.png, /gallery/04-environment/images/sphx_glr_geoid_heights_001_2_00x.png 2.00x
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 37-39
+
+Repeated with PyGMT
+===================
+
+.. GENERATED FROM PYTHON SOURCE LINES 39-42
+
+.. code-block:: default
+
+
+    import pygmt
+
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 43-44
+
+Plotting terrain elevation above the EGM96 geoid
+
+.. GENERATED FROM PYTHON SOURCE LINES 44-68
+
+.. code-block:: default
+
+    region = [-179, 179, -89, 89]
+    projection = "Cyl_stere/30/-20/12c"
+    cmap = "haxby"
+    grid = pygmt.datasets.load_earth_relief(resolution="01d", region=region)
+    fig = pygmt.Figure()
+
+    fig.basemap(region=region, projection=projection, frame=["a"])
+
+    fig.grdimage(
+        grid=grid,
+        cmap=cmap,
+        projection=projection,
+    )
+
+    fig.grdcontour(
+        annotation=None,
+        interval=2000,
+        grid=grid,
+        pen="0.5p,black",
+    )
+
+    fig.colorbar(frame=["x+lTerrain elevation to EGM96 geoid [m]"])
+    fig.show()
+
+
+
+
+.. image-sg:: /gallery/04-environment/images/sphx_glr_geoid_heights_002.png
+   :alt: geoid heights
+   :srcset: /gallery/04-environment/images/sphx_glr_geoid_heights_002.png
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 69-70
+
+Plotting terrain elevation above the EGM96 geoid
+
+.. GENERATED FROM PYTHON SOURCE LINES 70-92
+
+.. code-block:: default
+
+    grid_geoid = pygmt.datasets.load_earth_geoid(resolution="01d", region=region)
+    fig = pygmt.Figure()
+
+    fig.basemap(region=region, projection=projection, frame=["a"])
+
+    fig.grdimage(
+        grid=grid_geoid,
+        cmap=cmap,
+        projection=projection,
+    )
+
+    fig.grdcontour(
+        grid=grid_geoid,
+        interval=30,
+        annotation=30,
+    )
+
+    fig.coast(land="white", transparency=30)
+
+
+    fig.colorbar(frame=["x+lEGM96 Geoid elevation to WGS84 ellipsoid [m]"])
+    fig.show()
+
+
+
+.. image-sg:: /gallery/04-environment/images/sphx_glr_geoid_heights_003.png
+   :alt: geoid heights
+   :srcset: /gallery/04-environment/images/sphx_glr_geoid_heights_003.png
    :class: sphx-glr-single-img
 
 
@@ -100,7 +208,7 @@ And plot with a map of the Earth below
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.054 seconds)
+   **Total running time of the script:** ( 0 minutes  15.289 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_geoid_heights.py:

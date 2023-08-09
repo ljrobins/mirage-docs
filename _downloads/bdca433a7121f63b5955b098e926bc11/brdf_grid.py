@@ -6,9 +6,10 @@ BRDFs on a hemisphere centered around the surface normal vector
 """
 
 import numpy as np
-import pyspaceaware as ps
-import vtk
 import pyvista as pv
+import vtk
+
+import pyspaceaware as ps
 
 # %%
 # Let's set up grids on the upper hemisphere of a unit sphere to compute the BRDF value at all those unit vectors

@@ -2,13 +2,13 @@
 Precession and Nutation
 =======================
 
-Viewing the evolution of the terrestrial 
+Viewing the evolution of the terrestrial
 """
 
-import pyspaceaware as ps
 import numpy as np
 import pyvista as pv
 
+import pyspaceaware as ps
 
 # %%
 # Let's use the full range of the datetime module, from near year 0 to near year 9999

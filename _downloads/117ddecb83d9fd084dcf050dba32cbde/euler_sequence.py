@@ -4,10 +4,11 @@ Euler Angle Sequence
 
 Three consecutive axis rotations forming an Euler angle sequence
 """
-import pyspaceaware as ps
 import numpy as np
-import vtk
 import pyvista as pv
+import vtk
+
+import pyspaceaware as ps
 
 # %%
 # Let's get the body axis rotation matrices and define an Euler (3-1-3) sequence

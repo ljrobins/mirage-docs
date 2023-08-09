@@ -23,15 +23,15 @@ IAU-76 J2000 Reduction
 
 Converting an ITRF vector to J2000 using the IAU-76 nutation theory, comparing results to Vallado's Fundamentals of Astrodynamics 4th edition
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-12
+.. GENERATED FROM PYTHON SOURCE LINES 7-13
 
 .. code-block:: default
 
 
 
-    import pyspaceaware as ps
     import numpy as np
 
+    import pyspaceaware as ps
 
 
 
@@ -39,11 +39,12 @@ Converting an ITRF vector to J2000 using the IAU-76 nutation theory, comparing r
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 13-14
+
+.. GENERATED FROM PYTHON SOURCE LINES 14-15
 
 Truth values presented here are copied from Vallado Example 3-15 (pg. 230)
 
-.. GENERATED FROM PYTHON SOURCE LINES 14-31
+.. GENERATED FROM PYTHON SOURCE LINES 15-32
 
 .. code-block:: default
 
@@ -71,11 +72,11 @@ Truth values presented here are copied from Vallado Example 3-15 (pg. 230)
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-33
+.. GENERATED FROM PYTHON SOURCE LINES 33-34
 
 We can now compute these values for ourselves
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-40
+.. GENERATED FROM PYTHON SOURCE LINES 34-41
 
 .. code-block:: default
 
@@ -93,11 +94,11 @@ We can now compute these values for ourselves
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-42
+.. GENERATED FROM PYTHON SOURCE LINES 42-43
 
 We can compute the error in the assorted quantities we computed
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-57
+.. GENERATED FROM PYTHON SOURCE LINES 43-58
 
 .. code-block:: default
 
@@ -123,11 +124,11 @@ We can compute the error in the assorted quantities we computed
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-59
+.. GENERATED FROM PYTHON SOURCE LINES 59-60
 
 And assert that these errors are sufficiently small to the Vallado values
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-70
+.. GENERATED FROM PYTHON SOURCE LINES 60-71
 
 .. code-block:: default
 
@@ -149,12 +150,12 @@ And assert that these errors are sufficiently small to the Vallado values
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 71-73
+.. GENERATED FROM PYTHON SOURCE LINES 72-74
 
 As well as the individual frame transformations in the chain from ITRF to J2000.
 In each transformation, we start with the truth Vallado value so that the error does not accumulate from earlier transformations. This lets us see how much error each transformation introduces by itself
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-78
+.. GENERATED FROM PYTHON SOURCE LINES 74-79
 
 .. code-block:: default
 
@@ -170,11 +171,11 @@ In each transformation, we start with the truth Vallado value so that the error 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-80
+.. GENERATED FROM PYTHON SOURCE LINES 80-81
 
 Likewise, we compute the componentwise errors in each transformation in meters
 
-.. GENERATED FROM PYTHON SOURCE LINES 80-86
+.. GENERATED FROM PYTHON SOURCE LINES 81-87
 
 .. code-block:: default
 
@@ -191,11 +192,11 @@ Likewise, we compute the componentwise errors in each transformation in meters
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 87-88
+.. GENERATED FROM PYTHON SOURCE LINES 88-89
 
 And assert that these must also be small -- for now we use 1 meter as the target error accumulation per transformation
 
-.. GENERATED FROM PYTHON SOURCE LINES 88-93
+.. GENERATED FROM PYTHON SOURCE LINES 89-94
 
 .. code-block:: default
 
@@ -211,11 +212,11 @@ And assert that these must also be small -- for now we use 1 meter as the target
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 94-95
+.. GENERATED FROM PYTHON SOURCE LINES 95-96
 
 Let's collect these error results
 
-.. GENERATED FROM PYTHON SOURCE LINES 95-112
+.. GENERATED FROM PYTHON SOURCE LINES 96-113
 
 .. code-block:: default
 
@@ -262,11 +263,11 @@ Let's collect these error results
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 113-114
+.. GENERATED FROM PYTHON SOURCE LINES 114-115
 
 We can now perform a simultaneous transformation that deals with all the sub-rotations behind the scenes
 
-.. GENERATED FROM PYTHON SOURCE LINES 114-125
+.. GENERATED FROM PYTHON SOURCE LINES 115-126
 
 .. code-block:: default
 
@@ -296,11 +297,11 @@ We can now perform a simultaneous transformation that deals with all the sub-rot
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 126-127
+.. GENERATED FROM PYTHON SOURCE LINES 127-128
 
 Finally, let's run the transformation in reverse to make sure we can both directions
 
-.. GENERATED FROM PYTHON SOURCE LINES 127-137
+.. GENERATED FROM PYTHON SOURCE LINES 128-138
 
 .. code-block:: default
 
@@ -332,7 +333,7 @@ Finally, let's run the transformation in reverse to make sure we can both direct
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.018 seconds)
+   **Total running time of the script:** ( 0 minutes  0.026 seconds)
 
 
 .. _sphx_glr_download_gallery_03-coordinate-systems_itrf_to_j2000.py:

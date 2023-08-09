@@ -5,8 +5,9 @@ Time Systems
 Uses Astropy to extract exact offsets between various time systems
 """
 
-import pyspaceaware as ps
 import matplotlib.pyplot as plt
+
+import pyspaceaware as ps
 
 dates = ps.date_linspace(ps.now() - ps.years(50), ps.now(), int(1e4))
 

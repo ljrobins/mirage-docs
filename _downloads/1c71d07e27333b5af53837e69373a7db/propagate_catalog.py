@@ -6,10 +6,12 @@ Load the full TLE catalog and propagate all objects to a given epoch
 """
 
 
-import pyspaceaware as ps
-import pyvista as pv
 import datetime
+
 import numpy as np
+import pyvista as pv
+
+import pyspaceaware as ps
 
 
 # %%

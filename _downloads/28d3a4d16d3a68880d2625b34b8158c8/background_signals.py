@@ -2,16 +2,18 @@
 Background Signals
 ==================
 
-The signal mean model due to various sources
+The mean background signal model due to various sources
 """
 
 
-# %%
-# Defining a function we can use to plot various background signals
-import pyspaceaware as ps
+import datetime
+
 import numpy as np
 import pyvista as pv
-import datetime
+import pyspaceaware as ps
+
+# %%
+# Defining a function we can use to plot various background signals
 
 
 def hemisphere_signal(
@@ -89,9 +91,7 @@ def hemisphere_signal(
 # station = ps.Station(preset="lmt", lat_deg=33.776864, lon_deg=-84.363777) # Atlanta, GA
 station = ps.Station(preset="pogs")
 station.telescope = ps.Telescope(preset="sdt")
-date = datetime.datetime(
-    2023, 10, 1, 5, 45, 0, tzinfo=datetime.timezone.utc
-)  # Fig 5.38
+date = ps.utc(2023, 10, 1, 5, 45, 0)  # Fig 5.38
 
 # %%
 # Plotting the background signal for scattered moonlight

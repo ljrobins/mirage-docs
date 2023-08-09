@@ -6,9 +6,10 @@ Propagating an orbit with spherical harmonics and third body effects
 """
 
 
-import pyspaceaware as ps
-import pyvista as pv
 import numpy as np
+import pyvista as pv
+
+import pyspaceaware as ps
 
 # %%
 # Defining our initial condition and the propagation times

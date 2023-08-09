@@ -23,14 +23,14 @@ Moon Librations
 
 Animations the librations of the Moon: the apparent motion of the Moon as viewed from the Earth
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-11
+.. GENERATED FROM PYTHON SOURCE LINES 7-12
 
 .. code-block:: default
 
 
-    import pyspaceaware as ps
     import pyvista as pv
 
+    import pyspaceaware as ps
 
 
 
@@ -38,21 +38,22 @@ Animations the librations of the Moon: the apparent motion of the Moon as viewed
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 12-13
+
+.. GENERATED FROM PYTHON SOURCE LINES 13-14
 
 Let's animate the librations of the Moon over the course of a synodic month (the time required for the Moon to complete an orbit with respect to the Sun-Earth line).
 
-.. GENERATED FROM PYTHON SOURCE LINES 13-29
+.. GENERATED FROM PYTHON SOURCE LINES 14-30
 
 .. code-block:: default
 
     dates = ps.date_linspace(
         ps.now(),
         ps.now() + ps.days(ps.AstroConstants.moon_synodic_period_days),
-        100,
+        50,
     )
     pl = pv.Plotter()
-    pl.open_gif("moon_librations.gif", fps=20)
+    pl.open_gif("moon_librations.gif", subrectangles=True)
     for i, date in enumerate(dates[:-1]):
         ps.plot_moon(pl, mode="eci", date=date)
         pl.camera.view_angle = 1.0  # The Moon's angular size from the Earth is about 0.5 deg, so let's double that FOV
@@ -77,7 +78,7 @@ Let's animate the librations of the Moon over the course of a synodic month (the
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  32.592 seconds)
+   **Total running time of the script:** ( 0 minutes  10.632 seconds)
 
 
 .. _sphx_glr_download_gallery_05-vis_moon_libration.py:

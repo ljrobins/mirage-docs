@@ -5,9 +5,10 @@ Rigid Body Torque Free Attitudes
 Animates the attitude motion of an object in torque free motion
 """
 
-import pyspaceaware as ps
 import numpy as np
 import pyvista as pv
+
+import pyspaceaware as ps
 
 (dates, epsecs) = ps.date_linspace(
     ps.now(), ps.now() + ps.seconds(10), 200, return_epsecs=True

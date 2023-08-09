@@ -5,10 +5,12 @@ Equinoxes and Solstices
 Visualizes the transformation from ITRF to J2000 over the course of a day and at special points of the year, highlighting the importance of the spring equinox
 """
 import datetime
-import pyspaceaware as ps
-import vtk
-import pyvista as pv
+
 import numpy as np
+import pyvista as pv
+import vtk
+
+import pyspaceaware as ps
 
 # %%
 # Let's set up a space of dates over a single day

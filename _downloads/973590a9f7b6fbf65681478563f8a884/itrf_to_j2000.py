@@ -6,8 +6,9 @@ Converting an ITRF vector to J2000 using the IAU-76 nutation theory, comparing r
 """
 
 
-import pyspaceaware as ps
 import numpy as np
+
+import pyspaceaware as ps
 
 # %%
 # Truth values presented here are copied from Vallado Example 3-15 (pg. 230)

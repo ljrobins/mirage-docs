@@ -2,14 +2,16 @@
 Zenith Light Pollution
 ======================
 
-Plotting and querying a large dataset of zenith light pollution from `here <https://www.lightpollutionmap.info/help.html#FAQ31>`_, with the raw file `here <https://www2.lightpollutionmap.info/data/viirs_2022_raw.zip>`_ 
+Plotting and querying a large dataset of zenith light pollution from the `Light Pollution Map <https://www.lightpollutionmap.info/help.html#FAQ31>`_, with the raw file `found here <https://www2.lightpollutionmap.info/data/viirs_2022_raw.zip>`_
 """
 
-import rasterio
+import os
+
 import matplotlib.pyplot as plt
 import numpy as np
+import rasterio
 from scipy.ndimage import gaussian_filter
-import os
+
 import pyspaceaware as ps
 
 sz = 20

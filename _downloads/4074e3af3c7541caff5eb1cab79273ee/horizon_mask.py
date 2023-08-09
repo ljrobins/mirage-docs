@@ -6,12 +6,13 @@ Builds a terrain-driven horizon mask for a given station and displays the result
 """
 
 
-# %%
-# Defining the station at Katmandu, where ``station.name`` informs the name of the resulting mask file
-import pyspaceaware as ps
 import numpy as np
 import pyvista as pv
 import terrainman as tm
+
+# %%
+# Defining the station at Katmandu, where ``station.name`` informs the name of the resulting mask file
+import pyspaceaware as ps
 
 station = ps.Station(
     preset="pogs",

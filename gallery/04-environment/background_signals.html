@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Background Signals &#8212; pyspaceaware 0.0.1 documentation</title>
+    <title>Background Signals &#8212; pyspaceaware  documentation</title>
   
   
   
@@ -299,8 +299,9 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/hifi_propagation.html">Propagating with Perturbations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/propagate_single_tle.html">Propagating single TLE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/propagate_catalog.html">Propagating the catalog</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../00-orbits/ground_track.html">Ground Tracks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/tle_switching.html">TLE Switching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/ground_track.html">Ground Tracks</a></li>
+
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../01-light_curves/index.html">Light Curves</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -320,12 +321,13 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Environment</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="geoid_heights.html">Geoid Heights</a></li>
 <li class="toctree-l2"><a class="reference internal" href="space_weather.html">Space Weather</a></li>
 <li class="toctree-l2"><a class="reference internal" href="astro_spectra.html">Astrometric Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vesuvius_terrain.html">Terrain Tiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="total_solar_irradiance.html">Total Solar Irradiance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoid_heights.html">Global Elevation</a></li>
+
 <li class="toctree-l2"><a class="reference internal" href="gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Background Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reflected_albedo.html">Earth Albedo BRDF</a></li>
@@ -345,7 +347,13 @@ document.write(`
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/horizon_mask.html">Horizon Masks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/pogs_local_terrain.html">POGS Local Terrain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/visualize_constraints.html">Horizon Masked Observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/local_hemisphere.html">Live Satellites From Observer</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../08-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/nnls_vs_fnnls.html">FNNLS vs NNLS</a></li>
 </ul>
 </li>
 </ul>
@@ -415,15 +423,16 @@ to download the full example code</p>
 </div>
 <section class="sphx-glr-example-title" id="background-signals">
 <span id="sphx-glr-gallery-04-environment-background-signals-py"></span><h1>Background Signals<a class="headerlink" href="#background-signals" title="Permalink to this heading">#</a></h1>
-<p>The signal mean model due to various sources</p>
-<p>Defining a function we can use to plot various background signals</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
+<p>The mean background signal model due to various sources</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">datetime</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
-<span class="kn">import</span> <span class="nn">datetime</span>
-
-
-<span class="k">def</span> <span class="nf">hemisphere_signal</span><span class="p">(</span>
+<span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
+</pre></div>
+</div>
+<p>Defining a function we can use to plot various background signals</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">hemisphere_signal</span><span class="p">(</span>
     <span class="n">station</span><span class="p">:</span> <span class="n">ps</span><span class="o">.</span><span class="n">Station</span><span class="p">,</span>
     <span class="n">date</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span>
     <span class="n">signal_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
@@ -497,9 +506,7 @@ to download the full example code</p>
 station = ps.Station(preset=”lmt”, lat_deg=33.776864, lon_deg=-84.363777) # Atlanta, GA</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">station</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">Station</span><span class="p">(</span><span class="n">preset</span><span class="o">=</span><span class="s2">&quot;pogs&quot;</span><span class="p">)</span>
 <span class="n">station</span><span class="o">.</span><span class="n">telescope</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">Telescope</span><span class="p">(</span><span class="n">preset</span><span class="o">=</span><span class="s2">&quot;sdt&quot;</span><span class="p">)</span>
-<span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span>
-    <span class="mi">2023</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span>
-<span class="p">)</span>  <span class="c1"># Fig 5.38</span>
+<span class="n">date</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">utc</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Fig 5.38</span>
 </pre></div>
 </div>
 <p>Plotting the background signal for scattered moonlight</p>
@@ -514,8 +521,8 @@ station = ps.Station(preset=”lmt”, lat_deg=33.776864, lon_deg=-84.363777) # 
 <span class="n">hemisphere_signal</span><span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">signal_kwargs</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_background_signals_001.png" srcset="../../_images/sphx_glr_background_signals_001.png" alt="background signals" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 1.03e-02 seconds
-Elapsed time: 6.57e+00 seconds
+<img src="../../_images/sphx_glr_background_signals_001.png" srcset="../../_images/sphx_glr_background_signals_001.png" alt="background signals" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 9.23e-03 seconds
+Elapsed time: 6.64e+00 seconds
 </pre></div>
 </div>
 <p>Plotting the background signal for integrated starlight</p>
@@ -530,8 +537,8 @@ Elapsed time: 6.57e+00 seconds
 <span class="n">hemisphere_signal</span><span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">signal_kwargs</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_background_signals_002.png" srcset="../../_images/sphx_glr_background_signals_002.png" alt="background signals" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 9.38e-03 seconds
-Elapsed time: 3.08e+00 seconds
+<img src="../../_images/sphx_glr_background_signals_002.png" srcset="../../_images/sphx_glr_background_signals_002.png" alt="background signals" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 9.95e-03 seconds
+Elapsed time: 3.09e+00 seconds
 </pre></div>
 </div>
 <p>Plotting the background signal for light pollution</p>
@@ -546,8 +553,8 @@ Elapsed time: 3.08e+00 seconds
 <span class="n">hemisphere_signal</span><span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">signal_kwargs</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_background_signals_003.png" srcset="../../_images/sphx_glr_background_signals_003.png" alt="background signals" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 9.06e-03 seconds
-Elapsed time: 2.99e+00 seconds
+<img src="../../_images/sphx_glr_background_signals_003.png" srcset="../../_images/sphx_glr_background_signals_003.png" alt="background signals" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 1.09e-02 seconds
+Elapsed time: 3.18e+00 seconds
 </pre></div>
 </div>
 <p>Plotting the background signal for zodiac light</p>
@@ -562,8 +569,8 @@ Elapsed time: 2.99e+00 seconds
 <span class="n">hemisphere_signal</span><span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">signal_kwargs</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_background_signals_004.png" srcset="../../_images/sphx_glr_background_signals_004.png" alt="background signals" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 9.74e-03 seconds
-Elapsed time: 4.64e+00 seconds
+<img src="../../_images/sphx_glr_background_signals_004.png" srcset="../../_images/sphx_glr_background_signals_004.png" alt="background signals" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 8.91e-03 seconds
+Elapsed time: 4.95e+00 seconds
 </pre></div>
 </div>
 <p>Plotting the background signal for airglow</p>
@@ -578,8 +585,8 @@ Elapsed time: 4.64e+00 seconds
 <span class="n">hemisphere_signal</span><span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">signal_kwargs</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_background_signals_005.png" srcset="../../_images/sphx_glr_background_signals_005.png" alt="background signals" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 9.21e-03 seconds
-Elapsed time: 2.99e+00 seconds
+<img src="../../_images/sphx_glr_background_signals_005.png" srcset="../../_images/sphx_glr_background_signals_005.png" alt="background signals" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 2.45e-02 seconds
+Elapsed time: 3.18e+00 seconds
 </pre></div>
 </div>
 <p>Plotting the background signal for atmospherically scattered light</p>
@@ -594,8 +601,8 @@ Elapsed time: 2.99e+00 seconds
 <span class="n">hemisphere_signal</span><span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">signal_kwargs</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_background_signals_006.png" srcset="../../_images/sphx_glr_background_signals_006.png" alt="background signals" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 9.45e-03 seconds
-Elapsed time: 3.02e+00 seconds
+<img src="../../_images/sphx_glr_background_signals_006.png" srcset="../../_images/sphx_glr_background_signals_006.png" alt="background signals" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 9.59e-03 seconds
+Elapsed time: 3.00e+00 seconds
 </pre></div>
 </div>
 <p>Plotting the full background signal with all sources enabled</p>
@@ -610,11 +617,11 @@ Elapsed time: 3.02e+00 seconds
 <span class="n">hemisphere_signal</span><span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">signal_kwargs</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_background_signals_007.png" srcset="../../_images/sphx_glr_background_signals_007.png" alt="background signals" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 8.94e-03 seconds
-Elapsed time: 9.75e+00 seconds
+<img src="../../_images/sphx_glr_background_signals_007.png" srcset="../../_images/sphx_glr_background_signals_007.png" alt="background signals" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 9.03e-03 seconds
+Elapsed time: 1.02e+01 seconds
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  54.323 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  58.877 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-04-environment-background-signals-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/28d3a4d16d3a68880d2625b34b8158c8/background_signals.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">background_signals.py</span></code></a></p>
@@ -687,7 +694,7 @@ Elapsed time: 9.75e+00 seconds
         <div class="footer-item">
   <p class="copyright">
     
-      © Copyright 2023, Liam Robinson.
+      © Copyright 2022-2023, Liam Robinson.
       <br/>
     
   </p>

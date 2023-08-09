@@ -5,11 +5,13 @@ Convex Light Curves
 Simulates torque-free rigid body motion for a simple object and computes the light curve
 """
 
-import pyspaceaware as ps
 import datetime
-import seaborn as sns
+
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
+
+import pyspaceaware as ps
 
 # %%
 # To keep things simple, we'll just use a cube for this demo
@@ -38,7 +40,7 @@ ovi = np.array([[0, 1, 0]])
 ovb = ps.stack_mat_mult_vec(dcm, ovi)
 # Observer vector in the body frame
 
-lc = obj.compute_convex_light_curve(brdf, svb, ovb)
+lc = obj.convex_light_curve(brdf, svb, ovb)
 
 plt.figure()
 sns.lineplot(x=teval, y=lc)

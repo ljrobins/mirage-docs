@@ -5,10 +5,11 @@ Astrometric Spectra
 A few useful spectra for simulating CCD measurements
 """
 
-import seaborn as sns
-import pyspaceaware as ps
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
+
+import pyspaceaware as ps
 
 ltest = np.linspace(200, 1000, int(1e4)) * 1e-9
 isun = ps.sun_spectrum(ltest) * 1e-10

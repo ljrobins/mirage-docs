@@ -4,10 +4,11 @@ Terrain Tiles
 """
 
 
-import pyspaceaware as ps
 import numpy as np
 import pyvista as pv
 import terrainman as tm
+
+import pyspaceaware as ps
 
 lat_deg, lon_deg = 40.8224, 14.4289
 lat_rad, lon_rad = np.deg2rad(lat_deg), np.deg2rad(lon_deg)

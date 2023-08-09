@@ -23,16 +23,18 @@ Convex Light Curves
 
 Simulates torque-free rigid body motion for a simple object and computes the light curve
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-14
+.. GENERATED FROM PYTHON SOURCE LINES 7-16
 
 .. code-block:: default
 
 
-    import pyspaceaware as ps
     import datetime
-    import seaborn as sns
+
     import matplotlib.pyplot as plt
     import numpy as np
+    import seaborn as sns
+
+    import pyspaceaware as ps
 
 
 
@@ -41,11 +43,11 @@ Simulates torque-free rigid body motion for a simple object and computes the lig
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-16
+.. GENERATED FROM PYTHON SOURCE LINES 17-18
 
 To keep things simple, we'll just use a cube for this demo
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-19
+.. GENERATED FROM PYTHON SOURCE LINES 18-21
 
 .. code-block:: default
 
@@ -59,11 +61,11 @@ To keep things simple, we'll just use a cube for this demo
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-21
+.. GENERATED FROM PYTHON SOURCE LINES 22-23
 
 Computing the quaternion time history of the object
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-30
+.. GENERATED FROM PYTHON SOURCE LINES 23-32
 
 .. code-block:: default
 
@@ -80,14 +82,20 @@ Computing the quaternion time history of the object
 
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    [1. 1. 1.] False
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-32
+
+.. GENERATED FROM PYTHON SOURCE LINES 33-34
 
 Transforming fixed inertial Sun and Observer vectors into the body frame
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-50
+.. GENERATED FROM PYTHON SOURCE LINES 34-52
 
 .. code-block:: default
 
@@ -100,7 +108,7 @@ Transforming fixed inertial Sun and Observer vectors into the body frame
     ovb = ps.stack_mat_mult_vec(dcm, ovi)
     # Observer vector in the body frame
 
-    lc = obj.compute_convex_light_curve(brdf, svb, ovb)
+    lc = obj.convex_light_curve(brdf, svb, ovb)
 
     plt.figure()
     sns.lineplot(x=teval, y=lc)
@@ -114,7 +122,7 @@ Transforming fixed inertial Sun and Observer vectors into the body frame
 
 .. image-sg:: /gallery/01-light_curves/images/sphx_glr_convex_light_curve_001.png
    :alt: Convex Light Curves
-   :srcset: /gallery/01-light_curves/images/sphx_glr_convex_light_curve_001.png
+   :srcset: /gallery/01-light_curves/images/sphx_glr_convex_light_curve_001.png, /gallery/01-light_curves/images/sphx_glr_convex_light_curve_001_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
 
@@ -124,7 +132,7 @@ Transforming fixed inertial Sun and Observer vectors into the body frame
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.356 seconds)
+   **Total running time of the script:** ( 0 minutes  0.359 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_convex_light_curve.py:

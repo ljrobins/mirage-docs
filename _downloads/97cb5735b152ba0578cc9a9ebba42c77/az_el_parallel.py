@@ -5,10 +5,11 @@ Azimuth/Elevation Conversion
 Given a station and a target in inertial space we can compute the azimuth and elevation of the object, or invert an azimuth and elevation into a new look direction
 """
 
-import pyspaceaware as ps
+import matplotlib.pyplot as plt
 import numpy as np
 import pyvista as pv
-import matplotlib.pyplot as plt
+
+import pyspaceaware as ps
 
 # %%
 # Let's use the Purdue Optical Ground Station for this example

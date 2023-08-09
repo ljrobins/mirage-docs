@@ -6,11 +6,13 @@ Plotting the :math:`K_p`, :math:`A_p`, and F10.7 space weather indices
 """
 
 
-import os
-import pyspaceaware as ps
-import pandas as pd
-import matplotlib.pyplot as plt
 import datetime
+import os
+
+import matplotlib.pyplot as plt
+import pandas as pd
+
+import pyspaceaware as ps
 
 # %%
 # Loading the space weather file and extracting the dates and indices

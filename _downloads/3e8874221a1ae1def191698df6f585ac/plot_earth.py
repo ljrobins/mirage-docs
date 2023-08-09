@@ -5,10 +5,12 @@ Plotting Earth
 Plotting the Earth with a variety of options
 """
 
-import pyspaceaware as ps
-import pyvista as pv
 import datetime
+
 import numpy as np
+import pyvista as pv
+
+import pyspaceaware as ps
 
 date = datetime.datetime(2022, 6, 4, 12, 0, 0, tzinfo=datetime.timezone.utc)
 date_space_day = date + ps.days(np.linspace(0, 1, 100, endpoint=False))
@@ -48,13 +50,15 @@ ps.plot_earth(
 pl.show()
 
 # %%
-# Night lights
+# Night lights with latitude and longitude lines
 pl = pv.Plotter()
 ps.plot_earth(
     pl,
     date=date,
     night_lights=True,
 )
+grid = ps.celestial_grid(15, 15)
+ps.plot3(pl, ps.AstroConstants.earth_r_eq * grid, color='cornflowerblue', line_width=5, lighting=False, opacity=0.2)
 pl.show()
 
 # %%

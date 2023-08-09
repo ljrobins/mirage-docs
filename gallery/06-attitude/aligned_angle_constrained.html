@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Aligned and Constrained &#8212; pyspaceaware 0.0.1 documentation</title>
+    <title>Aligned and Constrained &#8212; pyspaceaware  documentation</title>
   
   
   
@@ -299,8 +299,9 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/hifi_propagation.html">Propagating with Perturbations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/propagate_single_tle.html">Propagating single TLE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/propagate_catalog.html">Propagating the catalog</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../00-orbits/ground_track.html">Ground Tracks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/tle_switching.html">TLE Switching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/ground_track.html">Ground Tracks</a></li>
+
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../01-light_curves/index.html">Light Curves</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -320,12 +321,13 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../04-environment/index.html">Environment</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/geoid_heights.html">Geoid Heights</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometric Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/total_solar_irradiance.html">Total Solar Irradiance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/geoid_heights.html">Global Elevation</a></li>
+
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/reflected_albedo.html">Earth Albedo BRDF</a></li>
@@ -345,7 +347,13 @@ document.write(`
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/horizon_mask.html">Horizon Masks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/pogs_local_terrain.html">POGS Local Terrain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/visualize_constraints.html">Horizon Masked Observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/local_hemisphere.html">Live Satellites From Observer</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../08-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/nnls_vs_fnnls.html">FNNLS vs NNLS</a></li>
 </ul>
 </li>
 </ul>
@@ -420,10 +428,12 @@ to download the full example code</p>
 <p class="admonition-title">Note</p>
 <p>If you want to record a .mp4 video instead, try <code class="docutils literal notranslate"><span class="pre">pl.open_movie(&quot;aligned_and_constrained.mov&quot;,</span> <span class="pre">framerate=30,</span> <span class="pre">quality=9)</span></code></p>
 </div>
-<img src="../../_images/sphx_glr_aligned_angle_constrained_001.png" srcset="../../_images/sphx_glr_aligned_angle_constrained_001.png" alt="aligned angle constrained" class = "sphx-glr-single-img"/><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
+<img src="../../_images/sphx_glr_aligned_angle_constrained_001.png" srcset="../../_images/sphx_glr_aligned_angle_constrained_001.png" alt="aligned angle constrained" class = "sphx-glr-single-img"/><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">datetime</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
-<span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
 
 <span class="n">data_points</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">obj</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">SpaceObject</span><span class="p">(</span><span class="s2">&quot;tess.obj&quot;</span><span class="p">,</span> <span class="n">identifier</span><span class="o">=</span><span class="s2">&quot;INTELSAT 511&quot;</span><span class="p">)</span>
@@ -439,15 +449,14 @@ to download the full example code</p>
 <span class="n">orbit_normal</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
 <span class="n">sat_nadir</span> <span class="o">=</span> <span class="o">-</span><span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
 <span class="n">t</span> <span class="o">=</span> <span class="n">epsec_space</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">epsec_space</span><span class="p">)</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
-<span class="n">jd_space</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">date_to_jd</span><span class="p">(</span><span class="n">date_space</span><span class="p">)</span>
 
 <span class="n">sat_sun</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">sun</span><span class="p">(</span><span class="n">date_space</span><span class="p">))</span>
 <span class="n">att</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">AlignedAndConstrainedAttitude</span><span class="p">(</span>
-    <span class="n">sat_nadir</span><span class="p">,</span> <span class="n">sat_sun</span><span class="p">,</span> <span class="n">jd_space</span><span class="p">,</span> <span class="n">axis_order</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">sat_nadir</span><span class="p">,</span> <span class="n">sat_sun</span><span class="p">,</span> <span class="n">date_space</span><span class="p">,</span> <span class="n">axis_order</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="p">)</span>
-<span class="n">c</span> <span class="o">=</span> <span class="n">att</span><span class="o">.</span><span class="n">dcm_at_jds</span><span class="p">(</span><span class="n">jd_space</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">att</span><span class="o">.</span><span class="n">dcm_at_dates</span><span class="p">(</span><span class="n">date_space</span><span class="p">)</span>
 <span class="n">quat</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">dcm_to_quat</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-<span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span><span class="p">)</span> <span class="o">=</span> <span class="n">att</span><span class="o">.</span><span class="n">basis_vectors_at_jds</span><span class="p">(</span><span class="n">jd_space</span><span class="p">)</span>
+<span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span><span class="p">)</span> <span class="o">=</span> <span class="n">att</span><span class="o">.</span><span class="n">basis_vectors_at_dates</span><span class="p">(</span><span class="n">date_space</span><span class="p">)</span>
 
 <span class="n">sun_in_body</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">stack_mat_mult_vec</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">sat_sun</span><span class="p">)</span>
 <span class="n">obs_in_body</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">stack_mat_mult_vec</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">sat_nadir</span><span class="p">)</span>
@@ -487,7 +496,7 @@ to download the full example code</p>
 <span class="n">pl</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 1 minutes  42.203 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 1 minutes  49.100 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-06-attitude-aligned-angle-constrained-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/01b7d227be23349a0c9d1d8288d2cb1d/aligned_angle_constrained.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">aligned_angle_constrained.py</span></code></a></p>
@@ -560,7 +569,7 @@ to download the full example code</p>
         <div class="footer-item">
   <p class="copyright">
     
-      © Copyright 2023, Liam Robinson.
+      © Copyright 2022-2023, Liam Robinson.
       <br/>
     
   </p>

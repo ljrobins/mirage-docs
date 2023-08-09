@@ -14,11 +14,12 @@ Modeling the incident radiation at a spacecraft due to reflected sunlight from t
 # Let's first load the coefficient arrays :math:`f_{iso}`, :math:`f_{geo}`, and :math:`f_{vol}` from file
 
 
-import pyspaceaware as ps
+import datetime
 
 import matplotlib.pyplot as plt
 import numpy as np
-import datetime
+
+import pyspaceaware as ps
 
 save_dict = ps.load_albedo_file()
 fiso_map = np.array(save_dict["fiso_map"])
@@ -59,7 +60,7 @@ ecef_grid = ps.lla_to_itrf(
 j2000_to_itrf_rotm = ps.itrf_to_j2000(date).T
 sun_ecef_hat = (j2000_to_itrf_rotm @ ps.hat(ps.sun(date)).T).T
 sun_dir = np.tile(sun_ecef_hat, (ecef_grid.shape[0], 1))
-solar_zenith = np.arccos(ps.dot(ps.hat(ecef_grid), sun_dir))
+solar_zenith = ps.angle_between_vecs(ecef_grid, sun_dir)
 solar_zenith_grid = solar_zenith.reshape(mapshape)
 albedo_grid = albedo(solar_zenith_grid, fiso_map, fgeo_map, fvol_map)
 
@@ -86,7 +87,7 @@ solar_type_grid[solar_zenith_grid > np.pi / 2 + np.deg2rad(16)] = 4
 surf_to_sat = sat_pos_ecef - ecef_grid
 surf_to_sat_dir = ps.hat(surf_to_sat)
 surf_to_sat_rmag_m_grid = 1e3 * ps.vecnorm(surf_to_sat).reshape(mapshape)
-tosat_to_normal_ang = np.arccos(ps.dot(ps.hat(ecef_grid), surf_to_sat_dir))
+tosat_to_normal_ang = ps.angle_between_vecs(ecef_grid, surf_to_sat_dir)
 tosat_to_normal_grid = tosat_to_normal_ang.reshape(mapshape)
 pt_visible_from_sat = tosat_to_normal_grid < np.pi / 2
 

@@ -5,9 +5,10 @@ Propagating single TLE
 Propagates a single TLE for a given NORAD ID and propagates the trajectory
 """
 
-import pyspaceaware as ps
-import pyvista as pv
 import numpy as np
+import pyvista as pv
+
+import pyspaceaware as ps
 
 date_space = ps.date_linspace(ps.today(), ps.today() + ps.hours(3), 1000)
 # Propagate out one day

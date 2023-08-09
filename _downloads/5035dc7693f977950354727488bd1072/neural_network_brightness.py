@@ -6,11 +6,12 @@ Trains a neural network to predict the brightness of a specular cube in an arbit
 """
 
 
+import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
+
 import pyspaceaware as ps
 import pyspaceaware.sim as pssim
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 # %%
 # Let's define the object and the BRDF

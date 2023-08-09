@@ -5,9 +5,10 @@ TLE Switching
 Various methods to switch between TLEs for more accurate long-term propagation
 """
 
-import pyspaceaware as ps
-import pyvista as pv
 import numpy as np
+import pyvista as pv
+
+import pyspaceaware as ps
 
 # %%
 # Let's use the SUPERBIRD 6 satellite

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Earth Albedo BRDF &#8212; pyspaceaware 0.0.1 documentation</title>
+    <title>Earth Albedo BRDF &#8212; pyspaceaware  documentation</title>
   
   
   
@@ -300,8 +300,9 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/hifi_propagation.html">Propagating with Perturbations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/propagate_single_tle.html">Propagating single TLE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/propagate_catalog.html">Propagating the catalog</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../00-orbits/ground_track.html">Ground Tracks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/tle_switching.html">TLE Switching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/ground_track.html">Ground Tracks</a></li>
+
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../01-light_curves/index.html">Light Curves</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -321,12 +322,13 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Environment</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="geoid_heights.html">Geoid Heights</a></li>
 <li class="toctree-l2"><a class="reference internal" href="space_weather.html">Space Weather</a></li>
 <li class="toctree-l2"><a class="reference internal" href="astro_spectra.html">Astrometric Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vesuvius_terrain.html">Terrain Tiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="total_solar_irradiance.html">Total Solar Irradiance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoid_heights.html">Global Elevation</a></li>
+
 <li class="toctree-l2"><a class="reference internal" href="gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="background_signals.html">Background Signals</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Earth Albedo BRDF</a></li>
@@ -346,7 +348,13 @@ document.write(`
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/horizon_mask.html">Horizon Masks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/pogs_local_terrain.html">POGS Local Terrain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/visualize_constraints.html">Horizon Masked Observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/local_hemisphere.html">Live Satellites From Observer</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../08-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/nnls_vs_fnnls.html">FNNLS vs NNLS</a></li>
 </ul>
 </li>
 </ul>
@@ -421,11 +429,12 @@ to download the full example code</p>
 <a class="reference external" href="https://arc.aiaa.org/doi/pdf/10.2514/1.A33349">Kuvyrkin 2016</a>
 <a class="reference external" href="https://modis.gsfc.nasa.gov/data/atbd/atbd_mod09.pdf">Strahler 1999</a></p>
 <p>Let’s first load the coefficient arrays <span class="math notranslate nohighlight">\(f_{iso}\)</span>, <span class="math notranslate nohighlight">\(f_{geo}\)</span>, and <span class="math notranslate nohighlight">\(f_{vol}\)</span> from file</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">datetime</span>
 
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
 
 <span class="n">save_dict</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">load_albedo_file</span><span class="p">()</span>
 <span class="n">fiso_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">save_dict</span><span class="p">[</span><span class="s2">&quot;fiso_map&quot;</span><span class="p">])</span>
@@ -465,7 +474,7 @@ to download the full example code</p>
 <span class="n">j2000_to_itrf_rotm</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">itrf_to_j2000</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
 <span class="n">sun_ecef_hat</span> <span class="o">=</span> <span class="p">(</span><span class="n">j2000_to_itrf_rotm</span> <span class="o">@</span> <span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">sun</span><span class="p">(</span><span class="n">date</span><span class="p">))</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
 <span class="n">sun_dir</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">sun_ecef_hat</span><span class="p">,</span> <span class="p">(</span><span class="n">ecef_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
-<span class="n">solar_zenith</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">ecef_grid</span><span class="p">),</span> <span class="n">sun_dir</span><span class="p">))</span>
+<span class="n">solar_zenith</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">angle_between_vecs</span><span class="p">(</span><span class="n">ecef_grid</span><span class="p">,</span> <span class="n">sun_dir</span><span class="p">)</span>
 <span class="n">solar_zenith_grid</span> <span class="o">=</span> <span class="n">solar_zenith</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mapshape</span><span class="p">)</span>
 <span class="n">albedo_grid</span> <span class="o">=</span> <span class="n">albedo</span><span class="p">(</span><span class="n">solar_zenith_grid</span><span class="p">,</span> <span class="n">fiso_map</span><span class="p">,</span> <span class="n">fgeo_map</span><span class="p">,</span> <span class="n">fvol_map</span><span class="p">)</span>
 </pre></div>
@@ -492,7 +501,7 @@ to download the full example code</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">surf_to_sat</span> <span class="o">=</span> <span class="n">sat_pos_ecef</span> <span class="o">-</span> <span class="n">ecef_grid</span>
 <span class="n">surf_to_sat_dir</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">surf_to_sat</span><span class="p">)</span>
 <span class="n">surf_to_sat_rmag_m_grid</span> <span class="o">=</span> <span class="mf">1e3</span> <span class="o">*</span> <span class="n">ps</span><span class="o">.</span><span class="n">vecnorm</span><span class="p">(</span><span class="n">surf_to_sat</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mapshape</span><span class="p">)</span>
-<span class="n">tosat_to_normal_ang</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">ecef_grid</span><span class="p">),</span> <span class="n">surf_to_sat_dir</span><span class="p">))</span>
+<span class="n">tosat_to_normal_ang</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">angle_between_vecs</span><span class="p">(</span><span class="n">ecef_grid</span><span class="p">,</span> <span class="n">surf_to_sat_dir</span><span class="p">)</span>
 <span class="n">tosat_to_normal_grid</span> <span class="o">=</span> <span class="n">tosat_to_normal_ang</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mapshape</span><span class="p">)</span>
 <span class="n">pt_visible_from_sat</span> <span class="o">=</span> <span class="n">tosat_to_normal_grid</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span>
 
@@ -549,7 +558,7 @@ to download the full example code</p>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">alb_irrad</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 3.34e-01 seconds
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 8.04e-01 seconds
 6.28e+00
 </pre></div>
 </div>
@@ -563,7 +572,7 @@ to download the full example code</p>
 <span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_reflected_albedo_001.png" srcset="../../_images/sphx_glr_reflected_albedo_001.png" alt="March Mean Albedo" class = "sphx-glr-single-img"/><p>Plotting the solar zenith angle</p>
+<img src="../../_images/sphx_glr_reflected_albedo_001.png" srcset="../../_images/sphx_glr_reflected_albedo_001.png, ../../_images/sphx_glr_reflected_albedo_001_2_00x.png 2.00x" alt="March Mean Albedo" class = "sphx-glr-single-img"/><p>Plotting the solar zenith angle</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ps</span><span class="o">.</span><span class="n">plot_map_with_grid</span><span class="p">(</span>
     <span class="n">solar_zenith_grid</span><span class="p">,</span>
     <span class="sa">f</span><span class="s2">&quot;Solar Zenith Angles: </span><span class="si">{</span><span class="n">datestr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -573,7 +582,7 @@ to download the full example code</p>
 <span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_reflected_albedo_002.png" srcset="../../_images/sphx_glr_reflected_albedo_002.png" alt="Solar Zenith Angles: 2022-06-23 05:53:00 UTC" class = "sphx-glr-single-img"/><p>Plotting the twilight types</p>
+<img src="../../_images/sphx_glr_reflected_albedo_002.png" srcset="../../_images/sphx_glr_reflected_albedo_002.png, ../../_images/sphx_glr_reflected_albedo_002_2_00x.png 2.00x" alt="Solar Zenith Angles: 2022-06-23 05:53:00 UTC" class = "sphx-glr-single-img"/><p>Plotting the twilight types</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ps</span><span class="o">.</span><span class="n">plot_map_with_grid</span><span class="p">(</span>
     <span class="n">solar_type_grid</span><span class="p">,</span>
     <span class="sa">f</span><span class="s2">&quot;Twilight Types: </span><span class="si">{</span><span class="n">datestr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -590,7 +599,7 @@ to download the full example code</p>
 <span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_reflected_albedo_003.png" srcset="../../_images/sphx_glr_reflected_albedo_003.png" alt="Twilight Types: 2022-06-23 05:53:00 UTC" class = "sphx-glr-single-img"/><p>Plotting grid cell visibility and illumination conditions</p>
+<img src="../../_images/sphx_glr_reflected_albedo_003.png" srcset="../../_images/sphx_glr_reflected_albedo_003.png, ../../_images/sphx_glr_reflected_albedo_003_2_00x.png 2.00x" alt="Twilight Types: 2022-06-23 05:53:00 UTC" class = "sphx-glr-single-img"/><p>Plotting grid cell visibility and illumination conditions</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ps</span><span class="o">.</span><span class="n">plot_map_with_grid</span><span class="p">(</span>
     <span class="n">obs_type_grid</span><span class="p">,</span>
     <span class="sa">f</span><span class="s2">&quot;Observation Conditions: </span><span class="si">{</span><span class="n">datestr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -607,7 +616,7 @@ to download the full example code</p>
 <span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_reflected_albedo_004.png" srcset="../../_images/sphx_glr_reflected_albedo_004.png" alt="Observation Conditions: 2022-06-23 05:53:00 UTC" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/Users/liamrobinson/Documents/PyLightCurves/examples/04-environment/reflected_albedo.py:186: MatplotlibDeprecationWarning: The get_cmap function was deprecated in Matplotlib 3.7 and will be removed two minor releases later. Use ``matplotlib.colormaps[name]`` or ``matplotlib.colormaps.get_cmap(obj)`` instead.
+<img src="../../_images/sphx_glr_reflected_albedo_004.png" srcset="../../_images/sphx_glr_reflected_albedo_004.png, ../../_images/sphx_glr_reflected_albedo_004_2_00x.png 2.00x" alt="Observation Conditions: 2022-06-23 05:53:00 UTC" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/Users/liamrobinson/Documents/PyLightCurves/examples/04-environment/reflected_albedo.py:187: MatplotlibDeprecationWarning: The get_cmap function was deprecated in Matplotlib 3.7 and will be removed two minor releases later. Use ``matplotlib.colormaps[name]`` or ``matplotlib.colormaps.get_cmap(obj)`` instead.
   cmap=plt.cm.get_cmap(&quot;Paired&quot;, 4),
 </pre></div>
 </div>
@@ -622,7 +631,7 @@ to download the full example code</p>
 <span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_reflected_albedo_005.png" srcset="../../_images/sphx_glr_reflected_albedo_005.png" alt="BRDF Kernel: 2022-06-23 05:53:00 UTC" class = "sphx-glr-single-img"/><p>Plotting the areas of each grid cell</p>
+<img src="../../_images/sphx_glr_reflected_albedo_005.png" srcset="../../_images/sphx_glr_reflected_albedo_005.png, ../../_images/sphx_glr_reflected_albedo_005_2_00x.png 2.00x" alt="BRDF Kernel: 2022-06-23 05:53:00 UTC" class = "sphx-glr-single-img"/><p>Plotting the areas of each grid cell</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ps</span><span class="o">.</span><span class="n">plot_map_with_grid</span><span class="p">(</span>
     <span class="n">cell_area_grid</span><span class="p">,</span>
     <span class="sa">f</span><span class="s2">&quot;Cell Areas: </span><span class="si">{</span><span class="n">datestr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -633,7 +642,7 @@ to download the full example code</p>
 <span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_reflected_albedo_006.png" srcset="../../_images/sphx_glr_reflected_albedo_006.png" alt="Cell Areas: 2022-06-23 05:53:00 UTC" class = "sphx-glr-single-img"/><p>Plotting the irradiance from each grid cell</p>
+<img src="../../_images/sphx_glr_reflected_albedo_006.png" srcset="../../_images/sphx_glr_reflected_albedo_006.png, ../../_images/sphx_glr_reflected_albedo_006_2_00x.png 2.00x" alt="Cell Areas: 2022-06-23 05:53:00 UTC" class = "sphx-glr-single-img"/><p>Plotting the irradiance from each grid cell</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ps</span><span class="o">.</span><span class="n">plot_map_with_grid</span><span class="p">(</span>
     <span class="n">irrad_from_surf</span><span class="p">,</span>
     <span class="sa">f</span><span class="s2">&quot;Reflected Irradiance: </span><span class="si">{</span><span class="n">datestr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -645,7 +654,7 @@ to download the full example code</p>
 <span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_reflected_albedo_007.png" srcset="../../_images/sphx_glr_reflected_albedo_007.png" alt="Reflected Irradiance: 2022-06-23 05:53:00 UTC" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  5.139 seconds)</p>
+<img src="../../_images/sphx_glr_reflected_albedo_007.png" srcset="../../_images/sphx_glr_reflected_albedo_007.png, ../../_images/sphx_glr_reflected_albedo_007_2_00x.png 2.00x" alt="Reflected Irradiance: 2022-06-23 05:53:00 UTC" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  15.147 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-04-environment-reflected-albedo-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/d61c0acaa327491495bdd01f366f5479/reflected_albedo.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">reflected_albedo.py</span></code></a></p>
@@ -718,7 +727,7 @@ to download the full example code</p>
         <div class="footer-item">
   <p class="copyright">
     
-      © Copyright 2023, Liam Robinson.
+      © Copyright 2022-2023, Liam Robinson.
       <br/>
     
   </p>

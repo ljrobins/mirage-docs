@@ -23,17 +23,19 @@ Ground Tracks
 
 Plots the ground track for a GPS satellite
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-15
+.. GENERATED FROM PYTHON SOURCE LINES 7-17
 
 .. code-block:: default
 
 
 
-    import pyspaceaware as ps
+    import os
+
     import matplotlib.pyplot as plt
     import numpy as np
     from PIL import Image
-    import os
+
+    import pyspaceaware as ps
 
 
 
@@ -42,16 +44,16 @@ Plots the ground track for a GPS satellite
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-17
+.. GENERATED FROM PYTHON SOURCE LINES 18-19
 
 Let's set up a space of dates to operate on
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-20
+.. GENERATED FROM PYTHON SOURCE LINES 19-22
 
 .. code-block:: default
 
 
-    dates = ps.date_linspace(ps.now(), ps.now() + ps.days(10), 8640) - ps.days(100)
+    dates = ps.date_linspace(ps.now(), ps.now() + ps.days(1), 8640) - ps.days(100)
 
 
 
@@ -60,11 +62,11 @@ Let's set up a space of dates to operate on
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-22
+.. GENERATED FROM PYTHON SOURCE LINES 23-24
 
 And propagate one of the NAVSTAR satellites to all the dates
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-25
+.. GENERATED FROM PYTHON SOURCE LINES 24-27
 
 .. code-block:: default
 
@@ -78,11 +80,11 @@ And propagate one of the NAVSTAR satellites to all the dates
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-27
+.. GENERATED FROM PYTHON SOURCE LINES 28-29
 
 Converting the propagated result into ECEF, then LLA
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-30
+.. GENERATED FROM PYTHON SOURCE LINES 29-32
 
 .. code-block:: default
 
@@ -96,11 +98,11 @@ Converting the propagated result into ECEF, then LLA
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-32
+.. GENERATED FROM PYTHON SOURCE LINES 33-34
 
 Finally, plotting the resulting Earth-fixed trajectory with the Earth in the background
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-41
+.. GENERATED FROM PYTHON SOURCE LINES 34-44
 
 .. code-block:: default
 
@@ -116,9 +118,64 @@ Finally, plotting the resulting Earth-fixed trajectory with the Earth in the bac
 
 
 
+
 .. image-sg:: /gallery/00-orbits/images/sphx_glr_ground_track_001.png
    :alt: NAVSTAR 81 (USA 319) Ground Track
-   :srcset: /gallery/00-orbits/images/sphx_glr_ground_track_001.png
+   :srcset: /gallery/00-orbits/images/sphx_glr_ground_track_001.png, /gallery/00-orbits/images/sphx_glr_ground_track_001_2_00x.png 2.00x
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 45-47
+
+Repeating with PyGMT
+====================
+
+.. GENERATED FROM PYTHON SOURCE LINES 47-80
+
+.. code-block:: default
+
+
+    import pygmt
+
+    # Create a new instance or object of the pygmt.Figure() class
+    fig = pygmt.Figure()
+    projection = "N12c"
+    # projection = "G-90/10/12c"
+    # Orthographic projection (G) with projection center at 0° East and
+    # 15° North and a width of 12 centimeters
+    fig.coast(
+        projection=projection,
+        region="g",  # global
+        frame="g30",  # Add frame and gridlines in steps of 30 degrees on top
+        land="gray",  # Color land masses in "gray"
+        water="lightblue",  # Color water masses in "lightblue"
+        # Add coastlines with a 0.25 points thick pen in "gray50"
+        shorelines="1/0.25p,gray50",
+    )
+
+    x, y = np.rad2deg(lla[1]), np.rad2deg(lla[0])
+    fig.plot(x=x, y=y, pen="1.5p,red")
+
+    sl = slice(0, len(dates), len(dates) // 10)
+    rg = range(0, len(dates), len(dates) // 10)
+
+    fig.text(
+        text=[d.strftime("%H:%M UTC") for d in dates[sl]],
+        x=x[sl],
+        y=y[sl],
+        font="9p,Courier-Bold,black",
+    )
+
+    fig.show()
+
+
+
+.. image-sg:: /gallery/00-orbits/images/sphx_glr_ground_track_002.png
+   :alt: ground track
+   :srcset: /gallery/00-orbits/images/sphx_glr_ground_track_002.png
    :class: sphx-glr-single-img
 
 
@@ -128,7 +185,7 @@ Finally, plotting the resulting Earth-fixed trajectory with the Earth in the bac
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.037 seconds)
+   **Total running time of the script:** ( 0 minutes  7.512 seconds)
 
 
 .. _sphx_glr_download_gallery_00-orbits_ground_track.py:

@@ -1,0 +1,850 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>pyspaceaware.tests package &#8212; pyspaceaware  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'pyspaceaware.tests';</script>
+    <link rel="icon" href="_static/sid_logo_dark.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="References" href="references.html" />
+    <link rel="prev" title="pyspaceaware.synth package" href="pyspaceaware.synth.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/sid_logo_light.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/sid_logo_dark.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+    <p class="title logo__title">pyspaceaware</p>
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="getting_started.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="modules.html">
+                        pyspaceaware
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="references.html">
+                        References
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="gallery/index.html">
+                        Examples Gallery
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="getting_started.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="modules.html">
+                        pyspaceaware
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="references.html">
+                        References
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="gallery/index.html">
+                        Examples Gallery
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="pyspaceaware.html">pyspaceaware package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pyspaceaware.sim.html">pyspaceaware.sim package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyspaceaware.synth.html">pyspaceaware.synth package</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">pyspaceaware.tests package</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="modules.html" class="nav-link">pyspaceaware</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="pyspaceaware.html" class="nav-link">pyspaceaware package</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">pyspaceaware.tests package</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="pyspaceaware-tests-package">
+<h1>pyspaceaware.tests package<a class="headerlink" href="#pyspaceaware-tests-package" title="Permalink to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="module-pyspaceaware.tests.common">
+<span id="pyspaceaware-tests-common-module"></span><h2>pyspaceaware.tests.common module<a class="headerlink" href="#module-pyspaceaware.tests.common" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.common.by_3_strat">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.common.</span></span><span class="sig-name descname"><span class="pre">by_3_strat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.common.by_3_strat" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.common.n_by_3_sphere_strat">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.common.</span></span><span class="sig-name descname"><span class="pre">n_by_3_sphere_strat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.common.n_by_3_sphere_strat" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pyspaceaware.tests.test_attitude">
+<span id="pyspaceaware-tests-test-attitude-module"></span><h2>pyspaceaware.tests.test_attitude module<a class="headerlink" href="#module-pyspaceaware.tests.test_attitude" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_attitude.n_by_3_sphere_strat">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_attitude.</span></span><span class="sig-name descname"><span class="pre">n_by_3_sphere_strat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_attitude.n_by_3_sphere_strat" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_attitude.test_cart_sph">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_attitude.</span></span><span class="sig-name descname"><span class="pre">test_cart_sph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyspaceaware.tests.test_attitude.test_cart_sph" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_attitude.test_dcm_to_ea313">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_attitude.</span></span><span class="sig-name descname"><span class="pre">test_dcm_to_ea313</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyspaceaware.tests.test_attitude.test_dcm_to_ea313" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_attitude.test_dcm_to_mrp">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_attitude.</span></span><span class="sig-name descname"><span class="pre">test_dcm_to_mrp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyspaceaware.tests.test_attitude.test_dcm_to_mrp" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_attitude.test_dcm_to_quat">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_attitude.</span></span><span class="sig-name descname"><span class="pre">test_dcm_to_quat</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyspaceaware.tests.test_attitude.test_dcm_to_quat" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_attitude.test_mrp_to_quat">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_attitude.</span></span><span class="sig-name descname"><span class="pre">test_mrp_to_quat</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyspaceaware.tests.test_attitude.test_mrp_to_quat" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_attitude.test_quat_inv">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_attitude.</span></span><span class="sig-name descname"><span class="pre">test_quat_inv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyspaceaware.tests.test_attitude.test_quat_inv" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_attitude.test_rotation_dynamics">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_attitude.</span></span><span class="sig-name descname"><span class="pre">test_rotation_dynamics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyspaceaware.tests.test_attitude.test_rotation_dynamics" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_attitude.test_rv_add">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_attitude.</span></span><span class="sig-name descname"><span class="pre">test_rv_add</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyspaceaware.tests.test_attitude.test_rv_add" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_attitude.test_rv_to_dcm">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_attitude.</span></span><span class="sig-name descname"><span class="pre">test_rv_to_dcm</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyspaceaware.tests.test_attitude.test_rv_to_dcm" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_attitude.test_rv_to_mrp">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_attitude.</span></span><span class="sig-name descname"><span class="pre">test_rv_to_mrp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyspaceaware.tests.test_attitude.test_rv_to_mrp" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_attitude.test_rv_to_quat">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_attitude.</span></span><span class="sig-name descname"><span class="pre">test_rv_to_quat</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyspaceaware.tests.test_attitude.test_rv_to_quat" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_attitude.test_torque_free_propagation">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_attitude.</span></span><span class="sig-name descname"><span class="pre">test_torque_free_propagation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_attitude.test_torque_free_propagation" title="Permalink to this definition">#</a></dt>
+<dd><p>Ensures that the numerical integration and semi-analytic
+torque free attitude motion never diverge from eachother</p>
+</dd></dl>
+
+</section>
+<section id="module-pyspaceaware.tests.test_coordinates">
+<span id="pyspaceaware-tests-test-coordinates-module"></span><h2>pyspaceaware.tests.test_coordinates module<a class="headerlink" href="#module-pyspaceaware.tests.test_coordinates" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_coordinates.test_date_to_gast">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_coordinates.</span></span><span class="sig-name descname"><span class="pre">test_date_to_gast</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_coordinates.test_date_to_gast" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_coordinates.test_date_to_gmst">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_coordinates.</span></span><span class="sig-name descname"><span class="pre">test_date_to_gmst</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_coordinates.test_date_to_gmst" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_coordinates.test_date_to_julian_centuries">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_coordinates.</span></span><span class="sig-name descname"><span class="pre">test_date_to_julian_centuries</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_coordinates.test_date_to_julian_centuries" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_coordinates.test_delta_psi_delta_epsilon">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_coordinates.</span></span><span class="sig-name descname"><span class="pre">test_delta_psi_delta_epsilon</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_coordinates.test_delta_psi_delta_epsilon" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_coordinates.test_gtod_to_tod">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_coordinates.</span></span><span class="sig-name descname"><span class="pre">test_gtod_to_tod</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_coordinates.test_gtod_to_tod" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_coordinates.test_itrf_to_gtod">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_coordinates.</span></span><span class="sig-name descname"><span class="pre">test_itrf_to_gtod</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_coordinates.test_itrf_to_gtod" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_coordinates.test_itrf_to_j2000">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_coordinates.</span></span><span class="sig-name descname"><span class="pre">test_itrf_to_j2000</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_coordinates.test_itrf_to_j2000" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_coordinates.test_j2000_to_itrf">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_coordinates.</span></span><span class="sig-name descname"><span class="pre">test_j2000_to_itrf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_coordinates.test_j2000_to_itrf" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_coordinates.test_mod_to_j2000">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_coordinates.</span></span><span class="sig-name descname"><span class="pre">test_mod_to_j2000</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_coordinates.test_mod_to_j2000" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_coordinates.test_tod_to_mod">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_coordinates.</span></span><span class="sig-name descname"><span class="pre">test_tod_to_mod</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_coordinates.test_tod_to_mod" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_coordinates.test_ut1_minus_utc">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_coordinates.</span></span><span class="sig-name descname"><span class="pre">test_ut1_minus_utc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_coordinates.test_ut1_minus_utc" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pyspaceaware.tests.test_geodetic">
+<span id="pyspaceaware-tests-test-geodetic-module"></span><h2>pyspaceaware.tests.test_geodetic module<a class="headerlink" href="#module-pyspaceaware.tests.test_geodetic" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_geodetic.test_geoc_geod_lat_conversion">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_geodetic.</span></span><span class="sig-name descname"><span class="pre">test_geoc_geod_lat_conversion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_geodetic.test_geoc_geod_lat_conversion" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_geodetic.test_radius_at_geodetic_lat">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_geodetic.</span></span><span class="sig-name descname"><span class="pre">test_radius_at_geodetic_lat</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_geodetic.test_radius_at_geodetic_lat" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pyspaceaware.tests.test_lighting">
+<span id="pyspaceaware-tests-test-lighting-module"></span><h2>pyspaceaware.tests.test_lighting module<a class="headerlink" href="#module-pyspaceaware.tests.test_lighting" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_lighting.test_bad_brdf_name">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_lighting.</span></span><span class="sig-name descname"><span class="pre">test_bad_brdf_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_lighting.test_bad_brdf_name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_lighting.test_energy_conservation">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_lighting.</span></span><span class="sig-name descname"><span class="pre">test_energy_conservation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_lighting.test_energy_conservation" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_lighting.test_engine_run">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_lighting.</span></span><span class="sig-name descname"><span class="pre">test_engine_run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_lighting.test_engine_run" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pyspaceaware.tests.test_math">
+<span id="pyspaceaware-tests-test-math-module"></span><h2>pyspaceaware.tests.test_math module<a class="headerlink" href="#module-pyspaceaware.tests.test_math" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_math.test_angle_wrapping">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_math.</span></span><span class="sig-name descname"><span class="pre">test_angle_wrapping</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyspaceaware.tests.test_math.test_angle_wrapping" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_math.test_cart_to_sph_and_back">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_math.</span></span><span class="sig-name descname"><span class="pre">test_cart_to_sph_and_back</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyspaceaware.tests.test_math.test_cart_to_sph_and_back" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_math.test_hat_zeros">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_math.</span></span><span class="sig-name descname"><span class="pre">test_hat_zeros</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_math.test_hat_zeros" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_math.test_points_to_plane">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_math.</span></span><span class="sig-name descname"><span class="pre">test_points_to_plane</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_math.test_points_to_plane" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_math.test_remove_zero_rows">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_math.</span></span><span class="sig-name descname"><span class="pre">test_remove_zero_rows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyspaceaware.tests.test_math.test_remove_zero_rows" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_math.test_vecnorm_shape">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_math.</span></span><span class="sig-name descname"><span class="pre">test_vecnorm_shape</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyspaceaware.tests.test_math.test_vecnorm_shape" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pyspaceaware.tests.test_orbit">
+<span id="pyspaceaware-tests-test-orbit-module"></span><h2>pyspaceaware.tests.test_orbit module<a class="headerlink" href="#module-pyspaceaware.tests.test_orbit" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_orbit.test_gg_torque">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_orbit.</span></span><span class="sig-name descname"><span class="pre">test_gg_torque</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyspaceaware.tests.test_orbit.test_gg_torque" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_orbit.test_j2_acc">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_orbit.</span></span><span class="sig-name descname"><span class="pre">test_j2_acc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyspaceaware.tests.test_orbit.test_j2_acc" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_orbit.test_two_body_acc">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_orbit.</span></span><span class="sig-name descname"><span class="pre">test_two_body_acc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyspaceaware.tests.test_orbit.test_two_body_acc" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pyspaceaware.tests.test_sampling">
+<span id="pyspaceaware-tests-test-sampling-module"></span><h2>pyspaceaware.tests.test_sampling module<a class="headerlink" href="#module-pyspaceaware.tests.test_sampling" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_sampling.test_rand_cone_vectors_rejection">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_sampling.</span></span><span class="sig-name descname"><span class="pre">test_rand_cone_vectors_rejection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyspaceaware.tests.test_sampling.test_rand_cone_vectors_rejection" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_sampling.test_rand_points_in_shell">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_sampling.</span></span><span class="sig-name descname"><span class="pre">test_rand_points_in_shell</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyspaceaware.tests.test_sampling.test_rand_points_in_shell" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pyspaceaware.tests.test_station">
+<span id="pyspaceaware-tests-test-station-module"></span><h2>pyspaceaware.tests.test_station module<a class="headerlink" href="#module-pyspaceaware.tests.test_station" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_station.test_eci_az_el">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_station.</span></span><span class="sig-name descname"><span class="pre">test_eci_az_el</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_station.test_eci_az_el" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_station.test_light_curve_observation_runs">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_station.</span></span><span class="sig-name descname"><span class="pre">test_light_curve_observation_runs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_station.test_light_curve_observation_runs" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_station.test_sky_brightness">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_station.</span></span><span class="sig-name descname"><span class="pre">test_sky_brightness</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_station.test_sky_brightness" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_station.test_station_altitude_references">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_station.</span></span><span class="sig-name descname"><span class="pre">test_station_altitude_references</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_station.test_station_altitude_references" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_station.test_station_from_lat_lon">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_station.</span></span><span class="sig-name descname"><span class="pre">test_station_from_lat_lon</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_station.test_station_from_lat_lon" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_station.test_station_from_presets">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_station.</span></span><span class="sig-name descname"><span class="pre">test_station_from_presets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_station.test_station_from_presets" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_station.test_station_j2000">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_station.</span></span><span class="sig-name descname"><span class="pre">test_station_j2000</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.tests.test_station.test_station_j2000" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pyspaceaware.tests.test_time">
+<span id="pyspaceaware-tests-test-time-module"></span><h2>pyspaceaware.tests.test_time module<a class="headerlink" href="#module-pyspaceaware.tests.test_time" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_time.test_date_to_jd">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_time.</span></span><span class="sig-name descname"><span class="pre">test_date_to_jd</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyspaceaware.tests.test_time.test_date_to_jd" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.tests.test_time.test_date_to_sidereal">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tests.test_time.</span></span><span class="sig-name descname"><span class="pre">test_date_to_sidereal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyspaceaware.tests.test_time.test_date_to_sidereal" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pyspaceaware.tests">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyspaceaware.tests" title="Permalink to this heading">#</a></h2>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="pyspaceaware.synth.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">pyspaceaware.synth package</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="references.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">References</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pyspaceaware.tests.common">pyspaceaware.tests.common module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.common.by_3_strat"><code class="docutils literal notranslate"><span class="pre">by_3_strat()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.common.n_by_3_sphere_strat"><code class="docutils literal notranslate"><span class="pre">n_by_3_sphere_strat()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pyspaceaware.tests.test_attitude">pyspaceaware.tests.test_attitude module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_attitude.n_by_3_sphere_strat"><code class="docutils literal notranslate"><span class="pre">n_by_3_sphere_strat()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_attitude.test_cart_sph"><code class="docutils literal notranslate"><span class="pre">test_cart_sph()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_attitude.test_dcm_to_ea313"><code class="docutils literal notranslate"><span class="pre">test_dcm_to_ea313()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_attitude.test_dcm_to_mrp"><code class="docutils literal notranslate"><span class="pre">test_dcm_to_mrp()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_attitude.test_dcm_to_quat"><code class="docutils literal notranslate"><span class="pre">test_dcm_to_quat()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_attitude.test_mrp_to_quat"><code class="docutils literal notranslate"><span class="pre">test_mrp_to_quat()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_attitude.test_quat_inv"><code class="docutils literal notranslate"><span class="pre">test_quat_inv()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_attitude.test_rotation_dynamics"><code class="docutils literal notranslate"><span class="pre">test_rotation_dynamics()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_attitude.test_rv_add"><code class="docutils literal notranslate"><span class="pre">test_rv_add()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_attitude.test_rv_to_dcm"><code class="docutils literal notranslate"><span class="pre">test_rv_to_dcm()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_attitude.test_rv_to_mrp"><code class="docutils literal notranslate"><span class="pre">test_rv_to_mrp()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_attitude.test_rv_to_quat"><code class="docutils literal notranslate"><span class="pre">test_rv_to_quat()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_attitude.test_torque_free_propagation"><code class="docutils literal notranslate"><span class="pre">test_torque_free_propagation()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pyspaceaware.tests.test_coordinates">pyspaceaware.tests.test_coordinates module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_coordinates.test_date_to_gast"><code class="docutils literal notranslate"><span class="pre">test_date_to_gast()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_coordinates.test_date_to_gmst"><code class="docutils literal notranslate"><span class="pre">test_date_to_gmst()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_coordinates.test_date_to_julian_centuries"><code class="docutils literal notranslate"><span class="pre">test_date_to_julian_centuries()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_coordinates.test_delta_psi_delta_epsilon"><code class="docutils literal notranslate"><span class="pre">test_delta_psi_delta_epsilon()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_coordinates.test_gtod_to_tod"><code class="docutils literal notranslate"><span class="pre">test_gtod_to_tod()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_coordinates.test_itrf_to_gtod"><code class="docutils literal notranslate"><span class="pre">test_itrf_to_gtod()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_coordinates.test_itrf_to_j2000"><code class="docutils literal notranslate"><span class="pre">test_itrf_to_j2000()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_coordinates.test_j2000_to_itrf"><code class="docutils literal notranslate"><span class="pre">test_j2000_to_itrf()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_coordinates.test_mod_to_j2000"><code class="docutils literal notranslate"><span class="pre">test_mod_to_j2000()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_coordinates.test_tod_to_mod"><code class="docutils literal notranslate"><span class="pre">test_tod_to_mod()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_coordinates.test_ut1_minus_utc"><code class="docutils literal notranslate"><span class="pre">test_ut1_minus_utc()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pyspaceaware.tests.test_geodetic">pyspaceaware.tests.test_geodetic module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_geodetic.test_geoc_geod_lat_conversion"><code class="docutils literal notranslate"><span class="pre">test_geoc_geod_lat_conversion()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_geodetic.test_radius_at_geodetic_lat"><code class="docutils literal notranslate"><span class="pre">test_radius_at_geodetic_lat()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pyspaceaware.tests.test_lighting">pyspaceaware.tests.test_lighting module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_lighting.test_bad_brdf_name"><code class="docutils literal notranslate"><span class="pre">test_bad_brdf_name()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_lighting.test_energy_conservation"><code class="docutils literal notranslate"><span class="pre">test_energy_conservation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_lighting.test_engine_run"><code class="docutils literal notranslate"><span class="pre">test_engine_run()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pyspaceaware.tests.test_math">pyspaceaware.tests.test_math module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_math.test_angle_wrapping"><code class="docutils literal notranslate"><span class="pre">test_angle_wrapping()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_math.test_cart_to_sph_and_back"><code class="docutils literal notranslate"><span class="pre">test_cart_to_sph_and_back()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_math.test_hat_zeros"><code class="docutils literal notranslate"><span class="pre">test_hat_zeros()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_math.test_points_to_plane"><code class="docutils literal notranslate"><span class="pre">test_points_to_plane()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_math.test_remove_zero_rows"><code class="docutils literal notranslate"><span class="pre">test_remove_zero_rows()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_math.test_vecnorm_shape"><code class="docutils literal notranslate"><span class="pre">test_vecnorm_shape()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pyspaceaware.tests.test_orbit">pyspaceaware.tests.test_orbit module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_orbit.test_gg_torque"><code class="docutils literal notranslate"><span class="pre">test_gg_torque()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_orbit.test_j2_acc"><code class="docutils literal notranslate"><span class="pre">test_j2_acc()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_orbit.test_two_body_acc"><code class="docutils literal notranslate"><span class="pre">test_two_body_acc()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pyspaceaware.tests.test_sampling">pyspaceaware.tests.test_sampling module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_sampling.test_rand_cone_vectors_rejection"><code class="docutils literal notranslate"><span class="pre">test_rand_cone_vectors_rejection()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_sampling.test_rand_points_in_shell"><code class="docutils literal notranslate"><span class="pre">test_rand_points_in_shell()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pyspaceaware.tests.test_station">pyspaceaware.tests.test_station module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_station.test_eci_az_el"><code class="docutils literal notranslate"><span class="pre">test_eci_az_el()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_station.test_light_curve_observation_runs"><code class="docutils literal notranslate"><span class="pre">test_light_curve_observation_runs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_station.test_sky_brightness"><code class="docutils literal notranslate"><span class="pre">test_sky_brightness()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_station.test_station_altitude_references"><code class="docutils literal notranslate"><span class="pre">test_station_altitude_references()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_station.test_station_from_lat_lon"><code class="docutils literal notranslate"><span class="pre">test_station_from_lat_lon()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_station.test_station_from_presets"><code class="docutils literal notranslate"><span class="pre">test_station_from_presets()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_station.test_station_j2000"><code class="docutils literal notranslate"><span class="pre">test_station_j2000()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pyspaceaware.tests.test_time">pyspaceaware.tests.test_time module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_time.test_date_to_jd"><code class="docutils literal notranslate"><span class="pre">test_date_to_jd()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.tests.test_time.test_date_to_sidereal"><code class="docutils literal notranslate"><span class="pre">test_date_to_sidereal()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pyspaceaware.tests">Module contents</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2022-2023, Liam Robinson.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
