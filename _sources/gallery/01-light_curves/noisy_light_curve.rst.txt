@@ -56,7 +56,7 @@ Setting up analysis times
     (dates, epsecs) = ps.date_linspace(
         date_start - ps.days(1), date_start, 1e3, return_epsecs=True
     )
-    ephr = epsecs / 3600 # Epoch hours
+    ephr = epsecs / 3600  # Epoch hours
 
 
 
@@ -94,7 +94,7 @@ Defining observation constraints on the station
 .. code-block:: default
 
     station.constraints = [
-        ps.SnrConstraint(station, 3),
+        ps.SnrConstraint(3),
         ps.ElevationConstraint(10),
         ps.TargetIlluminatedConstraint(),
         ps.ObserverEclipseConstraint(station),
@@ -141,13 +141,14 @@ Defining the object's attitude profile and mass properties
 
 Computing the full noisy light curve
 
-.. GENERATED FROM PYTHON SOURCE LINES 54-58
+.. GENERATED FROM PYTHON SOURCE LINES 54-59
 
 .. code-block:: default
 
-    (lc_noisy, aux_data) = station.observe_light_curve(
+    (lc_noisy_sampler, aux_data) = station.observe_light_curve(
         obj, obj_attitude, brdf, dates, use_engine=True
     )
+    lc_noisy = lc_noisy_sampler()
 
 
 
@@ -156,11 +157,11 @@ Computing the full noisy light curve
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-60
+.. GENERATED FROM PYTHON SOURCE LINES 60-61
 
 Extracting data and plotting results
 
-.. GENERATED FROM PYTHON SOURCE LINES 60-73
+.. GENERATED FROM PYTHON SOURCE LINES 61-74
 
 .. code-block:: default
 
@@ -192,7 +193,7 @@ Extracting data and plotting results
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  6.868 seconds)
+   **Total running time of the script:** ( 0 minutes  3.271 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_noisy_light_curve.py:

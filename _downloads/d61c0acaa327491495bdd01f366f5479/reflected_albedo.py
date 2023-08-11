@@ -46,9 +46,9 @@ albedo = lambda ts, fiso, fgeo, fvol: 0.5 * pws(ts, fiso, fgeo, fvol) + 0.5 * pb
 
 # %%
 # Now we define the date to evaluate the reflected albedo irradiance at and the ECEF position of the satellite
-date = datetime.datetime(2022, 6, 23, 5, 53, 0, tzinfo=datetime.timezone.utc)
+date = ps.utc(2022, 6, 23, 5, 53, 0)
 datestr = f'{date.strftime("%Y-%m-%d %H:%M:%S")} UTC'
-sat_pos_ecef = (6378 + 4e4) * ps.hat(np.array([[1, 1, 0]]))
+sat_pos_ecef = (ps.AstroConstants.earth_r_eq + 4e4) * ps.hat(np.array([[1, 1, 0]]))
 
 # %%
 # Now we identify all the useful geometry: the ECEF positions of the grid cells, the Sun vector, the solar zenith angle at each grid cell, and the albedo at each point

@@ -4,9 +4,9 @@ Euler Angle Sequence
 
 Three consecutive axis rotations forming an Euler angle sequence
 """
+import vtk
 import numpy as np
 import pyvista as pv
-import vtk
 
 import pyspaceaware as ps
 
@@ -19,6 +19,7 @@ app = r2 @ ap
 appp = r3 @ app
 sc, d = 1.4, 0.5
 pl = pv.Plotter(shape=(1, 3))
+pl.set_background("w")
 pl.subplot(0, 0)
 ps.plot_basis(pl, a.T, labels="a")
 ps.plot_basis(pl, ap.T, labels="b", color="blue", scale=sc)

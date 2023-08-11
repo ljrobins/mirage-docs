@@ -323,6 +323,7 @@ document.write(`
 <li class="toctree-l1 has-children"><a class="reference internal" href="../04-environment/index.html">Environment</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometric Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/background_zenith.html">Background Signals at Zenith</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/total_solar_irradiance.html">Total Solar Irradiance</a></li>
@@ -438,7 +439,7 @@ to download the full example code</p>
 <span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">epsecs</span><span class="p">)</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">date_linspace</span><span class="p">(</span>
     <span class="n">date_start</span> <span class="o">-</span> <span class="n">ps</span><span class="o">.</span><span class="n">days</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">date_start</span><span class="p">,</span> <span class="mf">1e3</span><span class="p">,</span> <span class="n">return_epsecs</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
-<span class="n">ephr</span> <span class="o">=</span> <span class="n">epsecs</span> <span class="o">/</span> <span class="mi">3600</span> <span class="c1"># Epoch hours</span>
+<span class="n">ephr</span> <span class="o">=</span> <span class="n">epsecs</span> <span class="o">/</span> <span class="mi">3600</span>  <span class="c1"># Epoch hours</span>
 </pre></div>
 </div>
 <p>Setting up the scenario objects</p>
@@ -450,7 +451,7 @@ to download the full example code</p>
 </div>
 <p>Defining observation constraints on the station</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">station</span><span class="o">.</span><span class="n">constraints</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">ps</span><span class="o">.</span><span class="n">SnrConstraint</span><span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="n">ps</span><span class="o">.</span><span class="n">SnrConstraint</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
     <span class="n">ps</span><span class="o">.</span><span class="n">ElevationConstraint</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
     <span class="n">ps</span><span class="o">.</span><span class="n">TargetIlluminatedConstraint</span><span class="p">(),</span>
     <span class="n">ps</span><span class="o">.</span><span class="n">ObserverEclipseConstraint</span><span class="p">(</span><span class="n">station</span><span class="p">),</span>
@@ -472,9 +473,10 @@ to download the full example code</p>
 </pre></div>
 </div>
 <p>Computing the full noisy light curve</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">lc_noisy</span><span class="p">,</span> <span class="n">aux_data</span><span class="p">)</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">observe_light_curve</span><span class="p">(</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">lc_noisy_sampler</span><span class="p">,</span> <span class="n">aux_data</span><span class="p">)</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">observe_light_curve</span><span class="p">(</span>
     <span class="n">obj</span><span class="p">,</span> <span class="n">obj_attitude</span><span class="p">,</span> <span class="n">brdf</span><span class="p">,</span> <span class="n">dates</span><span class="p">,</span> <span class="n">use_engine</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
+<span class="n">lc_noisy</span> <span class="o">=</span> <span class="n">lc_noisy_sampler</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Extracting data and plotting results</p>
@@ -493,7 +495,7 @@ to download the full example code</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_noisy_light_curve_001.png" srcset="../../_images/sphx_glr_noisy_light_curve_001.png, ../../_images/sphx_glr_noisy_light_curve_001_2_00x.png 2.00x" alt="Light Curves for 36411" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  6.868 seconds)</p>
+<img src="../../_images/sphx_glr_noisy_light_curve_001.png" srcset="../../_images/sphx_glr_noisy_light_curve_001.png, ../../_images/sphx_glr_noisy_light_curve_001_2_00x.png 2.00x" alt="Light Curves for 36411" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.271 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-01-light-curves-noisy-light-curve-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/689095b0cbd04e9102a6cb57b887596b/noisy_light_curve.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">noisy_light_curve.py</span></code></a></p>

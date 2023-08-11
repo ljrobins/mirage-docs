@@ -10,10 +10,10 @@ from scipy.optimize import nnls
 
 import pyspaceaware as ps
 
-test_sizes = np.arange(100, 1001, 50, dtype=np.int16)
+test_sizes = np.arange(100, 2001, 200, dtype=np.int16)
 t_old = np.zeros_like(test_sizes, dtype=np.float64)
 t_new = np.zeros_like(t_old)
-n_each = 5
+n_each = 10
 
 for i, s in enumerate(test_sizes):
     n, m = s, s

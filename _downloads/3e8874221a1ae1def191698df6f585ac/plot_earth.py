@@ -58,7 +58,14 @@ ps.plot_earth(
     night_lights=True,
 )
 grid = ps.celestial_grid(15, 15)
-ps.plot3(pl, ps.AstroConstants.earth_r_eq * grid, color='cornflowerblue', line_width=5, lighting=False, opacity=0.2)
+ps.plot3(
+    pl,
+    ps.AstroConstants.earth_r_eq * grid,
+    color="cornflowerblue",
+    line_width=5,
+    lighting=False,
+    opacity=0.2,
+)
 pl.show()
 
 # %%

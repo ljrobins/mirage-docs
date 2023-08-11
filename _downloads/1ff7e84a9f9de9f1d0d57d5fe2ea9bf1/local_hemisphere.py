@@ -18,7 +18,7 @@ station = ps.Station(lat_deg=obs_lat, lon_deg=obs_lon)
 # %%
 # Let's impose a signal to noise ratio constraint, require satellites to be above the horizon, be illuminated, and have a visual magnitude brighter than 12
 station.constraints = [
-    ps.SnrConstraint(station, 5),
+    ps.SnrConstraint(5),
     ps.ElevationConstraint(0),
     ps.TargetIlluminatedConstraint(),
     ps.VisualMagnitudeConstraint(12),
@@ -31,7 +31,7 @@ pl = pv.Plotter()
 pl.set_background("k")
 
 pl.add_point_labels(
-    np.vstack((np.eye(3), -np.eye(3)[:2,:])),
+    np.vstack((np.eye(3), -np.eye(3)[:2, :])),
     ["East", "North", "Zenith", "West", "South"],
     text_color="lime",
     font_family="courier",
@@ -54,8 +54,9 @@ ps.plot3(
     opacity=lines[:, 2] >= 0,
 )
 
+
 def show_scene(epsec: float):
-    date = ps.today() + ps.seconds(epsec) # Fig 5.38
+    date = ps.today() + ps.seconds(epsec)  # Fig 5.38
     r_eci, names = ps.propagate_catalog_to_dates(date, return_names=True)
     station_eci = station.j2000_at_dates(date)
     look_vec_eci = r_eci - station_eci
@@ -75,7 +76,10 @@ def show_scene(epsec: float):
     obj_to_sun_eci = r_sun_eci - r_eci
     phase_angle_rad = ps.angle_between_vecs(obj_to_sun_eci, -look_vec_eci)
 
-    lc_sphere = ps.normalized_light_curve_sphere(1, 1, phase_angle_rad) / (1e3 * obs_to_obj_rmag) ** 2
+    lc_sphere = (
+        ps.normalized_light_curve_sphere(1, 1, phase_angle_rad)
+        / (1e3 * obs_to_obj_rmag) ** 2
+    )
     vmag_sphere = ps.irradiance_to_apparent_magnitude(lc_sphere)
 
     z_obs = ps.angle_between_vecs(look_dir_eci, station_eci)
@@ -87,7 +91,7 @@ def show_scene(epsec: float):
         target_pos_eci=r_eci,
         dates=date,
         lc=lc_sphere,
-        evaluate_all=False
+        evaluate_all=False,
     )
     ps.toc()
 
@@ -101,7 +105,7 @@ def show_scene(epsec: float):
         r_enu,
         point_size=20,
         lighting=False,
-        color='m',
+        color="m",
         name="sat_enu",
         opacity=constraint_satisfaction,
         render=False,
@@ -134,17 +138,17 @@ def show_scene(epsec: float):
     # )
 
     pl.add_point_labels(
-        r_enu[constraint_satisfaction,:],
+        r_enu[constraint_satisfaction, :],
         names[constraint_satisfaction],
         text_color="white",
         font_family="courier",
-        shape_color='k',
+        shape_color="k",
         font_size=15,
         shape_opacity=0.4,
         always_visible=True,
         show_points=False,
         name="obj_labels",
-        render=False
+        render=False,
     )
 
     pl.add_text(
@@ -153,12 +157,12 @@ def show_scene(epsec: float):
         font="courier",
     )
 
-    pl.set_viewup((0., 1., 0.), render=False)
+    pl.set_viewup((0.0, 1.0, 0.0), render=False)
     pl.set_focus((0.0, 0.0, 0.5), render=False)
     pl.set_position((0.0, 0.0, -5.0))
 
 
-pl.open_gif('test.gif')
+pl.open_gif("test.gif")
 for i in np.linspace(0, 80, 60):
     show_scene(i)
     pl.write_frame()

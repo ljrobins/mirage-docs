@@ -34,7 +34,7 @@ sat_sun = ps.hat(ps.sun(date_space))
 att = ps.AlignedAndConstrainedAttitude(
     sat_nadir, sat_sun, date_space, axis_order=(2, 0, 1)
 )
-c = att.dcm_at_dates(date_space)
+c = att.dcms_at_dates(date_space)
 quat = ps.dcm_to_quat(c)
 (v1, v2, v3) = att.basis_vectors_at_dates(date_space)
 

@@ -20,7 +20,7 @@ date_start = ps.utc(2023, 5, 20, 20, 45, 0)
 (dates, epsecs) = ps.date_linspace(
     date_start - ps.days(1), date_start, 1e3, return_epsecs=True
 )
-ephr = epsecs / 3600 # Epoch hours
+ephr = epsecs / 3600  # Epoch hours
 
 # %%
 # Setting up the scenario objects
@@ -32,7 +32,7 @@ station = ps.Station(preset="pogs")
 # %%
 # Defining observation constraints on the station
 station.constraints = [
-    ps.SnrConstraint(station, 3),
+    ps.SnrConstraint(3),
     ps.ElevationConstraint(10),
     ps.TargetIlluminatedConstraint(),
     ps.ObserverEclipseConstraint(station),
@@ -51,9 +51,10 @@ obj_attitude = ps.RbtfAttitude(
 
 # %%
 # Computing the full noisy light curve
-(lc_noisy, aux_data) = station.observe_light_curve(
+(lc_noisy_sampler, aux_data) = station.observe_light_curve(
     obj, obj_attitude, brdf, dates, use_engine=True
 )
+lc_noisy = lc_noisy_sampler()
 
 # %%
 # Extracting data and plotting results

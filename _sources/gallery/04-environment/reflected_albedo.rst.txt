@@ -97,9 +97,9 @@ Now we define the date to evaluate the reflected albedo irradiance at and the EC
 
 .. code-block:: default
 
-    date = datetime.datetime(2022, 6, 23, 5, 53, 0, tzinfo=datetime.timezone.utc)
+    date = ps.utc(2022, 6, 23, 5, 53, 0)
     datestr = f'{date.strftime("%Y-%m-%d %H:%M:%S")} UTC'
-    sat_pos_ecef = (6378 + 4e4) * ps.hat(np.array([[1, 1, 0]]))
+    sat_pos_ecef = (ps.AstroConstants.earth_r_eq + 4e4) * ps.hat(np.array([[1, 1, 0]]))
 
 
 
@@ -283,7 +283,7 @@ Let's compare with the implementation in the pyspaceaware package
 
  .. code-block:: none
 
-    Elapsed time: 8.04e-01 seconds
+    Elapsed time: 6.08e-01 seconds
     6.28e+00
 
 
@@ -526,7 +526,7 @@ Plotting the irradiance from each grid cell
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  15.147 seconds)
+   **Total running time of the script:** ( 0 minutes  7.153 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_reflected_albedo.py:
