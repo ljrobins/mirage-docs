@@ -10,6 +10,7 @@ import numpy as np
 import pyvista as pv
 
 import pyspaceaware as ps
+import pyspaceaware.vis as psv
 
 # %%
 # Defining our initial condition and the propagation times
@@ -31,6 +32,6 @@ ps.toc()
 r = rv[:, :3]
 
 pl = pv.Plotter()
-ps.plot_earth(pl, date=ps.now(), night_lights=True, elevation=True, atmosphere=True)
-ps.plot3(pl, r, lighting=True)
+psv.plot_earth(pl, date=ps.now(), night_lights=True, elevation=True, atmosphere=True)
+psv.plot3(pl, r, lighting=True)
 pl.show()

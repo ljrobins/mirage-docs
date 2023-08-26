@@ -7,6 +7,7 @@ Plotting the general behavior of background signals for zodiac light, moonlight,
 import numpy as np
 import pyvista as pv
 import pyspaceaware as ps
+import pyspaceaware.vis as psv
 
 # %%
 # Let's choose a point after sunset on the US east coast
@@ -32,7 +33,7 @@ sz = ps.zodiacal_signal(*tdargs)
 
 
 def plot_sig(pl, s, cmap, scale=1):
-    ps.scatter3(
+    psv.scatter3(
         pl,
         scale * pts,
         scalars=s,
@@ -45,7 +46,7 @@ def plot_sig(pl, s, cmap, scale=1):
 
 
 pl = pv.Plotter()
-ps.plot_earth(pl, mode="eci", night_lights=True, atmosphere=True, date=date),
+psv.plot_earth(pl, mode="eci", night_lights=True, atmosphere=True, date=date),
 plot_sig(pl, ss, "fire", scale=1.2)
 plot_sig(pl, sm, "bone", scale=1.2)
 plot_sig(pl, sz, "cividis", scale=1.0)

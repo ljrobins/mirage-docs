@@ -48,7 +48,7 @@
     <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Space Weather" href="space_weather.html" />
+    <link rel="next" title="Twilight Model" href="twilight_model.html" />
     <link rel="prev" title="IAU-76 J2000 Reduction" href="../03-coordinate-systems/itrf_to_j2000.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -309,11 +309,13 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_grid.html">BRDFs on the local hemisphere</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../03-coordinate-systems/index.html">Coordinate Frames</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/time_systems.html">Time Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/polar_motion.html">Polar Motion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/earth_pole_motion.html">Precession and Nutation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/spice_comparison.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/equinoxes.html">Equinoxes and Solstices</a></li>
@@ -321,14 +323,15 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Environment</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="twilight_model.html">Twilight Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="space_weather.html">Space Weather</a></li>
 <li class="toctree-l2"><a class="reference internal" href="astro_spectra.html">Astrometric Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="background_zenith.html">Background Signals at Zenith</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vesuvius_terrain.html">Terrain Tiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="total_solar_irradiance.html">Total Solar Irradiance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoid_heights.html">Global Elevation</a></li>
 
+<li class="toctree-l2"><a class="reference internal" href="nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="background_signals.html">Background Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reflected_albedo.html">Earth Albedo BRDF</a></li>
@@ -343,6 +346,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/torque_free_axisymmetric.html">Torque-free Attitude Propagation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -417,7 +421,10 @@ document.write(`
   <section id="environment">
 <span id="sphx-glr-gallery-04-environment"></span><h1>Environment<a class="headerlink" href="#environment" title="Permalink to this heading">#</a></h1>
 <p>Background optical noise sources, solar cycles</p>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Plotting the K_p, A_p, and F10.7 space weather indices"><img alt="" src="../../_images/sphx_glr_space_weather_thumb.png" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Plotting the zenith surface brightness of the ESO-Parnal twilight model"><img alt="" src="../../_images/sphx_glr_twilight_model_thumb.png" />
+<p><a class="reference internal" href="twilight_model.html#sphx-glr-gallery-04-environment-twilight-model-py"><span class="std std-ref">Twilight Model</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Twilight Model</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plotting the K_p, A_p, and F10.7 space weather indices"><img alt="" src="../../_images/sphx_glr_space_weather_thumb.png" />
 <p><a class="reference internal" href="space_weather.html#sphx-glr-gallery-04-environment-space-weather-py"><span class="std std-ref">Space Weather</span></a></p>
   <div class="sphx-glr-thumbnail-title">Space Weather</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="A few useful spectra for simulating CCD measurements"><img alt="" src="../../_images/sphx_glr_astro_spectra_thumb.png" />
@@ -426,9 +433,6 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="Background Signals at Zenith"><img alt="" src="../../_images/sphx_glr_background_zenith_thumb.png" />
 <p><a class="reference internal" href="background_zenith.html#sphx-glr-gallery-04-environment-background-zenith-py"><span class="std std-ref">Background Signals at Zenith</span></a></p>
   <div class="sphx-glr-thumbnail-title">Background Signals at Zenith</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Plotting and querying a large dataset of zenith light pollution from the Light Pollution Map, w..."><img alt="" src="../../_images/sphx_glr_nightlights_thumb.png" />
-<p><a class="reference internal" href="nightlights.html#sphx-glr-gallery-04-environment-nightlights-py"><span class="std std-ref">Zenith Light Pollution</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Zenith Light Pollution</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Terrain Tiles"><img alt="" src="../../_images/sphx_glr_vesuvius_terrain_thumb.png" />
 <p><a class="reference internal" href="vesuvius_terrain.html#sphx-glr-gallery-04-environment-vesuvius-terrain-py"><span class="std std-ref">Terrain Tiles</span></a></p>
   <div class="sphx-glr-thumbnail-title">Terrain Tiles</div>
@@ -438,6 +442,9 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plots global elevations"><img alt="" src="../../_images/sphx_glr_geoid_heights_thumb.png" />
 <p><a class="reference internal" href="geoid_heights.html#sphx-glr-gallery-04-environment-geoid-heights-py"><span class="std std-ref">Global Elevation</span></a></p>
   <div class="sphx-glr-thumbnail-title">Global Elevation</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plotting and querying a large dataset of zenith light pollution from the Light Pollution Map, w..."><img alt="" src="../../_images/sphx_glr_nightlights_thumb.png" />
+<p><a class="reference internal" href="nightlights.html#sphx-glr-gallery-04-environment-nightlights-py"><span class="std std-ref">Zenith Light Pollution</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Zenith Light Pollution</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Displays the patched GAIA catalog"><img alt="" src="../../_images/sphx_glr_gaia_patched_catalog_thumb.png" />
 <p><a class="reference internal" href="gaia_patched_catalog.html#sphx-glr-gallery-04-environment-gaia-patched-catalog-py"><span class="std std-ref">GAIA Patched Catalog</span></a></p>
   <div class="sphx-glr-thumbnail-title">GAIA Patched Catalog</div>
@@ -472,11 +479,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="space_weather.html"
+       href="twilight_model.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Space Weather</p>
+        <p class="prev-next-title">Twilight Model</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

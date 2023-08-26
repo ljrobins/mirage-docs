@@ -28,11 +28,11 @@ Given a station and a target in inertial space we can compute the azimuth and el
 .. code-block:: default
 
 
-    import matplotlib.pyplot as plt
     import numpy as np
     import pyvista as pv
 
     import pyspaceaware as ps
+    import pyspaceaware.vis as psv
 
 
 
@@ -45,12 +45,13 @@ Given a station and a target in inertial space we can compute the azimuth and el
 
 Let's use the Purdue Optical Ground Station for this example
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-19
+.. GENERATED FROM PYTHON SOURCE LINES 16-20
 
 .. code-block:: default
 
     station = ps.Station(preset="pogs")
-    dates = ps.date_linspace(ps.now(), ps.now() + ps.days(1), int(1e4)) + ps.hours(12)
+    dt0 = ps.utc(2023, 8, 13)
+    dates = ps.date_linspace(dt0, dt0 + ps.days(1), int(1e4))
 
 
 
@@ -59,11 +60,11 @@ Let's use the Purdue Optical Ground Station for this example
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-21
+.. GENERATED FROM PYTHON SOURCE LINES 21-22
 
 Let's extract the station's position in J2000 and create an ECI look direction which is just outwards and down towards the equator
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-29
+.. GENERATED FROM PYTHON SOURCE LINES 22-30
 
 .. code-block:: default
 
@@ -82,11 +83,11 @@ Let's extract the station's position in J2000 and create an ECI look direction w
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-31
+.. GENERATED FROM PYTHON SOURCE LINES 31-32
 
 We can then turn this target direction into an azimuth/elevation pair
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-35
+.. GENERATED FROM PYTHON SOURCE LINES 32-36
 
 .. code-block:: default
 
@@ -102,17 +103,17 @@ We can then turn this target direction into an azimuth/elevation pair
 
  .. code-block:: none
 
-    az[0]=3.1438832805675734 [rad]
-    el[0]=0.43092306467422387 [rad]
+    az[0]=3.140056276172546 [rad]
+    el[0]=0.4247246867340699 [rad]
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-37
+.. GENERATED FROM PYTHON SOURCE LINES 37-38
 
 And easily invert that into the same unit vector direction
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-42
+.. GENERATED FROM PYTHON SOURCE LINES 38-43
 
 .. code-block:: default
 
@@ -129,39 +130,39 @@ And easily invert that into the same unit vector direction
 
  .. code-block:: none
 
-    ECI vector reconstruction error: 5.551115123125783e-17
+    ECI vector reconstruction error: 2.2887833992611187e-16
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-44
+.. GENERATED FROM PYTHON SOURCE LINES 44-45
 
 We can also display this resulting unit vector as a ray cast out from the observer, hitting the target
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-65
+.. GENERATED FROM PYTHON SOURCE LINES 45-66
 
 .. code-block:: default
 
-    s = 10
     pl = pv.Plotter()
     stat_origin0 = station.j2000_at_dates(dates[0])
-    ps.plot_earth(pl, date=dates[0], high_def=True, atmosphere=False, borders=True)
+    psv.plot_earth(pl, date=dates[0], high_def=True, atmosphere=False, borders=True)
     rotm = ps.EarthFixedFrame("itrf", "j2000").rotms_at_dates(dates[0]) @ ps.enu_to_ecef(
         station.itrf
     )
-    ps.plot_basis(
-        pl, rotm, labels=["E", "N", "U"], origin=stat_origin0, scale=s * 100, color="linen"
+    psv.plot_basis(
+        pl, rotm, labels=["E", "N", "U"], origin=stat_origin0, scale=1000, color="linen"
     )
-    ps.plot_arrow(
+    psv.plot_arrow(
         pl,
         origin=stat_origin0,
         direction=eci_hat[0, :],
-        scale=s * 100,
+        scale=1000,
         color="c",
         label="To object",
     )
     pl.camera.focal_point = stat_origin0
-    pl.camera.position = pl.camera.focal_point + s * np.array([300, 400, -200])
+    pl.camera.position = np.array(pl.camera.focal_point) + 10 * np.array([-500, -200, 200])
+    print(pl.camera.focal_point)
     pl.show()
 
 
@@ -172,13 +173,19 @@ We can also display this resulting unit vector as a ray cast out from the observ
    :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    (-4364.852216825924, -3100.573054956336, 3454.7322732066377)
+
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  10.804 seconds)
+   **Total running time of the script:** ( 0 minutes  12.028 seconds)
 
 
 .. _sphx_glr_download_gallery_07-observer_az_el_parallel.py:

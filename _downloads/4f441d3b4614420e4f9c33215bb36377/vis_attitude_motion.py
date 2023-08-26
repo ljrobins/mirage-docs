@@ -6,9 +6,9 @@ Animates the attitude motion of an object in torque free motion
 """
 
 import numpy as np
-import pyvista as pv
 
 import pyspaceaware as ps
+import pyspaceaware.vis as psv
 
 (dates, epsecs) = ps.date_linspace(
     ps.now(), ps.now() + ps.seconds(10), 200, return_epsecs=True
@@ -22,4 +22,4 @@ obj_attitude = ps.RbtfAttitude(
 
 (q, w) = obj_attitude.propagate(epsecs)
 
-ps.vis_attitude_motion(obj, q, "tess.gif", framerate=20, background_color="black")
+psv.vis_attitude_motion(obj, q, "tess.gif", framerate=20, background_color="black")

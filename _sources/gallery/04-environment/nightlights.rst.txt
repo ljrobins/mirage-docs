@@ -23,7 +23,7 @@ Zenith Light Pollution
 
 Plotting and querying a large dataset of zenith light pollution from the `Light Pollution Map <https://www.lightpollutionmap.info/help.html#FAQ31>`_, with the raw file `found here <https://www2.lightpollutionmap.info/data/viirs_2022_raw.zip>`_
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-36
+.. GENERATED FROM PYTHON SOURCE LINES 7-18
 
 .. code-block:: default
 
@@ -36,25 +36,32 @@ Plotting and querying a large dataset of zenith light pollution from the `Light 
     from scipy.ndimage import gaussian_filter
 
     import pyspaceaware as ps
+    import pyspaceaware.vis as psv
 
-    sz = 20
-    lat_space = np.linspace(-90, 90, sz)
-    lon_space = np.linspace(-180, 180, sz)
 
-    lats, lons = np.meshgrid(lat_space, lon_space, indexing="ij")
 
-    with rasterio.open(os.path.join(os.environ["DATADIR"], "viirs_2022_raw.tif"), "r") as f:
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 19-20
+
+Let's plot the zenith sky radiances as reported by the World Atlas 2015 dataset.
+
+.. GENERATED FROM PYTHON SOURCE LINES 20-30
+
+.. code-block:: default
+
+
+    with rasterio.open(os.path.join(os.environ["DATADIR"], "World_Atlas_2015/World_Atlas_2015.tif"), "r") as f:
         ps.tic()
-        x = f.read().squeeze()  # nW / cm^2 / sr
+        art_brightness = f.read().squeeze()  # mcd / cm^2
         ps.toc()
-        x = x[::10, ::10] * 1e-9  # W / cm^2 / sr
-        x[np.isinf(np.abs(x))] = np.nan
-        x *= 1e4  # W / m^2 / sr
-        x = ps.irradiance_to_apparent_magnitude(
-            x / ps.AstroConstants.steradian_to_arcsecond2
-        )  # mag / arcsec^2
-        x[np.isnan(x) | np.isinf(x)] = 22.0
-        x = gaussian_filter(x, sigma=0.5)
+
+        total_brightness = art_brightness + 0.171168465 # mcd/m2
+        sqm = np.log10(total_brightness/108000000)/-0.4
+
 
 
 
@@ -64,32 +71,26 @@ Plotting and querying a large dataset of zenith light pollution from the `Light 
 
  .. code-block:: none
 
-    Elapsed time: 3.37e+01 seconds
-    /Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/lighting.py:208: RuntimeWarning: divide by zero encountered in log10
-      return -2.5 * np.log10(E / 2.518021002e-8)
+    Elapsed time: 2.19e+00 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-38
+.. GENERATED FROM PYTHON SOURCE LINES 31-32
 
 Plotting zenith light pollution
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-49
+.. GENERATED FROM PYTHON SOURCE LINES 32-39
 
 .. code-block:: default
 
-    cmap = plt.get_cmap("gnuplot_r")
-    plt.imshow(x, extent=(-180, 180, -65, 75), cmap=cmap)
     plt.xlim(-102, -65)
     plt.ylim(22, 54)
     plt.xlabel("Longitude [deg]")
     plt.ylabel("Latitude [deg]")
-    plt.title("Zenith Light Pollution in Eastern US")
-    plt.colorbar(
-        label=r"VIIRS/NPP Lunar BRDF-Adjusted Night Lights $\left[\frac{mag}{arcsec^2}\right]$"
-    )
+    psv.plot_map_with_grid(sqm, "Zenith Light Pollution in Eastern US", r"World Atlas 2015 Zenith Light Pollution $\left[\frac{mag}{arcsec^2}\right]$", cmap=plt.get_cmap("gnuplot_r"), borders=True, border_color='w', extent=(-180, 180, -60, 85))
     plt.show()
+
 
 
 
@@ -102,10 +103,73 @@ Plotting zenith light pollution
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 40-41
+
+Let's plot the ground-level radiances as observed by the VIIRS satellite
+
+.. GENERATED FROM PYTHON SOURCE LINES 41-55
+
+.. code-block:: default
+
+
+    with rasterio.open(os.path.join(os.environ["DATADIR"], "viirs_2022_raw.tif"), "r") as f:
+        ps.tic()
+        print(f.bounds)
+        x = f.read().squeeze()  # nW / cm^2 / sr
+        ps.toc()
+        x = x[::10, ::10] * 1e-9  # W / cm^2 / sr
+        x[np.isinf(np.abs(x))] = np.nan
+        x *= 1e4  # W / m^2 / sr
+        x = ps.irradiance_to_apparent_magnitude(
+            x / ps.AstroConstants.steradian_to_arcsecond2
+        )  # mag / arcsec^2
+        x[np.isnan(x) | np.isinf(x)] = 22.0
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    BoundingBox(left=-180.0, bottom=-64.99999999999959, right=179.99999999999903, top=75.00000000000004)
+    Elapsed time: 2.77e+01 seconds
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 56-57
+
+Plotting ground light pollution sources
+
+.. GENERATED FROM PYTHON SOURCE LINES 57-64
+
+.. code-block:: default
+
+    plt.xlim(-102, -65)
+    plt.ylim(22, 54)
+    plt.xlabel("Longitude [deg]")
+    plt.ylabel("Latitude [deg]")
+    psv.plot_map_with_grid(x, "Ground Sources of Light Pollution in Eastern US", r"VIIRS/NPP Lunar BRDF-Adjusted Night Lights $\left[\frac{mag}{arcsec^2}\right]$", cmap=plt.get_cmap("gnuplot_r"), borders=True, border_color='w', extent=(-180, 180, -65, 75))
+    plt.show()
+
+
+
+
+.. image-sg:: /gallery/04-environment/images/sphx_glr_nightlights_002.png
+   :alt: Ground Sources of Light Pollution in Eastern US
+   :srcset: /gallery/04-environment/images/sphx_glr_nightlights_002.png, /gallery/04-environment/images/sphx_glr_nightlights_002_2_00x.png 2.00x
+   :class: sphx-glr-single-img
+
+
+
+
+
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  35.829 seconds)
+   **Total running time of the script:** ( 1 minutes  28.322 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_nightlights.py:

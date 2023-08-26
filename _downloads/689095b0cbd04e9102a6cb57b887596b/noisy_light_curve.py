@@ -5,14 +5,12 @@ Noisy Light Curves
 Simulates torque-free rigid body motion for a simple object and computes the full light curve, informed by station constraints and a high-fidelity background signal model
 """
 
-
-import datetime
-
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 
 import pyspaceaware as ps
+import pyspaceaware.vis as psv
 
 # %%
 # Setting up analysis times
@@ -63,7 +61,7 @@ lc_clean = aux_data["lc_clean"]
 sns.scatterplot(x=ephr, y=lc_noisy, linewidth=0.1, size=0.5)
 sns.scatterplot(x=ephr, y=lc_clean, linewidth=0.1, size=0.5)
 plt.xlim((0, np.max(ephr)))
-ps.texit(
+psv.texit(
     f"Light Curves for {obj.satnum}",
     "Epoch hours",
     "[e-]",

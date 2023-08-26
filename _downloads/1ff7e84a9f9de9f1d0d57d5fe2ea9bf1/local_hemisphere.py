@@ -8,6 +8,7 @@ Plots satellites that would be visible from a station's telescope in real time
 import vtk
 import pyvista as pv
 import pyspaceaware as ps
+import pyspaceaware.vis as psv
 import numpy as np
 
 # %%
@@ -43,8 +44,8 @@ pl.add_point_labels(
 )
 
 # Plotting the Azimuth/Elevation sphere
-lines, labels, label_pos = ps.celestial_grid(10, 10, return_labels=True)
-ps.plot3(
+lines, labels, label_pos = psv.celestial_grid(10, 10, return_labels=True)
+psv.plot3(
     pl,
     lines,
     lighting=False,
@@ -95,12 +96,12 @@ def show_scene(epsec: float):
     )
     ps.toc()
 
-    # ps.plot3(
+    # psv.plot3(
     #     pl, lines_eci, lighting=False, color="gray", line_width=5,
     #     show_scalar_bar=False, name='eci_grid', opacity=lines_eci[:,2] > 0
     # )
 
-    ps.scatter3(
+    psv.scatter3(
         pl,
         r_enu,
         point_size=20,

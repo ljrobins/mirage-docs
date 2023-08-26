@@ -49,7 +49,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="SPICE vs Vallado" href="spice_comparison.html" />
-    <link rel="prev" title="Time Systems" href="time_systems.html" />
+    <link rel="prev" title="Polar Motion" href="polar_motion.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -309,11 +309,13 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_grid.html">BRDFs on the local hemisphere</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Coordinate Frames</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="time_systems.html">Time Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polar_motion.html">Polar Motion</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Precession and Nutation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="spice_comparison.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="equinoxes.html">Equinoxes and Solstices</a></li>
@@ -321,14 +323,15 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../04-environment/index.html">Environment</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/twilight_model.html">Twilight Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometric Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_zenith.html">Background Signals at Zenith</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/total_solar_irradiance.html">Total Solar Irradiance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/geoid_heights.html">Global Elevation</a></li>
 
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/reflected_albedo.html">Earth Albedo BRDF</a></li>
@@ -343,6 +346,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/torque_free_axisymmetric.html">Torque-free Attitude Propagation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -429,6 +433,7 @@ to download the full example code</p>
 <span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
 
 <span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
+<span class="kn">import</span> <span class="nn">pyspaceaware.vis</span> <span class="k">as</span> <span class="nn">psv</span>
 </pre></div>
 </div>
 <p>Let’s use the full range of the datetime module, from near year 0 to near year 9999</p>
@@ -451,13 +456,13 @@ to download the full example code</p>
   warnings.warn(&#39;ERFA function &quot;{}&quot; yielded {}&#39;.format(func_name, wmsg),
 /Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/erfa/core.py:154: ErfaWarning: ERFA function &quot;utctai&quot; yielded 99329 of &quot;dubious year (Note 3)&quot;
   warnings.warn(&#39;ERFA function &quot;{}&quot; yielded {}&#39;.format(func_name, wmsg),
-Elapsed time: 2.05e+00 seconds
+Elapsed time: 1.91e+00 seconds
 </pre></div>
 </div>
 <p>We can view this data from a distance to view precession</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
-<span class="n">ps</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">lighting</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">high_def</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">ps</span><span class="o">.</span><span class="n">scatter3</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">pole_instant</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">psv</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">lighting</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">high_def</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">psv</span><span class="o">.</span><span class="n">scatter3</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">pole_instant</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">focal_point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">pole_instant</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">pole_nominal</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1e-4</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -466,8 +471,8 @@ Elapsed time: 2.05e+00 seconds
 <img src="../../_images/sphx_glr_earth_pole_motion_001.png" srcset="../../_images/sphx_glr_earth_pole_motion_001.png" alt="earth pole motion" class = "sphx-glr-single-img"/><p>And from close up to show nutation</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">z</span> <span class="o">=</span> <span class="mi">20</span>
 <span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
-<span class="n">ps</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">lighting</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">high_def</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">ps</span><span class="o">.</span><span class="n">plot3</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">pole_instant</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">)</span>
+<span class="n">psv</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">lighting</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">high_def</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">psv</span><span class="o">.</span><span class="n">plot3</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">pole_instant</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">)</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">focal_point</span> <span class="o">=</span> <span class="n">pole_instant</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">pole_instant</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1e-2</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="mi">25_000</span> <span class="o">/</span> <span class="n">z</span><span class="p">])</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
@@ -477,8 +482,8 @@ Elapsed time: 2.05e+00 seconds
 <img src="../../_images/sphx_glr_earth_pole_motion_002.png" srcset="../../_images/sphx_glr_earth_pole_motion_002.png" alt="earth pole motion" class = "sphx-glr-single-img"/><p>Animating a full zoom sequence</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">open_gif</span><span class="p">(</span><span class="s2">&quot;precession_nutation_zoom.gif&quot;</span><span class="p">)</span>
-<span class="n">ps</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">lighting</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">high_def</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">ps</span><span class="o">.</span><span class="n">plot3</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">pole_instant</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">)</span>
+<span class="n">psv</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">lighting</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">high_def</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">psv</span><span class="o">.</span><span class="n">plot3</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">pole_instant</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mf">1.2</span><span class="p">):</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">camera</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Camera</span><span class="p">()</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">focal_point</span> <span class="o">=</span> <span class="n">pole_instant</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
@@ -488,7 +493,7 @@ Elapsed time: 2.05e+00 seconds
 <span class="n">pl</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_earth_pole_motion_003.png" srcset="../../_images/sphx_glr_earth_pole_motion_003.png" alt="earth pole motion" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  39.182 seconds)</p>
+<img src="../../_images/sphx_glr_earth_pole_motion_003.gif" srcset="../../_images/sphx_glr_earth_pole_motion_003.gif" alt="earth pole motion" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  35.017 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-03-coordinate-systems-earth-pole-motion-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/3bca798ecb84eaacaedd39172d4afbda/earth_pole_motion.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">earth_pole_motion.py</span></code></a></p>
@@ -512,12 +517,12 @@ Elapsed time: 2.05e+00 seconds
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="time_systems.html"
+       href="polar_motion.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Time Systems</p>
+        <p class="prev-next-title">Polar Motion</p>
       </div>
     </a>
     <a class="right-next"

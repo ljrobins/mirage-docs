@@ -11,6 +11,7 @@ import pyvista as pv
 import vtk
 
 import pyspaceaware as ps
+import pyspaceaware.vis as psv
 
 # %%
 # Let's set up a space of dates over a single day
@@ -29,7 +30,7 @@ frame_conversion = ps.EarthFixedFrame("itrf", "j2000")
 # We can then plot the basis vectors at each of the selected times, labeling them in each subplot
 def plot_bases_at_date(pl: pv.Plotter, d: datetime.datetime) -> None:
     pl.add_text(d.strftime("%Y-%m-%d %H:%M:%S UTC"))
-    ps.plot_earth(
+    psv.plot_earth(
         pl,
         mode="eci",
         date=d,
@@ -37,7 +38,7 @@ def plot_bases_at_date(pl: pv.Plotter, d: datetime.datetime) -> None:
         atmosphere=True,
         lighting=True,
     )
-    ps.plot_basis(
+    psv.plot_basis(
         pl,
         frame_conversion.rotms_at_dates(d),
         color="r",
@@ -45,7 +46,7 @@ def plot_bases_at_date(pl: pv.Plotter, d: datetime.datetime) -> None:
         **label_kwargs
     )
 
-    ps.plot_basis(
+    psv.plot_basis(
         pl,
         np.eye(3),
         color="g",

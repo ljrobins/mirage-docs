@@ -9,6 +9,7 @@ import pyvista as pv
 import terrainman as tm
 
 import pyspaceaware as ps
+import pyspaceaware.vis as psv
 
 lat_deg, lon_deg = 40.8224, 14.4289
 lat_rad, lon_rad = np.deg2rad(lat_deg), np.deg2rad(lon_deg)
@@ -39,7 +40,7 @@ pl.add_mesh(
     opacity=0.6,
     show_scalar_bar=True,
 )
-ps.plot_earth(
+psv.plot_earth(
     pl, mode="ecef", date=ps.utc(2023, 12, 9, 12), high_def=True, ocean_floor=False
 )
 pl.camera.focal_point = np.mean(itrf_terrain, axis=0)

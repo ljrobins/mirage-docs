@@ -48,7 +48,7 @@
     <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Neural Network Brightness" href="neural_network_brightness.html" />
+    <link rel="next" title="BRDFs in Action" href="brdf_renders.html" />
     <link rel="prev" title="BRDFs on the local hemisphere" href="brdf_grid.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -309,11 +309,13 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="noisy_light_curve.html">Noisy Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="brdf_grid.html">BRDFs on the local hemisphere</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Convex vs Engine Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="neural_network_brightness.html">Neural Network Brightness</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../03-coordinate-systems/index.html">Coordinate Frames</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/time_systems.html">Time Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/polar_motion.html">Polar Motion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/earth_pole_motion.html">Precession and Nutation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/spice_comparison.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/equinoxes.html">Equinoxes and Solstices</a></li>
@@ -321,14 +323,15 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../04-environment/index.html">Environment</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/twilight_model.html">Twilight Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometric Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_zenith.html">Background Signals at Zenith</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/total_solar_irradiance.html">Total Solar Irradiance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/geoid_heights.html">Global Elevation</a></li>
 
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/reflected_albedo.html">Earth Albedo BRDF</a></li>
@@ -343,6 +346,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/torque_free_axisymmetric.html">Torque-free Attitude Propagation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -439,11 +443,13 @@ to download the full example code</p>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Model file gem.obj not found in current model folder (&#39;/Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/resources/models&#39;), checking model repository...
 Attempting to download gem.obj and its associated material file from the model repository...
+Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//Irregular/gem.obj
+Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//Irregular/gem.mtl
 Model files were downloaded successfully!
 </pre></div>
 </div>
 <p>Defining the attitude profile</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">t_eval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e3</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">t_eval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">q</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">propagate_attitude_torque_free</span><span class="p">(</span>
     <span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])),</span>
     <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]),</span>
@@ -458,9 +464,1292 @@ Model files were downloaded successfully!
 </div>
 <p>We can now run the engine and compute a convex light curve:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">b_non_convex</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">run_light_curve_engine</span><span class="p">(</span>
-    <span class="n">brdf</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">svb</span><span class="p">,</span> <span class="n">ovb</span><span class="p">,</span> <span class="n">instance_count</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">show_window</span><span class="o">=</span><span class="kc">False</span>
+    <span class="n">brdf</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">svb</span><span class="p">,</span> <span class="n">ovb</span><span class="p">,</span> <span class="n">instance_count</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span>
 <span class="p">)</span>
 <span class="n">b_convex</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">convex_light_curve</span><span class="p">(</span><span class="n">brdf</span><span class="p">,</span> <span class="n">svb</span><span class="p">,</span> <span class="n">ovb</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Running Light Curve Engine:
+/Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/ctools/engine/LightCurveEngine-mac-arm -m /Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/resources/models/gem.obj -i 9 -c 1001 -r light_curve0.lcr -x /Users/liamrobinson/Documents/PyLightCurves/examples/01-light_curves/out  -b 1 -D 0.1 -S 0.9 -N 30 -f 1000
+
+Model path: /Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/resources/models/gem.obj
+Pixel width: 600
+Instance count: 9
+Frame rate: 1000
+Data points: 1001
+Results file: light_curve0.lcr
+BRDF index: 1
+BRDF cd: 0.10
+BRDF cs: 0.90
+BRDF n: 30.00
+Saving images: false
+.mtl file properties will NOT be used
+INFO: FILEIO: [light_curve0.lcc] Text file loaded successfully
+INFO: Initializing raylib 4.5
+INFO: Supported raylib modules:
+INFO:     &gt; rcore:..... loaded (mandatory)
+INFO:     &gt; rlgl:...... loaded (mandatory)
+INFO:     &gt; rshapes:... loaded (optional)
+INFO:     &gt; rtextures:. loaded (optional)
+INFO:     &gt; rtext:..... loaded (optional)
+INFO:     &gt; rmodels:... loaded (optional)
+INFO:     &gt; raudio:.... loaded (optional)
+INFO: DISPLAY: Device initialized successfully
+INFO:     &gt; Display size: 1440 x 900
+INFO:     &gt; Screen size:  600 x 600
+INFO:     &gt; Render size:  600 x 600
+INFO:     &gt; Viewport offsets: 0, 0
+INFO: GLAD: OpenGL extensions loaded successfully
+INFO: GL: Supported extensions count: 43
+INFO: GL: OpenGL device information:
+INFO:     &gt; Vendor:   Apple
+INFO:     &gt; Renderer: Apple M1
+INFO:     &gt; Version:  4.1 Metal - 83.1
+INFO:     &gt; GLSL:     4.10
+INFO: GL: VAO extension detected, VAO functions loaded successfully
+INFO: GL: NPOT textures extension detected, full NPOT textures supported
+INFO: GL: DXT compressed textures supported
+INFO: TEXTURE: [ID 1] Texture loaded successfully (1x1 | R8G8B8A8 | 1 mipmaps)
+INFO: TEXTURE: [ID 1] Default texture loaded successfully
+INFO: SHADER: [ID 1] Vertex shader compiled successfully
+INFO: SHADER: [ID 2] Fragment shader compiled successfully
+INFO: SHADER: [ID 3] Program shader loaded successfully
+INFO: SHADER: [ID 3] Default shader loaded successfully
+INFO: RLGL: Render batch vertex buffers loaded successfully in RAM (CPU)
+INFO: RLGL: Render batch vertex buffers loaded successfully in VRAM (GPU)
+INFO: RLGL: Default OpenGL state initialized successfully
+INFO: TEXTURE: [ID 2] Texture loaded successfully (128x128 | GRAY_ALPHA | 1 mipmaps)
+INFO: FONT: Default font loaded successfully (224 glyphs)
+Initializing objects
+INFO: FILEIO: [/Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/resources/models/gem.obj] Text file loaded successfully
+INFO: MODEL: [/Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/resources/models/gem.obj] OBJ data loaded successfully: 1 meshes/1 materials
+INFO: MODEL: model has 1 material meshes
+INFO: VAO: [ID 2] Mesh uploaded successfully to VRAM (GPU)
+INFO: FILEIO: [shaders/shadow_depth.vs] Text file loaded successfully
+INFO: FILEIO: [shaders/shadow_depth.fs] Text file loaded successfully
+INFO: SHADER: [ID 4] Vertex shader compiled successfully
+INFO: SHADER: [ID 5] Fragment shader compiled successfully
+INFO: SHADER: [ID 6] Program shader loaded successfully
+INFO: SHADER: [ID 6] Shader attribute (vertexPosition) set at location: 0
+INFO: SHADER: [ID 6] Shader attribute (vertexTexCoord) set at location: 1
+WARNING: SHADER: [ID 6] Failed to find shader attribute: vertexTexCoord2
+INFO: SHADER: [ID 6] Shader attribute (vertexNormal) set at location: 2
+WARNING: SHADER: [ID 6] Failed to find shader attribute: vertexTangent
+INFO: SHADER: [ID 6] Shader attribute (vertexColor) set at location: 3
+WARNING: SHADER: [ID 6] Failed to find shader uniform: mvp
+WARNING: SHADER: [ID 6] Failed to find shader uniform: matView
+WARNING: SHADER: [ID 6] Failed to find shader uniform: matProjection
+WARNING: SHADER: [ID 6] Failed to find shader uniform: matModel
+INFO: SHADER: [ID 6] Shader uniform (matNormal) set at location: 0
+WARNING: SHADER: [ID 6] Failed to find shader uniform: colDiffuse
+WARNING: SHADER: [ID 6] Failed to find shader uniform: texture0
+WARNING: SHADER: [ID 6] Failed to find shader uniform: texture1
+WARNING: SHADER: [ID 6] Failed to find shader uniform: texture2
+INFO: FILEIO: [shaders/lighting.vs] Text file loaded successfully
+INFO: FILEIO: [shaders/lighting.fs] Text file loaded successfully
+INFO: SHADER: [ID 4] Vertex shader compiled successfully
+INFO: SHADER: [ID 5] Fragment shader compiled successfully
+INFO: SHADER: [ID 7] Program shader loaded successfully
+INFO: SHADER: [ID 7] Shader attribute (vertexPosition) set at location: 0
+INFO: SHADER: [ID 7] Shader attribute (vertexTexCoord) set at location: 1
+WARNING: SHADER: [ID 7] Failed to find shader attribute: vertexTexCoord2
+INFO: SHADER: [ID 7] Shader attribute (vertexNormal) set at location: 2
+WARNING: SHADER: [ID 7] Failed to find shader attribute: vertexTangent
+INFO: SHADER: [ID 7] Shader attribute (vertexColor) set at location: 3
+WARNING: SHADER: [ID 7] Failed to find shader uniform: mvp
+WARNING: SHADER: [ID 7] Failed to find shader uniform: matView
+WARNING: SHADER: [ID 7] Failed to find shader uniform: matProjection
+WARNING: SHADER: [ID 7] Failed to find shader uniform: matModel
+INFO: SHADER: [ID 7] Shader uniform (matNormal) set at location: 22
+INFO: SHADER: [ID 7] Shader uniform (colDiffuse) set at location: 6
+WARNING: SHADER: [ID 7] Failed to find shader uniform: texture0
+WARNING: SHADER: [ID 7] Failed to find shader uniform: texture1
+WARNING: SHADER: [ID 7] Failed to find shader uniform: texture2
+INFO: FILEIO: [shaders/averaging.vs] Text file loaded successfully
+INFO: FILEIO: [shaders/averaging.fs] Text file loaded successfully
+INFO: SHADER: [ID 4] Vertex shader compiled successfully
+INFO: SHADER: [ID 5] Fragment shader compiled successfully
+INFO: SHADER: [ID 8] Program shader loaded successfully
+INFO: SHADER: [ID 8] Shader attribute (vertexPosition) set at location: 0
+INFO: SHADER: [ID 8] Shader attribute (vertexTexCoord) set at location: 1
+WARNING: SHADER: [ID 8] Failed to find shader attribute: vertexTexCoord2
+WARNING: SHADER: [ID 8] Failed to find shader attribute: vertexNormal
+WARNING: SHADER: [ID 8] Failed to find shader attribute: vertexTangent
+INFO: SHADER: [ID 8] Shader attribute (vertexColor) set at location: 3
+INFO: SHADER: [ID 8] Shader uniform (mvp) set at location: 2
+WARNING: SHADER: [ID 8] Failed to find shader uniform: matView
+WARNING: SHADER: [ID 8] Failed to find shader uniform: matProjection
+WARNING: SHADER: [ID 8] Failed to find shader uniform: matModel
+WARNING: SHADER: [ID 8] Failed to find shader uniform: matNormal
+WARNING: SHADER: [ID 8] Failed to find shader uniform: colDiffuse
+INFO: SHADER: [ID 8] Shader uniform (texture0) set at location: 0
+WARNING: SHADER: [ID 8] Failed to find shader uniform: texture1
+WARNING: SHADER: [ID 8] Failed to find shader uniform: texture2
+WARNING: SHADER: [ID 6] Failed to find shader uniform: viewPos
+INFO: SHADER: [ID 6] Shader uniform (lightPos) set at location: 105
+WARNING: SHADER: [ID 6] Failed to find shader uniform: light_mvp
+INFO: SHADER: [ID 6] Shader uniform (model_id) set at location: 104
+INFO: SHADER: [ID 6] Shader uniform (light_mvps[0].mat) set at location: 4
+INFO: SHADER: [ID 6] Shader uniform (light_mvps[1].mat) set at location: 8
+INFO: SHADER: [ID 6] Shader uniform (light_mvps[2].mat) set at location: 12
+INFO: SHADER: [ID 6] Shader uniform (light_mvps[3].mat) set at location: 16
+INFO: SHADER: [ID 6] Shader uniform (light_mvps[4].mat) set at location: 20
+INFO: SHADER: [ID 6] Shader uniform (light_mvps[5].mat) set at location: 24
+INFO: SHADER: [ID 6] Shader uniform (light_mvps[6].mat) set at location: 28
+INFO: SHADER: [ID 6] Shader uniform (light_mvps[7].mat) set at location: 32
+INFO: SHADER: [ID 6] Shader uniform (light_mvps[8].mat) set at location: 36
+INFO: SHADER: [ID 7] Shader uniform (viewPos) set at location: 11
+INFO: SHADER: [ID 7] Shader uniform (lightPos) set at location: 9
+INFO: SHADER: [ID 7] Shader uniform (grid_width) set at location: 5
+INFO: SHADER: [ID 7] Shader uniform (depthTex) set at location: 12
+INFO: SHADER: [ID 7] Shader uniform (view_mvp) set at location: 0
+INFO: SHADER: [ID 7] Shader uniform (light_mvp) set at location: 13
+INFO: SHADER: [ID 7] Shader uniform (use_brdf) set at location: 4
+INFO: SHADER: [ID 7] Shader uniform (cd_in) set at location: 10
+INFO: SHADER: [ID 7] Shader uniform (cs_in) set at location: 26
+INFO: SHADER: [ID 7] Shader uniform (n_in) set at location: 8
+INFO: SHADER: [ID 7] Shader uniform (use_mtl) set at location: 7
+INFO: SHADER: [ID 8] Shader uniform (grid_width) set at location: 1
+INFO: SHADER: [ID 7] Shader uniform (lights[0].enabled) set at location: 17
+INFO: SHADER: [ID 7] Shader uniform (lights[0].type) set at location: 18
+INFO: SHADER: [ID 7] Shader uniform (lights[0].position) set at location: 19
+INFO: SHADER: [ID 7] Shader uniform (lights[0].target) set at location: 20
+INFO: SHADER: [ID 7] Shader uniform (lights[0].color) set at location: 21
+INFO: TEXTURE: [ID 3] Texture loaded successfully (600x600 | R8G8B8A8 | 1 mipmaps)
+INFO: TEXTURE: [ID 1] Depth renderbuffer loaded successfully (32 bits)
+INFO: FBO: [ID 1] Framebuffer object created successfully
+INFO: TEXTURE: [ID 4] Texture loaded successfully (600x600 | R8G8B8A8 | 1 mipmaps)
+INFO: TEXTURE: [ID 2] Depth renderbuffer loaded successfully (32 bits)
+INFO: FBO: [ID 2] Framebuffer object created successfully
+INFO: TEXTURE: [ID 5] Texture loaded successfully (3x600 | R8G8B8A8 | 1 mipmaps)
+INFO: TEXTURE: [ID 3] Depth renderbuffer loaded successfully (32 bits)
+INFO: FBO: [ID 3] Framebuffer object created successfully
+INFO: TIMER: Target time per frame: 1.000 milliseconds
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+spin_panels: 0
+INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
+Trying to write results...
+INFO: TEXTURE: [ID 2] Unloaded texture data from VRAM (GPU)
+INFO: SHADER: [ID 3] Default shader unloaded successfully
+INFO: TEXTURE: [ID 1] Default texture unloaded successfully
+INFO: Window closed successfully
 </pre></div>
 </div>
 <p>And plot the results</p>
@@ -508,7 +1797,15 @@ Model files were downloaded successfully!
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_engine_vs_convex_003.png" srcset="../../_images/sphx_glr_engine_vs_convex_003.png, ../../_images/sphx_glr_engine_vs_convex_003_2_00x.png 2.00x" alt="Light Curves for tess.obj" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  13.434 seconds)</p>
+<img src="../../_images/sphx_glr_engine_vs_convex_003.png" srcset="../../_images/sphx_glr_engine_vs_convex_003.png, ../../_images/sphx_glr_engine_vs_convex_003_2_00x.png 2.00x" alt="Light Curves for tess.obj" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Model file tess.obj not found in current model folder (&#39;/Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/resources/models&#39;), checking model repository...
+Attempting to download tess.obj and its associated material file from the model repository...
+Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//accurate_sats/tess.obj
+Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//None
+Model file tess.mtl not found in the repository!
+Model files were downloaded successfully!
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  12.162 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-01-light-curves-engine-vs-convex-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/1eef9292cd6e9920efc3c089879a3d4b/engine_vs_convex.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">engine_vs_convex.py</span></code></a></p>
@@ -541,11 +1838,11 @@ Model files were downloaded successfully!
       </div>
     </a>
     <a class="right-next"
-       href="neural_network_brightness.html"
+       href="brdf_renders.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Neural Network Brightness</p>
+        <p class="prev-next-title">BRDFs in Action</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

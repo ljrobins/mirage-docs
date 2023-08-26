@@ -9,6 +9,7 @@ import numpy as np
 import pyvista as pv
 
 import pyspaceaware as ps
+import pyspaceaware.vis as psv
 
 date_space = ps.date_linspace(ps.today(), ps.today() + ps.hours(3), 1000)
 # Propagate out one day
@@ -18,8 +19,8 @@ r_eci = ps.propagate_satnum_to_dates(dates=date_space, satnum=25544)
 # %%
 # Let's scatter plot the object positions we've propagated
 pl = pv.Plotter()
-ps.plot_earth(pl, date=date_space[0], night_lights=True, atmosphere=True)
-ps.plot3(
+psv.plot_earth(pl, date=date_space[0], night_lights=True, atmosphere=True)
+psv.plot3(
     pl,
     r_eci,
     line_width=4,

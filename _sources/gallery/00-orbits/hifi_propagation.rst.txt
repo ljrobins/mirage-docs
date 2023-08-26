@@ -23,7 +23,7 @@ Propagating with Perturbations
 
 Propagating an orbit with spherical harmonics and third body effects
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-14
+.. GENERATED FROM PYTHON SOURCE LINES 7-15
 
 .. code-block:: default
 
@@ -33,6 +33,7 @@ Propagating an orbit with spherical harmonics and third body effects
     import pyvista as pv
 
     import pyspaceaware as ps
+    import pyspaceaware.vis as psv
 
 
 
@@ -41,11 +42,11 @@ Propagating an orbit with spherical harmonics and third body effects
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-16
+.. GENERATED FROM PYTHON SOURCE LINES 16-17
 
 Defining our initial condition and the propagation times
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-19
+.. GENERATED FROM PYTHON SOURCE LINES 17-20
 
 .. code-block:: default
 
@@ -59,11 +60,11 @@ Defining our initial condition and the propagation times
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-21
+.. GENERATED FROM PYTHON SOURCE LINES 21-22
 
 Propagating with the full EGM96 gravity model and Sun/Moon third-body accelerations
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-37
+.. GENERATED FROM PYTHON SOURCE LINES 22-38
 
 .. code-block:: default
 
@@ -80,8 +81,8 @@ Propagating with the full EGM96 gravity model and Sun/Moon third-body accelerati
     r = rv[:, :3]
 
     pl = pv.Plotter()
-    ps.plot_earth(pl, date=ps.now(), night_lights=True, elevation=True, atmosphere=True)
-    ps.plot3(pl, r, lighting=True)
+    psv.plot_earth(pl, date=ps.now(), night_lights=True, elevation=True, atmosphere=True)
+    psv.plot3(pl, r, lighting=True)
     pl.show()
 
 
@@ -96,7 +97,7 @@ Propagating with the full EGM96 gravity model and Sun/Moon third-body accelerati
 
  .. code-block:: none
 
-    Elapsed time: 1.03e+02 seconds
+    Elapsed time: 8.97e+01 seconds
 
 
 
@@ -104,7 +105,7 @@ Propagating with the full EGM96 gravity model and Sun/Moon third-body accelerati
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 1 minutes  57.720 seconds)
+   **Total running time of the script:** ( 1 minutes  44.350 seconds)
 
 
 .. _sphx_glr_download_gallery_00-orbits_hifi_propagation.py:

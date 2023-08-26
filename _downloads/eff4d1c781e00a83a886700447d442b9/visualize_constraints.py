@@ -11,6 +11,7 @@ import pyvista as pv
 import terrainman as tm
 
 import pyspaceaware as ps
+import pyspaceaware.vis as psv
 
 # %%
 # Let's define an observation station right before an ISS pass
@@ -91,8 +92,8 @@ pre_render_fcn = lambda pl: (
         opacity=0.5,
         show_scalar_bar=False,
     ),
-    ps.plot3(pl, enu_rays, color="c", line_width=5),
-    ps.plot3(
+    psv.plot3(pl, enu_rays, color="c", line_width=5),
+    psv.plot3(
         pl,
         ps.az_el_to_enu(*station.eci_to_az_el(dates, look_dir_eci)),
         line_width=5,
@@ -101,7 +102,7 @@ pre_render_fcn = lambda pl: (
 
 
 def render_fcn(pl: pv.Plotter, i: int, dates=None, horizon_constraint=None):
-    ps.scatter3(
+    psv.scatter3(
         pl,
         obj_enu[i, :].reshape((1, 3)),
         point_size=40,
@@ -123,7 +124,7 @@ def render_fcn(pl: pv.Plotter, i: int, dates=None, horizon_constraint=None):
 az, el = station.eci_to_az_el(dates, look_dir_eci)
 obj_enu = ps.az_el_to_enu(az, el)
 
-ps.render_video(
+psv.render_video(
     pre_render_fcn,
     lambda pl, i: render_fcn(pl, i, dates, horizon_constraint),
     lambda pl, i: None,

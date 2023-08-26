@@ -23,7 +23,7 @@ Propagating single TLE
 
 Propagates a single TLE for a given NORAD ID and propagates the trajectory
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-18
+.. GENERATED FROM PYTHON SOURCE LINES 7-19
 
 .. code-block:: default
 
@@ -32,6 +32,7 @@ Propagates a single TLE for a given NORAD ID and propagates the trajectory
     import pyvista as pv
 
     import pyspaceaware as ps
+    import pyspaceaware.vis as psv
 
     date_space = ps.date_linspace(ps.today(), ps.today() + ps.hours(3), 1000)
     # Propagate out one day
@@ -45,17 +46,17 @@ Propagates a single TLE for a given NORAD ID and propagates the trajectory
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-20
+.. GENERATED FROM PYTHON SOURCE LINES 20-21
 
 Let's scatter plot the object positions we've propagated
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-31
+.. GENERATED FROM PYTHON SOURCE LINES 21-32
 
 .. code-block:: default
 
     pl = pv.Plotter()
-    ps.plot_earth(pl, date=date_space[0], night_lights=True, atmosphere=True)
-    ps.plot3(
+    psv.plot_earth(pl, date=date_space[0], night_lights=True, atmosphere=True)
+    psv.plot3(
         pl,
         r_eci,
         line_width=4,
@@ -79,7 +80,7 @@ Let's scatter plot the object positions we've propagated
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  5.808 seconds)
+   **Total running time of the script:** ( 0 minutes  6.267 seconds)
 
 
 .. _sphx_glr_download_gallery_00-orbits_propagate_single_tle.py:

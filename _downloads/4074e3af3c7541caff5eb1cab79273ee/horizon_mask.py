@@ -13,6 +13,7 @@ import terrainman as tm
 # %%
 # Defining the station at Katmandu, where ``station.name`` informs the name of the resulting mask file
 import pyspaceaware as ps
+import pyspaceaware.vis as psv
 
 station = ps.Station(
     preset="pogs",
@@ -69,7 +70,7 @@ pl.add_mesh(
     show_scalar_bar=True,
 )
 
-ps.scatter3(pl, enu_rays, color="w", show_scalar_bar=False)
+psv.scatter3(pl, enu_rays, color="w", show_scalar_bar=False)
 pl.add_text("Katmandu Horizon Mask", font="courier")
 
 path = pv.Polygon(

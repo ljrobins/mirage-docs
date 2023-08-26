@@ -10,6 +10,7 @@ import numpy as np
 import seaborn as sns
 
 import pyspaceaware as ps
+import pyspaceaware.vis as psv
 
 ltest = np.linspace(200, 1000, int(1e4)) * 1e-9
 isun = ps.sun_spectrum(ltest) * 1e-10
@@ -19,18 +20,19 @@ qe = ps.quantum_efficiency(ltest)
 zm = ps.proof_zero_mag_stellar_spectrum(ltest)
 
 sns.set_theme(style="whitegrid")
-sns.lineplot(x=ltest, y=isun, ci=None)
-sns.lineplot(x=ltest, y=qe, ci=None)
-sns.lineplot(x=ltest, y=tee, ci=None)
-sns.lineplot(x=ltest, y=zm, ci=None)
+sns.lineplot(x=ltest * 1e9, y=tee, ci=None)
+sns.lineplot(x=ltest * 1e9, y=qe, ci=None)
+sns.lineplot(x=ltest * 1e9, y=zm, ci=None)
+sns.lineplot(x=ltest * 1e9, y=isun, ci=None)
 plt.legend(
     title="",
     loc="upper left",
     labels=[
-        "Sun irradiance [W/cm^2/um]",
-        "Quantum efficiency [-]",
         "Atmospheric transmission [-]",
-        "Zero magnitude source [-]",
+        "Quantum efficiency [-]",
+        "Zero magnitude irradiance [W/cm^2/$\mu$m]",
+        "Solar irradiance [W/cm^2/$\mu$m]",
     ],
 )
+psv.texit("", "Wavelength [nm]", "")
 plt.show()

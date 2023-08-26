@@ -11,6 +11,7 @@ import numpy as np
 import pyvista as pv
 
 import pyspaceaware as ps
+import pyspaceaware.vis as psv
 
 date = datetime.datetime(2022, 6, 4, 12, 0, 0, tzinfo=datetime.timezone.utc)
 date_space_day = date + ps.days(np.linspace(0, 1, 100, endpoint=False))
@@ -20,7 +21,7 @@ date_space_day = date + ps.days(np.linspace(0, 1, 100, endpoint=False))
 pl = pv.Plotter()
 pl.open_gif("earth_day.gif", fps=20)
 for date in date_space_day:
-    ps.plot_earth(pl, date=date, night_lights=True, atmosphere=True)
+    psv.plot_earth(pl, date=date, night_lights=True, atmosphere=True)
     pl.camera.position = (40e3, 0.0, 0.0)
     pl.write_frame()
 pl.close()
@@ -31,7 +32,7 @@ date_space_year = date + ps.days(np.round(np.linspace(0, 365.25, 100, endpoint=F
 pl = pv.Plotter()
 pl.open_gif("earth_year.gif", fps=20)
 for date in date_space_year:
-    ps.plot_earth(pl, date=date, night_lights=True, atmosphere=True)
+    psv.plot_earth(pl, date=date, night_lights=True, atmosphere=True)
     pl.camera.position = (40e3, 0.0, 0.0)
     pl.write_frame()
 pl.close()
@@ -40,7 +41,7 @@ pl.close()
 # %%
 # Elevation data and texture map
 pl = pv.Plotter()
-ps.plot_earth(
+psv.plot_earth(
     pl,
     date=date,
     elevation=True,
@@ -52,13 +53,13 @@ pl.show()
 # %%
 # Night lights with latitude and longitude lines
 pl = pv.Plotter()
-ps.plot_earth(
+psv.plot_earth(
     pl,
     date=date,
     night_lights=True,
 )
-grid = ps.celestial_grid(15, 15)
-ps.plot3(
+grid = psv.celestial_grid(15, 15)
+psv.plot3(
     pl,
     ps.AstroConstants.earth_r_eq * grid,
     color="cornflowerblue",
@@ -71,7 +72,7 @@ pl.show()
 # %%
 # Star background
 pl = pv.Plotter()
-ps.plot_earth(
+psv.plot_earth(
     pl,
     date=date,
     stars=True,
@@ -81,7 +82,7 @@ pl.show()
 # %%
 # Country borders
 pl = pv.Plotter()
-ps.plot_earth(
+psv.plot_earth(
     pl,
     date=date,
     borders=True,
@@ -91,7 +92,7 @@ pl.show()
 # %%
 # All photorealistic settings
 pl = pv.Plotter()
-ps.plot_earth(
+psv.plot_earth(
     pl,
     date=date,
     stars=True,

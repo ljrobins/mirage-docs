@@ -309,11 +309,13 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_grid.html">BRDFs on the local hemisphere</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../03-coordinate-systems/index.html">Coordinate Frames</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/time_systems.html">Time Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/polar_motion.html">Polar Motion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/earth_pole_motion.html">Precession and Nutation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/spice_comparison.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/equinoxes.html">Equinoxes and Solstices</a></li>
@@ -321,14 +323,15 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../04-environment/index.html">Environment</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/twilight_model.html">Twilight Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometric Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_zenith.html">Background Signals at Zenith</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/total_solar_irradiance.html">Total Solar Irradiance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/geoid_heights.html">Global Elevation</a></li>
 
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/reflected_albedo.html">Earth Albedo BRDF</a></li>
@@ -343,6 +346,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/torque_free_axisymmetric.html">Torque-free Attitude Propagation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -428,6 +432,7 @@ to download the full example code</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
 
 <span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
+<span class="kn">import</span> <span class="nn">pyspaceaware.vis</span> <span class="k">as</span> <span class="nn">psv</span>
 </pre></div>
 </div>
 <p>Let’s animate the librations of the Moon over the course of a synodic month (the time required for the Moon to complete an orbit with respect to the Sun-Earth line).</p>
@@ -439,7 +444,7 @@ to download the full example code</p>
 <span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">open_gif</span><span class="p">(</span><span class="s2">&quot;moon_librations.gif&quot;</span><span class="p">,</span> <span class="n">subrectangles</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">date</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dates</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
-    <span class="n">ps</span><span class="o">.</span><span class="n">plot_moon</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;eci&quot;</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">date</span><span class="p">)</span>
+    <span class="n">psv</span><span class="o">.</span><span class="n">plot_moon</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;eci&quot;</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">date</span><span class="p">)</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">view_angle</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># The Moon&#39;s angular size from the Earth is about 0.5 deg, so let&#39;s double that FOV</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">focal_point</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">actors</span><span class="p">[</span><span class="s2">&quot;moon&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">user_matrix</span><span class="p">[</span>
         <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
@@ -449,7 +454,7 @@ to download the full example code</p>
 <span class="n">pl</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_moon_libration_001.png" srcset="../../_images/sphx_glr_moon_libration_001.png" alt="moon libration" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  10.632 seconds)</p>
+<img src="../../_images/sphx_glr_moon_libration_001.gif" srcset="../../_images/sphx_glr_moon_libration_001.gif" alt="moon libration" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  9.921 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-05-vis-moon-libration-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/3f55ebfec58fca7f86c79c7273ba2672/moon_libration.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">moon_libration.py</span></code></a></p>

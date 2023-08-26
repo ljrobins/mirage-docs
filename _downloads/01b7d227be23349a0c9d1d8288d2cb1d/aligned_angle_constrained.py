@@ -14,6 +14,7 @@ import numpy as np
 import pyvista as pv
 
 import pyspaceaware as ps
+import pyspaceaware.vis as psv
 
 data_points = 100
 obj = ps.SpaceObject("tess.obj", identifier="INTELSAT 511")
@@ -44,7 +45,7 @@ obs_in_body = ps.stack_mat_mult_vec(c, sat_nadir)
 pl = pv.Plotter()
 pl.open_gif("aligned_and_constrained.gif")
 
-ps.plot3(pl, r, color="cyan")
+psv.plot3(pl, r, color="cyan")
 
 omesh = obj._mesh.copy()
 cdist = 300
@@ -57,11 +58,13 @@ for i in range(data_points - 1):
         r[i, :] - cdist * sat_nadir[i, :] + cdist / 10 * orbit_normal[i, :]
     )
     pl.camera.focal_point = r[i, :]
-    obj.render(pl, origin=r[i, :], scale=10, opacity=1.0, quat=quat[i, :])
-    ps.plot_arrow(pl, r[i, :], v1[i, :], scale=pdist, name="arr_v1")
-    ps.plot_arrow(pl, r[i, :], v2[i, :], scale=pdist, name="arr_v2")
-    ps.plot_arrow(pl, r[i, :], v3[i, :], scale=pdist, name="arr_v3")
-    ps.plot_arrow(
+    psv.render_spaceobject(
+        pl, obj, origin=r[i, :], scale=10, opacity=1.0, quat=quat[i, :]
+    )
+    psv.plot_arrow(pl, r[i, :], v1[i, :], scale=pdist, name="arr_v1")
+    psv.plot_arrow(pl, r[i, :], v2[i, :], scale=pdist, name="arr_v2")
+    psv.plot_arrow(pl, r[i, :], v3[i, :], scale=pdist, name="arr_v3")
+    psv.plot_arrow(
         pl,
         r[i, :],
         sat_sun[i, :],
@@ -70,7 +73,7 @@ for i in range(data_points - 1):
         color="y",
         label="Sun",
     )
-    ps.plot_earth(pl, date=date_space[i], atmosphere=True, night_lights=True)
+    psv.plot_earth(pl, date=date_space[i], atmosphere=True, night_lights=True)
     pl.write_frame()
     obj._mesh.copy_from(omesh)
 pl.close()

@@ -44,11 +44,12 @@ Builds a terrain-driven horizon mask for a given station and displays the result
 
 Defining the station at Katmandu, where ``station.name`` informs the name of the resulting mask file
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-26
+.. GENERATED FROM PYTHON SOURCE LINES 15-27
 
 .. code-block:: default
 
     import pyspaceaware as ps
+    import pyspaceaware.vis as psv
 
     station = ps.Station(
         preset="pogs",
@@ -72,11 +73,11 @@ Defining the station at Katmandu, where ``station.name`` informs the name of the
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-28
+.. GENERATED FROM PYTHON SOURCE LINES 28-29
 
 Loads a terrain tile containing the station and create a mask for the station location
 
-.. GENERATED FROM PYTHON SOURCE LINES 28-39
+.. GENERATED FROM PYTHON SOURCE LINES 29-40
 
 .. code-block:: default
 
@@ -105,11 +106,11 @@ Loads a terrain tile containing the station and create a mask for the station lo
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-41
+.. GENERATED FROM PYTHON SOURCE LINES 41-42
 
 Build a tile from the raw tile data
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-49
+.. GENERATED FROM PYTHON SOURCE LINES 42-50
 
 .. code-block:: default
 
@@ -128,11 +129,11 @@ Build a tile from the raw tile data
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 50-51
+.. GENERATED FROM PYTHON SOURCE LINES 51-52
 
 Convert the terrain data into East North Up (ENU) coordinates and plot the result
 
-.. GENERATED FROM PYTHON SOURCE LINES 51-87
+.. GENERATED FROM PYTHON SOURCE LINES 52-88
 
 .. code-block:: default
 
@@ -157,7 +158,7 @@ Convert the terrain data into East North Up (ENU) coordinates and plot the resul
         show_scalar_bar=True,
     )
 
-    ps.scatter3(pl, enu_rays, color="w", show_scalar_bar=False)
+    psv.scatter3(pl, enu_rays, color="w", show_scalar_bar=False)
     pl.add_text("Katmandu Horizon Mask", font="courier")
 
     path = pv.Polygon(
@@ -175,9 +176,9 @@ Convert the terrain data into East North Up (ENU) coordinates and plot the resul
 
 
 
-.. image-sg:: /gallery/07-observer/images/sphx_glr_horizon_mask_001.png
+.. image-sg:: /gallery/07-observer/images/sphx_glr_horizon_mask_001.gif
    :alt: horizon mask
-   :srcset: /gallery/07-observer/images/sphx_glr_horizon_mask_001.png
+   :srcset: /gallery/07-observer/images/sphx_glr_horizon_mask_001.gif
    :class: sphx-glr-single-img
 
 
@@ -187,7 +188,7 @@ Convert the terrain data into East North Up (ENU) coordinates and plot the resul
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  33.658 seconds)
+   **Total running time of the script:** ( 0 minutes  32.661 seconds)
 
 
 .. _sphx_glr_download_gallery_07-observer_horizon_mask.py:

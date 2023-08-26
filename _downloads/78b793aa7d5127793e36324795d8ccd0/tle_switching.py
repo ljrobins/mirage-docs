@@ -9,6 +9,7 @@ import numpy as np
 import pyvista as pv
 
 import pyspaceaware as ps
+import pyspaceaware.vis as psv
 
 # %%
 # Let's use the SUPERBIRD 6 satellite
@@ -39,11 +40,11 @@ r_newest = ps.tle_propagate_with_switching(
 # %%
 # We can plot these trajectories to show that they result in similar trajectories
 pl = pv.Plotter()
-ps.plot_earth(pl, date=dtimes[0], mode="eci", night_lights=True, atmosphere=True)
+psv.plot_earth(pl, date=dtimes[0], mode="eci", night_lights=True, atmosphere=True)
 lw = 6
-ps.plot3(pl, r_closest, color="c", lighting=False, line_width=lw)
-# ps.plot3(pl, r_newest, color="m", lighting=False, line_width=lw)
-# ps.plot3(pl, r_interp, color="lime", lighting=False, line_width=lw)
+psv.plot3(pl, r_closest, color="c", lighting=False, line_width=lw)
+# psv.plot3(pl, r_newest, color="m", lighting=False, line_width=lw)
+# psv.plot3(pl, r_interp, color="lime", lighting=False, line_width=lw)
 mid_point = r_interp[r_interp.shape[0] // 2, :]
 pl.camera.focal_point = mid_point
 pl.camera.position = (np.linalg.norm(mid_point) + 100_000) * (

@@ -23,7 +23,7 @@ Propagating the catalog
 
 Load the full TLE catalog and propagate all objects to a given epoch
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-17
+.. GENERATED FROM PYTHON SOURCE LINES 7-18
 
 .. code-block:: default
 
@@ -35,6 +35,7 @@ Load the full TLE catalog and propagate all objects to a given epoch
     import pyvista as pv
 
     import pyspaceaware as ps
+    import pyspaceaware.vis as psv
 
 
 
@@ -44,24 +45,24 @@ Load the full TLE catalog and propagate all objects to a given epoch
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-19
+.. GENERATED FROM PYTHON SOURCE LINES 19-20
 
 First, let's define a function that plots the catalog at a given date
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-36
+.. GENERATED FROM PYTHON SOURCE LINES 20-37
 
 .. code-block:: default
 
     def plot_catalog_at_date(date: datetime.datetime):
         r_eci = ps.propagate_catalog_to_dates(date)
         pl = pv.Plotter()
-        ps.plot_earth(
+        psv.plot_earth(
             pl,
             date=date,
             atmosphere=True,
             night_lights=True,
         )
-        ps.scatter3(
+        psv.scatter3(
             pl, r_eci, show_scalar_bar=False, point_size=5, lighting=False, color="lime"
         )
         pl.camera.focal_point = (0.0, 0.0, 0.0)
@@ -76,12 +77,12 @@ First, let's define a function that plots the catalog at a given date
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-39
+.. GENERATED FROM PYTHON SOURCE LINES 38-40
 
 Space in 2023
 ~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-41
+.. GENERATED FROM PYTHON SOURCE LINES 40-42
 
 .. code-block:: default
 
@@ -99,12 +100,12 @@ Space in 2023
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-44
+.. GENERATED FROM PYTHON SOURCE LINES 43-45
 
 Space in 2000
 ~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-46
+.. GENERATED FROM PYTHON SOURCE LINES 45-47
 
 .. code-block:: default
 
@@ -122,12 +123,12 @@ Space in 2000
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-49
+.. GENERATED FROM PYTHON SOURCE LINES 48-50
 
 Space in 1980
 ~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-50
+.. GENERATED FROM PYTHON SOURCE LINES 50-51
 
 .. code-block:: default
 
@@ -147,7 +148,7 @@ Space in 1980
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  19.344 seconds)
+   **Total running time of the script:** ( 0 minutes  34.846 seconds)
 
 
 .. _sphx_glr_download_gallery_00-orbits_propagate_catalog.py:

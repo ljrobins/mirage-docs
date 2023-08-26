@@ -5,16 +5,17 @@ Azimuth/Elevation Conversion
 Given a station and a target in inertial space we can compute the azimuth and elevation of the object, or invert an azimuth and elevation into a new look direction
 """
 
-import matplotlib.pyplot as plt
 import numpy as np
 import pyvista as pv
 
 import pyspaceaware as ps
+import pyspaceaware.vis as psv
 
 # %%
 # Let's use the Purdue Optical Ground Station for this example
 station = ps.Station(preset="pogs")
-dates = ps.date_linspace(ps.now(), ps.now() + ps.days(1), int(1e4)) + ps.hours(12)
+dt0 = ps.utc(2023, 8, 13)
+dates = ps.date_linspace(dt0, dt0 + ps.days(1), int(1e4))
 
 # %%
 # Let's extract the station's position in J2000 and create an ECI look direction which is just outwards and down towards the equator
@@ -41,24 +42,24 @@ print(
 
 # %%
 # We can also display this resulting unit vector as a ray cast out from the observer, hitting the target
-s = 10
 pl = pv.Plotter()
 stat_origin0 = station.j2000_at_dates(dates[0])
-ps.plot_earth(pl, date=dates[0], high_def=True, atmosphere=False, borders=True)
+psv.plot_earth(pl, date=dates[0], high_def=True, atmosphere=False, borders=True)
 rotm = ps.EarthFixedFrame("itrf", "j2000").rotms_at_dates(dates[0]) @ ps.enu_to_ecef(
     station.itrf
 )
-ps.plot_basis(
-    pl, rotm, labels=["E", "N", "U"], origin=stat_origin0, scale=s * 100, color="linen"
+psv.plot_basis(
+    pl, rotm, labels=["E", "N", "U"], origin=stat_origin0, scale=1000, color="linen"
 )
-ps.plot_arrow(
+psv.plot_arrow(
     pl,
     origin=stat_origin0,
     direction=eci_hat[0, :],
-    scale=s * 100,
+    scale=1000,
     color="c",
     label="To object",
 )
 pl.camera.focal_point = stat_origin0
-pl.camera.position = pl.camera.focal_point + s * np.array([300, 400, -200])
+pl.camera.position = np.array(pl.camera.focal_point) + 10 * np.array([-500, -200, 200])
+print(pl.camera.focal_point)
 pl.show()

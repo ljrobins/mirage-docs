@@ -19,7 +19,7 @@ brdf = ps.Brdf("phong", cd=0.1, cs=0.9, n=30)
 # %%
 # Defining the attitude profile
 
-t_eval = np.linspace(0, 10, int(1e3))
+t_eval = np.linspace(0, 10, int(1e3) + 1)
 q, _ = ps.propagate_attitude_torque_free(
     ps.hat(np.array([0.0, 0.0, 0.0, 1.0])),
     np.array([1.0, 1.0, 1.0]),
@@ -35,7 +35,7 @@ svb = ps.stack_mat_mult_vec(dcm, np.array([[0, 1, 0]]))
 # We can now run the engine and compute a convex light curve:
 
 b_non_convex = ps.run_light_curve_engine(
-    brdf, obj, svb, ovb, instance_count=9, show_window=False
+    brdf, obj, svb, ovb, instance_count=9, silent=False
 )
 b_convex = obj.convex_light_curve(brdf, svb, ovb)
 

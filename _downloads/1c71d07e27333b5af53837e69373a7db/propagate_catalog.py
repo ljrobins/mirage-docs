@@ -12,6 +12,7 @@ import numpy as np
 import pyvista as pv
 
 import pyspaceaware as ps
+import pyspaceaware.vis as psv
 
 
 # %%
@@ -19,13 +20,13 @@ import pyspaceaware as ps
 def plot_catalog_at_date(date: datetime.datetime):
     r_eci = ps.propagate_catalog_to_dates(date)
     pl = pv.Plotter()
-    ps.plot_earth(
+    psv.plot_earth(
         pl,
         date=date,
         atmosphere=True,
         night_lights=True,
     )
-    ps.scatter3(
+    psv.scatter3(
         pl, r_eci, show_scalar_bar=False, point_size=5, lighting=False, color="lime"
     )
     pl.camera.focal_point = (0.0, 0.0, 0.0)

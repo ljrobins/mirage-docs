@@ -22,7 +22,7 @@ Background Signals at Zenith
 ============================
 Plotting the general behavior of background signals for zodiac light, moonlight, and integrated starlight at zenith
 
-.. GENERATED FROM PYTHON SOURCE LINES 6-11
+.. GENERATED FROM PYTHON SOURCE LINES 6-12
 
 .. code-block:: default
 
@@ -30,6 +30,7 @@ Plotting the general behavior of background signals for zodiac light, moonlight,
     import numpy as np
     import pyvista as pv
     import pyspaceaware as ps
+    import pyspaceaware.vis as psv
 
 
 
@@ -38,11 +39,11 @@ Plotting the general behavior of background signals for zodiac light, moonlight,
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 12-13
+.. GENERATED FROM PYTHON SOURCE LINES 13-14
 
 Let's choose a point after sunset on the US east coast
 
-.. GENERATED FROM PYTHON SOURCE LINES 13-15
+.. GENERATED FROM PYTHON SOURCE LINES 14-16
 
 .. code-block:: default
 
@@ -55,11 +56,11 @@ Let's choose a point after sunset on the US east coast
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-17
+.. GENERATED FROM PYTHON SOURCE LINES 17-18
 
 We can then generate the background signals for a set of spiral points
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-54
+.. GENERATED FROM PYTHON SOURCE LINES 18-55
 
 .. code-block:: default
 
@@ -81,7 +82,7 @@ We can then generate the background signals for a set of spiral points
 
 
     def plot_sig(pl, s, cmap, scale=1):
-        ps.scatter3(
+        psv.scatter3(
             pl,
             scale * pts,
             scalars=s,
@@ -94,7 +95,7 @@ We can then generate the background signals for a set of spiral points
 
 
     pl = pv.Plotter()
-    ps.plot_earth(pl, mode="eci", night_lights=True, atmosphere=True, date=date),
+    psv.plot_earth(pl, mode="eci", night_lights=True, atmosphere=True, date=date),
     plot_sig(pl, ss, "fire", scale=1.2)
     plot_sig(pl, sm, "bone", scale=1.2)
     plot_sig(pl, sz, "cividis", scale=1.0)
@@ -115,7 +116,7 @@ We can then generate the background signals for a set of spiral points
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  14.226 seconds)
+   **Total running time of the script:** ( 0 minutes  13.093 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_background_zenith.py:

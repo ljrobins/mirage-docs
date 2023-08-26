@@ -48,7 +48,7 @@
     <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Observer" href="../07-observer/index.html" />
+    <link rel="next" title="Torque-free Attitude Propagation" href="torque_free_axisymmetric.html" />
     <link rel="prev" title="Euler Angle Sequence" href="euler_sequence.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -309,11 +309,13 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_grid.html">BRDFs on the local hemisphere</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../03-coordinate-systems/index.html">Coordinate Frames</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/time_systems.html">Time Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/polar_motion.html">Polar Motion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/earth_pole_motion.html">Precession and Nutation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/spice_comparison.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/equinoxes.html">Equinoxes and Solstices</a></li>
@@ -321,14 +323,15 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../04-environment/index.html">Environment</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/twilight_model.html">Twilight Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometric Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_zenith.html">Background Signals at Zenith</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/total_solar_irradiance.html">Total Solar Irradiance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/geoid_heights.html">Global Elevation</a></li>
 
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/reflected_albedo.html">Earth Albedo BRDF</a></li>
@@ -343,6 +346,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="euler_sequence.html">Euler Angle Sequence</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Aligned and Constrained</a></li>
+<li class="toctree-l2"><a class="reference internal" href="torque_free_axisymmetric.html">Torque-free Attitude Propagation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -429,12 +433,13 @@ to download the full example code</p>
 <p class="admonition-title">Note</p>
 <p>If you want to record a .mp4 video instead, try <code class="docutils literal notranslate"><span class="pre">pl.open_movie(&quot;aligned_and_constrained.mov&quot;,</span> <span class="pre">framerate=30,</span> <span class="pre">quality=9)</span></code></p>
 </div>
-<img src="../../_images/sphx_glr_aligned_angle_constrained_001.png" srcset="../../_images/sphx_glr_aligned_angle_constrained_001.png" alt="aligned angle constrained" class = "sphx-glr-single-img"/><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">datetime</span>
+<img src="../../_images/sphx_glr_aligned_angle_constrained_001.gif" srcset="../../_images/sphx_glr_aligned_angle_constrained_001.gif" alt="aligned angle constrained" class = "sphx-glr-single-img"/><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">datetime</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
 
 <span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
+<span class="kn">import</span> <span class="nn">pyspaceaware.vis</span> <span class="k">as</span> <span class="nn">psv</span>
 
 <span class="n">data_points</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">obj</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">SpaceObject</span><span class="p">(</span><span class="s2">&quot;tess.obj&quot;</span><span class="p">,</span> <span class="n">identifier</span><span class="o">=</span><span class="s2">&quot;INTELSAT 511&quot;</span><span class="p">)</span>
@@ -465,7 +470,7 @@ to download the full example code</p>
 <span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">open_gif</span><span class="p">(</span><span class="s2">&quot;aligned_and_constrained.gif&quot;</span><span class="p">)</span>
 
-<span class="n">ps</span><span class="o">.</span><span class="n">plot3</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;cyan&quot;</span><span class="p">)</span>
+<span class="n">psv</span><span class="o">.</span><span class="n">plot3</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;cyan&quot;</span><span class="p">)</span>
 
 <span class="n">omesh</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">_mesh</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">cdist</span> <span class="o">=</span> <span class="mi">300</span>
@@ -478,11 +483,13 @@ to download the full example code</p>
         <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">cdist</span> <span class="o">*</span> <span class="n">sat_nadir</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">cdist</span> <span class="o">/</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">orbit_normal</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span>
     <span class="p">)</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">focal_point</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span>
-    <span class="n">obj</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">quat</span><span class="o">=</span><span class="n">quat</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span>
-    <span class="n">ps</span><span class="o">.</span><span class="n">plot_arrow</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">v1</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">scale</span><span class="o">=</span><span class="n">pdist</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;arr_v1&quot;</span><span class="p">)</span>
-    <span class="n">ps</span><span class="o">.</span><span class="n">plot_arrow</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">v2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">scale</span><span class="o">=</span><span class="n">pdist</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;arr_v2&quot;</span><span class="p">)</span>
-    <span class="n">ps</span><span class="o">.</span><span class="n">plot_arrow</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">v3</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">scale</span><span class="o">=</span><span class="n">pdist</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;arr_v3&quot;</span><span class="p">)</span>
-    <span class="n">ps</span><span class="o">.</span><span class="n">plot_arrow</span><span class="p">(</span>
+    <span class="n">psv</span><span class="o">.</span><span class="n">render_spaceobject</span><span class="p">(</span>
+        <span class="n">pl</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">quat</span><span class="o">=</span><span class="n">quat</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="p">)</span>
+    <span class="n">psv</span><span class="o">.</span><span class="n">plot_arrow</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">v1</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">scale</span><span class="o">=</span><span class="n">pdist</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;arr_v1&quot;</span><span class="p">)</span>
+    <span class="n">psv</span><span class="o">.</span><span class="n">plot_arrow</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">v2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">scale</span><span class="o">=</span><span class="n">pdist</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;arr_v2&quot;</span><span class="p">)</span>
+    <span class="n">psv</span><span class="o">.</span><span class="n">plot_arrow</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">v3</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">scale</span><span class="o">=</span><span class="n">pdist</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;arr_v3&quot;</span><span class="p">)</span>
+    <span class="n">psv</span><span class="o">.</span><span class="n">plot_arrow</span><span class="p">(</span>
         <span class="n">pl</span><span class="p">,</span>
         <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span>
         <span class="n">sat_sun</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span>
@@ -491,13 +498,13 @@ to download the full example code</p>
         <span class="n">color</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span>
         <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Sun&quot;</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">ps</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">date_space</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">atmosphere</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">night_lights</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">psv</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">date_space</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">atmosphere</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">night_lights</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">write_frame</span><span class="p">()</span>
     <span class="n">obj</span><span class="o">.</span><span class="n">_mesh</span><span class="o">.</span><span class="n">copy_from</span><span class="p">(</span><span class="n">omesh</span><span class="p">)</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 1 minutes  45.174 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 1 minutes  48.148 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-06-attitude-aligned-angle-constrained-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/01b7d227be23349a0c9d1d8288d2cb1d/aligned_angle_constrained.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">aligned_angle_constrained.py</span></code></a></p>
@@ -530,11 +537,11 @@ to download the full example code</p>
       </div>
     </a>
     <a class="right-next"
-       href="../07-observer/index.html"
+       href="torque_free_axisymmetric.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Observer</p>
+        <p class="prev-next-title">Torque-free Attitude Propagation</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

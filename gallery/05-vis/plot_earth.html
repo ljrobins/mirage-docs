@@ -309,11 +309,13 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_grid.html">BRDFs on the local hemisphere</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../03-coordinate-systems/index.html">Coordinate Frames</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/time_systems.html">Time Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/polar_motion.html">Polar Motion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/earth_pole_motion.html">Precession and Nutation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/spice_comparison.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/equinoxes.html">Equinoxes and Solstices</a></li>
@@ -321,14 +323,15 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../04-environment/index.html">Environment</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/twilight_model.html">Twilight Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometric Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_zenith.html">Background Signals at Zenith</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/total_solar_irradiance.html">Total Solar Irradiance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/geoid_heights.html">Global Elevation</a></li>
 
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/reflected_albedo.html">Earth Albedo BRDF</a></li>
@@ -343,6 +346,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/torque_free_axisymmetric.html">Torque-free Attitude Propagation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -431,6 +435,7 @@ to download the full example code</p>
 <span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
 
 <span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
+<span class="kn">import</span> <span class="nn">pyspaceaware.vis</span> <span class="k">as</span> <span class="nn">psv</span>
 
 <span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
 <span class="n">date_space_day</span> <span class="o">=</span> <span class="n">date</span> <span class="o">+</span> <span class="n">ps</span><span class="o">.</span><span class="n">days</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
@@ -440,26 +445,26 @@ to download the full example code</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">open_gif</span><span class="p">(</span><span class="s2">&quot;earth_day.gif&quot;</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">date_space_day</span><span class="p">:</span>
-    <span class="n">ps</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">date</span><span class="p">,</span> <span class="n">night_lights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">atmosphere</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">psv</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">date</span><span class="p">,</span> <span class="n">night_lights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">atmosphere</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mf">40e3</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">write_frame</span><span class="p">()</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_plot_earth_001.png" srcset="../../_images/sphx_glr_plot_earth_001.png" alt="plot earth" class = "sphx-glr-single-img"/><p>We can also plot over the course of the year to show the variation of the Sun</p>
+<img src="../../_images/sphx_glr_plot_earth_001.gif" srcset="../../_images/sphx_glr_plot_earth_001.gif" alt="plot earth" class = "sphx-glr-single-img"/><p>We can also plot over the course of the year to show the variation of the Sun</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">date_space_year</span> <span class="o">=</span> <span class="n">date</span> <span class="o">+</span> <span class="n">ps</span><span class="o">.</span><span class="n">days</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">365.25</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)))</span>
 <span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">open_gif</span><span class="p">(</span><span class="s2">&quot;earth_year.gif&quot;</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">date_space_year</span><span class="p">:</span>
-    <span class="n">ps</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">date</span><span class="p">,</span> <span class="n">night_lights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">atmosphere</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">psv</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">date</span><span class="p">,</span> <span class="n">night_lights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">atmosphere</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mf">40e3</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">write_frame</span><span class="p">()</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_plot_earth_002.png" srcset="../../_images/sphx_glr_plot_earth_002.png" alt="plot earth" class = "sphx-glr-single-img"/><p>Elevation data and texture map</p>
+<img src="../../_images/sphx_glr_plot_earth_002.gif" srcset="../../_images/sphx_glr_plot_earth_002.gif" alt="plot earth" class = "sphx-glr-single-img"/><p>Elevation data and texture map</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
-<span class="n">ps</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span>
+<span class="n">psv</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span>
     <span class="n">pl</span><span class="p">,</span>
     <span class="n">date</span><span class="o">=</span><span class="n">date</span><span class="p">,</span>
     <span class="n">elevation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -471,13 +476,13 @@ to download the full example code</p>
 </div>
 <img src="../../_images/sphx_glr_plot_earth_003.png" srcset="../../_images/sphx_glr_plot_earth_003.png" alt="plot earth" class = "sphx-glr-single-img"/><p>Night lights with latitude and longitude lines</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
-<span class="n">ps</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span>
+<span class="n">psv</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span>
     <span class="n">pl</span><span class="p">,</span>
     <span class="n">date</span><span class="o">=</span><span class="n">date</span><span class="p">,</span>
     <span class="n">night_lights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">grid</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">celestial_grid</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
-<span class="n">ps</span><span class="o">.</span><span class="n">plot3</span><span class="p">(</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">psv</span><span class="o">.</span><span class="n">celestial_grid</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">psv</span><span class="o">.</span><span class="n">plot3</span><span class="p">(</span>
     <span class="n">pl</span><span class="p">,</span>
     <span class="n">ps</span><span class="o">.</span><span class="n">AstroConstants</span><span class="o">.</span><span class="n">earth_r_eq</span> <span class="o">*</span> <span class="n">grid</span><span class="p">,</span>
     <span class="n">color</span><span class="o">=</span><span class="s2">&quot;cornflowerblue&quot;</span><span class="p">,</span>
@@ -490,7 +495,7 @@ to download the full example code</p>
 </div>
 <img src="../../_images/sphx_glr_plot_earth_004.png" srcset="../../_images/sphx_glr_plot_earth_004.png" alt="plot earth" class = "sphx-glr-single-img"/><p>Star background</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
-<span class="n">ps</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span>
+<span class="n">psv</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span>
     <span class="n">pl</span><span class="p">,</span>
     <span class="n">date</span><span class="o">=</span><span class="n">date</span><span class="p">,</span>
     <span class="n">stars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -500,7 +505,7 @@ to download the full example code</p>
 </div>
 <img src="../../_images/sphx_glr_plot_earth_005.png" srcset="../../_images/sphx_glr_plot_earth_005.png" alt="plot earth" class = "sphx-glr-single-img"/><p>Country borders</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
-<span class="n">ps</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span>
+<span class="n">psv</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span>
     <span class="n">pl</span><span class="p">,</span>
     <span class="n">date</span><span class="o">=</span><span class="n">date</span><span class="p">,</span>
     <span class="n">borders</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -510,7 +515,7 @@ to download the full example code</p>
 </div>
 <img src="../../_images/sphx_glr_plot_earth_006.png" srcset="../../_images/sphx_glr_plot_earth_006.png" alt="plot earth" class = "sphx-glr-single-img"/><p>All photorealistic settings</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
-<span class="n">ps</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span>
+<span class="n">psv</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span>
     <span class="n">pl</span><span class="p">,</span>
     <span class="n">date</span><span class="o">=</span><span class="n">date</span><span class="p">,</span>
     <span class="n">stars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -521,7 +526,7 @@ to download the full example code</p>
 <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_plot_earth_007.png" srcset="../../_images/sphx_glr_plot_earth_007.png" alt="plot earth" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 3 minutes  55.546 seconds)</p>
+<img src="../../_images/sphx_glr_plot_earth_007.png" srcset="../../_images/sphx_glr_plot_earth_007.png" alt="plot earth" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 3 minutes  22.155 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-05-vis-plot-earth-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/3e8874221a1ae1def191698df6f585ac/plot_earth.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_earth.py</span></code></a></p>

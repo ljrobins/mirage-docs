@@ -9,6 +9,7 @@ Computes the difference between the Vallado approximations of the Moon ephemerid
 # %%
 # Let's set up the dates we want to evaluate at, here choosing the next year
 import pyspaceaware as ps
+import pyspaceaware.vis as psv
 
 dates = ps.date_linspace(ps.now(), ps.now() + ps.days(365), int(1e3))
 
@@ -30,7 +31,7 @@ import pyvista as pv
 
 pl = pv.Plotter()
 pl.set_background("k")
-ps.plot3(
+psv.plot3(
     pl,
     spice_moon_state_eci - ps_moon_state_eci,
     scalars=ps.vecnorm(spice_moon_state_eci - ps_moon_state_eci).flatten(),

@@ -23,7 +23,7 @@ Moon Librations
 
 Animations the librations of the Moon: the apparent motion of the Moon as viewed from the Earth
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-12
+.. GENERATED FROM PYTHON SOURCE LINES 7-13
 
 .. code-block:: default
 
@@ -31,6 +31,7 @@ Animations the librations of the Moon: the apparent motion of the Moon as viewed
     import pyvista as pv
 
     import pyspaceaware as ps
+    import pyspaceaware.vis as psv
 
 
 
@@ -39,11 +40,11 @@ Animations the librations of the Moon: the apparent motion of the Moon as viewed
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 13-14
+.. GENERATED FROM PYTHON SOURCE LINES 14-15
 
 Let's animate the librations of the Moon over the course of a synodic month (the time required for the Moon to complete an orbit with respect to the Sun-Earth line).
 
-.. GENERATED FROM PYTHON SOURCE LINES 14-30
+.. GENERATED FROM PYTHON SOURCE LINES 15-31
 
 .. code-block:: default
 
@@ -55,7 +56,7 @@ Let's animate the librations of the Moon over the course of a synodic month (the
     pl = pv.Plotter()
     pl.open_gif("moon_librations.gif", subrectangles=True)
     for i, date in enumerate(dates[:-1]):
-        ps.plot_moon(pl, mode="eci", date=date)
+        psv.plot_moon(pl, mode="eci", date=date)
         pl.camera.view_angle = 1.0  # The Moon's angular size from the Earth is about 0.5 deg, so let's double that FOV
         pl.camera.focal_point = pl.actors["moon"].user_matrix[
             :3, -1
@@ -66,9 +67,9 @@ Let's animate the librations of the Moon over the course of a synodic month (the
 
 
 
-.. image-sg:: /gallery/05-vis/images/sphx_glr_moon_libration_001.png
+.. image-sg:: /gallery/05-vis/images/sphx_glr_moon_libration_001.gif
    :alt: moon libration
-   :srcset: /gallery/05-vis/images/sphx_glr_moon_libration_001.png
+   :srcset: /gallery/05-vis/images/sphx_glr_moon_libration_001.gif
    :class: sphx-glr-single-img
 
 
@@ -78,7 +79,7 @@ Let's animate the librations of the Moon over the course of a synodic month (the
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  10.632 seconds)
+   **Total running time of the script:** ( 0 minutes  9.921 seconds)
 
 
 .. _sphx_glr_download_gallery_05-vis_moon_libration.py:

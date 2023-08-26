@@ -11,6 +11,7 @@ import datetime
 import numpy as np
 import pyvista as pv
 import pyspaceaware as ps
+import pyspaceaware.vis as psv
 
 # %%
 # Defining a function we can use to plot various background signals
@@ -22,6 +23,7 @@ def hemisphere_signal(
     signal_kwargs: dict,
 ) -> None:
     pl = pv.Plotter()
+    c_grid = psv.celestial_grid(30, 30)
     (g_az, g_el) = np.meshgrid(
         np.linspace(0, 2 * np.pi, 250),
         np.linspace(np.deg2rad(10), np.pi / 2, 250),
@@ -37,7 +39,7 @@ def hemisphere_signal(
     ps.tic()
     sb = station.sky_brightness(dates, look_dirs_eci_eq, **signal_kwargs)
     ps.toc()
-    ps.plot_earth(
+    psv.plot_earth(
         pl,
         date=date,
         atmosphere=False,
@@ -46,7 +48,7 @@ def hemisphere_signal(
         borders=True,
     )
     r_dome = 500  # km
-    view_dist = 40e3  # km
+    view_dist = 20e3  # km
     zoom = 4.5
     sargs = dict(
         height=0.75,
@@ -59,9 +61,18 @@ def hemisphere_signal(
         n_labels=4,
         fmt="%.3e",
         font_family="courier",
+        color="white",
     )
 
-    ps.scatter3(
+    psv.plot3(
+        pl,
+        stat_eci + 1.03 * r_dome * c_grid,
+        line_width=4,
+        color="linen",
+        lighting=False,
+    )
+
+    psv.scatter3(
         pl,
         stat_eci + r_dome * look_dirs_eci_eq,
         scalars=sb.flatten(),
@@ -81,13 +92,14 @@ def hemisphere_signal(
         f'{date.strftime("%m/%d/%Y, %H:%M:%S")} UTC',
         name="utc_str",
         font="courier",
+        color="white",
     )
 
     pl.show()
 
 
 # %%
-# Setting up observation conditions using an example Liquid Mirror Telescope preset
+# Setting up observation conditions using an example Space Debris Telescope preset from Krag2003
 # station = ps.Station(preset="lmt", lat_deg=33.776864, lon_deg=-84.363777) # Atlanta, GA
 station = ps.Station(preset="pogs")
 station.telescope = ps.Telescope(preset="sdt")
@@ -96,83 +108,83 @@ date = ps.utc(2023, 10, 1, 5, 45, 0)  # Fig 5.38
 # %%
 # Plotting the background signal for scattered moonlight
 signal_kwargs = {
-    "atmos_scattered": False,
     "moonlight": True,
     "airglow": False,
     "integrated_starlight": False,
     "zodiac": False,
     "pollution": False,
+    "twilight": False,
 }
 hemisphere_signal(station, date, signal_kwargs)
 
 # %%
 # Plotting the background signal for integrated starlight
 signal_kwargs = {
-    "atmos_scattered": False,
     "moonlight": False,
     "airglow": False,
     "integrated_starlight": True,
     "zodiac": False,
     "pollution": False,
+    "twilight": False, 
 }
 hemisphere_signal(station, date, signal_kwargs)
 
 # %%
 # Plotting the background signal for light pollution
 signal_kwargs = {
-    "atmos_scattered": False,
     "moonlight": False,
     "airglow": False,
     "integrated_starlight": False,
     "zodiac": False,
     "pollution": True,
+    "twilight": False,
 }
 hemisphere_signal(station, date, signal_kwargs)
 
 # %%
 # Plotting the background signal for zodiac light
 signal_kwargs = {
-    "atmos_scattered": False,
     "moonlight": False,
     "airglow": False,
     "integrated_starlight": False,
     "zodiac": True,
     "pollution": False,
+    "twilight": False,
 }
 hemisphere_signal(station, date, signal_kwargs)
 
 # %%
 # Plotting the background signal for airglow
 signal_kwargs = {
-    "atmos_scattered": False,
     "moonlight": False,
     "airglow": True,
     "integrated_starlight": False,
     "zodiac": False,
     "pollution": False,
+    "twilight": False,
 }
 hemisphere_signal(station, date, signal_kwargs)
 
 # %%
-# Plotting the background signal for atmospherically scattered light
+# Plotting the background signal for scattered twilight
 signal_kwargs = {
-    "atmos_scattered": True,
     "moonlight": False,
     "airglow": False,
     "integrated_starlight": False,
     "zodiac": False,
     "pollution": False,
+    "twilight": True,
 }
-hemisphere_signal(station, date, signal_kwargs)
+hemisphere_signal(station, date - ps.hours(4), signal_kwargs)
 
 # %%
 # Plotting the full background signal with all sources enabled
 signal_kwargs = {
-    "atmos_scattered": True,
     "moonlight": True,
     "airglow": True,
     "integrated_starlight": True,
     "zodiac": True,
     "pollution": True,
+    "twilight": True,
 }
 hemisphere_signal(station, date, signal_kwargs)

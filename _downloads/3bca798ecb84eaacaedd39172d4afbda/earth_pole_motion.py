@@ -9,6 +9,7 @@ import numpy as np
 import pyvista as pv
 
 import pyspaceaware as ps
+import pyspaceaware.vis as psv
 
 # %%
 # Let's use the full range of the datetime module, from near year 0 to near year 9999
@@ -29,8 +30,8 @@ ps.toc()
 # %%
 # We can view this data from a distance to view precession
 pl = pv.Plotter()
-ps.plot_earth(pl, lighting=False, high_def=True)
-ps.scatter3(pl, pole_instant, point_size=10)
+psv.plot_earth(pl, lighting=False, high_def=True)
+psv.scatter3(pl, pole_instant, point_size=10)
 pl.camera.focal_point = np.mean(pole_instant, axis=0)
 pl.camera.position = 6 * pole_nominal[0, :] + np.array([1e-4, 1e-4, 0])
 pl.show()
@@ -40,8 +41,8 @@ pl.show()
 # And from close up to show nutation
 z = 20
 pl = pv.Plotter()
-ps.plot_earth(pl, lighting=False, high_def=True)
-ps.plot3(pl, pole_instant, line_width=10, color="m")
+psv.plot_earth(pl, lighting=False, high_def=True)
+psv.plot3(pl, pole_instant, line_width=10, color="m")
 pl.camera.focal_point = pole_instant[0, :]
 pl.camera.position = pole_instant[0, :] + np.array([1e-2, 1e-2, 25_000 / z])
 pl.camera.zoom(z)
@@ -52,8 +53,8 @@ pl.show()
 
 pl = pv.Plotter()
 pl.open_gif("precession_nutation_zoom.gif")
-ps.plot_earth(pl, lighting=False, high_def=True)
-ps.plot3(pl, pole_instant, line_width=10, color="m")
+psv.plot_earth(pl, lighting=False, high_def=True)
+psv.plot3(pl, pole_instant, line_width=10, color="m")
 for z in np.logspace(-10, 30, 50, base=1.2):
     pl.camera = pv.Camera()
     pl.camera.focal_point = pole_instant[0, :]

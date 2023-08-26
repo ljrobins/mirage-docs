@@ -309,11 +309,13 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_grid.html">BRDFs on the local hemisphere</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Coordinate Frames</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="time_systems.html">Time Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polar_motion.html">Polar Motion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="earth_pole_motion.html">Precession and Nutation</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="equinoxes.html">Equinoxes and Solstices</a></li>
@@ -321,14 +323,15 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../04-environment/index.html">Environment</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/twilight_model.html">Twilight Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometric Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_zenith.html">Background Signals at Zenith</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/total_solar_irradiance.html">Total Solar Irradiance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/geoid_heights.html">Global Elevation</a></li>
 
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/reflected_albedo.html">Earth Albedo BRDF</a></li>
@@ -343,6 +346,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/torque_free_axisymmetric.html">Torque-free Attitude Propagation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -427,6 +431,7 @@ to download the full example code</p>
 <p>Computes the difference between the Vallado approximations of the Moon ephemerides and the JPL NAIF SPICE Toolkit results</p>
 <p>Let’s set up the dates we want to evaluate at, here choosing the next year</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
+<span class="kn">import</span> <span class="nn">pyspaceaware.vis</span> <span class="k">as</span> <span class="nn">psv</span>
 
 <span class="n">dates</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">date_linspace</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="n">ps</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">ps</span><span class="o">.</span><span class="n">days</span><span class="p">(</span><span class="mi">365</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e3</span><span class="p">))</span>
 </pre></div>
@@ -437,7 +442,7 @@ to download the full example code</p>
 <span class="n">ps</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 7.22e-02 seconds
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 7.31e-02 seconds
 </pre></div>
 </div>
 <p>And using Vallado’s approximation</p>
@@ -446,7 +451,7 @@ to download the full example code</p>
 <span class="n">ps</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 2.41e-02 seconds
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 2.60e-02 seconds
 </pre></div>
 </div>
 <p>And plot the results</p>
@@ -454,7 +459,7 @@ to download the full example code</p>
 
 <span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">set_background</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
-<span class="n">ps</span><span class="o">.</span><span class="n">plot3</span><span class="p">(</span>
+<span class="n">psv</span><span class="o">.</span><span class="n">plot3</span><span class="p">(</span>
     <span class="n">pl</span><span class="p">,</span>
     <span class="n">spice_moon_state_eci</span> <span class="o">-</span> <span class="n">ps_moon_state_eci</span><span class="p">,</span>
     <span class="n">scalars</span><span class="o">=</span><span class="n">ps</span><span class="o">.</span><span class="n">vecnorm</span><span class="p">(</span><span class="n">spice_moon_state_eci</span> <span class="o">-</span> <span class="n">ps_moon_state_eci</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
@@ -504,12 +509,12 @@ Let’s get a better intuition for the magnitude of this discrepancy by computin
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_spice_comparison_002.png" srcset="../../_images/sphx_glr_spice_comparison_002.png" alt="Nov 08, 2022 Lunar Eclipse" class = "sphx-glr-single-img"/><p>We can refer to <a class="reference external" href="https://moon.nasa.gov/news/185/what-you-need-to-know-about-the-lunar-eclipse/#:~:text=The%20last%20total%20lunar%20eclipse,Moon%20passes%20into%20Earth%27s%20shadow.">a NASA article</a> for more info about this eclipse, which proves that the SPICE solution is almost exactly on top of the true center, but the Vallado approximation is only a few minutes different</p>
+<img src="../../_images/sphx_glr_spice_comparison_002.png" srcset="../../_images/sphx_glr_spice_comparison_002.png, ../../_images/sphx_glr_spice_comparison_002_2_00x.png 2.00x" alt="Nov 08, 2022 Lunar Eclipse" class = "sphx-glr-single-img"/><p>We can refer to <a class="reference external" href="https://moon.nasa.gov/news/185/what-you-need-to-know-about-the-lunar-eclipse/#:~:text=The%20last%20total%20lunar%20eclipse,Moon%20passes%20into%20Earth%27s%20shadow.">a NASA article</a> for more info about this eclipse, which proves that the SPICE solution is almost exactly on top of the true center, but the Vallado approximation is only a few minutes different</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Ironically, the “true” totality time reported by NASA was probably just computed with SPICE in the first place</p>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.328 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.542 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-03-coordinate-systems-spice-comparison-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/6ce4c0de380b019bffb81873a68e2855/spice_comparison.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">spice_comparison.py</span></code></a></p>

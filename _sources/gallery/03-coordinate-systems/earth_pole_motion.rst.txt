@@ -23,7 +23,7 @@ Precession and Nutation
 
 Viewing the evolution of the terrestrial
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-13
+.. GENERATED FROM PYTHON SOURCE LINES 7-14
 
 .. code-block:: default
 
@@ -32,6 +32,7 @@ Viewing the evolution of the terrestrial
     import pyvista as pv
 
     import pyspaceaware as ps
+    import pyspaceaware.vis as psv
 
 
 
@@ -40,11 +41,11 @@ Viewing the evolution of the terrestrial
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 14-15
+.. GENERATED FROM PYTHON SOURCE LINES 15-16
 
 Let's use the full range of the datetime module, from near year 0 to near year 9999
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-20
+.. GENERATED FROM PYTHON SOURCE LINES 16-21
 
 .. code-block:: default
 
@@ -60,11 +61,11 @@ Let's use the full range of the datetime module, from near year 0 to near year 9
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-22
+.. GENERATED FROM PYTHON SOURCE LINES 22-23
 
 We then transform the true terrestrial pole in TOD to J2000 to look at the effect of precession and nutation with respect to the J2000 epoch
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-29
+.. GENERATED FROM PYTHON SOURCE LINES 23-30
 
 .. code-block:: default
 
@@ -87,22 +88,22 @@ We then transform the true terrestrial pole in TOD to J2000 to look at the effec
       warnings.warn('ERFA function "{}" yielded {}'.format(func_name, wmsg),
     /Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/erfa/core.py:154: ErfaWarning: ERFA function "utctai" yielded 99329 of "dubious year (Note 3)"
       warnings.warn('ERFA function "{}" yielded {}'.format(func_name, wmsg),
-    Elapsed time: 2.05e+00 seconds
+    Elapsed time: 1.91e+00 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-31
+.. GENERATED FROM PYTHON SOURCE LINES 31-32
 
 We can view this data from a distance to view precession
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-39
+.. GENERATED FROM PYTHON SOURCE LINES 32-40
 
 .. code-block:: default
 
     pl = pv.Plotter()
-    ps.plot_earth(pl, lighting=False, high_def=True)
-    ps.scatter3(pl, pole_instant, point_size=10)
+    psv.plot_earth(pl, lighting=False, high_def=True)
+    psv.scatter3(pl, pole_instant, point_size=10)
     pl.camera.focal_point = np.mean(pole_instant, axis=0)
     pl.camera.position = 6 * pole_nominal[0, :] + np.array([1e-4, 1e-4, 0])
     pl.show()
@@ -120,18 +121,18 @@ We can view this data from a distance to view precession
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-41
+.. GENERATED FROM PYTHON SOURCE LINES 41-42
 
 And from close up to show nutation
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-50
+.. GENERATED FROM PYTHON SOURCE LINES 42-51
 
 .. code-block:: default
 
     z = 20
     pl = pv.Plotter()
-    ps.plot_earth(pl, lighting=False, high_def=True)
-    ps.plot3(pl, pole_instant, line_width=10, color="m")
+    psv.plot_earth(pl, lighting=False, high_def=True)
+    psv.plot3(pl, pole_instant, line_width=10, color="m")
     pl.camera.focal_point = pole_instant[0, :]
     pl.camera.position = pole_instant[0, :] + np.array([1e-2, 1e-2, 25_000 / z])
     pl.camera.zoom(z)
@@ -149,19 +150,19 @@ And from close up to show nutation
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 51-52
+.. GENERATED FROM PYTHON SOURCE LINES 52-53
 
 Animating a full zoom sequence
 
-.. GENERATED FROM PYTHON SOURCE LINES 52-64
+.. GENERATED FROM PYTHON SOURCE LINES 53-65
 
 .. code-block:: default
 
 
     pl = pv.Plotter()
     pl.open_gif("precession_nutation_zoom.gif")
-    ps.plot_earth(pl, lighting=False, high_def=True)
-    ps.plot3(pl, pole_instant, line_width=10, color="m")
+    psv.plot_earth(pl, lighting=False, high_def=True)
+    psv.plot3(pl, pole_instant, line_width=10, color="m")
     for z in np.logspace(-10, 30, 50, base=1.2):
         pl.camera = pv.Camera()
         pl.camera.focal_point = pole_instant[0, :]
@@ -172,9 +173,9 @@ Animating a full zoom sequence
 
 
 
-.. image-sg:: /gallery/03-coordinate-systems/images/sphx_glr_earth_pole_motion_003.png
+.. image-sg:: /gallery/03-coordinate-systems/images/sphx_glr_earth_pole_motion_003.gif
    :alt: earth pole motion
-   :srcset: /gallery/03-coordinate-systems/images/sphx_glr_earth_pole_motion_003.png
+   :srcset: /gallery/03-coordinate-systems/images/sphx_glr_earth_pole_motion_003.gif
    :class: sphx-glr-single-img
 
 
@@ -184,7 +185,7 @@ Animating a full zoom sequence
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  39.182 seconds)
+   **Total running time of the script:** ( 0 minutes  35.017 seconds)
 
 
 .. _sphx_glr_download_gallery_03-coordinate-systems_earth_pole_motion.py:

@@ -21,7 +21,7 @@
 Horizon Masked Observations
 ===========================
 
-.. GENERATED FROM PYTHON SOURCE LINES 5-15
+.. GENERATED FROM PYTHON SOURCE LINES 5-16
 
 .. code-block:: default
 
@@ -34,6 +34,7 @@ Horizon Masked Observations
     import terrainman as tm
 
     import pyspaceaware as ps
+    import pyspaceaware.vis as psv
 
 
 
@@ -42,11 +43,11 @@ Horizon Masked Observations
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-17
+.. GENERATED FROM PYTHON SOURCE LINES 17-18
 
 Let's define an observation station right before an ISS pass
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-28
+.. GENERATED FROM PYTHON SOURCE LINES 18-29
 
 .. code-block:: default
 
@@ -74,11 +75,11 @@ Let's define an observation station right before an ISS pass
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 29-30
+.. GENERATED FROM PYTHON SOURCE LINES 30-31
 
 And grab the ISS, which will propagate using the closest available TLEs for accuracy
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-33
+.. GENERATED FROM PYTHON SOURCE LINES 31-34
 
 .. code-block:: default
 
@@ -92,11 +93,11 @@ And grab the ISS, which will propagate using the closest available TLEs for accu
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-35
+.. GENERATED FROM PYTHON SOURCE LINES 35-36
 
 We can now apply a bunch of constraints to the observation, including a horizon mask for the local terrain
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-58
+.. GENERATED FROM PYTHON SOURCE LINES 36-59
 
 .. code-block:: default
 
@@ -138,11 +139,11 @@ We can now apply a bunch of constraints to the observation, including a horizon 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-60
+.. GENERATED FROM PYTHON SOURCE LINES 60-61
 
 We can now define the object's attitude profile and observe a light curve
 
-.. GENERATED FROM PYTHON SOURCE LINES 60-72
+.. GENERATED FROM PYTHON SOURCE LINES 61-73
 
 .. code-block:: default
 
@@ -165,11 +166,11 @@ We can now define the object's attitude profile and observe a light curve
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-74
+.. GENERATED FROM PYTHON SOURCE LINES 74-75
 
 We can now plot an animation of the pass with the horizon mask superimposed on the local terrain
 
-.. GENERATED FROM PYTHON SOURCE LINES 74-134
+.. GENERATED FROM PYTHON SOURCE LINES 75-135
 
 .. code-block:: default
 
@@ -193,8 +194,8 @@ We can now plot an animation of the pass with the horizon mask superimposed on t
             opacity=0.5,
             show_scalar_bar=False,
         ),
-        ps.plot3(pl, enu_rays, color="c", line_width=5),
-        ps.plot3(
+        psv.plot3(pl, enu_rays, color="c", line_width=5),
+        psv.plot3(
             pl,
             ps.az_el_to_enu(*station.eci_to_az_el(dates, look_dir_eci)),
             line_width=5,
@@ -203,7 +204,7 @@ We can now plot an animation of the pass with the horizon mask superimposed on t
 
 
     def render_fcn(pl: pv.Plotter, i: int, dates=None, horizon_constraint=None):
-        ps.scatter3(
+        psv.scatter3(
             pl,
             obj_enu[i, :].reshape((1, 3)),
             point_size=40,
@@ -225,7 +226,7 @@ We can now plot an animation of the pass with the horizon mask superimposed on t
     az, el = station.eci_to_az_el(dates, look_dir_eci)
     obj_enu = ps.az_el_to_enu(az, el)
 
-    ps.render_video(
+    psv.render_video(
         pre_render_fcn,
         lambda pl, i: render_fcn(pl, i, dates, horizon_constraint),
         lambda pl, i: None,
@@ -236,9 +237,9 @@ We can now plot an animation of the pass with the horizon mask superimposed on t
 
 
 
-.. image-sg:: /gallery/07-observer/images/sphx_glr_visualize_constraints_001.png
+.. image-sg:: /gallery/07-observer/images/sphx_glr_visualize_constraints_001.gif
    :alt: visualize constraints
-   :srcset: /gallery/07-observer/images/sphx_glr_visualize_constraints_001.png
+   :srcset: /gallery/07-observer/images/sphx_glr_visualize_constraints_001.gif
    :class: sphx-glr-single-img
 
 
@@ -248,7 +249,7 @@ We can now plot an animation of the pass with the horizon mask superimposed on t
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  25.666 seconds)
+   **Total running time of the script:** ( 0 minutes  20.406 seconds)
 
 
 .. _sphx_glr_download_gallery_07-observer_visualize_constraints.py:

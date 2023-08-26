@@ -27,11 +27,12 @@ Computes the difference between the Vallado approximations of the Moon ephemerid
 
 Let's set up the dates we want to evaluate at, here choosing the next year
 
-.. GENERATED FROM PYTHON SOURCE LINES 11-15
+.. GENERATED FROM PYTHON SOURCE LINES 11-16
 
 .. code-block:: default
 
     import pyspaceaware as ps
+    import pyspaceaware.vis as psv
 
     dates = ps.date_linspace(ps.now(), ps.now() + ps.days(365), int(1e3))
 
@@ -42,11 +43,11 @@ Let's set up the dates we want to evaluate at, here choosing the next year
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-17
+.. GENERATED FROM PYTHON SOURCE LINES 17-18
 
 Compute the position of the Moon relative to the Earth using SPICE
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-21
+.. GENERATED FROM PYTHON SOURCE LINES 18-22
 
 .. code-block:: default
 
@@ -62,16 +63,16 @@ Compute the position of the Moon relative to the Earth using SPICE
 
  .. code-block:: none
 
-    Elapsed time: 7.22e-02 seconds
+    Elapsed time: 7.31e-02 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-23
+.. GENERATED FROM PYTHON SOURCE LINES 23-24
 
 And using Vallado's approximation
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-27
+.. GENERATED FROM PYTHON SOURCE LINES 24-28
 
 .. code-block:: default
 
@@ -87,16 +88,16 @@ And using Vallado's approximation
 
  .. code-block:: none
 
-    Elapsed time: 2.41e-02 seconds
+    Elapsed time: 2.60e-02 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 28-29
+.. GENERATED FROM PYTHON SOURCE LINES 29-30
 
 And plot the results
 
-.. GENERATED FROM PYTHON SOURCE LINES 29-48
+.. GENERATED FROM PYTHON SOURCE LINES 30-49
 
 .. code-block:: default
 
@@ -104,7 +105,7 @@ And plot the results
 
     pl = pv.Plotter()
     pl.set_background("k")
-    ps.plot3(
+    psv.plot3(
         pl,
         spice_moon_state_eci - ps_moon_state_eci,
         scalars=ps.vecnorm(spice_moon_state_eci - ps_moon_state_eci).flatten(),
@@ -131,12 +132,12 @@ And plot the results
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-51
+.. GENERATED FROM PYTHON SOURCE LINES 50-52
 
 As we can see, the Vallado approximation is usually a few thousand kilometers off from SPICE, and takes about half the time to evaluate.
 Let's get a better intuition for the magnitude of this discrepancy by computing the center of the totality of a lunar eclipse that occured on November 8th, 2022
 
-.. GENERATED FROM PYTHON SOURCE LINES 51-59
+.. GENERATED FROM PYTHON SOURCE LINES 52-60
 
 .. code-block:: default
 
@@ -155,11 +156,11 @@ Let's get a better intuition for the magnitude of this discrepancy by computing 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 60-61
+.. GENERATED FROM PYTHON SOURCE LINES 61-62
 
 Computing the Moon position with each method:
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-67
+.. GENERATED FROM PYTHON SOURCE LINES 62-68
 
 .. code-block:: default
 
@@ -176,11 +177,11 @@ Computing the Moon position with each method:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 68-69
+.. GENERATED FROM PYTHON SOURCE LINES 69-70
 
 And plotting the eclipses:
 
-.. GENERATED FROM PYTHON SOURCE LINES 69-83
+.. GENERATED FROM PYTHON SOURCE LINES 70-84
 
 .. code-block:: default
 
@@ -203,14 +204,14 @@ And plotting the eclipses:
 
 .. image-sg:: /gallery/03-coordinate-systems/images/sphx_glr_spice_comparison_002.png
    :alt: Nov 08, 2022 Lunar Eclipse
-   :srcset: /gallery/03-coordinate-systems/images/sphx_glr_spice_comparison_002.png
+   :srcset: /gallery/03-coordinate-systems/images/sphx_glr_spice_comparison_002.png, /gallery/03-coordinate-systems/images/sphx_glr_spice_comparison_002_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 84-87
+.. GENERATED FROM PYTHON SOURCE LINES 85-88
 
 We can refer to `a NASA article <https://moon.nasa.gov/news/185/what-you-need-to-know-about-the-lunar-eclipse/#:~:text=The%20last%20total%20lunar%20eclipse,Moon%20passes%20into%20Earth%27s%20shadow.>`_ for more info about this eclipse, which proves that the SPICE solution is almost exactly on top of the true center, but the Vallado approximation is only a few minutes different
 
@@ -219,7 +220,7 @@ We can refer to `a NASA article <https://moon.nasa.gov/news/185/what-you-need-to
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.328 seconds)
+   **Total running time of the script:** ( 0 minutes  1.542 seconds)
 
 
 .. _sphx_glr_download_gallery_03-coordinate-systems_spice_comparison.py:

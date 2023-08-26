@@ -23,7 +23,7 @@ Plotting Earth
 
 Plotting the Earth with a variety of options
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-18
+.. GENERATED FROM PYTHON SOURCE LINES 7-19
 
 .. code-block:: default
 
@@ -34,6 +34,7 @@ Plotting the Earth with a variety of options
     import pyvista as pv
 
     import pyspaceaware as ps
+    import pyspaceaware.vis as psv
 
     date = datetime.datetime(2022, 6, 4, 12, 0, 0, tzinfo=datetime.timezone.utc)
     date_space_day = date + ps.days(np.linspace(0, 1, 100, endpoint=False))
@@ -45,18 +46,18 @@ Plotting the Earth with a variety of options
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-20
+.. GENERATED FROM PYTHON SOURCE LINES 20-21
 
 Just so that the thumbnail of this example is exciting, let's animate a full photorealistic Earth over the course of a day
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-28
+.. GENERATED FROM PYTHON SOURCE LINES 21-29
 
 .. code-block:: default
 
     pl = pv.Plotter()
     pl.open_gif("earth_day.gif", fps=20)
     for date in date_space_day:
-        ps.plot_earth(pl, date=date, night_lights=True, atmosphere=True)
+        psv.plot_earth(pl, date=date, night_lights=True, atmosphere=True)
         pl.camera.position = (40e3, 0.0, 0.0)
         pl.write_frame()
     pl.close()
@@ -64,20 +65,20 @@ Just so that the thumbnail of this example is exciting, let's animate a full pho
 
 
 
-.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_001.png
+.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_001.gif
    :alt: plot earth
-   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_001.png
+   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_001.gif
    :class: sphx-glr-single-img
 
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 29-30
+.. GENERATED FROM PYTHON SOURCE LINES 30-31
 
 We can also plot over the course of the year to show the variation of the Sun
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-40
+.. GENERATED FROM PYTHON SOURCE LINES 31-41
 
 .. code-block:: default
 
@@ -85,7 +86,7 @@ We can also plot over the course of the year to show the variation of the Sun
     pl = pv.Plotter()
     pl.open_gif("earth_year.gif", fps=20)
     for date in date_space_year:
-        ps.plot_earth(pl, date=date, night_lights=True, atmosphere=True)
+        psv.plot_earth(pl, date=date, night_lights=True, atmosphere=True)
         pl.camera.position = (40e3, 0.0, 0.0)
         pl.write_frame()
     pl.close()
@@ -94,25 +95,25 @@ We can also plot over the course of the year to show the variation of the Sun
 
 
 
-.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_002.png
+.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_002.gif
    :alt: plot earth
-   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_002.png
+   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_002.gif
    :class: sphx-glr-single-img
 
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-42
+.. GENERATED FROM PYTHON SOURCE LINES 42-43
 
 Elevation data and texture map
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-52
+.. GENERATED FROM PYTHON SOURCE LINES 43-53
 
 .. code-block:: default
 
     pl = pv.Plotter()
-    ps.plot_earth(
+    psv.plot_earth(
         pl,
         date=date,
         elevation=True,
@@ -133,22 +134,22 @@ Elevation data and texture map
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 53-54
+.. GENERATED FROM PYTHON SOURCE LINES 54-55
 
 Night lights with latitude and longitude lines
 
-.. GENERATED FROM PYTHON SOURCE LINES 54-71
+.. GENERATED FROM PYTHON SOURCE LINES 55-72
 
 .. code-block:: default
 
     pl = pv.Plotter()
-    ps.plot_earth(
+    psv.plot_earth(
         pl,
         date=date,
         night_lights=True,
     )
-    grid = ps.celestial_grid(15, 15)
-    ps.plot3(
+    grid = psv.celestial_grid(15, 15)
+    psv.plot3(
         pl,
         ps.AstroConstants.earth_r_eq * grid,
         color="cornflowerblue",
@@ -170,16 +171,16 @@ Night lights with latitude and longitude lines
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 72-73
+.. GENERATED FROM PYTHON SOURCE LINES 73-74
 
 Star background
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-81
+.. GENERATED FROM PYTHON SOURCE LINES 74-82
 
 .. code-block:: default
 
     pl = pv.Plotter()
-    ps.plot_earth(
+    psv.plot_earth(
         pl,
         date=date,
         stars=True,
@@ -198,16 +199,16 @@ Star background
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 82-83
+.. GENERATED FROM PYTHON SOURCE LINES 83-84
 
 Country borders
 
-.. GENERATED FROM PYTHON SOURCE LINES 83-91
+.. GENERATED FROM PYTHON SOURCE LINES 84-92
 
 .. code-block:: default
 
     pl = pv.Plotter()
-    ps.plot_earth(
+    psv.plot_earth(
         pl,
         date=date,
         borders=True,
@@ -226,16 +227,16 @@ Country borders
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 92-93
+.. GENERATED FROM PYTHON SOURCE LINES 93-94
 
 All photorealistic settings
 
-.. GENERATED FROM PYTHON SOURCE LINES 93-103
+.. GENERATED FROM PYTHON SOURCE LINES 94-104
 
 .. code-block:: default
 
     pl = pv.Plotter()
-    ps.plot_earth(
+    psv.plot_earth(
         pl,
         date=date,
         stars=True,
@@ -259,7 +260,7 @@ All photorealistic settings
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 3 minutes  55.546 seconds)
+   **Total running time of the script:** ( 3 minutes  22.155 seconds)
 
 
 .. _sphx_glr_download_gallery_05-vis_plot_earth.py:

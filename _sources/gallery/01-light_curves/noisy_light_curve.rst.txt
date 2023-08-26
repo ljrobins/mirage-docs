@@ -23,19 +23,17 @@ Noisy Light Curves
 
 Simulates torque-free rigid body motion for a simple object and computes the full light curve, informed by station constraints and a high-fidelity background signal model
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-17
+.. GENERATED FROM PYTHON SOURCE LINES 7-15
 
 .. code-block:: default
 
-
-
-    import datetime
 
     import matplotlib.pyplot as plt
     import numpy as np
     import seaborn as sns
 
     import pyspaceaware as ps
+    import pyspaceaware.vis as psv
 
 
 
@@ -44,11 +42,11 @@ Simulates torque-free rigid body motion for a simple object and computes the ful
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-19
+.. GENERATED FROM PYTHON SOURCE LINES 16-17
 
 Setting up analysis times
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-25
+.. GENERATED FROM PYTHON SOURCE LINES 17-23
 
 .. code-block:: default
 
@@ -65,11 +63,11 @@ Setting up analysis times
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-27
+.. GENERATED FROM PYTHON SOURCE LINES 24-25
 
 Setting up the scenario objects
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-32
+.. GENERATED FROM PYTHON SOURCE LINES 25-30
 
 .. code-block:: default
 
@@ -85,11 +83,11 @@ Setting up the scenario objects
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-34
+.. GENERATED FROM PYTHON SOURCE LINES 31-32
 
 Defining observation constraints on the station
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-44
+.. GENERATED FROM PYTHON SOURCE LINES 32-42
 
 .. code-block:: default
 
@@ -116,11 +114,11 @@ Defining observation constraints on the station
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 45-46
+.. GENERATED FROM PYTHON SOURCE LINES 43-44
 
 Defining the object's attitude profile and mass properties
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-52
+.. GENERATED FROM PYTHON SOURCE LINES 44-50
 
 .. code-block:: default
 
@@ -137,11 +135,11 @@ Defining the object's attitude profile and mass properties
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 53-54
+.. GENERATED FROM PYTHON SOURCE LINES 51-52
 
 Computing the full noisy light curve
 
-.. GENERATED FROM PYTHON SOURCE LINES 54-59
+.. GENERATED FROM PYTHON SOURCE LINES 52-57
 
 .. code-block:: default
 
@@ -157,11 +155,11 @@ Computing the full noisy light curve
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 60-61
+.. GENERATED FROM PYTHON SOURCE LINES 58-59
 
 Extracting data and plotting results
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-74
+.. GENERATED FROM PYTHON SOURCE LINES 59-72
 
 .. code-block:: default
 
@@ -170,7 +168,7 @@ Extracting data and plotting results
     sns.scatterplot(x=ephr, y=lc_noisy, linewidth=0.1, size=0.5)
     sns.scatterplot(x=ephr, y=lc_clean, linewidth=0.1, size=0.5)
     plt.xlim((0, np.max(ephr)))
-    ps.texit(
+    psv.texit(
         f"Light Curves for {obj.satnum}",
         "Epoch hours",
         "[e-]",
@@ -193,7 +191,7 @@ Extracting data and plotting results
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.271 seconds)
+   **Total running time of the script:** ( 0 minutes  5.113 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_noisy_light_curve.py:
