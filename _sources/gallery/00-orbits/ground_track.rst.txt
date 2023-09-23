@@ -35,7 +35,7 @@ Plots the ground track for a GPS satellite
     import numpy as np
     from PIL import Image
 
-    import pyspaceaware as ps
+    import mirage as mr
 
 
 
@@ -53,7 +53,7 @@ Let's set up a space of dates to operate on
 .. code-block:: default
 
 
-    dates = ps.date_linspace(ps.now(), ps.now() + ps.days(1), 8640) - ps.days(100)
+    dates = mr.date_linspace(mr.now(), mr.now() + mr.days(1), 8640) - mr.days(100)
 
 
 
@@ -70,7 +70,7 @@ And propagate one of the NAVSTAR satellites to all the dates
 
 .. code-block:: default
 
-    obj = ps.SpaceObject("cube.obj", identifier="NAVSTAR 81 (USA 319)")
+    obj = mr.SpaceObject("cube.obj", identifier="NAVSTAR 81 (USA 319)")
     r_eci = obj.propagate(dates)
 
 
@@ -88,8 +88,8 @@ Converting the propagated result into ECEF, then LLA
 
 .. code-block:: default
 
-    r_ecef = ps.stack_mat_mult_vec(ps.j2000_to_itrf(dates), r_eci)
-    lla = ps.itrf_to_lla(r_ecef)
+    r_ecef = mr.stack_mat_mult_vec(mr.j2000_to_itrf(dates), r_eci)
+    lla = mr.itrf_to_lla(r_ecef)
 
 
 
@@ -111,7 +111,7 @@ Finally, plotting the resulting Earth-fixed trajectory with the Earth in the bac
     )
     plt.imshow(im, extent=(-180, 180, -90, 90))
     plt.scatter(np.rad2deg(lla[1]), np.rad2deg(lla[0]), s=1, c="m")
-    plt.title(f"{obj.identifier} Ground Track")
+    plt.title(f"{obj.satnum} Ground Track")
     plt.xlabel("Longitude [deg]")
     plt.ylabel("Latitude [deg]")
     plt.show()
@@ -120,7 +120,7 @@ Finally, plotting the resulting Earth-fixed trajectory with the Earth in the bac
 
 
 .. image-sg:: /gallery/00-orbits/images/sphx_glr_ground_track_001.png
-   :alt: NAVSTAR 81 (USA 319) Ground Track
+   :alt: 48859 Ground Track
    :srcset: /gallery/00-orbits/images/sphx_glr_ground_track_001.png, /gallery/00-orbits/images/sphx_glr_ground_track_001_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
@@ -185,7 +185,7 @@ Repeating with PyGMT
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  7.512 seconds)
+   **Total running time of the script:** ( 0 minutes  6.075 seconds)
 
 
 .. _sphx_glr_download_gallery_00-orbits_ground_track.py:

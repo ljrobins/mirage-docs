@@ -5,20 +5,21 @@ Polar Motion
 Plotting polar motion components :math:`x_p` and :math:`y_p` over the past ~3 decades
 """
 
-import pyspaceaware as ps
 import numpy as np
 import pyvista as pv
 
+import mirage as mr
+
 # %%
 # Let's get the DCMS correcting for only polar motion over the past 3 decades
-dates, epsecs = ps.date_linspace(
-    ps.utc(1995, 1, 1), ps.utc(2023, 1, 1), 10000, return_epsecs=True
+dates, epsecs = mr.date_linspace(
+    mr.utc(1995, 1, 1), mr.utc(2023, 1, 1), 10000, return_epsecs=True
 )
-dt = epsecs / (ps.AstroConstants.earth_sec_in_day * 365.25)
-dcms = ps.EarthFixedFrame("itrf", "gtod").rotms_at_dates(dates)
+dt = epsecs / (mr.AstroConstants.earth_sec_in_day * 365.25)
+dcms = mr.EarthFixedFrame("itrf", "gtod").rotms_at_dates(dates)
 xp, yp = (
-    ps.AstroConstants.rad_to_arcsecond * dcms[0, 2, :],
-    ps.AstroConstants.rad_to_arcsecond * dcms[2, 1, :],
+    mr.AstroConstants.rad_to_arcsecond * dcms[0, 2, :],
+    mr.AstroConstants.rad_to_arcsecond * dcms[2, 1, :],
 )
 
 # %%

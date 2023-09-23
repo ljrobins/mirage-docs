@@ -23,16 +23,17 @@ Torque-free Attitude Propagation
 
 Comparing various methods for propagating torque-free rigid-body motion
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-46
+.. GENERATED FROM PYTHON SOURCE LINES 7-47
 
 .. code-block:: default
 
 
-    import pyspaceaware as ps
-    import pyspaceaware.vis as psv
-    import numpy as np
     import matplotlib.pyplot as plt
+    import numpy as np
     from mpl_toolkits.axes_grid1 import make_axes_locatable
+
+    import mirage as mr
+    import mirage.vis as mrv
 
     itensor = np.diag([1.0, 1.0, 2.0])
 
@@ -41,28 +42,28 @@ Comparing various methods for propagating torque-free rigid-body motion
     nic = np.logspace(0, 1.0, num_ic, dtype=np.int32)
     nt_grid, ni_grid = np.meshgrid(ntime, nic)
 
-    w0s = ps.rand_unit_vectors(max(nic))
-    q0s = ps.rand_quaternions(max(nic))
+    w0s = mr.rand_unit_vectors(max(nic))
+    q0s = mr.rand_quaternions(max(nic))
 
     nt, ni = int(1e6), int(1e1)
-    q0 = ps.rand_quaternions(ni)
-    w0 = ps.rand_unit_vectors(ni)
-    ps.tic()
-    q_par = ps.propagate_attitude_torque_free_axisymmetric(
+    q0 = mr.rand_quaternions(ni)
+    w0 = mr.rand_unit_vectors(ni)
+    mr.tic()
+    q_par = mr.propagate_attitude_torque_free_axisymmetric(
         q0, w0, itensor, np.linspace(0, 1, nt)
     )
-    dt = ps.toc(return_elapsed_seconds=True)
+    dt = mr.toc(return_elapsed_seconds=True)
     print(f"Axisymmetric form: {nt * ni / dt:.2e} [quats/sec]")
 
-    ps.tic()
-    q_ana, _ = ps.propagate_attitude_torque_free(
+    mr.tic()
+    q_ana, _ = mr.propagate_attitude_torque_free(
         q0[0, :], w0[0, :], itensor, np.linspace(0, 1, nt)
     )
-    dt = ps.toc(return_elapsed_seconds=True)
+    dt = mr.toc(return_elapsed_seconds=True)
     print(f"Generalized form: {nt * 1 / dt:.2e} [quats/sec]")
 
     err = np.max(
-        np.abs(ps.quat_upper_hemisphere(q_ana) - ps.quat_upper_hemisphere(q_par[:, :, 0]))
+        np.abs(mr.quat_upper_hemisphere(q_ana) - mr.quat_upper_hemisphere(q_par[:, :, 0]))
     )
     print(f"Max quaternion error: {err}")
 
@@ -74,18 +75,18 @@ Comparing various methods for propagating torque-free rigid-body motion
 
  .. code-block:: none
 
-    Axisymmetric form: 3.69e+06 [quats/sec]
-    Generalized form: 1.93e+06 [quats/sec]
-    Max quaternion error: 5.551115123125783e-16
+    Axisymmetric form: 5.88e+06 [quats/sec]
+    Generalized form: 1.56e+06 [quats/sec]
+    Max quaternion error: 7.771561172376096e-16
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-48
+.. GENERATED FROM PYTHON SOURCE LINES 48-49
 
 Let's test a whole grid of options to stress test these methods
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-91
+.. GENERATED FROM PYTHON SOURCE LINES 49-92
 
 .. code-block:: default
 
@@ -97,17 +98,17 @@ Let's test a whole grid of options to stress test these methods
         i, j = k // num_time, k % num_time
         q0, w0 = q0s[:ni, :], w0s[:ni, :]
         tspace = np.linspace(0, 1, nt)
-        ps.tic()
-        q_par = ps.propagate_attitude_torque_free_axisymmetric(q0, w0, itensor, tspace)
-        t_axi[i, j] = ps.toc(return_elapsed_seconds=True)
-        ps.tic()
+        mr.tic()
+        q_par = mr.propagate_attitude_torque_free_axisymmetric(q0, w0, itensor, tspace)
+        t_axi[i, j] = mr.toc(return_elapsed_seconds=True)
+        mr.tic()
         for q, w in zip(q0, w0):
-            q_true1, _ = ps.propagate_attitude_torque_free(q, w, itensor, tspace)
-        t_ana[i, j] = ps.toc(return_elapsed_seconds=True)
-        ps.tic()
+            q_true1, _ = mr.propagate_attitude_torque_free(q, w, itensor, tspace)
+        t_ana[i, j] = mr.toc(return_elapsed_seconds=True)
+        mr.tic()
         for q, w in zip(q0, w0):
-            q_true2, _ = ps.integrate_rigid_attitude_dynamics(q, w, itensor, tspace)
-        t_num[i, j] = ps.toc(return_elapsed_seconds=True)
+            q_true2, _ = mr.integrate_rigid_attitude_dynamics(q, w, itensor, tspace)
+        t_num[i, j] = mr.toc(return_elapsed_seconds=True)
 
     allt = np.log10(np.concatenate([t_num, t_ana, t_axi]).flatten())
     tlims = np.min(allt), np.max(allt)
@@ -121,13 +122,13 @@ Let's test a whole grid of options to stress test these methods
             vmax=tlims[1],
             extent=(np.min(ntime), np.max(ntime), np.min(nic), np.max(nic)),
         )
-        psv.texit(
+        mrv.texit(
             titles[i - 1],
             "Number of times" if i == 2 else None,
             "Number of ICs" if i == 1 else None,
         )
         if i == 3:
-            cb = plt.colorbar(label="$\Delta t$ [sec]", cax=psv.get_cbar_ax())
+            cb = plt.colorbar(label="$\Delta t$ [sec]", cax=mrv.get_cbar_ax())
             tics = cb.get_ticks()
             cb.set_ticklabels([f"$10^{{{t}}}$" for t in tics])
         plt.tight_layout()
@@ -145,7 +146,7 @@ Let's test a whole grid of options to stress test these methods
 
  .. code-block:: none
 
-    /Users/liamrobinson/Documents/PyLightCurves/examples/06-attitude/torque_free_axisymmetric.py:88: UserWarning: FixedFormatter should only be used together with FixedLocator
+    /Users/liamrobinson/Documents/PyLightCurves/examples/06-attitude/torque_free_axisymmetric.py:89: UserWarning: FixedFormatter should only be used together with FixedLocator
       cb.set_ticklabels([f"$10^{{{t}}}$" for t in tics])
 
 
@@ -154,7 +155,7 @@ Let's test a whole grid of options to stress test these methods
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  9.700 seconds)
+   **Total running time of the script:** ( 0 minutes  8.267 seconds)
 
 
 .. _sphx_glr_download_gallery_06-attitude_torque_free_axisymmetric.py:

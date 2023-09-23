@@ -9,32 +9,32 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 
-import pyspaceaware as ps
+import mirage as mr
 
 # %%
 # Defining the object and BRDF
-obj = ps.SpaceObject("gem.obj")
-brdf = ps.Brdf("phong", cd=0.1, cs=0.9, n=30)
+obj = mr.SpaceObject("gem.obj")
+brdf = mr.Brdf("phong", cd=0.1, cs=0.9, n=30)
 
 # %%
 # Defining the attitude profile
 
 t_eval = np.linspace(0, 10, int(1e3) + 1)
-q, _ = ps.propagate_attitude_torque_free(
-    ps.hat(np.array([0.0, 0.0, 0.0, 1.0])),
+q, _ = mr.propagate_attitude_torque_free(
+    mr.hat(np.array([0.0, 0.0, 0.0, 1.0])),
     np.array([1.0, 1.0, 1.0]),
     np.diag([1, 2, 3]),
     t_eval,
 )
 
-dcm = ps.quat_to_dcm(q)
-ovb = ps.stack_mat_mult_vec(dcm, np.array([[1, 0, 0]]))
-svb = ps.stack_mat_mult_vec(dcm, np.array([[0, 1, 0]]))
+dcm = mr.quat_to_dcm(q)
+ovb = mr.stack_mat_mult_vec(dcm, np.array([[1, 0, 0]]))
+svb = mr.stack_mat_mult_vec(dcm, np.array([[0, 1, 0]]))
 
 # %%
 # We can now run the engine and compute a convex light curve:
 
-b_non_convex = ps.run_light_curve_engine(
+b_non_convex = mr.run_light_curve_engine(
     brdf, obj, svb, ovb, instance_count=9, silent=False
 )
 b_convex = obj.convex_light_curve(brdf, svb, ovb)
@@ -66,11 +66,11 @@ plt.show()
 # %%
 # This is nice and small, which we like to see. If we repeat this process for a non-convex object, the error quickly becomes clear
 
-obj = ps.SpaceObject("tess.obj")
-brdf = ps.Brdf("phong", cd=0.5, cs=0.5, n=5)
+obj = mr.SpaceObject("tess.obj")
+brdf = mr.Brdf("phong", cd=0.5, cs=0.5, n=5)
 
-b_non_convex = ps.run_light_curve_engine(brdf, obj, svb, ovb, instance_count=1)
-b_non_convex_rotating = ps.run_light_curve_engine(
+b_non_convex = mr.run_light_curve_engine(brdf, obj, svb, ovb, instance_count=1)
+b_non_convex_rotating = mr.run_light_curve_engine(
     brdf, obj, svb, ovb, instance_count=1, rotate_panels=True
 )
 b_convex = obj.convex_light_curve(brdf, svb, ovb)

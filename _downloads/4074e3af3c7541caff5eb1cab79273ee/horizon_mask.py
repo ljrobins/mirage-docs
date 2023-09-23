@@ -12,10 +12,10 @@ import terrainman as tm
 
 # %%
 # Defining the station at Katmandu, where ``station.name`` informs the name of the resulting mask file
-import pyspaceaware as ps
-import pyspaceaware.vis as psv
+import mirage as mr
+import mirage.vis as mrv
 
-station = ps.Station(
+station = mr.Station(
     preset="pogs",
     lat_deg=27.7172,
     lon_deg=85.3240,
@@ -30,7 +30,7 @@ station = ps.Station(
 tile = tm.TerrainDataHandler().load_tiles_containing(
     station.lat_geod_deg, station.lon_deg
 )
-mask = ps.HorizonMask(
+mask = mr.HorizonMask(
     station.lat_geod_rad,
     station.lon_rad,
     station.name,
@@ -41,15 +41,15 @@ mask = ps.HorizonMask(
 # Build a tile from the raw tile data
 lat_grid, lon_grid = tile.lat_grid, tile.lon_grid
 elev_grid = tile.elev_grid / 1e3
-itrf_terrain = ps.lla_to_itrf(
+itrf_terrain = mr.lla_to_itrf(
     np.deg2rad(lat_grid).flatten(),
     np.deg2rad(lon_grid).flatten(),
-    elev_grid.flatten() + ps.geoid_height_at_lla(station.lat_geod_rad, station.lon_rad),
+    elev_grid.flatten() + mr.geoid_height_at_lla(station.lat_geod_rad, station.lon_rad),
 )
 
 # %%
 # Convert the terrain data into East North Up (ENU) coordinates and plot the result
-enu_terrain = (ps.ecef_to_enu(station.itrf) @ (itrf_terrain - station.itrf).T).T
+enu_terrain = (mr.ecef_to_enu(station.itrf) @ (itrf_terrain - station.itrf).T).T
 dem = pv.StructuredGrid(
     enu_terrain[:, 0].reshape(elev_grid.shape),
     enu_terrain[:, 1].reshape(elev_grid.shape),
@@ -57,7 +57,7 @@ dem = pv.StructuredGrid(
 )
 dem["Elevation [km]"] = elev_grid.flatten(order="F")
 
-enu_rays = ps.az_el_to_enu(mask.az, mask.el)
+enu_rays = mr.az_el_to_enu(mask.az, mask.el)
 
 pl = pv.Plotter()
 pl.set_background("black")
@@ -70,7 +70,7 @@ pl.add_mesh(
     show_scalar_bar=True,
 )
 
-psv.scatter3(pl, enu_rays, color="w", show_scalar_bar=False)
+mrv.scatter3(pl, enu_rays, color="w", show_scalar_bar=False)
 pl.add_text("Katmandu Horizon Mask", font="courier")
 
 path = pv.Polygon(

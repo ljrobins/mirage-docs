@@ -12,22 +12,22 @@ import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 
-import pyspaceaware as ps
+import mirage as mr
 
 # %%
 # Let's set up a space of dates to operate on
 
-dates = ps.date_linspace(ps.now(), ps.now() + ps.days(1), 8640) - ps.days(100)
+dates = mr.date_linspace(mr.now(), mr.now() + mr.days(1), 8640) - mr.days(100)
 
 # %%
 # And propagate one of the NAVSTAR satellites to all the dates
-obj = ps.SpaceObject("cube.obj", identifier="NAVSTAR 81 (USA 319)")
+obj = mr.SpaceObject("cube.obj", identifier="NAVSTAR 81 (USA 319)")
 r_eci = obj.propagate(dates)
 
 # %%
 # Converting the propagated result into ECEF, then LLA
-r_ecef = ps.stack_mat_mult_vec(ps.j2000_to_itrf(dates), r_eci)
-lla = ps.itrf_to_lla(r_ecef)
+r_ecef = mr.stack_mat_mult_vec(mr.j2000_to_itrf(dates), r_eci)
+lla = mr.itrf_to_lla(r_ecef)
 
 # %%
 # Finally, plotting the resulting Earth-fixed trajectory with the Earth in the background
@@ -36,7 +36,7 @@ im = Image.open(
 )
 plt.imshow(im, extent=(-180, 180, -90, 90))
 plt.scatter(np.rad2deg(lla[1]), np.rad2deg(lla[0]), s=1, c="m")
-plt.title(f"{obj.identifier} Ground Track")
+plt.title(f"{obj.satnum} Ground Track")
 plt.xlabel("Longitude [deg]")
 plt.ylabel("Latitude [deg]")
 plt.show()

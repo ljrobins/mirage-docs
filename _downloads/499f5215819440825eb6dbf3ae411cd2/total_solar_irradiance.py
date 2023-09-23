@@ -12,20 +12,20 @@ import matplotlib.pyplot as plt
 import numpy as np
 from terrainman import TsiDataHandler
 
-import pyspaceaware as ps
+import mirage as mr
 
 # %%
 # Let's plot the variation in the total solar irradiance from the beginning of the J2000 epoch till now
 
 date = datetime.datetime(2000, 1, 1, 12, 0, 0, tzinfo=datetime.timezone.utc)
-dates = ps.date_linspace(date, ps.now(), 10_000)
+dates = mr.date_linspace(date, mr.now(), 10_000)
 
 # %%
 # The ``terrainman.TsiDataHandler`` class deals with downloading the relevant netCDF4 files from `This NOAA server <https://www.ncei.noaa.gov/data/total-solar-irradiance/access/daily/>`_. Outside of the interval covered by this dataset (1882-current_year) :math:`1361 \frac{W}{m^2}` is used as a default.
 tsi_dh = TsiDataHandler()
-ps.tic()
+mr.tic()
 sc_at_one_au = tsi_dh.eval(dates)
-ps.toc()
+mr.toc()
 
 # %%
 # Plotting the irradiance over time
@@ -39,9 +39,9 @@ plt.show()
 # %%
 # This isn't the end of the story, as the distance to the Sun changes over the course of the year. Let's compute the distance from the Sun to the Earth in AU over this time period we just plotted
 
-earth_to_sun = ps.sun(dates)
-earth_to_sun_dist_km = ps.vecnorm(earth_to_sun).flatten()
-earth_to_sun_dist_au = earth_to_sun_dist_km / ps.AstroConstants.au_to_km
+earth_to_sun = mr.sun(dates)
+earth_to_sun_dist_km = mr.vecnorm(earth_to_sun).flatten()
+earth_to_sun_dist_au = earth_to_sun_dist_km / mr.AstroConstants.au_to_km
 
 plt.plot(dates, earth_to_sun_dist_au)
 plt.title("Distance from Earth to Sun")
@@ -67,5 +67,5 @@ plt.show()
 # %%
 # We can prove that this function produces identical outputs to the implementation above:
 
-tsi = ps.total_solar_irradiance_at_dates(dates)
+tsi = mr.total_solar_irradiance_at_dates(dates)
 print(f"Implemented function max error: {np.max(np.abs(tsi - sc_at_earth_radius))}")

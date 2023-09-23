@@ -8,11 +8,11 @@ Converting an ITRF vector to J2000 using the IAU-76 nutation theory, comparing r
 
 import numpy as np
 
-import pyspaceaware as ps
+import mirage as mr
 
 # %%
 # Truth values presented here are copied from Vallado Example 3-15 (pg. 230)
-date = ps.utc(2004, 4, 6, 7, 51, 28, 386_009)
+date = mr.utc(2004, 4, 6, 7, 51, 28, 386_009)
 
 itrf_vallado = np.array([-1033.479_383_00, 7901.295_275_40, 6380.356_595_80])
 gtod_vallado = np.array([-1033.475_03_13, 7901.305_585_6, 6380.344_532_75])
@@ -31,11 +31,11 @@ eps_vallado = 23.4407685
 
 # %%
 # We can now compute these values for ourselves
-tt_mine = ps.date_to_julian_centuries(date)
-ut1_minus_utc_mine = ps.ut1_minus_utc(date)
-gmst_mine = ps.date_to_gmst(date)
-gast_mine = ps.date_to_gast(date)
-delta_psi_mine, delta_eps_mine, eps_bar_mine = ps.delta_psi_delta_epsilon(date)
+tt_mine = mr.date_to_julian_centuries(date)
+ut1_minus_utc_mine = mr.ut1_minus_utc(date)
+gmst_mine = mr.date_to_gmst(date)
+gast_mine = mr.date_to_gast(date)
+delta_psi_mine, delta_eps_mine, eps_bar_mine = mr.delta_psi_delta_epsilon(date)
 eps_mine = eps_bar_mine + delta_eps_mine
 
 # %%
@@ -46,14 +46,14 @@ gmst_error = (np.rad2deg(gmst_mine) - gmst_vallado) / 360 * 86400
 gast_error = (np.rad2deg(gast_mine) - gast_vallado) / 360 * 86400
 delta_psi_error = (
     np.rad2deg(delta_psi_mine) - delta_psi_vallado
-) * ps.AstroConstants.deg_to_arcsecond
+) * mr.AstroConstants.deg_to_arcsecond
 delta_eps_error = (
     np.rad2deg(delta_eps_mine) - delta_eps_vallado
-) * ps.AstroConstants.deg_to_arcsecond
+) * mr.AstroConstants.deg_to_arcsecond
 eps_bar_error = (
     np.rad2deg(eps_bar_mine) - eps_bar_vallado
-) * ps.AstroConstants.deg_to_arcsecond
-eps_error = (np.rad2deg(eps_mine) - eps_vallado) * ps.AstroConstants.deg_to_arcsecond
+) * mr.AstroConstants.deg_to_arcsecond
+eps_error = (np.rad2deg(eps_mine) - eps_vallado) * mr.AstroConstants.deg_to_arcsecond
 
 # %%
 # And assert that these errors are sufficiently small to the Vallado values
@@ -71,10 +71,10 @@ assert all(np.abs(eps_error) < 1e-3), "Epsilon error > 1e-4 arcsec"
 # %%
 # As well as the individual frame transformations in the chain from ITRF to J2000.
 # In each transformation, we start with the truth Vallado value so that the error does not accumulate from earlier transformations. This lets us see how much error each transformation introduces by itself
-gtod_mine = ps.EarthFixedFrame("itrf", "gtod").vecs_at_dates(date, itrf_vallado)
-tod_mine = ps.EarthFixedFrame("gtod", "tod").vecs_at_dates(date, gtod_vallado)
-mod_mine = ps.EarthFixedFrame("tod", "mod").vecs_at_dates(date, tod_vallado)
-j2000_mine = ps.EarthFixedFrame("mod", "j2000").vecs_at_dates(date, mod_vallado)
+gtod_mine = mr.EarthFixedFrame("itrf", "gtod").vecs_at_dates(date, itrf_vallado)
+tod_mine = mr.EarthFixedFrame("gtod", "tod").vecs_at_dates(date, gtod_vallado)
+mod_mine = mr.EarthFixedFrame("tod", "mod").vecs_at_dates(date, tod_vallado)
+j2000_mine = mr.EarthFixedFrame("mod", "j2000").vecs_at_dates(date, mod_vallado)
 
 # %%
 # Likewise, we compute the componentwise errors in each transformation in meters
@@ -113,7 +113,7 @@ print(f"{j2000_error=} [m]")
 # %%
 # We can now perform a simultaneous transformation that deals with all the sub-rotations behind the scenes
 
-j2000_mine_combined = ps.EarthFixedFrame("itrf", "j2000").vecs_at_dates(
+j2000_mine_combined = mr.EarthFixedFrame("itrf", "j2000").vecs_at_dates(
     date, itrf_vallado
 )
 
@@ -126,7 +126,7 @@ print(
 # %%
 # Finally, let's run the transformation in reverse to make sure we can both directions
 
-itrf_mine_combined = ps.EarthFixedFrame("j2000", "itrf").vecs_at_dates(
+itrf_mine_combined = mr.EarthFixedFrame("j2000", "itrf").vecs_at_dates(
     date, j2000_vallado
 )
 

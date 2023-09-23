@@ -34,6 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
@@ -499,7 +500,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="pyspaceaware.tests.html#module-pyspaceaware.tests.test_sampling">pyspaceaware.tests.test_sampling module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pyspaceaware.tests.html#pyspaceaware.tests.test_sampling.test_rand_cone_vectors_rejection"><code class="docutils literal notranslate"><span class="pre">test_rand_cone_vectors_rejection()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyspaceaware.tests.html#pyspaceaware.tests.test_sampling.test_rand_cone_vectors"><code class="docutils literal notranslate"><span class="pre">test_rand_cone_vectors()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyspaceaware.tests.html#pyspaceaware.tests.test_sampling.test_rand_points_in_shell"><code class="docutils literal notranslate"><span class="pre">test_rand_points_in_shell()</span></code></a></li>
 </ul>
 </li>
@@ -863,7 +864,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.attitude.integrate_rigid_attitude_dynamics">
-<span class="sig-prename descclassname"><span class="pre">pyspaceaware.attitude.</span></span><span class="sig-name descname"><span class="pre">integrate_rigid_attitude_dynamics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0:</span> <span class="pre">~numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omega0:</span> <span class="pre">~numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">itensor:</span> <span class="pre">~numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">teval:</span> <span class="pre">~numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body_torque:</span> <span class="pre">~typing.Callable</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">int_tol:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">1e-13</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyspaceaware.attitude.integrate_rigid_attitude_dynamics" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.attitude.</span></span><span class="sig-name descname"><span class="pre">integrate_rigid_attitude_dynamics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0:</span> <span class="pre">~numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omega0:</span> <span class="pre">~numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">itensor:</span> <span class="pre">~numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">teval:</span> <span class="pre">~numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body_torque:</span> <span class="pre">~typing.Callable</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">int_tol:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">1e-13</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'RK45'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyspaceaware.attitude.integrate_rigid_attitude_dynamics" title="Permalink to this definition">#</a></dt>
 <dd><p>Integration for rigid body rotational dynamics</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -874,6 +875,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <li><p><strong>teval</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Times to return integrated trajectory at [second]</p></li>
 <li><p><strong>body_torque</strong> (<em>Callable</em><em>, </em><em>optional</em>) – Body torques function <cite>f(t,y) -&gt; [3,]</cite> [Nm], defaults to <cite>np.zeros(3)</cite></p></li>
 <li><p><strong>int_tol</strong> (<em>float</em><em>, </em><em>optional</em>) – Integration rtol and atol for RK45, defaults to 1e-13</p></li>
+<li><p><strong>method</strong> (<em>str</em><em>, </em><em>optional</em>) – <code class="docutils literal notranslate"><span class="pre">scipy.integrate.solve_ivp</span></code> method keyword argument to use, defaults to ‘RK45’</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1315,7 +1317,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.background.airglow_signal">
 <span class="sig-prename descclassname"><span class="pre">pyspaceaware.background.</span></span><span class="sig-name descname"><span class="pre">airglow_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">look_dirs_eci_eq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs_pos_eci_eq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_int</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_ground_based</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.background.airglow_signal" title="Permalink to this definition">#</a></dt>
-<dd><p>Signal on CCD sensor due to airglow <span id="id1">[<a class="reference internal" href="references.html#id112" title="Holger Krag. A Method for the Validation of Space Debris Models and for the Analysis and Planning of Radar and Optical Surveys. PhD thesis, Technische Universität Braunschweig, March 2003.">Kra03</a>]</span></p>
+<dd><p>Signal on CCD sensor due to airglow <span id="id1">[<a class="reference internal" href="references.html#id113" title="Holger Krag. A Method for the Validation of Space Debris Models and for the Analysis and Planning of Radar and Optical Surveys. PhD thesis, Technische Universität Braunschweig, March 2003.">Kra03</a>]</span></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1339,14 +1341,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.background.atmospheric_transmission">
-<span class="sig-prename descclassname"><span class="pre">pyspaceaware.background.</span></span><span class="sig-name descname"><span class="pre">atmospheric_transmission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lambdas</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zenith_angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">terrain_elev_angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.background.atmospheric_transmission" title="Permalink to this definition">#</a></dt>
-<dd><p>Calculates atmospheric transmission fraction as described in <span id="id2">[<a class="reference internal" href="references.html#id112" title="Holger Krag. A Method for the Validation of Space Debris Models and for the Analysis and Planning of Radar and Optical Surveys. PhD thesis, Technische Universität Braunschweig, March 2003.">Kra03</a>]</span></p>
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.background.</span></span><span class="sig-name descname"><span class="pre">atmospheric_transmission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lambdas</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zenith_angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.background.atmospheric_transmission" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculates atmospheric transmission fraction as described in <span id="id2">[<a class="reference internal" href="references.html#id113" title="Holger Krag. A Method for the Validation of Space Debris Models and for the Analysis and Planning of Radar and Optical Surveys. PhD thesis, Technische Universität Braunschweig, March 2003.">Kra03</a>]</span></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>lambdas</strong> (<em>np.ndarray</em>) – Wavelengths to sample [m]</p></li>
 <li><p><strong>zenith_angle</strong> (<em>np.ndarray</em>) – Angle from point of interest to local zenith [rad]</p></li>
-<li><p><strong>terrain_elev_angle</strong> (<em>float</em>) – Elevation to stop at to avoid numerical errors in the Van Rijhn factor [rad]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1381,7 +1382,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.background.integrated_starlight_signal">
 <span class="sig-prename descclassname"><span class="pre">pyspaceaware.background.</span></span><span class="sig-name descname"><span class="pre">integrated_starlight_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">look_dirs_eci_eq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs_pos_eci_eq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_int</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_ground_based</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">_</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.background.integrated_starlight_signal" title="Permalink to this definition">#</a></dt>
-<dd><p>Computes the mean signal [e-/pix] on the CCD due to integrated starlight from magnitudes 16 to 21 using a patched Gaia catalog <span id="id3">[<a class="reference internal" href="references.html#id112" title="Holger Krag. A Method for the Validation of Space Debris Models and for the Analysis and Planning of Radar and Optical Surveys. PhD thesis, Technische Universität Braunschweig, March 2003.">Kra03</a>]</span></p>
+<dd><p>Computes the mean signal [e-/pix] on the CCD due to integrated starlight from magnitudes 16 to 21 using a patched Gaia catalog <span id="id3">[<a class="reference internal" href="references.html#id113" title="Holger Krag. A Method for the Validation of Space Debris Models and for the Analysis and Planning of Radar and Optical Surveys. PhD thesis, Technische Universität Braunschweig, March 2003.">Kra03</a>]</span></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1405,7 +1406,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.background.light_pollution_signal">
 <span class="sig-prename descclassname"><span class="pre">pyspaceaware.background.</span></span><span class="sig-name descname"><span class="pre">light_pollution_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">look_dirs_eci_eq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs_pos_eci_eq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_int</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_ground_based</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.background.light_pollution_signal" title="Permalink to this definition">#</a></dt>
-<dd><p>Signal on CCD sensor due to light pollution (not from Sun or Moon) <span id="id4">[<a class="reference internal" href="references.html#id112" title="Holger Krag. A Method for the Validation of Space Debris Models and for the Analysis and Planning of Radar and Optical Surveys. PhD thesis, Technische Universität Braunschweig, March 2003.">Kra03</a>]</span></p>
+<dd><p>Signal on CCD sensor due to light pollution (not from Sun or Moon) <span id="id4">[<a class="reference internal" href="references.html#id113" title="Holger Krag. A Method for the Validation of Space Debris Models and for the Analysis and Planning of Radar and Optical Surveys. PhD thesis, Technische Universität Braunschweig, March 2003.">Kra03</a>]</span></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1471,13 +1472,37 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.background.quantum_efficiency">
 <span class="sig-prename descclassname"><span class="pre">pyspaceaware.background.</span></span><span class="sig-name descname"><span class="pre">quantum_efficiency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lambdas</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.background.quantum_efficiency" title="Permalink to this definition">#</a></dt>
-<dd><p>Computes quantum efficiency for a representative CCD sensor <span id="id5">[<a class="reference internal" href="references.html#id112" title="Holger Krag. A Method for the Validation of Space Debris Models and for the Analysis and Planning of Radar and Optical Surveys. PhD thesis, Technische Universität Braunschweig, March 2003.">Kra03</a>]</span></p>
+<dd><p>Computes quantum efficiency for a representative CCD sensor <span id="id5">[<a class="reference internal" href="references.html#id113" title="Holger Krag. A Method for the Validation of Space Debris Models and for the Analysis and Planning of Radar and Optical Surveys. PhD thesis, Technische Universität Braunschweig, March 2003.">Kra03</a>]</span></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>lambdas</strong> (<em>np.ndarray</em>) – Sample wavelengths [m]</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Quantum efficiency [electrons/photon]</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.background.raw_signal">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.background.</span></span><span class="sig-name descname"><span class="pre">raw_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_obs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_lims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(1e-08,</span> <span class="pre">1e-06)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_ground_based</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.background.raw_signal" title="Permalink to this definition">#</a></dt>
+<dd><p>Computes raw signals for background model <span id="id6">[<a class="reference internal" href="references.html#id113" title="Holger Krag. A Method for the Validation of Space Debris Models and for the Analysis and Planning of Radar and Optical Surveys. PhD thesis, Technische Universität Braunschweig, March 2003.">Kra03</a>]</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>]</em>) – Dates to evaluate at (UTC)</p></li>
+<li><p><strong>d</strong> (<em>float</em>) – Diameter of telescope aperture [m]</p></li>
+<li><p><strong>z_obs</strong> (<em>np.ndarray</em>) – Zenith angle of observation [rad]</p></li>
+<li><p><strong>mode</strong> (<em>str</em>) – Signal to compute, either “aint” for airglow or “sint” for the object signal</p></li>
+<li><p><strong>lambda_lims</strong> (<em>Tuple</em><em>, </em><em>optional</em>) – Wavelength limits to integrate over [m], defaults to (1e-8, 1e-6)</p></li>
+<li><p><strong>is_ground_based</strong> (<em>bool</em>) – Whether the station taking the observation is ground or space based</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Raw signal, if <code class="docutils literal notranslate"><span class="pre">mode=&quot;sint&quot;</span></code> [m^2/(Ws)], if <code class="docutils literal notranslate"><span class="pre">mode=&quot;aint&quot;</span></code> [1/s/sterad]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>np.ndarray</p>
@@ -1505,7 +1530,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.background.twilight_signal">
 <span class="sig-prename descclassname"><span class="pre">pyspaceaware.background.</span></span><span class="sig-name descname"><span class="pre">twilight_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">look_dirs_eci_eq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs_pos_eci_eq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_int</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_ground_based</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'V'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.background.twilight_signal" title="Permalink to this definition">#</a></dt>
-<dd><p>Signal on CCD sensor due to the setting or rising sun <span id="id6">[<a class="reference internal" href="references.html#id122" title="F. Patat, O. S. Ugolnikov, and O. V. Postylyakov. UBVRI twilight sky brightness at ESO-Paranal. \aap , 455(1):385-393, August 2006. arXiv:astro-ph/0604128, doi:10.1051/0004-6361:20064992.">PatatUgolnikovPostylyakov06</a>]</span></p>
+<dd><p>Signal on CCD sensor due to the setting or rising sun <span id="id7">[<a class="reference internal" href="references.html#id123" title="F. Patat, O. S. Ugolnikov, and O. V. Postylyakov. UBVRI twilight sky brightness at ESO-Paranal. Astronomy and Astrophysics, 455(1):385-393, August 2006. arXiv:astro-ph/0604128, doi:10.1051/0004-6361:20064992.">PatatUgolnikovPostylyakov06</a>]</span></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1528,14 +1553,14 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pyspaceaware.background.twilight_zenith_sqm">
-<span class="sig-prename descclassname"><span class="pre">pyspaceaware.background.</span></span><span class="sig-name descname"><span class="pre">twilight_zenith_sqm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'V'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.background.twilight_zenith_sqm" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="pyspaceaware.background.twilight_zenith_mpsas">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.background.</span></span><span class="sig-name descname"><span class="pre">twilight_zenith_mpsas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'V'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.background.twilight_zenith_mpsas" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.background.zodiacal_signal">
 <span class="sig-prename descclassname"><span class="pre">pyspaceaware.background.</span></span><span class="sig-name descname"><span class="pre">zodiacal_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">look_dirs_eci_eq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs_pos_eci_eq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_int</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_ground_based</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.background.zodiacal_signal" title="Permalink to this definition">#</a></dt>
-<dd><p>Computes signal in CCD due to zodiac light <span id="id7">[<a class="reference internal" href="references.html#id112" title="Holger Krag. A Method for the Validation of Space Debris Models and for the Analysis and Planning of Radar and Optical Surveys. PhD thesis, Technische Universität Braunschweig, March 2003.">Kra03</a>]</span></p>
+<dd><p>Computes signal in CCD due to zodiac light <span id="id8">[<a class="reference internal" href="references.html#id113" title="Holger Krag. A Method for the Validation of Space Debris Models and for the Analysis and Planning of Radar and Optical Surveys. PhD thesis, Technische Universität Braunschweig, March 2003.">Kra03</a>]</span></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1682,6 +1707,11 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyspaceaware.constants.AstroConstants.steradian_to_arcsecond2">
 <span class="sig-name descname"><span class="pre">steradian_to_arcsecond2</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">42545170296.15221</span></em><a class="headerlink" href="#pyspaceaware.constants.AstroConstants.steradian_to_arcsecond2" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyspaceaware.constants.AstroConstants.sun_irradiance">
+<span class="sig-name descname"><span class="pre">sun_irradiance</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2.518021002e-08</span></em><a class="headerlink" href="#pyspaceaware.constants.AstroConstants.sun_irradiance" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -2875,6 +2905,74 @@ DEPRECATED
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.lighting.mcd_m2_to_watt_m2sr">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.lighting.</span></span><span class="sig-name descname"><span class="pre">mcd_m2_to_watt_m2sr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mcd_per_m2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.lighting.mcd_m2_to_watt_m2sr" title="Permalink to this definition">#</a></dt>
+<dd><p>Converts from milli-candela per square centimeter to watts per square meter per steradian</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mcd_per_m2</strong> (<em>np.ndarray</em>) – Milli-candela per square centimeter value(s)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Watts per square meter per steradian value(s)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.lighting.mcd_per_m2_to_mpsas">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.lighting.</span></span><span class="sig-name descname"><span class="pre">mcd_per_m2_to_mpsas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mcd_per_m2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.lighting.mcd_per_m2_to_mpsas" title="Permalink to this definition">#</a></dt>
+<dd><p>Converts milli-candela per square centimeter to MPSAS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mcd_per_m2</strong> (<em>np.ndarray</em>) – Milli-candela per square centimeter (artificial sky brightness)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Magnitudes per square arcsecond (MPSAS)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.lighting.mpsas_to_irradiance_per_steradian">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.lighting.</span></span><span class="sig-name descname"><span class="pre">mpsas_to_irradiance_per_steradian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mpsas</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.lighting.mpsas_to_irradiance_per_steradian" title="Permalink to this definition">#</a></dt>
+<dd><p>Converts surface brightness in magnitudes per arcsecond squared to irradiance per steradian</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mpsas</strong> (<em>np.ndarray</em>) – Surface brightness in magnitudes per arcsecond squared</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Irradiance per steradian [W/m^2/sr]</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.lighting.mpsas_to_mcd_per_m2">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.lighting.</span></span><span class="sig-name descname"><span class="pre">mpsas_to_mcd_per_m2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mag_per_arcsec2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.lighting.mpsas_to_mcd_per_m2" title="Permalink to this definition">#</a></dt>
+<dd><p>Converts MPSAS to milli-candela per square centimeter</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mag_per_arcsec2</strong> (<em>np.ndarray</em>) – Magnitudes per square arcsecond (MPSAS)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Equivalent milli-candela per square centimeter</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.lighting.normalized_light_curve_sphere">
 <span class="sig-prename descclassname"><span class="pre">pyspaceaware.lighting.</span></span><span class="sig-name descname"><span class="pre">normalized_light_curve_sphere</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cd_sphere</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_sphere_m</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase_angle_rad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.lighting.normalized_light_curve_sphere" title="Permalink to this definition">#</a></dt>
 <dd><p>Computes a normalized light curve (irradiance at one meter from the object) for a diffuse sphere</p>
@@ -2925,23 +3023,6 @@ DEPRECATED
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Total irradiance [W/m^2]</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pyspaceaware.lighting.sqm_to_irradiance_per_steradian">
-<span class="sig-prename descclassname"><span class="pre">pyspaceaware.lighting.</span></span><span class="sig-name descname"><span class="pre">sqm_to_irradiance_per_steradian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sqm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.lighting.sqm_to_irradiance_per_steradian" title="Permalink to this definition">#</a></dt>
-<dd><p>Converts surface brightness in magnitudes per arcsecond squared to irradiance per steradian</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>sqm</strong> (<em>np.ndarray</em>) – Surface brightness in magnitudes per arcsecond squared</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Irradiance per steradian [W/m^2/sr]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>np.ndarray</p>
@@ -3110,7 +3191,7 @@ DEPRECATED
 <dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.math.close_egi">
 <span class="sig-prename descclassname"><span class="pre">pyspaceaware.math.</span></span><span class="sig-name descname"><span class="pre">close_egi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">egi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.math.close_egi" title="Permalink to this definition">#</a></dt>
-<dd><p>Enforces closure condition by adding mean closure error to each row <span id="id8">[<a class="reference internal" href="references.html#id95" title="Liam Robinson and Carolin Frueh. Light curve inversion for reliable shape reconstruction of human-made space objects. In Proceedings of the 32nd AIAA/AAS Astrodynamics Specialist Conference, 1-19. 09 2022.">RF22</a>]</span></p>
+<dd><p>Enforces closure condition by adding mean closure error to each row <span id="id9">[<a class="reference internal" href="references.html#id96" title="Liam Robinson and Carolin Frueh. Light curve inversion for reliable shape reconstruction of human-made space objects. In Proceedings of the 32nd AIAA/AAS Astrodynamics Specialist Conference, 1-19. 09 2022.">RF22</a>]</span></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>egi</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Extended Gaussian Image (EGI)</p>
@@ -3674,6 +3755,29 @@ Must be of the form x = f(A,b).</p>
 </dd></dl>
 
 </section>
+<section id="module-pyspaceaware.observer">
+<span id="pyspaceaware-observer-module"></span><h2>pyspaceaware.observer module<a class="headerlink" href="#module-pyspaceaware.observer" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyspaceaware.observer.relative_airmass">
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.observer.</span></span><span class="sig-name descname"><span class="pre">relative_airmass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z_rad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">approx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.observer.relative_airmass" title="Permalink to this definition">#</a></dt>
+<dd><p>Computes the cumulative airmass (relative to that at zenith) along a ray leaving the atmosphere, equation from <span id="id10">[<a class="reference internal" href="references.html#id134" title="Keith A. Pickering. The Southern Limits of the Ancient Star Catalog and the Commentary of Hipparchos. DIO, 12:3-27, September 2002.">Pickering02</a>]</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>z_rad</strong> (<em>np.ndarray</em>) – Angle from zenith, measured in radians</p></li>
+<li><p><strong>approx</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to approximate with <span class="math notranslate nohighlight">\(\sec\z_{rad}\)</span>, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Airmasses</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 <section id="module-pyspaceaware.orbit">
 <span id="pyspaceaware-orbit-module"></span><h2>pyspaceaware.orbit module<a class="headerlink" href="#module-pyspaceaware.orbit" title="Permalink to this heading">#</a></h2>
 <dl class="py function">
@@ -3763,7 +3867,7 @@ Must be of the form x = f(A,b).</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.orbit.propagate_catalog_to_dates">
 <span class="sig-prename descclassname"><span class="pre">pyspaceaware.orbit.</span></span><span class="sig-name descname"><span class="pre">propagate_catalog_to_dates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmag_limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.orbit.propagate_catalog_to_dates" title="Permalink to this definition">#</a></dt>
-<dd><p>Propgates a satellite catalog to an array of dates, output in ECI [km]</p>
+<dd><p>Propgates a satellite catalog to an array of dates, output in J2000 ECI [km]</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -3773,7 +3877,7 @@ Must be of the form x = f(A,b).</p>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Position [km] and velocity [km/s] in TEME</p>
+<dd class="field-even"><p>Position [km] and velocity [km/s] in J2000</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>np.ndarray [nx3]</p>
@@ -3962,30 +4066,6 @@ Must be of the form x = f(A,b).</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pyspaceaware.sampling.rand_cone_vectors_rejection">
-<span class="sig-prename descclassname"><span class="pre">pyspaceaware.sampling.</span></span><span class="sig-name descname"><span class="pre">rand_cone_vectors_rejection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_base</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_tol_deg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.sampling.rand_cone_vectors_rejection" title="Permalink to this definition">#</a></dt>
-<dd><p>Samples random vectors on the surface of a cone-sphere intersection via rejection sampling</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>v_base</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>] or </em><em>[</em><em>3</em><em>,</em><em>]</em>) – Center point of the cone. If shape is [3,], the same center point is used for all generated points</p></li>
-<li><p><strong>angle_tol_deg</strong> (<em>float</em>) – Half angle of the cone [deg]</p></li>
-<li><p><strong>num</strong> (<em>int</em>) – Number of points to sample</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the input <code class="docutils literal notranslate"><span class="pre">v_base</span></code> is not [nx3] or [3,]</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Sampled vectors</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.sampling.rand_point_in_ball">
 <span class="sig-prename descclassname"><span class="pre">pyspaceaware.sampling.</span></span><span class="sig-name descname"><span class="pre">rand_point_in_ball</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.sampling.rand_point_in_ball" title="Permalink to this definition">#</a></dt>
 <dd><p>Samples random points in a solid ball</p>
@@ -4114,7 +4194,7 @@ Must be of the form x = f(A,b).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyspaceaware.spaceobject.SpaceObject.convex_light_curve">
 <span class="sig-name descname"><span class="pre">convex_light_curve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">brdf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyspaceaware.lighting.Brdf" title="pyspaceaware.lighting.Brdf"><span class="pre">Brdf</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">svb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ovb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.spaceobject.SpaceObject.convex_light_curve" title="Permalink to this definition">#</a></dt>
-<dd><p>Computes the light curve of a covex object with a given BRDF <span id="id9">Fan [<a class="reference internal" href="references.html#id34" title="Siwei Fan. The Light Curve Simulation and Its Inversion Problem for Human-Made Space Objects. PhD thesis, Purdue University, August 2020. doi:10.25394/PGS.12749570.v1.">Fan20</a>]</span></p>
+<dd><p>Computes the light curve of a covex object with a given BRDF <span id="id11">Fan [<a class="reference internal" href="references.html#id34" title="Siwei Fan. The Light Curve Simulation and Its Inversion Problem for Human-Made Space Objects. PhD thesis, Purdue University, August 2020. doi:10.25394/PGS.12749570.v1.">Fan20</a>]</span></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -4278,7 +4358,7 @@ Must be of the form x = f(A,b).</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.spaceobject.little_fun">
 <span class="sig-prename descclassname"><span class="pre">pyspaceaware.spaceobject.</span></span><span class="sig-name descname"><span class="pre">little_fun</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">h</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">egi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#pyspaceaware.spaceobject.little_fun" title="Permalink to this definition">#</a></dt>
-<dd><p>Little’s objective function for support vector optimization <span id="id10">Little [<a class="reference internal" href="references.html#id76" title="James J. Little. An iterative method for reconstructing convex polyhedra from extended gaussian images. In Proceedings of the Third AAAI Conference on Artificial Intelligence, AAAI'83, 247-250. AAAI Press, 1983.">Lit83</a>]</span></p>
+<dd><p>Little’s objective function for support vector optimization <span id="id12">Little [<a class="reference internal" href="references.html#id77" title="James J. Little. An iterative method for reconstructing convex polyhedra from extended gaussian images. In Proceedings of the Third AAAI Conference on Artificial Intelligence, AAAI'83, 247-250. AAAI Press, 1983.">Lit83</a>]</span></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -4298,7 +4378,7 @@ Must be of the form x = f(A,b).</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.spaceobject.optimize_egi">
 <span class="sig-prename descclassname"><span class="pre">pyspaceaware.spaceobject.</span></span><span class="sig-name descname"><span class="pre">optimize_egi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">svb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ovb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">brdf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyspaceaware.lighting.Brdf" title="pyspaceaware.lighting.Brdf"><span class="pre">Brdf</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_candidates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">merge_iter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">merge_angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.3141592653589793</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.spaceobject.optimize_egi" title="Permalink to this definition">#</a></dt>
-<dd><p>Optimizes an Extended Gaussian Image (EGI) to fit observed irradiances <span id="id11">[<a class="reference internal" href="references.html#id95" title="Liam Robinson and Carolin Frueh. Light curve inversion for reliable shape reconstruction of human-made space objects. In Proceedings of the 32nd AIAA/AAS Astrodynamics Specialist Conference, 1-19. 09 2022.">RF22</a>]</span></p>
+<dd><p>Optimizes an Extended Gaussian Image (EGI) to fit observed irradiances <span id="id13">[<a class="reference internal" href="references.html#id96" title="Liam Robinson and Carolin Frueh. Light curve inversion for reliable shape reconstruction of human-made space objects. In Proceedings of the 32nd AIAA/AAS Astrodynamics Specialist Conference, 1-19. 09 2022.">RF22</a>]</span></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -4323,7 +4403,7 @@ Must be of the form x = f(A,b).</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.spaceobject.optimize_supports_little">
 <span class="sig-prename descclassname"><span class="pre">pyspaceaware.spaceobject.</span></span><span class="sig-name descname"><span class="pre">optimize_supports_little</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">egi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.spaceobject.optimize_supports_little" title="Permalink to this definition">#</a></dt>
-<dd><p>Optimizes a support vector to construct the polytope with the given Extended Gaussian Image (EGI) <span id="id12">Little [<a class="reference internal" href="references.html#id76" title="James J. Little. An iterative method for reconstructing convex polyhedra from extended gaussian images. In Proceedings of the Third AAAI Conference on Artificial Intelligence, AAAI'83, 247-250. AAAI Press, 1983.">Lit83</a>]</span></p>
+<dd><p>Optimizes a support vector to construct the polytope with the given Extended Gaussian Image (EGI) <span id="id14">Little [<a class="reference internal" href="references.html#id77" title="James J. Little. An iterative method for reconstructing convex polyhedra from extended gaussian images. In Proceedings of the Third AAAI Conference on Artificial Intelligence, AAAI'83, 247-250. AAAI Press, 1983.">Lit83</a>]</span></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>egi</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – EGI to find supports for, convergence only possible if the sum of rows is zero. See <code class="xref py py-meth docutils literal notranslate"><span class="pre">close_egi()</span></code></p>
@@ -4506,7 +4586,7 @@ Must be of the form x = f(A,b).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyspaceaware.station.Station.sky_brightness">
-<span class="sig-name descname"><span class="pre">sky_brightness</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">look_dir_eci</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_ground_based</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">airglow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">integrated_starlight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moonlight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zodiac</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pollution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">twilight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.station.Station.sky_brightness" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">sky_brightness</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">look_dir_eci</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_ground_based</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">airglow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">integrated_starlight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moonlight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zodiac</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pollution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">twilight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyspaceaware.station.Station.sky_brightness" title="Permalink to this definition">#</a></dt>
 <dd><p>Computes the mean background signal due to various sources [e-/pix]</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -4538,18 +4618,32 @@ Must be of the form x = f(A,b).</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyspaceaware.station.</span></span><span class="sig-name descname"><span class="pre">Telescope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">preset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspaceaware.station.Telescope" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="pyspaceaware.station.Telescope.get_airy_disk_pixels">
-<span class="sig-name descname"><span class="pre">get_airy_disk_pixels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s_obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#pyspaceaware.station.Telescope.get_airy_disk_pixels" title="Permalink to this definition">#</a></dt>
-<dd><p>Approximates the number of pixels contained in an object’s unresolved Airy disk</p>
+<dt class="sig sig-object py" id="pyspaceaware.station.Telescope.get_airy_disk_amplitude">
+<span class="sig-name descname"><span class="pre">get_airy_disk_amplitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s_obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#pyspaceaware.station.Telescope.get_airy_disk_amplitude" title="Permalink to this definition">#</a></dt>
+<dd><p>Gets the signal amplitude of an object’s unresolved object signal as a 2D Gaussian</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>s_obj</strong> (<em>float</em>) – Total signal of the object on the CCD [e-]</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Pixel area covered by the Airy disk [pix]</p>
+<dd class="field-even"><p>Amplitude of the Gaussian [e-]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyspaceaware.station.Telescope.get_airy_disk_pixels">
+<span class="sig-name descname"><span class="pre">get_airy_disk_pixels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lambdas</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5.5e-07</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#pyspaceaware.station.Telescope.get_airy_disk_pixels" title="Permalink to this definition">#</a></dt>
+<dd><p>Approximates the number of pixels contained in an object’s unresolved Airy disk</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Pixel area covered by the Airy disk [pix]</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4684,7 +4778,7 @@ Must be of the form x = f(A,b).</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.time.date_to_julian_centuries">
 <span class="sig-prename descclassname"><span class="pre">pyspaceaware.time.</span></span><span class="sig-name descname"><span class="pre">date_to_julian_centuries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tt'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#pyspaceaware.time.date_to_julian_centuries" title="Permalink to this definition">#</a></dt>
-<dd><p>Julian centuries past the J2000 epoch as used in <span id="id13">[<a class="reference internal" href="references.html#id113" title="Carolin Frueh. Space Traffic Management. Purdue University, 2021.">Fru21</a>]</span></p>
+<dd><p>Julian centuries past the J2000 epoch as used in <span id="id15">[<a class="reference internal" href="references.html#id114" title="Carolin Frueh. Space Traffic Management. Purdue University, 2021.">Fru21</a>]</span></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -5084,12 +5178,14 @@ Must be of the form x = f(A,b).</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyspaceaware.tle.get_latest_catalog_at_date">
-<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tle.</span></span><span class="sig-name descname"><span class="pre">get_latest_catalog_at_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtime</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.datetime(2023,</span> <span class="pre">8,</span> <span class="pre">26,</span> <span class="pre">3,</span> <span class="pre">54,</span> <span class="pre">18,</span> <span class="pre">365838,</span> <span class="pre">tzinfo=datetime.timezone.utc)</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">query_kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyspaceaware.tle.get_latest_catalog_at_date" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyspaceaware.tle.</span></span><span class="sig-name descname"><span class="pre">get_latest_catalog_at_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtime</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.datetime(2023,</span> <span class="pre">9,</span> <span class="pre">20,</span> <span class="pre">15,</span> <span class="pre">33,</span> <span class="pre">5,</span> <span class="pre">545167,</span> <span class="pre">tzinfo=datetime.timezone.utc)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days_back</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.timedelta(days=5)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tle_latest'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">query_kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyspaceaware.tle.get_latest_catalog_at_date" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets the first TLE produced for a given NORAD SAT ID after the datetime provided</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dtime</strong> (<em>datetime.datetime</em><em>, </em><em>optional</em>) – Datetime to query at, assumed to be UTC, defaults to now</p></li>
+<li><p><strong>days_back</strong> (<em>datetime.datetime</em><em>, </em><em>optional</em>) – Number of previous days to collect TLEs for, defaults to 5 days</p></li>
+<li><p><strong>mode</strong> (<em>str</em><em>, </em><em>optional</em>) – Mode to use for querying, defaults to “tle_latest”</p></li>
 <li><p><strong>query_kwargs</strong> (<em>dict</em>) – Extra keyword arguments passed to <code class="docutils literal notranslate"><span class="pre">st.tle_latest</span></code></p></li>
 </ul>
 </dd>
@@ -5274,9 +5370,10 @@ Must be of the form x = f(A,b).</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.background.moonlight_signal"><code class="docutils literal notranslate"><span class="pre">moonlight_signal()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.background.proof_zero_mag_stellar_spectrum"><code class="docutils literal notranslate"><span class="pre">proof_zero_mag_stellar_spectrum()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.background.quantum_efficiency"><code class="docutils literal notranslate"><span class="pre">quantum_efficiency()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.background.raw_signal"><code class="docutils literal notranslate"><span class="pre">raw_signal()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.background.sun_spectrum"><code class="docutils literal notranslate"><span class="pre">sun_spectrum()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.background.twilight_signal"><code class="docutils literal notranslate"><span class="pre">twilight_signal()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.background.twilight_zenith_sqm"><code class="docutils literal notranslate"><span class="pre">twilight_zenith_sqm()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.background.twilight_zenith_mpsas"><code class="docutils literal notranslate"><span class="pre">twilight_zenith_mpsas()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.background.zodiacal_signal"><code class="docutils literal notranslate"><span class="pre">zodiacal_signal()</span></code></a></li>
 </ul>
 </li>
@@ -5306,6 +5403,7 @@ Must be of the form x = f(A,b).</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.constants.AstroConstants.rev_to_arsecond"><code class="docutils literal notranslate"><span class="pre">AstroConstants.rev_to_arsecond</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.constants.AstroConstants.speed_of_light_vacuum"><code class="docutils literal notranslate"><span class="pre">AstroConstants.speed_of_light_vacuum</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.constants.AstroConstants.steradian_to_arcsecond2"><code class="docutils literal notranslate"><span class="pre">AstroConstants.steradian_to_arcsecond2</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.constants.AstroConstants.sun_irradiance"><code class="docutils literal notranslate"><span class="pre">AstroConstants.sun_irradiance</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.constants.AstroConstants.sun_irradiance_vacuum"><code class="docutils literal notranslate"><span class="pre">AstroConstants.sun_irradiance_vacuum</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.constants.AstroConstants.sun_magnitude"><code class="docutils literal notranslate"><span class="pre">AstroConstants.sun_magnitude</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.constants.AstroConstants.sun_mu"><code class="docutils literal notranslate"><span class="pre">AstroConstants.sun_mu</span></code></a></li>
@@ -5434,10 +5532,13 @@ Must be of the form x = f(A,b).</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.lighting.candela_to_watt_per_sr"><code class="docutils literal notranslate"><span class="pre">candela_to_watt_per_sr()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.lighting.irradiance_to_apparent_magnitude"><code class="docutils literal notranslate"><span class="pre">irradiance_to_apparent_magnitude()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.lighting.irradiance_to_s10"><code class="docutils literal notranslate"><span class="pre">irradiance_to_s10()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.lighting.mcd_m2_to_watt_m2sr"><code class="docutils literal notranslate"><span class="pre">mcd_m2_to_watt_m2sr()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.lighting.mcd_per_m2_to_mpsas"><code class="docutils literal notranslate"><span class="pre">mcd_per_m2_to_mpsas()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.lighting.mpsas_to_irradiance_per_steradian"><code class="docutils literal notranslate"><span class="pre">mpsas_to_irradiance_per_steradian()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.lighting.mpsas_to_mcd_per_m2"><code class="docutils literal notranslate"><span class="pre">mpsas_to_mcd_per_m2()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.lighting.normalized_light_curve_sphere"><code class="docutils literal notranslate"><span class="pre">normalized_light_curve_sphere()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.lighting.query_brdf_shader_ind"><code class="docutils literal notranslate"><span class="pre">query_brdf_shader_ind()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.lighting.s10_to_irradiance"><code class="docutils literal notranslate"><span class="pre">s10_to_irradiance()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.lighting.sqm_to_irradiance_per_steradian"><code class="docutils literal notranslate"><span class="pre">sqm_to_irradiance_per_steradian()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.lighting.watt_per_sr_to_candela"><code class="docutils literal notranslate"><span class="pre">watt_per_sr_to_candela()</span></code></a></li>
 </ul>
 </li>
@@ -5487,6 +5588,10 @@ Must be of the form x = f(A,b).</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.modelio.online_models"><code class="docutils literal notranslate"><span class="pre">online_models()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pyspaceaware.observer">pyspaceaware.observer module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.observer.relative_airmass"><code class="docutils literal notranslate"><span class="pre">relative_airmass()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pyspaceaware.orbit">pyspaceaware.orbit module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.orbit.coe_to_rv"><code class="docutils literal notranslate"><span class="pre">coe_to_rv()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.orbit.integrate_orbit_and_attitude"><code class="docutils literal notranslate"><span class="pre">integrate_orbit_and_attitude()</span></code></a></li>
@@ -5509,7 +5614,6 @@ Must be of the form x = f(A,b).</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.sampling.closest_fibonacci_index"><code class="docutils literal notranslate"><span class="pre">closest_fibonacci_index()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.sampling.fibonacci_sample_sphere"><code class="docutils literal notranslate"><span class="pre">fibonacci_sample_sphere()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.sampling.rand_cone_vectors"><code class="docutils literal notranslate"><span class="pre">rand_cone_vectors()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.sampling.rand_cone_vectors_rejection"><code class="docutils literal notranslate"><span class="pre">rand_cone_vectors_rejection()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.sampling.rand_point_in_ball"><code class="docutils literal notranslate"><span class="pre">rand_point_in_ball()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.sampling.rand_points_in_shell"><code class="docutils literal notranslate"><span class="pre">rand_points_in_shell()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.sampling.rand_unit_vectors"><code class="docutils literal notranslate"><span class="pre">rand_unit_vectors()</span></code></a></li>
@@ -5563,6 +5667,7 @@ Must be of the form x = f(A,b).</p>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.station.Telescope"><code class="docutils literal notranslate"><span class="pre">Telescope</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.station.Telescope.get_airy_disk_amplitude"><code class="docutils literal notranslate"><span class="pre">Telescope.get_airy_disk_amplitude()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyspaceaware.station.Telescope.get_airy_disk_pixels"><code class="docutils literal notranslate"><span class="pre">Telescope.get_airy_disk_pixels()</span></code></a></li>
 </ul>
 </li>

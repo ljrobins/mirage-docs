@@ -23,7 +23,7 @@ Space Weather
 
 Plotting the :math:`K_p`, :math:`A_p`, and F10.7 space weather indices
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-17
+.. GENERATED FROM PYTHON SOURCE LINES 7-18
 
 .. code-block:: default
 
@@ -35,7 +35,8 @@ Plotting the :math:`K_p`, :math:`A_p`, and F10.7 space weather indices
     import matplotlib.pyplot as plt
     import pandas as pd
 
-    import pyspaceaware as ps
+    import mirage as mr
+    import mirage.vis as mrv
 
 
 
@@ -44,11 +45,11 @@ Plotting the :math:`K_p`, :math:`A_p`, and F10.7 space weather indices
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-19
+.. GENERATED FROM PYTHON SOURCE LINES 19-20
 
 Loading the space weather file and extracting the dates and indices
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-27
+.. GENERATED FROM PYTHON SOURCE LINES 20-28
 
 .. code-block:: default
 
@@ -67,17 +68,17 @@ Loading the space weather file and extracting the dates and indices
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 28-29
+.. GENERATED FROM PYTHON SOURCE LINES 29-30
 
 Plotting F10.7 radio flux
 
-.. GENERATED FROM PYTHON SOURCE LINES 29-34
+.. GENERATED FROM PYTHON SOURCE LINES 30-35
 
 .. code-block:: default
 
     plt.scatter(dates, f107_1au, s=1)
     plt.scatter(dates, f107_obs, s=1)
-    ps.texit("F10.7 Radio Flux", "Date", "F10.7", ["1 AU", "Observed"])
+    mrv.texit("F10.7 Radio Flux", "Date", "F10.7", ["1 AU", "Observed"])
     plt.show()
 
 
@@ -92,16 +93,16 @@ Plotting F10.7 radio flux
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-36
+.. GENERATED FROM PYTHON SOURCE LINES 36-37
 
 Plotting the geomagnetic index :math:`K_p`
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-40
+.. GENERATED FROM PYTHON SOURCE LINES 37-41
 
 .. code-block:: default
 
     plt.scatter(dates, ap, s=1)
-    ps.texit("Equivalent Amplitude $A_p$", "Date", "$A_p$")
+    mrv.texit("Equivalent Amplitude $A_p$", "Date", "$A_p$")
     plt.show()
 
 
@@ -116,16 +117,16 @@ Plotting the geomagnetic index :math:`K_p`
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-42
+.. GENERATED FROM PYTHON SOURCE LINES 42-43
 
 Plotting the geomagnetic index :math:`K_p`
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-46
+.. GENERATED FROM PYTHON SOURCE LINES 43-47
 
 .. code-block:: default
 
     plt.scatter(dates, kp, s=1)
-    ps.texit("Range Index $K_p$", "Date", "$K_p$")
+    mrv.texit("Range Index $K_p$", "Date", "$K_p$")
     plt.show()
 
 
@@ -140,14 +141,14 @@ Plotting the geomagnetic index :math:`K_p`
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-48
+.. GENERATED FROM PYTHON SOURCE LINES 48-49
 
 Reference for the CSV format found `at CelesTrak <https://celestrak.org/SpaceData/SpaceWx-format.php>`_
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.376 seconds)
+   **Total running time of the script:** ( 0 minutes  1.083 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_space_weather.py:

@@ -12,7 +12,8 @@ import os
 import matplotlib.pyplot as plt
 import pandas as pd
 
-import pyspaceaware as ps
+import mirage as mr
+import mirage.vis as mrv
 
 # %%
 # Loading the space weather file and extracting the dates and indices
@@ -28,19 +29,19 @@ kp = sw_df["KP_SUM"]
 # Plotting F10.7 radio flux
 plt.scatter(dates, f107_1au, s=1)
 plt.scatter(dates, f107_obs, s=1)
-ps.texit("F10.7 Radio Flux", "Date", "F10.7", ["1 AU", "Observed"])
+mrv.texit("F10.7 Radio Flux", "Date", "F10.7", ["1 AU", "Observed"])
 plt.show()
 
 # %%
 # Plotting the geomagnetic index :math:`K_p`
 plt.scatter(dates, ap, s=1)
-ps.texit("Equivalent Amplitude $A_p$", "Date", "$A_p$")
+mrv.texit("Equivalent Amplitude $A_p$", "Date", "$A_p$")
 plt.show()
 
 # %%
 # Plotting the geomagnetic index :math:`K_p`
 plt.scatter(dates, kp, s=1)
-ps.texit("Range Index $K_p$", "Date", "$K_p$")
+mrv.texit("Range Index $K_p$", "Date", "$K_p$")
 plt.show()
 
 # %%

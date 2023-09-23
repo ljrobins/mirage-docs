@@ -23,7 +23,7 @@ Global Elevation
 
 Plots global elevations
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-15
+.. GENERATED FROM PYTHON SOURCE LINES 7-16
 
 .. code-block:: default
 
@@ -33,7 +33,8 @@ Plots global elevations
 
     import rasterio
 
-    import pyspaceaware as ps
+    import mirage as mr
+    import mirage.vis as mrv
 
 
 
@@ -42,20 +43,20 @@ Plots global elevations
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-17
+.. GENERATED FROM PYTHON SOURCE LINES 17-18
 
 Let's open the GeoTIFF file for the geoid heights
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-24
+.. GENERATED FROM PYTHON SOURCE LINES 18-25
 
 .. code-block:: default
 
     with rasterio.open(
         os.path.join(os.environ["DATADIR"], "us_nga_egm96_15.tif"), "r"
     ) as f:
-        ps.tic()
+        mr.tic()
         x = f.read().squeeze()  # Geoid heights in [m]
-        ps.toc()
+        mr.toc()
 
 
 
@@ -65,21 +66,21 @@ Let's open the GeoTIFF file for the geoid heights
 
  .. code-block:: none
 
-    Elapsed time: 4.08e-02 seconds
+    Elapsed time: 4.23e-02 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-26
+.. GENERATED FROM PYTHON SOURCE LINES 26-27
 
 And plot with a map of the Earth below
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-36
+.. GENERATED FROM PYTHON SOURCE LINES 27-37
 
 .. code-block:: default
 
 
-    ps.plot_map_with_grid(
+    mrv.plot_map_with_grid(
         x,
         "EGM96 Geoid Undulations",
         "Height above WGS84 ellipsoid [m]",
@@ -100,12 +101,12 @@ And plot with a map of the Earth below
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-39
+.. GENERATED FROM PYTHON SOURCE LINES 38-40
 
 Repeated with PyGMT
 ===================
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-42
+.. GENERATED FROM PYTHON SOURCE LINES 40-43
 
 .. code-block:: default
 
@@ -119,11 +120,11 @@ Repeated with PyGMT
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-44
+.. GENERATED FROM PYTHON SOURCE LINES 44-45
 
 Plotting terrain elevation above the EGM96 geoid
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-68
+.. GENERATED FROM PYTHON SOURCE LINES 45-69
 
 .. code-block:: default
 
@@ -163,11 +164,11 @@ Plotting terrain elevation above the EGM96 geoid
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 69-70
+.. GENERATED FROM PYTHON SOURCE LINES 70-71
 
 Plotting terrain elevation above the EGM96 geoid
 
-.. GENERATED FROM PYTHON SOURCE LINES 70-92
+.. GENERATED FROM PYTHON SOURCE LINES 71-91
 
 .. code-block:: default
 
@@ -189,8 +190,6 @@ Plotting terrain elevation above the EGM96 geoid
     )
 
     fig.coast(land="white", transparency=30)
-
-
     fig.colorbar(frame=["x+lEGM96 Geoid elevation to WGS84 ellipsoid [m]"])
     fig.show()
 
@@ -208,7 +207,7 @@ Plotting terrain elevation above the EGM96 geoid
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  15.289 seconds)
+   **Total running time of the script:** ( 0 minutes  12.339 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_geoid_heights.py:

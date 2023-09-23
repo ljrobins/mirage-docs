@@ -10,21 +10,22 @@ import os
 
 import rasterio
 
-import pyspaceaware as ps
+import mirage as mr
+import mirage.vis as mrv
 
 # %%
 # Let's open the GeoTIFF file for the geoid heights
 with rasterio.open(
     os.path.join(os.environ["DATADIR"], "us_nga_egm96_15.tif"), "r"
 ) as f:
-    ps.tic()
+    mr.tic()
     x = f.read().squeeze()  # Geoid heights in [m]
-    ps.toc()
+    mr.toc()
 
 # %%
 # And plot with a map of the Earth below
 
-ps.plot_map_with_grid(
+mrv.plot_map_with_grid(
     x,
     "EGM96 Geoid Undulations",
     "Height above WGS84 ellipsoid [m]",
@@ -85,7 +86,5 @@ fig.grdcontour(
 )
 
 fig.coast(land="white", transparency=30)
-
-
 fig.colorbar(frame=["x+lEGM96 Geoid elevation to WGS84 ellipsoid [m]"])
 fig.show()

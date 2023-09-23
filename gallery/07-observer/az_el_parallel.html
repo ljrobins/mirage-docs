@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Azimuth/Elevation Conversion &#8212; pyspaceaware  documentation</title>
+    <title>Azimuth/Elevation Conversion &#8212; MIRAGE  documentation</title>
   
   
   
@@ -34,6 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
@@ -49,7 +50,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Horizon Masks" href="horizon_mask.html" />
-    <link rel="prev" title="Observer" href="index.html" />
+    <link rel="prev" title="CCD Rendering" href="render_ccd.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -119,7 +120,7 @@
     <script>document.write(`<img src="../../_static/sid_logo_dark.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
-    <p class="title logo__title">pyspaceaware</p>
+    <p class="title logo__title">MIRAGE</p>
   
 </a></div>
     
@@ -148,7 +149,7 @@
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="../../modules.html">
-                        pyspaceaware
+                        mirage
                       </a>
                     </li>
                 
@@ -248,7 +249,7 @@ document.write(`
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="../../modules.html">
-                        pyspaceaware
+                        mirage
                       </a>
                     </li>
                 
@@ -323,14 +324,17 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../04-environment/index.html">Environment</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/luminous_efficiency.html">Luminous Efficiency Function</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/twilight_model.html">Twilight Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/vr_factor.html">Airmass Function Comparison</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometric Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/star_aberration.html">Star Aberration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_zenith.html">Background Signals at Zenith</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/total_solar_irradiance.html">Total Solar Irradiance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/geoid_heights.html">Global Elevation</a></li>
 
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometrical Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
@@ -345,11 +349,17 @@ document.write(`
 <li class="toctree-l1 has-children"><a class="reference internal" href="../06-attitude/index.html">Rigid Body Attitudes</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/light_curve_iso_surfaces.html">Brightness Isosurfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/torque_free_axisymmetric.html">Torque-free Attitude Propagation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Observer</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="weather_data.html">Local Weather Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conic_sensor.html">Conic Sensors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synthetic_rpo_images.html">Synthetic RPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atmos_refraction.html">Atmospheric Refraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="render_ccd.html">CCD Rendering</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Azimuth/Elevation Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="horizon_mask.html">Horizon Masks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pogs_local_terrain.html">POGS Local Terrain</a></li>
@@ -359,6 +369,13 @@ document.write(`
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../08-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/nnls_vs_fnnls.html">FNNLS vs NNLS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/samplers.html">Samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/egi_figs_aas22.html">EGI Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/model_editor.html">Model Editor</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../09-models/index.html">3D Models</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/satellite_lineup.html">Satellite Lineup</a></li>
 </ul>
 </li>
 </ul>
@@ -432,14 +449,14 @@ to download the full example code</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
 
-<span class="kn">import</span> <span class="nn">pyspaceaware</span> <span class="k">as</span> <span class="nn">ps</span>
-<span class="kn">import</span> <span class="nn">pyspaceaware.vis</span> <span class="k">as</span> <span class="nn">psv</span>
+<span class="kn">import</span> <span class="nn">mirage</span> <span class="k">as</span> <span class="nn">mr</span>
+<span class="kn">import</span> <span class="nn">mirage.vis</span> <span class="k">as</span> <span class="nn">mrv</span>
 </pre></div>
 </div>
 <p>Let’s use the Purdue Optical Ground Station for this example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">station</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">Station</span><span class="p">(</span><span class="n">preset</span><span class="o">=</span><span class="s2">&quot;pogs&quot;</span><span class="p">)</span>
-<span class="n">dt0</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">utc</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span>
-<span class="n">dates</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">date_linspace</span><span class="p">(</span><span class="n">dt0</span><span class="p">,</span> <span class="n">dt0</span> <span class="o">+</span> <span class="n">ps</span><span class="o">.</span><span class="n">days</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e4</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">station</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">Station</span><span class="p">(</span><span class="n">preset</span><span class="o">=</span><span class="s2">&quot;pogs&quot;</span><span class="p">)</span>
+<span class="n">dt0</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">utc</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span>
+<span class="n">dates</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">date_linspace</span><span class="p">(</span><span class="n">dt0</span><span class="p">,</span> <span class="n">dt0</span> <span class="o">+</span> <span class="n">mr</span><span class="o">.</span><span class="n">days</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e4</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Let’s extract the station’s position in J2000 and create an ECI look direction which is just outwards and down towards the equator</p>
@@ -448,7 +465,7 @@ to download the full example code</p>
 <span class="n">eci_pos</span> <span class="o">=</span> <span class="n">station_j2k</span> <span class="o">*</span> <span class="mi">2</span>
 <span class="n">eci_pos</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
 
-<span class="n">target_dir_eci</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">eci_pos</span> <span class="o">-</span> <span class="n">station_j2k</span><span class="p">)</span>
+<span class="n">target_dir_eci</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">eci_pos</span> <span class="o">-</span> <span class="n">station_j2k</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>We can then turn this target direction into an azimuth/elevation pair</p>
@@ -457,8 +474,8 @@ to download the full example code</p>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">el</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">=}</span><span class="s2"> [rad]&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>az[0]=3.140056276172546 [rad]
-el[0]=0.4247246867340699 [rad]
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>az[0]=3.1400562759798842 [rad]
+el[0]=0.42472468688584325 [rad]
 </pre></div>
 </div>
 <p>And easily invert that into the same unit vector direction</p>
@@ -468,20 +485,20 @@ el[0]=0.4247246867340699 [rad]
 <span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>ECI vector reconstruction error: 2.2887833992611187e-16
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>ECI vector reconstruction error: 2.9893669801409083e-16
 </pre></div>
 </div>
 <p>We can also display this resulting unit vector as a ray cast out from the observer, hitting the target</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
 <span class="n">stat_origin0</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">j2000_at_dates</span><span class="p">(</span><span class="n">dates</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">psv</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">dates</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">high_def</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">atmosphere</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">borders</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">rotm</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">EarthFixedFrame</span><span class="p">(</span><span class="s2">&quot;itrf&quot;</span><span class="p">,</span> <span class="s2">&quot;j2000&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rotms_at_dates</span><span class="p">(</span><span class="n">dates</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">@</span> <span class="n">ps</span><span class="o">.</span><span class="n">enu_to_ecef</span><span class="p">(</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">dates</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">high_def</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">atmosphere</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">borders</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">rotm</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">EarthFixedFrame</span><span class="p">(</span><span class="s2">&quot;itrf&quot;</span><span class="p">,</span> <span class="s2">&quot;j2000&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rotms_at_dates</span><span class="p">(</span><span class="n">dates</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">@</span> <span class="n">mr</span><span class="o">.</span><span class="n">enu_to_ecef</span><span class="p">(</span>
     <span class="n">station</span><span class="o">.</span><span class="n">itrf</span>
 <span class="p">)</span>
-<span class="n">psv</span><span class="o">.</span><span class="n">plot_basis</span><span class="p">(</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">plot_basis</span><span class="p">(</span>
     <span class="n">pl</span><span class="p">,</span> <span class="n">rotm</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;U&quot;</span><span class="p">],</span> <span class="n">origin</span><span class="o">=</span><span class="n">stat_origin0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;linen&quot;</span>
 <span class="p">)</span>
-<span class="n">psv</span><span class="o">.</span><span class="n">plot_arrow</span><span class="p">(</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">plot_arrow</span><span class="p">(</span>
     <span class="n">pl</span><span class="p">,</span>
     <span class="n">origin</span><span class="o">=</span><span class="n">stat_origin0</span><span class="p">,</span>
     <span class="n">direction</span><span class="o">=</span><span class="n">eci_hat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span>
@@ -495,10 +512,10 @@ el[0]=0.4247246867340699 [rad]
 <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_az_el_parallel_001.png" srcset="../../_images/sphx_glr_az_el_parallel_001.png" alt="az el parallel" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>(-4364.852216825924, -3100.573054956336, 3454.7322732066377)
+<img src="../../_images/sphx_glr_az_el_parallel_001.png" srcset="../../_images/sphx_glr_az_el_parallel_001.png" alt="az el parallel" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>(-4364.852216717024, -3100.5730555623486, 3454.732272800339)
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  12.028 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  9.808 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-07-observer-az-el-parallel-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/97cb5735b152ba0578cc9a9ebba42c77/az_el_parallel.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">az_el_parallel.py</span></code></a></p>
@@ -522,12 +539,12 @@ el[0]=0.4247246867340699 [rad]
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="index.html"
+       href="render_ccd.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Observer</p>
+        <p class="prev-next-title">CCD Rendering</p>
       </div>
     </a>
     <a class="right-next"

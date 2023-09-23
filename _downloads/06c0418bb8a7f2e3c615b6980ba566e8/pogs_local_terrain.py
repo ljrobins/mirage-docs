@@ -6,10 +6,10 @@ Plots a map of the local terrain around the Purdue Optical Ground Station
 
 import pygmt
 
-import pyspaceaware as ps
+import mirage as mr
 
 projection = "Cyl_stere/30/-20/12c"
-station = ps.Station(preset="pogs")
+station = mr.Station(preset="pogs")
 dl = 1.2
 dlbig = 10
 sm_region = [

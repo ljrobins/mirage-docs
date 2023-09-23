@@ -31,8 +31,8 @@ Various methods to switch between TLEs for more accurate long-term propagation
     import numpy as np
     import pyvista as pv
 
-    import pyspaceaware as ps
-    import pyspaceaware.vis as psv
+    import mirage as mr
+    import mirage.vis as mrv
 
 
 
@@ -49,7 +49,7 @@ Let's use the SUPERBIRD 6 satellite
 
 .. code-block:: default
 
-    satdefs = ps.load_satdef_array()
+    satdefs = mr.load_satdef_array()
     satnum = satdefs.get_satnum_by_name("SUPERBIRD 6")
 
 
@@ -63,12 +63,13 @@ Let's use the SUPERBIRD 6 satellite
 
 And propagate for the previous 30 days
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-25
+.. GENERATED FROM PYTHON SOURCE LINES 21-26
 
 .. code-block:: default
 
-    dtimes, epsec_space = ps.date_linspace(
-        ps.now() - ps.days(30), ps.now(), int(1e4), return_epsecs=True
+    base_date = mr.utc(2020, 1, 1)
+    dtimes, epsec_space = mr.date_linspace(
+        base_date - mr.days(30), base_date, int(1e4), return_epsecs=True
     )
 
 
@@ -78,24 +79,24 @@ And propagate for the previous 30 days
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-30
+.. GENERATED FROM PYTHON SOURCE LINES 27-31
 
 We can then propagate with three switching strategies:
-  - ``closest`` choses the closest TLE epoch to the current time
-  - ``newest`` choses the most previous recent TLE at each time
-  - ``interp`` choses the most recent and next TLEs and linearly interpolates between their propogated positions
+  - ``closest`` chooses the closest TLE epoch to the current time
+  - ``newest`` chooses the most previous recent TLE at each time
+  - ``interp`` chooses the most recent and next TLEs and linearly interpolates between their propogated positions
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-40
+.. GENERATED FROM PYTHON SOURCE LINES 31-41
 
 .. code-block:: default
 
-    r_closest = ps.tle_propagate_with_switching(
+    r_closest = mr.tle_propagate_with_switching(
         satnum, dtimes, switch_strategy="closest", frame="ecef"
     )
-    r_interp = ps.tle_propagate_with_switching(
+    r_interp = mr.tle_propagate_with_switching(
         satnum, dtimes, switch_strategy="interp", frame="ecef"
     )
-    r_newest = ps.tle_propagate_with_switching(
+    r_newest = mr.tle_propagate_with_switching(
         satnum, dtimes, switch_strategy="newest", frame="ecef"
     )
 
@@ -106,24 +107,24 @@ We can then propagate with three switching strategies:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-42
+.. GENERATED FROM PYTHON SOURCE LINES 42-43
 
 We can plot these trajectories to show that they result in similar trajectories
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-55
+.. GENERATED FROM PYTHON SOURCE LINES 43-56
 
 .. code-block:: default
 
     pl = pv.Plotter()
-    psv.plot_earth(pl, date=dtimes[0], mode="eci", night_lights=True, atmosphere=True)
+    mrv.plot_earth(pl, date=dtimes[0], mode="eci", night_lights=True, atmosphere=True)
     lw = 6
-    psv.plot3(pl, r_closest, color="c", lighting=False, line_width=lw)
-    # psv.plot3(pl, r_newest, color="m", lighting=False, line_width=lw)
-    # psv.plot3(pl, r_interp, color="lime", lighting=False, line_width=lw)
+    mrv.plot3(pl, r_closest, color="c", lighting=False, line_width=lw)
+    # mrv.plot3(pl, r_newest, color="m", lighting=False, line_width=lw)
+    # mrv.plot3(pl, r_interp, color="lime", lighting=False, line_width=lw)
     mid_point = r_interp[r_interp.shape[0] // 2, :]
     pl.camera.focal_point = mid_point
     pl.camera.position = (np.linalg.norm(mid_point) + 100_000) * (
-        ps.hat(mid_point) + np.array([0.0, 0.0, 0.4])
+        mr.hat(mid_point) + np.array([0.0, 0.0, 0.4])
     )
     pl.show()
 
@@ -139,19 +140,19 @@ We can plot these trajectories to show that they result in similar trajectories
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-57
+.. GENERATED FROM PYTHON SOURCE LINES 57-58
 
 We can also plot the error between these switching methods. Clearly, the interpolated switching strategy is the most accurate choice
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-67
+.. GENERATED FROM PYTHON SOURCE LINES 58-68
 
 .. code-block:: default
 
 
     import matplotlib.pyplot as plt
 
-    plt.plot(epsec_space / 86400, ps.vecnorm(r_interp - r_closest))
-    plt.plot(epsec_space / 86400, ps.vecnorm(r_newest - r_closest))
+    plt.plot(epsec_space / 86400, mr.vecnorm(r_interp - r_closest))
+    plt.plot(epsec_space / 86400, mr.vecnorm(r_newest - r_closest))
     plt.xlabel("Elapsed time [days]")
     plt.ylabel("Position error [km]")
     plt.legend(["Interp - Closest", "Newest - Closest"])
@@ -172,7 +173,7 @@ We can also plot the error between these switching methods. Clearly, the interpo
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  9.183 seconds)
+   **Total running time of the script:** ( 0 minutes  7.338 seconds)
 
 
 .. _sphx_glr_download_gallery_00-orbits_tle_switching.py:

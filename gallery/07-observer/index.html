@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Observer &#8212; pyspaceaware  documentation</title>
+    <title>Observer &#8212; MIRAGE  documentation</title>
   
   
   
@@ -34,6 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
@@ -48,7 +49,7 @@
     <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Azimuth/Elevation Conversion" href="az_el_parallel.html" />
+    <link rel="next" title="Local Weather Data" href="weather_data.html" />
     <link rel="prev" title="Torque-free Attitude Propagation" href="../06-attitude/torque_free_axisymmetric.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -119,7 +120,7 @@
     <script>document.write(`<img src="../../_static/sid_logo_dark.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
-    <p class="title logo__title">pyspaceaware</p>
+    <p class="title logo__title">MIRAGE</p>
   
 </a></div>
     
@@ -148,7 +149,7 @@
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="../../modules.html">
-                        pyspaceaware
+                        mirage
                       </a>
                     </li>
                 
@@ -248,7 +249,7 @@ document.write(`
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="../../modules.html">
-                        pyspaceaware
+                        mirage
                       </a>
                     </li>
                 
@@ -323,14 +324,17 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../04-environment/index.html">Environment</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/luminous_efficiency.html">Luminous Efficiency Function</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/twilight_model.html">Twilight Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/vr_factor.html">Airmass Function Comparison</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometric Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/star_aberration.html">Star Aberration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_zenith.html">Background Signals at Zenith</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/total_solar_irradiance.html">Total Solar Irradiance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/geoid_heights.html">Global Elevation</a></li>
 
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometrical Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
@@ -345,11 +349,17 @@ document.write(`
 <li class="toctree-l1 has-children"><a class="reference internal" href="../06-attitude/index.html">Rigid Body Attitudes</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/light_curve_iso_surfaces.html">Brightness Isosurfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/torque_free_axisymmetric.html">Torque-free Attitude Propagation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Observer</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="weather_data.html">Local Weather Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conic_sensor.html">Conic Sensors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synthetic_rpo_images.html">Synthetic RPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atmos_refraction.html">Atmospheric Refraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="render_ccd.html">CCD Rendering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="horizon_mask.html">Horizon Masks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pogs_local_terrain.html">POGS Local Terrain</a></li>
@@ -359,6 +369,13 @@ document.write(`
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../08-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/nnls_vs_fnnls.html">FNNLS vs NNLS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/samplers.html">Samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/egi_figs_aas22.html">EGI Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/model_editor.html">Model Editor</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../09-models/index.html">3D Models</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/satellite_lineup.html">Satellite Lineup</a></li>
 </ul>
 </li>
 </ul>
@@ -421,7 +438,22 @@ document.write(`
   <section id="observer">
 <span id="sphx-glr-gallery-07-observer"></span><h1>Observer<a class="headerlink" href="#observer" title="Permalink to this heading">#</a></h1>
 <p>Computing and visualizing things from the perspective of a geodetic observer</p>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Given a station and a target in inertial space we can compute the azimuth and elevation of the ..."><img alt="" src="../../_images/sphx_glr_az_el_parallel_thumb.png" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Local Weather Data"><img alt="" src="../../_images/sphx_glr_weather_data_thumb.png" />
+<p><a class="reference internal" href="weather_data.html#sphx-glr-gallery-07-observer-weather-data-py"><span class="std std-ref">Local Weather Data</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Local Weather Data</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plotting conic sensors cones in 3D space"><img alt="" src="../../_images/sphx_glr_conic_sensor_thumb.png" />
+<p><a class="reference internal" href="conic_sensor.html#sphx-glr-gallery-07-observer-conic-sensor-py"><span class="std std-ref">Conic Sensors</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Conic Sensors</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Generating and displaying synthetic images of a nearby space object"><img alt="" src="../../_images/sphx_glr_synthetic_rpo_images_thumb.png" />
+<p><a class="reference internal" href="synthetic_rpo_images.html#sphx-glr-gallery-07-observer-synthetic-rpo-images-py"><span class="std std-ref">Synthetic RPO</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Synthetic RPO</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Atmospheric Refraction"><img alt="" src="../../_images/sphx_glr_atmos_refraction_thumb.png" />
+<p><a class="reference internal" href="atmos_refraction.html#sphx-glr-gallery-07-observer-atmos-refraction-py"><span class="std std-ref">Atmospheric Refraction</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Atmospheric Refraction</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Renders a synthetic CCD image of an observation taken by the POGS telescope"><img alt="" src="../../_images/sphx_glr_render_ccd_thumb.png" />
+<p><a class="reference internal" href="render_ccd.html#sphx-glr-gallery-07-observer-render-ccd-py"><span class="std std-ref">CCD Rendering</span></a></p>
+  <div class="sphx-glr-thumbnail-title">CCD Rendering</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Given a station and a target in inertial space we can compute the azimuth and elevation of the ..."><img alt="" src="../../_images/sphx_glr_az_el_parallel_thumb.png" />
 <p><a class="reference internal" href="az_el_parallel.html#sphx-glr-gallery-07-observer-az-el-parallel-py"><span class="std std-ref">Azimuth/Elevation Conversion</span></a></p>
   <div class="sphx-glr-thumbnail-title">Azimuth/Elevation Conversion</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Builds a terrain-driven horizon mask for a given station and displays the result"><img alt="" src="../../_images/sphx_glr_horizon_mask_thumb.png" />
@@ -461,11 +493,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="az_el_parallel.html"
+       href="weather_data.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Azimuth/Elevation Conversion</p>
+        <p class="prev-next-title">Local Weather Data</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

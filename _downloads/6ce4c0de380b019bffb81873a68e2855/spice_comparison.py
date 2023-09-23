@@ -8,22 +8,22 @@ Computes the difference between the Vallado approximations of the Moon ephemerid
 
 # %%
 # Let's set up the dates we want to evaluate at, here choosing the next year
-import pyspaceaware as ps
-import pyspaceaware.vis as psv
+import mirage as mr
+import mirage.vis as mrv
 
-dates = ps.date_linspace(ps.now(), ps.now() + ps.days(365), int(1e3))
+dates = mr.date_linspace(mr.now(), mr.now() + mr.days(365), int(1e3))
 
 # %%
 # Compute the position of the Moon relative to the Earth using SPICE
-ps.tic()
-spice_moon_state_eci = ps.moon(dates, "spice")
-ps.toc()
+mr.tic()
+spice_moon_state_eci = mr.moon(dates, "spice")
+mr.toc()
 
 # %%
 # And using Vallado's approximation
-ps.tic()
-ps_moon_state_eci = ps.moon(dates, "vallado")
-ps.toc()
+mr.tic()
+ps_moon_state_eci = mr.moon(dates, "vallado")
+mr.toc()
 
 # %%
 # And plot the results
@@ -31,17 +31,17 @@ import pyvista as pv
 
 pl = pv.Plotter()
 pl.set_background("k")
-psv.plot3(
+mrv.plot3(
     pl,
     spice_moon_state_eci - ps_moon_state_eci,
-    scalars=ps.vecnorm(spice_moon_state_eci - ps_moon_state_eci).flatten(),
+    scalars=mr.vecnorm(spice_moon_state_eci - ps_moon_state_eci).flatten(),
     cmap="isolum",
     lighting=False,
     line_width=3,
 )
 pl.view_isometric()
 
-# ps.plot_moon(
+# mr.plot_moon(
 #     pl, date=dates[0], mode="mci"
 # )  # Display the Moon centered in inertial coordinates
 pl.show()
@@ -52,18 +52,18 @@ pl.show()
 
 import matplotlib.pyplot as plt
 
-date = ps.utc(2022, 11, 8)
-dates, epsecs = ps.date_arange(
-    date, date + ps.days(1), ps.seconds(10), return_epsecs=True
+date = mr.utc(2022, 11, 8)
+dates, epsecs = mr.date_arange(
+    date, date + mr.days(1), mr.seconds(10), return_epsecs=True
 )
 
 # %%
 # Computing the Moon position with each method:
-moon_pos_spice = ps.moon(dates)
-irrad_frac_spice = ps.sun_irradiance_fraction(dates, moon_pos_spice)
+moon_pos_spice = mr.moon(dates)
+irrad_frac_spice = mr.sun_irradiance_fraction(dates, moon_pos_spice)
 
-moon_pos_vallado = ps.moon(dates, method="vallado")
-irrad_frac_vallado = ps.sun_irradiance_fraction(dates, moon_pos_vallado)
+moon_pos_vallado = mr.moon(dates, method="vallado")
+irrad_frac_vallado = mr.sun_irradiance_fraction(dates, moon_pos_vallado)
 
 # %%
 # And plotting the eclipses:

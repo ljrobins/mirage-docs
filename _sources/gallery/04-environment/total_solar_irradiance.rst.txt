@@ -34,7 +34,7 @@ Modeling the variations in solar energy output at 1 AU. This example explains th
     import numpy as np
     from terrainman import TsiDataHandler
 
-    import pyspaceaware as ps
+    import mirage as mr
 
 
 
@@ -53,7 +53,7 @@ Let's plot the variation in the total solar irradiance from the beginning of the
 
 
     date = datetime.datetime(2000, 1, 1, 12, 0, 0, tzinfo=datetime.timezone.utc)
-    dates = ps.date_linspace(date, ps.now(), 10_000)
+    dates = mr.date_linspace(date, mr.now(), 10_000)
 
 
 
@@ -71,9 +71,9 @@ The ``terrainman.TsiDataHandler`` class deals with downloading the relevant netC
 .. code-block:: default
 
     tsi_dh = TsiDataHandler()
-    ps.tic()
+    mr.tic()
     sc_at_one_au = tsi_dh.eval(dates)
-    ps.toc()
+    mr.toc()
 
 
 
@@ -83,7 +83,7 @@ The ``terrainman.TsiDataHandler`` class deals with downloading the relevant netC
 
  .. code-block:: none
 
-    Elapsed time: 1.24e-01 seconds
+    Elapsed time: 9.59e-02 seconds
 
 
 
@@ -124,9 +124,9 @@ This isn't the end of the story, as the distance to the Sun changes over the cou
 .. code-block:: default
 
 
-    earth_to_sun = ps.sun(dates)
-    earth_to_sun_dist_km = ps.vecnorm(earth_to_sun).flatten()
-    earth_to_sun_dist_au = earth_to_sun_dist_km / ps.AstroConstants.au_to_km
+    earth_to_sun = mr.sun(dates)
+    earth_to_sun_dist_km = mr.vecnorm(earth_to_sun).flatten()
+    earth_to_sun_dist_au = earth_to_sun_dist_km / mr.AstroConstants.au_to_km
 
     plt.plot(dates, earth_to_sun_dist_au)
     plt.title("Distance from Earth to Sun")
@@ -189,7 +189,7 @@ We can prove that this function produces identical outputs to the implementation
 .. code-block:: default
 
 
-    tsi = ps.total_solar_irradiance_at_dates(dates)
+    tsi = mr.total_solar_irradiance_at_dates(dates)
     print(f"Implemented function max error: {np.max(np.abs(tsi - sc_at_earth_radius))}")
 
 
@@ -207,7 +207,7 @@ We can prove that this function produces identical outputs to the implementation
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.397 seconds)
+   **Total running time of the script:** ( 0 minutes  1.715 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_total_solar_irradiance.py:

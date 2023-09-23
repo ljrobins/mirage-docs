@@ -5,24 +5,25 @@ Live Satellites From Observer
 Plots satellites that would be visible from a station's telescope in real time
 """
 
-import vtk
-import pyvista as pv
-import pyspaceaware as ps
-import pyspaceaware.vis as psv
 import numpy as np
+import pyvista as pv
+import vtk
+
+import mirage as mr
+import mirage.vis as mrv
 
 # %%
 # Since I'm currently stuck in the Philadelphia airport, let's plot things from the perspective of there
-obs_lat, obs_lon = ps.lat_lon_of_address("Philadelphia, PA")
-station = ps.Station(lat_deg=obs_lat, lon_deg=obs_lon)
+obs_lat, obs_lon = mr.lat_lon_of_address("Philadelphia, PA")
+station = mr.Station(lat_deg=obs_lat, lon_deg=obs_lon)
 
 # %%
 # Let's impose a signal to noise ratio constraint, require satellites to be above the horizon, be illuminated, and have a visual magnitude brighter than 12
 station.constraints = [
-    ps.SnrConstraint(5),
-    ps.ElevationConstraint(0),
-    ps.TargetIlluminatedConstraint(),
-    ps.VisualMagnitudeConstraint(12),
+    mr.SnrConstraint(5),
+    mr.ElevationConstraint(0),
+    mr.TargetIlluminatedConstraint(),
+    mr.VisualMagnitudeConstraint(12),
 ]
 
 # %%
@@ -44,8 +45,8 @@ pl.add_point_labels(
 )
 
 # Plotting the Azimuth/Elevation sphere
-lines, labels, label_pos = psv.celestial_grid(10, 10, return_labels=True)
-psv.plot3(
+lines, labels, label_pos = mrv.celestial_grid(10, 10, return_labels=True)
+mrv.plot3(
     pl,
     lines,
     lighting=False,
@@ -57,35 +58,35 @@ psv.plot3(
 
 
 def show_scene(epsec: float):
-    date = ps.today() + ps.seconds(epsec)  # Fig 5.38
-    r_eci, names = ps.propagate_catalog_to_dates(date, return_names=True)
+    date = mr.today() + mr.seconds(epsec)  # Fig 5.38
+    r_eci, names = mr.propagate_catalog_to_dates(date, return_names=True)
     station_eci = station.j2000_at_dates(date)
     look_vec_eci = r_eci - station_eci
-    look_dir_eci = ps.hat(look_vec_eci)
+    look_dir_eci = mr.hat(look_vec_eci)
     r_enu = (station.eci_to_enu(date) @ look_dir_eci.T).T
 
-    r_moon_eci = ps.moon(date)
+    r_moon_eci = mr.moon(date)
     r_station_to_moon_eci = r_moon_eci - station_eci
-    r_moon_enu = (station.eci_to_enu(date) @ ps.hat(r_station_to_moon_eci).T).T
-    r_sun_eci = ps.sun(date)
+    r_moon_enu = (station.eci_to_enu(date) @ mr.hat(r_station_to_moon_eci).T).T
+    r_sun_eci = mr.sun(date)
     r_station_to_sun_eci = r_sun_eci - station_eci
-    r_sun_enu = (station.eci_to_enu(date) @ ps.hat(r_station_to_sun_eci).T).T
+    r_sun_enu = (station.eci_to_enu(date) @ mr.hat(r_station_to_sun_eci).T).T
 
     lines_eci = (station.eci_to_enu(date).T @ lines.T).T
 
-    obs_to_obj_rmag = ps.vecnorm(look_vec_eci)
+    obs_to_obj_rmag = mr.vecnorm(look_vec_eci)
     obj_to_sun_eci = r_sun_eci - r_eci
-    phase_angle_rad = ps.angle_between_vecs(obj_to_sun_eci, -look_vec_eci)
+    phase_angle_rad = mr.angle_between_vecs(obj_to_sun_eci, -look_vec_eci)
 
     lc_sphere = (
-        ps.normalized_light_curve_sphere(1, 1, phase_angle_rad)
+        mr.normalized_light_curve_sphere(1, 1, phase_angle_rad)
         / (1e3 * obs_to_obj_rmag) ** 2
     )
-    vmag_sphere = ps.irradiance_to_apparent_magnitude(lc_sphere)
+    vmag_sphere = mr.irradiance_to_apparent_magnitude(lc_sphere)
 
-    z_obs = ps.angle_between_vecs(look_dir_eci, station_eci)
+    z_obs = mr.angle_between_vecs(look_dir_eci, station_eci)
 
-    ps.tic()
+    mr.tic()
     constraint_satisfaction = station.eval_constraints(
         obs_pos_eci=station_eci,
         look_dir_eci=look_dir_eci,
@@ -94,14 +95,14 @@ def show_scene(epsec: float):
         lc=lc_sphere,
         evaluate_all=False,
     )
-    ps.toc()
+    mr.toc()
 
-    # psv.plot3(
+    # mrv.plot3(
     #     pl, lines_eci, lighting=False, color="gray", line_width=5,
     #     show_scalar_bar=False, name='eci_grid', opacity=lines_eci[:,2] > 0
     # )
 
-    psv.scatter3(
+    mrv.scatter3(
         pl,
         r_enu,
         point_size=20,

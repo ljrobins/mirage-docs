@@ -8,14 +8,14 @@ Given a station and a target in inertial space we can compute the azimuth and el
 import numpy as np
 import pyvista as pv
 
-import pyspaceaware as ps
-import pyspaceaware.vis as psv
+import mirage as mr
+import mirage.vis as mrv
 
 # %%
 # Let's use the Purdue Optical Ground Station for this example
-station = ps.Station(preset="pogs")
-dt0 = ps.utc(2023, 8, 13)
-dates = ps.date_linspace(dt0, dt0 + ps.days(1), int(1e4))
+station = mr.Station(preset="pogs")
+dt0 = mr.utc(2023, 8, 13)
+dates = mr.date_linspace(dt0, dt0 + mr.days(1), int(1e4))
 
 # %%
 # Let's extract the station's position in J2000 and create an ECI look direction which is just outwards and down towards the equator
@@ -24,7 +24,7 @@ station_j2k = station.j2000_at_dates(dates)
 eci_pos = station_j2k * 2
 eci_pos[:, -1] = 0
 
-target_dir_eci = ps.hat(eci_pos - station_j2k)
+target_dir_eci = mr.hat(eci_pos - station_j2k)
 
 
 # %%
@@ -44,14 +44,14 @@ print(
 # We can also display this resulting unit vector as a ray cast out from the observer, hitting the target
 pl = pv.Plotter()
 stat_origin0 = station.j2000_at_dates(dates[0])
-psv.plot_earth(pl, date=dates[0], high_def=True, atmosphere=False, borders=True)
-rotm = ps.EarthFixedFrame("itrf", "j2000").rotms_at_dates(dates[0]) @ ps.enu_to_ecef(
+mrv.plot_earth(pl, date=dates[0], high_def=True, atmosphere=False, borders=True)
+rotm = mr.EarthFixedFrame("itrf", "j2000").rotms_at_dates(dates[0]) @ mr.enu_to_ecef(
     station.itrf
 )
-psv.plot_basis(
+mrv.plot_basis(
     pl, rotm, labels=["E", "N", "U"], origin=stat_origin0, scale=1000, color="linen"
 )
-psv.plot_arrow(
+mrv.plot_arrow(
     pl,
     origin=stat_origin0,
     direction=eci_hat[0, :],

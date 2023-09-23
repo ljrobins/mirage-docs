@@ -10,27 +10,27 @@ import numpy as np
 import pyvista as pv
 import vtk
 
-import pyspaceaware as ps
-import pyspaceaware.vis as psv
+import mirage as mr
+import mirage.vis as mrv
 
 # %%
 # Let's set up a space of dates over a single day
 
 ntimes = 4
-date = ps.utc(2023, 12, 9, 12)
-bod = ps.beginning_of_day(date)
-dspace = ps.date_linspace(bod, bod + datetime.timedelta(days=1), ntimes)
+date = mr.utc(2023, 12, 9, 12)
+bod = mr.beginning_of_day(date)
+dspace = mr.date_linspace(bod, bod + datetime.timedelta(days=1), ntimes)
 
 # %%
-# We can use :class:`ps.EarthFixedFrame` to set up the coordinate frame transformation we are about.
-frame_conversion = ps.EarthFixedFrame("itrf", "j2000")
+# We can use :class:`mr.EarthFixedFrame` to set up the coordinate frame transformation we are about.
+frame_conversion = mr.EarthFixedFrame("itrf", "j2000")
 
 
 # %%
 # We can then plot the basis vectors at each of the selected times, labeling them in each subplot
 def plot_bases_at_date(pl: pv.Plotter, d: datetime.datetime) -> None:
     pl.add_text(d.strftime("%Y-%m-%d %H:%M:%S UTC"))
-    psv.plot_earth(
+    mrv.plot_earth(
         pl,
         mode="eci",
         date=d,
@@ -38,7 +38,7 @@ def plot_bases_at_date(pl: pv.Plotter, d: datetime.datetime) -> None:
         atmosphere=True,
         lighting=True,
     )
-    psv.plot_basis(
+    mrv.plot_basis(
         pl,
         frame_conversion.rotms_at_dates(d),
         color="r",
@@ -46,7 +46,7 @@ def plot_bases_at_date(pl: pv.Plotter, d: datetime.datetime) -> None:
         **label_kwargs
     )
 
-    psv.plot_basis(
+    mrv.plot_basis(
         pl,
         np.eye(3),
         color="g",

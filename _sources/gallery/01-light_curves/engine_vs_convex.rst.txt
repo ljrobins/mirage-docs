@@ -32,7 +32,7 @@ Comparing light curves produced by the LightCurveEngine renderer and a simplifie
     import numpy as np
     import seaborn as sns
 
-    import pyspaceaware as ps
+    import mirage as mr
 
 
 
@@ -49,8 +49,8 @@ Defining the object and BRDF
 
 .. code-block:: default
 
-    obj = ps.SpaceObject("gem.obj")
-    brdf = ps.Brdf("phong", cd=0.1, cs=0.9, n=30)
+    obj = mr.SpaceObject("gem.obj")
+    brdf = mr.Brdf("phong", cd=0.1, cs=0.9, n=30)
 
 
 
@@ -60,10 +60,15 @@ Defining the object and BRDF
 
  .. code-block:: none
 
-    Model file gem.obj not found in current model folder ('/Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/resources/models'), checking model repository...
+    Model file gem.obj not found in current model folder ('/Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models'), checking model repository...
     Attempting to download gem.obj and its associated material file from the model repository...
     Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//Irregular/gem.obj
     Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//Irregular/gem.mtl
+    Model files were downloaded successfully!
+    Attempting to download spacelib.obj and its associated material file from the model repository...
+    Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//None
+    Model file spacelib.obj not found in the repository!
+    Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//accurate_sats/spacelib.mtl
     Model files were downloaded successfully!
 
 
@@ -79,16 +84,16 @@ Defining the attitude profile
 
 
     t_eval = np.linspace(0, 10, int(1e3) + 1)
-    q, _ = ps.propagate_attitude_torque_free(
-        ps.hat(np.array([0.0, 0.0, 0.0, 1.0])),
+    q, _ = mr.propagate_attitude_torque_free(
+        mr.hat(np.array([0.0, 0.0, 0.0, 1.0])),
         np.array([1.0, 1.0, 1.0]),
         np.diag([1, 2, 3]),
         t_eval,
     )
 
-    dcm = ps.quat_to_dcm(q)
-    ovb = ps.stack_mat_mult_vec(dcm, np.array([[1, 0, 0]]))
-    svb = ps.stack_mat_mult_vec(dcm, np.array([[0, 1, 0]]))
+    dcm = mr.quat_to_dcm(q)
+    ovb = mr.stack_mat_mult_vec(dcm, np.array([[1, 0, 0]]))
+    svb = mr.stack_mat_mult_vec(dcm, np.array([[0, 1, 0]]))
 
 
 
@@ -106,7 +111,7 @@ We can now run the engine and compute a convex light curve:
 .. code-block:: default
 
 
-    b_non_convex = ps.run_light_curve_engine(
+    b_non_convex = mr.run_light_curve_engine(
         brdf, obj, svb, ovb, instance_count=9, silent=False
     )
     b_convex = obj.convex_light_curve(brdf, svb, ovb)
@@ -120,9 +125,9 @@ We can now run the engine and compute a convex light curve:
  .. code-block:: none
 
     Running Light Curve Engine: 
-    /Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/ctools/engine/LightCurveEngine-mac-arm -m /Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/resources/models/gem.obj -i 9 -c 1001 -r light_curve0.lcr -x /Users/liamrobinson/Documents/PyLightCurves/examples/01-light_curves/out  -b 1 -D 0.1 -S 0.9 -N 30 -f 1000
+    /Users/liamrobinson/Documents/PyLightCurves/mirage/ctools/engine/LightCurveEngine-mac-arm -m /Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models/gem.obj -i 9 -c 1001 -r light_curve0.lcr -x /Users/liamrobinson/Documents/PyLightCurves/examples/01-light_curves/out  -b 1 -D 0.1 -S 0.9 -N 30 -f 1000
 
-    Model path: /Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/resources/models/gem.obj
+    Model path: /Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models/gem.obj
     Pixel width: 600
     Instance count: 9
     Frame rate: 1000
@@ -171,8 +176,8 @@ We can now run the engine and compute a convex light curve:
     INFO: TEXTURE: [ID 2] Texture loaded successfully (128x128 | GRAY_ALPHA | 1 mipmaps)
     INFO: FONT: Default font loaded successfully (224 glyphs)
     Initializing objects
-    INFO: FILEIO: [/Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/resources/models/gem.obj] Text file loaded successfully
-    INFO: MODEL: [/Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/resources/models/gem.obj] OBJ data loaded successfully: 1 meshes/1 materials
+    INFO: FILEIO: [/Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models/gem.obj] Text file loaded successfully
+    INFO: MODEL: [/Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models/gem.obj] OBJ data loaded successfully: 1 meshes/1 materials
     INFO: MODEL: model has 1 material meshes
     INFO: VAO: [ID 2] Mesh uploaded successfully to VRAM (GPU)
     INFO: FILEIO: [shaders/shadow_depth.vs] Text file loaded successfully
@@ -1474,11 +1479,11 @@ This is nice and small, which we like to see. If we repeat this process for a no
 .. code-block:: default
 
 
-    obj = ps.SpaceObject("tess.obj")
-    brdf = ps.Brdf("phong", cd=0.5, cs=0.5, n=5)
+    obj = mr.SpaceObject("tess.obj")
+    brdf = mr.Brdf("phong", cd=0.5, cs=0.5, n=5)
 
-    b_non_convex = ps.run_light_curve_engine(brdf, obj, svb, ovb, instance_count=1)
-    b_non_convex_rotating = ps.run_light_curve_engine(
+    b_non_convex = mr.run_light_curve_engine(brdf, obj, svb, ovb, instance_count=1)
+    b_non_convex_rotating = mr.run_light_curve_engine(
         brdf, obj, svb, ovb, instance_count=1, rotate_panels=True
     )
     b_convex = obj.convex_light_curve(brdf, svb, ovb)
@@ -1503,24 +1508,13 @@ This is nice and small, which we like to see. If we repeat this process for a no
    :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    Model file tess.obj not found in current model folder ('/Users/liamrobinson/Documents/PyLightCurves/pyspaceaware/resources/models'), checking model repository...
-    Attempting to download tess.obj and its associated material file from the model repository...
-    Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//accurate_sats/tess.obj
-    Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//None
-    Model file tess.mtl not found in the repository!
-    Model files were downloaded successfully!
-
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  12.162 seconds)
+   **Total running time of the script:** ( 0 minutes  10.427 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_engine_vs_convex.py:

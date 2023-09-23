@@ -23,15 +23,15 @@ Polar Motion
 
 Plotting polar motion components :math:`x_p` and :math:`y_p` over the past ~3 decades
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-12
+.. GENERATED FROM PYTHON SOURCE LINES 7-13
 
 .. code-block:: default
 
 
-    import pyspaceaware as ps
     import numpy as np
     import pyvista as pv
 
+    import mirage as mr
 
 
 
@@ -39,22 +39,23 @@ Plotting polar motion components :math:`x_p` and :math:`y_p` over the past ~3 de
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 13-14
+
+.. GENERATED FROM PYTHON SOURCE LINES 14-15
 
 Let's get the DCMS correcting for only polar motion over the past 3 decades
 
-.. GENERATED FROM PYTHON SOURCE LINES 14-24
+.. GENERATED FROM PYTHON SOURCE LINES 15-25
 
 .. code-block:: default
 
-    dates, epsecs = ps.date_linspace(
-        ps.utc(1995, 1, 1), ps.utc(2023, 1, 1), 10000, return_epsecs=True
+    dates, epsecs = mr.date_linspace(
+        mr.utc(1995, 1, 1), mr.utc(2023, 1, 1), 10000, return_epsecs=True
     )
-    dt = epsecs / (ps.AstroConstants.earth_sec_in_day * 365.25)
-    dcms = ps.EarthFixedFrame("itrf", "gtod").rotms_at_dates(dates)
+    dt = epsecs / (mr.AstroConstants.earth_sec_in_day * 365.25)
+    dcms = mr.EarthFixedFrame("itrf", "gtod").rotms_at_dates(dates)
     xp, yp = (
-        ps.AstroConstants.rad_to_arcsecond * dcms[0, 2, :],
-        ps.AstroConstants.rad_to_arcsecond * dcms[2, 1, :],
+        mr.AstroConstants.rad_to_arcsecond * dcms[0, 2, :],
+        mr.AstroConstants.rad_to_arcsecond * dcms[2, 1, :],
     )
 
 
@@ -64,11 +65,11 @@ Let's get the DCMS correcting for only polar motion over the past 3 decades
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-26
+.. GENERATED FROM PYTHON SOURCE LINES 26-27
 
 We can plot things to see
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-44
+.. GENERATED FROM PYTHON SOURCE LINES 27-45
 
 .. code-block:: default
 
@@ -105,7 +106,7 @@ We can plot things to see
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.888 seconds)
+   **Total running time of the script:** ( 0 minutes  0.535 seconds)
 
 
 .. _sphx_glr_download_gallery_03-coordinate-systems_polar_motion.py:

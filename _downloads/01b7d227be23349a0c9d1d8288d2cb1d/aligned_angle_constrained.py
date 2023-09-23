@@ -13,13 +13,13 @@ import datetime
 import numpy as np
 import pyvista as pv
 
-import pyspaceaware as ps
-import pyspaceaware.vis as psv
+import mirage as mr
+import mirage.vis as mrv
 
 data_points = 100
-obj = ps.SpaceObject("tess.obj", identifier="INTELSAT 511")
-date = ps.utc(2022, 12, 9, 14)
-(date_space, epsec_space) = ps.date_linspace(
+obj = mr.SpaceObject("tess.obj", identifier="INTELSAT 511")
+date = mr.utc(2022, 12, 9, 14)
+(date_space, epsec_space) = mr.date_linspace(
     date,
     date + datetime.timedelta(hours=24),
     data_points,
@@ -27,25 +27,25 @@ date = ps.utc(2022, 12, 9, 14)
 )
 (r, v) = obj.propagate(date_space, return_velocity=True)
 
-orbit_normal = ps.hat(np.cross(r, v))
-sat_nadir = -ps.hat(r)
+orbit_normal = mr.hat(np.cross(r, v))
+sat_nadir = -mr.hat(r)
 t = epsec_space / np.max(epsec_space) * 4 * np.pi
 
-sat_sun = ps.hat(ps.sun(date_space))
-att = ps.AlignedAndConstrainedAttitude(
+sat_sun = mr.hat(mr.sun(date_space))
+att = mr.AlignedAndConstrainedAttitude(
     sat_nadir, sat_sun, date_space, axis_order=(2, 0, 1)
 )
 c = att.dcms_at_dates(date_space)
-quat = ps.dcm_to_quat(c)
+quat = mr.dcm_to_quat(c)
 (v1, v2, v3) = att.basis_vectors_at_dates(date_space)
 
-sun_in_body = ps.stack_mat_mult_vec(c, sat_sun)
-obs_in_body = ps.stack_mat_mult_vec(c, sat_nadir)
+sun_in_body = mr.stack_mat_mult_vec(c, sat_sun)
+obs_in_body = mr.stack_mat_mult_vec(c, sat_nadir)
 
 pl = pv.Plotter()
 pl.open_gif("aligned_and_constrained.gif")
 
-psv.plot3(pl, r, color="cyan")
+mrv.plot3(pl, r, color="cyan")
 
 omesh = obj._mesh.copy()
 cdist = 300
@@ -58,13 +58,13 @@ for i in range(data_points - 1):
         r[i, :] - cdist * sat_nadir[i, :] + cdist / 10 * orbit_normal[i, :]
     )
     pl.camera.focal_point = r[i, :]
-    psv.render_spaceobject(
+    mrv.render_spaceobject(
         pl, obj, origin=r[i, :], scale=10, opacity=1.0, quat=quat[i, :]
     )
-    psv.plot_arrow(pl, r[i, :], v1[i, :], scale=pdist, name="arr_v1")
-    psv.plot_arrow(pl, r[i, :], v2[i, :], scale=pdist, name="arr_v2")
-    psv.plot_arrow(pl, r[i, :], v3[i, :], scale=pdist, name="arr_v3")
-    psv.plot_arrow(
+    mrv.plot_arrow(pl, r[i, :], v1[i, :], scale=pdist, name="arr_v1")
+    mrv.plot_arrow(pl, r[i, :], v2[i, :], scale=pdist, name="arr_v2")
+    mrv.plot_arrow(pl, r[i, :], v3[i, :], scale=pdist, name="arr_v3")
+    mrv.plot_arrow(
         pl,
         r[i, :],
         sat_sun[i, :],
@@ -73,7 +73,7 @@ for i in range(data_points - 1):
         color="y",
         label="Sun",
     )
-    psv.plot_earth(pl, date=date_space[i], atmosphere=True, night_lights=True)
+    mrv.plot_earth(pl, date=date_space[i], atmosphere=True, night_lights=True)
     pl.write_frame()
     obj._mesh.copy_from(omesh)
 pl.close()
