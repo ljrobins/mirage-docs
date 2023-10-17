@@ -50,8 +50,8 @@
     <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Global Elevation" href="geoid_heights.html" />
-    <link rel="prev" title="Background Signals at Zenith" href="background_zenith.html" />
+    <link rel="next" title="Zenith Light Pollution" href="nightlights.html" />
+    <link rel="prev" title="Terrain Tiles" href="vesuvius_terrain.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -308,11 +308,16 @@ document.write(`
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../01-light_curves/index.html">Light Curves</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/convex_light_curve.html">Convex Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/rotate_panels_vid.html">Rotating Solar Panels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_grid.html">BRDFs on the local hemisphere</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_units.html">Light Curve Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/lc_uncertainty.html">Light Curve Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/convex_inversion_with_uncertainty.html">Light Curve Inversion with Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/aas_non_convex_inversion.html">Non-Convex Inversion</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../03-coordinate-systems/index.html">Coordinate Frames</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -328,15 +333,17 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="luminous_efficiency.html">Luminous Efficiency Function</a></li>
 <li class="toctree-l2"><a class="reference internal" href="twilight_model.html">Twilight Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vr_factor.html">Airmass Function Comparison</a></li>
-<li class="toctree-l2"><a class="reference internal" href="space_weather.html">Space Weather</a></li>
 <li class="toctree-l2"><a class="reference internal" href="star_aberration.html">Star Aberration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="space_weather.html">Space Weather</a></li>
 <li class="toctree-l2"><a class="reference internal" href="background_zenith.html">Background Signals at Zenith</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Total Solar Irradiance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atmospheric_absorption.html">Atmospheric Transmission</a></li>
+<li class="toctree-l2"><a class="reference internal" href="penumbra_plane.html">Penumbra Visualized</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoid_heights.html">Global Elevation</a></li>
 
 <li class="toctree-l2"><a class="reference internal" href="vesuvius_terrain.html">Terrain Tiles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="astro_spectra.html">Astrometrical Spectra</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Total Solar Irradiance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nightlights.html">Zenith Light Pollution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="astro_spectra.html">Astrometrical Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="background_signals.html">Background Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reflected_albedo.html">Earth Albedo BRDF</a></li>
@@ -356,11 +363,12 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/light_time_delay.html">Light Time Delay</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/weather_data.html">Local Weather Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/local_sidereal_time.html">Local Sidereal Time</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/conic_sensor.html">Conic Sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/synthetic_rpo_images.html">Synthetic RPO</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/atmos_refraction.html">Atmospheric Refraction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../07-observer/render_ccd.html">CCD Rendering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/horizon_mask.html">Horizon Masks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/pogs_local_terrain.html">POGS Local Terrain</a></li>
@@ -369,14 +377,35 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../08-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/wavelength_to_rgb.html">RGB to Wavelength</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/nnls_vs_fnnls.html">FNNLS vs NNLS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/egi_figs_aas22.html">EGI Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/computer_graphics_background.html">Graphics Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/model_editor.html">Model Editor</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../09-models/index.html">3D Models</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/merge_bracket.html">Shape Interpolation Bracket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/introduce_concavity.html">Introducing Concavities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/shape_interpolation.html">Shape Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/satellite_lineup.html">Satellite Lineup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/sfds.html">Signed Distance Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/shape_uncertainty.html">Shape Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/inversion_gradient.html">EGI Jacobian</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../10-ccd/index.html">CCD Characterization</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/characterize_ccd.html">Characterizing the CCD Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_heuristics.html">CCD Heuristics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_integration_time.html">Integration Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_scintillation.html">CCD Scintillation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/background_shape.html">Background Shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/airy_disk_gaussian_fit.html">Airy Disk Gaussian Fit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/airy_disk_diffraction.html">Airy Disk Diffraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/snr.html">Signal-to-Noise Ratio (SNR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/render_ccd.html">CCD Rendering</a></li>
 </ul>
 </li>
 </ul>
@@ -454,11 +483,12 @@ to download the full example code</p>
 <span class="kn">from</span> <span class="nn">terrainman</span> <span class="kn">import</span> <span class="n">TsiDataHandler</span>
 
 <span class="kn">import</span> <span class="nn">mirage</span> <span class="k">as</span> <span class="nn">mr</span>
+<span class="kn">import</span> <span class="nn">mirage.vis</span> <span class="k">as</span> <span class="nn">mrv</span>
 </pre></div>
 </div>
 <p>Let’s plot the variation in the total solar irradiance from the beginning of the J2000 epoch till now</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
-<span class="n">dates</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">date_linspace</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">mr</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="mi">10_000</span><span class="p">)</span>
+<span class="n">dates</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">date_arange</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">mr</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="n">mr</span><span class="o">.</span><span class="n">days</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">terrainman.TsiDataHandler</span></code> class deals with downloading the relevant netCDF4 files from <a class="reference external" href="https://www.ncei.noaa.gov/data/total-solar-irradiance/access/daily/">This NOAA server</a>. Outside of the interval covered by this dataset (1882-current_year) <span class="math notranslate nohighlight">\(1361 \frac{W}{m^2}\)</span> is used as a default.</p>
@@ -468,7 +498,7 @@ to download the full example code</p>
 <span class="n">mr</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 9.59e-02 seconds
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 9.13e-02 seconds
 </pre></div>
 </div>
 <p>Plotting the irradiance over time</p>
@@ -494,15 +524,22 @@ to download the full example code</p>
 </div>
 <img src="../../_images/sphx_glr_total_solar_irradiance_002.png" srcset="../../_images/sphx_glr_total_solar_irradiance_002.png, ../../_images/sphx_glr_total_solar_irradiance_002_2_00x.png 2.00x" alt="Distance from Earth to Sun" class = "sphx-glr-single-img"/><p>With this distance information, we can augment the Total Solar Irradiance plot to show the actual irradiance felt by a shell at Earth’s instantaneous orbital radius. We can do this by noting that doubling the radius of a sphere squares its area, so we just have to divide by the square of the <code class="docutils literal notranslate"><span class="pre">earth_to_sun_dist_au</span></code></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sc_at_earth_radius</span> <span class="o">=</span> <span class="n">sc_at_one_au</span> <span class="o">/</span> <span class="n">earth_to_sun_dist_au</span><span class="o">**</span><span class="mi">2</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">sc_at_one_au</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">sz</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">sc_at_earth_radius</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">sz</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Solar Irradiance At Earth Radius&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Year&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Irradiance $\left[\frac</span><span class="si">{W}</span><span class="s2">{m^2}\right]$&quot;</span><span class="p">)</span>
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">sc_at_one_au</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">sz</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">)</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">sc_at_earth_radius</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">sz</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Irradiance at 1 AU $\left[\frac</span><span class="si">{W}</span><span class="s2">{m^2}\right]$&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Irradiance at Earth $\left[\frac</span><span class="si">{W}</span><span class="s2">{m^2}\right]$&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">,</span> <span class="n">labelcolor</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">,</span> <span class="n">labelcolor</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s2">&quot;right&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s2">&quot;C1&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s2">&quot;left&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s2">&quot;C0&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Total Solar Irradiance&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_total_solar_irradiance_003.png" srcset="../../_images/sphx_glr_total_solar_irradiance_003.png, ../../_images/sphx_glr_total_solar_irradiance_003_2_00x.png 2.00x" alt="Solar Irradiance At Earth Radius" class = "sphx-glr-single-img"/><p>This has all been packaged up into a single function which evaluates the Total Solar Irradiance at Earth’s radius at an array of dates:
+<img src="../../_images/sphx_glr_total_solar_irradiance_003.png" srcset="../../_images/sphx_glr_total_solar_irradiance_003.png, ../../_images/sphx_glr_total_solar_irradiance_003_2_00x.png 2.00x" alt="Total Solar Irradiance" class = "sphx-glr-single-img"/><p>This has all been packaged up into a single function which evaluates the Total Solar Irradiance at Earth’s radius at an array of dates:
 .. autofunction:: pyspaceaware.total_solar_irradiance_at_dates</p>
 <p>We can prove that this function produces identical outputs to the implementation above:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tsi</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">total_solar_irradiance_at_dates</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
@@ -512,7 +549,7 @@ to download the full example code</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Implemented function max error: 0.0
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.715 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.811 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-04-environment-total-solar-irradiance-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/499f5215819440825eb6dbf3ae411cd2/total_solar_irradiance.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">total_solar_irradiance.py</span></code></a></p>
@@ -536,20 +573,20 @@ to download the full example code</p>
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="background_zenith.html"
+       href="vesuvius_terrain.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Background Signals at Zenith</p>
+        <p class="prev-next-title">Terrain Tiles</p>
       </div>
     </a>
     <a class="right-next"
-       href="geoid_heights.html"
+       href="nightlights.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Global Elevation</p>
+        <p class="prev-next-title">Zenith Light Pollution</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

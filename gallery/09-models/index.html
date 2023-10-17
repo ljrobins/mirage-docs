@@ -49,7 +49,7 @@
     <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Satellite Lineup" href="satellite_lineup.html" />
+    <link rel="next" title="Shape Interpolation Bracket" href="merge_bracket.html" />
     <link rel="prev" title="Model Editor" href="../08-utility/model_editor.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -307,11 +307,16 @@ document.write(`
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../01-light_curves/index.html">Light Curves</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/convex_light_curve.html">Convex Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/rotate_panels_vid.html">Rotating Solar Panels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_grid.html">BRDFs on the local hemisphere</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_units.html">Light Curve Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/lc_uncertainty.html">Light Curve Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/convex_inversion_with_uncertainty.html">Light Curve Inversion with Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/aas_non_convex_inversion.html">Non-Convex Inversion</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../03-coordinate-systems/index.html">Coordinate Frames</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -327,15 +332,17 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/luminous_efficiency.html">Luminous Efficiency Function</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/twilight_model.html">Twilight Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/vr_factor.html">Airmass Function Comparison</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/star_aberration.html">Star Aberration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_zenith.html">Background Signals at Zenith</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/total_solar_irradiance.html">Total Solar Irradiance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/atmospheric_absorption.html">Atmospheric Transmission</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/penumbra_plane.html">Penumbra Visualized</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/geoid_heights.html">Global Elevation</a></li>
 
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometrical Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/total_solar_irradiance.html">Total Solar Irradiance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometrical Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/reflected_albedo.html">Earth Albedo BRDF</a></li>
@@ -355,11 +362,12 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/light_time_delay.html">Light Time Delay</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/weather_data.html">Local Weather Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/local_sidereal_time.html">Local Sidereal Time</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/conic_sensor.html">Conic Sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/synthetic_rpo_images.html">Synthetic RPO</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/atmos_refraction.html">Atmospheric Refraction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../07-observer/render_ccd.html">CCD Rendering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/horizon_mask.html">Horizon Masks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/pogs_local_terrain.html">POGS Local Terrain</a></li>
@@ -368,14 +376,35 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../08-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/wavelength_to_rgb.html">RGB to Wavelength</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/nnls_vs_fnnls.html">FNNLS vs NNLS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/egi_figs_aas22.html">EGI Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/computer_graphics_background.html">Graphics Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/model_editor.html">Model Editor</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">3D Models</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="merge_bracket.html">Shape Interpolation Bracket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduce_concavity.html">Introducing Concavities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shape_interpolation.html">Shape Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="satellite_lineup.html">Satellite Lineup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sfds.html">Signed Distance Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shape_uncertainty.html">Shape Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inversion_gradient.html">EGI Jacobian</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../10-ccd/index.html">CCD Characterization</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/characterize_ccd.html">Characterizing the CCD Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_heuristics.html">CCD Heuristics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_integration_time.html">Integration Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_scintillation.html">CCD Scintillation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/background_shape.html">Background Shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/airy_disk_gaussian_fit.html">Airy Disk Gaussian Fit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/airy_disk_diffraction.html">Airy Disk Diffraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/snr.html">Signal-to-Noise Ratio (SNR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/render_ccd.html">CCD Rendering</a></li>
 </ul>
 </li>
 </ul>
@@ -437,9 +466,27 @@ document.write(`
                   
   <section id="d-models">
 <span id="sphx-glr-gallery-09-models"></span><h1>3D Models<a class="headerlink" href="#d-models" title="Permalink to this heading">#</a></h1>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Plotting a variety of space objects against a soccer field background for size reference"><img alt="" src="../../_images/sphx_glr_satellite_lineup_thumb.png" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Shape interpolating using SDFs for large numbers of input shapes"><img alt="" src="../../_images/sphx_glr_merge_bracket_thumb.png" />
+<p><a class="reference internal" href="merge_bracket.html#sphx-glr-gallery-09-models-merge-bracket-py"><span class="std std-ref">Shape Interpolation Bracket</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Shape Interpolation Bracket</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Introducing Concavities"><img alt="" src="../../_images/sphx_glr_introduce_concavity_thumb.png" />
+<p><a class="reference internal" href="introduce_concavity.html#sphx-glr-gallery-09-models-introduce-concavity-py"><span class="std std-ref">Introducing Concavities</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Introducing Concavities</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Given two shapes as triangulated 3D models, how can we smoothly interpolate another model betwe..."><img alt="" src="../../_images/sphx_glr_shape_interpolation_thumb.png" />
+<p><a class="reference internal" href="shape_interpolation.html#sphx-glr-gallery-09-models-shape-interpolation-py"><span class="std std-ref">Shape Interpolation</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Shape Interpolation</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plotting a variety of space objects against a soccer field background for size reference"><img alt="" src="../../_images/sphx_glr_satellite_lineup_thumb.png" />
 <p><a class="reference internal" href="satellite_lineup.html#sphx-glr-gallery-09-models-satellite-lineup-py"><span class="std std-ref">Satellite Lineup</span></a></p>
   <div class="sphx-glr-thumbnail-title">Satellite Lineup</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plotting 2D and 3D Signed Distance Fields"><img alt="" src="../../_images/sphx_glr_sfds_thumb.png" />
+<p><a class="reference internal" href="sfds.html#sphx-glr-gallery-09-models-sfds-py"><span class="std std-ref">Signed Distance Fields</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Signed Distance Fields</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Shape Uncertainty"><img alt="" src="../../_images/sphx_glr_shape_uncertainty_thumb.png" />
+<p><a class="reference internal" href="shape_uncertainty.html#sphx-glr-gallery-09-models-shape-uncertainty-py"><span class="std std-ref">Shape Uncertainty</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Shape Uncertainty</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Computing the change in the convex object guess (via its EGI) due to a change in the light curv..."><img alt="" src="../../_images/sphx_glr_inversion_gradient_thumb.png" />
+<p><a class="reference internal" href="inversion_gradient.html#sphx-glr-gallery-09-models-inversion-gradient-py"><span class="std std-ref">EGI Jacobian</span></a></p>
+  <div class="sphx-glr-thumbnail-title">EGI Jacobian</div>
 </div></div><div class="toctree-wrapper compound">
 </div>
 </section>
@@ -465,11 +512,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="satellite_lineup.html"
+       href="merge_bracket.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Satellite Lineup</p>
+        <p class="prev-next-title">Shape Interpolation Bracket</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

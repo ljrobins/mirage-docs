@@ -20,13 +20,14 @@ npts = int(1e6)
 pts = 1e4 * mr.spiral_sample_sphere(npts)
 sv = np.tile(mr.hat(mr.sun(date)), (npts, 1))
 # pts = pts[mr.angle_between_vecs(sv, pts).flatten() > np.pi / 4, :]
-station = mr.Station(preset='pogs')
+station = mr.Station(preset="pogs")
 tdargs = (
     station,
     pts,
     pts / 2 + 0.01,
 )
 ss = mr.integrated_starlight_signal(*tdargs)
+
 
 def plot_sig(pl, s, cmap, scale=1):
     mrv.scatter3(

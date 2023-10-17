@@ -49,8 +49,8 @@
     <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Zenith Light Pollution" href="nightlights.html" />
-    <link rel="prev" title="Terrain Tiles" href="vesuvius_terrain.html" />
+    <link rel="next" title="GAIA Patched Catalog" href="gaia_patched_catalog.html" />
+    <link rel="prev" title="Zenith Light Pollution" href="nightlights.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -307,11 +307,16 @@ document.write(`
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../01-light_curves/index.html">Light Curves</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/convex_light_curve.html">Convex Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/rotate_panels_vid.html">Rotating Solar Panels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_grid.html">BRDFs on the local hemisphere</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_units.html">Light Curve Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/lc_uncertainty.html">Light Curve Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/convex_inversion_with_uncertainty.html">Light Curve Inversion with Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/aas_non_convex_inversion.html">Non-Convex Inversion</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../03-coordinate-systems/index.html">Coordinate Frames</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -327,15 +332,17 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="luminous_efficiency.html">Luminous Efficiency Function</a></li>
 <li class="toctree-l2"><a class="reference internal" href="twilight_model.html">Twilight Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vr_factor.html">Airmass Function Comparison</a></li>
-<li class="toctree-l2"><a class="reference internal" href="space_weather.html">Space Weather</a></li>
 <li class="toctree-l2"><a class="reference internal" href="star_aberration.html">Star Aberration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="space_weather.html">Space Weather</a></li>
 <li class="toctree-l2"><a class="reference internal" href="background_zenith.html">Background Signals at Zenith</a></li>
-<li class="toctree-l2"><a class="reference internal" href="total_solar_irradiance.html">Total Solar Irradiance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atmospheric_absorption.html">Atmospheric Transmission</a></li>
+<li class="toctree-l2"><a class="reference internal" href="penumbra_plane.html">Penumbra Visualized</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoid_heights.html">Global Elevation</a></li>
 
 <li class="toctree-l2"><a class="reference internal" href="vesuvius_terrain.html">Terrain Tiles</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Astrometrical Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="total_solar_irradiance.html">Total Solar Irradiance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nightlights.html">Zenith Light Pollution</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Astrometrical Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="background_signals.html">Background Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reflected_albedo.html">Earth Albedo BRDF</a></li>
@@ -355,11 +362,12 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/light_time_delay.html">Light Time Delay</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/weather_data.html">Local Weather Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/local_sidereal_time.html">Local Sidereal Time</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/conic_sensor.html">Conic Sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/synthetic_rpo_images.html">Synthetic RPO</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/atmos_refraction.html">Atmospheric Refraction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../07-observer/render_ccd.html">CCD Rendering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/horizon_mask.html">Horizon Masks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/pogs_local_terrain.html">POGS Local Terrain</a></li>
@@ -368,14 +376,35 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../08-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/wavelength_to_rgb.html">RGB to Wavelength</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/nnls_vs_fnnls.html">FNNLS vs NNLS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/egi_figs_aas22.html">EGI Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/computer_graphics_background.html">Graphics Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/model_editor.html">Model Editor</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../09-models/index.html">3D Models</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/merge_bracket.html">Shape Interpolation Bracket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/introduce_concavity.html">Introducing Concavities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/shape_interpolation.html">Shape Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/satellite_lineup.html">Satellite Lineup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/sfds.html">Signed Distance Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/shape_uncertainty.html">Shape Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/inversion_gradient.html">EGI Jacobian</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../10-ccd/index.html">CCD Characterization</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/characterize_ccd.html">Characterizing the CCD Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_heuristics.html">CCD Heuristics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_integration_time.html">Integration Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_scintillation.html">CCD Scintillation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/background_shape.html">Background Shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/airy_disk_gaussian_fit.html">Airy Disk Gaussian Fit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/airy_disk_diffraction.html">Airy Disk Diffraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/snr.html">Signal-to-Noise Ratio (SNR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/render_ccd.html">CCD Rendering</a></li>
 </ul>
 </li>
 </ul>
@@ -453,29 +482,31 @@ to download the full example code</p>
 <span class="kn">import</span> <span class="nn">mirage</span> <span class="k">as</span> <span class="nn">mr</span>
 <span class="kn">import</span> <span class="nn">mirage.vis</span> <span class="k">as</span> <span class="nn">mrv</span>
 
-<span class="n">ltest</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e4</span><span class="p">))</span> <span class="o">*</span> <span class="mf">1e-9</span>
-<span class="n">isun</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">sun_spectrum</span><span class="p">(</span><span class="n">ltest</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e-10</span>
-<span class="n">isuntot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span><span class="n">isun</span><span class="p">,</span> <span class="n">ltest</span><span class="p">)</span>
+<span class="n">ltest</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2600</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e4</span><span class="p">))</span> <span class="o">*</span> <span class="mf">1e-9</span>
+
 <span class="n">tee</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">atmospheric_transmission</span><span class="p">(</span><span class="n">ltest</span><span class="p">,</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">ltest</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span>
-<span class="n">ccd</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">ChargeCoupledDevice</span><span class="p">(</span><span class="n">preset</span><span class="o">=</span><span class="s1">&#39;pogs&#39;</span><span class="p">)</span>
+<span class="n">ccd</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">ChargeCoupledDevice</span><span class="p">(</span><span class="n">preset</span><span class="o">=</span><span class="s2">&quot;pogs&quot;</span><span class="p">)</span>
 <span class="n">qe</span> <span class="o">=</span> <span class="n">ccd</span><span class="o">.</span><span class="n">quantum_efficiency</span><span class="p">(</span><span class="n">ltest</span><span class="p">)</span>
 <span class="n">zm</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">proof_zero_mag_stellar_spectrum</span><span class="p">(</span><span class="n">ltest</span><span class="p">)</span>
+<span class="n">sm</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">sun_spectrum</span><span class="p">(</span><span class="n">ltest</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e-9</span>
 
-<span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">ltest</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">tee</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">ltest</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">qe</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">ltest</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">zm</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">ltest</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">isun</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">spectra_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;C0&quot;</span><span class="p">,</span> <span class="s2">&quot;C1&quot;</span><span class="p">,</span> <span class="s2">&quot;C2&quot;</span><span class="p">,</span> <span class="s2">&quot;C3&quot;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">spectra_cols</span><span class="p">,</span> <span class="p">[</span><span class="n">tee</span><span class="p">,</span> <span class="n">sm</span><span class="p">,</span> <span class="n">qe</span><span class="p">,</span> <span class="n">zm</span><span class="p">])):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ltest</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">ltest</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;_nolegend_&quot;</span><span class="p">)</span>
+
+<span class="n">mrv</span><span class="o">.</span><span class="n">texit</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;Wavelength [nm]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
-    <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">,</span>
+    <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">,</span>
     <span class="n">labels</span><span class="o">=</span><span class="p">[</span>
         <span class="s2">&quot;Atmospheric transmission [-]&quot;</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s2">&quot;Solar spectrum $\left[ \frac</span><span class="si">{W}</span><span class="s2">{cm^2 \cdot \mu m} \right]$&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Quantum efficiency [-]&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Zero magnitude irradiance [W/cm^2/$\mu$m]&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Solar irradiance [W/cm^2/$\mu$m]&quot;</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s2">&quot;Zero magnitude irradiance $\left[ \frac</span><span class="si">{W}</span><span class="s2">{cm^2 \cdot \mu m} \right]$&quot;</span><span class="p">,</span>
     <span class="p">],</span>
 <span class="p">)</span>
-<span class="n">mrv</span><span class="o">.</span><span class="n">texit</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;Wavelength [nm]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -504,7 +535,7 @@ to download the full example code</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_astro_spectra_002.png" srcset="../../_images/sphx_glr_astro_spectra_002.png, ../../_images/sphx_glr_astro_spectra_002_2_00x.png 2.00x" alt="Bessel (Johnson/Cousins) UBVRI Passbands" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.242 seconds)</p>
+<img src="../../_images/sphx_glr_astro_spectra_002.png" srcset="../../_images/sphx_glr_astro_spectra_002.png, ../../_images/sphx_glr_astro_spectra_002_2_00x.png 2.00x" alt="Bessel (Johnson/Cousins) UBVRI Passbands" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.664 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-04-environment-astro-spectra-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/3c4e6861bb1d46064e5a02553d51cef5/astro_spectra.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">astro_spectra.py</span></code></a></p>
@@ -528,20 +559,20 @@ to download the full example code</p>
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="vesuvius_terrain.html"
+       href="nightlights.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Terrain Tiles</p>
+        <p class="prev-next-title">Zenith Light Pollution</p>
       </div>
     </a>
     <a class="right-next"
-       href="nightlights.html"
+       href="gaia_patched_catalog.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Zenith Light Pollution</p>
+        <p class="prev-next-title">GAIA Patched Catalog</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

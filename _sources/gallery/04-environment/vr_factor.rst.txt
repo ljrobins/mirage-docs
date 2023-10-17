@@ -22,7 +22,7 @@ Airmass Function Comparison
 ===========================
 Comparing the approximate and true airmass functions
 
-.. GENERATED FROM PYTHON SOURCE LINES 6-22
+.. GENERATED FROM PYTHON SOURCE LINES 6-24
 
 
 
@@ -43,21 +43,23 @@ Comparing the approximate and true airmass functions
     import mirage as mr
     import mirage.vis as mrv
 
-    theta = np.linspace(0, np.pi / 2, int(1e3))
+    theta = np.linspace(0, np.pi / 2 - 0.01, int(1e3))
 
     plt.plot(theta, mr.relative_airmass(theta, approx=True))
     plt.plot(theta, mr.relative_airmass(theta, approx=False))
     plt.yscale("log")
     mrv.texit(
-        "Airmass Functions", "Zenith Angle [rad]", "Airmass", [r"$\sec\theta$", "Pickering"]
+        "Airmass Functions",
+        "Zenith Angle [rad]",
+        "Relative airmass",
+        [r"$\sec\theta$", "Pickering"],
     )
-    plt.grid()
     plt.show()
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.330 seconds)
+   **Total running time of the script:** ( 0 minutes  0.508 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_vr_factor.py:

@@ -45,7 +45,10 @@ plt.imshow(
 )
 
 mrv.texit(
-    "Patched GAIA Catalog $m \geq 16$", "Right Ascension [deg]", "Declination [deg]"
+    "Patched GAIA Catalog $m \geq 16$",
+    "Right Ascension [deg]",
+    "Declination [deg]",
+    grid=False,
 )
 plt.colorbar(
     label="Surface brightness $\\left[ S_{10} \\right]$", cax=mrv.get_cbar_ax()
@@ -57,14 +60,11 @@ plt.show()
 x, y, z = mr.sph_to_cart(ra_grid.flatten(), dec_grid.flatten())
 sample_dirs_eci = np.vstack((x, y, z)).T
 
-ts = mr.Telescope(preset="pogs")
+station = mr.Station("pogs")
 sig = mr.integrated_starlight_signal(
-    dates=None,
+    station=station,
     look_dirs_eci_eq=sample_dirs_eci,
     obs_pos_eci_eq=sample_dirs_eci,
-    t_int=ts.integration_time,
-    scale=ts.pixel_scale,
-    d=ts.aperture_diameter,
 )
 
 # %%
@@ -82,15 +82,11 @@ tycho2_ra_rad = t2["j2000_ra"][::10]
 tycho2_dec_rad = t2["j2000_dec"][::10]
 vm = t2["visual_magnitude"][::10]
 
-# plt.scatter(
-#     x=np.rad2deg(tycho2_ra_rad),
-#     y=np.rad2deg(tycho2_dec_rad),
-#     marker=",",
-#     s=0.01,
-#     alpha=1 - vm / np.max(vm),
-# )
 mrv.texit(
-    "Patched GAIA Catalog $m \geq 16$", "Right Ascension [deg]", "Declination [deg]"
+    "Patched GAIA Catalog $m \geq 16$",
+    "Right Ascension [deg]",
+    "Declination [deg]",
+    grid=False,
 )
 plt.colorbar(label="Total signal [e-/pix]", cax=mrv.get_cbar_ax())
 plt.show()

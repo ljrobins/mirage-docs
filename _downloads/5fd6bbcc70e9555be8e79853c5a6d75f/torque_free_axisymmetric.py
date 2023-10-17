@@ -82,6 +82,7 @@ for i, grid in enumerate([t_num, t_ana, t_axi], 1):
         titles[i - 1],
         "Number of times" if i == 2 else None,
         "Number of ICs" if i == 1 else None,
+        grid=False,
     )
     if i == 3:
         cb = plt.colorbar(label="$\Delta t$ [sec]", cax=mrv.get_cbar_ax())

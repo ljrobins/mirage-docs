@@ -17,7 +17,6 @@ mpsas = mr.twilight_zenith_mpsas(gammas)
 
 plt.plot(gammas, mpsas)
 plt.gca().invert_yaxis()
-plt.grid()
 mrv.texit(
     "Twilight Model Brightness",
     "Solar zenith angle [deg]",

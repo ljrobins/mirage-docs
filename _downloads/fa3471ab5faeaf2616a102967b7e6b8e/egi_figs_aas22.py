@@ -10,43 +10,14 @@ import pyvista as pv
 import mirage as mr
 import mirage.vis as mrv
 
-
-def plot_egi(
-    pl: pv.Plotter,
-    obj: mr.SpaceObject,
-    egi: np.ndarray,
-    scale: float = 1.5,
-    plot_stems: bool = True,
-    plot_sphere: bool = True,
-    scale_opacity: bool = True,
-) -> None:
-    un, ua = mr.hat(egi), mr.vecnorm(egi)
-    scale *= np.max(mr.vecnorm(obj.v))
-    stems = np.hstack([0 * un, scale * un, 0 * un]).reshape(-1, 3)
-    opacity = np.log10(ua.flatten())
-    mrv.scatter3(
-        pl,
-        scale * un,
-        color="c",
-        point_size=50,
-        opacity=opacity if scale_opacity else None,
-        show_scalar_bar=False,
-    )
-    if plot_stems:
-        mrv.plot3(pl, stems, color="k", line_width=5)
-    if plot_sphere:
-        mrv.two_sphere(pl, scale, color="linen", opacity=0.1)
-    pl.disable_anti_aliasing()
-
-
 # %%
 # Plotting the EGI of a cube
 obj = mr.SpaceObject("cube.obj")
-cpos = [10, 10, 5]
+cpos = [7, 7, 5]
 
 pl = pv.Plotter()
 mrv.render_spaceobject(pl, obj, opacity=1, color="linen")
-plot_egi(pl, obj, obj.egi, scale_opacity=False)
+mrv.plot_egi(pl, obj, obj.egi, scale_opacity=False)
 pl.camera.position = cpos
 pl.show()
 
@@ -65,7 +36,7 @@ egi_candidate = normal_candidates[valid, :] * a_candidates[valid, :]
 
 pl = pv.Plotter()
 mrv.render_spaceobject(pl, obj, opacity=0.5, color="linen")
-plot_egi(pl, obj, egi_candidate, scale_opacity=True)
+mrv.plot_egi(pl, obj, egi_candidate, scale_opacity=True)
 pl.camera.position = cpos
 pl.show()
 
@@ -87,7 +58,7 @@ egi_candidate_resampled = resampled_n_candidates[valid, :] * a_candidates[valid,
 pl = pv.Plotter()
 mrv.render_spaceobject(pl, obj, color="linen", opacity=0.5)
 mrv.scatter3(pl, 1.2 * resampled_n_candidates, color="r", point_size=3, opacity=0.5)
-plot_egi(pl, obj, egi_candidate_resampled, scale_opacity=True)
+mrv.plot_egi(pl, obj, egi_candidate_resampled, scale_opacity=True)
 pl.camera.position = cpos
 pl.show()
 
@@ -98,14 +69,16 @@ egi_merged = mr.merge_clusters(egi_candidate_resampled, np.pi / 10)
 
 pl = pv.Plotter()
 mrv.render_spaceobject(pl, obj, color="linen", opacity=0.5)
-plot_egi(pl, obj, egi_merged)
+mrv.plot_egi(pl, obj, egi_merged)
 pl.camera.position = cpos
 pl.show()
 
 # %%
 # Plotting the reconstructed object
 egi_merged -= np.sum(egi_merged, axis=0) / egi_merged.shape[0]
+mr.tic()
 h = mr.optimize_supports_little(egi_merged)
+dt = mr.toc(return_elapsed_seconds=True)
 obj_reconstructed = mr.construct_from_egi_and_supports(egi_merged, h)
 
 pl = pv.Plotter(shape=(1, 2), window_size=(1000, 500))
@@ -117,4 +90,39 @@ mrv.render_spaceobject(pl, obj_reconstructed, opacity=1, color="linen")
 pl.add_text("Reconstructed", font="courier", position="upper_left")
 pl.link_views()
 pl.camera.position = cpos
+pl.camera.zoom(1.4)
+pl.show()
+
+
+# %%
+# Reconstructing with the non-sparse EGI
+
+pl = pv.Plotter(shape=(1,4), window_size=(2000, 500))
+pl.subplot(0, 0)
+mrv.render_spaceobject(pl, obj, opacity=1, color="linen")
+pl.add_text("Truth", font="courier", position="upper_left")
+
+egi_candidate = mr.close_egi(egi_candidate)
+egi_candidate_resampled = mr.close_egi(egi_candidate_resampled)
+
+pl.subplot(0, 1)
+mr.tic()
+h_initial = mr.optimize_supports_little(egi_candidate)
+dt_initial = mr.toc(return_elapsed_seconds=True)
+obj_reconstructed_initial = mr.construct_from_egi_and_supports(egi_candidate, h_initial)
+mrv.render_spaceobject(pl, obj_reconstructed_initial, opacity=1, color="linen")
+pl.add_text(f"Initial EGI: {dt_initial:.2f}s", font="courier", position="upper_left")
+
+pl.subplot(0, 2)
+mr.tic()
+h_resampled = mr.optimize_supports_little(egi_candidate_resampled)
+dt_resampled = mr.toc(return_elapsed_seconds=True)
+obj_reconstructed_resampled = mr.construct_from_egi_and_supports(egi_candidate_resampled, h_resampled)
+mrv.render_spaceobject(pl, obj_reconstructed_resampled, opacity=1, color="linen")
+pl.add_text(f"Resampled EGI: {dt_resampled:.2f}s", font="courier", position="upper_left")
+
+pl.subplot(0, 3)
+mrv.render_spaceobject(pl, obj_reconstructed, opacity=1, color="linen")
+pl.add_text(f"Merged EGI: {dt:.2f}s", font="courier", position="upper_left")
+
 pl.show()

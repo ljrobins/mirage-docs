@@ -65,7 +65,7 @@ mrv.texit(
     f"Light Curves for {obj.satnum}",
     "Epoch hours",
     "[e-]",
-    ["Noisy", "Clean"],
+    ["Measurements", "True Mean"],
 )
 plt.grid()
 plt.show()

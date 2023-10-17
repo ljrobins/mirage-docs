@@ -61,7 +61,7 @@ Let's choose a point after sunset on the US east coast
 
 We can then generate the background signals for a set of spiral points
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-49
+.. GENERATED FROM PYTHON SOURCE LINES 19-50
 
 .. code-block:: default
 
@@ -69,13 +69,14 @@ We can then generate the background signals for a set of spiral points
     pts = 1e4 * mr.spiral_sample_sphere(npts)
     sv = np.tile(mr.hat(mr.sun(date)), (npts, 1))
     # pts = pts[mr.angle_between_vecs(sv, pts).flatten() > np.pi / 4, :]
-    station = mr.Station(preset='pogs')
+    station = mr.Station(preset="pogs")
     tdargs = (
         station,
         pts,
         pts / 2 + 0.01,
     )
     ss = mr.integrated_starlight_signal(*tdargs)
+
 
     def plot_sig(pl, s, cmap, scale=1):
         mrv.scatter3(
@@ -110,7 +111,7 @@ We can then generate the background signals for a set of spiral points
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  17.534 seconds)
+   **Total running time of the script:** ( 0 minutes  18.525 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_background_zenith.py:

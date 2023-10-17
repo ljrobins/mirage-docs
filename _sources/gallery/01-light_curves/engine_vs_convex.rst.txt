@@ -45,40 +45,26 @@ Comparing light curves produced by the LightCurveEngine renderer and a simplifie
 
 Defining the object and BRDF
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-19
+.. GENERATED FROM PYTHON SOURCE LINES 16-20
 
 .. code-block:: default
 
-    obj = mr.SpaceObject("gem.obj")
+    obj = mr.SpaceObject("cylinder.obj")
+    del obj.file_name
     brdf = mr.Brdf("phong", cd=0.1, cs=0.9, n=30)
 
 
 
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    Model file gem.obj not found in current model folder ('/Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models'), checking model repository...
-    Attempting to download gem.obj and its associated material file from the model repository...
-    Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//Irregular/gem.obj
-    Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//Irregular/gem.mtl
-    Model files were downloaded successfully!
-    Attempting to download spacelib.obj and its associated material file from the model repository...
-    Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//None
-    Model file spacelib.obj not found in the repository!
-    Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//accurate_sats/spacelib.mtl
-    Model files were downloaded successfully!
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 20-21
+.. GENERATED FROM PYTHON SOURCE LINES 21-22
 
 Defining the attitude profile
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-34
+.. GENERATED FROM PYTHON SOURCE LINES 22-35
 
 .. code-block:: default
 
@@ -102,17 +88,22 @@ Defining the attitude profile
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-36
+.. GENERATED FROM PYTHON SOURCE LINES 36-37
 
 We can now run the engine and compute a convex light curve:
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-42
+.. GENERATED FROM PYTHON SOURCE LINES 37-48
 
 .. code-block:: default
 
 
     b_non_convex = mr.run_light_curve_engine(
-        brdf, obj, svb, ovb, instance_count=9, silent=False
+        brdf,
+        obj,
+        svb,
+        ovb,
+        instance_count=9,
+        silent=False,
     )
     b_convex = obj.convex_light_curve(brdf, svb, ovb)
 
@@ -125,9 +116,9 @@ We can now run the engine and compute a convex light curve:
  .. code-block:: none
 
     Running Light Curve Engine: 
-    /Users/liamrobinson/Documents/PyLightCurves/mirage/ctools/engine/LightCurveEngine-mac-arm -m /Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models/gem.obj -i 9 -c 1001 -r light_curve0.lcr -x /Users/liamrobinson/Documents/PyLightCurves/examples/01-light_curves/out  -b 1 -D 0.1 -S 0.9 -N 30 -f 1000
+    /Users/liamrobinson/Documents/PyLightCurves/mirage/ctools/engine/LightCurveEngine-mac-arm -m /Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models/temp.obj -i 9 -c 1001 -r light_curve0.lcr -x /Users/liamrobinson/Documents/PyLightCurves/examples/01-light_curves/out  -b 1 -D 0.1 -S 0.9 -N 30 -f 1000
 
-    Model path: /Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models/gem.obj
+    Model path: /Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models/temp.obj
     Pixel width: 600
     Instance count: 9
     Frame rate: 1000
@@ -159,7 +150,7 @@ We can now run the engine and compute a convex light curve:
     INFO: GL: OpenGL device information:
     INFO:     > Vendor:   Apple
     INFO:     > Renderer: Apple M1
-    INFO:     > Version:  4.1 Metal - 83.1
+    INFO:     > Version:  4.1 Metal - 86
     INFO:     > GLSL:     4.10
     INFO: GL: VAO extension detected, VAO functions loaded successfully
     INFO: GL: NPOT textures extension detected, full NPOT textures supported
@@ -176,10 +167,11 @@ We can now run the engine and compute a convex light curve:
     INFO: TEXTURE: [ID 2] Texture loaded successfully (128x128 | GRAY_ALPHA | 1 mipmaps)
     INFO: FONT: Default font loaded successfully (224 glyphs)
     Initializing objects
-    INFO: FILEIO: [/Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models/gem.obj] Text file loaded successfully
-    INFO: MODEL: [/Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models/gem.obj] OBJ data loaded successfully: 1 meshes/1 materials
-    INFO: MODEL: model has 1 material meshes
+    INFO: FILEIO: [/Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models/temp.obj] Text file loaded successfully
+    INFO: MODEL: [/Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models/temp.obj] OBJ data loaded successfully: 1 meshes/0 materials
+    INFO: MODEL: No materials, putting all meshes in a default material
     INFO: VAO: [ID 2] Mesh uploaded successfully to VRAM (GPU)
+    WARNING: MATERIAL: [/Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models/temp.obj] Failed to load material data, default to white material
     INFO: FILEIO: [shaders/shadow_depth.vs] Text file loaded successfully
     INFO: FILEIO: [shaders/shadow_depth.fs] Text file loaded successfully
     INFO: SHADER: [ID 4] Vertex shader compiled successfully
@@ -1410,11 +1402,11 @@ We can now run the engine and compute a convex light curve:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-44
+.. GENERATED FROM PYTHON SOURCE LINES 49-50
 
 And plot the results
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-55
+.. GENERATED FROM PYTHON SOURCE LINES 50-62
 
 .. code-block:: default
 
@@ -1432,8 +1424,9 @@ And plot the results
 
 
 
+
 .. image-sg:: /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_001.png
-   :alt: Light Curves for gem.obj
+   :alt: Light Curves for temp.obj
    :srcset: /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_001.png, /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_001_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
@@ -1441,11 +1434,11 @@ And plot the results
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-57
+.. GENERATED FROM PYTHON SOURCE LINES 63-64
 
 Plotting the error instead of the brightness values
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-66
+.. GENERATED FROM PYTHON SOURCE LINES 64-73
 
 .. code-block:: default
 
@@ -1462,7 +1455,7 @@ Plotting the error instead of the brightness values
 
 
 .. image-sg:: /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_002.png
-   :alt: Light Curves Error for gem.obj
+   :alt: Light Curves Error for temp.obj
    :srcset: /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_002.png, /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_002_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
@@ -1470,11 +1463,11 @@ Plotting the error instead of the brightness values
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 67-68
+.. GENERATED FROM PYTHON SOURCE LINES 74-75
 
 This is nice and small, which we like to see. If we repeat this process for a non-convex object, the error quickly becomes clear
 
-.. GENERATED FROM PYTHON SOURCE LINES 68-89
+.. GENERATED FROM PYTHON SOURCE LINES 75-96
 
 .. code-block:: default
 
@@ -1514,7 +1507,7 @@ This is nice and small, which we like to see. If we repeat this process for a no
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  10.427 seconds)
+   **Total running time of the script:** ( 0 minutes  9.264 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_engine_vs_convex.py:

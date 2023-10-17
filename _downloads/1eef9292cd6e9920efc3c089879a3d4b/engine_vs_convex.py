@@ -13,7 +13,8 @@ import mirage as mr
 
 # %%
 # Defining the object and BRDF
-obj = mr.SpaceObject("gem.obj")
+obj = mr.SpaceObject("cylinder.obj")
+del obj.file_name
 brdf = mr.Brdf("phong", cd=0.1, cs=0.9, n=30)
 
 # %%
@@ -35,7 +36,12 @@ svb = mr.stack_mat_mult_vec(dcm, np.array([[0, 1, 0]]))
 # We can now run the engine and compute a convex light curve:
 
 b_non_convex = mr.run_light_curve_engine(
-    brdf, obj, svb, ovb, instance_count=9, silent=False
+    brdf,
+    obj,
+    svb,
+    ovb,
+    instance_count=9,
+    silent=False,
 )
 b_convex = obj.convex_light_curve(brdf, svb, ovb)
 
@@ -51,6 +57,7 @@ plt.ylabel("Normalized brightness")
 plt.legend(["LightCurveEngine", "Convex"])
 plt.grid()
 plt.show()
+
 
 # %%
 # Plotting the error instead of the brightness values

@@ -91,7 +91,7 @@ Conversion from :math:`S_{10}` to irradiance
 
 Let's first display the raw :math:`S_{10}` brightness of the patched catalog
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-55
+.. GENERATED FROM PYTHON SOURCE LINES 36-58
 
 .. code-block:: default
 
@@ -107,7 +107,10 @@ Let's first display the raw :math:`S_{10}` brightness of the patched catalog
     )
 
     mrv.texit(
-        "Patched GAIA Catalog $m \geq 16$", "Right Ascension [deg]", "Declination [deg]"
+        "Patched GAIA Catalog $m \geq 16$",
+        "Right Ascension [deg]",
+        "Declination [deg]",
+        grid=False,
     )
     plt.colorbar(
         label="Surface brightness $\\left[ S_{10} \\right]$", cax=mrv.get_cbar_ax()
@@ -126,25 +129,22 @@ Let's first display the raw :math:`S_{10}` brightness of the patched catalog
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-57
+.. GENERATED FROM PYTHON SOURCE LINES 59-60
 
 Now we define the telescope we want to perform the observations with, we'll use the Purdue Optical Ground Station (POGS)
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-70
+.. GENERATED FROM PYTHON SOURCE LINES 60-70
 
 .. code-block:: default
 
     x, y, z = mr.sph_to_cart(ra_grid.flatten(), dec_grid.flatten())
     sample_dirs_eci = np.vstack((x, y, z)).T
 
-    ts = mr.Telescope(preset="pogs")
+    station = mr.Station("pogs")
     sig = mr.integrated_starlight_signal(
-        dates=None,
+        station=station,
         look_dirs_eci_eq=sample_dirs_eci,
         obs_pos_eci_eq=sample_dirs_eci,
-        t_int=ts.integration_time,
-        scale=ts.pixel_scale,
-        d=ts.aperture_diameter,
     )
 
 
@@ -159,7 +159,7 @@ Now we define the telescope we want to perform the observations with, we'll use 
 Now we reshape the signal into the original grid and display the plot as an image
 We'll also overlay the Tycho 2 RA/Dec coordinates to confirm that both overlap correctly
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-98
+.. GENERATED FROM PYTHON SOURCE LINES 73-94
 
 .. code-block:: default
 
@@ -175,15 +175,11 @@ We'll also overlay the Tycho 2 RA/Dec coordinates to confirm that both overlap c
     tycho2_dec_rad = t2["j2000_dec"][::10]
     vm = t2["visual_magnitude"][::10]
 
-    # plt.scatter(
-    #     x=np.rad2deg(tycho2_ra_rad),
-    #     y=np.rad2deg(tycho2_dec_rad),
-    #     marker=",",
-    #     s=0.01,
-    #     alpha=1 - vm / np.max(vm),
-    # )
     mrv.texit(
-        "Patched GAIA Catalog $m \geq 16$", "Right Ascension [deg]", "Declination [deg]"
+        "Patched GAIA Catalog $m \geq 16$",
+        "Right Ascension [deg]",
+        "Declination [deg]",
+        grid=False,
     )
     plt.colorbar(label="Total signal [e-/pix]", cax=mrv.get_cbar_ax())
     plt.show()
@@ -200,11 +196,11 @@ We'll also overlay the Tycho 2 RA/Dec coordinates to confirm that both overlap c
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 99-100
+.. GENERATED FROM PYTHON SOURCE LINES 95-96
 
 We can also display the GAIA patched catalog and the Tycho 2 unit vectors on the ECI unit sphere:
 
-.. GENERATED FROM PYTHON SOURCE LINES 100-124
+.. GENERATED FROM PYTHON SOURCE LINES 96-120
 
 .. code-block:: default
 
@@ -247,7 +243,7 @@ We can also display the GAIA patched catalog and the Tycho 2 unit vectors on the
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.454 seconds)
+   **Total running time of the script:** ( 0 minutes  4.262 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_gaia_patched_catalog.py:
