@@ -43,7 +43,7 @@ Plotting a realistic light curve with uncertainty
     obj_file = "cube.obj"
 
     station = mr.Station(preset="pogs")
-    brdf = mr.Brdf(name="phong", cd=0.5, cs=0.0, n=10)
+    brdf = mr.Brdf(name="phong", cd=0.5, cs=0.0, n=0)
     attitude = mr.RbtfAttitude(w0=w0, q0=np.array([[0.0, 0.0, 0.0, 1.0]]), itensor=itensor)
     dates, epsecs = mr.date_arange(idate, idate + obs_time, obs_dt, return_epsecs=True)
 
@@ -142,25 +142,25 @@ Sampling the same light curve on different nights throughout the month
     idate = mr.utc(2022, 11, 15, 0)
     dates, epsecs = mr.date_arange(idate, idate + obs_time, obs_dt, return_epsecs=True)
 
-    for nights in np.arange(9):
-        this_dates = dates + mr.days(nights * 30.0)
+    for nights in np.arange(4):
+        this_dates = dates + mr.days(nights * 60.0)
         lc_ccd_signal_sampler, aux_data = station.observe_light_curve(
             obj, attitude, brdf, this_dates, use_engine=False, model_scale_factor=0.5
         )
 
         print(np.mean(aux_data["background_mean"]))
 
-        plt.subplot(3, 3, nights + 1)
+        plt.subplot(2, 2, nights + 1)
 
         lcs_noisy_adu = np.array([lc_ccd_signal_sampler() for _ in range(1000)])
         lcs_noisy_irrad = lcs_noisy_adu / (
             aux_data["sint"] * station.telescope.integration_time
         )
-        lcs_noisy_mag = lcs_noisy_irrad
+        lcs_noisy_mag = mr.irradiance_to_apparent_magnitude(lcs_noisy_irrad)
         var_lcs = np.var(lcs_noisy_mag, axis=0)
         mean_lcs = np.mean(lcs_noisy_mag, axis=0)
 
-        plt.plot(epsecs, mean_lcs, c="k")
+        plt.plot(epsecs, mean_lcs, c="k", lw=1)
         for stdev in [1, 2, 3]:
             plt.fill_between(
                 epsecs,
@@ -183,13 +183,13 @@ Sampling the same light curve on different nights throughout the month
             "",
             "",
             grid=False,
-            # legend=["Mean", "1$\sigma$", "2$\sigma$", "3$\sigma$"] if nights == 0 else None,
+            legend=["Mean", "1$\sigma$", "2$\sigma$", "3$\sigma$"] if nights == 0 else None,
         )
-        plt.ylim(0, 4e-14)
+        plt.ylim(13, 18)
+        plt.gca().invert_yaxis()
 
     plt.gcf().supxlabel("Seconds after midnight UTC")
     plt.gcf().supylabel("Recieved irradiance [W/m$^2$]")
-
 
     plt.tight_layout()
     plt.show()
@@ -197,7 +197,7 @@ Sampling the same light curve on different nights throughout the month
 
 
 .. image-sg:: /gallery/01-light_curves/images/sphx_glr_lc_uncertainty_002.png
-   :alt: 2022-11-15, 2022-12-15, 2023-01-14, 2023-02-13, 2023-03-15, 2023-04-14, 2023-05-14, 2023-06-13, 2023-07-13
+   :alt: 2022-11-15, 2023-01-14, 2023-03-15, 2023-05-14
    :srcset: /gallery/01-light_curves/images/sphx_glr_lc_uncertainty_002.png, /gallery/01-light_curves/images/sphx_glr_lc_uncertainty_002_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
@@ -208,22 +208,14 @@ Sampling the same light curve on different nights throughout the month
 
     WARNING: no observation constraints assigned!
     2765.3304856918335
-    WARNING: no observation constraints assigned!
-    2734.8358829884783
+    /Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/numpy/core/_methods.py:236: RuntimeWarning: invalid value encountered in subtract
+      x = asanyarray(arr - arrmean)
     WARNING: no observation constraints assigned!
     2756.146692626958
     WARNING: no observation constraints assigned!
-    2765.8438546153748
-    WARNING: no observation constraints assigned!
     2754.7951609931038
     WARNING: no observation constraints assigned!
-    2895.002167362213
-    WARNING: no observation constraints assigned!
     3544.2056351711303
-    WARNING: no observation constraints assigned!
-    4732.3346024156
-    WARNING: no observation constraints assigned!
-    10008.178875145497
 
 
 
@@ -231,7 +223,7 @@ Sampling the same light curve on different nights throughout the month
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  9.680 seconds)
+   **Total running time of the script:** ( 0 minutes  5.817 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_lc_uncertainty.py:

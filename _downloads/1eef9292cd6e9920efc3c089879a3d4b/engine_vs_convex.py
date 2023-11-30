@@ -40,7 +40,7 @@ b_non_convex = mr.run_light_curve_engine(
     obj,
     svb,
     ovb,
-    instance_count=9,
+    instances=9,
     silent=False,
 )
 b_convex = obj.convex_light_curve(brdf, svb, ovb)
@@ -76,9 +76,9 @@ plt.show()
 obj = mr.SpaceObject("tess.obj")
 brdf = mr.Brdf("phong", cd=0.5, cs=0.5, n=5)
 
-b_non_convex = mr.run_light_curve_engine(brdf, obj, svb, ovb, instance_count=1)
+b_non_convex = mr.run_light_curve_engine(brdf, obj, svb, ovb, instances=1)
 b_non_convex_rotating = mr.run_light_curve_engine(
-    brdf, obj, svb, ovb, instance_count=1, rotate_panels=True
+    brdf, obj, svb, ovb, instances=1, rotate_panels=True
 )
 b_convex = obj.convex_light_curve(brdf, svb, ovb)
 

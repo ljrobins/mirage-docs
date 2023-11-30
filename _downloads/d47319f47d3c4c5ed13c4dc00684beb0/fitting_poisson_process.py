@@ -23,3 +23,9 @@ sns.histplot(data_to_fit, stat="density", binwidth=1)
 sns.histplot(poisson(lambda_est).rvs(data_to_fit.size), stat="density", binwidth=1)
 
 plt.show()
+
+# %%
+# Expected absolute error in a sample should be equal to the standard deviation
+
+print(f"Expected standard deviation: {np.sqrt(lambda_est)}")
+print(f"Sample standard deviation: {np.std(data_to_fit)}")

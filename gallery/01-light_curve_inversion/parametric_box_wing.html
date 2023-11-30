@@ -1,0 +1,1168 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Parametric Box-Wing Inversion &#8212; MIRAGE  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gallery/01-light_curve_inversion/parametric_box_wing';</script>
+    <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Multiple Hypothesis Inversion" href="multi_hypothesis_inversion.html" />
+    <link rel="prev" title="Face Uncertainty" href="face_uncertainty.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/sid_logo_light.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/sid_logo_dark.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+    <p class="title logo__title">MIRAGE</p>
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../modules.html">
+                        mirage
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../references.html">
+                        References
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples Gallery
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../modules.html">
+                        mirage
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../references.html">
+                        References
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples Gallery
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-orbits/index.html">Orbits</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/hifi_propagation.html">Propagating with Perturbations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/propagate_single_tle.html">Propagating single TLE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/tle_switching.html">TLE Switching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/propagate_catalog.html">Propagating the catalog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/ground_track.html">Ground Tracks</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Light Curve Inversion</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="kass_durech_vs_python.html">Support Optimization Comparison</a></li>
+<li class="toctree-l2"><a class="reference internal" href="poisson_shape_variance.html">Shape Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="noisy_inversion_pdf.html">Inversion PDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="face_uncertainty.html">Face Uncertainty</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Parametric Box-Wing Inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multi_hypothesis_inversion.html">Multiple Hypothesis Inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aas_non_convex_inversion.html">Non-Convex Inversion</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-light_curves/index.html">Light Curves</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_embeddings.html">Brightness Function Embeddings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/convex_light_curve.html">Convex Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/rotate_panels_vid.html">Rotating Solar Panels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/support_unobservability.html">Support Unobservability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/read_fit_brdf_databases.html">Fitting BRDF Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_grid.html">BRDFs on the local hemisphere</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_ambiguities.html">Light Curve Ambiguities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_units.html">Light Curve Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/lc_uncertainty.html">Light Curve Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/save_lc_datasets.html">Saving Light Curve Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curves_types.html">Types of Light Curves</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-coordinate-systems/index.html">Coordinate Frames</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/time_systems.html">Time Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/polar_motion.html">Polar Motion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/earth_pole_motion.html">Precession and Nutation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/spice_comparison.html">SPICE vs Vallado</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/equinoxes.html">Equinoxes and Solstices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/itrf_to_j2000.html">IAU-76 J2000 Reduction</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-environment/index.html">Environment</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/luminous_efficiency.html">Luminous Efficiency Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/twilight_model.html">Twilight Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/vr_factor.html">Airmass Function Comparison</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/star_aberration.html">Star Aberration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/background_zenith.html">Background Signals at Zenith</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/atmospheric_absorption.html">Atmospheric Transmission</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/penumbra_plane.html">Penumbra Visualized</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/geoid_heights.html">Global Elevation</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/total_solar_irradiance.html">Total Solar Irradiance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometrical Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/reflected_albedo.html">Earth Albedo BRDF</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-vis/index.html">Plotting Options</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-vis/moon_libration.html">Moon Librations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-vis/plot_earth.html">Plotting Earth</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-attitude/index.html">Rigid Body Attitudes</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/light_curve_iso_surfaces.html">Brightness Isosurfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/torque_free_axisymmetric.html">Torque-free Attitude Propagation</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/light_time_delay.html">Light Time Delay</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/weather_data.html">Local Weather Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/local_sidereal_time.html">Local Sidereal Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/conic_sensor.html">Conic Sensors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/synthetic_rpo_images.html">Synthetic RPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/atmos_refraction.html">Atmospheric Refraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/horizon_mask.html">Horizon Masks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/pogs_local_terrain.html">POGS Local Terrain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/visualize_constraints.html">Horizon Masked Observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/local_hemisphere.html">Live Satellites From Observer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/fit_background.html">Fitting the Background</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../08-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/wavelength_to_rgb.html">RGB to Wavelength</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/count_lines.html">Counting Source Code Lines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/nnls_vs_fnnls.html">FNNLS vs NNLS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/samplers.html">Samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/random_figures_for_defense_pres.html">Figures for MS Defense</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/computer_graphics_background.html">Graphics Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/egi_figs_aas22.html">EGI Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/model_editor.html">Model Editor</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../09-models/index.html">3D Models</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/introduce_concavity.html">Introducing Concavities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/merge_bracket.html">Shape Interpolation Bracket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/voronoi_to_support.html">Voronoi Diagram to Supports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/merge_biased.html">Merging with Bias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/shape_interpolation.html">Shape Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/satellite_lineup.html">Satellite Lineup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/sfds.html">Signed Distance Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/inversion_gradient.html">EGI Jacobian</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../10-ccd/index.html">CCD Characterization</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/characterize_ccd.html">Characterizing the CCD Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_integration_time.html">Integration Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/noise_accum_gifs.html">Noise Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_scintillation.html">CCD Scintillation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/airy_disk_gaussian_fit.html">Airy Disk Gaussian Fit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_heuristics.html">CCD Heuristics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/airy_disk_diffraction.html">Airy Disk Diffraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/background_shape.html">Background Shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/snr.html">Signal-to-Noise Ratio (SNR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/render_ccd.html">CCD Rendering</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Examples Gallery</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Light Curve Inversion</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Parametric Box-Wing Inversion</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-gallery-01-light-curve-inversion-parametric-box-wing-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="parametric-box-wing-inversion">
+<span id="sphx-glr-gallery-01-light-curve-inversion-parametric-box-wing-py"></span><h1>Parametric Box-Wing Inversion<a class="headerlink" href="#parametric-box-wing-inversion" title="Permalink to this heading">#</a></h1>
+<img src="../../_images/sphx_glr_parametric_box_wing_001.png" srcset="../../_images/sphx_glr_parametric_box_wing_001.png, ../../_images/sphx_glr_parametric_box_wing_001_2_00x.png 2.00x" alt="parametric box wing" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Downloading tiles for N32W106.hgt
+395533.9929816302
+395533.9929815272
+395533.9929815259
+395533.99298162886
+395533.99298157863
+395533.9929816354
+395533.9929816413
+395533.9929816216
+395533.99298162514
+395516.75792159507
+395516.75792134635
+395516.75792134716
+395516.7579215926
+395516.75792154286
+395516.75792160426
+395516.757921665
+395516.7579215425
+395516.7579215863
+395292.7479653605
+395292.74796443374
+395292.74796444346
+395292.7479653578
+395292.74796530517
+395292.7479653898
+395292.747966355
+395292.74796454544
+395292.74796533195
+391240.71599477786
+391240.7159904211
+391240.7159904728
+391240.71599477786
+391240.71599470853
+391240.71599477786
+391240.71599477786
+391240.7159835932
+391240.715994636
+310601.2809365804
+310601.2809181045
+310601.28091832943
+310601.2809365804
+310601.28093649785
+310601.2809365804
+310601.2809365804
+310601.2808689427
+310601.2809361691
+1793132.6859617648
+1793132.686096075
+1793132.6860944298
+1793132.6859617648
+1793132.6859619727
+1793132.6859617648
+1793132.6859617648
+1793132.6854497206
+1793132.6859627084
+268656.6081802741
+268656.60816522036
+268656.60816540394
+268656.6081802741
+268656.608180212
+268656.6081802741
+268656.6081802741
+268656.60812151915
+268656.6081798793
+250298.81642821117
+250298.8164333212
+250298.81643325888
+250298.81642821117
+250298.81642820724
+250298.81642821117
+250298.81642821117
+250298.8164141566
+250298.81642802057
+249682.95348610447
+249682.953485498
+249682.95348550536
+249682.95348610447
+249682.9534860855
+249682.95348610447
+249682.95348610447
+249682.95346055136
+249682.9534858532
+249573.6679982446
+249573.66799918722
+249573.66799917578
+249573.6679982446
+249573.6679982297
+249573.6679982446
+249573.6679982446
+249573.66797588867
+249573.66799800965
+395368.978591801
+395368.978591801
+395368.978591801
+395368.978591801
+395368.9785918008
+395368.978591801
+395368.978591801
+395368.978591801
+395368.9785918266
+361247.59294307395
+361247.59294307145
+361247.5929430715
+361247.59294307395
+361247.59294276126
+361247.59294307395
+361247.59294307395
+361247.59294347453
+361247.5929462897
+2429277.7241079183
+2429277.7242520195
+2429277.724250252
+2429277.7241079183
+2429277.724108141
+2429277.7241079183
+2429277.7241079183
+2429277.723136027
+2429277.724108902
+249573.15939308974
+249573.1593941528
+249573.1593941399
+249573.15939308974
+249573.1593930752
+249573.15939308974
+249573.15939308974
+249573.15937098843
+249573.15939285603
+249572.13217218433
+249572.13217324702
+249572.13217323407
+249572.13217218433
+249572.13217216978
+249572.13217218433
+249572.13217218433
+249572.13215009
+249572.13217195056
+249568.02652362737
+249568.0265246888
+249568.02652467586
+249568.02652362737
+249568.02652361288
+249568.02652362737
+249568.02652362737
+249568.02650156122
+249568.02652339367
+249551.65564345664
+249551.65564451253
+249551.6556444996
+249551.65564345664
+249551.65564344206
+249551.65564345664
+249551.65564345664
+249551.65562150264
+249551.6556432225
+249486.9965607274
+249486.996561761
+249486.99656174824
+249486.9965607274
+249486.9965607126
+249486.9965607274
+249486.9965607274
+249486.99653921885
+249486.9965604921
+249241.365118654
+249241.36511959307
+249241.3651195811
+249241.365118654
+249241.36511863832
+249241.365118654
+249241.365118654
+249241.36509887653
+249241.36511841358
+248620.22804320874
+248620.22804389754
+248620.22804388727
+248620.22804320874
+248620.22804316346
+248620.22804320874
+248620.22804320874
+248620.2280275651
+248620.22804289515
+247491.33793153265
+247491.33793166827
+247491.3379316654
+247491.33793153265
+247491.33793135954
+247491.33793153265
+247491.33793153265
+247491.33792225653
+247491.33793122123
+245943.3436626534
+245943.3436615841
+245943.34366161926
+245943.3436626534
+245943.34366233685
+245943.3436626534
+245943.3436626534
+245943.34366348622
+245943.34366257154
+245260.59812373464
+245260.59812272977
+245260.5981227463
+245260.59812373464
+245260.59812341604
+245260.59812373464
+245260.59812373464
+245260.5981302815
+245260.59812379797
+244541.8373777291
+244541.83737747956
+244541.83737748096
+244541.8373777291
+244541.83737742383
+244541.8373777291
+244541.8373777291
+244541.83738723796
+244541.8373778845
+243235.76594490738
+243235.76594558073
+243235.76594558783
+243235.76594490738
+243235.76594461445
+243235.76594490738
+243235.76594490738
+243235.7659568626
+243235.76594517913
+240735.0332400343
+240735.03324176668
+240735.0332418805
+240735.0332400343
+240735.0332397487
+240735.0332400343
+240735.0332400343
+240735.03325429285
+240735.03324046277
+232294.1321256394
+232294.1321293554
+232294.13213052094
+232294.1321256394
+232294.13212537277
+232294.1321256394
+232294.1321256394
+232294.13214316228
+232294.13212670814
+225568.4116452754
+225568.41163927375
+225568.4116155073
+225568.4116452754
+225568.41164489233
+225568.4116452754
+225568.4116452754
+225568.41167915642
+225568.4116485196
+224274.1243733357
+224274.12437363758
+224274.12437392486
+224274.1243733357
+224274.1243730442
+224274.1243733357
+224274.1243733357
+224274.12439538445
+224274.12437491128
+219641.4667592044
+219641.46675517468
+219641.4667469258
+219641.4667592044
+219641.46675886583
+219641.4667592044
+219641.4667592044
+219641.466789357
+219641.46676156548
+212498.12779749781
+212498.12779343067
+212498.12776950255
+212498.12779749781
+212498.12779712773
+212498.12779749781
+212498.12779749781
+212498.12782569308
+212498.1277895786
+210112.36068271563
+210112.36067825428
+210112.36066397332
+210112.36068271563
+210112.36068234238
+210112.36068271563
+210112.36068271563
+210112.3607142323
+210112.36068356017
+194749.59995461244
+194749.59995149975
+194749.59993998992
+194749.59995461244
+194749.59995426395
+194749.59995461244
+194749.59995461244
+194749.59998129762
+194749.59994938035
+163768.8926573477
+163768.89265538313
+163768.8926446057
+163768.8926573477
+163768.89265702365
+163768.8926573477
+163768.8926573477
+163768.89267579082
+163768.8926466062
+148800.69214799927
+148800.69214799927
+148800.69214799927
+148800.69214799927
+148800.692148203
+148800.69214799927
+148800.69214799927
+148800.69214799927
+148800.69215010258
+120060.76281363564
+120060.76281361011
+120060.7628132252
+120060.76281363564
+120060.76281353371
+120060.76281363564
+120060.76281363564
+120060.76281512568
+120060.76279207766
+261316.97646807216
+261316.97646807216
+261316.97646807216
+261316.97646807216
+261316.9764684711
+261316.97646807216
+261316.97646807216
+261316.97646807216
+261316.97643728307
+108735.41172980006
+108735.41172993809
+108735.41173353938
+108735.41172980006
+108735.41172988535
+108735.41172980006
+108735.41172980006
+108735.41172906148
+108735.41171845178
+94472.13280775523
+94472.13280744545
+94472.1328038557
+94472.13280775523
+94472.1328076699
+94472.13280775523
+94472.13280775523
+94472.13281143481
+94472.13280308085
+90827.46959105747
+90827.46959059084
+90827.46958646776
+90827.46959105747
+90827.4695909665
+90827.46959105747
+90827.46959105747
+90827.46959606333
+90827.46958995415
+86992.96622537645
+86992.96622502856
+86992.96622283723
+86992.96622537645
+86992.96622534607
+86992.96622537645
+86992.96622537645
+86992.96622931848
+86992.96622486826
+85936.38903102478
+85936.3890306811
+85936.38902917362
+85936.38903102478
+85936.38903098687
+85936.38903102478
+85936.38903102478
+85936.38903515137
+85936.38903205348
+85491.86572985232
+85491.86572969072
+85491.86572910246
+85491.86572985232
+85491.86572983829
+85491.86572985232
+85491.86572985232
+85491.8657326359
+85491.86573012806
+bwp_opt.wing_area=12488.150942372878 bwp_opt.scales=(169.86157441032256, 36.60878634665662, 40.72837613986462) bwp_opt.brdf_box.cd=0.0 bwp_opt.brdf_wing.cd=0.0 bwp_opt.brdf_box.n=63.071851475042266 bwp_opt.brdf_wing.n=113.52304759128498 bwp_opt.brdf_box.cs=1.0 bwp_opt.brdf_wing.cs=1.0
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">minimize</span>
+
+<span class="kn">import</span> <span class="nn">mirage</span> <span class="k">as</span> <span class="nn">mr</span>
+
+
+<span class="k">def</span> <span class="nf">construct_from_y</span><span class="p">(</span><span class="n">attitude</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+    <span class="n">cd_wing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">cd_box</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mf">1e-8</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+    <span class="n">n_box</span><span class="p">,</span> <span class="n">n_wing</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
+    <span class="n">brdf_box</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">Brdf</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;phong&quot;</span><span class="p">,</span> <span class="n">cd</span><span class="o">=</span><span class="n">cd_box</span><span class="p">,</span> <span class="n">cs</span><span class="o">=</span><span class="mi">1</span> <span class="o">-</span> <span class="n">cd_box</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_box</span><span class="p">)</span>
+    <span class="n">brdf_wing</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">Brdf</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;phong&quot;</span><span class="p">,</span> <span class="n">cd</span><span class="o">=</span><span class="n">cd_wing</span><span class="p">,</span> <span class="n">cs</span><span class="o">=</span><span class="mi">1</span> <span class="o">-</span> <span class="n">cd_wing</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_wing</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">BoxWingParametric</span><span class="p">(</span>
+        <span class="n">attitude</span><span class="p">,</span>
+        <span class="n">brdf_box</span><span class="p">,</span>
+        <span class="n">brdf_wing</span><span class="p">,</span>
+        <span class="n">x_scale</span><span class="o">=</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">y_scale</span><span class="o">=</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="n">z_scale</span><span class="o">=</span><span class="n">y</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+        <span class="n">wing_area</span><span class="o">=</span><span class="n">y</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+    <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">BoxWingParametric</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">attitude</span><span class="p">:</span> <span class="n">mr</span><span class="o">.</span><span class="n">AlignedAndConstrainedAttitude</span><span class="p">,</span>
+        <span class="n">brdf_box</span><span class="p">:</span> <span class="n">mr</span><span class="o">.</span><span class="n">Brdf</span><span class="p">,</span>
+        <span class="n">brdf_wing</span><span class="p">:</span> <span class="n">mr</span><span class="o">.</span><span class="n">Brdf</span><span class="p">,</span>
+        <span class="n">x_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">y_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">z_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">wing_area</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attitude</span> <span class="o">=</span> <span class="n">attitude</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">brdf_box</span> <span class="o">=</span> <span class="n">brdf_box</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">brdf_wing</span> <span class="o">=</span> <span class="n">brdf_wing</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scales</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_scale</span><span class="p">,</span> <span class="n">y_scale</span><span class="p">,</span> <span class="n">z_scale</span><span class="p">)</span>
+        <span class="n">cube_template</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">SpaceObject</span><span class="p">(</span><span class="s2">&quot;cube.obj&quot;</span><span class="p">)</span>
+        <span class="n">cube_template</span><span class="o">.</span><span class="n">v</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*=</span> <span class="n">x_scale</span>
+        <span class="n">cube_template</span><span class="o">.</span><span class="n">v</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*=</span> <span class="n">y_scale</span>
+        <span class="n">cube_template</span><span class="o">.</span><span class="n">v</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*=</span> <span class="n">z_scale</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">SpaceObject</span><span class="p">(</span><span class="n">vertices_and_faces</span><span class="o">=</span><span class="p">(</span><span class="n">cube_template</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">cube_template</span><span class="o">.</span><span class="n">f</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wing_area</span> <span class="o">=</span> <span class="n">wing_area</span>
+
+    <span class="k">def</span> <span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dates</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">],</span> <span class="n">ovi</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">jd</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">date_to_jd</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
+        <span class="n">eci_to_body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attitude</span><span class="o">.</span><span class="n">dcms_at_dates</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
+
+        <span class="n">vc_eci</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attitude</span><span class="o">.</span><span class="n">const_interpolator</span><span class="p">(</span><span class="n">jd</span><span class="p">)</span>
+
+        <span class="n">ovb</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">stack_mat_mult_vec</span><span class="p">(</span><span class="n">eci_to_body</span><span class="p">,</span> <span class="n">ovi</span><span class="p">)</span>
+        <span class="n">vc_body</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">stack_mat_mult_vec</span><span class="p">(</span><span class="n">eci_to_body</span><span class="p">,</span> <span class="n">vc_eci</span><span class="p">)</span>
+
+        <span class="c1"># pl = pv.Plotter()</span>
+        <span class="c1"># mrv.plot3(pl, vc_body)</span>
+        <span class="c1"># mrv.plot3(pl, ovb)</span>
+        <span class="c1"># pl.show()</span>
+        <span class="c1"># eneddds</span>
+
+        <span class="n">box_lc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">box</span><span class="o">.</span><span class="n">convex_light_curve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">brdf_box</span><span class="p">,</span> <span class="n">svb</span><span class="o">=</span><span class="n">vc_body</span><span class="p">,</span> <span class="n">ovb</span><span class="o">=</span><span class="n">ovb</span><span class="p">)</span>
+        <span class="n">wing_lc</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wing_area</span>
+            <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">brdf_wing</span><span class="o">.</span><span class="n">eval_normalized_brightness</span><span class="p">(</span>
+                <span class="n">L</span><span class="o">=</span><span class="n">vc_body</span><span class="p">,</span> <span class="n">O</span><span class="o">=</span><span class="n">ovb</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="n">vc_body</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">box_lc</span><span class="p">,</span> <span class="n">wing_lc</span>
+
+    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">dates</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">],</span>
+        <span class="n">ovi</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">lc_unit_observed</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">valid_inds</span> <span class="o">=</span> <span class="o">~</span><span class="n">lc_unit_observed</span><span class="o">.</span><span class="n">mask</span>
+
+        <span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+            <span class="n">bwpi</span> <span class="o">=</span> <span class="n">construct_from_y</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">attitude</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+            <span class="n">box_lc</span><span class="p">,</span> <span class="n">wing_lc</span> <span class="o">=</span> <span class="n">bwpi</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">ovi</span><span class="p">)</span>
+            <span class="n">err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
+                <span class="n">lc_unit_observed</span><span class="p">[</span><span class="n">valid_inds</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">box_lc</span> <span class="o">+</span> <span class="n">wing_lc</span><span class="p">)[</span><span class="n">valid_inds</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">err</span>
+
+        <span class="n">opt_sol</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;maxiter&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">})</span>
+        <span class="k">return</span> <span class="n">construct_from_y</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">attitude</span><span class="p">,</span> <span class="n">opt_sol</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+
+
+<span class="n">date_start</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">utc</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">epsecs</span><span class="p">)</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">date_linspace</span><span class="p">(</span>
+    <span class="n">date_start</span> <span class="o">-</span> <span class="n">mr</span><span class="o">.</span><span class="n">days</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">date_start</span><span class="p">,</span> <span class="mf">1e3</span><span class="p">,</span> <span class="n">return_epsecs</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="n">station</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">Station</span><span class="p">()</span>
+
+<span class="n">station</span><span class="o">.</span><span class="n">constraints</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">mr</span><span class="o">.</span><span class="n">SnrConstraint</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
+    <span class="n">mr</span><span class="o">.</span><span class="n">ElevationConstraint</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+    <span class="n">mr</span><span class="o">.</span><span class="n">TargetIlluminatedConstraint</span><span class="p">(),</span>
+    <span class="n">mr</span><span class="o">.</span><span class="n">ObserverEclipseConstraint</span><span class="p">(</span><span class="n">station</span><span class="p">),</span>
+    <span class="n">mr</span><span class="o">.</span><span class="n">VisualMagnitudeConstraint</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
+    <span class="n">mr</span><span class="o">.</span><span class="n">MoonExclusionConstraint</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+    <span class="n">mr</span><span class="o">.</span><span class="n">HorizonMaskConstraint</span><span class="p">(</span><span class="n">station</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">obj</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">SpaceObject</span><span class="p">(</span><span class="s2">&quot;matlib_hylas4.obj&quot;</span><span class="p">,</span> <span class="n">identifier</span><span class="o">=</span><span class="s2">&quot;superbird 6&quot;</span><span class="p">)</span>
+<span class="c1"># obj = mr.SpaceObject(&quot;matlib_tess.obj&quot;, identifier=&quot;NAVSTAR 62 (USA 201)&quot;)</span>
+<span class="n">r_obj_j2k</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">propagate</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
+
+<span class="n">sv</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">sun</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
+<span class="n">nadir</span> <span class="o">=</span> <span class="o">-</span><span class="n">mr</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">r_obj_j2k</span><span class="p">)</span>
+<span class="n">attitude</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">AlignedAndConstrainedAttitude</span><span class="p">(</span>
+    <span class="n">v_align</span><span class="o">=</span><span class="n">nadir</span><span class="p">,</span>
+    <span class="n">v_const</span><span class="o">=</span><span class="n">sv</span><span class="p">,</span>
+    <span class="n">dates</span><span class="o">=</span><span class="n">dates</span><span class="p">,</span>
+    <span class="n">axis_order</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">brdf</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">Brdf</span><span class="p">(</span><span class="s2">&quot;phong&quot;</span><span class="p">)</span>
+
+<span class="p">(</span><span class="n">lc_ccd_signal</span><span class="p">,</span> <span class="n">aux_data</span><span class="p">)</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">observe_light_curve</span><span class="p">(</span>
+    <span class="n">obj</span><span class="p">,</span>
+    <span class="n">attitude</span><span class="p">,</span>
+    <span class="n">brdf</span><span class="p">,</span>
+    <span class="n">dates</span><span class="p">,</span>
+    <span class="n">model_scale_factor</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">use_engine</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">show_window</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">frame_rate</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">instances</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">rotate_panels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">brdf_bwp</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">Brdf</span><span class="p">(</span><span class="s2">&quot;phong&quot;</span><span class="p">,</span> <span class="n">cd</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">cs</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">bwp</span> <span class="o">=</span> <span class="n">BoxWingParametric</span><span class="p">(</span><span class="n">attitude</span><span class="p">,</span> <span class="n">brdf_bwp</span><span class="p">,</span> <span class="n">brdf_bwp</span><span class="p">)</span>
+
+<span class="n">lc_noisy_adu</span> <span class="o">=</span> <span class="n">lc_ccd_signal</span><span class="p">()</span>
+
+<span class="n">lc_noisy_irrad</span> <span class="o">=</span> <span class="n">lc_noisy_adu</span> <span class="o">/</span> <span class="n">aux_data</span><span class="p">[</span><span class="s2">&quot;sint&quot;</span><span class="p">]</span>
+<span class="n">lc_noisy_unit_irrad</span> <span class="o">=</span> <span class="n">lc_noisy_irrad</span> <span class="o">*</span> <span class="p">(</span><span class="n">aux_data</span><span class="p">[</span><span class="s2">&quot;rmag_station_to_sat&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e3</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="n">invalid_inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">lc_noisy_unit_irrad</span><span class="p">)</span>
+
+<span class="n">ovi</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">aux_data</span><span class="p">[</span><span class="s2">&quot;station_pos_eci&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">aux_data</span><span class="p">[</span><span class="s2">&quot;object_pos_eci&quot;</span><span class="p">])</span>
+<span class="n">ovb</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">stack_mat_mult_vec</span><span class="p">(</span><span class="n">attitude</span><span class="o">.</span><span class="n">dcms_at_dates</span><span class="p">(</span><span class="n">dates</span><span class="p">),</span> <span class="n">ovi</span><span class="p">)</span>
+
+<span class="n">bwp_opt</span> <span class="o">=</span> <span class="n">bwp</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">ovi</span><span class="p">,</span> <span class="n">lc_noisy_unit_irrad</span><span class="p">)</span>
+<span class="n">box_lc_opt</span><span class="p">,</span> <span class="n">wing_lc_opt</span> <span class="o">=</span> <span class="n">bwp_opt</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">ovi</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bwp_opt</span><span class="o">.</span><span class="n">wing_area</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bwp_opt</span><span class="o">.</span><span class="n">scales</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bwp_opt</span><span class="o">.</span><span class="n">brdf_box</span><span class="o">.</span><span class="n">cd</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bwp_opt</span><span class="o">.</span><span class="n">brdf_wing</span><span class="o">.</span><span class="n">cd</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bwp_opt</span><span class="o">.</span><span class="n">brdf_box</span><span class="o">.</span><span class="n">n</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bwp_opt</span><span class="o">.</span><span class="n">brdf_wing</span><span class="o">.</span><span class="n">n</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bwp_opt</span><span class="o">.</span><span class="n">brdf_box</span><span class="o">.</span><span class="n">cs</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bwp_opt</span><span class="o">.</span><span class="n">brdf_wing</span><span class="o">.</span><span class="n">cs</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">lc_noisy_unit_irrad</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">aux_data</span><span class="p">[</span><span class="s2">&quot;lc_clean_norm&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">wing_lc_opt</span> <span class="o">+</span> <span class="n">box_lc_opt</span><span class="p">)</span>
+<span class="c1"># plt.plot(dates, box_lc_opt)</span>
+<span class="c1"># plt.plot(dates, wing_lc_opt)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s2">&quot;noisy_true&quot;</span><span class="p">,</span> <span class="s2">&quot;clean_true&quot;</span><span class="p">,</span> <span class="s2">&quot;recon&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  13.871 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-01-light-curve-inversion-parametric-box-wing-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/1b6ff90fbf475d009463c99eedcfc4a8/parametric_box_wing.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">parametric_box_wing.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/8adfa188e521352228240e281f4e0429/parametric_box_wing.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">parametric_box_wing.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="face_uncertainty.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Face Uncertainty</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="multi_hypothesis_inversion.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Multiple Hypothesis Inversion</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2022-2023, Liam Robinson.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -59,7 +59,7 @@ Examples to develop a better intuition for CCD counts from known sources
 
 We can also look at counts due to point sources. Note that these sources are actually spread across a few pixels, so the values are actually much lower on the CCD
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-43
+.. GENERATED FROM PYTHON SOURCE LINES 24-44
 
 .. code-block:: default
 
@@ -86,6 +86,7 @@ We can also look at counts due to point sources. Note that these sources are act
 
 
 
+
 .. rst-class:: sphx-glr-script-out
 
  .. code-block:: none
@@ -97,10 +98,89 @@ We can also look at counts due to point sources. Note that these sources are act
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 45-46
+
+The size in square pixels of a large GEO satellite when observed from the surface of the Earth by POGS
+
+.. GENERATED FROM PYTHON SOURCE LINES 46-70
+
+.. code-block:: default
+
+    station.telescope.pixel_scale = 1
+    station.telescope.aperture_diameter = 0.5
+    sat_radius_m = 20
+    sat_dist_m = (36e3) * 1e3
+    pscale = station.telescope.pixel_scale  # arcseconds / pixel
+    p_area_sterad = mr.dms_to_rad(0, 0, pscale) ** 2  # sterad / pixel ** 2
+    angular_radius_of_sat_geo = np.arctan(sat_radius_m / sat_dist_m)
+    angular_radius_of_sat_geo_pix = angular_radius_of_sat_geo / mr.dms_to_rad(
+        0, 0, station.telescope.pixel_scale
+    )
+
+    print(f"A GEO satellite is {2*angular_radius_of_sat_geo_pix:.1f} pixels wide from POGS")
+
+    sat_radius_m = 0.3
+    sat_dist_m = (1000) * 1e3
+    pscale = station.telescope.pixel_scale  # arcseconds / pixel
+    p_area_sterad = mr.dms_to_rad(0, 0, pscale) ** 2  # sterad / pixel ** 2
+    angular_radius_of_sat_leo = np.arctan(sat_radius_m / sat_dist_m)
+    angular_radius_of_sat_leo_pix = angular_radius_of_sat_leo / mr.dms_to_rad(
+        0, 0, station.telescope.pixel_scale
+    )
+
+    print(f"A LEO satellite is {2*angular_radius_of_sat_leo_pix:.1f} pixels wide from POGS")
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    A GEO satellite is 0.2 pixels wide from POGS
+    A LEO satellite is 0.1 pixels wide from POGS
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 71-72
+
+Airy disk size for GEO objects
+
+.. GENERATED FROM PYTHON SOURCE LINES 72-83
+
+.. code-block:: default
+
+
+    rayleigh_crit_rad = 1.22 * 550e-9 / station.telescope.aperture_diameter
+    rayleigh_crit_pix = rayleigh_crit_rad / mr.dms_to_rad(
+        0, 0, station.telescope.pixel_scale
+    )
+    print(
+        f"For GEO the Airy disk is {rayleigh_crit_pix/angular_radius_of_sat_geo_pix:.1f}x wider than the object itself"
+    )
+    print(
+        f"For LEO the Airy disk is {rayleigh_crit_pix/angular_radius_of_sat_leo_pix:.1f}x wider than the object itself"
+    )
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    For GEO the Airy disk is 2.4x wider than the object itself
+    For LEO the Airy disk is 4.5x wider than the object itself
+
+
+
+
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.008 seconds)
+   **Total running time of the script:** ( 0 minutes  0.010 seconds)
 
 
 .. _sphx_glr_download_gallery_10-ccd_ccd_heuristics.py:

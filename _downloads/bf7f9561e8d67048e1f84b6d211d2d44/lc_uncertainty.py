@@ -20,7 +20,7 @@ obs_dt = mr.seconds(3)
 obj_file = "cube.obj"
 
 station = mr.Station(preset="pogs")
-brdf = mr.Brdf(name="phong", cd=0.5, cs=0.0, n=10)
+brdf = mr.Brdf(name="phong", cd=0.5, cs=0.0, n=0)
 attitude = mr.RbtfAttitude(w0=w0, q0=np.array([[0.0, 0.0, 0.0, 1.0]]), itensor=itensor)
 dates, epsecs = mr.date_arange(idate, idate + obs_time, obs_dt, return_epsecs=True)
 
@@ -94,25 +94,25 @@ plt.show()
 idate = mr.utc(2022, 11, 15, 0)
 dates, epsecs = mr.date_arange(idate, idate + obs_time, obs_dt, return_epsecs=True)
 
-for nights in np.arange(9):
-    this_dates = dates + mr.days(nights * 30.0)
+for nights in np.arange(4):
+    this_dates = dates + mr.days(nights * 60.0)
     lc_ccd_signal_sampler, aux_data = station.observe_light_curve(
         obj, attitude, brdf, this_dates, use_engine=False, model_scale_factor=0.5
     )
 
     print(np.mean(aux_data["background_mean"]))
 
-    plt.subplot(3, 3, nights + 1)
+    plt.subplot(2, 2, nights + 1)
 
     lcs_noisy_adu = np.array([lc_ccd_signal_sampler() for _ in range(1000)])
     lcs_noisy_irrad = lcs_noisy_adu / (
         aux_data["sint"] * station.telescope.integration_time
     )
-    lcs_noisy_mag = lcs_noisy_irrad
+    lcs_noisy_mag = mr.irradiance_to_apparent_magnitude(lcs_noisy_irrad)
     var_lcs = np.var(lcs_noisy_mag, axis=0)
     mean_lcs = np.mean(lcs_noisy_mag, axis=0)
 
-    plt.plot(epsecs, mean_lcs, c="k")
+    plt.plot(epsecs, mean_lcs, c="k", lw=1)
     for stdev in [1, 2, 3]:
         plt.fill_between(
             epsecs,
@@ -135,13 +135,13 @@ for nights in np.arange(9):
         "",
         "",
         grid=False,
-        # legend=["Mean", "1$\sigma$", "2$\sigma$", "3$\sigma$"] if nights == 0 else None,
+        legend=["Mean", "1$\sigma$", "2$\sigma$", "3$\sigma$"] if nights == 0 else None,
     )
-    plt.ylim(0, 4e-14)
+    plt.ylim(13, 18)
+    plt.gca().invert_yaxis()
 
 plt.gcf().supxlabel("Seconds after midnight UTC")
 plt.gcf().supylabel("Recieved irradiance [W/m$^2$]")
-
 
 plt.tight_layout()
 plt.show()

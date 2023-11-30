@@ -80,9 +80,61 @@ Unstable rotation about the intermediate axis
 
 .. GENERATED FROM PYTHON SOURCE LINES 34-35
 
+Black version of unstable motion
+
+.. GENERATED FROM PYTHON SOURCE LINES 35-39
+
+.. code-block:: default
+
+    mrv.vis_attitude_motion(
+        obj, q, "tess_unstable_black.gif", framerate=20, background_color="black"
+    )
+
+
+
+
+.. image-sg:: /gallery/06-attitude/images/sphx_glr_vis_attitude_motion_002.gif
+   :alt: vis attitude motion
+   :srcset: /gallery/06-attitude/images/sphx_glr_vis_attitude_motion_002.gif
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 40-41
+
+Spin and precession
+
+.. GENERATED FROM PYTHON SOURCE LINES 41-49
+
+.. code-block:: default
+
+    obj_attitude = mr.RbtfAttitude(
+        w0=wmag * mr.hat(np.array([0.1, 3, 0.1])),
+        q0=q0,
+        itensor=np.diag((1.0, 2.0, 2.0)),
+    )
+    (q, w) = obj_attitude.propagate(epsecs)
+    mrv.vis_attitude_motion(obj, q, "tess_sp.gif", framerate=20, background_color="white")
+
+
+
+
+.. image-sg:: /gallery/06-attitude/images/sphx_glr_vis_attitude_motion_003.gif
+   :alt: vis attitude motion
+   :srcset: /gallery/06-attitude/images/sphx_glr_vis_attitude_motion_003.gif
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 50-51
+
 Stable rotation about the first axis
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-44
+.. GENERATED FROM PYTHON SOURCE LINES 51-60
 
 .. code-block:: default
 
@@ -98,9 +150,9 @@ Stable rotation about the first axis
 
 
 
-.. image-sg:: /gallery/06-attitude/images/sphx_glr_vis_attitude_motion_002.gif
+.. image-sg:: /gallery/06-attitude/images/sphx_glr_vis_attitude_motion_004.gif
    :alt: vis attitude motion
-   :srcset: /gallery/06-attitude/images/sphx_glr_vis_attitude_motion_002.gif
+   :srcset: /gallery/06-attitude/images/sphx_glr_vis_attitude_motion_004.gif
    :class: sphx-glr-single-img
 
 
@@ -110,7 +162,7 @@ Stable rotation about the first axis
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  24.597 seconds)
+   **Total running time of the script:** ( 0 minutes  45.435 seconds)
 
 
 .. _sphx_glr_download_gallery_06-attitude_vis_attitude_motion.py:

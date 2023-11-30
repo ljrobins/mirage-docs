@@ -15,10 +15,10 @@ import mirage.vis as mrv
 dates = mr.date_linspace(
     mr.now(),
     mr.now() + mr.days(mr.AstroConstants.moon_synodic_period_days),
-    50,
+    100,
 )
 pl = pv.Plotter()
-pl.open_gif("moon_librations.gif", subrectangles=True)
+pl.open_gif("moon_librations.gif", fps=20, subrectangles=True)
 for i, date in enumerate(dates[:-1]):
     mrv.plot_moon(pl, mode="eci", date=date)
     pl.camera.view_angle = 1.0  # The Moon's angular size from the Earth is about 0.5 deg, so let's double that FOV

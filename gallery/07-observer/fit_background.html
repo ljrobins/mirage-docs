@@ -1,0 +1,738 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Fitting the Background &#8212; MIRAGE  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gallery/07-observer/fit_background';</script>
+    <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Utility" href="../08-utility/index.html" />
+    <link rel="prev" title="Live Satellites From Observer" href="local_hemisphere.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/sid_logo_light.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/sid_logo_dark.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+    <p class="title logo__title">MIRAGE</p>
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../modules.html">
+                        mirage
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../references.html">
+                        References
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples Gallery
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../modules.html">
+                        mirage
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../references.html">
+                        References
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples Gallery
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-orbits/index.html">Orbits</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/hifi_propagation.html">Propagating with Perturbations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/propagate_single_tle.html">Propagating single TLE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/tle_switching.html">TLE Switching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/propagate_catalog.html">Propagating the catalog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/ground_track.html">Ground Tracks</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-light_curve_inversion/index.html">Light Curve Inversion</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curve_inversion/kass_durech_vs_python.html">Support Optimization Comparison</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curve_inversion/poisson_shape_variance.html">Shape Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curve_inversion/noisy_inversion_pdf.html">Inversion PDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curve_inversion/face_uncertainty.html">Face Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curve_inversion/parametric_box_wing.html">Parametric Box-Wing Inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curve_inversion/multi_hypothesis_inversion.html">Multiple Hypothesis Inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curve_inversion/aas_non_convex_inversion.html">Non-Convex Inversion</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-light_curves/index.html">Light Curves</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_embeddings.html">Brightness Function Embeddings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/convex_light_curve.html">Convex Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/rotate_panels_vid.html">Rotating Solar Panels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/support_unobservability.html">Support Unobservability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/read_fit_brdf_databases.html">Fitting BRDF Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_grid.html">BRDFs on the local hemisphere</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_ambiguities.html">Light Curve Ambiguities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_units.html">Light Curve Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/lc_uncertainty.html">Light Curve Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/save_lc_datasets.html">Saving Light Curve Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curves_types.html">Types of Light Curves</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-coordinate-systems/index.html">Coordinate Frames</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/time_systems.html">Time Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/polar_motion.html">Polar Motion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/earth_pole_motion.html">Precession and Nutation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/spice_comparison.html">SPICE vs Vallado</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/equinoxes.html">Equinoxes and Solstices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/itrf_to_j2000.html">IAU-76 J2000 Reduction</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-environment/index.html">Environment</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/luminous_efficiency.html">Luminous Efficiency Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/twilight_model.html">Twilight Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/vr_factor.html">Airmass Function Comparison</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/star_aberration.html">Star Aberration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/background_zenith.html">Background Signals at Zenith</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/atmospheric_absorption.html">Atmospheric Transmission</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/penumbra_plane.html">Penumbra Visualized</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/geoid_heights.html">Global Elevation</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/total_solar_irradiance.html">Total Solar Irradiance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometrical Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/reflected_albedo.html">Earth Albedo BRDF</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-vis/index.html">Plotting Options</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-vis/moon_libration.html">Moon Librations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-vis/plot_earth.html">Plotting Earth</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-attitude/index.html">Rigid Body Attitudes</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/light_curve_iso_surfaces.html">Brightness Isosurfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/torque_free_axisymmetric.html">Torque-free Attitude Propagation</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Observer</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="light_time_delay.html">Light Time Delay</a></li>
+<li class="toctree-l2"><a class="reference internal" href="weather_data.html">Local Weather Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local_sidereal_time.html">Local Sidereal Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conic_sensor.html">Conic Sensors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synthetic_rpo_images.html">Synthetic RPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="atmos_refraction.html">Atmospheric Refraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="horizon_mask.html">Horizon Masks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pogs_local_terrain.html">POGS Local Terrain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualize_constraints.html">Horizon Masked Observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local_hemisphere.html">Live Satellites From Observer</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Fitting the Background</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../08-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/wavelength_to_rgb.html">RGB to Wavelength</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/count_lines.html">Counting Source Code Lines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/nnls_vs_fnnls.html">FNNLS vs NNLS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/samplers.html">Samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/random_figures_for_defense_pres.html">Figures for MS Defense</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/computer_graphics_background.html">Graphics Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/egi_figs_aas22.html">EGI Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/model_editor.html">Model Editor</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../09-models/index.html">3D Models</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/introduce_concavity.html">Introducing Concavities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/merge_bracket.html">Shape Interpolation Bracket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/voronoi_to_support.html">Voronoi Diagram to Supports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/merge_biased.html">Merging with Bias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/shape_interpolation.html">Shape Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/satellite_lineup.html">Satellite Lineup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/sfds.html">Signed Distance Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/inversion_gradient.html">EGI Jacobian</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../10-ccd/index.html">CCD Characterization</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/characterize_ccd.html">Characterizing the CCD Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_integration_time.html">Integration Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/noise_accum_gifs.html">Noise Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_scintillation.html">CCD Scintillation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/airy_disk_gaussian_fit.html">Airy Disk Gaussian Fit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_heuristics.html">CCD Heuristics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/airy_disk_diffraction.html">Airy Disk Diffraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/background_shape.html">Background Shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/snr.html">Signal-to-Noise Ratio (SNR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/render_ccd.html">CCD Rendering</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Examples Gallery</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Observer</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Fitting the Background</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-gallery-07-observer-fit-background-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="fitting-the-background">
+<span id="sphx-glr-gallery-07-observer-fit-background-py"></span><h1>Fitting the Background<a class="headerlink" href="#fitting-the-background" title="Permalink to this heading">#</a></h1>
+<p>Reading real FITS images and using them to calibrate the background</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">fits</span>
+
+<span class="kn">import</span> <span class="nn">mirage</span> <span class="k">as</span> <span class="nn">mr</span>
+<span class="kn">import</span> <span class="nn">mirage.vis</span> <span class="k">as</span> <span class="nn">mrv</span>
+
+<span class="c1"># def process_fits_file(fits_path: str) -&gt; tuple:</span>
+<span class="c1">#     print(fits_path)</span>
+<span class="c1">#     with fits.open(fits_path) as hdul:</span>
+<span class="c1">#         header = hdul[0].header</span>
+<span class="c1">#         date = datetime.datetime.strptime(</span>
+<span class="c1">#             header[&quot;DATE-OBS&quot;], &quot;%Y-%m-%dT%H:%M:%S.%f&quot;</span>
+<span class="c1">#         ).replace(tzinfo=datetime.timezone.utc)</span>
+<span class="c1">#         ccd_temp = header[&quot;SET-TEMP&quot;]</span>
+<span class="c1">#         site_lat_geod_deg = header[&quot;OBSGEO-B&quot;]</span>
+<span class="c1">#         site_lon_deg = header[&quot;OBSGEO-L&quot;]</span>
+<span class="c1">#         site_alt_m = header[&quot;OBSGEO-H&quot;]</span>
+<span class="c1">#         center_azimuth_rad = np.deg2rad(header[&quot;CENTAZ&quot;])</span>
+<span class="c1">#         center_elevation_rad = np.deg2rad(header[&quot;CENTALT&quot;])</span>
+<span class="c1">#         airmass = header[&quot;AIRMASS&quot;]</span>
+<span class="c1">#         track_rate_rad_ra = mr.dms_to_rad(0, 0, header[&quot;TELTKRA&quot;])  # rad/s</span>
+<span class="c1">#         track_rate_rad_dec = mr.dms_to_rad(0, 0, header[&quot;TELTKDEC&quot;])  # rad/s</span>
+<span class="c1">#         ra = mr.hms_to_rad(*[float(x) for x in header[&quot;OBJCTRA&quot;].split(&quot; &quot;)])</span>
+<span class="c1">#         dec = mr.dms_to_rad(*[float(x) for x in header[&quot;OBJCTDEC&quot;].split(&quot; &quot;)])</span>
+<span class="c1">#         t_int = header[&quot;EXPTIME&quot;]</span>
+<span class="c1">#         ccd_adu = hdul[0].data</span>
+
+<span class="c1">#         ccd_adu_minus_parabola = mr.ChargeCoupledDevice().subtract_parabola(ccd_adu)</span>
+<span class="c1">#         _, background_mean = mr.image_background_naive(ccd_adu_minus_parabola)</span>
+<span class="c1">#         return ra, dec, date, t_int, background_mean</span>
+
+
+<span class="c1"># def main():</span>
+<span class="c1">#     fits_dir = os.path.join(os.environ[&quot;SRCDIR&quot;], &quot;..&quot;, &quot;data&quot;)</span>
+<span class="c1">#     fit_paths = [</span>
+<span class="c1">#         os.path.join(fits_dir, fit_file)</span>
+<span class="c1">#         for fit_file in os.listdir(fits_dir)</span>
+<span class="c1">#         if fit_file.endswith(&quot;.fit&quot;)</span>
+<span class="c1">#     ]</span>
+<span class="c1">#     valid_fits_paths = fit_paths[::50]</span>
+
+<span class="c1">#     mr.tic()</span>
+<span class="c1">#     with Pool(processes=8) as pool:</span>
+<span class="c1">#         results = list(pool.map(process_fits_file, valid_fits_paths))</span>
+<span class="c1">#     mr.toc()</span>
+
+<span class="c1">#     ras = []</span>
+<span class="c1">#     decs = []</span>
+<span class="c1">#     dates = []</span>
+<span class="c1">#     t_ints = []</span>
+<span class="c1">#     background_means = []</span>
+
+<span class="c1">#     for ra, dec, date, t_int, background_mean in results:</span>
+<span class="c1">#         ras.append(ra)</span>
+<span class="c1">#         decs.append(dec)</span>
+<span class="c1">#         dates.append(date)</span>
+<span class="c1">#         t_ints.append(t_int)</span>
+<span class="c1">#         background_means.append(background_mean)</span>
+
+<span class="c1">#     ras = np.array(ras)</span>
+<span class="c1">#     decs = np.array(decs)</span>
+<span class="c1">#     dates = np.array(dates)</span>
+<span class="c1">#     t_ints = np.array(t_ints)</span>
+<span class="c1">#     background_means = np.array(background_means)</span>
+
+<span class="c1">#     mr.tic()</span>
+<span class="c1">#     observing_station = mr.Station(&quot;pogs&quot;)</span>
+<span class="c1">#     observing_station.telescope.integration_time = 1</span>
+<span class="c1">#     obj_look_eci_initial = mr.ra_dec_to_eci(ras, decs)</span>
+<span class="c1">#     moon = mr.moon(dates)</span>
+<span class="c1">#     sun = mr.sun(dates)</span>
+<span class="c1">#     sb = observing_station.sky_brightness(dates, obj_look_eci_initial)</span>
+<span class="c1">#     sb = sb.flatten() * t_ints.flatten()</span>
+<span class="c1">#     angle_to_moon = mr.angle_between_vecs(obj_look_eci_initial, moon)</span>
+<span class="c1">#     z_obs = mr.angle_between_vecs(</span>
+<span class="c1">#         obj_look_eci_initial, observing_station.j2000_at_dates(dates)</span>
+<span class="c1">#     )</span>
+<span class="c1">#     moon_phase_angle = mr.angle_between_vecs(obj_look_eci_initial - moon, sun - moon)</span>
+<span class="c1">#     moon_phase_fraction = mr.moon_phase_fraction(moon_phase_angle)</span>
+<span class="c1">#     mr.toc()</span>
+<span class="c1">#     print(sb)</span>
+
+<span class="c1">#     plt.subplot(2, 2, 1)</span>
+<span class="c1">#     plt.plot(angle_to_moon, background_means, &quot;.&quot;)</span>
+<span class="c1">#     mrv.texit(&quot;&quot;, &quot;Angle to Moon [rad]&quot;, &quot;Background Mean [ADU]&quot;)</span>
+
+<span class="c1">#     plt.subplot(2, 2, 2)</span>
+<span class="c1">#     plt.plot(z_obs, background_means, &quot;.&quot;)</span>
+<span class="c1">#     mrv.texit(&quot;&quot;, &quot;Zenith Angle [rad]&quot;, &quot;Background Mean [ADU]&quot;)</span>
+
+<span class="c1">#     plt.subplot(2, 2, 3)</span>
+<span class="c1">#     plt.plot(moon_phase_fraction, background_means, &quot;.&quot;)</span>
+<span class="c1">#     mrv.texit(&quot;&quot;, &quot;Moon Phase Fraction&quot;, &quot;Background Mean [ADU]&quot;)</span>
+
+<span class="c1">#     plt.subplot(2, 2, 4)</span>
+<span class="c1">#     plt.plot(sb, background_means, &quot;.&quot;)</span>
+<span class="c1">#     mrv.texit(&quot;&quot;, &quot;Synthetic Background Mean [ADU]&quot;, &quot;Background Mean [ADU]&quot;)</span>
+<span class="c1">#     plt.tight_layout()</span>
+<span class="c1">#     plt.show()</span>
+
+<span class="c1">#     import pyvista as pv</span>
+
+<span class="c1">#     pl = pv.Plotter()</span>
+<span class="c1">#     mrv.render_observation_scenario(</span>
+<span class="c1">#         pl,</span>
+<span class="c1">#         dates=dates,</span>
+<span class="c1">#         station=observing_station,</span>
+<span class="c1">#         look_dirs_eci=obj_look_eci_initial,</span>
+<span class="c1">#         sensor_extent_km=40e3,</span>
+<span class="c1">#         sensor_half_angle_deg=0.1,</span>
+<span class="c1">#         night_lights=True,</span>
+<span class="c1">#         atmosphere=True,</span>
+<span class="c1">#         borders=True,</span>
+<span class="c1">#     )</span>
+<span class="c1">#     pl.show()</span>
+
+<span class="c1">#     # %%</span>
+<span class="c1">#     # Plotting the observations with the location of the Moon</span>
+
+<span class="c1">#     print(np.min(background_means), np.max(background_means))</span>
+<span class="c1">#     ra_moon, dec_moon = mr.eci_to_ra_dec(moon)</span>
+<span class="c1">#     plt.scatter(ras, decs, c=background_means)</span>
+<span class="c1">#     plt.scatter(ra_moon, dec_moon)</span>
+<span class="c1">#     plt.xlim(0, 2 * np.pi)</span>
+<span class="c1">#     plt.ylim(-np.pi / 2, np.pi / 2)</span>
+<span class="c1">#     mrv.texit(&quot;&quot;, &quot;RA [rad]&quot;, &quot;Dec [rad]&quot;, [&quot;Observations&quot;, &quot;Moon&quot;])</span>
+<span class="c1">#     plt.colorbar()</span>
+<span class="c1">#     plt.show()</span>
+
+
+<span class="c1"># if __name__ == &quot;__main__&quot;:</span>
+<span class="c1">#     main()</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.001 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-07-observer-fit-background-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/1b960a581ebc67a29eae9ddbb5889df4/fit_background.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">fit_background.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/c9b212da3787b2f203d4a9eaa180c7d3/fit_background.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">fit_background.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="local_hemisphere.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Live Satellites From Observer</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../08-utility/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Utility</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2022-2023, Liam Robinson.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

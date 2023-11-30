@@ -81,7 +81,7 @@ svb = mr.hat(np.tile(np.array([[-0.5, 0.0, 0.5]]), (1, 1)))
 
 for i, brdf in enumerate(brdfs):
     mr.run_light_curve_engine(
-        brdf, "stanford_dragon.obj", svb, ovb, save_imgs=True, instance_count=1
+        brdf, "stanford_dragon.obj", svb, ovb, save_imgs=True, instances=1
     )
     plt.subplot(*pl_shape, i + 1)
     im = np.asarray(Image.open("out/frame1.png"))

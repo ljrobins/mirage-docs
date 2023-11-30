@@ -27,7 +27,7 @@ ovb = mr.hat(np.array([1 + 0 * t, 1 + 0 * t, 3 + 0 * t]).T)
 brdf = mr.Brdf("phong", cd=0.5, cs=0.5, n=5)
 
 lc = mr.run_light_curve_engine(
-    brdf, obj, svb, ovb, save_imgs=True, rotate_panels=True, instance_count=1
+    brdf, obj, svb, ovb, save_imgs=True, rotate_panels=True, instances=1
 )
 
 # %%
@@ -54,6 +54,5 @@ ani = animation.FuncAnimation(fig, animate, repeat=True, frames=t.size, interval
 
 # To save the animation using Pillow as a gif
 writer = animation.PillowWriter(fps=15, bitrate=1800)
-# ani.save('rotating_panels.gif', writer=writer)
 
 plt.show()

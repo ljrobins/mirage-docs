@@ -528,6 +528,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="mirage.vis.html#mirage.vis.visualization.celestial_grid"><code class="docutils literal notranslate"><span class="pre">celestial_grid()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.vis.html#mirage.vis.visualization.earth_border_points"><code class="docutils literal notranslate"><span class="pre">earth_border_points()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.vis.html#mirage.vis.visualization.get_cbar_ax"><code class="docutils literal notranslate"><span class="pre">get_cbar_ax()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.vis.html#mirage.vis.visualization.orbit_plotter"><code class="docutils literal notranslate"><span class="pre">orbit_plotter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.vis.html#mirage.vis.visualization.plot3"><code class="docutils literal notranslate"><span class="pre">plot3()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.vis.html#mirage.vis.visualization.plot_angle_between"><code class="docutils literal notranslate"><span class="pre">plot_angle_between()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.vis.html#mirage.vis.visualization.plot_arrow"><code class="docutils literal notranslate"><span class="pre">plot_arrow()</span></code></a></li>
@@ -535,6 +536,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="mirage.vis.html#mirage.vis.visualization.plot_conic_sensor"><code class="docutils literal notranslate"><span class="pre">plot_conic_sensor()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.vis.html#mirage.vis.visualization.plot_egi"><code class="docutils literal notranslate"><span class="pre">plot_egi()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.vis.html#mirage.vis.visualization.plot_map_with_grid"><code class="docutils literal notranslate"><span class="pre">plot_map_with_grid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.vis.html#mirage.vis.visualization.plot_visible_band"><code class="docutils literal notranslate"><span class="pre">plot_visible_band()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.vis.html#mirage.vis.visualization.render_observation_scenario"><code class="docutils literal notranslate"><span class="pre">render_observation_scenario()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.vis.html#mirage.vis.visualization.render_spaceobject"><code class="docutils literal notranslate"><span class="pre">render_spaceobject()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.vis.html#mirage.vis.visualization.render_video"><code class="docutils literal notranslate"><span class="pre">render_video()</span></code></a></li>
@@ -2674,7 +2676,7 @@ Source: <a class="reference external" href="http://codingmess.blogspot.com/2009/
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mirage.engine.run_light_curve_engine">
-<span class="sig-prename descclassname"><span class="pre">mirage.engine.</span></span><span class="sig-name descname"><span class="pre">run_light_curve_engine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">brdf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mirage.lighting.Brdf" title="mirage.lighting.Brdf"><span class="pre">Brdf</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mirage.spaceobject.SpaceObject" title="mirage.spaceobject.SpaceObject"><span class="pre">SpaceObject</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">svb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ovb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_imgs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_window</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">silent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotate_panels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.engine.run_light_curve_engine" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">mirage.engine.</span></span><span class="sig-name descname"><span class="pre">run_light_curve_engine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">brdf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mirage.lighting.Brdf" title="mirage.lighting.Brdf"><span class="pre">Brdf</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mirage.spaceobject.SpaceObject" title="mirage.spaceobject.SpaceObject"><span class="pre">SpaceObject</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">svb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ovb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_imgs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instances</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_window</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">silent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotate_panels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.engine.run_light_curve_engine" title="Permalink to this definition">#</a></dt>
 <dd><p>Runs the <code class="docutils literal notranslate"><span class="pre">LightCurveEngine</span></code> executable on the input model, observation geometry, and BRDF</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2685,7 +2687,7 @@ Source: <a class="reference external" href="http://codingmess.blogspot.com/2009/
 <li><p><strong>ovb</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Observer vectors in the object body frame</p></li>
 <li><p><strong>save_imgs</strong> (<em>bool</em><em>, </em><em>optional</em>) – Flag to output rendered images to calling directory/out, defaults to False</p></li>
 <li><p><strong>output_dir</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory to output images to, defaults to None</p></li>
-<li><p><strong>instance_count</strong> (int, optional, <span class="math notranslate nohighlight">\(1 \leq \texttt{instance_count} \leq 25\)</span>) – Instances to render at once, leads to roughly linear performance improvement, defaults to 9</p></li>
+<li><p><strong>instances</strong> (int, optional, <span class="math notranslate nohighlight">\(1 \leq \texttt{instances} \leq 25\)</span>) – Instances to render at once, leads to roughly linear performance improvement, defaults to 9</p></li>
 <li><p><strong>frame_rate</strong> (<em>int</em><em>, </em><em>optional</em>) – Frame rate for the renderer to shoot for, defaults to 1000</p></li>
 <li><p><strong>show_window</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to show the window as frames are rendered, defaults to False</p></li>
 <li><p><strong>silent</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to silence the output of the LightCurveEngine tool, defaults to True</p></li>
@@ -2848,27 +2850,6 @@ Source: <a class="reference external" href="http://codingmess.blogspot.com/2009/
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mirage.geodetic.geoid_height_at_lla">
-<span class="sig-prename descclassname"><span class="pre">mirage.geodetic.</span></span><span class="sig-name descname"><span class="pre">geoid_height_at_lla</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_geod_rad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_rad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#mirage.geodetic.geoid_height_at_lla" title="Permalink to this definition">#</a></dt>
-<dd><p>Gets the height of the EGM96 geoid at the given lat/lon [km].
-Such that: <span class="math notranslate nohighlight">\(alt_{geoid} + h_{geoid} = alt_{ellipsoid}\)</span></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>lat_geod_rad</strong> (<em>float</em>) – Geodetic latitude [rad]</p></li>
-<li><p><strong>lon_rad</strong> (<em>float</em>) – Longitude [rad]</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Altitude of the geoid above the WGS84 ellipsoid [km]</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3781,6 +3762,11 @@ DEPRECATED
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="mirage.math.r3_grid">
+<span class="sig-prename descclassname"><span class="pre">mirage.math.</span></span><span class="sig-name descname"><span class="pre">r3_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_half_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_side_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mirage.math.r3_grid" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="mirage.math.rdot">
 <span class="sig-prename descclassname"><span class="pre">mirage.math.</span></span><span class="sig-name descname"><span class="pre">rdot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.math.rdot" title="Permalink to this definition">#</a></dt>
 <dd><p>Rectified dot product, where <code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">if</span> <span class="pre">dot(v1,v2)</span> <span class="pre">&lt;</span> <span class="pre">0</span> <span class="pre">else</span> <span class="pre">dot(v1,v2)</span></code></p>
@@ -3851,6 +3837,49 @@ DEPRECATED
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Tuple[np.ndarray, np.ndarray, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mirage.math.spherical_voronoi_weighting">
+<span class="sig-prename descclassname"><span class="pre">mirage.math.</span></span><span class="sig-name descname"><span class="pre">spherical_voronoi_weighting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_weights</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.math.spherical_voronoi_weighting" title="Permalink to this definition">#</a></dt>
+<dd><p>Given a set of reference points and weights, returns the nearest reference weight value at the query point locations</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ref_points</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Reference points on <span class="math notranslate nohighlight">\(\mathbb{S}^2\)</span></p></li>
+<li><p><strong>ref_weights</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Weights associated with each reference point</p></li>
+<li><p><strong>query_points</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Query points elsewhere on <span class="math notranslate nohighlight">\(\mathbb{S}^2\)</span></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Query weights, computed through a nearest neighbor query of the Voronoi diagram of the reference points</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray [nx1]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mirage.math.spherical_voronoi_weighting_az_el">
+<span class="sig-prename descclassname"><span class="pre">mirage.math.</span></span><span class="sig-name descname"><span class="pre">spherical_voronoi_weighting_az_el</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_weights</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_az</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_el</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.math.spherical_voronoi_weighting_az_el" title="Permalink to this definition">#</a></dt>
+<dd><p>Given a set of reference points and weights, returns the nearest reference weight value at the query point locations</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ref_points</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Reference points on <span class="math notranslate nohighlight">\(\mathbb{S}^2\)</span></p></li>
+<li><p><strong>ref_weights</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Weights associated with each reference point</p></li>
+<li><p><strong>query_az</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Query point azimuths [rad]</p></li>
+<li><p><strong>query_el</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Query point elevations [rad]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Query weights, computed through a nearest neighbor query of the Voronoi diagram of the reference points</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray [nx1]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4440,6 +4469,27 @@ Must be of the form x = f(A,b).</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="mirage.sampling.rand_points_in_cube">
+<span class="sig-prename descclassname"><span class="pre">mirage.sampling.</span></span><span class="sig-name descname"><span class="pre">rand_points_in_cube</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(1.0,</span> <span class="pre">1.0,</span> <span class="pre">1.0)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.sampling.rand_points_in_cube" title="Permalink to this definition">#</a></dt>
+<dd><p>Samples random points in a cube</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num</strong> (<em>int</em>) – Number to sample</p></li>
+<li><p><strong>origin</strong> (<em>tuple</em><em>, </em><em>optional</em>) – Origin of the cube, defaults to (0., 0., 0.)</p></li>
+<li><p><strong>scale</strong> (<em>tuple</em><em>, </em><em>optional</em>) – Scale of the cube, defaults to (1., 1., 1.)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sampled points</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray [nx3]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="mirage.sampling.rand_points_in_shell">
 <span class="sig-prename descclassname"><span class="pre">mirage.sampling.</span></span><span class="sig-name descname"><span class="pre">rand_points_in_shell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r_lims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.sampling.rand_points_in_shell" title="Permalink to this definition">#</a></dt>
 <dd><p>Samples a random point in a solid spherical shell defined by <cite>r_lims</cite></p>
@@ -4494,6 +4544,51 @@ Must be of the form x = f(A,b).</p>
 </dd></dl>
 
 </section>
+<section id="module-mirage.sdf">
+<span id="mirage-sdf-module"></span><h2>mirage.sdf module<a class="headerlink" href="#module-mirage.sdf" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="mirage.sdf.SDF">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mirage.sdf.</span></span><span class="sig-name descname"><span class="pre">SDF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vertices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">faces</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mirage.sdf.SDF" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mirage.sdf.SDF.gradient">
+<span class="sig-name descname"><span class="pre">gradient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r_query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0001</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.sdf.SDF.gradient" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mirage.sdf.SDF.normal_az_el_at_point">
+<span class="sig-name descname"><span class="pre">normal_az_el_at_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r_query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mirage.sdf.SDF.normal_az_el_at_point" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mirage.sdf.SDF.query_grid">
+<span class="sig-name descname"><span class="pre">query_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_half_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_density</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flatten</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.sdf.SDF.query_grid" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mirage.sdf.SDF.query_points">
+<span class="sig-name descname"><span class="pre">query_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_pts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.sdf.SDF.query_points" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mirage.sdf.SphericalWeight">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mirage.sdf.</span></span><span class="sig-name descname"><span class="pre">SphericalWeight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref_pts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_weights</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mirage.sdf.SphericalWeight" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mirage.sdf.SphericalWeight.query_az_el">
+<span class="sig-name descname"><span class="pre">query_az_el</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">az</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">el</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'nearest'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.sdf.SphericalWeight.query_az_el" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mirage.sdf.SphericalWeight.query_points">
+<span class="sig-name descname"><span class="pre">query_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_pts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'nearest'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.sdf.SphericalWeight.query_points" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="module-mirage.spaceobject">
 <span id="mirage-spaceobject-module"></span><h2>mirage.spaceobject module<a class="headerlink" href="#module-mirage.spaceobject" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
@@ -4505,6 +4600,11 @@ Must be of the form x = f(A,b).</p>
 <span class="sig-name descname"><span class="pre">build_properties</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mirage.spaceobject.SpaceObject.build_properties" title="Permalink to this definition">#</a></dt>
 <dd><p>Builds all relevant object properties for shape inversion or visualization</p>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mirage.spaceobject.SpaceObject.build_pyvista_mesh">
+<span class="sig-name descname"><span class="pre">build_pyvista_mesh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mirage.spaceobject.SpaceObject.build_pyvista_mesh" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mirage.spaceobject.SpaceObject.clean">
@@ -4603,6 +4703,11 @@ Must be of the form x = f(A,b).</p>
 <span class="sig-name descname"><span class="pre">get_inner_vertices</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mirage.spaceobject.SpaceObject.get_inner_vertices" title="Permalink to this definition">#</a></dt>
 <dd><p>Computes which vertices are within the convex hull (not contained in any faces of the convex hull)</p>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mirage.spaceobject.SpaceObject.get_sdf">
+<span class="sig-name descname"><span class="pre">get_sdf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mirage.spaceobject.SpaceObject.get_sdf" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mirage.spaceobject.SpaceObject.introduce_concavity">
@@ -4708,10 +4813,20 @@ Must be of the form x = f(A,b).</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="mirage.spaceobject.construct_mesh_from_egi">
+<span class="sig-prename descclassname"><span class="pre">mirage.spaceobject.</span></span><span class="sig-name descname"><span class="pre">construct_mesh_from_egi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">egi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">implementation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'fortran'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.spaceobject.construct_mesh_from_egi" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="mirage.spaceobject.delete_all_models">
 <span class="sig-prename descclassname"><span class="pre">mirage.spaceobject.</span></span><span class="sig-name descname"><span class="pre">delete_all_models</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mirage.spaceobject.delete_all_models" title="Permalink to this definition">#</a></dt>
 <dd><p>Removes all model files (.obj, .mtl) from the current model directory</p>
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mirage.spaceobject.faces_and_vertices_from_egi">
+<span class="sig-prename descclassname"><span class="pre">mirage.spaceobject.</span></span><span class="sig-name descname"><span class="pre">faces_and_vertices_from_egi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">egi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mirage.spaceobject.faces_and_vertices_from_egi" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mirage.spaceobject.get_volume">
@@ -4755,13 +4870,13 @@ Must be of the form x = f(A,b).</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mirage.spaceobject.merge_shapes">
-<span class="sig-prename descclassname"><span class="pre">mirage.spaceobject.</span></span><span class="sig-name descname"><span class="pre">merge_shapes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">objs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#mirage.spaceobject.SpaceObject" title="mirage.spaceobject.SpaceObject"><span class="pre">SpaceObject</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_density</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#mirage.spaceobject.SpaceObject" title="mirage.spaceobject.SpaceObject"><span class="pre">SpaceObject</span></a></span></span><a class="headerlink" href="#mirage.spaceobject.merge_shapes" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">mirage.spaceobject.</span></span><span class="sig-name descname"><span class="pre">merge_shapes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">objs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#mirage.spaceobject.SpaceObject" title="mirage.spaceobject.SpaceObject"><span class="pre">SpaceObject</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weighting_fcns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_density</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#mirage.spaceobject.SpaceObject" title="mirage.spaceobject.SpaceObject"><span class="pre">SpaceObject</span></a></span></span><a class="headerlink" href="#mirage.spaceobject.merge_shapes" title="Permalink to this definition">#</a></dt>
 <dd><p>Merges any number of SpaceObjects using a weighted average of their signed distance fields</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>objs</strong> (<em>Iterable</em><em>[</em><em>mr.SpaceObject</em><em>]</em>) – Set of objects to merge</p></li>
-<li><p><strong>weights</strong> (<em>np.ndarray</em>) – Weights to use for each object</p></li>
+<li><p><strong>weighting_fcns</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><em>Iterable</em><em>[</em><em>Callable</em><em>]</em><em>]</em>) – Weights to use for each object, either an array of floats or callables of the form (az: np.ndarray, el: np.ndarray) -&gt; np.ndarray [0,1]</p></li>
 <li><p><strong>grid_density</strong> (<em>int</em><em>, </em><em>optional</em>) – Grid density to use for the signed distance field, defaults to 100</p></li>
 </ul>
 </dd>
@@ -5121,6 +5236,29 @@ Must be of the form x = f(A,b).</p>
 <span class="sig-name descname"><span class="pre">unit_airy_disk_volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#mirage.station.Telescope.unit_airy_disk_volume" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mirage.station.face_uncertainty">
+<span class="sig-prename descclassname"><span class="pre">mirage.station.</span></span><span class="sig-name descname"><span class="pre">face_uncertainty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mirage.spaceobject.SpaceObject" title="mirage.spaceobject.SpaceObject"><span class="pre">SpaceObject</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">svb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ovb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">brdf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mirage.lighting.Brdf" title="mirage.lighting.Brdf"><span class="pre">Brdf</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lc_normalized_irrad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.station.face_uncertainty" title="Permalink to this definition">#</a></dt>
+<dd><p>Generates a normalized facet-wise estimate of the uncertainty in the area (and somewhat direction) of each facet</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> (<a class="reference internal" href="#mirage.spaceobject.SpaceObject" title="mirage.spaceobject.SpaceObject"><em>SpaceObject</em></a>) – Object to compute face uncertainty for</p></li>
+<li><p><strong>svb</strong> (<em>np.ndarray</em>) – Sun vectors in the body frame</p></li>
+<li><p><strong>ovb</strong> (<em>np.ndarray</em>) – Observer vectors in the body frame</p></li>
+<li><p><strong>brdf</strong> (<a class="reference internal" href="#mirage.lighting.Brdf" title="mirage.lighting.Brdf"><em>Brdf</em></a>) – BRDF of the object</p></li>
+<li><p><strong>lc_normalized_irrad</strong> (<em>np.ndarray</em>) – Light curve in normalized irradiance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The relative uncertainty from [0,1] of each facet</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -5671,7 +5809,7 @@ Must be of the form x = f(A,b).</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mirage.tle.get_latest_catalog_at_date">
-<span class="sig-prename descclassname"><span class="pre">mirage.tle.</span></span><span class="sig-name descname"><span class="pre">get_latest_catalog_at_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtime</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.datetime(2023,</span> <span class="pre">10,</span> <span class="pre">17,</span> <span class="pre">18,</span> <span class="pre">5,</span> <span class="pre">11,</span> <span class="pre">109542,</span> <span class="pre">tzinfo=datetime.timezone.utc)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days_back</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.timedelta(days=1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tle_latest'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">query_kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mirage.tle.get_latest_catalog_at_date" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">mirage.tle.</span></span><span class="sig-name descname"><span class="pre">get_latest_catalog_at_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtime</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.datetime(2023,</span> <span class="pre">11,</span> <span class="pre">30,</span> <span class="pre">19,</span> <span class="pre">1,</span> <span class="pre">32,</span> <span class="pre">35159,</span> <span class="pre">tzinfo=datetime.timezone.utc)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days_back</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.timedelta(days=1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tle_latest'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">query_kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mirage.tle.get_latest_catalog_at_date" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets the first TLE produced for a given NORAD SAT ID after the datetime provided</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -6043,7 +6181,6 @@ Must be of the form x = f(A,b).</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mirage.geodetic">mirage.geodetic module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.geodetic.geocentric_lat_to_geodetic"><code class="docutils literal notranslate"><span class="pre">geocentric_lat_to_geodetic()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.geodetic.geodetic_lat_to_geocentric"><code class="docutils literal notranslate"><span class="pre">geodetic_lat_to_geocentric()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.geodetic.geoid_height_at_lla"><code class="docutils literal notranslate"><span class="pre">geoid_height_at_lla()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.geodetic.lat_lon_cell_area"><code class="docutils literal notranslate"><span class="pre">lat_lon_cell_area()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.geodetic.lat_lon_of_address"><code class="docutils literal notranslate"><span class="pre">lat_lon_of_address()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.geodetic.radius_at_geodetic_lat"><code class="docutils literal notranslate"><span class="pre">radius_at_geodetic_lat()</span></code></a></li>
@@ -6100,10 +6237,13 @@ Must be of the form x = f(A,b).</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.merge_clusters"><code class="docutils literal notranslate"><span class="pre">merge_clusters()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.perspective_projection_matrix"><code class="docutils literal notranslate"><span class="pre">perspective_projection_matrix()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.points_to_planes_dist"><code class="docutils literal notranslate"><span class="pre">points_to_planes_dist()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.r3_grid"><code class="docutils literal notranslate"><span class="pre">r3_grid()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.rdot"><code class="docutils literal notranslate"><span class="pre">rdot()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.remove_zero_rows"><code class="docutils literal notranslate"><span class="pre">remove_zero_rows()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.sind"><code class="docutils literal notranslate"><span class="pre">sind()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.sph_to_cart"><code class="docutils literal notranslate"><span class="pre">sph_to_cart()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.spherical_voronoi_weighting"><code class="docutils literal notranslate"><span class="pre">spherical_voronoi_weighting()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.spherical_voronoi_weighting_az_el"><code class="docutils literal notranslate"><span class="pre">spherical_voronoi_weighting_az_el()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.stack_mat_mult_mat"><code class="docutils literal notranslate"><span class="pre">stack_mat_mult_mat()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.stack_mat_mult_vec"><code class="docutils literal notranslate"><span class="pre">stack_mat_mult_vec()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.tand"><code class="docutils literal notranslate"><span class="pre">tand()</span></code></a></li>
@@ -6149,14 +6289,31 @@ Must be of the form x = f(A,b).</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.sampling.fibonacci_sample_sphere"><code class="docutils literal notranslate"><span class="pre">fibonacci_sample_sphere()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.sampling.rand_cone_vectors"><code class="docutils literal notranslate"><span class="pre">rand_cone_vectors()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.sampling.rand_points_in_ball"><code class="docutils literal notranslate"><span class="pre">rand_points_in_ball()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.sampling.rand_points_in_cube"><code class="docutils literal notranslate"><span class="pre">rand_points_in_cube()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.sampling.rand_points_in_shell"><code class="docutils literal notranslate"><span class="pre">rand_points_in_shell()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.sampling.rand_unit_vectors"><code class="docutils literal notranslate"><span class="pre">rand_unit_vectors()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.sampling.spiral_sample_sphere"><code class="docutils literal notranslate"><span class="pre">spiral_sample_sphere()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mirage.sdf">mirage.sdf module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.sdf.SDF"><code class="docutils literal notranslate"><span class="pre">SDF</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.sdf.SDF.gradient"><code class="docutils literal notranslate"><span class="pre">SDF.gradient()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.sdf.SDF.normal_az_el_at_point"><code class="docutils literal notranslate"><span class="pre">SDF.normal_az_el_at_point()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.sdf.SDF.query_grid"><code class="docutils literal notranslate"><span class="pre">SDF.query_grid()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.sdf.SDF.query_points"><code class="docutils literal notranslate"><span class="pre">SDF.query_points()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.sdf.SphericalWeight"><code class="docutils literal notranslate"><span class="pre">SphericalWeight</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.sdf.SphericalWeight.query_az_el"><code class="docutils literal notranslate"><span class="pre">SphericalWeight.query_az_el()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.sdf.SphericalWeight.query_points"><code class="docutils literal notranslate"><span class="pre">SphericalWeight.query_points()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mirage.spaceobject">mirage.spaceobject module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.spaceobject.SpaceObject"><code class="docutils literal notranslate"><span class="pre">SpaceObject</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.spaceobject.SpaceObject.build_properties"><code class="docutils literal notranslate"><span class="pre">SpaceObject.build_properties()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.spaceobject.SpaceObject.build_pyvista_mesh"><code class="docutils literal notranslate"><span class="pre">SpaceObject.build_pyvista_mesh()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.spaceobject.SpaceObject.clean"><code class="docutils literal notranslate"><span class="pre">SpaceObject.clean()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.spaceobject.SpaceObject.compute_center_of_mass"><code class="docutils literal notranslate"><span class="pre">SpaceObject.compute_center_of_mass()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.spaceobject.SpaceObject.compute_face_areas"><code class="docutils literal notranslate"><span class="pre">SpaceObject.compute_face_areas()</span></code></a></li>
@@ -6171,6 +6328,7 @@ Must be of the form x = f(A,b).</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.spaceobject.SpaceObject.get_egi"><code class="docutils literal notranslate"><span class="pre">SpaceObject.get_egi()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.spaceobject.SpaceObject.get_face_vertices"><code class="docutils literal notranslate"><span class="pre">SpaceObject.get_face_vertices()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.spaceobject.SpaceObject.get_inner_vertices"><code class="docutils literal notranslate"><span class="pre">SpaceObject.get_inner_vertices()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.spaceobject.SpaceObject.get_sdf"><code class="docutils literal notranslate"><span class="pre">SpaceObject.get_sdf()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.spaceobject.SpaceObject.introduce_concavity"><code class="docutils literal notranslate"><span class="pre">SpaceObject.introduce_concavity()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.spaceobject.SpaceObject.is_convex"><code class="docutils literal notranslate"><span class="pre">SpaceObject.is_convex()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.spaceobject.SpaceObject.propagate"><code class="docutils literal notranslate"><span class="pre">SpaceObject.propagate()</span></code></a></li>
@@ -6183,7 +6341,9 @@ Must be of the form x = f(A,b).</p>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.spaceobject.build_dual"><code class="docutils literal notranslate"><span class="pre">build_dual()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.spaceobject.construct_from_egi_and_supports"><code class="docutils literal notranslate"><span class="pre">construct_from_egi_and_supports()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.spaceobject.construct_mesh_from_egi"><code class="docutils literal notranslate"><span class="pre">construct_mesh_from_egi()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.spaceobject.delete_all_models"><code class="docutils literal notranslate"><span class="pre">delete_all_models()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.spaceobject.faces_and_vertices_from_egi"><code class="docutils literal notranslate"><span class="pre">faces_and_vertices_from_egi()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.spaceobject.get_volume"><code class="docutils literal notranslate"><span class="pre">get_volume()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.spaceobject.little_fun"><code class="docutils literal notranslate"><span class="pre">little_fun()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.spaceobject.merge_shapes"><code class="docutils literal notranslate"><span class="pre">merge_shapes()</span></code></a></li>
@@ -6216,6 +6376,7 @@ Must be of the form x = f(A,b).</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.station.Telescope.unit_airy_disk_volume"><code class="docutils literal notranslate"><span class="pre">Telescope.unit_airy_disk_volume()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.station.face_uncertainty"><code class="docutils literal notranslate"><span class="pre">face_uncertainty()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mirage.stats">mirage.stats module</a><ul class="nav section-nav flex-column">

@@ -14,13 +14,11 @@ import pyvista as pv
 import mirage as mr
 import mirage.vis as mrv
 
-objs = [
-    mr.SpaceObject(x)
-    for x in ["duck.obj", "cube.obj", "icosahedron.obj", "cylinder.obj"]
-]
+objs = [mr.SpaceObject(x) for x in ["duck.obj", "cylinder.obj"]]
 
-weights = np.array([10, 2, 3, 1])
-obj_merged = mr.merge_shapes(objs, weights, grid_density=150)
+w2 = mr.SphericalWeight(mr.spiral_sample_sphere(5), np.random.rand(5))
+weights = np.array([10, w2])
+obj_merged = mr.merge_shapes(objs, weights, grid_density=200)
 
 pl = pv.Plotter()
 mrv.render_spaceobject(pl, obj_merged)

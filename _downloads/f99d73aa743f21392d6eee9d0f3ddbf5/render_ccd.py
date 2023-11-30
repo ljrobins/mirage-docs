@@ -107,7 +107,7 @@ obj_lc_sampler, _ = observing_station.observe_light_curve(
     mr.Brdf("phong"),
     obs_dates,
     use_engine=True,
-    instance_count=1,
+    instances=1,
     model_scale_factor=1,
     rotate_panels=True,
 )

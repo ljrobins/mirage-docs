@@ -23,7 +23,7 @@ Signed Distance Fields
 
 Plotting 2D and 3D Signed Distance Fields
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-35
+.. GENERATED FROM PYTHON SOURCE LINES 7-26
 
 .. code-block:: default
 
@@ -43,16 +43,7 @@ Plotting 2D and 3D Signed Distance Fields
 
     grid_width = 1.3 * np.max(mr.vecnorm(obj.v))
     grid_density = 150
-    grid = pv.ImageData(
-        spacing=(
-            2 * grid_width / grid_density,
-            2 * grid_width / grid_density,
-            2 * grid_width / grid_density,
-        ),
-        origin=(-grid_width, -grid_width, -grid_width),
-        dimensions=(grid_density, grid_density, grid_density),
-    )
-
+    grid = mr.r3_grid(grid_width, grid_density)
     sdf_vals = -f(grid.points)
 
 
@@ -62,11 +53,11 @@ Plotting 2D and 3D Signed Distance Fields
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-37
+.. GENERATED FROM PYTHON SOURCE LINES 27-28
 
 Plotting a 2D slide of the SDF
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-58
+.. GENERATED FROM PYTHON SOURCE LINES 28-49
 
 .. code-block:: default
 
@@ -103,11 +94,11 @@ Plotting a 2D slide of the SDF
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-60
+.. GENERATED FROM PYTHON SOURCE LINES 50-51
 
 Plotting the full 3D SDF
 
-.. GENERATED FROM PYTHON SOURCE LINES 60-81
+.. GENERATED FROM PYTHON SOURCE LINES 51-72
 
 .. code-block:: default
 
@@ -144,11 +135,11 @@ Plotting the full 3D SDF
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 82-83
+.. GENERATED FROM PYTHON SOURCE LINES 73-74
 
 Animating an orbital path around the SDF
 
-.. GENERATED FROM PYTHON SOURCE LINES 83-100
+.. GENERATED FROM PYTHON SOURCE LINES 74-91
 
 .. code-block:: default
 
@@ -184,7 +175,7 @@ Animating an orbital path around the SDF
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  7.106 seconds)
+   **Total running time of the script:** ( 0 minutes  5.677 seconds)
 
 
 .. _sphx_glr_download_gallery_09-models_sfds.py:

@@ -20,16 +20,7 @@ f = pysdf.SDF(obj.v, obj.f)
 
 grid_width = 1.3 * np.max(mr.vecnorm(obj.v))
 grid_density = 150
-grid = pv.ImageData(
-    spacing=(
-        2 * grid_width / grid_density,
-        2 * grid_width / grid_density,
-        2 * grid_width / grid_density,
-    ),
-    origin=(-grid_width, -grid_width, -grid_width),
-    dimensions=(grid_density, grid_density, grid_density),
-)
-
+grid = mr.r3_grid(grid_width, grid_density)
 sdf_vals = -f(grid.points)
 
 # %%

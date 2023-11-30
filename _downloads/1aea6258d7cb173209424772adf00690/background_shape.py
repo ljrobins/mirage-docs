@@ -84,10 +84,35 @@ plt.hist(
 mrv.texit("Real backgrounds", "ADU", "Density", ["Image", "Poisson fit"])
 plt.show()
 
-# x, y = np.meshgrid(np.arange(ccd_adu.shape[1]), np.arange(ccd_adu.shape[0]))
-# grid = pv.StructuredGrid(x, y, ccd_minus_br / 100)
+# %%
+#
 
-# pl = pv.Plotter()
-# pl.add_mesh(grid, scalars=ccd_minus_br.flatten(order='f'), cmap='gist_stern')
-# pl.enable_anti_aliasing('ssaa')
-# pl.show()
+lims = [[1730, 1760], [1990, 2020]]
+x, y = np.meshgrid(
+    np.arange(lims[0][1] - lims[0][0]), np.arange(lims[1][1] - lims[1][0])
+)
+grid = pv.StructuredGrid(
+    x, y, ccd_adu[lims[1][0] : lims[1][1], lims[0][0] : lims[0][1]] / 300
+)
+br_grid = pv.StructuredGrid(
+    x, y, im_br_parabola[lims[1][0] : lims[1][1], lims[0][0] : lims[0][1]] / 300
+)
+
+pl = pv.Plotter()
+pl.add_mesh(
+    grid,
+    scalars=ccd_minus_br[lims[1][0] : lims[1][1], lims[0][0] : lims[0][1]].flatten(
+        order="f"
+    )
+    < 20,
+    cmap="plasma",
+    scalar_bar_args=dict(title="Background"),
+)
+pl.add_text(
+    "Object Signal with Background",
+    font_size=12,
+    font="courier",
+    position="upper_left",
+    color="k",
+)
+mrv.orbit_plotter(pl, frames=120, shift=10)

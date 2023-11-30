@@ -23,30 +23,7 @@ Brightness Isosurfaces
 
 Plotting all orientations of a cube that produce a certian brightness value at a given phase angle
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-71
-
-
-
-.. image-sg:: /gallery/06-attitude/images/sphx_glr_light_curve_iso_surfaces_001.png
-   :alt: light curve iso surfaces
-   :srcset: /gallery/06-attitude/images/sphx_glr_light_curve_iso_surfaces_001.png
-   :class: sphx-glr-single-img
-
-
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    /Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/pyvista/core/grid.py:912: PyVistaDeprecationWarning: `UniformGrid` is deprecated. Use `ImageData` instead.
-      warnings.warn(
-    Elapsed time: 4.96e+00 seconds
-
-
-
-
-
-
-|
+.. GENERATED FROM PYTHON SOURCE LINES 7-76
 
 .. code-block:: default
 
@@ -57,8 +34,10 @@ Plotting all orientations of a cube that produce a certian brightness value at a
     import mirage.sim as mrs
     import mirage.vis as mrv
 
-    path = "/Users/liamrobinson/Documents/PyLightCurves/mlp_model_train_on_irradiance_cube_brdf_phong_cd_0.5_cs_0.5_n_5.0_layers_50_50_50_50_50_50_50_50_50_50.onnx"
-    mdl = mrs.MLPBrightnessModel(path=path)
+    # path = "/Users/liamrobinson/Documents/PyLightCurves/mlp_model_train_on_irradiance_cube_brdf_phong_cd_0.5_cs_0.5_n_5.0_layers_50_50_50_50_50_50_50_50_50_50.onnx"
+    # mdl = mrs.MLPBrightnessModel(path=path)
+    obj = mrv.SpaceObject('cube.obj')
+    mdl = lambda svb, ovb: obj.convex_light_curve(mr.Brdf('phong', cd=0.5, cs=0.5, n=5.0), svb, ovb)
     n = 150
     d_min = -np.pi
     grid = pv.UniformGrid(
@@ -75,8 +54,10 @@ Plotting all orientations of a cube that produce a certian brightness value at a
     lb = mr.stack_mat_mult_vec(dcms, li)
     ob = mr.stack_mat_mult_vec(dcms, oi)
     mr.tic()
-    bv = mdl.eval(lb, ob)  # Brightness values at sampled orientations
+    bv = mdl(lb, ob)  # Brightness values at sampled orientations
     mr.toc()
+
+    print(f'Mean brightness value: {np.mean(bv)}')
 
     mesh = grid.contour([np.mean(bv)], bv, method="marching_cubes")
     mtri = mesh.triangulate()
@@ -116,9 +97,71 @@ Plotting all orientations of a cube that produce a certian brightness value at a
     pl.show()
 
 
+
+
+.. image-sg:: /gallery/06-attitude/images/sphx_glr_light_curve_iso_surfaces_001.png
+   :alt: light curve iso surfaces
+   :srcset: /gallery/06-attitude/images/sphx_glr_light_curve_iso_surfaces_001.png
+   :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    /Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/pyvista/core/grid.py:912: PyVistaDeprecationWarning: `UniformGrid` is deprecated. Use `ImageData` instead.
+      warnings.warn(
+    Elapsed time: 7.48e+00 seconds
+    Mean brightness value: 0.7776920133099732
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 77-78
+
+Making a simpler render
+
+.. GENERATED FROM PYTHON SOURCE LINES 78-99
+
+.. code-block:: default
+
+
+    pl = pv.Plotter()
+
+    pl.add_mesh(
+        mesh,
+        color="cornflowerblue",
+        show_scalar_bar=False,
+        pbr=True,
+        metallic=0.2,
+        roughness=0.5,
+        diffuse=1,
+    )
+
+    mrv.two_sphere(pl, np.pi, color="linen", opacity=0.1)
+    pl.add_text("Rotation vector space", font_size=14, font="courier")
+    pl.show_bounds(
+        grid='front',
+        location='outer',
+        all_edges=True,
+    )
+    pl.show()
+
+
+
+.. image-sg:: /gallery/06-attitude/images/sphx_glr_light_curve_iso_surfaces_002.png
+   :alt: light curve iso surfaces
+   :srcset: /gallery/06-attitude/images/sphx_glr_light_curve_iso_surfaces_002.png
+   :class: sphx-glr-single-img
+
+
+
+
+
+
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  7.356 seconds)
+   **Total running time of the script:** ( 0 minutes  10.327 seconds)
 
 
 .. _sphx_glr_download_gallery_06-attitude_light_curve_iso_surfaces.py:

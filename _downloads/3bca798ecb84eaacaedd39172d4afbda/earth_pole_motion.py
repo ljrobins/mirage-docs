@@ -52,10 +52,10 @@ pl.show()
 # Animating a full zoom sequence
 
 pl = pv.Plotter()
-pl.open_gif("precession_nutation_zoom.gif")
+pl.open_gif("precession_nutation_zoom.gif", fps=20)
 mrv.plot_earth(pl, lighting=False, high_def=True)
 mrv.plot3(pl, pole_instant, line_width=10, color="m")
-for z in np.logspace(-10, 30, 50, base=1.2):
+for z in np.logspace(-10, 30, 100, base=1.2):
     pl.camera = pv.Camera()
     pl.camera.focal_point = pole_instant[0, :]
     pl.camera.position = pole_instant[0, :] + np.array([1e-2, 1e-2, 2_000])

@@ -61,14 +61,13 @@ Let's choose a point after sunset on the US east coast
 
 We can then generate the background signals for a set of spiral points
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-50
+.. GENERATED FROM PYTHON SOURCE LINES 19-51
 
 .. code-block:: default
 
     npts = int(1e6)
     pts = 1e4 * mr.spiral_sample_sphere(npts)
     sv = np.tile(mr.hat(mr.sun(date)), (npts, 1))
-    # pts = pts[mr.angle_between_vecs(sv, pts).flatten() > np.pi / 4, :]
     station = mr.Station(preset="pogs")
     tdargs = (
         station,
@@ -95,13 +94,41 @@ We can then generate the background signals for a set of spiral points
     mrv.plot_earth(pl, mode="eci", night_lights=True, atmosphere=True, date=date),
     plot_sig(pl, ss, "fire", scale=1.2)
     pl.camera.position = (35e3, 35e3, -8e3)
+
+    mrv.orbit_plotter(pl)
+
+
+
+
+.. image-sg:: /gallery/04-environment/images/sphx_glr_background_zenith_001.gif
+   :alt: background zenith
+   :srcset: /gallery/04-environment/images/sphx_glr_background_zenith_001.gif
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 52-53
+
+A still frame
+
+.. GENERATED FROM PYTHON SOURCE LINES 53-59
+
+.. code-block:: default
+
+
+    pl = pv.Plotter()
+    mrv.plot_earth(pl, mode="eci", night_lights=True, atmosphere=True, date=date),
+    plot_sig(pl, ss, "fire", scale=1.2)
+    pl.camera.position = (35e3, 35e3, -8e3)
     pl.show()
 
 
 
-.. image-sg:: /gallery/04-environment/images/sphx_glr_background_zenith_001.png
+.. image-sg:: /gallery/04-environment/images/sphx_glr_background_zenith_002.png
    :alt: background zenith
-   :srcset: /gallery/04-environment/images/sphx_glr_background_zenith_001.png
+   :srcset: /gallery/04-environment/images/sphx_glr_background_zenith_002.png
    :class: sphx-glr-single-img
 
 
@@ -111,7 +138,7 @@ We can then generate the background signals for a set of spiral points
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  18.525 seconds)
+   **Total running time of the script:** ( 0 minutes  32.131 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_background_zenith.py:

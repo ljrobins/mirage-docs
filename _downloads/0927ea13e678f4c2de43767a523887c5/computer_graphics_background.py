@@ -4,10 +4,12 @@ Graphics Background
 
 Plotting various transformations and concepts from computer graphics
 """
+# isort: skip_file
 
+# isort: off
 import numpy as np
-import pyvista as pv  # isort: off
-import vtk  # isort: off
+import vtk
+import pyvista as pv
 
 import mirage as mr
 import mirage.vis as mrv
@@ -36,7 +38,7 @@ near_range = 0.3
 far_range = 0.9
 camera.clipping_range = (near_range, far_range)
 camera.position = (1.0, -1.0, 0.0)
-camera.up = (0.0, 1.0, 1.0)
+camera.up = (0.0, 1.1, 1.0)
 unit_vector = mr.hat(np.array(camera.direction))
 
 perspective_frustum = camera.view_frustum(1.0)

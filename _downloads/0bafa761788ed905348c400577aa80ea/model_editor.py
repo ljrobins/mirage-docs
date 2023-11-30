@@ -291,7 +291,7 @@ def preview_model(_) -> None:
         preview_obj,
         svb,
         svb,
-        instance_count=1,
+        instances=1,
         frame_rate=20,
         show_window=True,
         silent=False,

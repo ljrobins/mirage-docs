@@ -31,6 +31,22 @@ mrv.vis_attitude_motion(
 )
 
 # %%
+# Black version of unstable motion
+mrv.vis_attitude_motion(
+    obj, q, "tess_unstable_black.gif", framerate=20, background_color="black"
+)
+
+# %%
+# Spin and precession
+obj_attitude = mr.RbtfAttitude(
+    w0=wmag * mr.hat(np.array([0.1, 3, 0.1])),
+    q0=q0,
+    itensor=np.diag((1.0, 2.0, 2.0)),
+)
+(q, w) = obj_attitude.propagate(epsecs)
+mrv.vis_attitude_motion(obj, q, "tess_sp.gif", framerate=20, background_color="white")
+
+# %%
 # Stable rotation about the first axis
 obj_attitude = mr.RbtfAttitude(
     w0=wmag * mr.hat(np.array([1.0, 0.0, 0.0])),

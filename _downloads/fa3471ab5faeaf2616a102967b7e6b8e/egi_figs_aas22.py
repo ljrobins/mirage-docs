@@ -13,6 +13,7 @@ import mirage.vis as mrv
 # %%
 # Plotting the EGI of a cube
 obj = mr.SpaceObject("cube.obj")
+obj.shift_to_center_of_mass()
 cpos = [7, 7, 5]
 
 pl = pv.Plotter()
@@ -77,9 +78,11 @@ pl.show()
 # Plotting the reconstructed object
 egi_merged -= np.sum(egi_merged, axis=0) / egi_merged.shape[0]
 mr.tic()
+# obj_reconstructed = mr.construct_mesh_from_egi(egi_merged)
 h = mr.optimize_supports_little(egi_merged)
 dt = mr.toc(return_elapsed_seconds=True)
 obj_reconstructed = mr.construct_from_egi_and_supports(egi_merged, h)
+obj_reconstructed.shift_to_center_of_mass()
 
 pl = pv.Plotter(shape=(1, 2), window_size=(1000, 500))
 pl.subplot(0, 0)
@@ -97,7 +100,7 @@ pl.show()
 # %%
 # Reconstructing with the non-sparse EGI
 
-pl = pv.Plotter(shape=(1,4), window_size=(2000, 500))
+pl = pv.Plotter(shape=(1, 4), window_size=(2000, 500))
 pl.subplot(0, 0)
 mrv.render_spaceobject(pl, obj, opacity=1, color="linen")
 pl.add_text("Truth", font="courier", position="upper_left")
@@ -107,22 +110,58 @@ egi_candidate_resampled = mr.close_egi(egi_candidate_resampled)
 
 pl.subplot(0, 1)
 mr.tic()
+# obj_reconstructed_initial = mr.construct_mesh_from_egi(egi_candidate)
 h_initial = mr.optimize_supports_little(egi_candidate)
 dt_initial = mr.toc(return_elapsed_seconds=True)
 obj_reconstructed_initial = mr.construct_from_egi_and_supports(egi_candidate, h_initial)
-mrv.render_spaceobject(pl, obj_reconstructed_initial, opacity=1, color="linen")
+obj_reconstructed_initial.shift_to_center_of_mass()
+mrv.render_spaceobject(
+    pl,
+    obj_reconstructed_initial,
+    opacity=0.7,
+    color="linen",
+    feature_edges=True,
+    feature_edge_color="k",
+    feature_edge_angle=2,
+)
+mrv.render_spaceobject(pl, obj, style="wireframe", feature_edges=True)
 pl.add_text(f"Initial EGI: {dt_initial:.2f}s", font="courier", position="upper_left")
 
 pl.subplot(0, 2)
 mr.tic()
 h_resampled = mr.optimize_supports_little(egi_candidate_resampled)
+# obj_reconstructed_resampled = mr.construct_mesh_from_egi(egi_candidate_resampled)
 dt_resampled = mr.toc(return_elapsed_seconds=True)
-obj_reconstructed_resampled = mr.construct_from_egi_and_supports(egi_candidate_resampled, h_resampled)
-mrv.render_spaceobject(pl, obj_reconstructed_resampled, opacity=1, color="linen")
-pl.add_text(f"Resampled EGI: {dt_resampled:.2f}s", font="courier", position="upper_left")
+obj_reconstructed_resampled = mr.construct_from_egi_and_supports(
+    egi_candidate_resampled, h_resampled
+)
+obj_reconstructed_resampled.shift_to_center_of_mass()
+mrv.render_spaceobject(
+    pl,
+    obj_reconstructed_resampled,
+    opacity=0.7,
+    color="linen",
+    feature_edges=True,
+    feature_edge_color="k",
+    feature_edge_angle=2,
+)
+mrv.render_spaceobject(pl, obj, style="wireframe", feature_edges=True)
+pl.add_text(
+    f"Resampled EGI: {dt_resampled:.2f}s", font="courier", position="upper_left"
+)
+
 
 pl.subplot(0, 3)
-mrv.render_spaceobject(pl, obj_reconstructed, opacity=1, color="linen")
+mrv.render_spaceobject(
+    pl,
+    obj_reconstructed,
+    opacity=0.7,
+    color="linen",
+    feature_edges=True,
+    feature_edge_color="k",
+    feature_edge_angle=2,
+)
+mrv.render_spaceobject(pl, obj, style="wireframe", color="k", feature_edges=True)
 pl.add_text(f"Merged EGI: {dt:.2f}s", font="courier", position="upper_left")
 
 pl.show()
