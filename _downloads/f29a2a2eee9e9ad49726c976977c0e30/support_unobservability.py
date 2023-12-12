@@ -17,7 +17,7 @@ import mirage.vis as mrv
 obj = mrv.SpaceObject("cube.obj")
 
 v2 = obj.v.copy()
-for fi,ni in zip(obj.f, obj.face_normals):
+for fi, ni in zip(obj.f, obj.face_normals):
     for vind in fi:
         v2[vind] += ni
 
@@ -35,9 +35,11 @@ r_geo = 42164.0
 r_plate = r_geo
 r_plate2 = r_geo - 1e-3
 
-irradiance_fraction_difference = (1-(r_plate2 / r_plate) ** 2)
+irradiance_fraction_difference = 1 - (r_plate2 / r_plate) ** 2
 
-print(f'The irradiance due to the closer plate is {irradiance_fraction_difference*100}% different')
+print(
+    f"The irradiance due to the closer plate is {irradiance_fraction_difference*100}% different"
+)
 
 # %%
 # Figuring out the truncation losses in the CCD
@@ -49,11 +51,15 @@ trunc_std = np.sqrt(trunc_variance)
 
 signal_difference = ccd_signal * irradiance_fraction_difference
 
-print(f'The number of pixels in the airy disk is {npix}')
-print(f'The standard deviation of the truncation noise is {trunc_std} ADU')
-print(f'The difference in the signal due to plate distance is {signal_difference:.3e} ADU')
-print(f'The truncation noise is {trunc_std / signal_difference} stronger than the signal difference')
+print(f"The number of pixels in the airy disk is {npix}")
+print(f"The standard deviation of the truncation noise is {trunc_std} ADU")
+print(
+    f"The difference in the signal due to plate distance is {signal_difference:.3e} ADU"
+)
+print(
+    f"The truncation noise is {trunc_std / signal_difference} stronger than the signal difference"
+)
 
 SNR = signal_difference / np.sqrt(signal_difference + trunc_std)
 
-print(f'The SNR is {SNR:.3e}')
+print(f"The SNR is {SNR:.3e}")

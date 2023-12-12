@@ -61,7 +61,7 @@ for i, n in enumerate([2, 8, 20]):
             origin=[0, 0, 0],
             direction=N[0, :],
             scale=1,
-            color="red",
+            color="k",
             label="N",
         )
 

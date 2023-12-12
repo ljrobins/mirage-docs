@@ -27,10 +27,10 @@ rel_dirs = [
 
 lines = 0
 for rel_dir in rel_dirs:
-    dir_ = os.path.join(os.environ['SRCDIR'], rel_dir)
+    dir_ = os.path.join(os.environ["SRCDIR"], rel_dir)
     lines += count_lines_in_dir(dir_)
 
-test_lines = count_lines_in_dir( os.path.join(os.environ['SRCDIR'], 'tests'))
+test_lines = count_lines_in_dir(os.path.join(os.environ["SRCDIR"], "tests"))
 
 print(f"Mirage Python source code has {lines} lines")
 print(f"Mirage Python test code has {test_lines} lines")

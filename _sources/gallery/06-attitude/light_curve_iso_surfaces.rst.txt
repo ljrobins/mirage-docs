@@ -23,7 +23,7 @@ Brightness Isosurfaces
 
 Plotting all orientations of a cube that produce a certian brightness value at a given phase angle
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-76
+.. GENERATED FROM PYTHON SOURCE LINES 7-78
 
 .. code-block:: default
 
@@ -36,8 +36,10 @@ Plotting all orientations of a cube that produce a certian brightness value at a
 
     # path = "/Users/liamrobinson/Documents/PyLightCurves/mlp_model_train_on_irradiance_cube_brdf_phong_cd_0.5_cs_0.5_n_5.0_layers_50_50_50_50_50_50_50_50_50_50.onnx"
     # mdl = mrs.MLPBrightnessModel(path=path)
-    obj = mrv.SpaceObject('cube.obj')
-    mdl = lambda svb, ovb: obj.convex_light_curve(mr.Brdf('phong', cd=0.5, cs=0.5, n=5.0), svb, ovb)
+    obj = mrv.SpaceObject("cube.obj")
+    mdl = lambda svb, ovb: obj.convex_light_curve(
+        mr.Brdf("phong", cd=0.5, cs=0.5, n=5.0), svb, ovb
+    )
     n = 150
     d_min = -np.pi
     grid = pv.UniformGrid(
@@ -57,7 +59,7 @@ Plotting all orientations of a cube that produce a certian brightness value at a
     bv = mdl(lb, ob)  # Brightness values at sampled orientations
     mr.toc()
 
-    print(f'Mean brightness value: {np.mean(bv)}')
+    print(f"Mean brightness value: {np.mean(bv)}")
 
     mesh = grid.contour([np.mean(bv)], bv, method="marching_cubes")
     mtri = mesh.triangulate()
@@ -109,19 +111,27 @@ Plotting all orientations of a cube that produce a certian brightness value at a
 
  .. code-block:: none
 
-    /Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/pyvista/core/grid.py:912: PyVistaDeprecationWarning: `UniformGrid` is deprecated. Use `ImageData` instead.
-      warnings.warn(
-    Elapsed time: 7.48e+00 seconds
+    Model file cube.obj not found in current model folder ('/Users/liamrobinson/Documents/Light-Curve-Models/accurate_sats'), checking model repository...
+    Attempting to download cube.obj and its associated material file from the model repository...
+    Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//Regular/cube.obj
+    Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//Regular/cube.mtl
+    Model files were downloaded successfully!
+    Attempting to download spacelib.obj and its associated material file from the model repository...
+    Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//None
+    Model file spacelib.obj not found in the repository!
+    Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//accurate_sats/spacelib.mtl
+    Model files were downloaded successfully!
+    Elapsed time: 7.14e+00 seconds
     Mean brightness value: 0.7776920133099732
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 77-78
+.. GENERATED FROM PYTHON SOURCE LINES 79-80
 
 Making a simpler render
 
-.. GENERATED FROM PYTHON SOURCE LINES 78-99
+.. GENERATED FROM PYTHON SOURCE LINES 80-101
 
 .. code-block:: default
 
@@ -141,8 +151,8 @@ Making a simpler render
     mrv.two_sphere(pl, np.pi, color="linen", opacity=0.1)
     pl.add_text("Rotation vector space", font_size=14, font="courier")
     pl.show_bounds(
-        grid='front',
-        location='outer',
+        grid="front",
+        location="outer",
         all_edges=True,
     )
     pl.show()
@@ -161,7 +171,7 @@ Making a simpler render
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  10.327 seconds)
+   **Total running time of the script:** ( 0 minutes  11.072 seconds)
 
 
 .. _sphx_glr_download_gallery_06-attitude_light_curve_iso_surfaces.py:

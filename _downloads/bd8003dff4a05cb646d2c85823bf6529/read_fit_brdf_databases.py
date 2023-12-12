@@ -39,6 +39,7 @@ b_true = np.mean(data[:, -3:], axis=1).flatten()
 
 print(b_true)
 
+
 def eval_brdf_fit(x: np.ndarray) -> float:
     brdf = mr.Brdf(brdf_model, cd=x[0], cs=x[1], n=x[2], validate=False)
     b_est = brdf.eval(sv, ov, n).flatten()

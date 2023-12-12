@@ -13,8 +13,10 @@ import mirage.vis as mrv
 
 # path = "/Users/liamrobinson/Documents/PyLightCurves/mlp_model_train_on_irradiance_cube_brdf_phong_cd_0.5_cs_0.5_n_5.0_layers_50_50_50_50_50_50_50_50_50_50.onnx"
 # mdl = mrs.MLPBrightnessModel(path=path)
-obj = mrv.SpaceObject('cube.obj')
-mdl = lambda svb, ovb: obj.convex_light_curve(mr.Brdf('phong', cd=0.5, cs=0.5, n=5.0), svb, ovb)
+obj = mrv.SpaceObject("cube.obj")
+mdl = lambda svb, ovb: obj.convex_light_curve(
+    mr.Brdf("phong", cd=0.5, cs=0.5, n=5.0), svb, ovb
+)
 n = 150
 d_min = -np.pi
 grid = pv.UniformGrid(
@@ -34,7 +36,7 @@ mr.tic()
 bv = mdl(lb, ob)  # Brightness values at sampled orientations
 mr.toc()
 
-print(f'Mean brightness value: {np.mean(bv)}')
+print(f"Mean brightness value: {np.mean(bv)}")
 
 mesh = grid.contour([np.mean(bv)], bv, method="marching_cubes")
 mtri = mesh.triangulate()
@@ -91,8 +93,8 @@ pl.add_mesh(
 mrv.two_sphere(pl, np.pi, color="linen", opacity=0.1)
 pl.add_text("Rotation vector space", font_size=14, font="courier")
 pl.show_bounds(
-    grid='front',
-    location='outer',
+    grid="front",
+    location="outer",
     all_edges=True,
 )
 pl.show()

@@ -25,7 +25,9 @@ def save_lc_info(
 ):
     if not os.path.exists("lc_database"):
         os.mkdir("lc_database")
-    save_dict = {k: (v.tolist() if isinstance(v, np.ndarray) else v) for k, v in aux_data.items()}
+    save_dict = {
+        k: (v.tolist() if isinstance(v, np.ndarray) else v) for k, v in aux_data.items()
+    }
     save_dict["obj_file_name"] = obj.file_name
     save_dict["rotate_panels"] = rotate_panels
     save_dict["jds"] = mr.date_to_jd(dates).tolist()

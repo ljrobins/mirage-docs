@@ -17,7 +17,7 @@ import mirage as mr
 # %%
 # Let's set up a space of dates to operate on
 
-dates = mr.date_linspace(mr.now(), mr.now() + mr.days(1), 8640) - mr.days(100)
+dates = mr.date_linspace(mr.now(), mr.now() + mr.days(0.5), 8640) - mr.days(100)
 
 # %%
 # And propagate one of the NAVSTAR satellites to all the dates

@@ -21,7 +21,7 @@
 Saving Light Curve Datasets
 ===========================
 
-.. GENERATED FROM PYTHON SOURCE LINES 5-146
+.. GENERATED FROM PYTHON SOURCE LINES 5-148
 
 
 
@@ -35,15 +35,15 @@ Saving Light Curve Datasets
 
  .. code-block:: none
 
-    matlib_saturn_v_sii.obj <class 'mirage.attitude.AlignedAndConstrainedAttitude'>
-    matlib_hylas4.obj <class 'mirage.attitude.AlignedAndConstrainedAttitude'>
-    matlib_hylas4.obj <class 'mirage.attitude.AlignedAndConstrainedAttitude'>
-    matlib_tdrs.obj <class 'mirage.attitude.RbtfAttitude'>
+    matlib_hylas4.obj <class 'mirage.attitude.RbtfAttitude'>
     matlib_tdrs.obj <class 'mirage.attitude.AlignedAndConstrainedAttitude'>
     matlib_hispasat_30w-6.obj <class 'mirage.attitude.RbtfAttitude'>
-    matlib_astra.obj <class 'mirage.attitude.AlignedAndConstrainedAttitude'>
     matlib_astra.obj <class 'mirage.attitude.RbtfAttitude'>
     matlib_telstar19v.obj <class 'mirage.attitude.RbtfAttitude'>
+    matlib_hispasat_30w-6.obj <class 'mirage.attitude.SpinStabilizedAttitude'>
+    matlib_hispasat_30w-6.obj <class 'mirage.attitude.SpinStabilizedAttitude'>
+    matlib_tdrs.obj <class 'mirage.attitude.AlignedAndConstrainedAttitude'>
+    matlib_tdrs.obj <class 'mirage.attitude.SpinStabilizedAttitude'>
     matlib_hylas4.obj <class 'mirage.attitude.RbtfAttitude'>
 
 
@@ -78,7 +78,9 @@ Saving Light Curve Datasets
     ):
         if not os.path.exists("lc_database"):
             os.mkdir("lc_database")
-        save_dict = {k: (v.tolist() if isinstance(v, np.ndarray) else v) for k, v in aux_data.items()}
+        save_dict = {
+            k: (v.tolist() if isinstance(v, np.ndarray) else v) for k, v in aux_data.items()
+        }
         save_dict["obj_file_name"] = obj.file_name
         save_dict["rotate_panels"] = rotate_panels
         save_dict["jds"] = mr.date_to_jd(dates).tolist()
@@ -200,7 +202,7 @@ Saving Light Curve Datasets
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 3 minutes  21.068 seconds)
+   **Total running time of the script:** ( 3 minutes  20.278 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_save_lc_datasets.py:

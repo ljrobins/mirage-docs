@@ -16,7 +16,9 @@ import mirage.vis as mrv
 # Albedo-area ambiguity
 
 brdf = mr.Brdf("cook-torrance", cd=0.5, cs=0.5, n=5.0)
-dates, epsecs = mr.date_linspace(mr.now(), mr.now() + mr.seconds(5), 1000, return_epsecs=True)
+dates, epsecs = mr.date_linspace(
+    mr.now(), mr.now() + mr.seconds(5), 1000, return_epsecs=True
+)
 attitude = mr.RbtfAttitude(
     w0=1.0 * mr.hat(np.array([[0.1, 0.0, 1.0]])),
     q0=mr.hat(np.array([0.0, 0.0, 0.0, 1.0])),
@@ -36,15 +38,23 @@ obj2.v *= sf
 obj2.build_properties()
 
 lc1 = obj1.convex_light_curve(brdf, svb, ovb)
-plt.plot(epsecs, lc1, lw=3, label=f"1m cube, Cook-Torrance $C_d={brdf.cd}$, $C_s={brdf.cs}$")
-brdf.cd /= sf ** 2
-brdf.cs /= sf ** 2
+plt.plot(
+    epsecs, lc1, lw=3, label=f"1m cube, Cook-Torrance $C_d={brdf.cd}$, $C_s={brdf.cs}$"
+)
+brdf.cd /= sf**2
+brdf.cs /= sf**2
 lc2 = obj2.convex_light_curve(brdf, svb, ovb)
 
-plt.plot(epsecs, lc2, '--', lw=3, label=f"{sf:.0f}m cube, Cook-Torrance $C_d={brdf.cd}$, $C_s={brdf.cs}$")
-mrv.texit('Albedo-Area Ambiguity', 'Epoch seconds', 'Normalized irradiance')
+plt.plot(
+    epsecs,
+    lc2,
+    "--",
+    lw=3,
+    label=f"{sf:.0f}m cube, Cook-Torrance $C_d={brdf.cd}$, $C_s={brdf.cs}$",
+)
+mrv.texit("Albedo-Area Ambiguity", "Epoch seconds", "Normalized irradiance")
 plt.legend()
-plt.ylim([np.min(lc1)*0.8, np.max(lc1) * 1.2])
+plt.ylim([np.min(lc1) * 0.8, np.max(lc1) * 1.2])
 plt.show()
 
 # %%
@@ -54,8 +64,8 @@ plt.show()
 lc1 = obj1.convex_light_curve(brdf, svb, ovb)
 plt.plot(epsecs, lc1, lw=3, label=f"Nominal")
 lc2 = obj1.convex_light_curve(brdf, ovb, svb)
-plt.plot(epsecs, lc2, '--', lw=3, label=f"Swapped observer and Sun")
-mrv.texit('Observer Geometry Ambiguity', 'Epoch seconds', 'Normalized irradiance')
+plt.plot(epsecs, lc2, "--", lw=3, label=f"Swapped observer and Sun")
+mrv.texit("Observer Geometry Ambiguity", "Epoch seconds", "Normalized irradiance")
 plt.legend()
 plt.show()
 

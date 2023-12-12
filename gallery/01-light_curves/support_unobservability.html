@@ -506,7 +506,7 @@ to download the full example code</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">obj</span> <span class="o">=</span> <span class="n">mrv</span><span class="o">.</span><span class="n">SpaceObject</span><span class="p">(</span><span class="s2">&quot;cube.obj&quot;</span><span class="p">)</span>
 
 <span class="n">v2</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">fi</span><span class="p">,</span><span class="n">ni</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">face_normals</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">fi</span><span class="p">,</span> <span class="n">ni</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">face_normals</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">vind</span> <span class="ow">in</span> <span class="n">fi</span><span class="p">:</span>
         <span class="n">v2</span><span class="p">[</span><span class="n">vind</span><span class="p">]</span> <span class="o">+=</span> <span class="n">ni</span>
 
@@ -523,9 +523,11 @@ to download the full example code</p>
 <span class="n">r_plate</span> <span class="o">=</span> <span class="n">r_geo</span>
 <span class="n">r_plate2</span> <span class="o">=</span> <span class="n">r_geo</span> <span class="o">-</span> <span class="mf">1e-3</span>
 
-<span class="n">irradiance_fraction_difference</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="n">r_plate2</span> <span class="o">/</span> <span class="n">r_plate</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">irradiance_fraction_difference</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">r_plate2</span> <span class="o">/</span> <span class="n">r_plate</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The irradiance due to the closer plate is </span><span class="si">{</span><span class="n">irradiance_fraction_difference</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s1">% different&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;The irradiance due to the closer plate is </span><span class="si">{</span><span class="n">irradiance_fraction_difference</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s2">% different&quot;</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The irradiance due to the closer plate is 4.743382919780714e-06% different
@@ -540,14 +542,18 @@ to download the full example code</p>
 
 <span class="n">signal_difference</span> <span class="o">=</span> <span class="n">ccd_signal</span> <span class="o">*</span> <span class="n">irradiance_fraction_difference</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The number of pixels in the airy disk is </span><span class="si">{</span><span class="n">npix</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The standard deviation of the truncation noise is </span><span class="si">{</span><span class="n">trunc_std</span><span class="si">}</span><span class="s1"> ADU&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The difference in the signal due to plate distance is </span><span class="si">{</span><span class="n">signal_difference</span><span class="si">:</span><span class="s1">.3e</span><span class="si">}</span><span class="s1"> ADU&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The truncation noise is </span><span class="si">{</span><span class="n">trunc_std</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">signal_difference</span><span class="si">}</span><span class="s1"> stronger than the signal difference&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The number of pixels in the airy disk is </span><span class="si">{</span><span class="n">npix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The standard deviation of the truncation noise is </span><span class="si">{</span><span class="n">trunc_std</span><span class="si">}</span><span class="s2"> ADU&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;The difference in the signal due to plate distance is </span><span class="si">{</span><span class="n">signal_difference</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2"> ADU&quot;</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;The truncation noise is </span><span class="si">{</span><span class="n">trunc_std</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">signal_difference</span><span class="si">}</span><span class="s2"> stronger than the signal difference&quot;</span>
+<span class="p">)</span>
 
 <span class="n">SNR</span> <span class="o">=</span> <span class="n">signal_difference</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">signal_difference</span> <span class="o">+</span> <span class="n">trunc_std</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The SNR is </span><span class="si">{</span><span class="n">SNR</span><span class="si">:</span><span class="s1">.3e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The SNR is </span><span class="si">{</span><span class="n">SNR</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>The number of pixels in the airy disk is 53.72556416973795
@@ -557,7 +563,7 @@ The truncation noise is 23119.965325839712 stronger than the signal difference
 The SNR is 1.432e-04
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.582 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.572 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-01-light-curves-support-unobservability-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/f29a2a2eee9e9ad49726c976977c0e30/support_unobservability.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">support_unobservability.py</span></code></a></p>
