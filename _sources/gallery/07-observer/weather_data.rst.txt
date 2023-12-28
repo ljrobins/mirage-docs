@@ -25,18 +25,20 @@ Local pressure and temperature data for a given station
 .. GENERATED FROM PYTHON SOURCE LINES 6-25
 
 
-
-.. image-sg:: /gallery/07-observer/images/sphx_glr_weather_data_001.png
-   :alt: Station Temperature, Station Pressure
-   :srcset: /gallery/07-observer/images/sphx_glr_weather_data_001.png, /gallery/07-observer/images/sphx_glr_weather_data_001_2_00x.png 2.00x
-   :class: sphx-glr-single-img
-
-
 .. rst-class:: sphx-glr-script-out
 
- .. code-block:: none
+.. code-block:: pytb
 
-    dict_keys(['datetime', 'datetimeEpoch', 'tempmax', 'tempmin', 'temp', 'feelslikemax', 'feelslikemin', 'feelslike', 'dew', 'humidity', 'precip', 'precipprob', 'precipcover', 'preciptype', 'snow', 'snowdepth', 'windgust', 'windspeed', 'winddir', 'pressure', 'cloudcover', 'visibility', 'solarradiation', 'solarenergy', 'uvindex', 'sunrise', 'sunriseEpoch', 'sunset', 'sunsetEpoch', 'moonphase', 'conditions', 'description', 'icon', 'stations', 'source'])
+    Traceback (most recent call last):
+      File "/Users/liamrobinson/Documents/PyLightCurves/examples/07-observer/weather_data.py", line 15, in <module>
+        interp_pressure, interp_temp = mr.pressure_and_temp_at_station(station, dates)
+      File "/Users/liamrobinson/Documents/PyLightCurves/mirage/weather.py", line 15, in pressure_and_temp_at_station
+        data = daily_weather_data_at_station(station, dates)
+      File "/Users/liamrobinson/Documents/PyLightCurves/mirage/weather.py", line 54, in daily_weather_data_at_station
+        url = f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{station.lat_geod_deg}%2C{station.lon_deg}/{query_dates_strs[0]}/{query_dates_strs[1]}?unitGroup=metric&include=days&key={os.environ['VISUAL_CROSSING_KEY']}&contentType=json"
+      File "/opt/homebrew/Cellar/python@3.10/3.10.13_1/Frameworks/Python.framework/Versions/3.10/lib/python3.10/os.py", line 680, in __getitem__
+        raise KeyError(key) from None
+    KeyError: 'VISUAL_CROSSING_KEY'
 
 
 
@@ -70,7 +72,7 @@ Local pressure and temperature data for a given station
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.870 seconds)
+   **Total running time of the script:** ( 0 minutes  0.014 seconds)
 
 
 .. _sphx_glr_download_gallery_07-observer_weather_data.py:

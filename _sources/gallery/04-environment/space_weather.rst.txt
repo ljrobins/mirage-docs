@@ -49,9 +49,16 @@ Plotting the :math:`K_p`, :math:`A_p`, and F10.7 space weather indices
 
 Loading the space weather file and extracting the dates and indices
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-28
+.. GENERATED FROM PYTHON SOURCE LINES 20-35
 
 .. code-block:: default
+
+    urls_and_dirs = {
+        "https://celestrak.org/SpaceData/SW-Last5Years.csv": os.environ["DATADIR"]
+    }
+
+    for url, dir in urls_and_dirs.items():
+        mr.save_file_from_url(url, dir)
 
     sw_file_path = os.path.join(os.environ["DATADIR"], "SW-Last5Years.csv")
     sw_df = pd.read_csv(sw_file_path, header=0)
@@ -65,14 +72,20 @@ Loading the space weather file and extracting the dates and indices
 
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    SW-Last5Years.csv: 0.00B [00:00, ?B/s]    SW-Last5Years.csv:   3%|3         | 8.19k/261k [00:00<00:10, 24.1kB/s]    SW-Last5Years.csv:  19%|#8        | 49.2k/261k [00:00<00:02, 104kB/s]     SW-Last5Years.csv:  85%|########4 | 221k/261k [00:00<00:00, 440kB/s]     SW-Last5Years.csv: 262kB [00:00, 372kB/s]                           
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 29-30
+
+.. GENERATED FROM PYTHON SOURCE LINES 36-37
 
 Plotting F10.7 radio flux
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-35
+.. GENERATED FROM PYTHON SOURCE LINES 37-42
 
 .. code-block:: default
 
@@ -93,11 +106,11 @@ Plotting F10.7 radio flux
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-37
+.. GENERATED FROM PYTHON SOURCE LINES 43-44
 
 Plotting the geomagnetic index :math:`K_p`
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-41
+.. GENERATED FROM PYTHON SOURCE LINES 44-48
 
 .. code-block:: default
 
@@ -117,11 +130,11 @@ Plotting the geomagnetic index :math:`K_p`
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-43
+.. GENERATED FROM PYTHON SOURCE LINES 49-50
 
 Plotting the geomagnetic index :math:`K_p`
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-47
+.. GENERATED FROM PYTHON SOURCE LINES 50-54
 
 .. code-block:: default
 
@@ -141,14 +154,14 @@ Plotting the geomagnetic index :math:`K_p`
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-49
+.. GENERATED FROM PYTHON SOURCE LINES 55-56
 
 Reference for the CSV format found `at CelesTrak <https://celestrak.org/SpaceData/SpaceWx-format.php>`_
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.083 seconds)
+   **Total running time of the script:** ( 0 minutes  2.039 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_space_weather.py:

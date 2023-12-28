@@ -88,9 +88,7 @@ import pyvista as pv
 h = mr.optimize_supports_little(egi)
 rec_obj = mr.construct_from_egi_and_supports(egi, h)
 rec_obj.shift_to_center_of_mass()
-fu = mr.face_uncertainty(
-    rec_obj.egi, sun_body, obs_body, brdf, lc_sampled, make_plot=True
-)
+fu = mr.face_uncertainty(rec_obj, sun_body, obs_body, brdf, lc_sampled)
 pl = pv.Plotter()
 pv.plotting.opts.InterpolationType(0)
 mrv.render_spaceobject(pl, rec_obj, scalars=fu[rec_obj.unique_to_all])

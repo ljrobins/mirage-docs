@@ -51,16 +51,17 @@ def plot_catalog_at_date(
 # %%
 # Space in 2023 compared with space in 2000
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# pl = pv.Plotter(shape=(1, 2), window_size=(2000, 1000))
-# pl.subplot(0, 1)
-# plot_catalog_at_date(pl, mr.today())
-# pl.disable_anti_aliasing()
-# pl.subplot(0, 0)
-# plot_catalog_at_date(pl, mr.today() - mr.years(23))
-# pl.disable_anti_aliasing()
-# pl.link_views()
-# pl.background_color = "white"
-# pl.show()
+
+pl = pv.Plotter(shape=(1, 2), window_size=(2000, 1000))
+pl.subplot(0, 1)
+plot_catalog_at_date(pl, mr.today())
+pl.disable_anti_aliasing()
+pl.subplot(0, 0)
+plot_catalog_at_date(pl, mr.today() - mr.years(23))
+pl.disable_anti_aliasing()
+pl.link_views()
+pl.background_color = "white"
+pl.show()
 
 
 # %%

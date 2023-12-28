@@ -72,9 +72,9 @@ Propagating with the full EGM96 gravity model and Sun/Moon third-body accelerati
     rv = mr.integrate_orbit_dynamics(
         rv0,
         dates,
-        gravity_harmonics_degree=360,
-        moon_third_body=True,
-        sun_third_body=True,
+        gravity_harmonics_degree=2,
+        moon_third_body=False,
+        sun_third_body=False,
         int_tol=1e-6,  # Because I want this example to render quickly
     )
     mr.toc()
@@ -97,7 +97,9 @@ Propagating with the full EGM96 gravity model and Sun/Moon third-body accelerati
 
  .. code-block:: none
 
-    Elapsed time: 9.35e+01 seconds
+    Elapsed time: 3.94e+01 seconds
+    /Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/pyvista/plotting/plotter.py:4633: PyVistaDeprecationWarning: This method is deprecated and will be removed in a future version of PyVista. Directly modify the scalars of a mesh in-place instead.
+      warnings.warn(
 
 
 
@@ -105,7 +107,7 @@ Propagating with the full EGM96 gravity model and Sun/Moon third-body accelerati
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 1 minutes  47.888 seconds)
+   **Total running time of the script:** ( 0 minutes  54.025 seconds)
 
 
 .. _sphx_glr_download_gallery_00-orbits_hifi_propagation.py:

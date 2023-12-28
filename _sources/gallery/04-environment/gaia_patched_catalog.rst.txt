@@ -159,7 +159,7 @@ Now we define the telescope we want to perform the observations with, we'll use 
 Now we reshape the signal into the original grid and display the plot as an image
 We'll also overlay the Tycho 2 RA/Dec coordinates to confirm that both overlap correctly
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-94
+.. GENERATED FROM PYTHON SOURCE LINES 73-104
 
 .. code-block:: default
 
@@ -169,6 +169,16 @@ We'll also overlay the Tycho 2 RA/Dec coordinates to confirm that both overlap c
         cmap="hot",
         extent=(-180, 180, -90, 90),
     )
+    import os
+
+    urls_and_dirs = {
+        "https://github.com/liamrobinson1/pyspaceaware-resources/raw/main/tycho2.json": os.environ[
+            "DATADIR"
+        ],
+    }
+
+    for url, dir in urls_and_dirs.items():
+        mr.save_file_from_url(url, dir)
 
     t2 = mr.load_json_data("tycho2.json")
     tycho2_ra_rad = t2["j2000_ra"][::10]
@@ -193,14 +203,20 @@ We'll also overlay the Tycho 2 RA/Dec coordinates to confirm that both overlap c
    :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    tycho2.json: 0.00B [00:00, ?B/s]    tycho2.json:   0%|          | 8.19k/83.8M [00:00<33:28, 41.7kB/s]    tycho2.json:   5%|4         | 3.99M/83.8M [00:00<00:04, 16.7MB/s]    tycho2.json:  14%|#3        | 11.4M/83.8M [00:00<00:01, 38.3MB/s]    tycho2.json:  16%|#5        | 13.4M/83.8M [00:00<00:02, 29.2MB/s]    tycho2.json:  25%|##5       | 21.2M/83.8M [00:00<00:01, 44.5MB/s]    tycho2.json:  35%|###4      | 29.2M/83.8M [00:00<00:00, 55.5MB/s]    tycho2.json:  44%|####3     | 36.5M/83.8M [00:00<00:00, 60.8MB/s]    tycho2.json:  52%|#####2    | 43.6M/83.8M [00:00<00:00, 63.9MB/s]    tycho2.json:  56%|#####5    | 46.7M/83.8M [00:01<00:00, 50.4MB/s]    tycho2.json:  65%|######4   | 54.4M/83.8M [00:01<00:00, 57.0MB/s]    tycho2.json:  75%|#######4  | 62.6M/83.8M [00:01<00:00, 64.0MB/s]    tycho2.json:  84%|########4 | 70.4M/83.8M [00:01<00:00, 68.2MB/s]    tycho2.json:  92%|#########1| 77.0M/83.8M [00:01<00:00, 67.6MB/s]    tycho2.json:  95%|#########4| 79.5M/83.8M [00:01<00:00, 51.7MB/s]    tycho2.json: 83.8MB [00:01, 50.6MB/s]                            
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 95-96
+
+.. GENERATED FROM PYTHON SOURCE LINES 105-106
 
 We can also display the GAIA patched catalog and the Tycho 2 unit vectors on the ECI unit sphere:
 
-.. GENERATED FROM PYTHON SOURCE LINES 96-120
+.. GENERATED FROM PYTHON SOURCE LINES 106-130
 
 .. code-block:: default
 
@@ -243,7 +259,7 @@ We can also display the GAIA patched catalog and the Tycho 2 unit vectors on the
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  4.262 seconds)
+   **Total running time of the script:** ( 0 minutes  4.904 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_gaia_patched_catalog.py:

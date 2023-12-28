@@ -48,14 +48,20 @@ Plotting and querying a large dataset of zenith light pollution from the `Light 
 
 Let's plot the zenith sky radiances as reported by the World Atlas 2015 dataset.
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-30
+.. GENERATED FROM PYTHON SOURCE LINES 19-36
 
 .. code-block:: default
 
 
-    with rasterio.open(
-        os.path.join(os.environ["DATADIR"], "World_Atlas_2015/World_Atlas_2015.tif"), "r"
-    ) as f:
+    data_file = os.path.join(os.environ["DATADIR"], "World_Atlas_2015.tif")
+
+    if not os.path.exists(data_file):
+        mr.save_file_from_url(
+            "https://filebin.net/v3ja2gt5jrifqsc6/World_Atlas_2015.zip",
+            os.environ["DATADIR"],
+        )
+
+    with rasterio.open(data_file, "r") as f:
         mr.tic()
         art_brightness = f.read().squeeze()  # mcd / cm^2
         mr.toc()
@@ -71,16 +77,16 @@ Let's plot the zenith sky radiances as reported by the World Atlas 2015 dataset.
 
  .. code-block:: none
 
-    Elapsed time: 1.83e+00 seconds
+    Elapsed time: 2.46e+00 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-32
+.. GENERATED FROM PYTHON SOURCE LINES 37-38
 
 Plotting zenith light pollution in MPSAS
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-48
+.. GENERATED FROM PYTHON SOURCE LINES 38-54
 
 .. code-block:: default
 
@@ -112,16 +118,24 @@ Plotting zenith light pollution in MPSAS
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-50
+.. GENERATED FROM PYTHON SOURCE LINES 55-56
 
 Let's plot the ground-level radiances as observed by the VIIRS satellite
 
-.. GENERATED FROM PYTHON SOURCE LINES 50-63
+.. GENERATED FROM PYTHON SOURCE LINES 56-77
 
 .. code-block:: default
 
 
-    with rasterio.open(os.path.join(os.environ["DATADIR"], "viirs_2022_raw.tif"), "r") as f:
+    data_file = os.path.join(os.environ["DATADIR"], "viirs_2022_raw.tif")
+
+    if not os.path.exists(data_file):
+        mr.save_file_from_url(
+            "ps://www2.lightpollutionmap.info/data/viirs_2022_raw.zip",
+            os.environ["DATADIR"],
+        )
+
+    with rasterio.open(data_file, "r") as f:
         mr.tic()
         x = f.read().squeeze()  # nW / cm^2 / sr
         mr.toc()
@@ -141,16 +155,16 @@ Let's plot the ground-level radiances as observed by the VIIRS satellite
 
  .. code-block:: none
 
-    Elapsed time: 2.75e+01 seconds
+    Elapsed time: 2.79e+01 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 64-65
+.. GENERATED FROM PYTHON SOURCE LINES 78-79
 
 Plotting ground light pollution sources
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-80
+.. GENERATED FROM PYTHON SOURCE LINES 79-94
 
 .. code-block:: default
 
@@ -184,7 +198,7 @@ Plotting ground light pollution sources
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  58.295 seconds)
+   **Total running time of the script:** ( 1 minutes  6.208 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_nightlights.py:

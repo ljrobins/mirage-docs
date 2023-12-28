@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
@@ -18,12 +18,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -37,8 +37,9 @@
     <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/doctools.js"></script>
@@ -50,7 +51,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Inversion PDF" href="noisy_inversion_pdf.html" />
-    <link rel="prev" title="Support Optimization Comparison" href="kass_durech_vs_python.html" />
+    <link rel="prev" title="Perfect Information Inversion" href="perfect_info_inversion.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -61,6 +62,15 @@
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -101,12 +111,15 @@
     <span class="fa-solid fa-bars"></span>
   </label>
   
-  <div class="navbar-header-items__start">
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
   
 
 <a class="navbar-brand logo" href="../../index.html">
+  
   
   
   
@@ -116,8 +129,8 @@
       
     
     
-    <img src="../../_static/sid_logo_light.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../../_static/sid_logo_dark.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../../_static/sid_logo_light.png" class="logo__image only-light" alt=""/>
+    <script>document.write(`<img src="../../_static/sid_logo_dark.png" class="logo__image only-dark" alt=""/>`);</script>
   
   
     <p class="title logo__title">MIRAGE</p>
@@ -126,12 +139,12 @@
     
   </div>
   
-  
   <div class="col-lg-9 navbar-header-items">
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
+        <div class="navbar-item">
+<nav class="navbar-nav">
   <p class="sidebar-header-items__title"
      role="heading"
      aria-level="1"
@@ -154,16 +167,16 @@
                     </li>
                 
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../references.html">
-                        References
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples Gallery
                       </a>
                     </li>
                 
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="../index.html">
-                        Examples Gallery
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../references.html">
+                        References
                       </a>
                     </li>
                 
@@ -177,23 +190,27 @@
       
         <div class="navbar-item navbar-persistent--container">
           
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
         </div>
       
       
         <div class="navbar-item">
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script></div>
@@ -204,13 +221,16 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
     </div>
   
 
@@ -231,7 +251,8 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
+          <div class="navbar-item">
+<nav class="navbar-nav">
   <p class="sidebar-header-items__title"
      role="heading"
      aria-level="1"
@@ -254,16 +275,16 @@ document.write(`
                     </li>
                 
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../references.html">
-                        References
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples Gallery
                       </a>
                     </li>
                 
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="../index.html">
-                        Examples Gallery
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../references.html">
+                        References
                       </a>
                     </li>
                 
@@ -277,12 +298,13 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script></div>
@@ -292,7 +314,8 @@ document.write(`
   </div>
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
-        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
@@ -300,13 +323,14 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/hifi_propagation.html">Propagating with Perturbations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/propagate_single_tle.html">Propagating single TLE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/tle_switching.html">TLE Switching</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../00-orbits/propagate_catalog.html">Propagating the catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/ground_track.html">Ground Tracks</a></li>
 
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/propagate_catalog.html">Propagating the catalog</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Light Curve Inversion</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="kass_durech_vs_python.html">Support Optimization Comparison</a></li>
+<li class="toctree-l2"><a class="reference internal" href="perfect_info_inversion.html">Perfect Information Inversion</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Shape Uncertainty</a></li>
 <li class="toctree-l2"><a class="reference internal" href="noisy_inversion_pdf.html">Inversion PDF</a></li>
 <li class="toctree-l2"><a class="reference internal" href="face_uncertainty.html">Face Uncertainty</a></li>
@@ -325,8 +349,8 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_grid.html">BRDFs on the local hemisphere</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_ambiguities.html">Light Curve Ambiguities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_units.html">Light Curve Units</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/lc_uncertainty.html">Light Curve Uncertainty</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/save_lc_datasets.html">Saving Light Curve Datasets</a></li>
@@ -348,6 +372,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/vr_factor.html">Airmass Function Comparison</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/star_aberration.html">Star Aberration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/solar_system.html">Solar System</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_zenith.html">Background Signals at Zenith</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/atmospheric_absorption.html">Atmospheric Transmission</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/penumbra_plane.html">Penumbra Visualized</a></li>
@@ -377,7 +402,6 @@ document.write(`
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/light_time_delay.html">Light Time Delay</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../07-observer/weather_data.html">Local Weather Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/local_sidereal_time.html">Local Sidereal Time</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/conic_sensor.html">Conic Sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/synthetic_rpo_images.html">Synthetic RPO</a></li>
@@ -456,8 +480,8 @@ document.write(`
 
 
 
-<nav aria-label="Breadcrumbs">
-  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="../../index.html" class="nav-link" aria-label="Home">
@@ -607,10 +631,184 @@ to download the full example code</p>
 <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_poisson_shape_variance_001.png" srcset="../../_images/sphx_glr_poisson_shape_variance_001.png, ../../_images/sphx_glr_poisson_shape_variance_001_2_00x.png 2.00x" alt="Light Curve with Uncertainty" class = "sphx-glr-single-img"/><img src="../../_images/sphx_glr_poisson_shape_variance_002.png" srcset="../../_images/sphx_glr_poisson_shape_variance_002.png" alt="poisson shape variance" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>WARNING: no observation constraints assigned!
+<img src="../../_images/sphx_glr_poisson_shape_variance_001.png" srcset="../../_images/sphx_glr_poisson_shape_variance_001.png, ../../_images/sphx_glr_poisson_shape_variance_001_2_00x.png 2.00x" alt="Light Curve with Uncertainty" class = "sphx-glr-single-img"/><img src="../../_images/sphx_glr_poisson_shape_variance_002.png" srcset="../../_images/sphx_glr_poisson_shape_variance_002.png" alt="poisson shape variance" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Model file cylinder.obj not found in current model folder (&#39;/Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models&#39;), checking model repository...
+Attempting to download cylinder.obj and its associated material file from the model repository...
+Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//Regular/cylinder.obj
+Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//Irregular/cylinder.mtl
+Model files were downloaded successfully!
+Attempting to download spacelib.obj and its associated material file from the model repository...
+Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//None
+Model file spacelib.obj not found in the repository!
+Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//accurate_sats/spacelib.mtl
+Model files were downloaded successfully!
+
+World_Atlas_2015.zip: 0.00B [00:00, ?B/s]
+World_Atlas_2015.zip:   0%|          | 8.19k/684M [00:09&lt;225:41:40, 842B/s]
+World_Atlas_2015.zip:   0%|          | 2.02M/684M [00:09&lt;39:27, 288kB/s]
+World_Atlas_2015.zip:   1%|1         | 7.18M/684M [00:10&lt;08:33, 1.32MB/s]
+World_Atlas_2015.zip:   2%|1         | 13.1M/684M [00:10&lt;03:48, 2.93MB/s]
+World_Atlas_2015.zip:   3%|2         | 19.5M/684M [00:10&lt;02:07, 5.23MB/s]
+World_Atlas_2015.zip:   4%|3         | 24.8M/684M [00:10&lt;01:25, 7.74MB/s]
+World_Atlas_2015.zip:   4%|3         | 27.2M/684M [00:10&lt;01:16, 8.54MB/s]
+World_Atlas_2015.zip:   5%|5         | 35.1M/684M [00:10&lt;00:44, 14.6MB/s]
+World_Atlas_2015.zip:   6%|6         | 41.6M/684M [00:10&lt;00:31, 20.2MB/s]
+World_Atlas_2015.zip:   7%|7         | 48.2M/684M [00:10&lt;00:24, 26.4MB/s]
+World_Atlas_2015.zip:   8%|7         | 53.9M/684M [00:10&lt;00:22, 27.6MB/s]
+World_Atlas_2015.zip:   9%|8         | 60.1M/684M [00:11&lt;00:18, 33.4MB/s]
+World_Atlas_2015.zip:  10%|9         | 66.1M/684M [00:11&lt;00:16, 38.5MB/s]
+World_Atlas_2015.zip:  11%|#         | 72.8M/684M [00:11&lt;00:13, 44.6MB/s]
+World_Atlas_2015.zip:  12%|#1        | 79.3M/684M [00:11&lt;00:12, 49.4MB/s]
+World_Atlas_2015.zip:  12%|#2        | 82.3M/684M [00:11&lt;00:14, 41.1MB/s]
+World_Atlas_2015.zip:  13%|#2        | 88.0M/684M [00:11&lt;00:13, 44.6MB/s]
+World_Atlas_2015.zip:  14%|#3        | 95.4M/684M [00:11&lt;00:11, 52.4MB/s]
+World_Atlas_2015.zip:  15%|#4        | 101M/684M [00:11&lt;00:10, 53.2MB/s]
+World_Atlas_2015.zip:  16%|#5        | 108M/684M [00:11&lt;00:09, 59.1MB/s]
+World_Atlas_2015.zip:  16%|#6        | 110M/684M [00:11&lt;00:12, 45.9MB/s]
+World_Atlas_2015.zip:  17%|#7        | 117M/684M [00:12&lt;00:10, 51.7MB/s]
+World_Atlas_2015.zip:  18%|#7        | 123M/684M [00:12&lt;00:10, 54.3MB/s]
+World_Atlas_2015.zip:  19%|#9        | 130M/684M [00:12&lt;00:09, 59.8MB/s]
+World_Atlas_2015.zip:  20%|#9        | 136M/684M [00:12&lt;00:09, 59.8MB/s]
+World_Atlas_2015.zip:  20%|##        | 139M/684M [00:12&lt;00:11, 46.6MB/s]
+World_Atlas_2015.zip:  21%|##1       | 146M/684M [00:12&lt;00:10, 51.6MB/s]
+World_Atlas_2015.zip:  22%|##2       | 152M/684M [00:12&lt;00:09, 55.6MB/s]
+World_Atlas_2015.zip:  23%|##3       | 158M/684M [00:12&lt;00:09, 55.2MB/s]
+World_Atlas_2015.zip:  24%|##3       | 164M/684M [00:12&lt;00:09, 57.2MB/s]
+World_Atlas_2015.zip:  24%|##4       | 165M/684M [00:13&lt;00:12, 41.2MB/s]
+World_Atlas_2015.zip:  25%|##4       | 171M/684M [00:13&lt;00:11, 46.5MB/s]
+World_Atlas_2015.zip:  26%|##5       | 177M/684M [00:13&lt;00:10, 49.8MB/s]
+World_Atlas_2015.zip:  27%|##6       | 182M/684M [00:13&lt;00:09, 52.0MB/s]
+World_Atlas_2015.zip:  27%|##6       | 184M/684M [00:13&lt;00:11, 42.3MB/s]
+World_Atlas_2015.zip:  27%|##7       | 185M/684M [00:13&lt;00:16, 29.5MB/s]
+World_Atlas_2015.zip:  28%|##7       | 189M/684M [00:13&lt;00:15, 32.4MB/s]
+World_Atlas_2015.zip:  28%|##8       | 193M/684M [00:13&lt;00:14, 34.8MB/s]
+World_Atlas_2015.zip:  29%|##8       | 197M/684M [00:13&lt;00:13, 35.3MB/s]
+World_Atlas_2015.zip:  29%|##9       | 201M/684M [00:13&lt;00:13, 37.0MB/s]
+World_Atlas_2015.zip:  30%|##9       | 202M/684M [00:14&lt;00:16, 28.8MB/s]
+World_Atlas_2015.zip:  30%|###       | 206M/684M [00:14&lt;00:15, 31.5MB/s]
+World_Atlas_2015.zip:  31%|###       | 211M/684M [00:14&lt;00:13, 35.1MB/s]
+World_Atlas_2015.zip:  31%|###1      | 215M/684M [00:14&lt;00:12, 36.7MB/s]
+World_Atlas_2015.zip:  32%|###1      | 219M/684M [00:14&lt;00:12, 38.2MB/s]
+World_Atlas_2015.zip:  32%|###2      | 221M/684M [00:14&lt;00:15, 29.8MB/s]
+World_Atlas_2015.zip:  33%|###2      | 224M/684M [00:14&lt;00:14, 31.1MB/s]
+World_Atlas_2015.zip:  33%|###3      | 229M/684M [00:14&lt;00:12, 35.2MB/s]
+World_Atlas_2015.zip:  34%|###4      | 234M/684M [00:14&lt;00:11, 39.9MB/s]
+World_Atlas_2015.zip:  35%|###4      | 239M/684M [00:15&lt;00:10, 44.1MB/s]
+World_Atlas_2015.zip:  35%|###5      | 241M/684M [00:15&lt;00:13, 33.3MB/s]
+World_Atlas_2015.zip:  36%|###5      | 246M/684M [00:15&lt;00:11, 38.9MB/s]
+World_Atlas_2015.zip:  37%|###6      | 251M/684M [00:15&lt;00:10, 43.2MB/s]
+World_Atlas_2015.zip:  37%|###7      | 256M/684M [00:15&lt;00:09, 45.4MB/s]
+World_Atlas_2015.zip:  38%|###8      | 262M/684M [00:15&lt;00:08, 47.7MB/s]
+World_Atlas_2015.zip:  39%|###8      | 265M/684M [00:15&lt;00:11, 38.0MB/s]
+World_Atlas_2015.zip:  39%|###9      | 269M/684M [00:15&lt;00:10, 38.2MB/s]
+World_Atlas_2015.zip:  40%|###9      | 273M/684M [00:15&lt;00:10, 40.7MB/s]
+World_Atlas_2015.zip:  41%|####      | 278M/684M [00:15&lt;00:09, 43.2MB/s]
+World_Atlas_2015.zip:  41%|####1     | 283M/684M [00:16&lt;00:08, 45.2MB/s]
+World_Atlas_2015.zip:  42%|####1     | 284M/684M [00:16&lt;00:11, 33.8MB/s]
+World_Atlas_2015.zip:  42%|####2     | 288M/684M [00:16&lt;00:11, 35.1MB/s]
+World_Atlas_2015.zip:  43%|####2     | 292M/684M [00:16&lt;00:10, 37.1MB/s]
+World_Atlas_2015.zip:  43%|####3     | 297M/684M [00:16&lt;00:09, 41.2MB/s]
+World_Atlas_2015.zip:  44%|####4     | 302M/684M [00:16&lt;00:08, 43.0MB/s]
+World_Atlas_2015.zip:  44%|####4     | 304M/684M [00:16&lt;00:11, 32.3MB/s]
+World_Atlas_2015.zip:  45%|####4     | 307M/684M [00:16&lt;00:11, 33.7MB/s]
+World_Atlas_2015.zip:  46%|####5     | 313M/684M [00:16&lt;00:09, 39.5MB/s]
+World_Atlas_2015.zip:  46%|####6     | 317M/684M [00:17&lt;00:08, 41.5MB/s]
+World_Atlas_2015.zip:  47%|####7     | 323M/684M [00:17&lt;00:08, 44.9MB/s]
+World_Atlas_2015.zip:  47%|####7     | 325M/684M [00:17&lt;00:09, 36.2MB/s]
+World_Atlas_2015.zip:  48%|####8     | 329M/684M [00:17&lt;00:09, 37.0MB/s]
+World_Atlas_2015.zip:  49%|####8     | 332M/684M [00:17&lt;00:09, 36.2MB/s]
+World_Atlas_2015.zip:  49%|####9     | 337M/684M [00:17&lt;00:08, 39.6MB/s]
+World_Atlas_2015.zip:  50%|#####     | 342M/684M [00:17&lt;00:07, 43.3MB/s]
+World_Atlas_2015.zip:  50%|#####     | 344M/684M [00:17&lt;00:10, 32.3MB/s]
+World_Atlas_2015.zip:  51%|#####     | 348M/684M [00:17&lt;00:09, 34.7MB/s]
+World_Atlas_2015.zip:  52%|#####1    | 353M/684M [00:17&lt;00:08, 38.8MB/s]
+World_Atlas_2015.zip:  52%|#####2    | 358M/684M [00:18&lt;00:07, 43.5MB/s]
+World_Atlas_2015.zip:  53%|#####2    | 363M/684M [00:18&lt;00:07, 43.4MB/s]
+World_Atlas_2015.zip:  53%|#####3    | 364M/684M [00:18&lt;00:09, 33.4MB/s]
+World_Atlas_2015.zip:  54%|#####3    | 368M/684M [00:18&lt;00:09, 34.6MB/s]
+World_Atlas_2015.zip:  55%|#####4    | 373M/684M [00:18&lt;00:07, 39.8MB/s]
+World_Atlas_2015.zip:  55%|#####5    | 378M/684M [00:18&lt;00:07, 42.8MB/s]
+World_Atlas_2015.zip:  56%|#####6    | 384M/684M [00:18&lt;00:06, 45.2MB/s]
+World_Atlas_2015.zip:  56%|#####6    | 385M/684M [00:18&lt;00:08, 34.6MB/s]
+World_Atlas_2015.zip:  57%|#####7    | 390M/684M [00:18&lt;00:07, 38.9MB/s]
+World_Atlas_2015.zip:  58%|#####7    | 394M/684M [00:19&lt;00:07, 38.7MB/s]
+World_Atlas_2015.zip:  58%|#####8    | 399M/684M [00:19&lt;00:06, 40.8MB/s]
+World_Atlas_2015.zip:  59%|#####9    | 404M/684M [00:19&lt;00:06, 43.1MB/s]
+World_Atlas_2015.zip:  59%|#####9    | 406M/684M [00:19&lt;00:08, 34.1MB/s]
+World_Atlas_2015.zip:  60%|#####9    | 410M/684M [00:19&lt;00:07, 36.0MB/s]
+World_Atlas_2015.zip:  61%|######    | 415M/684M [00:19&lt;00:06, 40.7MB/s]
+World_Atlas_2015.zip:  61%|######1   | 420M/684M [00:19&lt;00:06, 43.5MB/s]
+World_Atlas_2015.zip:  62%|######2   | 424M/684M [00:19&lt;00:05, 44.0MB/s]
+World_Atlas_2015.zip:  62%|######2   | 426M/684M [00:19&lt;00:07, 34.4MB/s]
+World_Atlas_2015.zip:  63%|######2   | 431M/684M [00:19&lt;00:06, 37.1MB/s]
+World_Atlas_2015.zip:  64%|######3   | 436M/684M [00:20&lt;00:05, 41.9MB/s]
+World_Atlas_2015.zip:  65%|######4   | 442M/684M [00:20&lt;00:05, 45.2MB/s]
+World_Atlas_2015.zip:  65%|######5   | 446M/684M [00:20&lt;00:05, 46.4MB/s]
+World_Atlas_2015.zip:  65%|######5   | 448M/684M [00:20&lt;00:06, 35.4MB/s]
+World_Atlas_2015.zip:  66%|######6   | 453M/684M [00:20&lt;00:05, 39.0MB/s]
+World_Atlas_2015.zip:  67%|######6   | 458M/684M [00:20&lt;00:05, 42.1MB/s]
+World_Atlas_2015.zip:  68%|######7   | 463M/684M [00:20&lt;00:04, 44.6MB/s]
+World_Atlas_2015.zip:  68%|######8   | 467M/684M [00:20&lt;00:04, 44.1MB/s]
+World_Atlas_2015.zip:  69%|######8   | 469M/684M [00:20&lt;00:06, 32.9MB/s]
+World_Atlas_2015.zip:  69%|######9   | 474M/684M [00:21&lt;00:05, 36.8MB/s]
+World_Atlas_2015.zip:  70%|#######   | 480M/684M [00:21&lt;00:04, 41.1MB/s]
+World_Atlas_2015.zip:  71%|#######   | 485M/684M [00:21&lt;00:04, 43.7MB/s]
+World_Atlas_2015.zip:  72%|#######1  | 489M/684M [00:21&lt;00:04, 44.6MB/s]
+World_Atlas_2015.zip:  72%|#######1  | 490M/684M [00:21&lt;00:05, 33.1MB/s]
+World_Atlas_2015.zip:  72%|#######2  | 494M/684M [00:21&lt;00:05, 34.5MB/s]
+World_Atlas_2015.zip:  73%|#######2  | 498M/684M [00:21&lt;00:04, 38.5MB/s]
+World_Atlas_2015.zip:  73%|#######3  | 503M/684M [00:21&lt;00:04, 38.1MB/s]
+World_Atlas_2015.zip:  74%|#######4  | 507M/684M [00:21&lt;00:04, 41.2MB/s]
+World_Atlas_2015.zip:  74%|#######4  | 508M/684M [00:21&lt;00:05, 31.0MB/s]
+World_Atlas_2015.zip:  75%|#######4  | 512M/684M [00:22&lt;00:05, 32.5MB/s]
+World_Atlas_2015.zip:  76%|#######5  | 517M/684M [00:22&lt;00:04, 36.5MB/s]
+World_Atlas_2015.zip:  76%|#######6  | 522M/684M [00:22&lt;00:04, 40.0MB/s]
+World_Atlas_2015.zip:  77%|#######6  | 526M/684M [00:22&lt;00:03, 42.0MB/s]
+World_Atlas_2015.zip:  77%|#######7  | 528M/684M [00:22&lt;00:04, 32.1MB/s]
+World_Atlas_2015.zip:  78%|#######7  | 532M/684M [00:22&lt;00:04, 34.3MB/s]
+World_Atlas_2015.zip:  79%|#######8  | 537M/684M [00:22&lt;00:03, 39.7MB/s]
+World_Atlas_2015.zip:  79%|#######9  | 541M/684M [00:22&lt;00:03, 39.9MB/s]
+World_Atlas_2015.zip:  80%|#######9  | 546M/684M [00:22&lt;00:03, 42.8MB/s]
+World_Atlas_2015.zip:  80%|########  | 548M/684M [00:23&lt;00:04, 33.3MB/s]
+World_Atlas_2015.zip:  81%|########  | 552M/684M [00:23&lt;00:03, 35.4MB/s]
+World_Atlas_2015.zip:  81%|########1 | 558M/684M [00:23&lt;00:03, 40.6MB/s]
+World_Atlas_2015.zip:  82%|########2 | 563M/684M [00:23&lt;00:02, 43.5MB/s]
+World_Atlas_2015.zip:  83%|########2 | 567M/684M [00:23&lt;00:02, 44.0MB/s]
+World_Atlas_2015.zip:  83%|########3 | 569M/684M [00:23&lt;00:03, 34.0MB/s]
+World_Atlas_2015.zip:  84%|########3 | 573M/684M [00:23&lt;00:03, 35.2MB/s]
+World_Atlas_2015.zip:  84%|########4 | 578M/684M [00:23&lt;00:02, 39.0MB/s]
+World_Atlas_2015.zip:  85%|########5 | 583M/684M [00:23&lt;00:02, 42.5MB/s]
+World_Atlas_2015.zip:  86%|########5 | 588M/684M [00:23&lt;00:02, 45.5MB/s]
+World_Atlas_2015.zip:  86%|########6 | 590M/684M [00:24&lt;00:02, 34.7MB/s]
+World_Atlas_2015.zip:  87%|########6 | 594M/684M [00:24&lt;00:02, 38.2MB/s]
+World_Atlas_2015.zip:  88%|########7 | 599M/684M [00:24&lt;00:02, 40.8MB/s]
+World_Atlas_2015.zip:  88%|########8 | 604M/684M [00:24&lt;00:01, 42.6MB/s]
+World_Atlas_2015.zip:  89%|########8 | 608M/684M [00:24&lt;00:01, 43.6MB/s]
+World_Atlas_2015.zip:  89%|########9 | 610M/684M [00:24&lt;00:02, 34.0MB/s]
+World_Atlas_2015.zip:  90%|########9 | 614M/684M [00:24&lt;00:01, 35.4MB/s]
+World_Atlas_2015.zip:  90%|########9 | 616M/684M [00:24&lt;00:02, 27.2MB/s]
+World_Atlas_2015.zip:  91%|######### | 619M/684M [00:24&lt;00:02, 30.1MB/s]
+World_Atlas_2015.zip:  91%|#########1| 624M/684M [00:25&lt;00:01, 33.6MB/s]
+World_Atlas_2015.zip:  91%|#########1| 624M/684M [00:25&lt;00:02, 26.0MB/s]
+World_Atlas_2015.zip:  92%|#########1| 629M/684M [00:25&lt;00:01, 31.3MB/s]
+World_Atlas_2015.zip:  93%|#########2| 634M/684M [00:25&lt;00:01, 36.6MB/s]
+World_Atlas_2015.zip:  93%|#########3| 639M/684M [00:25&lt;00:01, 40.6MB/s]
+World_Atlas_2015.zip:  94%|#########4| 644M/684M [00:25&lt;00:00, 43.6MB/s]
+World_Atlas_2015.zip:  94%|#########4| 646M/684M [00:25&lt;00:01, 33.6MB/s]
+World_Atlas_2015.zip:  95%|#########4| 650M/684M [00:25&lt;00:00, 35.5MB/s]
+World_Atlas_2015.zip:  95%|#########5| 652M/684M [00:25&lt;00:01, 31.4MB/s]
+World_Atlas_2015.zip:  96%|#########5| 656M/684M [00:25&lt;00:00, 34.9MB/s]
+World_Atlas_2015.zip:  97%|#########6| 661M/684M [00:26&lt;00:00, 38.2MB/s]
+World_Atlas_2015.zip:  97%|#########6| 662M/684M [00:26&lt;00:00, 29.7MB/s]
+World_Atlas_2015.zip:  97%|#########7| 667M/684M [00:26&lt;00:00, 34.4MB/s]
+World_Atlas_2015.zip:  98%|#########8| 671M/684M [00:26&lt;00:00, 37.1MB/s]
+World_Atlas_2015.zip:  99%|#########8| 677M/684M [00:26&lt;00:00, 41.1MB/s]
+World_Atlas_2015.zip: 100%|#########9| 682M/684M [00:26&lt;00:00, 45.3MB/s]
+World_Atlas_2015.zip: 100%|#########9| 684M/684M [00:26&lt;00:00, 34.8MB/s]
+World_Atlas_2015.zip: 684MB [00:26, 25.6MB/s]
+WARNING: no observation constraints assigned!
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  14.950 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  49.950 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-01-light-curve-inversion-poisson-shape-variance-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/a389a96c7b6fb2871f554dc7e9b7942e/poisson_shape_variance.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">poisson_shape_variance.py</span></code></a></p>
@@ -627,19 +825,18 @@ to download the full example code</p>
               
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="kass_durech_vs_python.html"
+       href="perfect_info_inversion.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Support Optimization Comparison</p>
+        <p class="prev-next-title">Perfect Information Inversion</p>
       </div>
     </a>
     <a class="right-next"
@@ -651,10 +848,7 @@ to download the full example code</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -672,8 +866,8 @@ to download the full example code</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -681,6 +875,7 @@ to download the full example code</p>
     <div class="footer-items__start">
       
         <div class="footer-item">
+
   <p class="copyright">
     
       © Copyright 2022-2023, Liam Robinson.
@@ -690,6 +885,7 @@ to download the full example code</p>
 </div>
       
         <div class="footer-item">
+
   <p class="sphinx-version">
     Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
     <br/>
@@ -699,10 +895,12 @@ to download the full example code</p>
     </div>
   
   
+  
     <div class="footer-items__end">
       
-        <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
 </p></div>
       
     </div>

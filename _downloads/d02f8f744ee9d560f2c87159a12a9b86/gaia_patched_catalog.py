@@ -76,6 +76,16 @@ plt.imshow(
     cmap="hot",
     extent=(-180, 180, -90, 90),
 )
+import os
+
+urls_and_dirs = {
+    "https://github.com/liamrobinson1/pyspaceaware-resources/raw/main/tycho2.json": os.environ[
+        "DATADIR"
+    ],
+}
+
+for url, dir in urls_and_dirs.items():
+    mr.save_file_from_url(url, dir)
 
 t2 = mr.load_json_data("tycho2.json")
 tycho2_ra_rad = t2["j2000_ra"][::10]

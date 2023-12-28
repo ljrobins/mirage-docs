@@ -6,10 +6,10 @@ An approximate conversion from RGB values to an equivalent wavelength
 
 import numpy as np
 
-import mirage as mr
+import mirage.vis as mrv
 
 wavelengths = np.linspace(400, 700, 1000) * 1e-9
-rgbs = mr.wavelength_to_rgb(wavelengths).reshape(1, -1, 3)
+rgbs = mrv.wavelength_to_rgb(wavelengths).reshape(1, -1, 3)
 
 import matplotlib.pyplot as plt
 

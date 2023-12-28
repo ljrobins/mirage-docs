@@ -23,9 +23,9 @@ mr.tic()
 rv = mr.integrate_orbit_dynamics(
     rv0,
     dates,
-    gravity_harmonics_degree=360,
-    moon_third_body=True,
-    sun_third_body=True,
+    gravity_harmonics_degree=2,
+    moon_third_body=False,
+    sun_third_body=False,
     int_tol=1e-6,  # Because I want this example to render quickly
 )
 mr.toc()

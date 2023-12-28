@@ -5,82 +5,49 @@ CCD Rendering
 Renders a synthetic CCD image of an observation taken by the POGS telescope
 """
 
-import datetime
 import os
 
 import matplotlib.pyplot as plt
 import numpy as np
-# %%
-# Loading a fits image from the Purdue Optical Ground Station
-from astropy.io import fits
+import pyvista as pv
 
 import mirage as mr
 import mirage.vis as mrv
 
-ccd_dir = os.path.join(os.environ["SRCDIR"], "..", "data")
-ccd_path = os.path.join(ccd_dir, "00130398.fit")
-# ccd_path = os.path.join(os.environ["SRCDIR"], "..", "examples/10-ccd/00095337.fit")
+# %%
+# Loading a fits image from the Purdue Optical Ground Station
 
-with fits.open(ccd_path) as hdul:
-    header = hdul[0].header
-    for key in header.keys():
-        print(key, header[key])
+# ccd_dir = os.path.join(os.environ["SRCDIR"], "..", "data")
+# fits_path = os.path.join(ccd_dir, "00130398.fit") # 3 in belt
+# fits_path = os.path.join(
+#     os.environ["SRCDIR"], "..", "00161295.48859.fit"
+# )  # gps
 
-    date_obs_initial = datetime.datetime.strptime(
-        header["DATE-OBS"], "%Y-%m-%dT%H:%M:%S.%f"
-    ).replace(tzinfo=datetime.timezone.utc)
-    ccd_temp = header["SET-TEMP"]
-    site_lat_geod_deg = header["OBSGEO-B"]
-    site_lon_deg = header["OBSGEO-L"]
-    site_alt_m = header["OBSGEO-H"]
-    center_azimuth_rad = np.deg2rad(header["CENTAZ"])
-    center_elevation_rad = np.deg2rad(header["CENTALT"])
-    airmass = header["AIRMASS"]
-    track_rate_rad_ra = mr.dms_to_rad(0, 0, header["TELTKRA"])  # rad/s
-    track_rate_rad_dec = mr.dms_to_rad(0, 0, header["TELTKDEC"])  # rad/s
-    obj_ra_rad_initial = mr.hms_to_rad(
-        *[float(x) for x in header["OBJCTRA"].split(" ")]
-    )
-    obj_dec_rad_initial = mr.dms_to_rad(
-        *[float(x) for x in header["OBJCTDEC"].split(" ")]
-    )
-    lst_deg_initial = np.rad2deg(
-        mr.hms_to_rad(*[float(x) for x in header["LST"].split(" ")])
-    )
-    integration_time_seconds = header["EXPTIME"]
-    ccd_adu = hdul[0].data
-
-date_obs_final = date_obs_initial + mr.seconds(integration_time_seconds)
-
-observing_station = mr.Station(
-    lat_deg=site_lat_geod_deg, lon_deg=site_lon_deg, alt_km=site_alt_m / 1e3
+fits_path = os.path.join(
+    os.environ["SRCDIR"], "..", "00161341.GALAXY_23__TELSTAR_13__#27854U.fit"
 )
 
-station_eci_initial = observing_station.j2000_at_dates(date_obs_initial)
-station_eci_final = observing_station.j2000_at_dates(date_obs_final)
+# fits_path = "/Users/liamrobinson/Documents/autopogs/imgs/00161175.40733.fit"
+fits_dict = mr.info_from_fits(fits_path)
+obs_dates = fits_dict["dates"]
+observing_station = fits_dict["station"]
+obs_dirs_eci = fits_dict["look_dirs_eci"]
+ccd_adu = fits_dict["ccd_adu"]
+br_parabola_obs = fits_dict["br_parabola"]
 
-obj_ra_rad_final = obj_ra_rad_initial + integration_time_seconds * track_rate_rad_ra
-obj_dec_rad_final = obj_dec_rad_initial + integration_time_seconds * track_rate_rad_dec
-
-obj_look_eci_initial = mr.ra_dec_to_eci(obj_ra_rad_initial, obj_dec_rad_initial)
-obj_look_eci_final = mr.ra_dec_to_eci(obj_ra_rad_final, obj_dec_rad_final)
-
-eci_from_az_el = observing_station.az_el_to_eci(
-    center_azimuth_rad, center_elevation_rad, date_obs_initial
-)
-ra_dec_from_eci_from_az_el = mr.eci_to_ra_dec(eci_from_az_el)
-
-obs_dates = np.array([date_obs_initial, date_obs_final])
-obs_dirs_eci = np.vstack((obj_look_eci_initial, obj_look_eci_final))
-
-import pyvista as pv
+# %%
+# Let's synthesize a CCD image for the same observation conditions
 
 # pl = pv.Plotter()
-# mrv.render_observation_scenario(pl, dates=obs_dates,
-#                             station=observing_station,
-#                             look_dirs_eci=obs_dirs_eci,
-#                             sensor_extent_km=20e3)
+# mrv.render_observation_scenario(
+#     pl,
+#     dates=obs_dates,
+#     station=observing_station,
+#     look_dirs_eci=obs_dirs_eci,
+#     sensor_extent_km=20e3,
+# )
 # pl.show()
+# endd
 
 # %%
 # Synthesizing the same image
@@ -88,7 +55,7 @@ import pyvista as pv
 # %%
 # Let's synthesize a CCD image for the same observation conditions
 
-observing_station.telescope.fwhm = 2
+observing_station.telescope.fwhm = 4
 
 obj = mr.SpaceObject("matlib_hylas4.obj", identifier=26853)
 r_obj_eci = obj.propagate(obs_dates)
@@ -112,6 +79,10 @@ obj_lc_sampler, _ = observing_station.observe_light_curve(
     rotate_panels=True,
 )
 lc_adu = obj_lc_sampler()
+print(lc_adu)
+lc_adu = 1e6 * np.ones(lc_adu.shape)
+
+catalog = mr.StarCatalog("gaia", observing_station, obs_dates[0])
 
 mr.tic()
 adu_grid_streaked_sampled = observing_station.telescope.ccd.generate_ccd_image(
@@ -119,8 +90,11 @@ adu_grid_streaked_sampled = observing_station.telescope.ccd.generate_ccd_image(
     observing_station,
     obs_dirs_eci,
     lc_adu,
+    catalog,
     hot_pixel_probability=0,
     dead_pixel_probability=0,
+    add_parabola=False,
+    scintillation=False,
 )
 mr.toc()
 
@@ -128,20 +102,29 @@ mr.toc()
 # %%
 # Let's take a look at the real and synthetic CCD images
 
+ccd_adu = np.clip(ccd_adu - br_parabola_obs, 1, np.inf)
+adu_grid_streaked_sampled = np.clip(
+    adu_grid_streaked_sampled - mr.image_background_parabola(adu_grid_streaked_sampled),
+    1,
+    np.inf,
+)
+
+
 plt.figure(figsize=(8, 4))
 plt.subplot(1, 2, 1)
-plt.imshow(np.log10(ccd_adu), cmap="gist_stern")
+plt.imshow(np.log10(ccd_adu), cmap="gray")
 mrv.texit(f"POGS CCD", "", "", grid=False)
 plt.colorbar(cax=mrv.get_cbar_ax(), label="$\log_{10}(ADU)$")
-plt.clim(3, 4)
+plt.clim(*np.percentile(np.log10(ccd_adu), [0.1, 99.9]))
 
 plt.subplot(1, 2, 2)
-plt.imshow(np.log10(adu_grid_streaked_sampled), cmap="gist_stern")
+plt.imshow(np.log10(adu_grid_streaked_sampled), cmap="gray")
 mrv.texit(f"Synthetic CCD", "", "", grid=False)
 plt.colorbar(cax=mrv.get_cbar_ax(), label="$\log_{10}(ADU)$")
-plt.clim(3, 4)
+plt.clim(*np.percentile(np.log10(adu_grid_streaked_sampled), [0.1, 99.9]))
 plt.tight_layout()
 plt.show()
+
 
 # %%
 # Looking at the residual noise after subtracting off the parabolic background from the real image

@@ -17,6 +17,13 @@ import mirage.vis as mrv
 
 # %%
 # Loading the space weather file and extracting the dates and indices
+urls_and_dirs = {
+    "https://celestrak.org/SpaceData/SW-Last5Years.csv": os.environ["DATADIR"]
+}
+
+for url, dir in urls_and_dirs.items():
+    mr.save_file_from_url(url, dir)
+
 sw_file_path = os.path.join(os.environ["DATADIR"], "SW-Last5Years.csv")
 sw_df = pd.read_csv(sw_file_path, header=0)
 dates = [datetime.datetime.strptime(x, "%Y-%m-%d") for x in sw_df["DATE"]]

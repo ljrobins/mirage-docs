@@ -17,9 +17,15 @@ import mirage.vis as mrv
 # %%
 # Let's plot the zenith sky radiances as reported by the World Atlas 2015 dataset.
 
-with rasterio.open(
-    os.path.join(os.environ["DATADIR"], "World_Atlas_2015/World_Atlas_2015.tif"), "r"
-) as f:
+data_file = os.path.join(os.environ["DATADIR"], "World_Atlas_2015.tif")
+
+if not os.path.exists(data_file):
+    mr.save_file_from_url(
+        "https://filebin.net/v3ja2gt5jrifqsc6/World_Atlas_2015.zip",
+        os.environ["DATADIR"],
+    )
+
+with rasterio.open(data_file, "r") as f:
     mr.tic()
     art_brightness = f.read().squeeze()  # mcd / cm^2
     mr.toc()
@@ -48,7 +54,15 @@ plt.show()
 # %%
 # Let's plot the ground-level radiances as observed by the VIIRS satellite
 
-with rasterio.open(os.path.join(os.environ["DATADIR"], "viirs_2022_raw.tif"), "r") as f:
+data_file = os.path.join(os.environ["DATADIR"], "viirs_2022_raw.tif")
+
+if not os.path.exists(data_file):
+    mr.save_file_from_url(
+        "ps://www2.lightpollutionmap.info/data/viirs_2022_raw.zip",
+        os.environ["DATADIR"],
+    )
+
+with rasterio.open(data_file, "r") as f:
     mr.tic()
     x = f.read().squeeze()  # nW / cm^2 / sr
     mr.toc()

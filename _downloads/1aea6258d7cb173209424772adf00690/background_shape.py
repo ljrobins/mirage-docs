@@ -26,6 +26,7 @@ import mirage.vis as mrv
 # Loading the CCD image
 with fits.open(
     os.path.join(os.environ["SRCDIR"], "..", "examples/10-ccd/00095337.fit")
+    # "/Users/liamrobinson/Documents/autopogs/imgs/00161163.26853.fit"
 ) as hdul:
     ccd_adu = hdul[0].data
 

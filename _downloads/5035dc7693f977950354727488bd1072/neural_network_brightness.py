@@ -18,7 +18,7 @@ obj = mr.SpaceObject("cube.obj")
 brdf = mr.Brdf("phong", cd=0.5, cs=0.5, n=10)
 # %%
 # We now define the Multi-Layer Perceptron (MLP) brightness model. Note that the ``layers=(150, 50, 150)`` keyword argument defines the number of neurons in each densely-connected layer.
-mlp_bm = mrsim.MLPBrightnessModel(obj, brdf, use_engine=False, train_on="irradiance")
+mlp_bm = mrsim.MLPBrightnessModel(obj, brdf, use_engine=False)
 # %%
 # Now we train the model on a set number of training lighting and observation configurations. Usually ``1e5``-``1e6`` are required for a *good* fit
 num_train = int(1e3)
@@ -88,7 +88,7 @@ plt.show()
 
 # %%
 # We can also train on magnitude data instead of irradiance:
-mlp_bm = mrsim.MLPBrightnessModel(obj, brdf, use_engine=True, train_on="magnitude")
+mlp_bm = mrsim.MLPBrightnessModel(obj, brdf, use_engine=True)
 mlp_bm.train(num_train)
 
 mr.tic("Evaluate trained model with onnx")

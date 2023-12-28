@@ -4,10 +4,17 @@ Star Aberration
 Computing and plotting the daily and yearly aberration of the stars due to Earth's motion through space
 """
 
+import os
+
 import numpy as np
 
 import mirage as mr
 import mirage.vis as mrv
+
+mr.save_file_from_url(
+    "https://github.com/liamrobinson1/pyspaceaware-resources/raw/main/tycho2.json",
+    os.environ["DATADIR"],
+)
 
 station = mr.Station(preset="pogs")
 t2 = mr.load_json_data("tycho2.json")

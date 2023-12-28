@@ -43,6 +43,27 @@ plt.show()
 # UBVRI Passbands
 import os
 
+urls_and_dirs = {
+    "http://spiff.rit.edu/classes/phys440/lectures/filters/bess-u.pass": os.environ[
+        "DATADIR"
+    ],
+    "http://spiff.rit.edu/classes/phys440/lectures/filters/bess-b.pass": os.environ[
+        "DATADIR"
+    ],
+    "http://spiff.rit.edu/classes/phys440/lectures/filters/bess-v.pass": os.environ[
+        "DATADIR"
+    ],
+    "http://spiff.rit.edu/classes/phys440/lectures/filters/bess-r.pass": os.environ[
+        "DATADIR"
+    ],
+    "http://spiff.rit.edu/classes/phys440/lectures/filters/bess-i.pass": os.environ[
+        "DATADIR"
+    ],
+}
+
+for url, dir in urls_and_dirs.items():
+    mr.save_file_from_url(url, dir)
+
 BANDS = ["u", "b", "v", "r", "i"]
 BAND_COLS = ["violet", "c", "g", "r", "maroon"]
 

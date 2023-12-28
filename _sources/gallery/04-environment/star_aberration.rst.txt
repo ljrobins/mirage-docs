@@ -22,15 +22,22 @@ Star Aberration
 ===============
 Computing and plotting the daily and yearly aberration of the stars due to Earth's motion through space
 
-.. GENERATED FROM PYTHON SOURCE LINES 6-21
+.. GENERATED FROM PYTHON SOURCE LINES 6-28
 
 .. code-block:: default
 
+
+    import os
 
     import numpy as np
 
     import mirage as mr
     import mirage.vis as mrv
+
+    mr.save_file_from_url(
+        "https://github.com/liamrobinson1/pyspaceaware-resources/raw/main/tycho2.json",
+        os.environ["DATADIR"],
+    )
 
     station = mr.Station(preset="pogs")
     t2 = mr.load_json_data("tycho2.json")
@@ -49,16 +56,17 @@ Computing and plotting the daily and yearly aberration of the stars due to Earth
 
  .. code-block:: none
 
-    Elapsed time: 1.56e+00 seconds
+    tycho2.json: 0.00B [00:00, ?B/s]    tycho2.json:   0%|          | 8.19k/83.8M [00:00<46:12, 30.2kB/s]    tycho2.json:   2%|2         | 1.93M/83.8M [00:00<00:12, 6.63MB/s]    tycho2.json:   9%|8         | 7.45M/83.8M [00:00<00:03, 22.7MB/s]    tycho2.json:  14%|#3        | 11.6M/83.8M [00:00<00:02, 26.0MB/s]    tycho2.json:  21%|##1       | 17.6M/83.8M [00:00<00:01, 36.0MB/s]    tycho2.json:  30%|##9       | 25.1M/83.8M [00:00<00:01, 47.3MB/s]    tycho2.json:  40%|###9      | 33.3M/83.8M [00:00<00:00, 57.5MB/s]    tycho2.json:  48%|####8     | 40.6M/83.8M [00:01<00:00, 61.9MB/s]    tycho2.json:  52%|#####2    | 43.6M/83.8M [00:01<00:00, 49.2MB/s]    tycho2.json:  59%|#####9    | 49.8M/83.8M [00:01<00:00, 52.8MB/s]    tycho2.json:  69%|######8   | 57.8M/83.8M [00:01<00:00, 60.3MB/s]    tycho2.json:  79%|#######8  | 66.1M/83.8M [00:01<00:00, 62.8MB/s]    tycho2.json:  90%|########9 | 75.0M/83.8M [00:01<00:00, 70.0MB/s]    tycho2.json:  90%|######### | 75.7M/83.8M [00:01<00:00, 51.9MB/s]    tycho2.json:  96%|#########6| 80.6M/83.8M [00:01<00:00, 50.9MB/s]    tycho2.json: 83.8MB [00:01, 46.6MB/s]                            
+    Elapsed time: 2.66e-01 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-23
+.. GENERATED FROM PYTHON SOURCE LINES 29-30
 
 Plotting the resulting right ascensions and declinations
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-36
+.. GENERATED FROM PYTHON SOURCE LINES 30-43
 
 .. code-block:: default
 
@@ -90,7 +98,7 @@ Plotting the resulting right ascensions and declinations
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  11.523 seconds)
+   **Total running time of the script:** ( 0 minutes  12.175 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_star_aberration.py:

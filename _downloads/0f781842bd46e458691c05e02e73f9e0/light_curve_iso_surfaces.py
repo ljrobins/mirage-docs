@@ -19,7 +19,7 @@ mdl = lambda svb, ovb: obj.convex_light_curve(
 )
 n = 150
 d_min = -np.pi
-grid = pv.UniformGrid(
+grid = pv.ImageData(
     dimensions=(n, n, n),
     spacing=(abs(d_min) / n * 2, abs(d_min) / n * 2, abs(d_min) / n * 2),
     origin=(d_min, d_min, d_min),

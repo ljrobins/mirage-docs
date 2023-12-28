@@ -1,0 +1,998 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>autopogs package &#8212; autopohs  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=98d29b3f" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'autopogs';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Examples" href="gallery/index.html" />
+    <link rel="prev" title="autopogs" href="modules.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">autopogs</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="quickstart.html">
+                        Quickstart Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="modules.html">
+                        autopogs
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="gallery/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="quickstart.html">
+                        Quickstart Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="modules.html">
+                        autopogs
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="gallery/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">autopogs package</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="modules.html" class="nav-link">autopogs</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">autopogs package</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="autopogs-package">
+<h1>autopogs package<a class="headerlink" href="#autopogs-package" title="Link to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+</section>
+<section id="module-autopogs.computerio">
+<span id="autopogs-computerio-module"></span><h2>autopogs.computerio module<a class="headerlink" href="#module-autopogs.computerio" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.connect_to_telescope">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">connect_to_telescope</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">SSHClient</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">SFTPClient</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/autopogs/computerio.html#connect_to_telescope"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.connect_to_telescope" title="Link to this definition">#</a></dt>
+<dd><p>Connect to the telescope and return the ssh client</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.display_fits_image">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">display_fits_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fits_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/autopogs/computerio.html#display_fits_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.display_fits_image" title="Link to this definition">#</a></dt>
+<dd><p>Display a fits image</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.download_and_display_most_recent_image_tonight">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">download_and_display_most_recent_image_tonight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sftp_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SFTPClient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/autopogs/computerio.html#download_and_display_most_recent_image_tonight"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.download_and_display_most_recent_image_tonight" title="Link to this definition">#</a></dt>
+<dd><p>Displays the most recent image taken by the telescope, tonight</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.download_files">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">download_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sftp_client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autopogs/computerio.html#download_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.download_files" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.download_most_recent_images_tonight">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">download_most_recent_images_tonight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sftp_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SFTPClient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_images</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/autopogs/computerio.html#download_most_recent_images_tonight"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.download_most_recent_images_tonight" title="Link to this definition">#</a></dt>
+<dd><p>Downloads the most recent image taken by the telescope, tonight, returning the local file path</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.get_now">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">get_now</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">datetime</span></span></span><a class="reference internal" href="_modules/autopogs/computerio.html#get_now"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.get_now" title="Link to this definition">#</a></dt>
+<dd><p>Get the current time in UTC</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.get_telescope_file">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">get_telescope_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sftp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SFTPClient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/autopogs/computerio.html#get_telescope_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.get_telescope_file" title="Link to this definition">#</a></dt>
+<dd><p>Get a file from the telescope</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.get_tonights_remote_image_directory">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">get_tonights_remote_image_directory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/autopogs/computerio.html#get_tonights_remote_image_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.get_tonights_remote_image_directory" title="Link to this definition">#</a></dt>
+<dd><p>Get the remote image directory</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.get_weather">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">get_weather</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/autopogs/computerio.html#get_weather"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.get_weather" title="Link to this definition">#</a></dt>
+<dd><p>Get the weather from the website</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.kill_orchestrate">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">kill_orchestrate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ssh_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SSHClient</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/autopogs/computerio.html#kill_orchestrate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.kill_orchestrate" title="Link to this definition">#</a></dt>
+<dd><p>Kill the orchestrate process</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.list_remote_dir">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">list_remote_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sftp_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SFTPClient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autopogs/computerio.html#list_remote_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.list_remote_dir" title="Link to this definition">#</a></dt>
+<dd><p>List the contents of the remote directory</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.path_exists_remote">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">path_exists_remote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sftp_client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autopogs/computerio.html#path_exists_remote"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.path_exists_remote" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.purge_all_schedules">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">purge_all_schedules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sftp_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SFTPClient</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/autopogs/computerio.html#purge_all_schedules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.purge_all_schedules" title="Link to this definition">#</a></dt>
+<dd><p>Purge all schedules from the telescope</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.roof_is_open_now">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">roof_is_open_now</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/autopogs/computerio.html#roof_is_open_now"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.roof_is_open_now" title="Link to this definition">#</a></dt>
+<dd><p>Return true if the roof is open</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.size_of_remote_dir">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">size_of_remote_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sftp_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SFTPClient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autopogs/computerio.html#size_of_remote_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.size_of_remote_dir" title="Link to this definition">#</a></dt>
+<dd><p>Return the size of the remote directory in bytes</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.size_of_remote_file">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">size_of_remote_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sftp_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SFTPClient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autopogs/computerio.html#size_of_remote_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.size_of_remote_file" title="Link to this definition">#</a></dt>
+<dd><p>Return the size of the remote file in bytes</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.start_orchestrate">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">start_orchestrate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ssh_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SSHClient</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/autopogs/computerio.html#start_orchestrate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.start_orchestrate" title="Link to this definition">#</a></dt>
+<dd><p>Start the orchestrate process</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.start_timekeeper">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">start_timekeeper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ssh_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SSHClient</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/autopogs/computerio.html#start_timekeeper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.start_timekeeper" title="Link to this definition">#</a></dt>
+<dd><p>Start the timekeeper</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.stop_timekeeper">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">stop_timekeeper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ssh_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SSHClient</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/autopogs/computerio.html#stop_timekeeper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.stop_timekeeper" title="Link to this definition">#</a></dt>
+<dd><p>Stop the timekeeper</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.telescope_is_running">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">telescope_is_running</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ssh_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SSHClient</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/autopogs/computerio.html#telescope_is_running"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.telescope_is_running" title="Link to this definition">#</a></dt>
+<dd><p>Return true if the telescope is running</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.timekeeper_is_running">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">timekeeper_is_running</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ssh_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SSHClient</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/autopogs/computerio.html#timekeeper_is_running"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.timekeeper_is_running" title="Link to this definition">#</a></dt>
+<dd><p>Return the status of the timekeeper</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.wait_for_telescope_to_finish">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">wait_for_telescope_to_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ssh_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SSHClient</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/autopogs/computerio.html#wait_for_telescope_to_finish"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.wait_for_telescope_to_finish" title="Link to this definition">#</a></dt>
+<dd><p>Wait for the telescope to finish observing</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.write_handshake">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">write_handshake</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sftp_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SFTPClient</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/autopogs/computerio.html#write_handshake"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.write_handshake" title="Link to this definition">#</a></dt>
+<dd><p>Write the handshake file to the telescope</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.computerio.write_orchestrate_schedule">
+<span class="sig-prename descclassname"><span class="pre">autopogs.computerio.</span></span><span class="sig-name descname"><span class="pre">write_orchestrate_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sftp_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SFTPClient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schedule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/autopogs/computerio.html#write_orchestrate_schedule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.computerio.write_orchestrate_schedule" title="Link to this definition">#</a></dt>
+<dd><p>Write the orchestrate schedule to the telescope</p>
+</dd></dl>
+
+</section>
+<section id="module-autopogs.constants">
+<span id="autopogs-constants-module"></span><h2>autopogs.constants module<a class="headerlink" href="#module-autopogs.constants" title="Link to this heading">#</a></h2>
+</section>
+<section id="module-autopogs.googleio">
+<span id="autopogs-googleio-module"></span><h2>autopogs.googleio module<a class="headerlink" href="#module-autopogs.googleio" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.googleio.create_calendar_event">
+<span class="sig-prename descclassname"><span class="pre">autopogs.googleio.</span></span><span class="sig-name descname"><span class="pre">create_calendar_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calendar_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_time_start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_time_end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autopogs/googleio.html#create_calendar_event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.googleio.create_calendar_event" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.googleio.create_drive_folder">
+<span class="sig-prename descclassname"><span class="pre">autopogs.googleio.</span></span><span class="sig-name descname"><span class="pre">create_drive_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_folder_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/autopogs/googleio.html#create_drive_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.googleio.create_drive_folder" title="Link to this definition">#</a></dt>
+<dd><p>Creates a folder in Google Drive</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>folder_name</strong> (<em>str</em>) – The name of the folder to create</p></li>
+<li><p><strong>parent_folder_id</strong> (<em>str</em><em>, </em><em>optional</em>) – The ID of the parent folder, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The ID of the folder in Google Drive</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.googleio.create_share_link">
+<span class="sig-prename descclassname"><span class="pre">autopogs.googleio.</span></span><span class="sig-name descname"><span class="pre">create_share_link</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/autopogs/googleio.html#create_share_link"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.googleio.create_share_link" title="Link to this definition">#</a></dt>
+<dd><p>Creates a shareable link for a file in Google Drive</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_id</strong> (<em>str</em>) – The ID of the file in Google Drive</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The shareable link</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.googleio.get_calendar_events_in_range">
+<span class="sig-prename descclassname"><span class="pre">autopogs.googleio.</span></span><span class="sig-name descname"><span class="pre">get_calendar_events_in_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calendar_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/autopogs/googleio.html#get_calendar_events_in_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.googleio.get_calendar_events_in_range" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.googleio.get_calendar_service">
+<span class="sig-prename descclassname"><span class="pre">autopogs.googleio.</span></span><span class="sig-name descname"><span class="pre">get_calendar_service</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/autopogs/googleio.html#get_calendar_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.googleio.get_calendar_service" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.googleio.get_drive_service">
+<span class="sig-prename descclassname"><span class="pre">autopogs.googleio.</span></span><span class="sig-name descname"><span class="pre">get_drive_service</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/autopogs/googleio.html#get_drive_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.googleio.get_drive_service" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.googleio.get_google_service">
+<span class="sig-prename descclassname"><span class="pre">autopogs.googleio.</span></span><span class="sig-name descname"><span class="pre">get_google_service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autopogs/googleio.html#get_google_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.googleio.get_google_service" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.googleio.num_overlapping_events">
+<span class="sig-prename descclassname"><span class="pre">autopogs.googleio.</span></span><span class="sig-name descname"><span class="pre">num_overlapping_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/autopogs/googleio.html#num_overlapping_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.googleio.num_overlapping_events" title="Link to this definition">#</a></dt>
+<dd><p>Returns the number of overlapping events in the telescope calendar</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_time</strong> (<em>datetime.datetime</em>) – The start time to check</p></li>
+<li><p><strong>end_time</strong> (<em>datetime.datetime</em>) – The end time to check</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The number of overlapping events</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.googleio.request_pogs_reservation">
+<span class="sig-prename descclassname"><span class="pre">autopogs.googleio.</span></span><span class="sig-name descname"><span class="pre">request_pogs_reservation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autopogs/googleio.html#request_pogs_reservation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.googleio.request_pogs_reservation" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.googleio.update_calendar_event_summary">
+<span class="sig-prename descclassname"><span class="pre">autopogs.googleio.</span></span><span class="sig-name descname"><span class="pre">update_calendar_event_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prepend_msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autopogs/googleio.html#update_calendar_event_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.googleio.update_calendar_event_summary" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.googleio.upload_file">
+<span class="sig-prename descclassname"><span class="pre">autopogs.googleio.</span></span><span class="sig-name descname"><span class="pre">upload_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mimetype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_folder_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunksize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5242880</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/autopogs/googleio.html#upload_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.googleio.upload_file" title="Link to this definition">#</a></dt>
+<dd><p>Uploads a file to Google Drive</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – The name of the file when it lands in Google Drive</p></li>
+<li><p><strong>filepath</strong> (<em>str</em>) – The path to the file on the local machine</p></li>
+<li><p><strong>mimetype</strong> (<em>str</em>) – The mimetype of the file</p></li>
+<li><p><strong>parent_folder_id</strong> (<em>str</em><em>, </em><em>optional</em>) – The ID of the parent folder, defaults to None</p></li>
+<li><p><strong>chunksize</strong> (<em>int</em><em>, </em><em>optional</em>) – The chunksize to use for uploading, defaults to 10 MB</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The ID of the file in Google Drive</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.googleio.validate_email">
+<span class="sig-prename descclassname"><span class="pre">autopogs.googleio.</span></span><span class="sig-name descname"><span class="pre">validate_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email_address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/autopogs/googleio.html#validate_email"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.googleio.validate_email" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.googleio.zip_and_upload_local_folder">
+<span class="sig-prename descclassname"><span class="pre">autopogs.googleio.</span></span><span class="sig-name descname"><span class="pre">zip_and_upload_local_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">local_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_folder_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/autopogs/googleio.html#zip_and_upload_local_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.googleio.zip_and_upload_local_folder" title="Link to this definition">#</a></dt>
+<dd><p>Zips a local folder and uploads it to Google Drive</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>local_path</strong> (<em>str</em>) – The path to the local folder</p></li>
+<li><p><strong>parent_folder_id</strong> (<em>str</em><em>, </em><em>optional</em>) – The ID of the parent folder, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The link to the zipped folder in Google Drive</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-autopogs.schedule">
+<span id="autopogs-schedule-module"></span><h2>autopogs.schedule module<a class="headerlink" href="#module-autopogs.schedule" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="autopogs.schedule.SingleTelescopeReservation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">autopogs.schedule.</span></span><span class="sig-name descname"><span class="pre">SingleTelescopeReservation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_int</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_images</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_email</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autopogs/schedule.html#SingleTelescopeReservation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.schedule.SingleTelescopeReservation" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#autopogs.schedule.TelescopeReservation" title="autopogs.schedule.TelescopeReservation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TelescopeReservation</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="autopogs.schedule.TelescopeReservation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">autopogs.schedule.</span></span><span class="sig-name descname"><span class="pre">TelescopeReservation</span></span><a class="reference internal" href="_modules/autopogs/schedule.html#TelescopeReservation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.schedule.TelescopeReservation" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="autopogs.schedule.TelescopeReservation.reserve">
+<span class="sig-name descname"><span class="pre">reserve</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/autopogs/schedule.html#TelescopeReservation.reserve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.schedule.TelescopeReservation.reserve" title="Link to this definition">#</a></dt>
+<dd><p>Reserves the telescope</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="autopogs.schedule.TelescopeReservation.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/autopogs/schedule.html#TelescopeReservation.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.schedule.TelescopeReservation.validate" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-autopogs.server">
+<span id="autopogs-server-module"></span><h2>autopogs.server module<a class="headerlink" href="#module-autopogs.server" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.server.cancel_event_by_id">
+<span class="sig-prename descclassname"><span class="pre">autopogs.server.</span></span><span class="sig-name descname"><span class="pre">cancel_event_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">silent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autopogs/server.html#cancel_event_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.server.cancel_event_by_id" title="Link to this definition">#</a></dt>
+<dd><p>Cancels the event with the provided ID</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>event_id</strong> (<em>str</em>) – The ID of the event to cancel</p></li>
+<li><p><strong>reason</strong> (<em>str</em>) – The reason for the cancellation</p></li>
+<li><p><strong>silent</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, do not send cancellation emails, defaults to False</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.server.cancel_if_day">
+<span class="sig-prename descclassname"><span class="pre">autopogs.server.</span></span><span class="sig-name descname"><span class="pre">cancel_if_day</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/autopogs/server.html#cancel_if_day"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.server.cancel_if_day" title="Link to this definition">#</a></dt>
+<dd><p>Cancels the event if it is during the day</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>event</strong> (<em>dict</em>) – The event to check</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the event was cancelled, False otherwise</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.server.cancel_if_moon_angle">
+<span class="sig-prename descclassname"><span class="pre">autopogs.server.</span></span><span class="sig-name descname"><span class="pre">cancel_if_moon_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/autopogs/server.html#cancel_if_moon_angle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.server.cancel_if_moon_angle" title="Link to this definition">#</a></dt>
+<dd><p>Cancels an event if the moon is too close to the target</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>event</strong> (<em>dict</em>) – The event to check</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the event was cancelled, False otherwise</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.server.cancel_if_no_sat_pass">
+<span class="sig-prename descclassname"><span class="pre">autopogs.server.</span></span><span class="sig-name descname"><span class="pre">cancel_if_no_sat_pass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/autopogs/server.html#cancel_if_no_sat_pass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.server.cancel_if_no_sat_pass" title="Link to this definition">#</a></dt>
+<dd><p>Cancels an event if the target satellite is not passing overhead at the time</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>event</strong> (<em>dict</em>) – The event to check</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the event was cancelled, False otherwise</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.server.cancel_if_overlap">
+<span class="sig-prename descclassname"><span class="pre">autopogs.server.</span></span><span class="sig-name descname"><span class="pre">cancel_if_overlap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/autopogs/server.html#cancel_if_overlap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.server.cancel_if_overlap" title="Link to this definition">#</a></dt>
+<dd><p>Cancels an event if it overlaps with another event of equal or higher priority</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>event</strong> (<em>dict</em>) – The event to check</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the event was cancelled, False otherwise</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.server.cancel_if_roof_closed">
+<span class="sig-prename descclassname"><span class="pre">autopogs.server.</span></span><span class="sig-name descname"><span class="pre">cancel_if_roof_closed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/autopogs/server.html#cancel_if_roof_closed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.server.cancel_if_roof_closed" title="Link to this definition">#</a></dt>
+<dd><p>Cancels an event if the roof is closed at the time</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>event</strong> (<em>dict</em>) – The event to check</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the event was cancelled, False otherwise</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.server.delete_future_events">
+<span class="sig-prename descclassname"><span class="pre">autopogs.server.</span></span><span class="sig-name descname"><span class="pre">delete_future_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">silent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autopogs/server.html#delete_future_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.server.delete_future_events" title="Link to this definition">#</a></dt>
+<dd><p>Deletes all future events in the POGS calendar</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>silent</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true, do not send cancellation emails, defaults to False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.server.get_current_event">
+<span class="sig-prename descclassname"><span class="pre">autopogs.server.</span></span><span class="sig-name descname"><span class="pre">get_current_event</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/autopogs/server.html#get_current_event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.server.get_current_event" title="Link to this definition">#</a></dt>
+<dd><p>Returns the current event</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.server.get_future_events">
+<span class="sig-prename descclassname"><span class="pre">autopogs.server.</span></span><span class="sig-name descname"><span class="pre">get_future_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calendar_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">timedelta</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.timedelta(days=365)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/autopogs/server.html#get_future_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.server.get_future_events" title="Link to this definition">#</a></dt>
+<dd><p>Returns all future events in the provided calendar</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.server.is_astronomical_night">
+<span class="sig-prename descclassname"><span class="pre">autopogs.server.</span></span><span class="sig-name descname"><span class="pre">is_astronomical_night</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">station</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Station</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/autopogs/server.html#is_astronomical_night"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.server.is_astronomical_night" title="Link to this definition">#</a></dt>
+<dd><p>Returns true if the provided datetime is during astronomical night</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autopogs.server.validate_future_events">
+<span class="sig-prename descclassname"><span class="pre">autopogs.server.</span></span><span class="sig-name descname"><span class="pre">validate_future_events</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/autopogs/server.html#validate_future_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopogs.server.validate_future_events" title="Link to this definition">#</a></dt>
+<dd><p>Validates all future events in the POGS calendar</p>
+</dd></dl>
+
+</section>
+<section id="module-autopogs">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-autopogs" title="Link to this heading">#</a></h2>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="modules.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">autopogs</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="gallery/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Examples</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-autopogs.computerio">autopogs.computerio module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.connect_to_telescope"><code class="docutils literal notranslate"><span class="pre">connect_to_telescope()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.display_fits_image"><code class="docutils literal notranslate"><span class="pre">display_fits_image()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.download_and_display_most_recent_image_tonight"><code class="docutils literal notranslate"><span class="pre">download_and_display_most_recent_image_tonight()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.download_files"><code class="docutils literal notranslate"><span class="pre">download_files()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.download_most_recent_images_tonight"><code class="docutils literal notranslate"><span class="pre">download_most_recent_images_tonight()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.get_now"><code class="docutils literal notranslate"><span class="pre">get_now()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.get_telescope_file"><code class="docutils literal notranslate"><span class="pre">get_telescope_file()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.get_tonights_remote_image_directory"><code class="docutils literal notranslate"><span class="pre">get_tonights_remote_image_directory()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.get_weather"><code class="docutils literal notranslate"><span class="pre">get_weather()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.kill_orchestrate"><code class="docutils literal notranslate"><span class="pre">kill_orchestrate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.list_remote_dir"><code class="docutils literal notranslate"><span class="pre">list_remote_dir()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.path_exists_remote"><code class="docutils literal notranslate"><span class="pre">path_exists_remote()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.purge_all_schedules"><code class="docutils literal notranslate"><span class="pre">purge_all_schedules()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.roof_is_open_now"><code class="docutils literal notranslate"><span class="pre">roof_is_open_now()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.size_of_remote_dir"><code class="docutils literal notranslate"><span class="pre">size_of_remote_dir()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.size_of_remote_file"><code class="docutils literal notranslate"><span class="pre">size_of_remote_file()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.start_orchestrate"><code class="docutils literal notranslate"><span class="pre">start_orchestrate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.start_timekeeper"><code class="docutils literal notranslate"><span class="pre">start_timekeeper()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.stop_timekeeper"><code class="docutils literal notranslate"><span class="pre">stop_timekeeper()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.telescope_is_running"><code class="docutils literal notranslate"><span class="pre">telescope_is_running()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.timekeeper_is_running"><code class="docutils literal notranslate"><span class="pre">timekeeper_is_running()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.wait_for_telescope_to_finish"><code class="docutils literal notranslate"><span class="pre">wait_for_telescope_to_finish()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.write_handshake"><code class="docutils literal notranslate"><span class="pre">write_handshake()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.computerio.write_orchestrate_schedule"><code class="docutils literal notranslate"><span class="pre">write_orchestrate_schedule()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-autopogs.constants">autopogs.constants module</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-autopogs.googleio">autopogs.googleio module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.googleio.create_calendar_event"><code class="docutils literal notranslate"><span class="pre">create_calendar_event()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.googleio.create_drive_folder"><code class="docutils literal notranslate"><span class="pre">create_drive_folder()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.googleio.create_share_link"><code class="docutils literal notranslate"><span class="pre">create_share_link()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.googleio.get_calendar_events_in_range"><code class="docutils literal notranslate"><span class="pre">get_calendar_events_in_range()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.googleio.get_calendar_service"><code class="docutils literal notranslate"><span class="pre">get_calendar_service()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.googleio.get_drive_service"><code class="docutils literal notranslate"><span class="pre">get_drive_service()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.googleio.get_google_service"><code class="docutils literal notranslate"><span class="pre">get_google_service()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.googleio.num_overlapping_events"><code class="docutils literal notranslate"><span class="pre">num_overlapping_events()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.googleio.request_pogs_reservation"><code class="docutils literal notranslate"><span class="pre">request_pogs_reservation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.googleio.update_calendar_event_summary"><code class="docutils literal notranslate"><span class="pre">update_calendar_event_summary()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.googleio.upload_file"><code class="docutils literal notranslate"><span class="pre">upload_file()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.googleio.validate_email"><code class="docutils literal notranslate"><span class="pre">validate_email()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.googleio.zip_and_upload_local_folder"><code class="docutils literal notranslate"><span class="pre">zip_and_upload_local_folder()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-autopogs.schedule">autopogs.schedule module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.schedule.SingleTelescopeReservation"><code class="docutils literal notranslate"><span class="pre">SingleTelescopeReservation</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.schedule.TelescopeReservation"><code class="docutils literal notranslate"><span class="pre">TelescopeReservation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.schedule.TelescopeReservation.reserve"><code class="docutils literal notranslate"><span class="pre">TelescopeReservation.reserve()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.schedule.TelescopeReservation.validate"><code class="docutils literal notranslate"><span class="pre">TelescopeReservation.validate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-autopogs.server">autopogs.server module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.server.cancel_event_by_id"><code class="docutils literal notranslate"><span class="pre">cancel_event_by_id()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.server.cancel_if_day"><code class="docutils literal notranslate"><span class="pre">cancel_if_day()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.server.cancel_if_moon_angle"><code class="docutils literal notranslate"><span class="pre">cancel_if_moon_angle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.server.cancel_if_no_sat_pass"><code class="docutils literal notranslate"><span class="pre">cancel_if_no_sat_pass()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.server.cancel_if_overlap"><code class="docutils literal notranslate"><span class="pre">cancel_if_overlap()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.server.cancel_if_roof_closed"><code class="docutils literal notranslate"><span class="pre">cancel_if_roof_closed()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.server.delete_future_events"><code class="docutils literal notranslate"><span class="pre">delete_future_events()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.server.get_current_event"><code class="docutils literal notranslate"><span class="pre">get_current_event()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.server.get_future_events"><code class="docutils literal notranslate"><span class="pre">get_future_events()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.server.is_astronomical_night"><code class="docutils literal notranslate"><span class="pre">is_astronomical_night()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autopogs.server.validate_future_events"><code class="docutils literal notranslate"><span class="pre">validate_future_events()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-autopogs">Module contents</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023-2023, Liam Robinson.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

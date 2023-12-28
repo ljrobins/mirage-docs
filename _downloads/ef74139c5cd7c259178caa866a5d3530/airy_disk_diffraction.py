@@ -51,7 +51,7 @@ wavelengths = np.linspace(400e-9, 700e-9, 10)
 plt.figure(figsize=(6, 6))
 pattern = np.zeros((pattern.shape[0], pattern.shape[1], 3))
 for wavelength in wavelengths:
-    rgb_at_wavelength = mr.wavelength_to_rgb(wavelength)
+    rgb_at_wavelength = mrv.wavelength_to_rgb(wavelength)
     wavelength_pattern = telescope.airy_disk_pattern(1e5, theta_grid_rad, wavelength)
     pattern += (
         wavelength_pattern[..., np.newaxis]
@@ -77,7 +77,7 @@ wavelengths = np.linspace(400e-9, 700e-9, 10)
 plt.figure(figsize=(6, 6))
 pattern = np.zeros((pattern.shape[0], pattern.shape[1], 3))
 for wavelength in wavelengths:
-    rgb_at_wavelength = mr.wavelength_to_rgb(wavelength)
+    rgb_at_wavelength = mrv.wavelength_to_rgb(wavelength)
     wavelength_pattern = (
         telescope.ccd.quantum_efficiency(wavelength)
         * telescope.airy_disk_pattern(1, theta_grid_rad, wavelength)
