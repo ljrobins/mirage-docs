@@ -48,7 +48,7 @@ Renders a synthetic CCD image of an observation taken by the POGS telescope
 
 Loading a fits image from the Purdue Optical Ground Station
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-38
+.. GENERATED FROM PYTHON SOURCE LINES 19-39
 
 .. code-block:: default
 
@@ -59,11 +59,12 @@ Loading a fits image from the Purdue Optical Ground Station
     #     os.environ["SRCDIR"], "..", "00161295.48859.fit"
     # )  # gps
 
-    fits_path = os.path.join(
-        os.environ["SRCDIR"], "..", "00161341.GALAXY_23__TELSTAR_13__#27854U.fit"
-    )
+    # fits_path = os.path.join(
+    #     os.environ["SRCDIR"], "..", "00161341.GALAXY_23__TELSTAR_13__#27854U.fit"
+    # )
+    fits_path = os.path.join(os.environ["SRCDIR"], "..", "00161298.Jupiter.fit")
 
-    # fits_path = "/Users/liamrobinson/Documents/autopogs/imgs/00161175.40733.fit"
+
     fits_dict = mr.info_from_fits(fits_path)
     obs_dates = fits_dict["dates"]
     observing_station = fits_dict["station"]
@@ -91,8 +92,8 @@ Loading a fits image from the Purdue Optical Ground Station
       and Astrophysics', volume 376, page 359; bibcode: 2001A&A...376..359H
     BZERO 32768
     BSCALE 1
-    SBUUID {1b4680fa-af21-4878-8f53-c9c0c80bd9b8}
-    EXPTIME 10.0
+    SBUUID {f796c743-83b3-4cd5-9242-179e5789e500}
+    EXPTIME 1.0
     SWCREATE TheSkyX Version 10.5.0 Build 12304
     COLORCCD 0
     DISPINCR 1
@@ -102,33 +103,33 @@ Loading a fits image from the Purdue Optical Ground Station
     YORGSUBF 0
     XBINNING 1
     YBINNING 1
-    CCD-TEMP -20.0625
+    CCD-TEMP -20.0
     SET-TEMP -20.0
     SITELAT +32 54 00.00
     SITELONG +105 32 00.00
-    LST +06 10 14.10
+    LST +05 06 01.45
     OBSGEO-B 32.9
     OBSGEO-L -105.5333333333
     OBSGEO-H 2225.0
     BTP 0
-    CENTAZ 206.766869021327
-    CENTALT 48.1162736094801
-    AIRMASS 1.34316866236751
-    TELEHA +01 10 19.65
+    CENTAZ 252.347450196686
+    CENTALT 45.8283304047482
+    AIRMASS 1.39418562666448
+    TELEHA +02 51 12.56
     MOUNT Paramount ME II
-    TELTKRA 15.0304039
-    TELTKDEC 0.2501889
-    OBJCTRA 04 58 42.693
-    OBJCTDEC -05 33 01.61
-    OBJECT GALAXY 23 (TELSTAR 13) #27854U
+    TELTKRA 0.0
+    TELTKDEC -0.0
+    OBJCTRA 02 13 31.103
+    OBJCTDEC +12 08 14.34
+    OBJECT Jupiter
     INSTRUME FLI Camera Plugin 2.0
     XPIXSZ 9.0
     YPIXSZ 9.0
     READOUTM 8 MHz
     CDS 8 MHz
     FILTER Slot 0/Slot 0
-    DATE-OBS 2023-12-28T06:46:25.286
-    LOCALTIM 12/27/2023 11:46:25.289 PM STD
+    DATE-OBS 2023-12-28T05:42:23.187
+    LOCALTIM 12/27/2023 10:42:23.190 PM STD
     HRZOSCAN 0
     VRTOSCAN 0
     XORG_VIS 0
@@ -138,33 +139,37 @@ Loading a fits image from the Purdue Optical Ground Station
     RBIFLOOD 0
     RBIFLUSH 0
     RBI_BIN 0
-    EXT_TEMP 0.9375
+    EXT_TEMP 0.6875
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-40
+.. GENERATED FROM PYTHON SOURCE LINES 40-41
 
 Let's synthesize a CCD image for the same observation conditions
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-52
+.. GENERATED FROM PYTHON SOURCE LINES 41-52
 
 .. code-block:: default
 
 
-    # pl = pv.Plotter()
-    # mrv.render_observation_scenario(
-    #     pl,
-    #     dates=obs_dates,
-    #     station=observing_station,
-    #     look_dirs_eci=obs_dirs_eci,
-    #     sensor_extent_km=20e3,
-    # )
-    # pl.show()
-    # endd
+    pl = pv.Plotter()
+    mrv.render_observation_scenario(
+        pl,
+        dates=obs_dates,
+        station=observing_station,
+        look_dirs_eci=obs_dirs_eci,
+        sensor_extent_km=20e3,
+    )
+    pl.show()
 
 
 
+
+.. image-sg:: /gallery/10-ccd/images/sphx_glr_render_ccd_001.png
+   :alt: render ccd
+   :srcset: /gallery/10-ccd/images/sphx_glr_render_ccd_001.png
+   :class: sphx-glr-single-img
 
 
 
@@ -236,14 +241,10 @@ Let's synthesize a CCD image for the same observation conditions
  .. code-block:: none
 
     WARNING: no observation constraints assigned!
-    [256758.11126289697 257948.68256113274]
+    [340244.1870484721 339809.8549386361]
     Objects in frame 1:
-    GALAXY 31
-    GALAXY 23 (TELSTAR 13)
     Objects in frame 2:
-    GALAXY 31
-    GALAXY 23 (TELSTAR 13)
-    Elapsed time: 4.82e+00 seconds
+    Elapsed time: 4.53e+00 seconds
 
 
 
@@ -284,9 +285,9 @@ Let's take a look at the real and synthetic CCD images
 
 
 
-.. image-sg:: /gallery/10-ccd/images/sphx_glr_render_ccd_001.png
+.. image-sg:: /gallery/10-ccd/images/sphx_glr_render_ccd_002.png
    :alt: POGS CCD, Synthetic CCD
-   :srcset: /gallery/10-ccd/images/sphx_glr_render_ccd_001.png, /gallery/10-ccd/images/sphx_glr_render_ccd_001_2_00x.png 2.00x
+   :srcset: /gallery/10-ccd/images/sphx_glr_render_ccd_002.png, /gallery/10-ccd/images/sphx_glr_render_ccd_002_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
 
@@ -324,8 +325,8 @@ Looking at the residual noise after subtracting off the parabolic background fro
 
  .. code-block:: none
 
-    Real background variance: 90.29777921909367 [ADU^2]
-    Synthetic background variance: 257.0076380609039 [ADU^2]
+    Real background variance: 5151807.586606355 [ADU^2]
+    Synthetic background variance: 67.53634030358074 [ADU^2]
 
 
 
@@ -358,9 +359,9 @@ Plotting the same, with the parabolic background subtracted from the real image
 
 
 
-.. image-sg:: /gallery/10-ccd/images/sphx_glr_render_ccd_002.png
+.. image-sg:: /gallery/10-ccd/images/sphx_glr_render_ccd_003.png
    :alt: POGS CCD Background Pixels, Synthetic CCD Background Pixels
-   :srcset: /gallery/10-ccd/images/sphx_glr_render_ccd_002.png, /gallery/10-ccd/images/sphx_glr_render_ccd_002_2_00x.png 2.00x
+   :srcset: /gallery/10-ccd/images/sphx_glr_render_ccd_003.png, /gallery/10-ccd/images/sphx_glr_render_ccd_003_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
 
@@ -414,9 +415,9 @@ Inspecting the backgrounds
 
 
 
-.. image-sg:: /gallery/10-ccd/images/sphx_glr_render_ccd_003.png
+.. image-sg:: /gallery/10-ccd/images/sphx_glr_render_ccd_004.png
    :alt: Synthetic backgrounds, Real backgrounds
-   :srcset: /gallery/10-ccd/images/sphx_glr_render_ccd_003.png, /gallery/10-ccd/images/sphx_glr_render_ccd_003_2_00x.png 2.00x
+   :srcset: /gallery/10-ccd/images/sphx_glr_render_ccd_004.png, /gallery/10-ccd/images/sphx_glr_render_ccd_004_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
 
@@ -424,8 +425,8 @@ Inspecting the backgrounds
 
  .. code-block:: none
 
-    Synthetic background: 9.160533536222836 [ADU]
-    Real background: 5.735410984639813 [ADU]
+    Synthetic background: 5.177920265831324 [ADU]
+    Real background: 85.31138514848128 [ADU]
 
 
 
@@ -433,7 +434,7 @@ Inspecting the backgrounds
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  26.905 seconds)
+   **Total running time of the script:** ( 0 minutes  27.744 seconds)
 
 
 .. _sphx_glr_download_gallery_10-ccd_render_ccd.py:

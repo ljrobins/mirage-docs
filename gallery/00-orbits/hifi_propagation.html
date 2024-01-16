@@ -50,8 +50,8 @@
     <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Propagating single TLE" href="propagate_single_tle.html" />
-    <link rel="prev" title="Orbits" href="index.html" />
+    <link rel="next" title="TLE Switching" href="tle_switching.html" />
+    <link rel="prev" title="Propagating single TLE" href="propagate_single_tle.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -320,8 +320,8 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Orbits</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Propagating with Perturbations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="propagate_single_tle.html">Propagating single TLE</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Propagating with Perturbations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tle_switching.html">TLE Switching</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ground_track.html">Ground Tracks</a></li>
 
@@ -360,7 +360,9 @@ document.write(`
 <li class="toctree-l1 has-children"><a class="reference internal" href="../03-coordinate-systems/index.html">Coordinate Frames</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/time_systems.html">Time Systems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/polar_motion.html">Polar Motion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/third_body_interp.html">Third Body Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/earth_pole_motion.html">Precession and Nutation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/coord_interp.html">Coordinate System Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/spice_comparison.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/equinoxes.html">Equinoxes and Solstices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/itrf_to_j2000.html">IAU-76 J2000 Reduction</a></li>
@@ -372,7 +374,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/vr_factor.html">Airmass Function Comparison</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/star_aberration.html">Star Aberration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/solar_system.html">Solar System</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_zenith.html">Background Signals at Zenith</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/atmospheric_absorption.html">Atmospheric Transmission</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/penumbra_plane.html">Penumbra Visualized</a></li>
@@ -380,6 +381,7 @@ document.write(`
 
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/total_solar_irradiance.html">Total Solar Irradiance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/solar_system.html">Solar System</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometrical Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
@@ -527,8 +529,15 @@ to download the full example code</p>
 </pre></div>
 </div>
 <p>Defining our initial condition and the propagation times</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rv0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">8000</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">])</span>
-<span class="n">dates</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">date_linspace</span><span class="p">(</span><span class="n">mr</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="n">mr</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">mr</span><span class="o">.</span><span class="n">days</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="mi">10_000</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">rv0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span>
+    <span class="n">low</span><span class="o">=</span><span class="p">[</span><span class="mi">7_000</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1_000</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
+    <span class="n">high</span><span class="o">=</span><span class="p">[</span><span class="mi">8_000</span><span class="p">,</span> <span class="mi">1_000</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">2.8</span><span class="p">,</span> <span class="mf">7.3</span><span class="p">],</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">dates</span><span class="p">,</span> <span class="n">epsecs</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">date_linspace</span><span class="p">(</span>
+    <span class="n">mr</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="n">mr</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">mr</span><span class="o">.</span><span class="n">days</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="mi">100_000</span><span class="p">,</span> <span class="n">return_epsecs</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 <p>Propagating with the full EGM96 gravity model and Sun/Moon third-body accelerations</p>
@@ -536,26 +545,35 @@ to download the full example code</p>
 <span class="n">rv</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">integrate_orbit_dynamics</span><span class="p">(</span>
     <span class="n">rv0</span><span class="p">,</span>
     <span class="n">dates</span><span class="p">,</span>
-    <span class="n">gravity_harmonics_degree</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-    <span class="n">moon_third_body</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">sun_third_body</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">int_tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>  <span class="c1"># Because I want this example to render quickly</span>
+    <span class="n">gravity_harmonics_degree</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">third_bodies</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;sun&quot;</span><span class="p">,</span> <span class="s2">&quot;moon&quot;</span><span class="p">,</span> <span class="s2">&quot;jupiter&quot;</span><span class="p">],</span>
+    <span class="n">int_tol</span><span class="o">=</span><span class="mf">1e-9</span><span class="p">,</span>  <span class="c1"># Because I want this example to render quickly</span>
 <span class="p">)</span>
+<span class="n">rv</span> <span class="o">=</span> <span class="n">rv</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">dates</span><span class="o">.</span><span class="n">size</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 <span class="n">mr</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
-<span class="n">r</span> <span class="o">=</span> <span class="n">rv</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
 
 <span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
-<span class="n">mrv</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">mr</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="n">night_lights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">elevation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">atmosphere</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">mrv</span><span class="o">.</span><span class="n">plot3</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">lighting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">plot_earth</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">dates</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">night_lights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">atmosphere</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rv</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">rv</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+    <span class="n">mrv</span><span class="o">.</span><span class="n">plot3</span><span class="p">(</span>
+        <span class="n">pl</span><span class="p">,</span>
+        <span class="n">r</span><span class="p">,</span>
+        <span class="n">lighting</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">scalars</span><span class="o">=</span><span class="n">epsecs</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;twilight&quot;</span><span class="p">,</span>
+        <span class="n">show_scalar_bar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">line_width</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+    <span class="p">)</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_hifi_propagation_001.png" srcset="../../_images/sphx_glr_hifi_propagation_001.png" alt="hifi propagation" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 3.94e+01 seconds
+<img src="../../_images/sphx_glr_hifi_propagation_001.png" srcset="../../_images/sphx_glr_hifi_propagation_001.png" alt="hifi propagation" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 2.58e+01 seconds
 /Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/pyvista/plotting/plotter.py:4633: PyVistaDeprecationWarning: This method is deprecated and will be removed in a future version of PyVista. Directly modify the scalars of a mesh in-place instead.
   warnings.warn(
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  54.025 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  31.638 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-00-orbits-hifi-propagation-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/ea544827592f9fa097afb67733fa6164/hifi_propagation.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">hifi_propagation.py</span></code></a></p>
@@ -578,20 +596,20 @@ to download the full example code</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="index.html"
+       href="propagate_single_tle.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Orbits</p>
+        <p class="prev-next-title">Propagating single TLE</p>
       </div>
     </a>
     <a class="right-next"
-       href="propagate_single_tle.html"
+       href="tle_switching.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Propagating single TLE</p>
+        <p class="prev-next-title">TLE Switching</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -625,7 +643,7 @@ to download the full example code</p>
 
   <p class="copyright">
     
-      © Copyright 2022-2023, Liam Robinson.
+      © Copyright 2022-2024, Liam Robinson.
       <br/>
     
   </p>

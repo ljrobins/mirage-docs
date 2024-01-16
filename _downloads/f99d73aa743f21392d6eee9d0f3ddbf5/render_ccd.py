@@ -23,11 +23,12 @@ import mirage.vis as mrv
 #     os.environ["SRCDIR"], "..", "00161295.48859.fit"
 # )  # gps
 
-fits_path = os.path.join(
-    os.environ["SRCDIR"], "..", "00161341.GALAXY_23__TELSTAR_13__#27854U.fit"
-)
+# fits_path = os.path.join(
+#     os.environ["SRCDIR"], "..", "00161341.GALAXY_23__TELSTAR_13__#27854U.fit"
+# )
+fits_path = os.path.join(os.environ["SRCDIR"], "..", "00161298.Jupiter.fit")
 
-# fits_path = "/Users/liamrobinson/Documents/autopogs/imgs/00161175.40733.fit"
+
 fits_dict = mr.info_from_fits(fits_path)
 obs_dates = fits_dict["dates"]
 observing_station = fits_dict["station"]
@@ -38,16 +39,15 @@ br_parabola_obs = fits_dict["br_parabola"]
 # %%
 # Let's synthesize a CCD image for the same observation conditions
 
-# pl = pv.Plotter()
-# mrv.render_observation_scenario(
-#     pl,
-#     dates=obs_dates,
-#     station=observing_station,
-#     look_dirs_eci=obs_dirs_eci,
-#     sensor_extent_km=20e3,
-# )
-# pl.show()
-# endd
+pl = pv.Plotter()
+mrv.render_observation_scenario(
+    pl,
+    dates=obs_dates,
+    station=observing_station,
+    look_dirs_eci=obs_dirs_eci,
+    sensor_extent_km=20e3,
+)
+pl.show()
 
 # %%
 # Synthesizing the same image
