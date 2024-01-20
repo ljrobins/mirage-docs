@@ -6,21 +6,35 @@ Supported Platforms
 
   - MacOS (Intel CPU)
   - MacOS (ARM CPU)
+  - Linux (Raspberry PI)
   - Windows (Intel CPU)
 
 Installation
 ~~~~~~~~~~~~
 
-* Create a virtual environment to hold the ``pyspaceaware`` installation
-* Create a personal access token on GitHub, described `by this article <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-token>`_.
-* Make sure it has access to read (and/or write) to repositories
-* Pull the new package updates into your old environment with
+* Make sure you have installed a Python version equal or greater than 3.9, preferably 3.11.
+* Create a virtual environment in the current directory to hold the ``MIRAGE`` installation
 
 .. prompt:: bash
 
-  pip install git+https://${GITHUB_TOKEN}@github.com/liamrobinson1/pyspaceaware.git --upgrade
+  python -m venv
+  source bin/activate
 
-Where you set ``GITHUB_TOKEN`` as an environmental variable equal to the token created earlier. Alternatively, you can just plug the token directly into the pip install, it'll just look ugly. Let me know if you encounter any weirdness.
+* Create a personal access token on GitHub, described `by this article <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-token>`_, make sure the token has access to read permissions to your repositories
+* Install the ``MIRAGE`` package into your environment with
+
+.. prompt:: bash
+
+  pip install git+https://${GITHUB_TOKEN}@github.com/liamrobinson1/mirage.git --upgrade
+
+Where you set ``GITHUB_TOKEN`` as an environmental variable equal to the token created earlier. Alternatively, you can just plug the token directly into the pip install like so:
+
+.. prompt:: bash
+
+  pip install git+https://MY_TOKEN_VALUE@github.com/liamrobinson1/mirage.git --upgrade
+
+
+Let me know if you encounter any issues.
 
 License
 ~~~~~~~
@@ -30,7 +44,7 @@ This codebase is proprietary to Dr. Carolin Frueh's Purdue Space Information Dyn
 * Use of the codebase must be limited to academic or personal use
 * Modification of the source code is allowed, but modifications must be marked as such
 * Distribution of the source code in its original form or modifications is forbidden.
-* Academic works published with the help of ``pyspaceaware`` must cite its contributions
+* Academic works published with the help of ``mirgage`` must cite its contributions
 
 .. code-block:: none
 

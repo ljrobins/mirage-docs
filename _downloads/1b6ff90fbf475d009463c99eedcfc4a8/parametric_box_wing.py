@@ -5,6 +5,7 @@ Parametric Box-Wing Inversion
 """
 
 import datetime
+from typing import Any
 
 import numpy as np
 from scipy.optimize import minimize
@@ -53,7 +54,9 @@ class BoxWingParametric:
         self.box = mr.SpaceObject(vertices_and_faces=(cube_template.v, cube_template.f))
         self.wing_area = wing_area
 
-    def eval(self, dates: np.ndarray[datetime.datetime], ovi: np.ndarray) -> np.ndarray:
+    def eval(
+        self, dates: np.ndarray[datetime.datetime, Any], ovi: np.ndarray
+    ) -> np.ndarray:
         jd = mr.date_to_jd(dates)
         eci_to_body = self.attitude.dcms_at_dates(dates)
 
@@ -80,7 +83,7 @@ class BoxWingParametric:
 
     def optimize(
         self,
-        dates: np.ndarray[datetime.datetime],
+        dates: np.ndarray[datetime.datetime, Any],
         ovi: np.ndarray,
         lc_unit_observed: np.ndarray,
     ):

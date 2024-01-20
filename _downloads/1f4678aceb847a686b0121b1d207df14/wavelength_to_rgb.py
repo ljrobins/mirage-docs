@@ -1,7 +1,7 @@
 """
-RGB to Wavelength
+Wavelength to RGB
 =================
-An approximate conversion from RGB values to an equivalent wavelength
+An approximate conversion from wavelength to RGB values for plotting.
 """
 
 import numpy as np

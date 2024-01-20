@@ -4,9 +4,11 @@ Euler Angle Sequence
 
 Three consecutive axis rotations forming an Euler angle sequence
 """
+
+# isort: off
 import numpy as np
-import pyvista as pv
 import vtk
+import pyvista as pv
 
 import mirage as mr
 import mirage.vis as mrv

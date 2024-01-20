@@ -26,7 +26,7 @@ Saving Light Curve Datasets
 
 
 .. image-sg:: /gallery/01-light_curves/images/sphx_glr_save_lc_datasets_001.png
-   :alt: matlib_tdrs
+   :alt: matlib_telstar19v
    :srcset: /gallery/01-light_curves/images/sphx_glr_save_lc_datasets_001.png, /gallery/01-light_curves/images/sphx_glr_save_lc_datasets_001_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
@@ -35,16 +35,16 @@ Saving Light Curve Datasets
 
  .. code-block:: none
 
-    matlib_astra.obj <class 'mirage.attitude.AlignedAndConstrainedAttitude'>
-    matlib_tdrs.obj <class 'mirage.attitude.RbtfAttitude'>
-    matlib_hispasat_30w-6.obj <class 'mirage.attitude.RbtfAttitude'>
-    matlib_tdrs.obj <class 'mirage.attitude.RbtfAttitude'>
     matlib_telstar19v.obj <class 'mirage.attitude.RbtfAttitude'>
-    matlib_hispasat_30w-6.obj <class 'mirage.attitude.SpinStabilizedAttitude'>
-    matlib_hispasat_30w-6.obj <class 'mirage.attitude.AlignedAndConstrainedAttitude'>
-    matlib_saturn_v_sii.obj <class 'mirage.attitude.RbtfAttitude'>
-    matlib_telstar19v.obj <class 'mirage.attitude.SpinStabilizedAttitude'>
-    matlib_tdrs.obj <class 'mirage.attitude.SpinStabilizedAttitude'>
+    matlib_saturn_v_sii.obj <class 'mirage.attitude.SpinStabilizedAttitude'>
+    matlib_saturn_v_sii.obj <class 'mirage.attitude.SpinStabilizedAttitude'>
+    matlib_hylas4.obj <class 'mirage.attitude.RbtfAttitude'>
+    matlib_tdrs.obj <class 'mirage.attitude.RbtfAttitude'>
+    matlib_astra.obj <class 'mirage.attitude.RbtfAttitude'>
+    matlib_astra.obj <class 'mirage.attitude.SpinStabilizedAttitude'>
+    matlib_astra.obj <class 'mirage.attitude.AlignedAndConstrainedAttitude'>
+    matlib_hylas4.obj <class 'mirage.attitude.AlignedAndConstrainedAttitude'>
+    matlib_telstar19v.obj <class 'mirage.attitude.AlignedAndConstrainedAttitude'>
 
 
 
@@ -60,7 +60,7 @@ Saving Light Curve Datasets
     import json
     import os
     import random
-    from typing import Union
+    from typing import Any, Union
 
     import matplotlib.pyplot as plt
     import numpy as np
@@ -70,7 +70,7 @@ Saving Light Curve Datasets
 
 
     def save_lc_info(
-        dates: np.ndarray[datetime.datetime],
+        dates: np.ndarray[datetime.datetime, Any],
         obj: mr.SpaceObject,
         attitude,
         aux_data: dict,
@@ -90,7 +90,7 @@ Saving Light Curve Datasets
 
 
     def aligned_nadir_constrained_sun_attitude(
-        obj: mr.SpaceObject, dates: np.ndarray[datetime.datetime]
+        obj: mr.SpaceObject, dates: np.ndarray[datetime.datetime, Any]
     ) -> mr.AlignedAndConstrainedAttitude:
         r_obj_j2k = obj.propagate(dates)
         sv = mr.sun(dates)
@@ -141,7 +141,7 @@ Saving Light Curve Datasets
 
 
     def random_attitude(
-        dates: np.ndarray[datetime.datetime], obj: mr.SpaceObject
+        dates: np.ndarray[datetime.datetime, Any], obj: mr.SpaceObject
     ) -> Union[
         mr.RbtfAttitude, mr.SpinStabilizedAttitude, mr.AlignedAndConstrainedAttitude
     ]:
@@ -202,7 +202,7 @@ Saving Light Curve Datasets
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 3 minutes  18.627 seconds)
+   **Total running time of the script:** ( 3 minutes  14.710 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_save_lc_datasets.py:

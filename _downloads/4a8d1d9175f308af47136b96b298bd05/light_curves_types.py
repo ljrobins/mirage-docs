@@ -8,6 +8,7 @@ Plotting light curves for a variety of object types and attitude profiles
 # isort: off
 
 import datetime
+from typing import Any
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -311,7 +312,7 @@ plt.show()
 
 
 def aligned_nadir_constrained_sun_attitude(
-    obj: mr.SpaceObject, dates: np.ndarray[datetime.datetime]
+    obj: mr.SpaceObject, dates: np.ndarray[datetime.datetime, Any]
 ) -> mr.AlignedAndConstrainedAttitude:
     r_obj_j2k = obj.propagate(dates)
     sv = mr.sun(dates)

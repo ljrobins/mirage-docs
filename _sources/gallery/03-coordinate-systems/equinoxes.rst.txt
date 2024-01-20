@@ -23,15 +23,17 @@ Equinoxes and Solstices
 
 Visualizes the transformation from ITRF to J2000 over the course of a day and at special points of the year, highlighting the importance of the spring equinox
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-16
+.. GENERATED FROM PYTHON SOURCE LINES 7-18
 
 .. code-block:: default
 
+
+    # isort: off
     import datetime
 
     import numpy as np
-    import pyvista as pv
     import vtk
+    import pyvista as pv
 
     import mirage as mr
     import mirage.vis as mrv
@@ -43,11 +45,11 @@ Visualizes the transformation from ITRF to J2000 over the course of a day and at
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-18
+.. GENERATED FROM PYTHON SOURCE LINES 19-20
 
 Let's set up a space of dates over a single day
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-24
+.. GENERATED FROM PYTHON SOURCE LINES 20-26
 
 .. code-block:: default
 
@@ -64,11 +66,11 @@ Let's set up a space of dates over a single day
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-26
+.. GENERATED FROM PYTHON SOURCE LINES 27-28
 
 We can use :class:`mr.EarthFixedFrame` to set up the coordinate frame transformation we are about.
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-29
+.. GENERATED FROM PYTHON SOURCE LINES 28-31
 
 .. code-block:: default
 
@@ -82,11 +84,11 @@ We can use :class:`mr.EarthFixedFrame` to set up the coordinate frame transforma
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-31
+.. GENERATED FROM PYTHON SOURCE LINES 32-33
 
 We can then plot the basis vectors at each of the selected times, labeling them in each subplot
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-70
+.. GENERATED FROM PYTHON SOURCE LINES 33-72
 
 .. code-block:: default
 
@@ -138,15 +140,22 @@ We can then plot the basis vectors at each of the selected times, labeling them 
    :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    /Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/pyvista/plotting/plotter.py:4633: PyVistaDeprecationWarning: This method is deprecated and will be removed in a future version of PyVista. Directly modify the scalars of a mesh in-place instead.
+      warnings.warn(
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 71-73
+
+.. GENERATED FROM PYTHON SOURCE LINES 73-75
 
 It's easy to get confused about what the vernal equinox really *is*. Is it a time? Is it a direction?
 To dig into this, let's look at the transformation between ITRF and J2000 at noon on the equinoxes and solstices
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-96
+.. GENERATED FROM PYTHON SOURCE LINES 75-98
 
 .. code-block:: default
 
@@ -182,13 +191,20 @@ To dig into this, let's look at the transformation between ITRF and J2000 at noo
    :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    /Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/pyvista/plotting/plotter.py:4633: PyVistaDeprecationWarning: This method is deprecated and will be removed in a future version of PyVista. Directly modify the scalars of a mesh in-place instead.
+      warnings.warn(
+
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  39.335 seconds)
+   **Total running time of the script:** ( 0 minutes  47.481 seconds)
 
 
 .. _sphx_glr_download_gallery_03-coordinate-systems_equinoxes.py:

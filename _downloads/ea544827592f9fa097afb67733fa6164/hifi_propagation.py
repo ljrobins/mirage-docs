@@ -34,7 +34,7 @@ rv = mr.integrate_orbit_dynamics(
     third_bodies=["sun", "moon", "jupiter"],
     int_tol=1e-9,  # Because I want this example to render quickly
 )
-rv = rv.reshape((dates.size,6,-1))
+rv = rv.reshape((dates.size, 6, -1))
 mr.toc()
 
 pl = pv.Plotter()

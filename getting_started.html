@@ -374,6 +374,7 @@ document.write(`
 <div><ul class="simple">
 <li><p>MacOS (Intel CPU)</p></li>
 <li><p>MacOS (ARM CPU)</p></li>
+<li><p>Linux (Raspberry PI)</p></li>
 <li><p>Windows (Intel CPU)</p></li>
 </ul>
 </div></blockquote>
@@ -381,17 +382,23 @@ document.write(`
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Create a virtual environment to hold the <code class="docutils literal notranslate"><span class="pre">pyspaceaware</span></code> installation</p></li>
-<li><p>Create a personal access token on GitHub, described <a class="reference external" href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-token">by this article</a>.</p></li>
-<li><p>Make sure it has access to read (and/or write) to repositories</p></li>
-<li><p>Pull the new package updates into your old environment with</p></li>
+<li><p>Make sure you have installed a Python version equal or greater than 3.9, preferably 3.11.</p></li>
+<li><p>Create a virtual environment in the current directory to hold the <code class="docutils literal notranslate"><span class="pre">MIRAGE</span></code> installation</p></li>
 </ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><style type="text/css">
 span.prompt1:before {
   content: "$ ";
 }
-</style><span class="prompt1">pip<span class="w"> </span>install<span class="w"> </span>git+https://<span class="si">${</span><span class="nv">GITHUB_TOKEN</span><span class="si">}</span>@github.com/liamrobinson1/pyspaceaware.git<span class="w"> </span>--upgrade</span>
-</pre></div></div><p>Where you set <code class="docutils literal notranslate"><span class="pre">GITHUB_TOKEN</span></code> as an environmental variable equal to the token created earlier. Alternatively, you can just plug the token directly into the pip install, it’ll just look ugly. Let me know if you encounter any weirdness.</p>
+</style><span class="prompt1">python<span class="w"> </span>-m<span class="w"> </span>venv</span>
+<span class="prompt1"><span class="nb">source</span><span class="w"> </span>bin/activate</span>
+</pre></div></div><ul class="simple">
+<li><p>Create a personal access token on GitHub, described <a class="reference external" href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-token">by this article</a>, make sure the token has access to read permissions to your repositories</p></li>
+<li><p>Install the <code class="docutils literal notranslate"><span class="pre">MIRAGE</span></code> package into your environment with</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1">pip<span class="w"> </span>install<span class="w"> </span>git+https://<span class="si">${</span><span class="nv">GITHUB_TOKEN</span><span class="si">}</span>@github.com/liamrobinson1/mirage.git<span class="w"> </span>--upgrade</span>
+</pre></div></div><p>Where you set <code class="docutils literal notranslate"><span class="pre">GITHUB_TOKEN</span></code> as an environmental variable equal to the token created earlier. Alternatively, you can just plug the token directly into the pip install like so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1">pip<span class="w"> </span>install<span class="w"> </span>git+https://MY_TOKEN_VALUE@github.com/liamrobinson1/mirage.git<span class="w"> </span>--upgrade</span>
+</pre></div></div><p>Let me know if you encounter any issues.</p>
 </section>
 <section id="license">
 <h2>License<a class="headerlink" href="#license" title="Permalink to this heading">#</a></h2>
@@ -400,7 +407,7 @@ span.prompt1:before {
 <li><p>Use of the codebase must be limited to academic or personal use</p></li>
 <li><p>Modification of the source code is allowed, but modifications must be marked as such</p></li>
 <li><p>Distribution of the source code in its original form or modifications is forbidden.</p></li>
-<li><p>Academic works published with the help of <code class="docutils literal notranslate"><span class="pre">pyspaceaware</span></code> must cite its contributions</p></li>
+<li><p>Academic works published with the help of <code class="docutils literal notranslate"><span class="pre">mirgage</span></code> must cite its contributions</p></li>
 </ul>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>@misc{cvx,
   author       = {Liam Robinson and Carolin Frueh},
@@ -489,7 +496,7 @@ span.prompt1:before {
 
   <p class="copyright">
     
-      © Copyright 2022-2024, Liam Robinson.
+      © Copyright 2024-2024, Liam Robinson.
       <br/>
     
   </p>

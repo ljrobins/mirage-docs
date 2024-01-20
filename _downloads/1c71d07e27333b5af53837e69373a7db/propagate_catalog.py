@@ -39,7 +39,7 @@ def plot_catalog_at_date(
         show_scalar_bar=False,
         point_size=point_size,
         lighting=False,
-        color=color if scalars is not None else None,
+        color=color if scalars is None else None,
         scalars=scalars(r_eci) if scalars is not None else None,
         cmap=cmap,
     )

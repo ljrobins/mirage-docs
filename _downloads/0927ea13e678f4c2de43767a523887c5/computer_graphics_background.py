@@ -5,8 +5,8 @@ Graphics Background
 Plotting various transformations and concepts from computer graphics
 """
 # isort: skip_file
-
 # isort: off
+
 import numpy as np
 import vtk
 import pyvista as pv

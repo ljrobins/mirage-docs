@@ -4,13 +4,14 @@ POGS Local Terrain
 Plots a map of the local terrain around the Purdue Optical Ground Station
 """
 
+# On mac, this requires brew install gmt
 import pygmt
 
 import mirage as mr
 
 projection = "Cyl_stere/30/-20/12c"
 station = mr.Station(preset="pogs")
-dl = 1.2
+dl = 1.20
 dlbig = 10
 sm_region = [
     station.lon_deg - dl,

@@ -7,7 +7,7 @@ import datetime
 import json
 import os
 import random
-from typing import Union
+from typing import Any, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -17,7 +17,7 @@ import mirage.vis as mrv
 
 
 def save_lc_info(
-    dates: np.ndarray[datetime.datetime],
+    dates: np.ndarray[datetime.datetime, Any],
     obj: mr.SpaceObject,
     attitude,
     aux_data: dict,
@@ -37,7 +37,7 @@ def save_lc_info(
 
 
 def aligned_nadir_constrained_sun_attitude(
-    obj: mr.SpaceObject, dates: np.ndarray[datetime.datetime]
+    obj: mr.SpaceObject, dates: np.ndarray[datetime.datetime, Any]
 ) -> mr.AlignedAndConstrainedAttitude:
     r_obj_j2k = obj.propagate(dates)
     sv = mr.sun(dates)
@@ -88,7 +88,7 @@ def random_dates() -> np.ndarray:
 
 
 def random_attitude(
-    dates: np.ndarray[datetime.datetime], obj: mr.SpaceObject
+    dates: np.ndarray[datetime.datetime, Any], obj: mr.SpaceObject
 ) -> Union[
     mr.RbtfAttitude, mr.SpinStabilizedAttitude, mr.AlignedAndConstrainedAttitude
 ]:

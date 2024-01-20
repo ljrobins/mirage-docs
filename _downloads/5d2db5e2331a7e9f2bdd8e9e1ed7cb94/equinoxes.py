@@ -4,11 +4,13 @@ Equinoxes and Solstices
 
 Visualizes the transformation from ITRF to J2000 over the course of a day and at special points of the year, highlighting the importance of the spring equinox
 """
+
+# isort: off
 import datetime
 
 import numpy as np
-import pyvista as pv
 import vtk
+import pyvista as pv
 
 import mirage as mr
 import mirage.vis as mrv
