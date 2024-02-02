@@ -13,7 +13,6 @@ import numpy as np
 from terrainman import TsiDataHandler
 
 import mirage as mr
-import mirage.vis as mrv
 
 # %%
 # Let's plot the variation in the total solar irradiance from the beginning of the J2000 epoch till now

@@ -326,11 +326,14 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/ground_track.html">Ground Tracks</a></li>
 
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/propagate_catalog.html">Propagating the catalog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/precise_orbit_determination.html">Precise Orbit Determination with Batch Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/restricted_circular_od.html">Restricted Circular IOD</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../000-work-in-progress/index.html">Works In Progress</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../000-work-in-progress/voronoi_to_support.html">Voronoi Diagram to Supports</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../000-work-in-progress/read_fit_brdf_databases.html">Fitting BRDF Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../000-work-in-progress/iod_testing.html">Classical IOD Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../000-work-in-progress/inversion_gradient.html">EGI Jacobian</a></li>
 </ul>
 </li>
@@ -387,6 +390,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/total_solar_irradiance.html">Total Solar Irradiance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/solar_system.html">Solar System</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/star_catalogs.html">Star Catalogs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometrical Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
@@ -445,6 +449,7 @@ document.write(`
 <li class="toctree-l1 has-children"><a class="reference internal" href="../10-ccd/index.html">CCD Characterization</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/characterize_ccd.html">Characterizing the CCD Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_integration_time.html">Integration Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/star_matching.html">Star Matching</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/noise_accum_gifs.html">Noise Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_scintillation.html">CCD Scintillation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/airy_disk_gaussian_fit.html">Airy Disk Gaussian Fit</a></li>
@@ -453,6 +458,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/background_shape.html">Background Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/snr.html">Signal-to-Noise Ratio (SNR)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/render_ccd.html">CCD Rendering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/streaks.html">Streak Detection and Centroiding</a></li>
 </ul>
 </li>
 </ul>
@@ -525,7 +531,6 @@ to download the full example code</p>
 <p>Comparing various methods for propagating torque-free rigid-body motion</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">mpl_toolkits.axes_grid1</span> <span class="kn">import</span> <span class="n">make_axes_locatable</span>
 
 <span class="kn">import</span> <span class="nn">mirage</span> <span class="k">as</span> <span class="nn">mr</span>
 <span class="kn">import</span> <span class="nn">mirage.vis</span> <span class="k">as</span> <span class="nn">mrv</span>
@@ -563,9 +568,9 @@ to download the full example code</p>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max quaternion error: </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Axisymmetric form: 2.61e+06 [quats/sec]
-Generalized form: 2.01e+06 [quats/sec]
-Max quaternion error: 5.551115123125783e-16
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Axisymmetric form: 3.60e+06 [quats/sec]
+Generalized form: 1.56e+06 [quats/sec]
+Max quaternion error: 3.19643214674592e-09
 </pre></div>
 </div>
 <p>Let’s test a whole grid of options to stress test these methods</p>
@@ -614,11 +619,11 @@ Max quaternion error: 5.551115123125783e-16
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_torque_free_axisymmetric_001.png" srcset="../../_images/sphx_glr_torque_free_axisymmetric_001.png, ../../_images/sphx_glr_torque_free_axisymmetric_001_2_00x.png 2.00x" alt="Numerical, Semi-analytic, Axisymmetric parallel" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/Users/liamrobinson/Documents/PyLightCurves/examples/06-attitude/torque_free_axisymmetric.py:90: UserWarning: FixedFormatter should only be used together with FixedLocator
+<img src="../../_images/sphx_glr_torque_free_axisymmetric_001.png" srcset="../../_images/sphx_glr_torque_free_axisymmetric_001.png, ../../_images/sphx_glr_torque_free_axisymmetric_001_2_00x.png 2.00x" alt="Numerical, Semi-analytic, Axisymmetric parallel" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/Users/liamrobinson/Documents/PyLightCurves/examples/06-attitude/torque_free_axisymmetric.py:89: UserWarning: FixedFormatter should only be used together with FixedLocator
   cb.set_ticklabels([f&quot;$10^{{{t}}}$&quot; for t in tics])
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  13.920 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  9.816 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-06-attitude-torque-free-axisymmetric-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/5fd6bbcc70e9555be8e79853c5a6d75f/torque_free_axisymmetric.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">torque_free_axisymmetric.py</span></code></a></p>

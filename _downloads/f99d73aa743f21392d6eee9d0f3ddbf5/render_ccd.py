@@ -39,15 +39,15 @@ br_parabola_obs = fits_dict["br_parabola"]
 # %%
 # Let's synthesize a CCD image for the same observation conditions
 
-pl = pv.Plotter()
-mrv.render_observation_scenario(
-    pl,
-    dates=obs_dates,
-    station=observing_station,
-    look_dirs_eci=obs_dirs_eci,
-    sensor_extent_km=20e3,
-)
-pl.show()
+# pl = pv.Plotter()
+# mrv.render_observation_scenario(
+#     pl,
+#     dates=obs_dates,
+#     station=observing_station,
+#     look_dirs_eci=obs_dirs_eci,
+#     sensor_extent_km=20e3,
+# )
+# pl.show()
 
 # %%
 # Synthesizing the same image

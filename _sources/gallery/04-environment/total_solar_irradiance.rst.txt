@@ -23,7 +23,7 @@ Total Solar Irradiance
 
 Modeling the variations in solar energy output at 1 AU. This example explains the rationale behind the function ``pyspaceaware.total_solar_irradiance_at_dates``
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-18
+.. GENERATED FROM PYTHON SOURCE LINES 8-17
 
 .. code-block:: default
 
@@ -35,7 +35,6 @@ Modeling the variations in solar energy output at 1 AU. This example explains th
     from terrainman import TsiDataHandler
 
     import mirage as mr
-    import mirage.vis as mrv
 
 
 
@@ -44,11 +43,11 @@ Modeling the variations in solar energy output at 1 AU. This example explains th
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-20
+.. GENERATED FROM PYTHON SOURCE LINES 18-19
 
 Let's plot the variation in the total solar irradiance from the beginning of the J2000 epoch till now
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-24
+.. GENERATED FROM PYTHON SOURCE LINES 19-23
 
 .. code-block:: default
 
@@ -63,11 +62,11 @@ Let's plot the variation in the total solar irradiance from the beginning of the
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-26
+.. GENERATED FROM PYTHON SOURCE LINES 24-25
 
 The ``terrainman.TsiDataHandler`` class deals with downloading the relevant netCDF4 files from `This NOAA server <https://www.ncei.noaa.gov/data/total-solar-irradiance/access/daily/>`_. Outside of the interval covered by this dataset (1882-current_year) :math:`1361 \frac{W}{m^2}` is used as a default.
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-31
+.. GENERATED FROM PYTHON SOURCE LINES 25-30
 
 .. code-block:: default
 
@@ -84,16 +83,16 @@ The ``terrainman.TsiDataHandler`` class deals with downloading the relevant netC
 
  .. code-block:: none
 
-    Elapsed time: 9.82e-02 seconds
+    Elapsed time: 1.35e-01 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-33
+.. GENERATED FROM PYTHON SOURCE LINES 31-32
 
 Plotting the irradiance over time
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-40
+.. GENERATED FROM PYTHON SOURCE LINES 32-39
 
 .. code-block:: default
 
@@ -116,11 +115,11 @@ Plotting the irradiance over time
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-42
+.. GENERATED FROM PYTHON SOURCE LINES 40-41
 
 This isn't the end of the story, as the distance to the Sun changes over the course of the year. Let's compute the distance from the Sun to the Earth in AU over this time period we just plotted
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-53
+.. GENERATED FROM PYTHON SOURCE LINES 41-52
 
 .. code-block:: default
 
@@ -147,11 +146,11 @@ This isn't the end of the story, as the distance to the Sun changes over the cou
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 54-55
+.. GENERATED FROM PYTHON SOURCE LINES 53-54
 
 With this distance information, we can augment the Total Solar Irradiance plot to show the actual irradiance felt by a shell at Earth's instantaneous orbital radius. We can do this by noting that doubling the radius of a sphere squares its area, so we just have to divide by the square of the ``earth_to_sun_dist_au``
 
-.. GENERATED FROM PYTHON SOURCE LINES 55-71
+.. GENERATED FROM PYTHON SOURCE LINES 54-70
 
 .. code-block:: default
 
@@ -183,16 +182,16 @@ With this distance information, we can augment the Total Solar Irradiance plot t
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 72-74
+.. GENERATED FROM PYTHON SOURCE LINES 71-73
 
 This has all been packaged up into a single function which evaluates the Total Solar Irradiance at Earth's radius at an array of dates:
 .. autofunction:: pyspaceaware.total_solar_irradiance_at_dates
 
-.. GENERATED FROM PYTHON SOURCE LINES 76-77
+.. GENERATED FROM PYTHON SOURCE LINES 75-76
 
 We can prove that this function produces identical outputs to the implementation above:
 
-.. GENERATED FROM PYTHON SOURCE LINES 77-80
+.. GENERATED FROM PYTHON SOURCE LINES 76-79
 
 .. code-block:: default
 
@@ -215,7 +214,7 @@ We can prove that this function produces identical outputs to the implementation
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.708 seconds)
+   **Total running time of the script:** ( 0 minutes  2.701 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_total_solar_irradiance.py:

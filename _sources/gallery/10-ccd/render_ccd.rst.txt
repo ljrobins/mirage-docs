@@ -153,23 +153,18 @@ Let's synthesize a CCD image for the same observation conditions
 .. code-block:: default
 
 
-    pl = pv.Plotter()
-    mrv.render_observation_scenario(
-        pl,
-        dates=obs_dates,
-        station=observing_station,
-        look_dirs_eci=obs_dirs_eci,
-        sensor_extent_km=20e3,
-    )
-    pl.show()
+    # pl = pv.Plotter()
+    # mrv.render_observation_scenario(
+    #     pl,
+    #     dates=obs_dates,
+    #     station=observing_station,
+    #     look_dirs_eci=obs_dirs_eci,
+    #     sensor_extent_km=20e3,
+    # )
+    # pl.show()
 
 
 
-
-.. image-sg:: /gallery/10-ccd/images/sphx_glr_render_ccd_001.png
-   :alt: render ccd
-   :srcset: /gallery/10-ccd/images/sphx_glr_render_ccd_001.png
-   :class: sphx-glr-single-img
 
 
 
@@ -241,10 +236,12 @@ Let's synthesize a CCD image for the same observation conditions
  .. code-block:: none
 
     WARNING: no observation constraints assigned!
-    [340244.1870484721 339809.8549386361]
+    [339831.8256722913 340022.3864553392]
     Objects in frame 1:
     Objects in frame 2:
-    Elapsed time: 4.53e+00 seconds
+    /Users/liamrobinson/Documents/PyLightCurves/mirage/ccd.py:582: RuntimeWarning: invalid value encountered in cast
+      return adu_grid.astype(np.uint32)
+    Elapsed time: 4.60e+00 seconds
 
 
 
@@ -285,9 +282,9 @@ Let's take a look at the real and synthetic CCD images
 
 
 
-.. image-sg:: /gallery/10-ccd/images/sphx_glr_render_ccd_002.png
+.. image-sg:: /gallery/10-ccd/images/sphx_glr_render_ccd_001.png
    :alt: POGS CCD, Synthetic CCD
-   :srcset: /gallery/10-ccd/images/sphx_glr_render_ccd_002.png, /gallery/10-ccd/images/sphx_glr_render_ccd_002_2_00x.png 2.00x
+   :srcset: /gallery/10-ccd/images/sphx_glr_render_ccd_001.png, /gallery/10-ccd/images/sphx_glr_render_ccd_001_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
 
@@ -326,7 +323,7 @@ Looking at the residual noise after subtracting off the parabolic background fro
  .. code-block:: none
 
     Real background variance: 5151807.586606355 [ADU^2]
-    Synthetic background variance: 67.53634030358074 [ADU^2]
+    Synthetic background variance: 67.51565673315038 [ADU^2]
 
 
 
@@ -359,9 +356,9 @@ Plotting the same, with the parabolic background subtracted from the real image
 
 
 
-.. image-sg:: /gallery/10-ccd/images/sphx_glr_render_ccd_003.png
+.. image-sg:: /gallery/10-ccd/images/sphx_glr_render_ccd_002.png
    :alt: POGS CCD Background Pixels, Synthetic CCD Background Pixels
-   :srcset: /gallery/10-ccd/images/sphx_glr_render_ccd_003.png, /gallery/10-ccd/images/sphx_glr_render_ccd_003_2_00x.png 2.00x
+   :srcset: /gallery/10-ccd/images/sphx_glr_render_ccd_002.png, /gallery/10-ccd/images/sphx_glr_render_ccd_002_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
 
@@ -415,9 +412,9 @@ Inspecting the backgrounds
 
 
 
-.. image-sg:: /gallery/10-ccd/images/sphx_glr_render_ccd_004.png
+.. image-sg:: /gallery/10-ccd/images/sphx_glr_render_ccd_003.png
    :alt: Synthetic backgrounds, Real backgrounds
-   :srcset: /gallery/10-ccd/images/sphx_glr_render_ccd_004.png, /gallery/10-ccd/images/sphx_glr_render_ccd_004_2_00x.png 2.00x
+   :srcset: /gallery/10-ccd/images/sphx_glr_render_ccd_003.png, /gallery/10-ccd/images/sphx_glr_render_ccd_003_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
 
@@ -425,8 +422,8 @@ Inspecting the backgrounds
 
  .. code-block:: none
 
-    Synthetic background: 5.177920265831324 [ADU]
-    Real background: 85.31138514848128 [ADU]
+    Synthetic background: 5.176542034442155 [ADU]
+    Real background: 96.84637078495511 [ADU]
 
 
 
@@ -434,7 +431,7 @@ Inspecting the backgrounds
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  27.744 seconds)
+   **Total running time of the script:** ( 0 minutes  25.553 seconds)
 
 
 .. _sphx_glr_download_gallery_10-ccd_render_ccd.py:
