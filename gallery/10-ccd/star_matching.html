@@ -50,8 +50,8 @@
     <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Noise Sampling" href="noise_accum_gifs.html" />
-    <link rel="prev" title="Integration Time" href="ccd_integration_time.html" />
+    <link rel="next" title="References" href="../../references.html" />
+    <link rel="prev" title="CCD Rendering" href="render_ccd.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -449,16 +449,16 @@ document.write(`
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">CCD Characterization</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="characterize_ccd.html">Characterizing the CCD Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_integration_time.html">Integration Time</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Star Matching</a></li>
 <li class="toctree-l2"><a class="reference internal" href="noise_accum_gifs.html">Noise Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_scintillation.html">CCD Scintillation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="airy_disk_gaussian_fit.html">Airy Disk Gaussian Fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_heuristics.html">CCD Heuristics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="airy_disk_diffraction.html">Airy Disk Diffraction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="background_shape.html">Background Shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaks.html">Streak Detection and Centroiding</a></li>
 <li class="toctree-l2"><a class="reference internal" href="snr.html">Signal-to-Noise Ratio (SNR)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="render_ccd.html">CCD Rendering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaks.html">Streak Detection and Centroiding</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Star Matching</a></li>
 </ul>
 </li>
 </ul>
@@ -535,16 +535,42 @@ to download the full example code</p>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">import</span> <span class="nn">mirage</span> <span class="k">as</span> <span class="nn">mr</span>
-<span class="kn">import</span> <span class="nn">mirage.vis</span> <span class="k">as</span> <span class="nn">mrv</span>
+
+
+<span class="k">def</span> <span class="nf">expected_star_centroids_in_fits</span><span class="p">(</span>
+    <span class="n">fits_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">catalog</span><span class="p">:</span> <span class="n">mr</span><span class="o">.</span><span class="n">StarCatalog</span><span class="p">,</span>
+    <span class="n">mean_look_dir</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">limiting_magnitude</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">15.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+    <span class="n">tracking_normal</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">fits_info</span><span class="p">[</span><span class="s2">&quot;look_dirs_eci&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">fits_info</span><span class="p">[</span><span class="s2">&quot;look_dirs_eci&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span>
+    <span class="p">)</span>
+    <span class="n">img_prepared</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">prepare_fits_for_plotting</span><span class="p">(</span><span class="n">fits_info</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">solve_star_streak_angle</span><span class="p">(</span><span class="n">img_prepared</span><span class="p">)</span>
+    <span class="n">dcm</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">rv_to_dcm</span><span class="p">(</span><span class="n">mean_look_dir</span> <span class="o">*</span> <span class="p">(</span><span class="n">theta</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">up_dir_eci</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">stack_mat_mult_vec</span><span class="p">(</span><span class="n">dcm</span><span class="p">,</span> <span class="n">tracking_normal</span><span class="p">)</span>
+
+    <span class="n">uvs_in_frame</span><span class="p">,</span> <span class="n">vm_in_frame</span> <span class="o">=</span> <span class="n">catalog</span><span class="o">.</span><span class="n">in_fov</span><span class="p">(</span>
+        <span class="n">mean_look_dir</span><span class="p">,</span> <span class="n">up_dir_eci</span><span class="p">,</span> <span class="n">limiting_magnitude</span><span class="o">=</span><span class="n">limiting_magnitude</span>
+    <span class="p">)</span>
+    <span class="n">star_xs</span><span class="p">,</span> <span class="n">star_ys</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">j2000_unit_vectors_to_pixels</span><span class="p">(</span>
+        <span class="n">mean_look_dir</span><span class="p">,</span> <span class="n">up_dir_eci</span><span class="p">,</span> <span class="n">uvs_in_frame</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;centroid&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)),</span> <span class="s2">&quot;brightness&quot;</span><span class="p">:</span> <span class="n">m</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">star_xs</span><span class="p">,</span> <span class="n">star_ys</span><span class="p">,</span> <span class="n">vm_in_frame</span><span class="p">)</span>
+    <span class="p">]</span>
+
 
 <span class="n">station</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">Station</span><span class="p">()</span>
 <span class="n">date</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 <span class="n">mr</span><span class="o">.</span><span class="n">tic</span><span class="p">(</span><span class="s2">&quot;Loading star catalog&quot;</span><span class="p">)</span>
-<span class="n">catalog</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">StarCatalog</span><span class="p">(</span><span class="s2">&quot;gaia&quot;</span><span class="p">,</span> <span class="n">station</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">limiting_magnitude</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">catalog</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">StarCatalog</span><span class="p">(</span><span class="s2">&quot;gaia&quot;</span><span class="p">,</span> <span class="n">station</span><span class="p">,</span> <span class="n">date</span><span class="p">)</span>
 <span class="n">mr</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Loading star catalog: 1.98e+00 seconds
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Loading star catalog: 2.45e+00 seconds
 </pre></div>
 </div>
 <p>Let’s figure out the streak direction</p>
@@ -552,11 +578,18 @@ to download the full example code</p>
 <span class="n">fits_info</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">info_from_fits</span><span class="p">(</span><span class="n">fits_path</span><span class="p">)</span>
 
 <span class="n">img</span> <span class="o">=</span> <span class="n">fits_info</span><span class="p">[</span><span class="s2">&quot;ccd_adu&quot;</span><span class="p">]</span>
+<span class="n">mean_look_dir</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span>
+    <span class="n">fits_info</span><span class="p">[</span><span class="s2">&quot;look_dirs_eci&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">fits_info</span><span class="p">[</span><span class="s2">&quot;look_dirs_eci&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+<span class="p">)</span>
 <span class="n">img_raw</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">img_log10</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
 <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">img</span> <span class="o">-</span> <span class="n">mr</span><span class="o">.</span><span class="n">image_background_parabola</span><span class="p">(</span><span class="n">img</span><span class="p">))</span>
 <span class="n">img</span><span class="p">[</span><span class="n">img</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">img</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">img</span><span class="p">)</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">img</span><span class="p">))]</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">theta_rad</span> <span class="o">=</span> <span class="o">-</span><span class="n">mr</span><span class="o">.</span><span class="n">solve_star_streak_angle</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="c1"># print(f&quot;Streak angle: {np.rad2deg(theta_rad)} degrees&quot;)</span>
+<span class="c1"># enddd</span>
 
 <span class="n">up_dir_eci</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">fits_up_direction</span><span class="p">(</span><span class="n">fits_info</span><span class="p">)</span>
 
@@ -584,27 +617,172 @@ to download the full example code</p>
     <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">adu_grid_streaked_sampled</span><span class="p">)</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">adu_grid_streaked_sampled</span><span class="p">))</span>
 <span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
-<span class="n">mrv</span><span class="o">.</span><span class="n">texit</span><span class="p">(</span><span class="s2">&quot;True Image&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">adu_grid_streaked_sampled</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
-<span class="n">mrv</span><span class="o">.</span><span class="n">texit</span><span class="p">(</span><span class="s2">&quot;Synthetic Image&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">stars_expected</span> <span class="o">=</span> <span class="n">expected_star_centroids_in_fits</span><span class="p">(</span>
+    <span class="n">fits_info</span><span class="p">,</span> <span class="n">catalog</span><span class="p">,</span> <span class="n">mean_look_dir</span><span class="p">,</span> <span class="n">limiting_magnitude</span><span class="o">=</span><span class="mf">12.0</span>
+<span class="p">)</span>
+<span class="n">stars_found</span> <span class="o">=</span> <span class="n">stars</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">solve_star_centroids</span><span class="p">(</span><span class="n">fits_info</span><span class="p">)</span>
+
+<span class="c1"># plt.subplot(1, 2, 1)</span>
+<span class="c1"># plt.imshow(img, cmap=&quot;gray&quot;)</span>
+<span class="c1"># for star in stars_expected:</span>
+<span class="c1">#     plt.plot(img.shape[0] - star[&quot;centroid&quot;][0], star[&quot;centroid&quot;][1], &quot;c+&quot;)</span>
+<span class="c1"># for star in stars_found:</span>
+<span class="c1">#     plt.plot(star[&quot;centroid&quot;][0], star[&quot;centroid&quot;][1], &quot;m*&quot;)</span>
+<span class="c1"># mrv.texit(&quot;True Image&quot;, &quot;&quot;, &quot;&quot;, grid=False)</span>
+<span class="c1"># plt.subplot(1, 2, 2)</span>
+<span class="c1"># plt.imshow(adu_grid_streaked_sampled, cmap=&quot;gray&quot;)</span>
+<span class="c1"># for star in stars_expected:</span>
+<span class="c1">#     plt.plot(img.shape[0] - star[&quot;centroid&quot;][0], star[&quot;centroid&quot;][1], &quot;c+&quot;)</span>
+<span class="c1"># for star in stars_found:</span>
+<span class="c1">#     plt.plot(star[&quot;centroid&quot;][0], star[&quot;centroid&quot;][1], &quot;m*&quot;)</span>
+<span class="c1"># mrv.texit(&quot;Synthetic Image&quot;, &quot;&quot;, &quot;&quot;, grid=False)</span>
+<span class="c1"># plt.show()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_star_matching_001.png" srcset="../../_images/sphx_glr_star_matching_001.png, ../../_images/sphx_glr_star_matching_001_2_00x.png 2.00x" alt="True Image, Synthetic Image" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/Users/liamrobinson/Documents/PyLightCurves/examples/10-ccd/star_matching.py:31: RuntimeWarning: invalid value encountered in log10
-  img = np.log10(img - mr.image_background_parabola(img))
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/Users/liamrobinson/Documents/PyLightCurves/examples/10-ccd/star_matching.py:60: RuntimeWarning: invalid value encountered in log10
+  img_log10 = np.log10(img)
 Objects in frame 1:
 NAVSTAR 81 (USA 319)
 Objects in frame 2:
 NAVSTAR 81 (USA 319)
-Elapsed time: 6.23e+00 seconds
-/Users/liamrobinson/Documents/PyLightCurves/examples/10-ccd/star_matching.py:53: RuntimeWarning: invalid value encountered in log10
-  adu_grid_streaked_sampled = np.log10(
+Elapsed time: 6.55e+00 seconds
+/Users/liamrobinson/Documents/PyLightCurves/examples/10-ccd/star_matching.py:86: RuntimeWarning: invalid value encountered in log10
+
+
+Finding streaks:   0%|          | 0/1570 [00:00&lt;?, ?it/s]
+Finding streaks: 100%|##########| 1570/1570 [00:00&lt;00:00, 540778.29it/s]
+contours: 1.28e-02 seconds
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  21.708 seconds)</p>
+<p>Overlaying the two images
+plt.imshow(img, cmap=”gray”, alpha=0.5)
+plt.imshow(adu_grid_streaked_sampled, cmap=”gray_r”, alpha=0.5)
+plt.show()</p>
+<p>We’re close, but we need to solve for the slight rotation and translation between the two images</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">adu_grid_streaked_sampled</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+
+<span class="c1"># building a tree for the expected stars</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">KDTree</span>
+
+<span class="n">expected_centroids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">star</span><span class="p">[</span><span class="s2">&quot;centroid&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="k">for</span> <span class="n">star</span> <span class="ow">in</span> <span class="n">stars_expected</span><span class="p">])</span>
+<span class="n">expected_centroids</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">expected_centroids</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">tree</span> <span class="o">=</span> <span class="n">KDTree</span><span class="p">(</span><span class="n">expected_centroids</span><span class="p">)</span>
+<span class="n">found_centroids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">star</span><span class="p">[</span><span class="s2">&quot;centroid&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="k">for</span> <span class="n">star</span> <span class="ow">in</span> <span class="n">stars_found</span><span class="p">])</span>
+
+<span class="c1"># finding the nearest neighbor for each found star</span>
+<span class="n">nearest</span> <span class="o">=</span> <span class="p">[</span><span class="n">tree</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">star</span><span class="p">[</span><span class="s2">&quot;centroid&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">star</span> <span class="ow">in</span> <span class="n">stars_found</span><span class="p">]</span>
+<span class="n">nearest_expected_centroid</span> <span class="o">=</span> <span class="n">expected_centroids</span><span class="p">[</span><span class="n">nearest</span><span class="p">]</span>
+
+
+<span class="c1"># Rotating expected -&gt; true 90 degrees prograde</span>
+<span class="n">nearest_expected_to_found</span> <span class="o">=</span> <span class="n">found_centroids</span> <span class="o">-</span> <span class="n">nearest_expected_centroid</span>
+<span class="n">expected_to_found_dist</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">vecnorm</span><span class="p">(</span><span class="n">nearest_expected_to_found</span><span class="p">)</span>
+<span class="c1"># only use the middle 50 inds to avoid outliers</span>
+<span class="n">use_inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">expected_to_found_dist</span><span class="o">.</span><span class="n">flatten</span><span class="p">())[</span>
+    <span class="n">expected_to_found_dist</span><span class="o">.</span><span class="n">size</span> <span class="o">//</span> <span class="mi">4</span> <span class="p">:</span> <span class="o">-</span><span class="n">expected_to_found_dist</span><span class="o">.</span><span class="n">size</span> <span class="o">//</span> <span class="mi">4</span>
+<span class="p">]</span>
+<span class="n">nearest_expected_to_found</span> <span class="o">=</span> <span class="n">nearest_expected_to_found</span><span class="p">[</span><span class="n">use_inds</span><span class="p">]</span>
+<span class="n">nearest_expected_centroid</span> <span class="o">=</span> <span class="n">nearest_expected_centroid</span><span class="p">[</span><span class="n">use_inds</span><span class="p">]</span>
+<span class="n">found_centroids</span> <span class="o">=</span> <span class="n">found_centroids</span><span class="p">[</span><span class="n">use_inds</span><span class="p">]</span>
+<span class="n">nearest</span> <span class="o">=</span> <span class="p">[</span><span class="n">nearest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">use_inds</span><span class="p">]</span>
+<span class="n">expected_to_found_dist</span> <span class="o">=</span> <span class="n">expected_to_found_dist</span><span class="p">[</span><span class="n">use_inds</span><span class="p">]</span>
+<span class="n">rotated_found_centroids</span> <span class="o">=</span> <span class="n">found_centroids</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">nearest_expected_to_found_perp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">nearest_expected_to_found</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="n">nearest_expected_to_found</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]]</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">nearest_expected_to_found_perp</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">nearest_expected_to_found_perp</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
+    <span class="c1"># plotting this line from the mean of the line segment</span>
+    <span class="n">mean_points</span> <span class="o">=</span> <span class="p">(</span><span class="n">rotated_found_centroids</span> <span class="o">+</span> <span class="n">nearest_expected_centroid</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="c1"># least squares intersection point</span>
+    <span class="n">int_point</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">least_squares_line_intersection</span><span class="p">(</span>
+        <span class="n">mean_points</span><span class="p">,</span> <span class="n">mean_points</span> <span class="o">+</span> <span class="n">nearest_expected_to_found_perp</span>
+    <span class="p">)</span>
+
+    <span class="n">means_to_int</span> <span class="o">=</span> <span class="n">int_point</span> <span class="o">-</span> <span class="n">mean_points</span>
+    <span class="n">means_to_int_dist</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">vecnorm</span><span class="p">(</span><span class="n">means_to_int</span><span class="p">)</span>
+    <span class="n">rotation_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">expected_to_found_dist</span> <span class="o">/</span> <span class="n">means_to_int_dist</span><span class="p">)</span>
+    <span class="n">med_rot_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">rotation_angle</span><span class="p">)</span>
+
+    <span class="n">rotated_found_centroids</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">rotate_points_about_point</span><span class="p">(</span>
+        <span class="n">rotated_found_centroids</span><span class="p">,</span> <span class="n">med_rot_angle</span><span class="p">,</span> <span class="n">int_point</span>
+    <span class="p">)</span>
+    <span class="n">nearest_expected_to_found</span> <span class="o">=</span> <span class="n">rotated_found_centroids</span> <span class="o">-</span> <span class="n">nearest_expected_centroid</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rotation angle: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">med_rot_angle</span><span class="p">)</span><span class="si">}</span><span class="s2"> degrees&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Intersection point: </span><span class="si">{</span><span class="n">int_point</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Mean pixel error after rotation: </span><span class="si">{</span><span class="n">mr</span><span class="o">.</span><span class="n">vecnorm</span><span class="p">(</span><span class="n">nearest_expected_to_found</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">int_point</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">int_point</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;g*&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">found_centroids</span><span class="p">)):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">found_centroids</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">found_centroids</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;m*&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">nearest_expected_centroid</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">nearest_expected_centroid</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;c+&quot;</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">nearest_expected_centroid</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">found_centroids</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
+        <span class="p">[</span><span class="n">nearest_expected_centroid</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">found_centroids</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span>
+        <span class="s2">&quot;r-&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">mean_points</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">mean_points</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">nearest_expected_to_found_perp</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
+        <span class="p">[</span><span class="n">mean_points</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">mean_points</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">nearest_expected_to_found_perp</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span>
+        <span class="s2">&quot;y-&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">rotated_found_centroids</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">rotated_found_centroids</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;b*&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_star_matching_001.png" srcset="../../_images/sphx_glr_star_matching_001.png, ../../_images/sphx_glr_star_matching_001_2_00x.png 2.00x" alt="star matching" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Rotation angle: 2.635789588759108 degrees
+Intersection point: [1278.3902612  2139.45029201]
+Mean pixel error after rotation: 4.464460976983015
+</pre></div>
+</div>
+<p>Now we solve for the translation</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">use_inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">mr</span><span class="o">.</span><span class="n">vecnorm</span><span class="p">(</span><span class="n">nearest_expected_to_found</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">())[</span>
+    <span class="n">nearest_expected_to_found</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">4</span> <span class="p">:</span> <span class="o">-</span><span class="n">nearest_expected_to_found</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">4</span>
+<span class="p">]</span>
+<span class="n">mean_error</span> <span class="o">=</span> <span class="n">nearest_expected_to_found</span><span class="p">[</span><span class="n">use_inds</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mean translation error: </span><span class="si">{</span><span class="n">mean_error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">rotated_and_translated_found_centroids</span> <span class="o">=</span> <span class="n">rotated_found_centroids</span> <span class="o">-</span> <span class="n">mean_error</span>
+<span class="n">nearest_expected_to_found</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">rotated_and_translated_found_centroids</span> <span class="o">-</span> <span class="n">nearest_expected_centroid</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;Mean pixel error after translation: </span><span class="si">{</span><span class="n">mr</span><span class="o">.</span><span class="n">vecnorm</span><span class="p">(</span><span class="n">nearest_expected_to_found</span><span class="p">[</span><span class="n">use_inds</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">adu_grid_streaked_sampled</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">found_centroids</span><span class="p">)):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">found_centroids</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">found_centroids</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;m*&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">nearest_expected_centroid</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">nearest_expected_centroid</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;c+&quot;</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">rotated_found_centroids</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">rotated_found_centroids</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;b*&quot;</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="n">rotated_and_translated_found_centroids</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="n">rotated_and_translated_found_centroids</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="s2">&quot;y*&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_star_matching_002.png" srcset="../../_images/sphx_glr_star_matching_002.png, ../../_images/sphx_glr_star_matching_002_2_00x.png 2.00x" alt="star matching" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Mean translation error: [-0.54959898  2.16582551]
+Mean pixel error after translation: 0.8028095506859414
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  37.503 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-10-ccd-star-matching-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/8b38fa0475fcb10f1e29a74a8a5653fd/star_matching.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">star_matching.py</span></code></a></p>
@@ -627,20 +805,20 @@ Elapsed time: 6.23e+00 seconds
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="ccd_integration_time.html"
+       href="render_ccd.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Integration Time</p>
+        <p class="prev-next-title">CCD Rendering</p>
       </div>
     </a>
     <a class="right-next"
-       href="noise_accum_gifs.html"
+       href="../../references.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Noise Sampling</p>
+        <p class="prev-next-title">References</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

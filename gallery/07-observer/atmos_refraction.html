@@ -449,16 +449,16 @@ document.write(`
 <li class="toctree-l1 has-children"><a class="reference internal" href="../10-ccd/index.html">CCD Characterization</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/characterize_ccd.html">Characterizing the CCD Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_integration_time.html">Integration Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../10-ccd/star_matching.html">Star Matching</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/noise_accum_gifs.html">Noise Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_scintillation.html">CCD Scintillation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/airy_disk_gaussian_fit.html">Airy Disk Gaussian Fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_heuristics.html">CCD Heuristics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/airy_disk_diffraction.html">Airy Disk Diffraction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/background_shape.html">Background Shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/streaks.html">Streak Detection and Centroiding</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/snr.html">Signal-to-Noise Ratio (SNR)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/render_ccd.html">CCD Rendering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../10-ccd/streaks.html">Streak Detection and Centroiding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/star_matching.html">Star Matching</a></li>
 </ul>
 </li>
 </ul>
@@ -529,47 +529,39 @@ to download the full example code</p>
 <section class="sphx-glr-example-title" id="atmospheric-refraction">
 <span id="sphx-glr-gallery-07-observer-atmos-refraction-py"></span><h1>Atmospheric Refraction<a class="headerlink" href="#atmospheric-refraction" title="Permalink to this heading">#</a></h1>
 <p>Computing the effect of atmospheric refraction on observations</p>
-<img src="../../_images/sphx_glr_atmos_refraction_001.png" srcset="../../_images/sphx_glr_atmos_refraction_001.png, ../../_images/sphx_glr_atmos_refraction_001_2_00x.png 2.00x" alt="Atmospheric Refraction" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 5.07e+00 seconds
+<img src="../../_images/sphx_glr_atmos_refraction_001.png" srcset="../../_images/sphx_glr_atmos_refraction_001.png, ../../_images/sphx_glr_atmos_refraction_001_2_00x.png 2.00x" alt="Atmospheric Refraction" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 1.88e-02 seconds
+True elevation: 55.7 deg
+Apparent elevation: 55.71173209771628 deg
+Refraction: 42.23555177859453 arcsec
 </pre></div>
 </div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">root</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">import</span> <span class="nn">mirage</span> <span class="k">as</span> <span class="nn">mr</span>
 <span class="kn">import</span> <span class="nn">mirage.vis</span> <span class="k">as</span> <span class="nn">mrv</span>
 
-
-<span class="k">def</span> <span class="nf">apparent_refacted_elevation</span><span class="p">(</span>
-    <span class="n">pressure_mbar</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">temp_kelvin</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">el_true_rad</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="n">el_true_deg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">el_true_rad</span><span class="p">)</span>
-    <span class="n">h_func</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="k">lambda</span> <span class="n">hprime</span><span class="p">:</span> <span class="o">-</span><span class="n">hprime</span>
-        <span class="o">+</span> <span class="n">pressure_mbar</span>
-        <span class="o">/</span> <span class="n">temp_kelvin</span>
-        <span class="o">*</span> <span class="p">(</span>
-            <span class="mf">3.430289</span>
-            <span class="o">*</span> <span class="p">((</span><span class="mi">90</span> <span class="o">-</span> <span class="n">hprime</span><span class="p">)</span> <span class="o">-</span> <span class="n">mr</span><span class="o">.</span><span class="n">asind</span><span class="p">(</span><span class="mf">0.9986047</span> <span class="o">*</span> <span class="n">mr</span><span class="o">.</span><span class="n">sind</span><span class="p">(</span><span class="mf">0.996714</span> <span class="o">*</span> <span class="p">(</span><span class="mi">90</span> <span class="o">-</span> <span class="n">hprime</span><span class="p">))))</span>
-            <span class="o">-</span> <span class="mf">0.01115929</span> <span class="o">*</span> <span class="p">(</span><span class="mi">90</span> <span class="o">-</span> <span class="n">hprime</span><span class="p">)</span>
-        <span class="p">)</span>
-        <span class="o">/</span> <span class="mi">60</span>
-        <span class="o">+</span> <span class="n">el_true_deg</span>
-    <span class="p">)</span>
-    <span class="c1"># If this function is zero, the correct apparent elevation has been identified</span>
-    <span class="n">hprime</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">root</span><span class="p">(</span><span class="n">fun</span><span class="o">=</span><span class="n">h_func</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="n">el_true_deg</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;diagbroyden&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">hprime</span>
-
-
-<span class="n">true_el</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e5</span><span class="p">)))</span>
+<span class="n">true_el</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e3</span><span class="p">)))</span>
+<span class="n">atmos_pressure</span> <span class="o">=</span> <span class="mf">1028.4463393</span>  <span class="c1"># mbar</span>
+<span class="n">atmos_temp</span> <span class="o">=</span> <span class="mf">277.594</span>  <span class="c1"># Kelvin</span>
 
 <span class="n">mr</span><span class="o">.</span><span class="n">tic</span><span class="p">()</span>
-<span class="n">apparent_el</span> <span class="o">=</span> <span class="n">apparent_refacted_elevation</span><span class="p">(</span><span class="mf">1028.4463393</span><span class="p">,</span> <span class="mf">277.594</span><span class="p">,</span> <span class="n">true_el</span><span class="p">)</span>
+<span class="n">apparent_el</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">apparent_refacted_elevation</span><span class="p">(</span><span class="n">atmos_pressure</span><span class="p">,</span> <span class="n">atmos_temp</span><span class="p">,</span> <span class="n">true_el</span><span class="p">)</span>
 <span class="n">mr</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
 
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">test_el_deg</span> <span class="o">=</span> <span class="mf">55.7</span>
+<span class="n">test_el_rad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">test_el_deg</span><span class="p">)</span>
+<span class="n">app_el_deg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span>
+    <span class="n">mr</span><span class="o">.</span><span class="n">apparent_refacted_elevation</span><span class="p">(</span><span class="n">atmos_pressure</span><span class="p">,</span> <span class="n">atmos_temp</span><span class="p">,</span> <span class="n">test_el_rad</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">delta_el_deg</span> <span class="o">=</span> <span class="n">app_el_deg</span> <span class="o">-</span> <span class="n">test_el_deg</span>
+<span class="n">delta_el_arcsec</span> <span class="o">=</span> <span class="n">delta_el_deg</span> <span class="o">*</span> <span class="mi">3600</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;True elevation: </span><span class="si">{</span><span class="n">test_el_deg</span><span class="si">}</span><span class="s2"> deg&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Apparent elevation: </span><span class="si">{</span><span class="n">app_el_deg</span><span class="si">}</span><span class="s2"> deg&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Refraction: </span><span class="si">{</span><span class="n">delta_el_arcsec</span><span class="si">}</span><span class="s2"> arcsec&quot;</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">true_el</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">apparent_el</span> <span class="o">-</span> <span class="n">true_el</span><span class="p">))</span>
 <span class="n">mrv</span><span class="o">.</span><span class="n">texit</span><span class="p">(</span>
@@ -580,7 +572,7 @@ to download the full example code</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  5.394 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.402 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-07-observer-atmos-refraction-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/83aadf6e0789c8a4b123de0102af9337/atmos_refraction.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">atmos_refraction.py</span></code></a></p>

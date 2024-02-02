@@ -23,7 +23,7 @@ Star Matching
 
 Given star centroid locations and an initial estimate of the look direction and tracking rate, fit the catalog
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-22
+.. GENERATED FROM PYTHON SOURCE LINES 7-48
 
 .. code-block:: default
 
@@ -34,12 +34,38 @@ Given star centroid locations and an initial estimate of the look direction and 
     import numpy as np
 
     import mirage as mr
-    import mirage.vis as mrv
+
+
+    def expected_star_centroids_in_fits(
+        fits_info: dict,
+        catalog: mr.StarCatalog,
+        mean_look_dir: np.ndarray,
+        limiting_magnitude: float = 15.0,
+    ) -> list[dict]:
+        tracking_normal = mr.hat(
+            np.cross(fits_info["look_dirs_eci"][0, :], fits_info["look_dirs_eci"][1, :])
+        )
+        img_prepared = mr.prepare_fits_for_plotting(fits_info)
+        theta = mr.solve_star_streak_angle(img_prepared)
+        dcm = mr.rv_to_dcm(mean_look_dir * (theta + np.pi / 2))
+        up_dir_eci = mr.stack_mat_mult_vec(dcm, tracking_normal)
+
+        uvs_in_frame, vm_in_frame = catalog.in_fov(
+            mean_look_dir, up_dir_eci, limiting_magnitude=limiting_magnitude
+        )
+        star_xs, star_ys = station.telescope.j2000_unit_vectors_to_pixels(
+            mean_look_dir, up_dir_eci, uvs_in_frame
+        )
+        return [
+            {"centroid": np.array((x, y)), "brightness": m}
+            for x, y, m in zip(star_xs, star_ys, vm_in_frame)
+        ]
+
 
     station = mr.Station()
     date = mr.now()
     mr.tic("Loading star catalog")
-    catalog = mr.StarCatalog("gaia", station, date, limiting_magnitude=13)
+    catalog = mr.StarCatalog("gaia", station, date)
     mr.toc()
 
 
@@ -50,16 +76,16 @@ Given star centroid locations and an initial estimate of the look direction and 
 
  .. code-block:: none
 
-    Loading star catalog: 1.98e+00 seconds
+    Loading star catalog: 2.45e+00 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-24
+.. GENERATED FROM PYTHON SOURCE LINES 49-50
 
 Let's figure out the streak direction
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-68
+.. GENERATED FROM PYTHON SOURCE LINES 50-115
 
 .. code-block:: default
 
@@ -68,11 +94,18 @@ Let's figure out the streak direction
     fits_info = mr.info_from_fits(fits_path)
 
     img = fits_info["ccd_adu"]
+    mean_look_dir = mr.hat(
+        fits_info["look_dirs_eci"][0, :] + fits_info["look_dirs_eci"][1, :]
+    )
     img_raw = img.copy()
     img_log10 = np.log10(img)
     img = np.log10(img - mr.image_background_parabola(img))
     img[img < 1] = 0
     img[np.isnan(img) | np.isinf(np.abs(img))] = 0
+
+    theta_rad = -mr.solve_star_streak_angle(img)
+    # print(f"Streak angle: {np.rad2deg(theta_rad)} degrees")
+    # enddd
 
     up_dir_eci = mr.fits_up_direction(fits_info)
 
@@ -100,18 +133,151 @@ Let's figure out the streak direction
         np.isnan(adu_grid_streaked_sampled) | np.isinf(np.abs(adu_grid_streaked_sampled))
     ] = 0
 
-    plt.subplot(1, 2, 1)
-    plt.imshow(img, cmap="gray")
-    mrv.texit("True Image", "", "", grid=False)
-    plt.subplot(1, 2, 2)
+    stars_expected = expected_star_centroids_in_fits(
+        fits_info, catalog, mean_look_dir, limiting_magnitude=12.0
+    )
+    stars_found = stars = mr.solve_star_centroids(fits_info)
+
+    # plt.subplot(1, 2, 1)
+    # plt.imshow(img, cmap="gray")
+    # for star in stars_expected:
+    #     plt.plot(img.shape[0] - star["centroid"][0], star["centroid"][1], "c+")
+    # for star in stars_found:
+    #     plt.plot(star["centroid"][0], star["centroid"][1], "m*")
+    # mrv.texit("True Image", "", "", grid=False)
+    # plt.subplot(1, 2, 2)
+    # plt.imshow(adu_grid_streaked_sampled, cmap="gray")
+    # for star in stars_expected:
+    #     plt.plot(img.shape[0] - star["centroid"][0], star["centroid"][1], "c+")
+    # for star in stars_found:
+    #     plt.plot(star["centroid"][0], star["centroid"][1], "m*")
+    # mrv.texit("Synthetic Image", "", "", grid=False)
+    # plt.show()
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    /Users/liamrobinson/Documents/PyLightCurves/examples/10-ccd/star_matching.py:60: RuntimeWarning: invalid value encountered in log10
+      img_log10 = np.log10(img)
+    Objects in frame 1:
+    NAVSTAR 81 (USA 319)
+    Objects in frame 2:
+    NAVSTAR 81 (USA 319)
+    Elapsed time: 6.55e+00 seconds
+    /Users/liamrobinson/Documents/PyLightCurves/examples/10-ccd/star_matching.py:86: RuntimeWarning: invalid value encountered in log10
+  
+    Finding streaks:   0%|          | 0/1570 [00:00<?, ?it/s]    Finding streaks: 100%|##########| 1570/1570 [00:00<00:00, 540778.29it/s]
+    contours: 1.28e-02 seconds
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 116-120
+
+Overlaying the two images
+plt.imshow(img, cmap="gray", alpha=0.5)
+plt.imshow(adu_grid_streaked_sampled, cmap="gray_r", alpha=0.5)
+plt.show()
+
+.. GENERATED FROM PYTHON SOURCE LINES 122-123
+
+We're close, but we need to solve for the slight rotation and translation between the two images
+
+.. GENERATED FROM PYTHON SOURCE LINES 123-204
+
+.. code-block:: default
+
+
     plt.imshow(adu_grid_streaked_sampled, cmap="gray")
-    mrv.texit("Synthetic Image", "", "", grid=False)
+
+    # building a tree for the expected stars
+    from scipy.spatial import KDTree
+
+    expected_centroids = np.array([star["centroid"].flatten() for star in stars_expected])
+    expected_centroids[:, 0] = img.shape[0] - expected_centroids[:, 0]
+    tree = KDTree(expected_centroids)
+    found_centroids = np.array([star["centroid"].flatten() for star in stars_found])
+
+    # finding the nearest neighbor for each found star
+    nearest = [tree.query(star["centroid"].T)[1] for star in stars_found]
+    nearest_expected_centroid = expected_centroids[nearest]
+
+
+    # Rotating expected -> true 90 degrees prograde
+    nearest_expected_to_found = found_centroids - nearest_expected_centroid
+    expected_to_found_dist = mr.vecnorm(nearest_expected_to_found)
+    # only use the middle 50 inds to avoid outliers
+    use_inds = np.argsort(expected_to_found_dist.flatten())[
+        expected_to_found_dist.size // 4 : -expected_to_found_dist.size // 4
+    ]
+    nearest_expected_to_found = nearest_expected_to_found[use_inds]
+    nearest_expected_centroid = nearest_expected_centroid[use_inds]
+    found_centroids = found_centroids[use_inds]
+    nearest = [nearest[i] for i in use_inds]
+    expected_to_found_dist = expected_to_found_dist[use_inds]
+    rotated_found_centroids = found_centroids
+
+    for i in range(1):
+        nearest_expected_to_found_perp = np.array(
+            [nearest_expected_to_found[:, 1], -nearest_expected_to_found[:, 0]]
+        ).T
+        nearest_expected_to_found_perp = mr.hat(nearest_expected_to_found_perp) * 1000
+        # plotting this line from the mean of the line segment
+        mean_points = (rotated_found_centroids + nearest_expected_centroid) / 2
+
+        # least squares intersection point
+        int_point = mr.least_squares_line_intersection(
+            mean_points, mean_points + nearest_expected_to_found_perp
+        )
+
+        means_to_int = int_point - mean_points
+        means_to_int_dist = mr.vecnorm(means_to_int)
+        rotation_angle = np.arctan(expected_to_found_dist / means_to_int_dist)
+        med_rot_angle = np.median(rotation_angle)
+
+        rotated_found_centroids = mr.rotate_points_about_point(
+            rotated_found_centroids, med_rot_angle, int_point
+        )
+        nearest_expected_to_found = rotated_found_centroids - nearest_expected_centroid
+        print(f"Rotation angle: {np.rad2deg(med_rot_angle)} degrees")
+        print(f"Intersection point: {int_point}")
+        print(
+            f"Mean pixel error after rotation: {mr.vecnorm(nearest_expected_to_found).mean()}"
+        )
+
+    plt.plot(int_point[0], int_point[1], "g*")
+
+    for i in range(len(found_centroids)):
+        plt.plot(found_centroids[i, 0], found_centroids[i, 1], "m*")
+        plt.plot(nearest_expected_centroid[i, 0], nearest_expected_centroid[i, 1], "c+")
+
+        plt.plot(
+            [nearest_expected_centroid[i, 0], found_centroids[i, 0]],
+            [nearest_expected_centroid[i, 1], found_centroids[i, 1]],
+            "r-",
+        )
+        plt.plot(
+            [mean_points[i, 0], mean_points[i, 0] + nearest_expected_to_found_perp[i, 0]],
+            [mean_points[i, 1], mean_points[i, 1] + nearest_expected_to_found_perp[i, 1]],
+            "y-",
+        )
+
+        plt.plot(rotated_found_centroids[i, 0], rotated_found_centroids[i, 1], "b*")
+
+    plt.xlim(0, img.shape[1])
+    plt.ylim(0, img.shape[0])
     plt.show()
 
 
 
+
 .. image-sg:: /gallery/10-ccd/images/sphx_glr_star_matching_001.png
-   :alt: True Image, Synthetic Image
+   :alt: star matching
    :srcset: /gallery/10-ccd/images/sphx_glr_star_matching_001.png, /gallery/10-ccd/images/sphx_glr_star_matching_001_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
@@ -120,15 +286,67 @@ Let's figure out the streak direction
 
  .. code-block:: none
 
-    /Users/liamrobinson/Documents/PyLightCurves/examples/10-ccd/star_matching.py:31: RuntimeWarning: invalid value encountered in log10
-      img = np.log10(img - mr.image_background_parabola(img))
-    Objects in frame 1:
-    NAVSTAR 81 (USA 319)
-    Objects in frame 2:
-    NAVSTAR 81 (USA 319)
-    Elapsed time: 6.23e+00 seconds
-    /Users/liamrobinson/Documents/PyLightCurves/examples/10-ccd/star_matching.py:53: RuntimeWarning: invalid value encountered in log10
-      adu_grid_streaked_sampled = np.log10(
+    Rotation angle: 2.635789588759108 degrees
+    Intersection point: [1278.3902612  2139.45029201]
+    Mean pixel error after rotation: 4.464460976983015
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 205-206
+
+Now we solve for the translation
+
+.. GENERATED FROM PYTHON SOURCE LINES 206-237
+
+.. code-block:: default
+
+
+    use_inds = np.argsort(mr.vecnorm(nearest_expected_to_found).flatten())[
+        nearest_expected_to_found.shape[0] // 4 : -nearest_expected_to_found.shape[0] // 4
+    ]
+    mean_error = nearest_expected_to_found[use_inds].mean(axis=0)
+    print(f"Mean translation error: {mean_error}")
+    rotated_and_translated_found_centroids = rotated_found_centroids - mean_error
+    nearest_expected_to_found = (
+        rotated_and_translated_found_centroids - nearest_expected_centroid
+    )
+    print(
+        f"Mean pixel error after translation: {mr.vecnorm(nearest_expected_to_found[use_inds]).mean()}"
+    )
+
+    plt.imshow(adu_grid_streaked_sampled, cmap="gray")
+
+    for i in range(len(found_centroids)):
+        plt.plot(found_centroids[i, 0], found_centroids[i, 1], "m*")
+        plt.plot(nearest_expected_centroid[i, 0], nearest_expected_centroid[i, 1], "c+")
+
+        plt.plot(rotated_found_centroids[i, 0], rotated_found_centroids[i, 1], "b*")
+
+        plt.plot(
+            rotated_and_translated_found_centroids[i, 0],
+            rotated_and_translated_found_centroids[i, 1],
+            "y*",
+        )
+
+    plt.xlim(0, img.shape[1])
+    plt.ylim(0, img.shape[0])
+    plt.show()
+
+
+
+.. image-sg:: /gallery/10-ccd/images/sphx_glr_star_matching_002.png
+   :alt: star matching
+   :srcset: /gallery/10-ccd/images/sphx_glr_star_matching_002.png, /gallery/10-ccd/images/sphx_glr_star_matching_002_2_00x.png 2.00x
+   :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    Mean translation error: [-0.54959898  2.16582551]
+    Mean pixel error after translation: 0.8028095506859414
 
 
 
@@ -136,7 +354,7 @@ Let's figure out the streak direction
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  21.708 seconds)
+   **Total running time of the script:** ( 0 minutes  37.503 seconds)
 
 
 .. _sphx_glr_download_gallery_10-ccd_star_matching.py:

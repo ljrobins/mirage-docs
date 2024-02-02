@@ -3,41 +3,30 @@ Atmospheric Refraction
 ======================
 Computing the effect of atmospheric refraction on observations
 """
+import matplotlib.pyplot as plt
 import numpy as np
-from scipy.optimize import root
 
 import mirage as mr
 import mirage.vis as mrv
 
-
-def apparent_refacted_elevation(
-    pressure_mbar: np.ndarray, temp_kelvin: np.ndarray, el_true_rad: np.ndarray
-) -> np.ndarray:
-    el_true_deg = np.rad2deg(el_true_rad)
-    h_func = (
-        lambda hprime: -hprime
-        + pressure_mbar
-        / temp_kelvin
-        * (
-            3.430289
-            * ((90 - hprime) - mr.asind(0.9986047 * mr.sind(0.996714 * (90 - hprime))))
-            - 0.01115929 * (90 - hprime)
-        )
-        / 60
-        + el_true_deg
-    )
-    # If this function is zero, the correct apparent elevation has been identified
-    hprime = np.deg2rad(root(fun=h_func, x0=el_true_deg, method="diagbroyden").x)
-    return hprime
-
-
-true_el = np.deg2rad(np.linspace(0, 90, int(1e5)))
+true_el = np.deg2rad(np.linspace(0, 90, int(1e3)))
+atmos_pressure = 1028.4463393  # mbar
+atmos_temp = 277.594  # Kelvin
 
 mr.tic()
-apparent_el = apparent_refacted_elevation(1028.4463393, 277.594, true_el)
+apparent_el = mr.apparent_refacted_elevation(atmos_pressure, atmos_temp, true_el)
 mr.toc()
 
-import matplotlib.pyplot as plt
+test_el_deg = 55.7
+test_el_rad = np.deg2rad(test_el_deg)
+app_el_deg = np.rad2deg(
+    mr.apparent_refacted_elevation(atmos_pressure, atmos_temp, test_el_rad)
+)
+delta_el_deg = app_el_deg - test_el_deg
+delta_el_arcsec = delta_el_deg * 3600
+print(f"True elevation: {test_el_deg} deg")
+print(f"Apparent elevation: {app_el_deg} deg")
+print(f"Refraction: {delta_el_arcsec} arcsec")
 
 plt.plot(np.rad2deg(true_el), np.rad2deg(apparent_el - true_el))
 mrv.texit(

@@ -3103,6 +3103,27 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <section id="module-mirage.environment">
 <span id="mirage-environment-module"></span><h2>mirage.environment module<a class="headerlink" href="#module-mirage.environment" title="Permalink to this heading">#</a></h2>
 <dl class="py function">
+<dt class="sig sig-object py" id="mirage.environment.apparent_refacted_elevation">
+<span class="sig-prename descclassname"><span class="pre">mirage.environment.</span></span><span class="sig-name descname"><span class="pre">apparent_refacted_elevation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pressure_mbar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp_kelvin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">el_true_rad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.environment.apparent_refacted_elevation" title="Permalink to this definition">#</a></dt>
+<dd><p>Computes the apparent elevation angle of a celestial object, accounting for atmospheric refraction</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pressure_mbar</strong> (<em>np.ndarray</em>) – Atmospheric pressure in millibars</p></li>
+<li><p><strong>temp_kelvin</strong> (<em>np.ndarray</em>) – Atmospheric temperature in Kelvin</p></li>
+<li><p><strong>el_true_rad</strong> (<em>np.ndarray</em>) – True elevation angle of an exoatmospheric object [rad]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Apparent elevation angle of an exoatmospheric object [rad]</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="mirage.environment.light_time_delay">
 <span class="sig-prename descclassname"><span class="pre">mirage.environment.</span></span><span class="sig-name descname"><span class="pre">light_time_delay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obs_pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.environment.light_time_delay" title="Permalink to this definition">#</a></dt>
 <dd><p>Computes the approximate light time for an observation between a station and a space object</p>
@@ -3163,6 +3184,11 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <section id="module-mirage.fits">
 <span id="mirage-fits-module"></span><h2>mirage.fits module<a class="headerlink" href="#module-mirage.fits" title="Permalink to this heading">#</a></h2>
 <dl class="py function">
+<dt class="sig sig-object py" id="mirage.fits.find_stars_in_rotated_image">
+<span class="sig-prename descclassname"><span class="pre">mirage.fits.</span></span><span class="sig-name descname"><span class="pre">find_stars_in_rotated_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotated_image_raw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotated_image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta_rad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_pix_tracked</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mirage.fits.find_stars_in_rotated_image" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="mirage.fits.fits_up_direction">
 <span class="sig-prename descclassname"><span class="pre">mirage.fits.</span></span><span class="sig-name descname"><span class="pre">fits_up_direction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fits_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.fits.fits_up_direction" title="Permalink to this definition">#</a></dt>
 <dd><p>Solves for the ECI direction normal to the tracking and observation directions (normal, up from the image plane)</p>
@@ -3199,6 +3225,11 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="mirage.fits.prepare_fits_for_plotting">
 <span class="sig-prename descclassname"><span class="pre">mirage.fits.</span></span><span class="sig-name descname"><span class="pre">prepare_fits_for_plotting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fits_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'parabola'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#mirage.fits.prepare_fits_for_plotting" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mirage.fits.solve_star_centroids">
+<span class="sig-prename descclassname"><span class="pre">mirage.fits.</span></span><span class="sig-name descname"><span class="pre">solve_star_centroids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fits_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mirage.fits.solve_star_centroids" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </section>
@@ -4086,6 +4117,24 @@ DEPRECATED
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="mirage.math.least_squares_line_intersection">
+<span class="sig-prename descclassname"><span class="pre">mirage.math.</span></span><span class="sig-name descname"><span class="pre">least_squares_line_intersection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.math.least_squares_line_intersection" title="Permalink to this definition">#</a></dt>
+<dd><p>Least-squares intersection of <span class="math notranslate nohighlight">\(n\)</span> lines in <span class="math notranslate nohighlight">\(m\)</span>-dimensional space</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p1</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>, </em><em>m</em><em>]</em>) – The first point on each line</p></li>
+<li><p><strong>p2</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>, </em><em>m</em><em>]</em>) – The second point on each line</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The intersection point [1, m]</p>
+</dd>
+</dl>
+<p>Source: <a class="reference external" href="https://stackoverflow.com/questions/52088966/nearest-intersection-point-to-many-lines-in-python">https://stackoverflow.com/questions/52088966/nearest-intersection-point-to-many-lines-in-python</a></p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="mirage.math.look_at_matrix">
 <span class="sig-prename descclassname"><span class="pre">mirage.math.</span></span><span class="sig-name descname"><span class="pre">look_at_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eye</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">up</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.math.look_at_matrix" title="Permalink to this definition">#</a></dt>
 <dd><p>Look matrix for a camera placed at <code class="docutils literal notranslate"><span class="pre">eye</span></code>, looking at <code class="docutils literal notranslate"><span class="pre">target</span></code>, with up vector <code class="docutils literal notranslate"><span class="pre">up</span></code>. Transforms from world frame coordinates to camera frame coordinates. <a class="reference external" href="https://www.geertarien.com/blog/2017/07/30/breakdown-of-the-lookAt-function-in-OpenGL/">Source</a></p>
@@ -4216,6 +4265,27 @@ DEPRECATED
 <dt class="sig sig-object py" id="mirage.math.rk4">
 <span class="sig-prename descclassname"><span class="pre">mirage.math.</span></span><span class="sig-name descname"><span class="pre">rk4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tspace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.math.rk4" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mirage.math.rotate_points_about_point">
+<span class="sig-prename descclassname"><span class="pre">mirage.math.</span></span><span class="sig-name descname"><span class="pre">rotate_points_about_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.math.rotate_points_about_point" title="Permalink to this definition">#</a></dt>
+<dd><p>Rotates points in 2D about a center point</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>points</strong> (<em>np.ndarray</em>) – The points to rotate</p></li>
+<li><p><strong>angle</strong> (<em>float</em>) – The angle to rotate by [rad]</p></li>
+<li><p><strong>center</strong> (<em>np.ndarray</em>) – The center of rotation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The rotated points</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mirage.math.sind">
@@ -5449,7 +5519,7 @@ Must be of the form x = f(A,b).</p>
 <span id="mirage-stars-module"></span><h2>mirage.stars module<a class="headerlink" href="#module-mirage.stars" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="mirage.stars.StarCatalog">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mirage.stars.</span></span><span class="sig-name descname"><span class="pre">StarCatalog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'tycho2'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'gaia'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">station</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limiting_magnitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aberration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mirage.stars.StarCatalog" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mirage.stars.</span></span><span class="sig-name descname"><span class="pre">StarCatalog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'tycho2'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'gaia'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">station</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aberration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mirage.stars.StarCatalog" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="mirage.stars.StarCatalog.account_for_aberration">
@@ -5463,13 +5533,15 @@ Must be of the form x = f(A,b).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mirage.stars.StarCatalog.in_fov">
-<span class="sig-name descname"><span class="pre">in_fov</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eci_look_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope_up</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'brute'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'tree'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tree'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mirage.stars.StarCatalog.in_fov" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">in_fov</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eci_look_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope_up</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'brute'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'tree'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tree'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limiting_magnitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mirage.stars.StarCatalog.in_fov" title="Permalink to this definition">#</a></dt>
 <dd><p>Finds stars in the field of view of a telescope</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>eci_look_dir</strong> (<em>np.ndarray</em>) – The look direction of the telescope in ECI coordinates</p></li>
 <li><p><strong>scope_up</strong> (<em>np.ndarray</em>) – The up direction of the telescope in ECI coordinates (orthogonal to the look direction, defining the vertical axis of the image)</p></li>
+<li><p><strong>method</strong> (<em>Literal</em><em>[</em><em>&quot;brute&quot;</em><em>, </em><em>&quot;tree&quot;</em><em>]</em><em>, </em><em>optional</em>) – The method to use for finding stars in the field of view, defaults to “tree”</p></li>
+<li><p><strong>limiting_magnitude</strong> (<em>float</em><em>, </em><em>optional</em>) – The limiting magnitude of the telescope, defaults to 20</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -5838,7 +5910,7 @@ Must be of the form x = f(A,b).</p>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Pixel coordinates in the x and y directions, on [0, sensor_pixels] in both axes with [sensor_pixels/2, sensor_pixels/2] at the center of the image</p>
+<dd class="field-even"><p>Pixel coordinates in the x and y directions, on [0, sensor_pixels] in both axes with [sensor_pixels//2, sensor_pixels//2] at the center of the image</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>tuple[np.ndarray, np.ndarray]</p>
@@ -6429,7 +6501,7 @@ Must be of the form x = f(A,b).</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mirage.tle.get_latest_catalog_at_date">
-<span class="sig-prename descclassname"><span class="pre">mirage.tle.</span></span><span class="sig-name descname"><span class="pre">get_latest_catalog_at_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtime</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.datetime(2024,</span> <span class="pre">2,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">47,</span> <span class="pre">56,</span> <span class="pre">977433,</span> <span class="pre">tzinfo=datetime.timezone.utc)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days_back</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.timedelta(days=1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tle_latest'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">query_kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mirage.tle.get_latest_catalog_at_date" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">mirage.tle.</span></span><span class="sig-name descname"><span class="pre">get_latest_catalog_at_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtime</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.datetime(2024,</span> <span class="pre">2,</span> <span class="pre">2,</span> <span class="pre">18,</span> <span class="pre">26,</span> <span class="pre">59,</span> <span class="pre">139553,</span> <span class="pre">tzinfo=datetime.timezone.utc)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days_back</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.timedelta(days=1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tle_latest'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">query_kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mirage.tle.get_latest_catalog_at_date" title="Permalink to this definition">#</a></dt>
 <dd><p>Gets the first TLE produced for a given NORAD SAT ID after the datetime provided</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -6787,15 +6859,18 @@ Must be of the form x = f(A,b).</p>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mirage.environment">mirage.environment module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.environment.apparent_refacted_elevation"><code class="docutils literal notranslate"><span class="pre">apparent_refacted_elevation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.environment.light_time_delay"><code class="docutils literal notranslate"><span class="pre">light_time_delay()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.environment.relative_airmass"><code class="docutils literal notranslate"><span class="pre">relative_airmass()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.environment.total_solar_irradiance_at_dates"><code class="docutils literal notranslate"><span class="pre">total_solar_irradiance_at_dates()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mirage.fits">mirage.fits module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.fits.find_stars_in_rotated_image"><code class="docutils literal notranslate"><span class="pre">find_stars_in_rotated_image()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.fits.fits_up_direction"><code class="docutils literal notranslate"><span class="pre">fits_up_direction()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.fits.info_from_fits"><code class="docutils literal notranslate"><span class="pre">info_from_fits()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.fits.prepare_fits_for_plotting"><code class="docutils literal notranslate"><span class="pre">prepare_fits_for_plotting()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.fits.solve_star_centroids"><code class="docutils literal notranslate"><span class="pre">solve_star_centroids()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mirage.geodetic">mirage.geodetic module</a><ul class="nav section-nav flex-column">
@@ -6860,6 +6935,7 @@ Must be of the form x = f(A,b).</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.elliptic_pi_incomplete"><code class="docutils literal notranslate"><span class="pre">elliptic_pi_incomplete()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.hat"><code class="docutils literal notranslate"><span class="pre">hat()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.hms_to_rad"><code class="docutils literal notranslate"><span class="pre">hms_to_rad()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.least_squares_line_intersection"><code class="docutils literal notranslate"><span class="pre">least_squares_line_intersection()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.look_at_matrix"><code class="docutils literal notranslate"><span class="pre">look_at_matrix()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.merge_clusters"><code class="docutils literal notranslate"><span class="pre">merge_clusters()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.perspective_projection_matrix"><code class="docutils literal notranslate"><span class="pre">perspective_projection_matrix()</span></code></a></li>
@@ -6868,6 +6944,7 @@ Must be of the form x = f(A,b).</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.rdot"><code class="docutils literal notranslate"><span class="pre">rdot()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.remove_zero_rows"><code class="docutils literal notranslate"><span class="pre">remove_zero_rows()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.rk4"><code class="docutils literal notranslate"><span class="pre">rk4()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.rotate_points_about_point"><code class="docutils literal notranslate"><span class="pre">rotate_points_about_point()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.sind"><code class="docutils literal notranslate"><span class="pre">sind()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.sph_to_cart"><code class="docutils literal notranslate"><span class="pre">sph_to_cart()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.spherical_voronoi_weighting"><code class="docutils literal notranslate"><span class="pre">spherical_voronoi_weighting()</span></code></a></li>
