@@ -51,7 +51,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="SPICE vs Vallado" href="spice_comparison.html" />
-    <link rel="prev" title="Precession and Nutation" href="earth_pole_motion.html" />
+    <link rel="prev" title="Precession and Nutation" href="precession_and_nutation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -320,6 +320,7 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../00-orbits/index.html">Orbits</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/universal_variables.html">Universal Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/propagate_single_tle.html">Propagating single TLE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/hifi_propagation.html">Propagating with Perturbations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/tle_switching.html">TLE Switching</a></li>
@@ -331,8 +332,6 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../000-work-in-progress/index.html">Works In Progress</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../000-work-in-progress/voronoi_to_support.html">Voronoi Diagram to Supports</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../000-work-in-progress/read_fit_brdf_databases.html">Fitting BRDF Databases</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../000-work-in-progress/iod_testing.html">Classical IOD Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../000-work-in-progress/inversion_gradient.html">EGI Jacobian</a></li>
 </ul>
@@ -353,22 +352,21 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/rotate_panels_vid.html">Rotating Solar Panels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/support_unobservability.html">Support Unobservability</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_grid.html">BRDFs on the local hemisphere</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_ambiguities.html">Light Curve Ambiguities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_units.html">Light Curve Units</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/lc_uncertainty.html">Light Curve Uncertainty</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/save_lc_datasets.html">Saving Light Curve Datasets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curves_types.html">Types of Light Curves</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Coordinate Frames</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="time_systems.html">Time Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="equation_of_time.html">The Equation of Time</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polar_motion.html">Polar Motion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="third_body_interp.html">Third Body Interpolation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="earth_pole_motion.html">Precession and Nutation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="precession_and_nutation.html">Precession and Nutation</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Coordinate System Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="spice_comparison.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="equinoxes.html">Equinoxes and Solstices</a></li>
@@ -381,6 +379,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/vr_factor.html">Airmass Function Comparison</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/star_aberration.html">Star Aberration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometrical Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_zenith.html">Background Signals at Zenith</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/atmospheric_absorption.html">Atmospheric Transmission</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/penumbra_plane.html">Penumbra Visualized</a></li>
@@ -388,10 +387,10 @@ document.write(`
 
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/total_solar_irradiance.html">Total Solar Irradiance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/passbands.html">Passbands</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/solar_system.html">Solar System</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/star_catalogs.html">Star Catalogs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometrical Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/reflected_albedo.html">Earth Albedo BRDF</a></li>
@@ -428,12 +427,11 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/wavelength_to_rgb.html">Wavelength to RGB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/count_lines.html">Counting Source Code Lines</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../08-utility/nnls_vs_fnnls.html">FNNLS vs NNLS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/random_figures_for_defense_pres.html">Figures for MS Defense</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/computer_graphics_background.html">Graphics Background</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../08-utility/egi_figs_aas22.html">EGI Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/egi_optimization.html">EGI Optimization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/model_editor.html">Model Editor</a></li>
 </ul>
 </li>
@@ -447,13 +445,14 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../10-ccd/index.html">CCD Characterization</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/mapping_function.html">Mapping Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/characterize_ccd.html">Characterizing the CCD Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_integration_time.html">Integration Time</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/noise_accum_gifs.html">Noise Sampling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_scintillation.html">CCD Scintillation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/airy_disk_gaussian_fit.html">Airy Disk Gaussian Fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_heuristics.html">CCD Heuristics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/airy_disk_diffraction.html">Airy Disk Diffraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/precise_star_matching.html">Precise Star Matching</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/background_shape.html">Background Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/streaks.html">Streak Detection and Centroiding</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/snr.html">Signal-to-Noise Ratio (SNR)</a></li>
@@ -557,9 +556,9 @@ to download the full example code</p>
 <span class="n">mr</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Computing rotation matrices: 8.00e-03 seconds
-Computing rotation matrices, fine: 5.19e-02 seconds
-Evaluate interpolator: 2.22e-04 seconds
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Computing rotation matrices: 8.84e-03 seconds
+Computing rotation matrices, fine: 5.33e-02 seconds
+Evaluate interpolator: 2.10e-04 seconds
 </pre></div>
 </div>
 <p>Comparing with true values, via the error in the position of a station on the surface</p>
@@ -574,8 +573,8 @@ Evaluate interpolator: 2.22e-04 seconds
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max position error: </span><span class="si">{</span><span class="n">max_pos_err</span><span class="si">}</span><span class="s2"> km&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Mean position error: 2.3319617491727907e-05 km
-Max position error: 0.0003693951534303979 km
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Mean position error: 5.390699833131268e-06 km
+Max position error: 2.5670017860327312e-05 km
 </pre></div>
 </div>
 <p>Plotting</p>
@@ -598,7 +597,7 @@ Max position error: 0.0003693951534303979 km
 <li><img src="../../_images/sphx_glr_coord_interp_001.png" srcset="../../_images/sphx_glr_coord_interp_001.png, ../../_images/sphx_glr_coord_interp_001_2_00x.png 2.00x" alt="Position Error of Station on Earth Surface" class = "sphx-glr-multi-img"/></li>
 <li><img src="../../_images/sphx_glr_coord_interp_002.png" srcset="../../_images/sphx_glr_coord_interp_002.png, ../../_images/sphx_glr_coord_interp_002_2_00x.png 2.00x" alt="Position Error of Station on Earth Surface" class = "sphx-glr-multi-img"/></li>
 </ul>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.824 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.839 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-03-coordinate-systems-coord-interp-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/54b33ab9bccb34c15c54dbaccc8972c3/coord_interp.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">coord_interp.py</span></code></a></p>
@@ -621,7 +620,7 @@ Max position error: 0.0003693951534303979 km
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="earth_pole_motion.html"
+       href="precession_and_nutation.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">

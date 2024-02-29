@@ -15,11 +15,11 @@ import mirage.vis as mrv
 station = mr.Station()
 date = mr.now()
 mr.tic("Loading Gaia")
-gaia = mr.StarCatalog("gaia", station, date, limiting_magnitude=15)
+gaia = mr.StarCatalog("gaia", station, date)
 mr.toc()
 
 mr.tic("Loading Tycho-2")
-tycho2 = mr.StarCatalog("tycho2", station, date, limiting_magnitude=15)
+tycho2 = mr.StarCatalog("tycho2", station, date)
 mr.toc()
 
 eci_look_dir = mr.hat(np.array([1, 1, 0]))

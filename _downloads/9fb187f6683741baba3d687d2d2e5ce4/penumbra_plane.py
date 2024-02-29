@@ -22,7 +22,7 @@ rotm = mr.eci_to_sun_ec(date)
 gpts = np.vstack((gxx.flatten(), 0 * gxx.flatten(), gzz.flatten())).T
 gpts = gpts @ rotm.squeeze()
 
-mr.AstroConstants.sun_radius_km *= 10
+mr.AstroConstants.sun_r_eq *= 10
 mr.tic()
 f_shadow = 1 - mr.sun_irradiance_fraction(date, gpts)
 mr.toc()

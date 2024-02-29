@@ -1,4 +1,6 @@
-"""The Equation of Time
+"""
+The Equation of Time
+====================
 
 The equation of time is the difference between apparent solar time and mean solar time. It is caused by the eccentricity of the Earth's orbit and the tilt of the Earth's axis. The equation of time is a periodic function with a period of one year.
 """

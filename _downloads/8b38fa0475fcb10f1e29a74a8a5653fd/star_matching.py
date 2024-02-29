@@ -22,7 +22,7 @@ def expected_star_centroids_in_fits(
     tracking_normal = mr.hat(
         np.cross(fits_info["look_dirs_eci"][0, :], fits_info["look_dirs_eci"][1, :])
     )
-    img_prepared = mr.prepare_fits_for_plotting(fits_info)
+    img_prepared = mr.prepare_fits_for_plotting(fits_info["ccd_adu"])
     theta = mr.solve_star_streak_angle(img_prepared)
     dcm = mr.rv_to_dcm(mean_look_dir * (theta + np.pi / 2))
     up_dir_eci = mr.stack_mat_mult_vec(dcm, tracking_normal)
@@ -48,6 +48,7 @@ mr.toc()
 # %%
 # Let's figure out the streak direction
 
+# fits_path = os.path.join(os.environ["SRCDIR"], "..", "examples/10-ccd/00095337.fit")
 fits_path = os.path.join(os.environ["SRCDIR"], "..", "00161295.48859.fit")
 fits_info = mr.info_from_fits(fits_path)
 
@@ -55,6 +56,7 @@ img = fits_info["ccd_adu"]
 mean_look_dir = mr.hat(
     fits_info["look_dirs_eci"][0, :] + fits_info["look_dirs_eci"][1, :]
 )
+mean_date = fits_info["dates"][0] + (fits_info["dates"][1] - fits_info["dates"][0]) / 2
 img_raw = img.copy()
 img_log10 = np.log10(img)
 img = np.log10(img - mr.image_background_parabola(img))
@@ -65,21 +67,26 @@ theta_rad = -mr.solve_star_streak_angle(img)
 # print(f"Streak angle: {np.rad2deg(theta_rad)} degrees")
 # enddd
 
-up_dir_eci = mr.fits_up_direction(fits_info)
+# up_dir_eci = mr.fits_up_direction(fits_info)
+tele = station.telescope
+
+up_dir_eci = tele.up_direction_eci(mean_look_dir)
+
+# print(updir2)
+# endd
+
 
 station.telescope.fwhm = 4
 mr.tic()
 adu_grid_streaked_sampled = station.telescope.ccd.generate_ccd_image(
-    fits_info["dates"],
+    mean_date,
+    fits_info["integration_time"],
     station,
-    fits_info["look_dirs_eci"],
-    [1e4],
+    mean_look_dir,
+    [fits_info["ra_rate"], fits_info["dec_rate"]],
+    1e4,
     catalog,
-    scope_up_hat_eci=up_dir_eci,
-    hot_pixel_probability=0,
-    dead_pixel_probability=0,
-    add_parabola=False,
-    scintillation=False,
+    up_dir_eci=up_dir_eci,
 )
 mr.toc()
 

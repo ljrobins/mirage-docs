@@ -17,17 +17,16 @@ import mirage.vis as mrv
 # %%
 # Loading a fits image from the Purdue Optical Ground Station
 
-# ccd_dir = os.path.join(os.environ["SRCDIR"], "..", "data")
+ccd_dir = os.path.join(os.environ["SRCDIR"], "..", "data")
 # fits_path = os.path.join(ccd_dir, "00130398.fit") # 3 in belt
-# fits_path = os.path.join(
-#     os.environ["SRCDIR"], "..", "00161295.48859.fit"
-# )  # gps
+fits_path = os.path.join(os.environ["SRCDIR"], "..", "00161295.48859.fit")  # gps
+# fits_path = "/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/2022-09-18_GPS_PRN14/00146814.fit"
 
 # fits_path = os.path.join(
 #     os.environ["SRCDIR"], "..", "00161341.GALAXY_23__TELSTAR_13__#27854U.fit"
 # )
-fits_path = os.path.join(os.environ["SRCDIR"], "..", "00161298.Jupiter.fit")
-
+# fits_path = "/Users/liamrobinson/Documents/PyLightCurves/00161344.fit" # recent
+# fits_path = os.path.join(os.environ["SRCDIR"], "..", "00161298.Jupiter.fit")
 
 fits_dict = mr.info_from_fits(fits_path)
 obs_dates = fits_dict["dates"]
@@ -35,6 +34,9 @@ observing_station = fits_dict["station"]
 obs_dirs_eci = fits_dict["look_dirs_eci"]
 ccd_adu = fits_dict["ccd_adu"]
 br_parabola_obs = fits_dict["br_parabola"]
+
+obs_dir_eci_mid = mr.hat(np.sum(obs_dirs_eci, axis=0))
+date_mid = obs_dates[1] - (obs_dates[1] - obs_dates[0]) / 2
 
 # %%
 # Let's synthesize a CCD image for the same observation conditions
@@ -72,29 +74,29 @@ obj_lc_sampler, _ = observing_station.observe_light_curve(
     obj,
     attitude,
     mr.Brdf("phong"),
-    obs_dates,
+    date_mid,
     use_engine=True,
     instances=1,
     model_scale_factor=1,
     rotate_panels=True,
 )
-lc_adu = obj_lc_sampler()
-print(lc_adu)
+lc_adu = obj_lc_sampler()[0]
 lc_adu = 1e6 * np.ones(lc_adu.shape)
 
 catalog = mr.StarCatalog("gaia", observing_station, obs_dates[0])
 
+up_dir_eci = observing_station.telescope.up_direction_eci(obs_dir_eci_mid)
+
 mr.tic()
 adu_grid_streaked_sampled = observing_station.telescope.ccd.generate_ccd_image(
-    obs_dates,
+    date_mid,
+    fits_dict["integration_time"],
     observing_station,
-    obs_dirs_eci,
+    obs_dir_eci_mid,
+    [fits_dict["ra_rate"], fits_dict["dec_rate"]],
     lc_adu,
     catalog,
-    hot_pixel_probability=0,
-    dead_pixel_probability=0,
-    add_parabola=False,
-    scintillation=False,
+    up_dir_eci=up_dir_eci,
 )
 mr.toc()
 
@@ -125,6 +127,13 @@ plt.clim(*np.percentile(np.log10(adu_grid_streaked_sampled), [0.1, 99.9]))
 plt.tight_layout()
 plt.show()
 
+# %%
+# Plotting the two images on top of eachother
+
+plt.figure(figsize=(4, 4))
+plt.imshow(np.log10(ccd_adu), cmap="gray")
+plt.imshow(np.log10(adu_grid_streaked_sampled), cmap="cool", alpha=0.2)
+plt.show()
 
 # %%
 # Looking at the residual noise after subtracting off the parabolic background from the real image

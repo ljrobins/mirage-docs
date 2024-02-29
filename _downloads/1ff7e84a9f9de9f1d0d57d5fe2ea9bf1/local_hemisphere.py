@@ -86,7 +86,6 @@ def show_scene(epsec: float):
 
     z_obs = mr.angle_between_vecs(look_dir_eci, station_eci)
 
-    mr.tic()
     constraint_satisfaction = station.eval_constraints(
         obs_pos_eci=station_eci,
         look_dir_eci=look_dir_eci,
@@ -95,7 +94,6 @@ def show_scene(epsec: float):
         lc=lc_sphere,
         evaluate_all=False,
     )
-    mr.toc()
 
     # mrv.plot3(
     #     pl, lines_eci, lighting=False, color="gray", line_width=5,

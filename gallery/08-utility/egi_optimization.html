@@ -1,0 +1,1022 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>EGI Optimization &#8212; MIRAGE  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gallery/08-utility/egi_optimization';</script>
+    <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Model Editor" href="model_editor.html" />
+    <link rel="prev" title="Graphics Background" href="computer_graphics_background.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/sid_logo_light.png" class="logo__image only-light" alt=""/>
+    <script>document.write(`<img src="../../_static/sid_logo_dark.png" class="logo__image only-dark" alt=""/>`);</script>
+  
+  
+    <p class="title logo__title">MIRAGE</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../modules.html">
+                        mirage
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples Gallery
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../references.html">
+                        References
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../modules.html">
+                        mirage
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples Gallery
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../references.html">
+                        References
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-orbits/index.html">Orbits</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/universal_variables.html">Universal Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/propagate_single_tle.html">Propagating single TLE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/hifi_propagation.html">Propagating with Perturbations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/tle_switching.html">TLE Switching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/ground_track.html">Ground Tracks</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/propagate_catalog.html">Propagating the catalog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/precise_orbit_determination.html">Precise Orbit Determination with Batch Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/restricted_circular_od.html">Restricted Circular IOD</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../000-work-in-progress/index.html">Works In Progress</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../000-work-in-progress/iod_testing.html">Classical IOD Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../000-work-in-progress/inversion_gradient.html">EGI Jacobian</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-light_curve_inversion/index.html">Light Curve Inversion</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curve_inversion/kass_durech_vs_python.html">Support Optimization Comparison</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curve_inversion/perfect_info_inversion.html">Perfect Information Inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curve_inversion/poisson_shape_variance.html">Shape Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curve_inversion/noisy_inversion_pdf.html">Inversion PDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curve_inversion/face_uncertainty.html">Face Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curve_inversion/parametric_box_wing.html">Parametric Box-Wing Inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curve_inversion/multi_hypothesis_inversion.html">Multiple Hypothesis Inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curve_inversion/aas_non_convex_inversion.html">Non-Convex Inversion</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-light_curves/index.html">Light Curves</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/convex_light_curve.html">Convex Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/rotate_panels_vid.html">Rotating Solar Panels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/support_unobservability.html">Support Unobservability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_ambiguities.html">Light Curve Ambiguities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_units.html">Light Curve Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/lc_uncertainty.html">Light Curve Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curves_types.html">Types of Light Curves</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-coordinate-systems/index.html">Coordinate Frames</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/time_systems.html">Time Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/equation_of_time.html">The Equation of Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/polar_motion.html">Polar Motion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/third_body_interp.html">Third Body Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/precession_and_nutation.html">Precession and Nutation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/coord_interp.html">Coordinate System Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/spice_comparison.html">SPICE vs Vallado</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/equinoxes.html">Equinoxes and Solstices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/itrf_to_j2000.html">IAU-76 J2000 Reduction</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-environment/index.html">Environment</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/luminous_efficiency.html">Luminous Efficiency Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/twilight_model.html">Twilight Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/vr_factor.html">Airmass Function Comparison</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/star_aberration.html">Star Aberration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometrical Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/background_zenith.html">Background Signals at Zenith</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/atmospheric_absorption.html">Atmospheric Transmission</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/penumbra_plane.html">Penumbra Visualized</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/geoid_heights.html">Global Elevation</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/total_solar_irradiance.html">Total Solar Irradiance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/passbands.html">Passbands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/solar_system.html">Solar System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/star_catalogs.html">Star Catalogs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/reflected_albedo.html">Earth Albedo BRDF</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-vis/index.html">Plotting Options</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-vis/moon_libration.html">Moon Librations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-vis/plot_earth.html">Plotting Earth</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06-attitude/index.html">Rigid Body Attitudes</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/light_curve_iso_surfaces.html">Brightness Isosurfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/torque_free_axisymmetric.html">Torque-free Attitude Propagation</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/light_time_delay.html">Light Time Delay</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/local_sidereal_time.html">Local Sidereal Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/conic_sensor.html">Conic Sensors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/synthetic_rpo_images.html">Synthetic RPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/atmos_refraction.html">Atmospheric Refraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/horizon_mask.html">Horizon Masks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/pogs_local_terrain.html">POGS Local Terrain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/visualize_constraints.html">Horizon Masked Observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/local_hemisphere.html">Live Satellites From Observer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/fit_background.html">Fitting the Background</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Utility</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="wavelength_to_rgb.html">Wavelength to RGB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fitting_poisson_process.html">Fitting Poisson Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="count_lines.html">Counting Source Code Lines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="samplers.html">Samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random_figures_for_defense_pres.html">Figures for MS Defense</a></li>
+<li class="toctree-l2"><a class="reference internal" href="computer_graphics_background.html">Graphics Background</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">EGI Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_editor.html">Model Editor</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../09-models/index.html">3D Models</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/introduce_concavity.html">Introducing Concavities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/merge_bracket.html">Shape Interpolation Bracket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/merge_biased.html">Merging with Bias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/shape_interpolation.html">Shape Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/satellite_lineup.html">Satellite Lineup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/sfds.html">Signed Distance Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../10-ccd/index.html">CCD Characterization</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/mapping_function.html">Mapping Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/characterize_ccd.html">Characterizing the CCD Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_integration_time.html">Integration Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/noise_accum_gifs.html">Noise Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/airy_disk_gaussian_fit.html">Airy Disk Gaussian Fit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_heuristics.html">CCD Heuristics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/airy_disk_diffraction.html">Airy Disk Diffraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/precise_star_matching.html">Precise Star Matching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/background_shape.html">Background Shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/streaks.html">Streak Detection and Centroiding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/snr.html">Signal-to-Noise Ratio (SNR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/render_ccd.html">CCD Rendering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/star_matching.html">Star Matching</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Examples Gallery</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Utility</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">EGI Optimization</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-gallery-08-utility-egi-optimization-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="egi-optimization">
+<span id="sphx-glr-gallery-08-utility-egi-optimization-py"></span><h1>EGI Optimization<a class="headerlink" href="#egi-optimization" title="Permalink to this heading">#</a></h1>
+<p>EGI optimization figures recreated in Python, originally published in :cite:p:robinson2022:.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
+<span class="kn">import</span> <span class="nn">scipy.optimize</span> <span class="k">as</span> <span class="nn">opt</span>
+
+<span class="kn">import</span> <span class="nn">mirage</span> <span class="k">as</span> <span class="nn">mr</span>
+<span class="kn">import</span> <span class="nn">mirage.vis</span> <span class="k">as</span> <span class="nn">mrv</span>
+</pre></div>
+</div>
+<p>Plotting the EGI of a cube</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">obj</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">SpaceObject</span><span class="p">(</span><span class="s2">&quot;cube.obj&quot;</span><span class="p">)</span>
+<span class="n">obj</span><span class="o">.</span><span class="n">shift_to_center_of_mass</span><span class="p">()</span>
+<span class="n">cpos</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">render_spaceobject</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;linen&quot;</span><span class="p">)</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">plot_egi</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">egi</span><span class="p">,</span> <span class="n">scale_opacity</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">cpos</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_egi_optimization_001.png" srcset="../../_images/sphx_glr_egi_optimization_001.png" alt="egi optimization" class = "sphx-glr-single-img"/><p>Plotting the initial optimized EGI</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">brdf</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">Brdf</span><span class="p">(</span><span class="s2">&quot;phong&quot;</span><span class="p">,</span> <span class="n">cd</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">cs</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">normal_candidates</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">fibonacci_sample_sphere</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">svb</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">rand_unit_vectors</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">ovb</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">rand_unit_vectors</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">g_candidates</span> <span class="o">=</span> <span class="n">brdf</span><span class="o">.</span><span class="n">compute_reflection_matrix</span><span class="p">(</span><span class="n">svb</span><span class="p">,</span> <span class="n">ovb</span><span class="p">,</span> <span class="n">normal_candidates</span><span class="p">)</span>
+<span class="n">lc</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">convex_light_curve</span><span class="p">(</span><span class="n">brdf</span><span class="p">,</span> <span class="n">svb</span><span class="p">,</span> <span class="n">ovb</span><span class="p">)</span>
+<span class="n">a_candidates</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">nnls</span><span class="p">(</span><span class="n">g_candidates</span><span class="p">,</span> <span class="n">lc</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">valid</span> <span class="o">=</span> <span class="n">a_candidates</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">a_candidates</span><span class="p">)</span> <span class="o">/</span> <span class="mi">100</span>
+<span class="n">egi_candidate</span> <span class="o">=</span> <span class="n">normal_candidates</span><span class="p">[</span><span class="n">valid</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*</span> <span class="n">a_candidates</span><span class="p">[</span><span class="n">valid</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">render_spaceobject</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;linen&quot;</span><span class="p">)</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">plot_egi</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">egi_candidate</span><span class="p">,</span> <span class="n">scale_opacity</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">cpos</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_egi_optimization_002.png" srcset="../../_images/sphx_glr_egi_optimization_002.png" alt="egi optimization" class = "sphx-glr-single-img"/><p>Plotting the resampled EGI</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">resampled_n_candidates</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">nc</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="k">for</span> <span class="n">n_cand</span> <span class="ow">in</span> <span class="n">mr</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">egi_candidate</span><span class="p">):</span>
+    <span class="n">resampled_n_candidates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mr</span><span class="o">.</span><span class="n">rand_cone_vectors</span><span class="p">(</span><span class="n">n_cand</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">20</span><span class="p">,</span> <span class="n">nc</span><span class="p">))</span>
+<span class="n">resampled_n_candidates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">resampled_n_candidates</span><span class="p">)</span>
+
+<span class="n">g_candidates</span> <span class="o">=</span> <span class="n">brdf</span><span class="o">.</span><span class="n">compute_reflection_matrix</span><span class="p">(</span><span class="n">svb</span><span class="p">,</span> <span class="n">ovb</span><span class="p">,</span> <span class="n">resampled_n_candidates</span><span class="p">)</span>
+<span class="n">lc</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">convex_light_curve</span><span class="p">(</span><span class="n">brdf</span><span class="p">,</span> <span class="n">svb</span><span class="p">,</span> <span class="n">ovb</span><span class="p">)</span>
+<span class="n">a_candidates</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">nnls</span><span class="p">(</span><span class="n">g_candidates</span><span class="p">,</span> <span class="n">lc</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">valid</span> <span class="o">=</span> <span class="n">a_candidates</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">a_candidates</span><span class="p">)</span> <span class="o">/</span> <span class="mi">100</span>
+<span class="n">egi_candidate_resampled</span> <span class="o">=</span> <span class="n">resampled_n_candidates</span><span class="p">[</span><span class="n">valid</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*</span> <span class="n">a_candidates</span><span class="p">[</span><span class="n">valid</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">render_spaceobject</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;linen&quot;</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">scatter3</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="mf">1.2</span> <span class="o">*</span> <span class="n">resampled_n_candidates</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">plot_egi</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">egi_candidate_resampled</span><span class="p">,</span> <span class="n">scale_opacity</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">cpos</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_egi_optimization_003.png" srcset="../../_images/sphx_glr_egi_optimization_003.png" alt="egi optimization" class = "sphx-glr-single-img"/><p>Plotting merged EGI</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">egi_merged</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">merge_clusters</span><span class="p">(</span><span class="n">egi_candidate_resampled</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">render_spaceobject</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;linen&quot;</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">plot_egi</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">egi_merged</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">cpos</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_egi_optimization_004.png" srcset="../../_images/sphx_glr_egi_optimization_004.png" alt="egi optimization" class = "sphx-glr-single-img"/><p>Plotting the reconstructed object</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">egi_merged</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">egi_merged</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">egi_merged</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">mr</span><span class="o">.</span><span class="n">tic</span><span class="p">()</span>
+<span class="c1"># obj_reconstructed = mr.construct_mesh_from_egi(egi_merged)</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">optimize_supports_little</span><span class="p">(</span><span class="n">egi_merged</span><span class="p">)</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">toc</span><span class="p">(</span><span class="n">return_elapsed_seconds</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">obj_reconstructed</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">construct_from_egi_and_supports</span><span class="p">(</span><span class="n">egi_merged</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+<span class="n">obj_reconstructed</span><span class="o">.</span><span class="n">shift_to_center_of_mass</span><span class="p">()</span>
+
+<span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">window_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">500</span><span class="p">))</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">render_spaceobject</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;linen&quot;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">add_text</span><span class="p">(</span><span class="s2">&quot;Original&quot;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="s2">&quot;courier&quot;</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="s2">&quot;upper_left&quot;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">render_spaceobject</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">obj_reconstructed</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;linen&quot;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">add_text</span><span class="p">(</span><span class="s2">&quot;Reconstructed&quot;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="s2">&quot;courier&quot;</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="s2">&quot;upper_left&quot;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">link_views</span><span class="p">()</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">cpos</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">(</span><span class="mf">1.4</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_egi_optimization_005.png" srcset="../../_images/sphx_glr_egi_optimization_005.png" alt="egi optimization" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>| niter |f evals|CG iter|  obj func   |tr radius |   opt    |  c viol  | penalty  |barrier param|CG stop|
+|-------|-------|-------|-------------|----------|----------|----------|----------|-------------|-------|
+|   1   |   1   |   0   | +1.0000e+00 | 1.00e+00 | 3.65e-02 | 9.99e-01 | 1.00e+00 |  1.00e-01   |   0   |
+/Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/scipy/optimize/_differentiable_functions.py:231: UserWarning: delta_grad == 0.0. Check if the approximated function is linear. If the function is linear better results can be obtained by defining the Hessian as zero instead of using quasi-Newton approximations.
+  self.H.update(self.x - self.x_prev, self.g - self.g_prev)
+|   2   |   2   |   1   | +6.3225e+00 | 5.62e+00 | 1.26e-01 | 8.34e-01 | 8.43e+00 |  1.00e-01   |   4   |
+|   3   |   3   |   2   | +6.3225e+00 | 5.62e-01 | 1.26e-01 | 8.34e-01 | 8.43e+00 |  1.00e-01   |   4   |
+|   4   |   4   |   3   | +1.0072e+01 | 3.16e+00 | 1.37e-02 | 3.26e-01 | 1.25e+02 |  1.00e-01   |   4   |
+|   5   |   5   |   4   | +1.1699e+01 | 4.92e+00 | 3.51e-03 | 5.55e-02 | 1.25e+02 |  1.00e-01   |   4   |
+|   6   |   5   |   4   | +1.1699e+01 | 2.46e+01 | 2.04e-03 | 5.55e-02 | 1.00e+00 |  2.00e-02   |   0   |
+|   7   |   6   |   5   | +1.1494e+01 | 2.46e+01 | 2.54e-03 | 9.68e-04 | 1.00e+00 |  2.00e-02   |   4   |
+
+`gtol` termination condition is satisfied.
+Number of iterations: 7, function evaluations: 6, CG iterations: 5, optimality: 2.54e-03, constraint violation: 9.68e-04, execution time: 0.29 s.
+</pre></div>
+</div>
+<p>Reconstructing with the non-sparse EGI</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">window_size</span><span class="o">=</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">500</span><span class="p">))</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">render_spaceobject</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;linen&quot;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">add_text</span><span class="p">(</span><span class="s2">&quot;Truth&quot;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="s2">&quot;courier&quot;</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="s2">&quot;upper_left&quot;</span><span class="p">)</span>
+
+<span class="n">egi_candidate</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">close_egi</span><span class="p">(</span><span class="n">egi_candidate</span><span class="p">)</span>
+<span class="n">egi_candidate_resampled</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">close_egi</span><span class="p">(</span><span class="n">egi_candidate_resampled</span><span class="p">)</span>
+
+<span class="n">pl</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">mr</span><span class="o">.</span><span class="n">tic</span><span class="p">()</span>
+<span class="c1"># obj_reconstructed_initial = mr.construct_mesh_from_egi(egi_candidate)</span>
+<span class="n">h_initial</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">optimize_supports_little</span><span class="p">(</span><span class="n">egi_candidate</span><span class="p">)</span>
+<span class="n">dt_initial</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">toc</span><span class="p">(</span><span class="n">return_elapsed_seconds</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">obj_reconstructed_initial</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">construct_from_egi_and_supports</span><span class="p">(</span><span class="n">egi_candidate</span><span class="p">,</span> <span class="n">h_initial</span><span class="p">)</span>
+<span class="n">obj_reconstructed_initial</span><span class="o">.</span><span class="n">shift_to_center_of_mass</span><span class="p">()</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">render_spaceobject</span><span class="p">(</span>
+    <span class="n">pl</span><span class="p">,</span>
+    <span class="n">obj_reconstructed_initial</span><span class="p">,</span>
+    <span class="n">opacity</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;linen&quot;</span><span class="p">,</span>
+    <span class="n">feature_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">feature_edge_color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+    <span class="n">feature_edge_angle</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">render_spaceobject</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;wireframe&quot;</span><span class="p">,</span> <span class="n">feature_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">add_text</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial EGI: </span><span class="si">{</span><span class="n">dt_initial</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="s2">&quot;courier&quot;</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="s2">&quot;upper_left&quot;</span><span class="p">)</span>
+
+<span class="n">pl</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">mr</span><span class="o">.</span><span class="n">tic</span><span class="p">()</span>
+<span class="n">h_resampled</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">optimize_supports_little</span><span class="p">(</span><span class="n">egi_candidate_resampled</span><span class="p">)</span>
+<span class="c1"># obj_reconstructed_resampled = mr.construct_mesh_from_egi(egi_candidate_resampled)</span>
+<span class="n">dt_resampled</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">toc</span><span class="p">(</span><span class="n">return_elapsed_seconds</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">obj_reconstructed_resampled</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">construct_from_egi_and_supports</span><span class="p">(</span>
+    <span class="n">egi_candidate_resampled</span><span class="p">,</span> <span class="n">h_resampled</span>
+<span class="p">)</span>
+<span class="n">obj_reconstructed_resampled</span><span class="o">.</span><span class="n">shift_to_center_of_mass</span><span class="p">()</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">render_spaceobject</span><span class="p">(</span>
+    <span class="n">pl</span><span class="p">,</span>
+    <span class="n">obj_reconstructed_resampled</span><span class="p">,</span>
+    <span class="n">opacity</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;linen&quot;</span><span class="p">,</span>
+    <span class="n">feature_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">feature_edge_color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+    <span class="n">feature_edge_angle</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">render_spaceobject</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;wireframe&quot;</span><span class="p">,</span> <span class="n">feature_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">add_text</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;Resampled EGI: </span><span class="si">{</span><span class="n">dt_resampled</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="s2">&quot;courier&quot;</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="s2">&quot;upper_left&quot;</span>
+<span class="p">)</span>
+
+
+<span class="n">pl</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">render_spaceobject</span><span class="p">(</span>
+    <span class="n">pl</span><span class="p">,</span>
+    <span class="n">obj_reconstructed</span><span class="p">,</span>
+    <span class="n">opacity</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;linen&quot;</span><span class="p">,</span>
+    <span class="n">feature_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">feature_edge_color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+    <span class="n">feature_edge_angle</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">render_spaceobject</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;wireframe&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">feature_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">add_text</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Merged EGI: </span><span class="si">{</span><span class="n">dt</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="s2">&quot;courier&quot;</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="s2">&quot;upper_left&quot;</span><span class="p">)</span>
+
+<span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_egi_optimization_006.png" srcset="../../_images/sphx_glr_egi_optimization_006.png" alt="egi optimization" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>| niter |f evals|CG iter|  obj func   |tr radius |   opt    |  c viol  | penalty  |barrier param|CG stop|
+|-------|-------|-------|-------------|----------|----------|----------|----------|-------------|-------|
+|   1   |   1   |   0   | +1.0000e+00 | 1.00e+00 | 6.26e-01 | 1.00e+00 | 1.00e+00 |  1.00e-01   |   0   |
+/Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/scipy/optimize/_differentiable_functions.py:231: UserWarning: delta_grad == 0.0. Check if the approximated function is linear. If the function is linear better results can be obtained by defining the Hessian as zero instead of using quasi-Newton approximations.
+  self.H.update(self.x - self.x_prev, self.g - self.g_prev)
+|   2   |   2   |   1   | +2.6493e+00 | 7.00e+00 | 6.72e-01 | 9.99e-01 | 3.29e+00 |  1.00e-01   |   2   |
+|   3   |   3   |   3   | +2.9121e+01 | 4.12e+01 | 1.86e+00 | 1.09e+00 | 2.95e+02 |  1.00e-01   |   2   |
+|   4   |   4   |   8   | +2.7024e+01 | 4.12e+01 | 1.80e+00 | 3.78e-01 | 2.95e+02 |  1.00e-01   |   4   |
+|   5   |   5   |  14   | +2.7854e+01 | 4.12e+01 | 1.78e+00 | 6.83e-02 | 2.95e+02 |  1.00e-01   |   4   |
+|   6   |   6   |  19   | +2.6970e+01 | 4.12e+01 | 1.76e+00 | 7.06e-03 | 2.95e+02 |  1.00e-01   |   4   |
+|   7   |   8   |  25   | +2.6970e+01 | 4.12e+00 | 1.76e+00 | 7.06e-03 | 2.95e+02 |  1.00e-01   |   4   |
+|   8   |  10   |  33   | +2.6970e+01 | 4.12e-01 | 1.76e+00 | 7.06e-03 | 2.95e+02 |  1.00e-01   |   4   |
+|   9   |  11   |  34   | +2.5200e+01 | 8.24e-01 | 1.64e+00 | 5.41e-03 | 2.95e+02 |  1.00e-01   |   2   |
+|  10   |  12   |  36   | +2.1794e+01 | 8.24e-01 | 1.38e+00 | 1.51e-02 | 2.95e+02 |  1.00e-01   |   2   |
+|  11   |  13   |  37   | +1.8672e+01 | 1.65e+00 | 1.17e+00 | 6.55e-03 | 2.95e+02 |  1.00e-01   |   2   |
+|  12   |  15   |  38   | +1.8672e+01 | 1.65e-01 | 1.17e+00 | 6.55e-03 | 2.95e+02 |  1.00e-01   |   2   |
+|  13   |  16   |  39   | +1.8127e+01 | 1.15e+00 | 1.12e+00 | 8.04e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  14   |  18   |  40   | +1.8127e+01 | 1.15e-01 | 1.12e+00 | 8.04e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  15   |  19   |  41   | +1.7750e+01 | 2.31e-01 | 1.09e+00 | 6.81e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  16   |  21   |  42   | +1.7028e+01 | 1.61e+00 | 1.01e+00 | 3.06e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  17   |  23   |  43   | +1.7028e+01 | 1.61e-01 | 1.01e+00 | 3.06e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  18   |  25   |  44   | +1.6577e+01 | 1.13e+00 | 9.50e-01 | 1.31e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  19   |  27   |  45   | +1.6577e+01 | 1.13e-01 | 9.50e-01 | 1.31e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  20   |  29   |  46   | +1.6280e+01 | 7.91e-01 | 8.78e-01 | 7.83e-07 | 2.95e+02 |  1.00e-01   |   2   |
+|  21   |  31   |  47   | +1.6280e+01 | 7.91e-02 | 8.78e-01 | 7.83e-07 | 2.95e+02 |  1.00e-01   |   2   |
+|  22   |  33   |  48   | +1.6089e+01 | 5.54e-01 | 7.15e-01 | 1.64e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  23   |  35   |  50   | +1.6089e+01 | 5.54e-02 | 7.15e-01 | 1.64e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  24   |  37   |  51   | +1.5971e+01 | 3.88e-01 | 6.90e-01 | 3.55e-05 | 2.95e+02 |  1.00e-01   |   2   |
+|  25   |  39   |  52   | +1.5319e+01 | 7.75e-01 | 6.26e-01 | 8.10e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  26   |  41   |  57   | +1.5319e+01 | 7.75e-02 | 6.26e-01 | 8.10e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  27   |  43   |  58   | +1.5160e+01 | 1.55e-01 | 4.74e-01 | 3.88e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  28   |  45   |  59   | +1.5160e+01 | 1.55e-02 | 4.74e-01 | 3.88e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  29   |  46   |  60   | +1.5132e+01 | 3.10e-02 | 4.68e-01 | 2.35e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  30   |  48   |  61   | +1.5081e+01 | 6.20e-02 | 4.55e-01 | 4.70e-05 | 2.95e+02 |  1.00e-01   |   2   |
+|  31   |  50   |  62   | +1.4995e+01 | 1.24e-01 | 4.28e-01 | 1.69e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  32   |  52   |  63   | +1.4847e+01 | 8.69e-01 | 3.66e-01 | 2.34e-05 | 2.95e+02 |  1.00e-01   |   2   |
+|  33   |  54   |  67   | +1.4847e+01 | 8.69e-02 | 3.66e-01 | 2.34e-05 | 2.95e+02 |  1.00e-01   |   2   |
+|  34   |  55   |  68   | +1.4745e+01 | 1.74e-01 | 3.24e-01 | 1.67e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  35   |  56   |  69   | +1.4553e+01 | 1.22e+00 | 2.50e-01 | 1.36e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  36   |  58   |  75   | +1.4553e+01 | 1.22e-01 | 2.50e-01 | 1.36e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  37   |  59   |  76   | +1.4430e+01 | 2.43e-01 | 2.08e-01 | 1.01e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  38   |  61   |  77   | +1.4214e+01 | 1.70e+00 | 2.16e-01 | 1.09e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  39   |  63   |  92   | +1.4214e+01 | 1.70e-01 | 2.16e-01 | 1.09e-04 | 2.95e+02 |  1.00e-01   |   4   |
+|  40   |  65   |  94   | +1.4214e+01 | 1.70e-02 | 2.16e-01 | 1.09e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  41   |  67   |  95   | +1.4200e+01 | 1.19e-01 | 1.36e-01 | 6.61e-06 | 2.95e+02 |  1.00e-01   |   2   |
+|  42   |  69   |  96   | +1.4121e+01 | 2.38e-01 | 2.89e-01 | 1.66e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  43   |  71   |  99   | +1.4121e+01 | 2.38e-02 | 2.89e-01 | 1.66e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  44   |  73   |  100  | +1.4104e+01 | 1.67e-01 | 1.09e-01 | 6.43e-06 | 2.95e+02 |  1.00e-01   |   2   |
+|  45   |  75   |  101  | +1.4104e+01 | 1.67e-02 | 1.09e-01 | 6.43e-06 | 2.95e+02 |  1.00e-01   |   2   |
+|  46   |  77   |  102  | +1.4092e+01 | 1.17e-01 | 1.06e-01 | 3.34e-07 | 2.95e+02 |  1.00e-01   |   2   |
+|  47   |  79   |  103  | +1.4015e+01 | 8.17e-01 | 1.40e-01 | 6.00e-06 | 2.95e+02 |  1.00e-01   |   2   |
+|  48   |  81   |  106  | +1.3545e+01 | 1.63e+00 | 2.59e-01 | 6.74e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  49   |  83   |  117  | +1.3545e+01 | 1.63e-01 | 2.59e-01 | 6.74e-04 | 2.95e+02 |  1.00e-01   |   4   |
+|  50   |  85   |  122  | +1.3494e+01 | 1.63e-01 | 1.51e-01 | 8.19e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  51   |  87   |  126  | +1.3463e+01 | 3.27e-01 | 1.43e-01 | 1.21e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  52   |  89   |  131  | +1.3396e+01 | 6.54e-01 | 1.45e-01 | 1.32e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  53   |  91   |  137  | +1.3304e+01 | 4.58e+00 | 1.26e-01 | 7.20e-05 | 2.95e+02 |  1.00e-01   |   2   |
+|  54   |  93   |  149  | +1.3225e+01 | 8.49e+00 | 1.20e-01 | 1.11e-04 | 2.95e+02 |  1.00e-01   |   4   |
+|  55   |  95   |  160  | +1.3195e+01 | 8.49e+00 | 2.86e-01 | 4.59e-04 | 2.95e+02 |  1.00e-01   |   4   |
+|  56   |  97   |  175  | +1.3214e+01 | 8.49e+00 | 2.44e-01 | 7.40e-04 | 2.95e+02 |  1.00e-01   |   4   |
+|  57   |  99   |  186  | +1.3214e+01 | 8.49e-01 | 2.44e-01 | 7.40e-04 | 2.95e+02 |  1.00e-01   |   4   |
+|  58   |  101  |  196  | +1.3214e+01 | 8.49e-02 | 2.44e-01 | 7.40e-04 | 2.95e+02 |  1.00e-01   |   4   |
+|  59   |  103  |  198  | +1.3214e+01 | 8.49e-03 | 2.44e-01 | 7.40e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  60   |  104  |  199  | +1.3208e+01 | 1.70e-02 | 2.27e-01 | 1.01e-04 | 2.95e+02 |  1.00e-01   |   2   |
+|  61   |  106  |  200  | +1.3192e+01 | 1.19e-01 | 1.86e-01 | 7.42e-06 | 2.95e+02 |  1.00e-01   |   2   |
+|  62   |  108  |  202  | +1.3192e+01 | 1.19e-02 | 1.86e-01 | 7.42e-06 | 2.95e+02 |  1.00e-01   |   2   |
+|  63   |  110  |  203  | +1.3183e+01 | 8.32e-02 | 1.56e-01 | 1.50e-06 | 2.95e+02 |  1.00e-01   |   2   |
+|  64   |  112  |  205  | +1.3183e+01 | 8.32e-03 | 1.56e-01 | 1.50e-06 | 2.95e+02 |  1.00e-01   |   2   |
+|  65   |  114  |  206  | +1.3177e+01 | 5.83e-02 | 1.38e-01 | 2.87e-07 | 2.95e+02 |  1.00e-01   |   2   |
+|  66   |  116  |  207  | +1.3153e+01 | 5.83e-02 | 1.16e-01 | 7.24e-05 | 2.95e+02 |  1.00e-01   |   2   |
+|  67   |  118  |  209  | +1.3140e+01 | 4.08e-01 | 9.38e-02 | 6.16e-06 | 2.95e+02 |  1.00e-01   |   2   |
+|  68   |  120  |  214  | +1.3123e+01 | 2.85e+00 | 1.09e-01 | 3.17e-05 | 2.95e+02 |  1.00e-01   |   2   |
+|  69   |  122  |  223  | +1.3128e+01 | 4.95e+00 | 1.76e-01 | 1.79e-05 | 2.95e+02 |  1.00e-01   |   4   |
+|  70   |  124  |  233  | +1.3109e+01 | 4.95e+00 | 9.64e-02 | 4.13e-05 | 2.95e+02 |  1.00e-01   |   4   |
+|  71   |  126  |  242  | +1.3087e+01 | 4.95e+00 | 6.54e-02 | 6.27e-06 | 2.95e+02 |  1.00e-01   |   4   |
+|  72   |  128  |  252  | +1.3087e+01 | 4.95e-01 | 6.54e-02 | 6.27e-06 | 2.95e+02 |  1.00e-01   |   4   |
+|  73   |  130  |  259  | +1.3060e+01 | 4.95e-01 | 5.57e-02 | 3.55e-05 | 2.95e+02 |  1.00e-01   |   4   |
+|  74   |  130  |  259  | +1.3060e+01 | 2.47e+00 | 7.38e-02 | 3.55e-05 | 1.00e+00 |  2.00e-02   |   0   |
+|  75   |  131  |  265  | +1.3045e+01 | 2.47e+00 | 6.44e-02 | 7.16e-04 | 1.00e+00 |  2.00e-02   |   4   |
+|  76   |  132  |  270  | +1.3035e+01 | 2.47e+00 | 6.54e-02 | 1.82e-03 | 1.00e+00 |  2.00e-02   |   4   |
+|  77   |  133  |  273  | +1.3038e+01 | 2.47e+00 | 1.84e-02 | 6.39e-04 | 3.88e+00 |  2.00e-02   |   4   |
+|  78   |  134  |  276  | +1.3040e+01 | 2.47e+00 | 3.30e-01 | 6.06e-05 | 4.83e+00 |  2.00e-02   |   4   |
+|  79   |  136  |  283  | +1.3040e+01 | 2.47e-01 | 3.30e-01 | 6.06e-05 | 4.83e+00 |  2.00e-02   |   4   |
+|  80   |  138  |  289  | +1.3040e+01 | 1.09e-01 | 3.30e-01 | 6.06e-05 | 4.83e+00 |  2.00e-02   |   4   |
+|  81   |  140  |  293  | +1.3040e+01 | 5.43e-02 | 3.30e-01 | 6.06e-05 | 4.83e+00 |  2.00e-02   |   2   |
+|  82   |  142  |  295  | +1.3040e+01 | 2.71e-02 | 3.30e-01 | 6.06e-05 | 4.83e+00 |  2.00e-02   |   2   |
+|  83   |  144  |  296  | +1.3040e+01 | 1.36e-02 | 3.30e-01 | 6.06e-05 | 4.83e+00 |  2.00e-02   |   2   |
+|  84   |  146  |  297  | +1.3040e+01 | 6.79e-03 | 3.30e-01 | 6.06e-05 | 4.83e+00 |  2.00e-02   |   2   |
+|  85   |  148  |  298  | +1.3040e+01 | 3.39e-03 | 3.30e-01 | 6.06e-05 | 4.83e+00 |  2.00e-02   |   2   |
+|  86   |  150  |  299  | +1.3040e+01 | 3.39e-03 | 3.14e-01 | 4.74e-06 | 4.83e+00 |  2.00e-02   |   2   |
+|  87   |  152  |  300  | +1.3040e+01 | 1.70e-03 | 3.14e-01 | 4.74e-06 | 4.83e+00 |  2.00e-02   |   2   |
+|  88   |  154  |  301  | +1.3040e+01 | 8.48e-04 | 3.14e-01 | 4.74e-06 | 4.83e+00 |  2.00e-02   |   2   |
+|  89   |  156  |  302  | +1.3040e+01 | 4.24e-04 | 3.14e-01 | 4.74e-06 | 4.83e+00 |  2.00e-02   |   2   |
+|  90   |  158  |  304  | +1.3040e+01 | 2.12e-04 | 3.14e-01 | 4.74e-06 | 4.83e+00 |  2.00e-02   |   2   |
+|  91   |  160  |  305  | +1.3040e+01 | 2.12e-04 | 1.38e-02 | 1.40e-07 | 4.83e+00 |  2.00e-02   |   2   |
+|  92   |  161  |  306  | +1.3040e+01 | 1.48e-03 | 1.35e-02 | 3.53e-08 | 4.83e+00 |  2.00e-02   |   2   |
+|  93   |  162  |  307  | +1.3040e+01 | 1.04e-02 | 1.19e-02 | 1.67e-06 | 4.83e+00 |  2.00e-02   |   2   |
+|  94   |  162  |  307  | +1.3040e+01 | 1.00e+00 | 1.82e-02 | 1.67e-06 | 1.00e+00 |  4.00e-03   |   0   |
+|  95   |  163  |  313  | +1.3038e+01 | 1.00e+00 | 2.70e-02 | 2.24e-04 | 1.00e+00 |  4.00e-03   |   4   |
+|  96   |  164  |  316  | +1.3038e+01 | 1.00e+00 | 2.74e-01 | 8.21e-05 | 4.13e+00 |  4.00e-03   |   4   |
+|  97   |  166  |  322  | +1.3038e+01 | 1.65e-01 | 2.74e-01 | 8.21e-05 | 4.13e+00 |  4.00e-03   |   4   |
+|  98   |  168  |  327  | +1.3038e+01 | 8.23e-02 | 2.74e-01 | 8.21e-05 | 4.13e+00 |  4.00e-03   |   4   |
+|  99   |  170  |  330  | +1.3038e+01 | 4.11e-02 | 2.74e-01 | 8.21e-05 | 4.13e+00 |  4.00e-03   |   2   |
+|  100  |  172  |  332  | +1.3038e+01 | 2.06e-02 | 2.74e-01 | 8.21e-05 | 4.13e+00 |  4.00e-03   |   2   |
+
+The maximum number of function evaluations is exceeded.
+Number of iterations: 100, function evaluations: 172, CG iterations: 332, optimality: 2.74e-01, constraint violation: 8.21e-05, execution time: 3e+01 s.
+| niter |f evals|CG iter|  obj func   |tr radius |   opt    |  c viol  | penalty  |barrier param|CG stop|
+|-------|-------|-------|-------------|----------|----------|----------|----------|-------------|-------|
+|   1   |   1   |   0   | +1.0000e+00 | 1.00e+00 | 9.61e-01 | 9.99e-01 | 1.00e+00 |  1.00e-01   |   0   |
+|   2   |   2   |   1   | +2.1387e+00 | 7.00e+00 | 8.86e-01 | 9.98e-01 | 2.65e+00 |  1.00e-01   |   2   |
+|   3   |   3   |   4   | +1.0968e+01 | 2.19e+01 | 6.87e-01 | 6.83e-01 | 2.36e+02 |  1.00e-01   |   2   |
+|   4   |   4   |  13   | +1.0968e+01 | 2.19e+00 | 6.87e-01 | 6.83e-01 | 2.36e+02 |  1.00e-01   |   2   |
+|   5   |   5   |  21   | +1.0968e+01 | 1.10e+00 | 6.87e-01 | 6.83e-01 | 2.36e+02 |  1.00e-01   |   2   |
+|   6   |   6   |  24   | +1.4277e+01 | 7.68e+00 | 6.67e-01 | 3.59e-01 | 2.36e+02 |  1.00e-01   |   2   |
+|   7   |   7   |  31   | +1.4277e+01 | 9.94e-01 | 6.67e-01 | 3.59e-01 | 2.36e+02 |  1.00e-01   |   2   |
+|   8   |   8   |  33   | +1.6344e+01 | 1.99e+00 | 8.09e-01 | 2.86e-01 | 2.36e+02 |  1.00e-01   |   2   |
+|   9   |   9   |  35   | +1.6344e+01 | 4.26e-01 | 8.09e-01 | 2.86e-01 | 2.36e+02 |  1.00e-01   |   2   |
+|  10   |  10   |  40   | +1.7289e+01 | 2.74e+00 | 8.35e-01 | 1.78e-01 | 2.36e+02 |  1.00e-01   |   4   |
+|  11   |  11   |  44   | +1.7289e+01 | 5.10e-01 | 8.35e-01 | 1.78e-01 | 2.36e+02 |  1.00e-01   |   2   |
+|  12   |  12   |  45   | +1.8789e+01 | 5.10e-01 | 8.66e-01 | 1.36e-01 | 2.36e+02 |  1.00e-01   |   2   |
+|  13   |  13   |  46   | +2.0501e+01 | 1.02e+00 | 9.47e-01 | 1.31e-01 | 2.36e+02 |  1.00e-01   |   2   |
+|  14   |  14   |  47   | +2.0501e+01 | 2.05e-01 | 9.47e-01 | 1.31e-01 | 2.36e+02 |  1.00e-01   |   2   |
+|  15   |  15   |  50   | +2.0716e+01 | 4.09e-01 | 1.06e+00 | 1.09e-01 | 2.36e+02 |  1.00e-01   |   2   |
+|  16   |  16   |  55   | +2.2271e+01 | 8.19e-01 | 9.85e-01 | 9.05e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  17   |  17   |  56   | +2.2271e+01 | 1.50e-01 | 9.85e-01 | 9.05e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  18   |  18   |  59   | +2.2271e+01 | 7.50e-02 | 9.85e-01 | 9.05e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  19   |  19   |  61   | +2.2331e+01 | 1.50e-01 | 1.13e+00 | 9.09e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  20   |  20   |  64   | +2.2331e+01 | 6.14e-02 | 1.13e+00 | 9.09e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  21   |  21   |  66   | +2.2404e+01 | 1.23e-01 | 1.04e+00 | 8.96e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  22   |  22   |  68   | +2.2404e+01 | 6.14e-02 | 1.04e+00 | 8.96e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  23   |  23   |  69   | +2.2512e+01 | 1.23e-01 | 1.15e+00 | 8.81e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  24   |  24   |  71   | +2.2512e+01 | 5.65e-02 | 1.15e+00 | 8.81e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  25   |  25   |  72   | +2.2628e+01 | 1.13e-01 | 1.06e+00 | 8.67e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  26   |  26   |  74   | +2.2628e+01 | 5.65e-02 | 1.06e+00 | 8.67e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  27   |  27   |  76   | +2.2747e+01 | 1.13e-01 | 1.17e+00 | 8.55e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  28   |  28   |  78   | +2.2747e+01 | 4.74e-02 | 1.17e+00 | 8.55e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  29   |  29   |  80   | +2.2838e+01 | 4.74e-02 | 1.07e+00 | 8.43e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  30   |  30   |  82   | +2.2943e+01 | 9.48e-02 | 1.15e+00 | 8.35e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  31   |  31   |  85   | +2.3255e+01 | 1.90e-01 | 2.08e+00 | 8.04e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  32   |  32   |  88   | +2.3909e+01 | 3.79e-01 | 2.21e+00 | 7.55e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  33   |  33   |  90   | +2.3909e+01 | 1.18e-01 | 2.21e+00 | 7.55e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  34   |  34   |  93   | +2.4115e+01 | 1.18e-01 | 1.15e+00 | 7.32e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  35   |  35   |  96   | +2.4437e+01 | 2.35e-01 | 1.28e+00 | 7.16e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  36   |  36   |  99   | +2.4437e+01 | 1.18e-01 | 1.28e+00 | 7.16e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  37   |  37   |  102  | +2.4757e+01 | 1.18e-01 | 1.33e+00 | 6.94e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  38   |  38   |  104  | +2.4998e+01 | 2.35e-01 | 9.99e-01 | 6.76e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  39   |  39   |  107  | +2.4998e+01 | 1.18e-01 | 9.99e-01 | 6.76e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  40   |  40   |  110  | +2.5377e+01 | 2.35e-01 | 1.53e+00 | 6.58e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  41   |  41   |  113  | +2.5377e+01 | 4.99e-02 | 1.53e+00 | 6.58e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  42   |  42   |  114  | +2.5403e+01 | 9.98e-02 | 1.19e+00 | 6.55e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  43   |  43   |  117  | +2.5403e+01 | 4.99e-02 | 1.19e+00 | 6.55e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  44   |  44   |  119  | +2.5536e+01 | 3.49e-01 | 1.19e+00 | 6.49e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  45   |  45   |  122  | +2.5536e+01 | 1.75e-01 | 1.19e+00 | 6.49e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  46   |  46   |  126  | +2.6148e+01 | 3.49e-01 | 1.04e+00 | 6.13e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  47   |  47   |  128  | +2.6148e+01 | 1.12e-01 | 1.04e+00 | 6.13e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  48   |  48   |  131  | +2.6499e+01 | 2.24e-01 | 1.10e+00 | 5.96e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  49   |  49   |  134  | +2.6499e+01 | 1.12e-01 | 1.10e+00 | 5.96e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  50   |  50   |  136  | +2.6832e+01 | 2.24e-01 | 1.36e+00 | 5.81e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  51   |  51   |  139  | +2.6832e+01 | 1.03e-01 | 1.36e+00 | 5.81e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  52   |  52   |  141  | +2.7103e+01 | 1.03e-01 | 1.12e+00 | 5.65e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  53   |  53   |  143  | +2.7408e+01 | 2.06e-01 | 1.08e+00 | 5.52e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  54   |  54   |  146  | +2.8171e+01 | 2.06e-01 | 1.40e+00 | 5.20e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  55   |  55   |  148  | +2.8171e+01 | 1.03e-01 | 1.40e+00 | 5.20e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  56   |  56   |  150  | +2.8392e+01 | 1.03e-01 | 1.01e+00 | 5.09e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  57   |  57   |  152  | +2.8688e+01 | 2.06e-01 | 1.34e+00 | 4.99e-02 | 2.36e+02 |  1.00e-01   |   2   |
+|  58   |  58   |  155  | +2.9510e+01 | 4.13e-01 | 1.11e+00 | 4.70e-02 | 2.85e+02 |  1.00e-01   |   2   |
+|  59   |  59   |  157  | +2.9510e+01 | 1.29e-01 | 1.11e+00 | 4.70e-02 | 2.85e+02 |  1.00e-01   |   2   |
+|  60   |  60   |  160  | +2.9944e+01 | 2.57e-01 | 1.45e+00 | 4.57e-02 | 2.85e+02 |  1.00e-01   |   2   |
+|  61   |  61   |  163  | +2.9944e+01 | 1.04e-01 | 1.45e+00 | 4.57e-02 | 2.85e+02 |  1.00e-01   |   2   |
+|  62   |  62   |  166  | +2.9944e+01 | 5.21e-02 | 1.45e+00 | 4.57e-02 | 2.85e+02 |  1.00e-01   |   2   |
+|  63   |  63   |  168  | +3.0023e+01 | 1.04e-01 | 1.41e+00 | 4.52e-02 | 2.85e+02 |  1.00e-01   |   2   |
+|  64   |  64   |  170  | +3.0023e+01 | 5.21e-02 | 1.41e+00 | 4.52e-02 | 2.85e+02 |  1.00e-01   |   2   |
+|  65   |  65   |  172  | +3.0152e+01 | 5.21e-02 | 1.32e+00 | 4.47e-02 | 2.85e+02 |  1.00e-01   |   2   |
+|  66   |  66   |  174  | +3.0312e+01 | 1.04e-01 | 1.46e+00 | 4.42e-02 | 2.85e+02 |  1.00e-01   |   2   |
+|  67   |  67   |  177  | +3.0312e+01 | 5.21e-02 | 1.46e+00 | 4.42e-02 | 2.85e+02 |  1.00e-01   |   2   |
+|  68   |  68   |  179  | +3.0455e+01 | 5.21e-02 | 1.34e+00 | 4.37e-02 | 2.85e+02 |  1.00e-01   |   2   |
+|  69   |  69   |  181  | +3.0612e+01 | 1.04e-01 | 1.47e+00 | 4.32e-02 | 2.85e+02 |  1.00e-01   |   2   |
+|  70   |  70   |  183  | +3.0612e+01 | 5.21e-02 | 1.47e+00 | 4.32e-02 | 2.85e+02 |  1.00e-01   |   2   |
+|  71   |  71   |  185  | +3.0749e+01 | 5.21e-02 | 1.34e+00 | 4.27e-02 | 2.85e+02 |  1.00e-01   |   2   |
+|  72   |  72   |  187  | +3.0877e+01 | 1.04e-01 | 1.48e+00 | 4.23e-02 | 2.85e+02 |  1.00e-01   |   2   |
+|  73   |  73   |  190  | +3.0877e+01 | 5.21e-02 | 1.48e+00 | 4.23e-02 | 2.85e+02 |  1.00e-01   |   2   |
+|  74   |  74   |  192  | +3.1018e+01 | 5.21e-02 | 1.35e+00 | 4.18e-02 | 2.85e+02 |  1.00e-01   |   2   |
+|  75   |  75   |  194  | +3.1018e+01 | 2.61e-02 | 1.35e+00 | 4.18e-02 | 2.85e+02 |  1.00e-01   |   2   |
+|  76   |  76   |  196  | +3.1079e+01 | 1.82e-01 | 8.09e-01 | 4.17e-02 | 2.85e+02 |  1.00e-01   |   2   |
+|  77   |  77   |  199  | +3.1772e+01 | 3.65e-01 | 1.09e+00 | 3.98e-02 | 3.64e+02 |  1.00e-01   |   2   |
+|  78   |  78   |  203  | +3.1772e+01 | 1.82e-01 | 1.09e+00 | 3.98e-02 | 3.64e+02 |  1.00e-01   |   2   |
+|  79   |  79   |  206  | +3.2411e+01 | 3.65e-01 | 1.28e+00 | 3.80e-02 | 3.64e+02 |  1.00e-01   |   2   |
+|  80   |  80   |  208  | +3.2411e+01 | 1.10e-01 | 1.28e+00 | 3.80e-02 | 3.64e+02 |  1.00e-01   |   2   |
+|  81   |  81   |  211  | +3.2785e+01 | 2.20e-01 | 1.49e+00 | 3.70e-02 | 3.64e+02 |  1.00e-01   |   2   |
+|  82   |  82   |  213  | +3.2785e+01 | 2.83e-02 | 1.49e+00 | 3.70e-02 | 3.64e+02 |  1.00e-01   |   2   |
+|  83   |  83   |  215  | +3.2854e+01 | 5.67e-02 | 1.28e+00 | 3.69e-02 | 3.64e+02 |  1.00e-01   |   2   |
+|  84   |  84   |  217  | +3.3040e+01 | 1.13e-01 | 1.39e+00 | 3.64e-02 | 3.64e+02 |  1.00e-01   |   2   |
+|  85   |  85   |  220  | +3.3410e+01 | 2.27e-01 | 1.23e+00 | 3.54e-02 | 3.78e+02 |  1.00e-01   |   2   |
+|  86   |  86   |  224  | +3.4239e+01 | 4.53e-01 | 1.44e+00 | 3.36e-02 | 4.29e+02 |  1.00e-01   |   2   |
+|  87   |  87   |  227  | +3.4239e+01 | 7.47e-02 | 1.44e+00 | 3.36e-02 | 4.29e+02 |  1.00e-01   |   2   |
+|  88   |  88   |  230  | +3.4475e+01 | 1.49e-01 | 1.51e+00 | 3.31e-02 | 4.29e+02 |  1.00e-01   |   2   |
+|  89   |  89   |  234  | +3.4475e+01 | 6.77e-02 | 1.51e+00 | 3.31e-02 | 4.29e+02 |  1.00e-01   |   2   |
+|  90   |  90   |  237  | +3.4634e+01 | 1.35e-01 | 1.22e+00 | 3.27e-02 | 4.29e+02 |  1.00e-01   |   2   |
+|  91   |  91   |  240  | +3.5047e+01 | 2.71e-01 | 1.73e+00 | 3.17e-02 | 4.29e+02 |  1.00e-01   |   2   |
+|  92   |  92   |  242  | +3.5047e+01 | 8.73e-02 | 1.73e+00 | 3.17e-02 | 4.29e+02 |  1.00e-01   |   2   |
+|  93   |  93   |  244  | +3.5334e+01 | 8.73e-02 | 1.52e+00 | 3.11e-02 | 4.29e+02 |  1.00e-01   |   2   |
+|  94   |  94   |  246  | +3.5636e+01 | 6.11e-01 | 1.60e+00 | 3.06e-02 | 4.29e+02 |  1.00e-01   |   2   |
+|  95   |  95   |  250  | +3.5636e+01 | 1.94e-01 | 1.60e+00 | 3.06e-02 | 4.29e+02 |  1.00e-01   |   2   |
+|  96   |  96   |  253  | +3.6302e+01 | 3.87e-01 | 1.85e+00 | 2.91e-02 | 4.87e+02 |  1.00e-01   |   2   |
+|  97   |  97   |  255  | +3.6302e+01 | 4.08e-02 | 1.85e+00 | 2.91e-02 | 4.87e+02 |  1.00e-01   |   2   |
+|  98   |  98   |  257  | +3.6420e+01 | 8.16e-02 | 1.82e+00 | 2.89e-02 | 4.87e+02 |  1.00e-01   |   2   |
+|  99   |  99   |  259  | +3.6420e+01 | 3.50e-02 | 1.82e+00 | 2.89e-02 | 4.87e+02 |  1.00e-01   |   2   |
+|  100  |  100  |  261  | +3.6507e+01 | 7.01e-02 | 1.65e+00 | 2.87e-02 | 4.87e+02 |  1.00e-01   |   2   |
+
+The maximum number of function evaluations is exceeded.
+Number of iterations: 100, function evaluations: 100, CG iterations: 261, optimality: 1.65e+00, constraint violation: 2.87e-02, execution time: 1.7e+01 s.
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  50.511 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-08-utility-egi-optimization-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/a4fe15571774410705b0cace3f0d010f/egi_optimization.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">egi_optimization.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/e3b3243634c8b0269e25dde61b38e072/egi_optimization.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">egi_optimization.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="computer_graphics_background.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Graphics Background</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="model_editor.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Model Editor</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024-2024, Liam Robinson.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

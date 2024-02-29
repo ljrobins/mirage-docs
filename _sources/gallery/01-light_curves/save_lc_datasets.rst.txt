@@ -24,27 +24,30 @@ Saving Light Curve Datasets
 .. GENERATED FROM PYTHON SOURCE LINES 5-148
 
 
-
-.. image-sg:: /gallery/01-light_curves/images/sphx_glr_save_lc_datasets_001.png
-   :alt: matlib_telstar19v
-   :srcset: /gallery/01-light_curves/images/sphx_glr_save_lc_datasets_001.png, /gallery/01-light_curves/images/sphx_glr_save_lc_datasets_001_2_00x.png 2.00x
-   :class: sphx-glr-single-img
-
-
 .. rst-class:: sphx-glr-script-out
 
- .. code-block:: none
+.. code-block:: pytb
 
-    matlib_telstar19v.obj <class 'mirage.attitude.RbtfAttitude'>
-    matlib_saturn_v_sii.obj <class 'mirage.attitude.SpinStabilizedAttitude'>
-    matlib_saturn_v_sii.obj <class 'mirage.attitude.SpinStabilizedAttitude'>
-    matlib_hylas4.obj <class 'mirage.attitude.RbtfAttitude'>
-    matlib_tdrs.obj <class 'mirage.attitude.RbtfAttitude'>
-    matlib_astra.obj <class 'mirage.attitude.RbtfAttitude'>
-    matlib_astra.obj <class 'mirage.attitude.SpinStabilizedAttitude'>
-    matlib_astra.obj <class 'mirage.attitude.AlignedAndConstrainedAttitude'>
-    matlib_hylas4.obj <class 'mirage.attitude.AlignedAndConstrainedAttitude'>
-    matlib_telstar19v.obj <class 'mirage.attitude.AlignedAndConstrainedAttitude'>
+    Traceback (most recent call last):
+      File "/Users/liamrobinson/Documents/PyLightCurves/examples/01-light_curves/save_lc_datasets.py", line 147, in <module>
+        generate_light_curve()
+      File "/Users/liamrobinson/Documents/PyLightCurves/examples/01-light_curves/save_lc_datasets.py", line 123, in generate_light_curve
+        lc_sampler, aux_data = station.observe_light_curve(
+      File "/Users/liamrobinson/Documents/PyLightCurves/mirage/station.py", line 453, in observe_light_curve
+        (q, w) = obj_attitude.propagate(epsec_space)
+      File "/Users/liamrobinson/Documents/PyLightCurves/mirage/attitude.py", line 1268, in propagate
+        q_plus = dcm_to_quat(self.dcms_at_dates(dates_plus))
+      File "/Users/liamrobinson/Documents/PyLightCurves/mirage/attitude.py", line 1291, in dcms_at_dates
+        (v1, v2, v3) = self.basis_vectors_at_dates(dates_or_jds)
+      File "/Users/liamrobinson/Documents/PyLightCurves/mirage/attitude.py", line 1310, in basis_vectors_at_dates
+        const_at_jd = self.const_interpolator(jd_eval)
+      File "/Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/scipy/interpolate/_polyint.py", line 80, in __call__
+        y = self._evaluate(x)
+      File "/Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/scipy/interpolate/_interpolate.py", line 755, in _evaluate
+        below_bounds, above_bounds = self._check_bounds(x_new)
+      File "/Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/scipy/interpolate/_interpolate.py", line 789, in _check_bounds
+        raise ValueError("A value ({}) in x_new is above "
+    ValueError: A value (2460244.280780914) in x_new is above the interpolation range's maximum value (2460244.2807809133).
 
 
 
@@ -202,7 +205,7 @@ Saving Light Curve Datasets
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 3 minutes  14.710 seconds)
+   **Total running time of the script:** ( 0 minutes  4.268 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_save_lc_datasets.py:

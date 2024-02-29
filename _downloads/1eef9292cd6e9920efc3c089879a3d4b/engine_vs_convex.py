@@ -35,15 +35,19 @@ svb = mr.stack_mat_mult_vec(dcm, np.array([[0, 1, 0]]))
 # %%
 # We can now run the engine and compute a convex light curve:
 
+mr.tic()
 b_non_convex = mr.run_light_curve_engine(
     brdf,
     obj,
     svb,
     ovb,
-    instances=9,
-    silent=False,
+    instances=25,
+    instance_width_pix=540,
 )
+mr.toc()
 b_convex = obj.convex_light_curve(brdf, svb, ovb)
+
+print(b_non_convex, b_convex)
 
 # %%
 # And plot the results
@@ -56,7 +60,7 @@ plt.xlabel("Time [s]")
 plt.ylabel("Normalized brightness")
 plt.legend(["LightCurveEngine", "Convex"])
 plt.grid()
-plt.show()
+# plt.show()
 
 
 # %%

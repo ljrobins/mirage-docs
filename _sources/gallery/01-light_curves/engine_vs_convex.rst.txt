@@ -92,20 +92,24 @@ Defining the attitude profile
 
 We can now run the engine and compute a convex light curve:
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-48
+.. GENERATED FROM PYTHON SOURCE LINES 37-52
 
 .. code-block:: default
 
 
+    mr.tic()
     b_non_convex = mr.run_light_curve_engine(
         brdf,
         obj,
         svb,
         ovb,
-        instances=9,
-        silent=False,
+        instances=25,
+        instance_width_pix=540,
     )
+    mr.toc()
     b_convex = obj.convex_light_curve(brdf, svb, ovb)
+
+    print(b_non_convex, b_convex)
 
 
 
@@ -115,290 +119,17 @@ We can now run the engine and compute a convex light curve:
 
  .. code-block:: none
 
-    Running Light Curve Engine: 
-    /Users/liamrobinson/Documents/PyLightCurves/mirage/ctools/engine/LightCurveEngine-mac-arm -m /Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models/temp.obj -i 9 -c 1001 -r light_curve0.lcr -x /Users/liamrobinson/Documents/PyLightCurves/examples/01-light_curves/out  -b 1 -D 0.1 -S 0.9 -N 30 -f 1000
-
-    Model path: /Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models/temp.obj
-    Pixel width: 600
-    Instance count: 9
-    Frame rate: 1000
-    Data points: 1001
-    Results file: light_curve0.lcr
-    BRDF index: 1
-    BRDF cd: 0.10
-    BRDF cs: 0.90
-    BRDF n: 30.00
-    Saving images: false
-    .mtl file properties will NOT be used
-    INFO: FILEIO: [light_curve0.lcc] Text file loaded successfully
-    INFO: Initializing raylib 4.5
-    INFO: Supported raylib modules:
-    INFO:     > rcore:..... loaded (mandatory)
-    INFO:     > rlgl:...... loaded (mandatory)
-    INFO:     > rshapes:... loaded (optional)
-    INFO:     > rtextures:. loaded (optional)
-    INFO:     > rtext:..... loaded (optional)
-    INFO:     > rmodels:... loaded (optional)
-    INFO:     > raudio:.... loaded (optional)
-    INFO: DISPLAY: Device initialized successfully
-    INFO:     > Display size: 1440 x 900
-    INFO:     > Screen size:  600 x 600
-    INFO:     > Render size:  600 x 600
-    INFO:     > Viewport offsets: 0, 0
-    INFO: GLAD: OpenGL extensions loaded successfully
-    INFO: GL: Supported extensions count: 43
-    INFO: GL: OpenGL device information:
-    INFO:     > Vendor:   Apple
-    INFO:     > Renderer: Apple M1
-    INFO:     > Version:  4.1 Metal - 88
-    INFO:     > GLSL:     4.10
-    INFO: GL: VAO extension detected, VAO functions loaded successfully
-    INFO: GL: NPOT textures extension detected, full NPOT textures supported
-    INFO: GL: DXT compressed textures supported
-    INFO: TEXTURE: [ID 1] Texture loaded successfully (1x1 | R8G8B8A8 | 1 mipmaps)
-    INFO: TEXTURE: [ID 1] Default texture loaded successfully
-    INFO: SHADER: [ID 1] Vertex shader compiled successfully
-    INFO: SHADER: [ID 2] Fragment shader compiled successfully
-    INFO: SHADER: [ID 3] Program shader loaded successfully
-    INFO: SHADER: [ID 3] Default shader loaded successfully
-    INFO: RLGL: Render batch vertex buffers loaded successfully in RAM (CPU)
-    INFO: RLGL: Render batch vertex buffers loaded successfully in VRAM (GPU)
-    INFO: RLGL: Default OpenGL state initialized successfully
-    INFO: TEXTURE: [ID 2] Texture loaded successfully (128x128 | GRAY_ALPHA | 1 mipmaps)
-    INFO: FONT: Default font loaded successfully (224 glyphs)
-    Initializing objects
-    INFO: FILEIO: [/Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models/temp.obj] Text file loaded successfully
-    INFO: MODEL: [/Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models/temp.obj] OBJ data loaded successfully: 1 meshes/0 materials
-    INFO: MODEL: No materials, putting all meshes in a default material
-    INFO: VAO: [ID 2] Mesh uploaded successfully to VRAM (GPU)
-    WARNING: MATERIAL: [/Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models/temp.obj] Failed to load material data, default to white material
-    INFO: FILEIO: [shaders/shadow_depth.vs] Text file loaded successfully
-    INFO: FILEIO: [shaders/shadow_depth.fs] Text file loaded successfully
-    INFO: SHADER: [ID 4] Vertex shader compiled successfully
-    INFO: SHADER: [ID 5] Fragment shader compiled successfully
-    INFO: SHADER: [ID 6] Program shader loaded successfully
-    INFO: SHADER: [ID 6] Shader attribute (vertexPosition) set at location: 0
-    INFO: SHADER: [ID 6] Shader attribute (vertexTexCoord) set at location: 1
-    WARNING: SHADER: [ID 6] Failed to find shader attribute: vertexTexCoord2
-    INFO: SHADER: [ID 6] Shader attribute (vertexNormal) set at location: 2
-    WARNING: SHADER: [ID 6] Failed to find shader attribute: vertexTangent
-    INFO: SHADER: [ID 6] Shader attribute (vertexColor) set at location: 3
-    WARNING: SHADER: [ID 6] Failed to find shader uniform: mvp
-    WARNING: SHADER: [ID 6] Failed to find shader uniform: matView
-    WARNING: SHADER: [ID 6] Failed to find shader uniform: matProjection
-    WARNING: SHADER: [ID 6] Failed to find shader uniform: matModel
-    INFO: SHADER: [ID 6] Shader uniform (matNormal) set at location: 0
-    WARNING: SHADER: [ID 6] Failed to find shader uniform: colDiffuse
-    WARNING: SHADER: [ID 6] Failed to find shader uniform: texture0
-    WARNING: SHADER: [ID 6] Failed to find shader uniform: texture1
-    WARNING: SHADER: [ID 6] Failed to find shader uniform: texture2
-    INFO: FILEIO: [shaders/lighting.vs] Text file loaded successfully
-    INFO: FILEIO: [shaders/lighting.fs] Text file loaded successfully
-    INFO: SHADER: [ID 4] Vertex shader compiled successfully
-    INFO: SHADER: [ID 5] Fragment shader compiled successfully
-    INFO: SHADER: [ID 7] Program shader loaded successfully
-    INFO: SHADER: [ID 7] Shader attribute (vertexPosition) set at location: 0
-    INFO: SHADER: [ID 7] Shader attribute (vertexTexCoord) set at location: 1
-    WARNING: SHADER: [ID 7] Failed to find shader attribute: vertexTexCoord2
-    INFO: SHADER: [ID 7] Shader attribute (vertexNormal) set at location: 2
-    WARNING: SHADER: [ID 7] Failed to find shader attribute: vertexTangent
-    INFO: SHADER: [ID 7] Shader attribute (vertexColor) set at location: 3
-    WARNING: SHADER: [ID 7] Failed to find shader uniform: mvp
-    WARNING: SHADER: [ID 7] Failed to find shader uniform: matView
-    WARNING: SHADER: [ID 7] Failed to find shader uniform: matProjection
-    WARNING: SHADER: [ID 7] Failed to find shader uniform: matModel
-    INFO: SHADER: [ID 7] Shader uniform (matNormal) set at location: 22
-    INFO: SHADER: [ID 7] Shader uniform (colDiffuse) set at location: 6
-    WARNING: SHADER: [ID 7] Failed to find shader uniform: texture0
-    WARNING: SHADER: [ID 7] Failed to find shader uniform: texture1
-    WARNING: SHADER: [ID 7] Failed to find shader uniform: texture2
-    INFO: FILEIO: [shaders/averaging.vs] Text file loaded successfully
-    INFO: FILEIO: [shaders/averaging.fs] Text file loaded successfully
-    INFO: SHADER: [ID 4] Vertex shader compiled successfully
-    INFO: SHADER: [ID 5] Fragment shader compiled successfully
-    INFO: SHADER: [ID 8] Program shader loaded successfully
-    INFO: SHADER: [ID 8] Shader attribute (vertexPosition) set at location: 0
-    INFO: SHADER: [ID 8] Shader attribute (vertexTexCoord) set at location: 1
-    WARNING: SHADER: [ID 8] Failed to find shader attribute: vertexTexCoord2
-    WARNING: SHADER: [ID 8] Failed to find shader attribute: vertexNormal
-    WARNING: SHADER: [ID 8] Failed to find shader attribute: vertexTangent
-    INFO: SHADER: [ID 8] Shader attribute (vertexColor) set at location: 3
-    INFO: SHADER: [ID 8] Shader uniform (mvp) set at location: 2
-    WARNING: SHADER: [ID 8] Failed to find shader uniform: matView
-    WARNING: SHADER: [ID 8] Failed to find shader uniform: matProjection
-    WARNING: SHADER: [ID 8] Failed to find shader uniform: matModel
-    WARNING: SHADER: [ID 8] Failed to find shader uniform: matNormal
-    WARNING: SHADER: [ID 8] Failed to find shader uniform: colDiffuse
-    INFO: SHADER: [ID 8] Shader uniform (texture0) set at location: 0
-    WARNING: SHADER: [ID 8] Failed to find shader uniform: texture1
-    WARNING: SHADER: [ID 8] Failed to find shader uniform: texture2
-    WARNING: SHADER: [ID 6] Failed to find shader uniform: viewPos
-    INFO: SHADER: [ID 6] Shader uniform (lightPos) set at location: 105
-    WARNING: SHADER: [ID 6] Failed to find shader uniform: light_mvp
-    INFO: SHADER: [ID 6] Shader uniform (model_id) set at location: 104
-    INFO: SHADER: [ID 6] Shader uniform (light_mvps[0].mat) set at location: 4
-    INFO: SHADER: [ID 6] Shader uniform (light_mvps[1].mat) set at location: 8
-    INFO: SHADER: [ID 6] Shader uniform (light_mvps[2].mat) set at location: 12
-    INFO: SHADER: [ID 6] Shader uniform (light_mvps[3].mat) set at location: 16
-    INFO: SHADER: [ID 6] Shader uniform (light_mvps[4].mat) set at location: 20
-    INFO: SHADER: [ID 6] Shader uniform (light_mvps[5].mat) set at location: 24
-    INFO: SHADER: [ID 6] Shader uniform (light_mvps[6].mat) set at location: 28
-    INFO: SHADER: [ID 6] Shader uniform (light_mvps[7].mat) set at location: 32
-    INFO: SHADER: [ID 6] Shader uniform (light_mvps[8].mat) set at location: 36
-    INFO: SHADER: [ID 7] Shader uniform (viewPos) set at location: 11
-    INFO: SHADER: [ID 7] Shader uniform (lightPos) set at location: 9
-    INFO: SHADER: [ID 7] Shader uniform (grid_width) set at location: 5
-    INFO: SHADER: [ID 7] Shader uniform (depthTex) set at location: 12
-    INFO: SHADER: [ID 7] Shader uniform (view_mvp) set at location: 0
-    INFO: SHADER: [ID 7] Shader uniform (light_mvp) set at location: 13
-    INFO: SHADER: [ID 7] Shader uniform (use_brdf) set at location: 4
-    INFO: SHADER: [ID 7] Shader uniform (cd_in) set at location: 10
-    INFO: SHADER: [ID 7] Shader uniform (cs_in) set at location: 26
-    INFO: SHADER: [ID 7] Shader uniform (n_in) set at location: 8
-    INFO: SHADER: [ID 7] Shader uniform (use_mtl) set at location: 7
-    INFO: SHADER: [ID 8] Shader uniform (grid_width) set at location: 1
-    INFO: SHADER: [ID 7] Shader uniform (lights[0].enabled) set at location: 17
-    INFO: SHADER: [ID 7] Shader uniform (lights[0].type) set at location: 18
-    INFO: SHADER: [ID 7] Shader uniform (lights[0].position) set at location: 19
-    INFO: SHADER: [ID 7] Shader uniform (lights[0].target) set at location: 20
-    INFO: SHADER: [ID 7] Shader uniform (lights[0].color) set at location: 21
-    INFO: TEXTURE: [ID 3] Texture loaded successfully (600x600 | R8G8B8A8 | 1 mipmaps)
-    INFO: TEXTURE: [ID 1] Depth renderbuffer loaded successfully (32 bits)
-    INFO: FBO: [ID 1] Framebuffer object created successfully
-    INFO: TEXTURE: [ID 4] Texture loaded successfully (600x600 | R8G8B8A8 | 1 mipmaps)
-    INFO: TEXTURE: [ID 2] Depth renderbuffer loaded successfully (32 bits)
-    INFO: FBO: [ID 2] Framebuffer object created successfully
-    INFO: TEXTURE: [ID 5] Texture loaded successfully (3x600 | R8G8B8A8 | 1 mipmaps)
-    INFO: TEXTURE: [ID 3] Depth renderbuffer loaded successfully (32 bits)
-    INFO: FBO: [ID 3] Framebuffer object created successfully
-    INFO: TIMER: Target time per frame: 1.000 milliseconds
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-    Trying to write results... 
-    INFO: TEXTURE: [ID 2] Unloaded texture data from VRAM (GPU)
-    INFO: SHADER: [ID 3] Default shader unloaded successfully
-    INFO: TEXTURE: [ID 1] Default texture unloaded successfully
-    INFO: Window closed successfully
+    Elapsed time: 1.12e+00 seconds
+    [1.436361 1.429611 1.450307 ... 1.428064 1.347533 1.297864] [1.49668482 1.49674652 1.49692449 ... 1.46661219 1.40084304 1.33175013]
 
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 49-50
+.. GENERATED FROM PYTHON SOURCE LINES 53-54
 
 And plot the results
 
-.. GENERATED FROM PYTHON SOURCE LINES 50-62
+.. GENERATED FROM PYTHON SOURCE LINES 54-66
 
 .. code-block:: default
 
@@ -411,7 +142,7 @@ And plot the results
     plt.ylabel("Normalized brightness")
     plt.legend(["LightCurveEngine", "Convex"])
     plt.grid()
-    plt.show()
+    # plt.show()
 
 
 
@@ -426,11 +157,11 @@ And plot the results
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 63-64
+.. GENERATED FROM PYTHON SOURCE LINES 67-68
 
 Plotting the error instead of the brightness values
 
-.. GENERATED FROM PYTHON SOURCE LINES 64-73
+.. GENERATED FROM PYTHON SOURCE LINES 68-77
 
 .. code-block:: default
 
@@ -455,11 +186,11 @@ Plotting the error instead of the brightness values
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 74-75
+.. GENERATED FROM PYTHON SOURCE LINES 78-79
 
 This is nice and small, which we like to see. If we repeat this process for a non-convex object, the error quickly becomes clear
 
-.. GENERATED FROM PYTHON SOURCE LINES 75-96
+.. GENERATED FROM PYTHON SOURCE LINES 79-100
 
 .. code-block:: default
 
@@ -499,7 +230,7 @@ This is nice and small, which we like to see. If we repeat this process for a no
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  9.631 seconds)
+   **Total running time of the script:** ( 0 minutes  10.760 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_engine_vs_convex.py:

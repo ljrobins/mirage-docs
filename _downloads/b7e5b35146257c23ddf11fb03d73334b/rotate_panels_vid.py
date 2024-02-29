@@ -13,7 +13,6 @@ import numpy as np
 from PIL import Image
 
 import mirage as mr
-import mirage.vis as mrv
 
 obj = mr.SpaceObject("matlib_tdrs.obj")
 

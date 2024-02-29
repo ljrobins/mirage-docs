@@ -48,22 +48,21 @@ Renders a synthetic CCD image of an observation taken by the POGS telescope
 
 Loading a fits image from the Purdue Optical Ground Station
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-39
+.. GENERATED FROM PYTHON SOURCE LINES 19-41
 
 .. code-block:: default
 
 
-    # ccd_dir = os.path.join(os.environ["SRCDIR"], "..", "data")
+    ccd_dir = os.path.join(os.environ["SRCDIR"], "..", "data")
     # fits_path = os.path.join(ccd_dir, "00130398.fit") # 3 in belt
-    # fits_path = os.path.join(
-    #     os.environ["SRCDIR"], "..", "00161295.48859.fit"
-    # )  # gps
+    fits_path = os.path.join(os.environ["SRCDIR"], "..", "00161295.48859.fit")  # gps
+    # fits_path = "/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/2022-09-18_GPS_PRN14/00146814.fit"
 
     # fits_path = os.path.join(
     #     os.environ["SRCDIR"], "..", "00161341.GALAXY_23__TELSTAR_13__#27854U.fit"
     # )
-    fits_path = os.path.join(os.environ["SRCDIR"], "..", "00161298.Jupiter.fit")
-
+    # fits_path = "/Users/liamrobinson/Documents/PyLightCurves/00161344.fit" # recent
+    # fits_path = os.path.join(os.environ["SRCDIR"], "..", "00161298.Jupiter.fit")
 
     fits_dict = mr.info_from_fits(fits_path)
     obs_dates = fits_dict["dates"]
@@ -72,83 +71,21 @@ Loading a fits image from the Purdue Optical Ground Station
     ccd_adu = fits_dict["ccd_adu"]
     br_parabola_obs = fits_dict["br_parabola"]
 
+    obs_dir_eci_mid = mr.hat(np.sum(obs_dirs_eci, axis=0))
+    date_mid = obs_dates[1] - (obs_dates[1] - obs_dates[0]) / 2
 
 
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    SIMPLE True
-    BITPIX 16
-    NAXIS 2
-    NAXIS1 4096
-    NAXIS2 4096
-    EXTEND True
-    COMMENT   FITS (Flexible Image Transport System) format is defined in 'Astronomy
-      and Astrophysics', volume 376, page 359; bibcode: 2001A&A...376..359H
-    COMMENT   FITS (Flexible Image Transport System) format is defined in 'Astronomy
-      and Astrophysics', volume 376, page 359; bibcode: 2001A&A...376..359H
-    BZERO 32768
-    BSCALE 1
-    SBUUID {f796c743-83b3-4cd5-9242-179e5789e500}
-    EXPTIME 1.0
-    SWCREATE TheSkyX Version 10.5.0 Build 12304
-    COLORCCD 0
-    DISPINCR 1
-    PICTTYPE 1
-    IMAGETYP Light Frame
-    XORGSUBF 0
-    YORGSUBF 0
-    XBINNING 1
-    YBINNING 1
-    CCD-TEMP -20.0
-    SET-TEMP -20.0
-    SITELAT +32 54 00.00
-    SITELONG +105 32 00.00
-    LST +05 06 01.45
-    OBSGEO-B 32.9
-    OBSGEO-L -105.5333333333
-    OBSGEO-H 2225.0
-    BTP 0
-    CENTAZ 252.347450196686
-    CENTALT 45.8283304047482
-    AIRMASS 1.39418562666448
-    TELEHA +02 51 12.56
-    MOUNT Paramount ME II
-    TELTKRA 0.0
-    TELTKDEC -0.0
-    OBJCTRA 02 13 31.103
-    OBJCTDEC +12 08 14.34
-    OBJECT Jupiter
-    INSTRUME FLI Camera Plugin 2.0
-    XPIXSZ 9.0
-    YPIXSZ 9.0
-    READOUTM 8 MHz
-    CDS 8 MHz
-    FILTER Slot 0/Slot 0
-    DATE-OBS 2023-12-28T05:42:23.187
-    LOCALTIM 12/27/2023 10:42:23.190 PM STD
-    HRZOSCAN 0
-    VRTOSCAN 0
-    XORG_VIS 0
-    YORG_VIS 0
-    WID_VIS 4096
-    HT_VIS 4096
-    RBIFLOOD 0
-    RBIFLUSH 0
-    RBI_BIN 0
-    EXT_TEMP 0.6875
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-41
+.. GENERATED FROM PYTHON SOURCE LINES 42-43
 
 Let's synthesize a CCD image for the same observation conditions
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-52
+.. GENERATED FROM PYTHON SOURCE LINES 43-54
 
 .. code-block:: default
 
@@ -170,15 +107,15 @@ Let's synthesize a CCD image for the same observation conditions
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 53-54
+.. GENERATED FROM PYTHON SOURCE LINES 55-56
 
 Synthesizing the same image
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-57
+.. GENERATED FROM PYTHON SOURCE LINES 58-59
 
 Let's synthesize a CCD image for the same observation conditions
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-102
+.. GENERATED FROM PYTHON SOURCE LINES 59-104
 
 .. code-block:: default
 
@@ -200,29 +137,29 @@ Let's synthesize a CCD image for the same observation conditions
         obj,
         attitude,
         mr.Brdf("phong"),
-        obs_dates,
+        date_mid,
         use_engine=True,
         instances=1,
         model_scale_factor=1,
         rotate_panels=True,
     )
-    lc_adu = obj_lc_sampler()
-    print(lc_adu)
+    lc_adu = obj_lc_sampler()[0]
     lc_adu = 1e6 * np.ones(lc_adu.shape)
 
     catalog = mr.StarCatalog("gaia", observing_station, obs_dates[0])
 
+    up_dir_eci = observing_station.telescope.up_direction_eci(obs_dir_eci_mid)
+
     mr.tic()
     adu_grid_streaked_sampled = observing_station.telescope.ccd.generate_ccd_image(
-        obs_dates,
+        date_mid,
+        fits_dict["integration_time"],
         observing_station,
-        obs_dirs_eci,
+        obs_dir_eci_mid,
+        [fits_dict["ra_rate"], fits_dict["dec_rate"]],
         lc_adu,
         catalog,
-        hot_pixel_probability=0,
-        dead_pixel_probability=0,
-        add_parabola=False,
-        scintillation=False,
+        up_dir_eci=up_dir_eci,
     )
     mr.toc()
 
@@ -236,21 +173,18 @@ Let's synthesize a CCD image for the same observation conditions
  .. code-block:: none
 
     WARNING: no observation constraints assigned!
-    [339831.8256722913 340022.3864553392]
     Objects in frame 1:
-    Objects in frame 2:
-    /Users/liamrobinson/Documents/PyLightCurves/mirage/ccd.py:582: RuntimeWarning: invalid value encountered in cast
-      return adu_grid.astype(np.uint32)
-    Elapsed time: 4.60e+00 seconds
+    NAVSTAR 81 (USA 319)
+    Elapsed time: 5.86e+00 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 103-104
+.. GENERATED FROM PYTHON SOURCE LINES 105-106
 
 Let's take a look at the real and synthetic CCD images
 
-.. GENERATED FROM PYTHON SOURCE LINES 104-129
+.. GENERATED FROM PYTHON SOURCE LINES 106-130
 
 .. code-block:: default
 
@@ -281,7 +215,6 @@ Let's take a look at the real and synthetic CCD images
 
 
 
-
 .. image-sg:: /gallery/10-ccd/images/sphx_glr_render_ccd_001.png
    :alt: POGS CCD, Synthetic CCD
    :srcset: /gallery/10-ccd/images/sphx_glr_render_ccd_001.png, /gallery/10-ccd/images/sphx_glr_render_ccd_001_2_00x.png 2.00x
@@ -291,11 +224,37 @@ Let's take a look at the real and synthetic CCD images
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 130-131
+.. GENERATED FROM PYTHON SOURCE LINES 131-132
+
+Plotting the two images on top of eachother
+
+.. GENERATED FROM PYTHON SOURCE LINES 132-138
+
+.. code-block:: default
+
+
+    plt.figure(figsize=(4, 4))
+    plt.imshow(np.log10(ccd_adu), cmap="gray")
+    plt.imshow(np.log10(adu_grid_streaked_sampled), cmap="cool", alpha=0.2)
+    plt.show()
+
+
+
+
+.. image-sg:: /gallery/10-ccd/images/sphx_glr_render_ccd_002.png
+   :alt: render ccd
+   :srcset: /gallery/10-ccd/images/sphx_glr_render_ccd_002.png, /gallery/10-ccd/images/sphx_glr_render_ccd_002_2_00x.png 2.00x
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 139-140
 
 Looking at the residual noise after subtracting off the parabolic background from the real image
 
-.. GENERATED FROM PYTHON SOURCE LINES 131-146
+.. GENERATED FROM PYTHON SOURCE LINES 140-155
 
 .. code-block:: default
 
@@ -322,17 +281,17 @@ Looking at the residual noise after subtracting off the parabolic background fro
 
  .. code-block:: none
 
-    Real background variance: 5151807.586606355 [ADU^2]
-    Synthetic background variance: 67.51565673315038 [ADU^2]
+    Real background variance: 113.7439377206357 [ADU^2]
+    Synthetic background variance: 505.4671421456516 [ADU^2]
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 147-148
+.. GENERATED FROM PYTHON SOURCE LINES 156-157
 
 Plotting the same, with the parabolic background subtracted from the real image
 
-.. GENERATED FROM PYTHON SOURCE LINES 148-165
+.. GENERATED FROM PYTHON SOURCE LINES 157-174
 
 .. code-block:: default
 
@@ -356,20 +315,20 @@ Plotting the same, with the parabolic background subtracted from the real image
 
 
 
-.. image-sg:: /gallery/10-ccd/images/sphx_glr_render_ccd_002.png
+.. image-sg:: /gallery/10-ccd/images/sphx_glr_render_ccd_003.png
    :alt: POGS CCD Background Pixels, Synthetic CCD Background Pixels
-   :srcset: /gallery/10-ccd/images/sphx_glr_render_ccd_002.png, /gallery/10-ccd/images/sphx_glr_render_ccd_002_2_00x.png 2.00x
+   :srcset: /gallery/10-ccd/images/sphx_glr_render_ccd_003.png, /gallery/10-ccd/images/sphx_glr_render_ccd_003_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 166-167
+.. GENERATED FROM PYTHON SOURCE LINES 175-176
 
 Inspecting the backgrounds
 
-.. GENERATED FROM PYTHON SOURCE LINES 167-203
+.. GENERATED FROM PYTHON SOURCE LINES 176-212
 
 .. code-block:: default
 
@@ -412,9 +371,9 @@ Inspecting the backgrounds
 
 
 
-.. image-sg:: /gallery/10-ccd/images/sphx_glr_render_ccd_003.png
+.. image-sg:: /gallery/10-ccd/images/sphx_glr_render_ccd_004.png
    :alt: Synthetic backgrounds, Real backgrounds
-   :srcset: /gallery/10-ccd/images/sphx_glr_render_ccd_003.png, /gallery/10-ccd/images/sphx_glr_render_ccd_003_2_00x.png 2.00x
+   :srcset: /gallery/10-ccd/images/sphx_glr_render_ccd_004.png, /gallery/10-ccd/images/sphx_glr_render_ccd_004_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
 
@@ -422,8 +381,8 @@ Inspecting the backgrounds
 
  .. code-block:: none
 
-    Synthetic background: 5.176542034442155 [ADU]
-    Real background: 96.84637078495511 [ADU]
+    Synthetic background: 11.023618002607593 [ADU]
+    Real background: 5.857372967661838 [ADU]
 
 
 
@@ -431,7 +390,7 @@ Inspecting the backgrounds
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  25.553 seconds)
+   **Total running time of the script:** ( 0 minutes  30.356 seconds)
 
 
 .. _sphx_glr_download_gallery_10-ccd_render_ccd.py:

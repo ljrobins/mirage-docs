@@ -45,7 +45,7 @@ Given star centroid locations and an initial estimate of the look direction and 
         tracking_normal = mr.hat(
             np.cross(fits_info["look_dirs_eci"][0, :], fits_info["look_dirs_eci"][1, :])
         )
-        img_prepared = mr.prepare_fits_for_plotting(fits_info)
+        img_prepared = mr.prepare_fits_for_plotting(fits_info["ccd_adu"])
         theta = mr.solve_star_streak_angle(img_prepared)
         dcm = mr.rv_to_dcm(mean_look_dir * (theta + np.pi / 2))
         up_dir_eci = mr.stack_mat_mult_vec(dcm, tracking_normal)
@@ -76,7 +76,7 @@ Given star centroid locations and an initial estimate of the look direction and 
 
  .. code-block:: none
 
-    Loading star catalog: 2.45e+00 seconds
+    Loading star catalog: 2.24e+00 seconds
 
 
 
@@ -85,11 +85,12 @@ Given star centroid locations and an initial estimate of the look direction and 
 
 Let's figure out the streak direction
 
-.. GENERATED FROM PYTHON SOURCE LINES 50-115
+.. GENERATED FROM PYTHON SOURCE LINES 50-122
 
 .. code-block:: default
 
 
+    # fits_path = os.path.join(os.environ["SRCDIR"], "..", "examples/10-ccd/00095337.fit")
     fits_path = os.path.join(os.environ["SRCDIR"], "..", "00161295.48859.fit")
     fits_info = mr.info_from_fits(fits_path)
 
@@ -97,6 +98,7 @@ Let's figure out the streak direction
     mean_look_dir = mr.hat(
         fits_info["look_dirs_eci"][0, :] + fits_info["look_dirs_eci"][1, :]
     )
+    mean_date = fits_info["dates"][0] + (fits_info["dates"][1] - fits_info["dates"][0]) / 2
     img_raw = img.copy()
     img_log10 = np.log10(img)
     img = np.log10(img - mr.image_background_parabola(img))
@@ -107,21 +109,26 @@ Let's figure out the streak direction
     # print(f"Streak angle: {np.rad2deg(theta_rad)} degrees")
     # enddd
 
-    up_dir_eci = mr.fits_up_direction(fits_info)
+    # up_dir_eci = mr.fits_up_direction(fits_info)
+    tele = station.telescope
+
+    up_dir_eci = tele.up_direction_eci(mean_look_dir)
+
+    # print(updir2)
+    # endd
+
 
     station.telescope.fwhm = 4
     mr.tic()
     adu_grid_streaked_sampled = station.telescope.ccd.generate_ccd_image(
-        fits_info["dates"],
+        mean_date,
+        fits_info["integration_time"],
         station,
-        fits_info["look_dirs_eci"],
-        [1e4],
+        mean_look_dir,
+        [fits_info["ra_rate"], fits_info["dec_rate"]],
+        1e4,
         catalog,
-        scope_up_hat_eci=up_dir_eci,
-        hot_pixel_probability=0,
-        dead_pixel_probability=0,
-        add_parabola=False,
-        scintillation=False,
+        up_dir_eci=up_dir_eci,
     )
     mr.toc()
 
@@ -162,33 +169,31 @@ Let's figure out the streak direction
 
  .. code-block:: none
 
-    /Users/liamrobinson/Documents/PyLightCurves/examples/10-ccd/star_matching.py:60: RuntimeWarning: invalid value encountered in log10
-      img_log10 = np.log10(img)
+    /Users/liamrobinson/Documents/PyLightCurves/examples/10-ccd/star_matching.py:62: RuntimeWarning: invalid value encountered in log10
+      img = np.log10(img - mr.image_background_parabola(img))
     Objects in frame 1:
     NAVSTAR 81 (USA 319)
-    Objects in frame 2:
-    NAVSTAR 81 (USA 319)
-    Elapsed time: 6.55e+00 seconds
-    /Users/liamrobinson/Documents/PyLightCurves/examples/10-ccd/star_matching.py:86: RuntimeWarning: invalid value encountered in log10
-  
-    Finding streaks:   0%|          | 0/1570 [00:00<?, ?it/s]    Finding streaks: 100%|##########| 1570/1570 [00:00<00:00, 540778.29it/s]
-    contours: 1.28e-02 seconds
+    Elapsed time: 5.51e+00 seconds
+    /Users/liamrobinson/Documents/PyLightCurves/examples/10-ccd/star_matching.py:93: RuntimeWarning: invalid value encountered in log10
+      adu_grid_streaked_sampled = np.log10(
+    Finding streaks:   0%|          | 0/776 [00:00<?, ?it/s]    Finding streaks: 100%|##########| 776/776 [00:00<00:00, 368104.49it/s]
+    contours: 1.17e-02 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 116-120
+.. GENERATED FROM PYTHON SOURCE LINES 123-127
 
 Overlaying the two images
 plt.imshow(img, cmap="gray", alpha=0.5)
 plt.imshow(adu_grid_streaked_sampled, cmap="gray_r", alpha=0.5)
 plt.show()
 
-.. GENERATED FROM PYTHON SOURCE LINES 122-123
+.. GENERATED FROM PYTHON SOURCE LINES 129-130
 
 We're close, but we need to solve for the slight rotation and translation between the two images
 
-.. GENERATED FROM PYTHON SOURCE LINES 123-204
+.. GENERATED FROM PYTHON SOURCE LINES 130-211
 
 .. code-block:: default
 
@@ -286,18 +291,18 @@ We're close, but we need to solve for the slight rotation and translation betwee
 
  .. code-block:: none
 
-    Rotation angle: 2.635789588759108 degrees
-    Intersection point: [1278.3902612  2139.45029201]
-    Mean pixel error after rotation: 4.464460976983015
+    Rotation angle: 2.6281648872034946 degrees
+    Intersection point: [1226.73469666 2085.76901128]
+    Mean pixel error after rotation: 6.495348366888928
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 205-206
+.. GENERATED FROM PYTHON SOURCE LINES 212-213
 
 Now we solve for the translation
 
-.. GENERATED FROM PYTHON SOURCE LINES 206-237
+.. GENERATED FROM PYTHON SOURCE LINES 213-244
 
 .. code-block:: default
 
@@ -345,8 +350,8 @@ Now we solve for the translation
 
  .. code-block:: none
 
-    Mean translation error: [-0.54959898  2.16582551]
-    Mean pixel error after translation: 0.8028095506859414
+    Mean translation error: [-2.42758749  3.86144347]
+    Mean pixel error after translation: 0.8730377434213004
 
 
 
@@ -354,7 +359,7 @@ Now we solve for the translation
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  37.503 seconds)
+   **Total running time of the script:** ( 0 minutes  30.748 seconds)
 
 
 .. _sphx_glr_download_gallery_10-ccd_star_matching.py:

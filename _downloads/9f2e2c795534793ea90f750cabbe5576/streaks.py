@@ -31,9 +31,9 @@ streak_length = 100
 # Demonstrating the dependence of convolved variance on template streak direction
 
 plt.figure(figsize=(15, 5))
-thetas = np.linspace(0, np.pi, 50, endpoint=False)
+thetas = np.linspace(0, np.pi, 30, endpoint=False)
 vars = np.zeros_like(thetas)
-img_for_gif = img[::6, ::6]
+img_for_gif = img[::10, ::10]
 
 
 def animate(i):
@@ -63,7 +63,7 @@ def animate(i):
 
 
 ani = FuncAnimation(plt.gcf(), animate, repeat=True, frames=thetas.size, interval=50)
-writer = PillowWriter(fps=15, bitrate=1800)
+writer = PillowWriter(fps=10, bitrate=1800)
 writer.setup(ani, "streaks.gif", dpi=200)
 ani.save("streaks.gif", writer=writer)
 

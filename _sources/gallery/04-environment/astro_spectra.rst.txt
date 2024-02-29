@@ -23,7 +23,18 @@ Astrometrical Spectra
 
 A few useful spectra for simulating CCD measurements
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-42
+.. GENERATED FROM PYTHON SOURCE LINES 7-41
+
+
+
+.. image-sg:: /gallery/04-environment/images/sphx_glr_astro_spectra_001.png
+   :alt: astro spectra
+   :srcset: /gallery/04-environment/images/sphx_glr_astro_spectra_001.png, /gallery/04-environment/images/sphx_glr_astro_spectra_001_2_00x.png 2.00x
+   :class: sphx-glr-single-img
+
+
+
+
 
 .. code-block:: default
 
@@ -63,94 +74,9 @@ A few useful spectra for simulating CCD measurements
     plt.show()
 
 
-
-
-.. image-sg:: /gallery/04-environment/images/sphx_glr_astro_spectra_001.png
-   :alt: astro spectra
-   :srcset: /gallery/04-environment/images/sphx_glr_astro_spectra_001.png, /gallery/04-environment/images/sphx_glr_astro_spectra_001_2_00x.png 2.00x
-   :class: sphx-glr-single-img
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 43-44
-
-UBVRI Passbands
-
-.. GENERATED FROM PYTHON SOURCE LINES 44-87
-
-.. code-block:: default
-
-    import os
-
-    urls_and_dirs = {
-        "http://spiff.rit.edu/classes/phys440/lectures/filters/bess-u.pass": os.environ[
-            "DATADIR"
-        ],
-        "http://spiff.rit.edu/classes/phys440/lectures/filters/bess-b.pass": os.environ[
-            "DATADIR"
-        ],
-        "http://spiff.rit.edu/classes/phys440/lectures/filters/bess-v.pass": os.environ[
-            "DATADIR"
-        ],
-        "http://spiff.rit.edu/classes/phys440/lectures/filters/bess-r.pass": os.environ[
-            "DATADIR"
-        ],
-        "http://spiff.rit.edu/classes/phys440/lectures/filters/bess-i.pass": os.environ[
-            "DATADIR"
-        ],
-    }
-
-    for url, dir in urls_and_dirs.items():
-        mr.save_file_from_url(url, dir)
-
-    BANDS = ["u", "b", "v", "r", "i"]
-    BAND_COLS = ["violet", "c", "g", "r", "maroon"]
-
-    for i, (band, col) in enumerate(zip(BANDS, BAND_COLS)):
-        band_path = os.path.join(os.environ["DATADIR"], f"bess-{band}.pass")
-        band_data = np.loadtxt(
-            band_path
-        )  # first col angstroms, second col transmission fraction
-        x, y = band_data[:, 0] * 1e-1, band_data[:, 1]
-        ax = sns.lineplot(x=x, y=y, color=col, alpha=0.5)
-        ax.fill_between(x, y, color=col, alpha=0.2)
-
-    plt.xlim(200, 1000)
-    mrv.texit(
-        "Bessel (Johnson/Cousins) UBVRI Passbands",
-        "Wavelength in [nm]",
-        "Transmission fraction",
-    )
-    ax.legend(handles=ax.lines, labels=[band.upper() for band in BANDS])
-    plt.show()
-
-
-
-.. image-sg:: /gallery/04-environment/images/sphx_glr_astro_spectra_002.png
-   :alt: Bessel (Johnson/Cousins) UBVRI Passbands
-   :srcset: /gallery/04-environment/images/sphx_glr_astro_spectra_002.png, /gallery/04-environment/images/sphx_glr_astro_spectra_002_2_00x.png 2.00x
-   :class: sphx-glr-single-img
-
-
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    bess-u.pass: 0.00B [00:00, ?B/s]    bess-u.pass: 8.19kB [00:00, 81.4kB/s]    bess-u.pass: 8.19kB [00:00, 81.2kB/s]
-    bess-b.pass: 0.00B [00:00, ?B/s]    bess-b.pass: 8.19kB [00:00, 55.2kB/s]    bess-b.pass: 8.19kB [00:00, 55.0kB/s]
-    bess-v.pass: 0.00B [00:00, ?B/s]    bess-v.pass: 8.19kB [00:00, 111kB/s]
-    bess-r.pass: 0.00B [00:00, ?B/s]    bess-r.pass: 8.19kB [00:00, 108kB/s]
-    bess-i.pass: 0.00B [00:00, ?B/s]    bess-i.pass: 8.19kB [00:00, 108kB/s]
-
-
-
-
-
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.160 seconds)
+   **Total running time of the script:** ( 0 minutes  0.531 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_astro_spectra.py:

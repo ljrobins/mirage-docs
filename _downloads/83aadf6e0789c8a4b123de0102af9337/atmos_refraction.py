@@ -13,9 +13,7 @@ true_el = np.deg2rad(np.linspace(0, 90, int(1e3)))
 atmos_pressure = 1028.4463393  # mbar
 atmos_temp = 277.594  # Kelvin
 
-mr.tic()
 apparent_el = mr.apparent_refacted_elevation(atmos_pressure, atmos_temp, true_el)
-mr.toc()
 
 test_el_deg = 55.7
 test_el_rad = np.deg2rad(test_el_deg)

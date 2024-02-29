@@ -51,7 +51,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Light Curve Ambiguities" href="light_curve_ambiguities.html" />
-    <link rel="prev" title="BRDFs on the local hemisphere" href="brdf_grid.html" />
+    <link rel="prev" title="Noisy Light Curves" href="noisy_light_curve.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -320,6 +320,7 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../00-orbits/index.html">Orbits</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/universal_variables.html">Universal Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/propagate_single_tle.html">Propagating single TLE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/hifi_propagation.html">Propagating with Perturbations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/tle_switching.html">TLE Switching</a></li>
@@ -331,8 +332,6 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../000-work-in-progress/index.html">Works In Progress</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../000-work-in-progress/voronoi_to_support.html">Voronoi Diagram to Supports</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../000-work-in-progress/read_fit_brdf_databases.html">Fitting BRDF Databases</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../000-work-in-progress/iod_testing.html">Classical IOD Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../000-work-in-progress/inversion_gradient.html">EGI Jacobian</a></li>
 </ul>
@@ -353,22 +352,21 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="rotate_panels_vid.html">Rotating Solar Panels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="support_unobservability.html">Support Unobservability</a></li>
 <li class="toctree-l2"><a class="reference internal" href="noisy_light_curve.html">Noisy Light Curves</a></li>
-<li class="toctree-l2"><a class="reference internal" href="brdf_grid.html">BRDFs on the local hemisphere</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Convex vs Engine Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="light_curve_ambiguities.html">Light Curve Ambiguities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="neural_network_brightness.html">Neural Network Brightness</a></li>
 <li class="toctree-l2"><a class="reference internal" href="brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="light_curve_units.html">Light Curve Units</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lc_uncertainty.html">Light Curve Uncertainty</a></li>
-<li class="toctree-l2"><a class="reference internal" href="save_lc_datasets.html">Saving Light Curve Datasets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="light_curves_types.html">Types of Light Curves</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../03-coordinate-systems/index.html">Coordinate Frames</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/time_systems.html">Time Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/equation_of_time.html">The Equation of Time</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/polar_motion.html">Polar Motion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/third_body_interp.html">Third Body Interpolation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/earth_pole_motion.html">Precession and Nutation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/precession_and_nutation.html">Precession and Nutation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/coord_interp.html">Coordinate System Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/spice_comparison.html">SPICE vs Vallado</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../03-coordinate-systems/equinoxes.html">Equinoxes and Solstices</a></li>
@@ -381,6 +379,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/vr_factor.html">Airmass Function Comparison</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/star_aberration.html">Star Aberration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometrical Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_zenith.html">Background Signals at Zenith</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/atmospheric_absorption.html">Atmospheric Transmission</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/penumbra_plane.html">Penumbra Visualized</a></li>
@@ -388,10 +387,10 @@ document.write(`
 
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/total_solar_irradiance.html">Total Solar Irradiance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/passbands.html">Passbands</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/solar_system.html">Solar System</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/star_catalogs.html">Star Catalogs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astrometrical Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/reflected_albedo.html">Earth Albedo BRDF</a></li>
@@ -428,12 +427,11 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/wavelength_to_rgb.html">Wavelength to RGB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/count_lines.html">Counting Source Code Lines</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../08-utility/nnls_vs_fnnls.html">FNNLS vs NNLS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/random_figures_for_defense_pres.html">Figures for MS Defense</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/computer_graphics_background.html">Graphics Background</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../08-utility/egi_figs_aas22.html">EGI Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-utility/egi_optimization.html">EGI Optimization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-utility/model_editor.html">Model Editor</a></li>
 </ul>
 </li>
@@ -447,13 +445,14 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../10-ccd/index.html">CCD Characterization</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/mapping_function.html">Mapping Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/characterize_ccd.html">Characterizing the CCD Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_integration_time.html">Integration Time</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/noise_accum_gifs.html">Noise Sampling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_scintillation.html">CCD Scintillation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/airy_disk_gaussian_fit.html">Airy Disk Gaussian Fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/ccd_heuristics.html">CCD Heuristics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/airy_disk_diffraction.html">Airy Disk Diffraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-ccd/precise_star_matching.html">Precise Star Matching</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/background_shape.html">Background Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/streaks.html">Streak Detection and Centroiding</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-ccd/snr.html">Signal-to-Noise Ratio (SNR)</a></li>
@@ -557,291 +556,23 @@ to download the full example code</p>
 </pre></div>
 </div>
 <p>We can now run the engine and compute a convex light curve:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">b_non_convex</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">run_light_curve_engine</span><span class="p">(</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mr</span><span class="o">.</span><span class="n">tic</span><span class="p">()</span>
+<span class="n">b_non_convex</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">run_light_curve_engine</span><span class="p">(</span>
     <span class="n">brdf</span><span class="p">,</span>
     <span class="n">obj</span><span class="p">,</span>
     <span class="n">svb</span><span class="p">,</span>
     <span class="n">ovb</span><span class="p">,</span>
-    <span class="n">instances</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
-    <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">instances</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
+    <span class="n">instance_width_pix</span><span class="o">=</span><span class="mi">540</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">mr</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
 <span class="n">b_convex</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">convex_light_curve</span><span class="p">(</span><span class="n">brdf</span><span class="p">,</span> <span class="n">svb</span><span class="p">,</span> <span class="n">ovb</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">b_non_convex</span><span class="p">,</span> <span class="n">b_convex</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Running Light Curve Engine:
-/Users/liamrobinson/Documents/PyLightCurves/mirage/ctools/engine/LightCurveEngine-mac-arm -m /Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models/temp.obj -i 9 -c 1001 -r light_curve0.lcr -x /Users/liamrobinson/Documents/PyLightCurves/examples/01-light_curves/out  -b 1 -D 0.1 -S 0.9 -N 30 -f 1000
-
-Model path: /Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models/temp.obj
-Pixel width: 600
-Instance count: 9
-Frame rate: 1000
-Data points: 1001
-Results file: light_curve0.lcr
-BRDF index: 1
-BRDF cd: 0.10
-BRDF cs: 0.90
-BRDF n: 30.00
-Saving images: false
-.mtl file properties will NOT be used
-INFO: FILEIO: [light_curve0.lcc] Text file loaded successfully
-INFO: Initializing raylib 4.5
-INFO: Supported raylib modules:
-INFO:     &gt; rcore:..... loaded (mandatory)
-INFO:     &gt; rlgl:...... loaded (mandatory)
-INFO:     &gt; rshapes:... loaded (optional)
-INFO:     &gt; rtextures:. loaded (optional)
-INFO:     &gt; rtext:..... loaded (optional)
-INFO:     &gt; rmodels:... loaded (optional)
-INFO:     &gt; raudio:.... loaded (optional)
-INFO: DISPLAY: Device initialized successfully
-INFO:     &gt; Display size: 1440 x 900
-INFO:     &gt; Screen size:  600 x 600
-INFO:     &gt; Render size:  600 x 600
-INFO:     &gt; Viewport offsets: 0, 0
-INFO: GLAD: OpenGL extensions loaded successfully
-INFO: GL: Supported extensions count: 43
-INFO: GL: OpenGL device information:
-INFO:     &gt; Vendor:   Apple
-INFO:     &gt; Renderer: Apple M1
-INFO:     &gt; Version:  4.1 Metal - 88
-INFO:     &gt; GLSL:     4.10
-INFO: GL: VAO extension detected, VAO functions loaded successfully
-INFO: GL: NPOT textures extension detected, full NPOT textures supported
-INFO: GL: DXT compressed textures supported
-INFO: TEXTURE: [ID 1] Texture loaded successfully (1x1 | R8G8B8A8 | 1 mipmaps)
-INFO: TEXTURE: [ID 1] Default texture loaded successfully
-INFO: SHADER: [ID 1] Vertex shader compiled successfully
-INFO: SHADER: [ID 2] Fragment shader compiled successfully
-INFO: SHADER: [ID 3] Program shader loaded successfully
-INFO: SHADER: [ID 3] Default shader loaded successfully
-INFO: RLGL: Render batch vertex buffers loaded successfully in RAM (CPU)
-INFO: RLGL: Render batch vertex buffers loaded successfully in VRAM (GPU)
-INFO: RLGL: Default OpenGL state initialized successfully
-INFO: TEXTURE: [ID 2] Texture loaded successfully (128x128 | GRAY_ALPHA | 1 mipmaps)
-INFO: FONT: Default font loaded successfully (224 glyphs)
-Initializing objects
-INFO: FILEIO: [/Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models/temp.obj] Text file loaded successfully
-INFO: MODEL: [/Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models/temp.obj] OBJ data loaded successfully: 1 meshes/0 materials
-INFO: MODEL: No materials, putting all meshes in a default material
-INFO: VAO: [ID 2] Mesh uploaded successfully to VRAM (GPU)
-WARNING: MATERIAL: [/Users/liamrobinson/Documents/PyLightCurves/mirage/resources/models/temp.obj] Failed to load material data, default to white material
-INFO: FILEIO: [shaders/shadow_depth.vs] Text file loaded successfully
-INFO: FILEIO: [shaders/shadow_depth.fs] Text file loaded successfully
-INFO: SHADER: [ID 4] Vertex shader compiled successfully
-INFO: SHADER: [ID 5] Fragment shader compiled successfully
-INFO: SHADER: [ID 6] Program shader loaded successfully
-INFO: SHADER: [ID 6] Shader attribute (vertexPosition) set at location: 0
-INFO: SHADER: [ID 6] Shader attribute (vertexTexCoord) set at location: 1
-WARNING: SHADER: [ID 6] Failed to find shader attribute: vertexTexCoord2
-INFO: SHADER: [ID 6] Shader attribute (vertexNormal) set at location: 2
-WARNING: SHADER: [ID 6] Failed to find shader attribute: vertexTangent
-INFO: SHADER: [ID 6] Shader attribute (vertexColor) set at location: 3
-WARNING: SHADER: [ID 6] Failed to find shader uniform: mvp
-WARNING: SHADER: [ID 6] Failed to find shader uniform: matView
-WARNING: SHADER: [ID 6] Failed to find shader uniform: matProjection
-WARNING: SHADER: [ID 6] Failed to find shader uniform: matModel
-INFO: SHADER: [ID 6] Shader uniform (matNormal) set at location: 0
-WARNING: SHADER: [ID 6] Failed to find shader uniform: colDiffuse
-WARNING: SHADER: [ID 6] Failed to find shader uniform: texture0
-WARNING: SHADER: [ID 6] Failed to find shader uniform: texture1
-WARNING: SHADER: [ID 6] Failed to find shader uniform: texture2
-INFO: FILEIO: [shaders/lighting.vs] Text file loaded successfully
-INFO: FILEIO: [shaders/lighting.fs] Text file loaded successfully
-INFO: SHADER: [ID 4] Vertex shader compiled successfully
-INFO: SHADER: [ID 5] Fragment shader compiled successfully
-INFO: SHADER: [ID 7] Program shader loaded successfully
-INFO: SHADER: [ID 7] Shader attribute (vertexPosition) set at location: 0
-INFO: SHADER: [ID 7] Shader attribute (vertexTexCoord) set at location: 1
-WARNING: SHADER: [ID 7] Failed to find shader attribute: vertexTexCoord2
-INFO: SHADER: [ID 7] Shader attribute (vertexNormal) set at location: 2
-WARNING: SHADER: [ID 7] Failed to find shader attribute: vertexTangent
-INFO: SHADER: [ID 7] Shader attribute (vertexColor) set at location: 3
-WARNING: SHADER: [ID 7] Failed to find shader uniform: mvp
-WARNING: SHADER: [ID 7] Failed to find shader uniform: matView
-WARNING: SHADER: [ID 7] Failed to find shader uniform: matProjection
-WARNING: SHADER: [ID 7] Failed to find shader uniform: matModel
-INFO: SHADER: [ID 7] Shader uniform (matNormal) set at location: 22
-INFO: SHADER: [ID 7] Shader uniform (colDiffuse) set at location: 6
-WARNING: SHADER: [ID 7] Failed to find shader uniform: texture0
-WARNING: SHADER: [ID 7] Failed to find shader uniform: texture1
-WARNING: SHADER: [ID 7] Failed to find shader uniform: texture2
-INFO: FILEIO: [shaders/averaging.vs] Text file loaded successfully
-INFO: FILEIO: [shaders/averaging.fs] Text file loaded successfully
-INFO: SHADER: [ID 4] Vertex shader compiled successfully
-INFO: SHADER: [ID 5] Fragment shader compiled successfully
-INFO: SHADER: [ID 8] Program shader loaded successfully
-INFO: SHADER: [ID 8] Shader attribute (vertexPosition) set at location: 0
-INFO: SHADER: [ID 8] Shader attribute (vertexTexCoord) set at location: 1
-WARNING: SHADER: [ID 8] Failed to find shader attribute: vertexTexCoord2
-WARNING: SHADER: [ID 8] Failed to find shader attribute: vertexNormal
-WARNING: SHADER: [ID 8] Failed to find shader attribute: vertexTangent
-INFO: SHADER: [ID 8] Shader attribute (vertexColor) set at location: 3
-INFO: SHADER: [ID 8] Shader uniform (mvp) set at location: 2
-WARNING: SHADER: [ID 8] Failed to find shader uniform: matView
-WARNING: SHADER: [ID 8] Failed to find shader uniform: matProjection
-WARNING: SHADER: [ID 8] Failed to find shader uniform: matModel
-WARNING: SHADER: [ID 8] Failed to find shader uniform: matNormal
-WARNING: SHADER: [ID 8] Failed to find shader uniform: colDiffuse
-INFO: SHADER: [ID 8] Shader uniform (texture0) set at location: 0
-WARNING: SHADER: [ID 8] Failed to find shader uniform: texture1
-WARNING: SHADER: [ID 8] Failed to find shader uniform: texture2
-WARNING: SHADER: [ID 6] Failed to find shader uniform: viewPos
-INFO: SHADER: [ID 6] Shader uniform (lightPos) set at location: 105
-WARNING: SHADER: [ID 6] Failed to find shader uniform: light_mvp
-INFO: SHADER: [ID 6] Shader uniform (model_id) set at location: 104
-INFO: SHADER: [ID 6] Shader uniform (light_mvps[0].mat) set at location: 4
-INFO: SHADER: [ID 6] Shader uniform (light_mvps[1].mat) set at location: 8
-INFO: SHADER: [ID 6] Shader uniform (light_mvps[2].mat) set at location: 12
-INFO: SHADER: [ID 6] Shader uniform (light_mvps[3].mat) set at location: 16
-INFO: SHADER: [ID 6] Shader uniform (light_mvps[4].mat) set at location: 20
-INFO: SHADER: [ID 6] Shader uniform (light_mvps[5].mat) set at location: 24
-INFO: SHADER: [ID 6] Shader uniform (light_mvps[6].mat) set at location: 28
-INFO: SHADER: [ID 6] Shader uniform (light_mvps[7].mat) set at location: 32
-INFO: SHADER: [ID 6] Shader uniform (light_mvps[8].mat) set at location: 36
-INFO: SHADER: [ID 7] Shader uniform (viewPos) set at location: 11
-INFO: SHADER: [ID 7] Shader uniform (lightPos) set at location: 9
-INFO: SHADER: [ID 7] Shader uniform (grid_width) set at location: 5
-INFO: SHADER: [ID 7] Shader uniform (depthTex) set at location: 12
-INFO: SHADER: [ID 7] Shader uniform (view_mvp) set at location: 0
-INFO: SHADER: [ID 7] Shader uniform (light_mvp) set at location: 13
-INFO: SHADER: [ID 7] Shader uniform (use_brdf) set at location: 4
-INFO: SHADER: [ID 7] Shader uniform (cd_in) set at location: 10
-INFO: SHADER: [ID 7] Shader uniform (cs_in) set at location: 26
-INFO: SHADER: [ID 7] Shader uniform (n_in) set at location: 8
-INFO: SHADER: [ID 7] Shader uniform (use_mtl) set at location: 7
-INFO: SHADER: [ID 8] Shader uniform (grid_width) set at location: 1
-INFO: SHADER: [ID 7] Shader uniform (lights[0].enabled) set at location: 17
-INFO: SHADER: [ID 7] Shader uniform (lights[0].type) set at location: 18
-INFO: SHADER: [ID 7] Shader uniform (lights[0].position) set at location: 19
-INFO: SHADER: [ID 7] Shader uniform (lights[0].target) set at location: 20
-INFO: SHADER: [ID 7] Shader uniform (lights[0].color) set at location: 21
-INFO: TEXTURE: [ID 3] Texture loaded successfully (600x600 | R8G8B8A8 | 1 mipmaps)
-INFO: TEXTURE: [ID 1] Depth renderbuffer loaded successfully (32 bits)
-INFO: FBO: [ID 1] Framebuffer object created successfully
-INFO: TEXTURE: [ID 4] Texture loaded successfully (600x600 | R8G8B8A8 | 1 mipmaps)
-INFO: TEXTURE: [ID 2] Depth renderbuffer loaded successfully (32 bits)
-INFO: FBO: [ID 2] Framebuffer object created successfully
-INFO: TEXTURE: [ID 5] Texture loaded successfully (3x600 | R8G8B8A8 | 1 mipmaps)
-INFO: TEXTURE: [ID 3] Depth renderbuffer loaded successfully (32 bits)
-INFO: FBO: [ID 3] Framebuffer object created successfully
-INFO: TIMER: Target time per frame: 1.000 milliseconds
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-INFO: TEXTURE: [ID 5] Pixel data retrieved successfully
-Trying to write results...
-INFO: TEXTURE: [ID 2] Unloaded texture data from VRAM (GPU)
-INFO: SHADER: [ID 3] Default shader unloaded successfully
-INFO: TEXTURE: [ID 1] Default texture unloaded successfully
-INFO: Window closed successfully
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 1.12e+00 seconds
+[1.436361 1.429611 1.450307 ... 1.428064 1.347533 1.297864] [1.49668482 1.49674652 1.49692449 ... 1.46661219 1.40084304 1.33175013]
 </pre></div>
 </div>
 <p>And plot the results</p>
@@ -853,7 +584,7 @@ INFO: Window closed successfully
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Normalized brightness&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s2">&quot;LightCurveEngine&quot;</span><span class="p">,</span> <span class="s2">&quot;Convex&quot;</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="c1"># plt.show()</span>
 </pre></div>
 </div>
 <img src="../../_images/sphx_glr_engine_vs_convex_001.png" srcset="../../_images/sphx_glr_engine_vs_convex_001.png, ../../_images/sphx_glr_engine_vs_convex_001_2_00x.png 2.00x" alt="Light Curves for temp.obj" class = "sphx-glr-single-img"/><p>Plotting the error instead of the brightness values</p>
@@ -889,7 +620,7 @@ INFO: Window closed successfully
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_engine_vs_convex_003.png" srcset="../../_images/sphx_glr_engine_vs_convex_003.png, ../../_images/sphx_glr_engine_vs_convex_003_2_00x.png 2.00x" alt="Light Curves for tess.obj" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  9.631 seconds)</p>
+<img src="../../_images/sphx_glr_engine_vs_convex_003.png" srcset="../../_images/sphx_glr_engine_vs_convex_003.png, ../../_images/sphx_glr_engine_vs_convex_003_2_00x.png 2.00x" alt="Light Curves for tess.obj" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  10.760 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-01-light-curves-engine-vs-convex-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/1eef9292cd6e9920efc3c089879a3d4b/engine_vs_convex.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">engine_vs_convex.py</span></code></a></p>
@@ -912,12 +643,12 @@ INFO: Window closed successfully
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="brdf_grid.html"
+       href="noisy_light_curve.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">BRDFs on the local hemisphere</p>
+        <p class="prev-next-title">Noisy Light Curves</p>
       </div>
     </a>
     <a class="right-next"

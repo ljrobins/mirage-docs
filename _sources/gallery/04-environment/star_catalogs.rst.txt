@@ -38,11 +38,11 @@ Initializing and querying star catalogs
     station = mr.Station()
     date = mr.now()
     mr.tic("Loading Gaia")
-    gaia = mr.StarCatalog("gaia", station, date, limiting_magnitude=15)
+    gaia = mr.StarCatalog("gaia", station, date)
     mr.toc()
 
     mr.tic("Loading Tycho-2")
-    tycho2 = mr.StarCatalog("tycho2", station, date, limiting_magnitude=15)
+    tycho2 = mr.StarCatalog("tycho2", station, date)
     mr.toc()
 
     eci_look_dir = mr.hat(np.array([1, 1, 0]))
@@ -69,11 +69,11 @@ Initializing and querying star catalogs
 
  .. code-block:: none
 
-    Loading Gaia: 3.61e+00 seconds
-    Loading Tycho-2: 8.15e-01 seconds
-    Finding stars in frame for Tycho-2: 1.48e-02 seconds
+    Loading Gaia: 2.00e+00 seconds
+    Loading Tycho-2: 3.04e-01 seconds
+    Finding stars in frame for Tycho-2: 3.63e-03 seconds
     Tycho-2 found 17 stars in frame
-    Finding stars in frame for Gaia: 2.23e-03 seconds
+    Finding stars in frame for Gaia: 5.76e-04 seconds
     Gaia found 79 stars in frame
 
 
@@ -175,7 +175,7 @@ Plotting a heatmap of the RA/Dec of both catalogs with seaborn
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  26.831 seconds)
+   **Total running time of the script:** ( 0 minutes  21.662 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_star_catalogs.py:
