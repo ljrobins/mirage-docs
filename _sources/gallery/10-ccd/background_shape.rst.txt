@@ -25,7 +25,7 @@ Inspecting the shape of the background in a POGS CCD image
 
 .. GENERATED FROM PYTHON SOURCE LINES 7-14
 
-.. code-block:: default
+.. code-block:: Python
 
 
     import os
@@ -47,7 +47,7 @@ Loading a fits image from the Purdue Optical Ground Station
 
 .. GENERATED FROM PYTHON SOURCE LINES 16-21
 
-.. code-block:: default
+.. code-block:: Python
 
     from astropy.io import fits
 
@@ -71,7 +71,7 @@ Loading the CCD image
 
 .. GENERATED FROM PYTHON SOURCE LINES 27-34
 
-.. code-block:: default
+.. code-block:: Python
 
     with fits.open(
         os.path.join(os.environ["SRCDIR"], "..", "examples/10-ccd/00095337.fit")
@@ -93,7 +93,7 @@ Plotting the background values as a function of the distance from the center of 
 
 .. GENERATED FROM PYTHON SOURCE LINES 36-61
 
-.. code-block:: default
+.. code-block:: Python
 
     br_mask_naive, _ = mr.image_background_naive(ccd_adu)
     im_center = np.array(ccd_adu.shape) / 2
@@ -138,7 +138,7 @@ Plotting the parabolic fit to the background
 
 .. GENERATED FROM PYTHON SOURCE LINES 63-68
 
-.. code-block:: default
+.. code-block:: Python
 
     plt.imshow(im_br_parabola, cmap="plasma")
     mrv.texit("Image Parabola Fit", "", "", grid=False)
@@ -163,7 +163,7 @@ Plotting the residual noise after accounting for the image background, compared 
 
 .. GENERATED FROM PYTHON SOURCE LINES 70-88
 
-.. code-block:: default
+.. code-block:: Python
 
     ccd_minus_br = ccd_adu - im_br_parabola
     real_br_mask, _ = mr.image_background_naive(ccd_minus_br)
@@ -196,14 +196,14 @@ Plotting the residual noise after accounting for the image background, compared 
 
  .. code-block:: none
 
-    Residual variance: 189.92398261676232 [ADU^2]]
+    Residual variance: 189.92398261676226 [ADU^2]]
 
 
 
 
 .. GENERATED FROM PYTHON SOURCE LINES 90-120
 
-.. code-block:: default
+.. code-block:: Python
 
 
     lims = [[1730, 1760], [1990, 2020]]
@@ -248,7 +248,7 @@ Plotting the residual noise after accounting for the image background, compared 
 
  .. code-block:: none
 
-    /Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/pyvista/core/utilities/points.py:52: UserWarning: Points is not a float type. This can cause issues when transforming or applying filters. Casting to ``np.float32``. Disable this by passing ``force_float=False``.
+    /Users/liamrobinson/Documents/mirage/lib/python3.11/site-packages/pyvista/core/utilities/points.py:52: UserWarning: Points is not a float type. This can cause issues when transforming or applying filters. Casting to ``np.float32``. Disable this by passing ``force_float=False``.
       warnings.warn(
 
 
@@ -257,7 +257,7 @@ Plotting the residual noise after accounting for the image background, compared 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  24.773 seconds)
+   **Total running time of the script:** (0 minutes 27.470 seconds)
 
 
 .. _sphx_glr_download_gallery_10-ccd_background_shape.py:
@@ -266,16 +266,13 @@ Plotting the residual noise after accounting for the image background, compared 
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
 
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
+      :download:`Download Jupyter notebook: background_shape.ipynb <background_shape.ipynb>`
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: background_shape.py <background_shape.py>`
-
-    .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-      :download:`Download Jupyter notebook: background_shape.ipynb <background_shape.ipynb>`
 
 
 .. only:: html

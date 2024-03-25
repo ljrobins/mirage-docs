@@ -15,7 +15,7 @@ import mirage as mr
 
 # @mr.with_profiler
 def main():
-    obs_mat_path = "/Users/liamrobinson/Documents/PyLightCurves/fits/precise_star_matching/ObservationData.mat"
+    obs_mat_path = "/Users/liamrobinson/Documents/mirage/fits/precise_star_matching/ObservationData.mat"
 
     station = mr.Station()
     mr.tic("Loading Data")

@@ -25,7 +25,7 @@ Builds a terrain-driven horizon mask for a given station and displays the result
 
 .. GENERATED FROM PYTHON SOURCE LINES 7-13
 
-.. code-block:: default
+.. code-block:: Python
 
 
 
@@ -46,7 +46,7 @@ Defining the station at Katmandu, where ``station.name`` informs the name of the
 
 .. GENERATED FROM PYTHON SOURCE LINES 15-27
 
-.. code-block:: default
+.. code-block:: Python
 
     import mirage as mr
     import mirage.vis as mrv
@@ -73,7 +73,7 @@ Loads a terrain tile containing the station and create a mask for the station lo
 
 .. GENERATED FROM PYTHON SOURCE LINES 29-40
 
-.. code-block:: default
+.. code-block:: Python
 
 
     tile = tm.TerrainDataHandler().load_tiles_containing(
@@ -99,7 +99,7 @@ Build a tile from the raw tile data
 
 .. GENERATED FROM PYTHON SOURCE LINES 42-50
 
-.. code-block:: default
+.. code-block:: Python
 
     lat_grid, lon_grid = tile.lat_grid, tile.lon_grid
     elev_grid = tile.elev_grid / 1e3
@@ -122,7 +122,7 @@ Convert the terrain data into East North Up (ENU) coordinates and plot the resul
 
 .. GENERATED FROM PYTHON SOURCE LINES 52-88
 
-.. code-block:: default
+.. code-block:: Python
 
     enu_terrain = (mr.ecef_to_enu(station.itrf) @ (itrf_terrain - station.itrf).T).T
     dem = pv.StructuredGrid(
@@ -175,7 +175,7 @@ Convert the terrain data into East North Up (ENU) coordinates and plot the resul
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  45.414 seconds)
+   **Total running time of the script:** (1 minutes 2.719 seconds)
 
 
 .. _sphx_glr_download_gallery_07-observer_horizon_mask.py:
@@ -184,16 +184,13 @@ Convert the terrain data into East North Up (ENU) coordinates and plot the resul
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
 
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
+      :download:`Download Jupyter notebook: horizon_mask.ipynb <horizon_mask.ipynb>`
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: horizon_mask.py <horizon_mask.py>`
-
-    .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-      :download:`Download Jupyter notebook: horizon_mask.ipynb <horizon_mask.ipynb>`
 
 
 .. only:: html

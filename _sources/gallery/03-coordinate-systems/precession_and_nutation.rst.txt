@@ -25,7 +25,7 @@ Viewing the evolution of the instantaneous terrestrial pole due to precession an
 
 .. GENERATED FROM PYTHON SOURCE LINES 7-14
 
-.. code-block:: default
+.. code-block:: Python
 
 
     import numpy as np
@@ -47,7 +47,7 @@ Let's use the full range of the datetime module, from near year 0 to near year 9
 
 .. GENERATED FROM PYTHON SOURCE LINES 16-21
 
-.. code-block:: default
+.. code-block:: Python
 
     date0 = mr.utc(2023, 12, 9) - mr.years(2020)
     dates, ep = mr.date_linspace(
@@ -67,7 +67,7 @@ We then transform the true terrestrial pole in TOD to J2000 to look at the effec
 
 .. GENERATED FROM PYTHON SOURCE LINES 23-30
 
-.. code-block:: default
+.. code-block:: Python
 
     pole_nominal = np.tile(
         np.array([[0, 0, mr.AstroConstants.earth_r_eq * 1.3]]), (dates.size, 1)
@@ -84,11 +84,11 @@ We then transform the true terrestrial pole in TOD to J2000 to look at the effec
 
  .. code-block:: none
 
-    /Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/erfa/core.py:154: ErfaWarning: ERFA function "dtf2d" yielded 99329 of "dubious year (Note 6)"
+    /Users/liamrobinson/Documents/mirage/lib/python3.11/site-packages/erfa/core.py:154: ErfaWarning: ERFA function "dtf2d" yielded 99309 of "dubious year (Note 6)"
       warnings.warn('ERFA function "{}" yielded {}'.format(func_name, wmsg),
-    /Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/erfa/core.py:154: ErfaWarning: ERFA function "utctai" yielded 99329 of "dubious year (Note 3)"
+    /Users/liamrobinson/Documents/mirage/lib/python3.11/site-packages/erfa/core.py:154: ErfaWarning: ERFA function "utctai" yielded 99309 of "dubious year (Note 3)"
       warnings.warn('ERFA function "{}" yielded {}'.format(func_name, wmsg),
-    Elapsed time: 2.64e+00 seconds
+    Elapsed time: 3.31e+00 seconds
 
 
 
@@ -99,7 +99,7 @@ We can view this data from a distance to view precession
 
 .. GENERATED FROM PYTHON SOURCE LINES 32-40
 
-.. code-block:: default
+.. code-block:: Python
 
     pl = pv.Plotter()
     mrv.plot_earth(pl, lighting=False, high_def=True)
@@ -127,7 +127,7 @@ And from close up to show nutation
 
 .. GENERATED FROM PYTHON SOURCE LINES 42-51
 
-.. code-block:: default
+.. code-block:: Python
 
     z = 20
     pl = pv.Plotter()
@@ -156,7 +156,7 @@ Animating a full zoom sequence
 
 .. GENERATED FROM PYTHON SOURCE LINES 53-65
 
-.. code-block:: default
+.. code-block:: Python
 
 
     pl = pv.Plotter()
@@ -185,7 +185,7 @@ Animating a full zoom sequence
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  39.812 seconds)
+   **Total running time of the script:** (0 minutes 42.246 seconds)
 
 
 .. _sphx_glr_download_gallery_03-coordinate-systems_precession_and_nutation.py:
@@ -194,16 +194,13 @@ Animating a full zoom sequence
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
 
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
+      :download:`Download Jupyter notebook: precession_and_nutation.ipynb <precession_and_nutation.ipynb>`
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: precession_and_nutation.py <precession_and_nutation.py>`
-
-    .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-      :download:`Download Jupyter notebook: precession_and_nutation.ipynb <precession_and_nutation.ipynb>`
 
 
 .. only:: html

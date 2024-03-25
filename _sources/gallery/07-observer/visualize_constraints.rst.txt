@@ -23,7 +23,7 @@ Horizon Masked Observations
 
 .. GENERATED FROM PYTHON SOURCE LINES 5-16
 
-.. code-block:: default
+.. code-block:: Python
 
 
 
@@ -49,7 +49,7 @@ Let's define an observation station right before an ISS pass
 
 .. GENERATED FROM PYTHON SOURCE LINES 18-29
 
-.. code-block:: default
+.. code-block:: Python
 
     date_start = datetime.datetime(2023, 5, 12, 0, 37, 0, tzinfo=datetime.timezone.utc)
     dates = date_start + mr.minutes(np.linspace(0, 11, 100))
@@ -75,7 +75,7 @@ And grab the ISS, which will propagate using the closest available TLEs for accu
 
 .. GENERATED FROM PYTHON SOURCE LINES 31-34
 
-.. code-block:: default
+.. code-block:: Python
 
     obj = mr.SpaceObject("tess.obj", identifier=25544)
     brdf = mr.Brdf("phong")
@@ -93,7 +93,7 @@ We can now apply a bunch of constraints to the observation, including a horizon 
 
 .. GENERATED FROM PYTHON SOURCE LINES 36-59
 
-.. code-block:: default
+.. code-block:: Python
 
     station.constraints = [
         mr.HorizonMaskConstraint(station),
@@ -131,7 +131,7 @@ We can now define the object's attitude profile and observe a light curve
 
 .. GENERATED FROM PYTHON SOURCE LINES 61-73
 
-.. code-block:: default
+.. code-block:: Python
 
 
     obj_attitude = mr.RbtfAttitude(
@@ -158,7 +158,7 @@ We can now plot an animation of the pass with the horizon mask superimposed on t
 
 .. GENERATED FROM PYTHON SOURCE LINES 75-136
 
-.. code-block:: default
+.. code-block:: Python
 
     enu_terrain = (mr.ecef_to_enu(station.itrf) @ (itrf_terrain - station.itrf).T).T
     dem = pv.StructuredGrid(
@@ -236,7 +236,7 @@ We can now plot an animation of the pass with the horizon mask superimposed on t
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  21.540 seconds)
+   **Total running time of the script:** (0 minutes 26.056 seconds)
 
 
 .. _sphx_glr_download_gallery_07-observer_visualize_constraints.py:
@@ -245,16 +245,13 @@ We can now plot an animation of the pass with the horizon mask superimposed on t
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
 
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
+      :download:`Download Jupyter notebook: visualize_constraints.ipynb <visualize_constraints.ipynb>`
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: visualize_constraints.py <visualize_constraints.py>`
-
-    .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-      :download:`Download Jupyter notebook: visualize_constraints.ipynb <visualize_constraints.ipynb>`
 
 
 .. only:: html

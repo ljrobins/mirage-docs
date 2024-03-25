@@ -17,13 +17,11 @@ import mirage as mr
 import mirage.vis as mrv
 
 data_points = 100
-obj = mr.SpaceObject("tess.obj", identifier="INTELSAT 511")
-date = mr.utc(2022, 12, 9, 14)
+obj = mr.SpaceObject("matlib_gps_iii.obj", identifier="NAVSTAR 80 (USA 309)")
+jd0, jdf = 2459840.6618391783, 2459840.9182615164
+date0, datef = mr.jd_to_date(jd0), mr.jd_to_date(jdf)
 (date_space, epsec_space) = mr.date_linspace(
-    date,
-    date + datetime.timedelta(hours=24),
-    data_points,
-    return_epsecs=True,
+    date0, datef, data_points, return_epsecs=True
 )
 (r, v) = obj.propagate(date_space, return_velocity=True)
 
@@ -59,7 +57,7 @@ for i in range(data_points - 1):
     )
     pl.camera.focal_point = r[i, :]
     mrv.render_spaceobject(
-        pl, obj, origin=r[i, :], scale=10, opacity=1.0, quat=quat[i, :]
+        pl, obj, origin=r[i, :], scale=1, opacity=1.0, quat=quat[i, :], lighting=False
     )
     mrv.plot_arrow(pl, r[i, :], v1[i, :], scale=pdist, name="arr_v1")
     mrv.plot_arrow(pl, r[i, :], v2[i, :], scale=pdist, name="arr_v2")

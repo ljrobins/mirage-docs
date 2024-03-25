@@ -25,7 +25,7 @@ Simulates torque-free rigid body motion for a simple object and computes the lig
 
 .. GENERATED FROM PYTHON SOURCE LINES 7-16
 
-.. code-block:: default
+.. code-block:: Python
 
 
     import datetime
@@ -49,7 +49,7 @@ To keep things simple, we'll just use a cube for this demo
 
 .. GENERATED FROM PYTHON SOURCE LINES 18-21
 
-.. code-block:: default
+.. code-block:: Python
 
     obj = mr.SpaceObject("cube.obj")
     brdf = mr.Brdf("diffuse", cd=1.0, cs=0.0)
@@ -67,7 +67,7 @@ Computing the quaternion time history of the object
 
 .. GENERATED FROM PYTHON SOURCE LINES 23-32
 
-.. code-block:: default
+.. code-block:: Python
 
     teval = np.linspace(0, 10, 1000)
     q, _ = mr.propagate_attitude_torque_free(
@@ -91,7 +91,7 @@ Transforming fixed inertial Sun and Observer vectors into the body frame
 
 .. GENERATED FROM PYTHON SOURCE LINES 34-52
 
-.. code-block:: default
+.. code-block:: Python
 
     svi = np.array([[1, 0, 0]])
     # Sun vector in the inertial frame
@@ -126,7 +126,7 @@ Transforming fixed inertial Sun and Observer vectors into the body frame
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.297 seconds)
+   **Total running time of the script:** (0 minutes 0.491 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_convex_light_curve.py:
@@ -135,16 +135,13 @@ Transforming fixed inertial Sun and Observer vectors into the body frame
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
 
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
+      :download:`Download Jupyter notebook: convex_light_curve.ipynb <convex_light_curve.ipynb>`
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: convex_light_curve.py <convex_light_curve.py>`
-
-    .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-      :download:`Download Jupyter notebook: convex_light_curve.ipynb <convex_light_curve.ipynb>`
 
 
 .. only:: html

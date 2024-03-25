@@ -25,7 +25,7 @@ Given a station and a target in inertial space we can compute the azimuth and el
 
 .. GENERATED FROM PYTHON SOURCE LINES 7-14
 
-.. code-block:: default
+.. code-block:: Python
 
 
     import numpy as np
@@ -47,7 +47,7 @@ Let's use the Purdue Optical Ground Station for this example
 
 .. GENERATED FROM PYTHON SOURCE LINES 16-20
 
-.. code-block:: default
+.. code-block:: Python
 
     station = mr.Station(preset="pogs")
     dt0 = mr.utc(2023, 8, 13)
@@ -66,7 +66,7 @@ Let's extract the station's position in J2000 and create an ECI look direction w
 
 .. GENERATED FROM PYTHON SOURCE LINES 22-30
 
-.. code-block:: default
+.. code-block:: Python
 
     station_j2k = station.j2000_at_dates(dates)
 
@@ -89,7 +89,7 @@ We can then turn this target direction into an azimuth/elevation pair
 
 .. GENERATED FROM PYTHON SOURCE LINES 32-36
 
-.. code-block:: default
+.. code-block:: Python
 
     az, el = station.eci_to_az_el(dates, target_dir_eci)
     print(f"{az[0]=} [rad]")
@@ -115,7 +115,7 @@ And easily invert that into the same unit vector direction
 
 .. GENERATED FROM PYTHON SOURCE LINES 38-43
 
-.. code-block:: default
+.. code-block:: Python
 
     eci_hat = station.az_el_to_eci(az, el, dates)
     print(
@@ -141,7 +141,7 @@ We can also display this resulting unit vector as a ray cast out from the observ
 
 .. GENERATED FROM PYTHON SOURCE LINES 45-66
 
-.. code-block:: default
+.. code-block:: Python
 
     pl = pv.Plotter()
     stat_origin0 = station.j2000_at_dates(dates[0])
@@ -185,7 +185,7 @@ We can also display this resulting unit vector as a ray cast out from the observ
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  10.721 seconds)
+   **Total running time of the script:** (0 minutes 15.215 seconds)
 
 
 .. _sphx_glr_download_gallery_07-observer_az_el_parallel.py:
@@ -194,16 +194,13 @@ We can also display this resulting unit vector as a ray cast out from the observ
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
 
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
+      :download:`Download Jupyter notebook: az_el_parallel.ipynb <az_el_parallel.ipynb>`
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: az_el_parallel.py <az_el_parallel.py>`
-
-    .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-      :download:`Download Jupyter notebook: az_el_parallel.ipynb <az_el_parallel.ipynb>`
 
 
 .. only:: html

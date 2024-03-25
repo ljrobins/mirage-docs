@@ -24,7 +24,7 @@ Comparing the effects of different integration times on the shape and level of t
 
 .. GENERATED FROM PYTHON SOURCE LINES 6-13
 
-.. code-block:: default
+.. code-block:: Python
 
 
     import os
@@ -46,7 +46,7 @@ Loading a fits image from the Purdue Optical Ground Station
 
 .. GENERATED FROM PYTHON SOURCE LINES 15-20
 
-.. code-block:: default
+.. code-block:: Python
 
     from astropy.io import fits
 
@@ -70,7 +70,7 @@ Loading the CCD image
 
 .. GENERATED FROM PYTHON SOURCE LINES 26-38
 
-.. code-block:: default
+.. code-block:: Python
 
     ccd_dir = os.path.join(os.environ["SRCDIR"], "..", "data")
     fit_files = ["00147020.fit", "00130398.fit"]
@@ -97,7 +97,7 @@ Plotting the two CCD images side by side
 
 .. GENERATED FROM PYTHON SOURCE LINES 40-50
 
-.. code-block:: default
+.. code-block:: Python
 
     plt.figure(figsize=(10, 5))
     for i in range(len(ccd_images)):
@@ -127,7 +127,7 @@ Printing the background level of both images
 
 .. GENERATED FROM PYTHON SOURCE LINES 52-56
 
-.. code-block:: default
+.. code-block:: Python
 
     for ccd_adu, int_time in zip(ccd_images, integration_time_seconds):
         ccd_adu_minus_br = mr.ChargeCoupledDevice().subtract_parabola(ccd_adu)
@@ -150,7 +150,7 @@ Printing the background level of both images
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  7.914 seconds)
+   **Total running time of the script:** (0 minutes 8.992 seconds)
 
 
 .. _sphx_glr_download_gallery_10-ccd_ccd_integration_time.py:
@@ -159,16 +159,13 @@ Printing the background level of both images
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
 
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
+      :download:`Download Jupyter notebook: ccd_integration_time.ipynb <ccd_integration_time.ipynb>`
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: ccd_integration_time.py <ccd_integration_time.py>`
-
-    .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-      :download:`Download Jupyter notebook: ccd_integration_time.ipynb <ccd_integration_time.ipynb>`
 
 
 .. only:: html

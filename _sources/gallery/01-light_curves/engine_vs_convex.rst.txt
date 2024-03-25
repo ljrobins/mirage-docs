@@ -25,7 +25,7 @@ Comparing light curves produced by the LightCurveEngine renderer and a simplifie
 
 .. GENERATED FROM PYTHON SOURCE LINES 7-14
 
-.. code-block:: default
+.. code-block:: Python
 
 
     import matplotlib.pyplot as plt
@@ -45,12 +45,11 @@ Comparing light curves produced by the LightCurveEngine renderer and a simplifie
 
 Defining the object and BRDF
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-20
+.. GENERATED FROM PYTHON SOURCE LINES 16-19
 
-.. code-block:: default
+.. code-block:: Python
 
     obj = mr.SpaceObject("cylinder.obj")
-    del obj.file_name
     brdf = mr.Brdf("phong", cd=0.1, cs=0.9, n=30)
 
 
@@ -60,13 +59,13 @@ Defining the object and BRDF
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-22
+.. GENERATED FROM PYTHON SOURCE LINES 20-21
 
 Defining the attitude profile
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-35
+.. GENERATED FROM PYTHON SOURCE LINES 21-34
 
-.. code-block:: default
+.. code-block:: Python
 
 
     t_eval = np.linspace(0, 10, int(1e3) + 1)
@@ -88,13 +87,13 @@ Defining the attitude profile
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-37
+.. GENERATED FROM PYTHON SOURCE LINES 35-36
 
 We can now run the engine and compute a convex light curve:
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-52
+.. GENERATED FROM PYTHON SOURCE LINES 36-51
 
-.. code-block:: default
+.. code-block:: Python
 
 
     mr.tic()
@@ -119,19 +118,19 @@ We can now run the engine and compute a convex light curve:
 
  .. code-block:: none
 
-    Elapsed time: 1.12e+00 seconds
-    [1.436361 1.429611 1.450307 ... 1.428064 1.347533 1.297864] [1.49668482 1.49674652 1.49692449 ... 1.46661219 1.40084304 1.33175013]
+    Elapsed time: 1.50e+00 seconds
+    [1.436186 1.431122 1.450145 ... 1.427974 1.347964 1.298291] [1.49668418 1.49674551 1.49692314 ... 1.46660924 1.40084022 1.33174755]
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 53-54
+.. GENERATED FROM PYTHON SOURCE LINES 52-53
 
 And plot the results
 
-.. GENERATED FROM PYTHON SOURCE LINES 54-66
+.. GENERATED FROM PYTHON SOURCE LINES 53-65
 
-.. code-block:: default
+.. code-block:: Python
 
 
     plt.figure()
@@ -149,7 +148,7 @@ And plot the results
 
 
 .. image-sg:: /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_001.png
-   :alt: Light Curves for temp.obj
+   :alt: Light Curves for cylinder.obj
    :srcset: /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_001.png, /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_001_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
@@ -157,13 +156,13 @@ And plot the results
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 67-68
+.. GENERATED FROM PYTHON SOURCE LINES 66-67
 
 Plotting the error instead of the brightness values
 
-.. GENERATED FROM PYTHON SOURCE LINES 68-77
+.. GENERATED FROM PYTHON SOURCE LINES 67-76
 
-.. code-block:: default
+.. code-block:: Python
 
 
     plt.figure()
@@ -178,7 +177,7 @@ Plotting the error instead of the brightness values
 
 
 .. image-sg:: /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_002.png
-   :alt: Light Curves Error for temp.obj
+   :alt: Light Curves Error for cylinder.obj
    :srcset: /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_002.png, /gallery/01-light_curves/images/sphx_glr_engine_vs_convex_002_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
@@ -186,13 +185,13 @@ Plotting the error instead of the brightness values
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 78-79
+.. GENERATED FROM PYTHON SOURCE LINES 77-78
 
 This is nice and small, which we like to see. If we repeat this process for a non-convex object, the error quickly becomes clear
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-100
+.. GENERATED FROM PYTHON SOURCE LINES 78-99
 
-.. code-block:: default
+.. code-block:: Python
 
 
     obj = mr.SpaceObject("tess.obj")
@@ -230,7 +229,7 @@ This is nice and small, which we like to see. If we repeat this process for a no
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  10.760 seconds)
+   **Total running time of the script:** (0 minutes 15.043 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_engine_vs_convex.py:
@@ -239,16 +238,13 @@ This is nice and small, which we like to see. If we repeat this process for a no
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
 
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
+      :download:`Download Jupyter notebook: engine_vs_convex.ipynb <engine_vs_convex.ipynb>`
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: engine_vs_convex.py <engine_vs_convex.py>`
-
-    .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-      :download:`Download Jupyter notebook: engine_vs_convex.ipynb <engine_vs_convex.ipynb>`
 
 
 .. only:: html

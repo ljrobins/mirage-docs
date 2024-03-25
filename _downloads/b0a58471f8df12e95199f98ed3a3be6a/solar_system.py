@@ -47,27 +47,36 @@ r = np.zeros((len(fcns), 3))
 for i, fcn in enumerate(fcns):
     r[i, :] = fcn(date)
 
-# pl = pv.Plotter()
-# mrv.plot_earth(pl, date=date, night_lights=True, elevation=True, atmosphere=True, lighting=False)
+pl = pv.Plotter()
+mrv.plot_earth(
+    pl, date=date, night_lights=True, elevation=True, atmosphere=True, lighting=False
+)
 
-# mag = 20000
-# planet_dirs = mr.hat(r)
+mag = 20000
+planet_dirs = mr.hat(r)
 
-# for pi,labeli in zip(planet_dirs,labels):
-#     mrv.plot_arrow(pl, np.zeros(3), pi, color="lime", label=labeli, name=labeli, scale=mag * 0.8,
-#                    font_size=15
-#     )
-# grid = mrv.celestial_grid()
-# mrv.plot3(
-#     pl,
-#     mag * grid,
-#     color="cornflowerblue",
-#     line_width=5,
-#     lighting=False,
-#     opacity=0.2,
-# )
+for pi, labeli in zip(planet_dirs, labels):
+    mrv.plot_arrow(
+        pl,
+        np.zeros(3),
+        pi,
+        color="lime",
+        label=labeli,
+        name=labeli,
+        scale=mag * 0.8,
+        font_size=15,
+    )
+grid = mrv.celestial_grid()
+mrv.plot3(
+    pl,
+    mag * grid,
+    color="cornflowerblue",
+    line_width=5,
+    lighting=False,
+    opacity=0.2,
+)
 
-# mrv.orbit_plotter(pl)
+mrv.orbit_plotter(pl)
 
 # %%
 # We can also plot the whole solar system by using SPICE interpolation

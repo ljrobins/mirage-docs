@@ -25,7 +25,7 @@ Plots global elevations
 
 .. GENERATED FROM PYTHON SOURCE LINES 7-16
 
-.. code-block:: default
+.. code-block:: Python
 
 
 
@@ -49,7 +49,7 @@ Let's open the GeoTIFF file for the geoid heights
 
 .. GENERATED FROM PYTHON SOURCE LINES 18-25
 
-.. code-block:: default
+.. code-block:: Python
 
     with rasterio.open(
         os.path.join(os.environ["DATADIR"], "us_nga_egm96_15.tif"), "r"
@@ -66,7 +66,7 @@ Let's open the GeoTIFF file for the geoid heights
 
  .. code-block:: none
 
-    Elapsed time: 3.22e-02 seconds
+    Elapsed time: 3.36e-02 seconds
 
 
 
@@ -75,9 +75,9 @@ Let's open the GeoTIFF file for the geoid heights
 
 And plot with a map of the Earth below
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-37
+.. GENERATED FROM PYTHON SOURCE LINES 27-36
 
-.. code-block:: default
+.. code-block:: Python
 
 
     mrv.plot_map_with_grid(
@@ -91,7 +91,6 @@ And plot with a map of the Earth below
 
 
 
-
 .. image-sg:: /gallery/04-environment/images/sphx_glr_geoid_heights_001.png
    :alt: EGM96 Geoid Undulations
    :srcset: /gallery/04-environment/images/sphx_glr_geoid_heights_001.png, /gallery/04-environment/images/sphx_glr_geoid_heights_001_2_00x.png 2.00x
@@ -101,113 +100,10 @@ And plot with a map of the Earth below
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-40
-
-Repeated with PyGMT
-===================
-
-.. GENERATED FROM PYTHON SOURCE LINES 40-43
-
-.. code-block:: default
-
-
-    import pygmt
-
-
-
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 44-45
-
-Plotting terrain elevation above the EGM96 geoid
-
-.. GENERATED FROM PYTHON SOURCE LINES 45-69
-
-.. code-block:: default
-
-    region = [-179, 179, -89, 89]
-    projection = "Cyl_stere/30/-20/12c"
-    cmap = "haxby"
-    grid = pygmt.datasets.load_earth_relief(resolution="01d", region=region)
-    fig = pygmt.Figure()
-
-    fig.basemap(region=region, projection=projection, frame=["a"])
-
-    fig.grdimage(
-        grid=grid,
-        cmap=cmap,
-        projection=projection,
-    )
-
-    fig.grdcontour(
-        annotation=None,
-        interval=2000,
-        grid=grid,
-        pen="0.5p,black",
-    )
-
-    fig.colorbar(frame=["x+lTerrain elevation to EGM96 geoid [m]"])
-    fig.show()
-
-
-
-
-.. image-sg:: /gallery/04-environment/images/sphx_glr_geoid_heights_002.png
-   :alt: geoid heights
-   :srcset: /gallery/04-environment/images/sphx_glr_geoid_heights_002.png
-   :class: sphx-glr-single-img
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 70-71
-
-Plotting terrain elevation above the EGM96 geoid
-
-.. GENERATED FROM PYTHON SOURCE LINES 71-91
-
-.. code-block:: default
-
-    grid_geoid = pygmt.datasets.load_earth_geoid(resolution="01d", region=region)
-    fig = pygmt.Figure()
-
-    fig.basemap(region=region, projection=projection, frame=["a"])
-
-    fig.grdimage(
-        grid=grid_geoid,
-        cmap=cmap,
-        projection=projection,
-    )
-
-    fig.grdcontour(
-        grid=grid_geoid,
-        interval=30,
-        annotation=30,
-    )
-
-    fig.coast(land="white", transparency=30)
-    fig.colorbar(frame=["x+lEGM96 Geoid elevation to WGS84 ellipsoid [m]"])
-    fig.show()
-
-
-
-.. image-sg:: /gallery/04-environment/images/sphx_glr_geoid_heights_003.png
-   :alt: geoid heights
-   :srcset: /gallery/04-environment/images/sphx_glr_geoid_heights_003.png
-   :class: sphx-glr-single-img
-
-
-
-
-
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  12.526 seconds)
+   **Total running time of the script:** (0 minutes 1.508 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_geoid_heights.py:
@@ -216,16 +112,13 @@ Plotting terrain elevation above the EGM96 geoid
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
 
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
+      :download:`Download Jupyter notebook: geoid_heights.ipynb <geoid_heights.ipynb>`
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: geoid_heights.py <geoid_heights.py>`
-
-    .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-      :download:`Download Jupyter notebook: geoid_heights.ipynb <geoid_heights.ipynb>`
 
 
 .. only:: html

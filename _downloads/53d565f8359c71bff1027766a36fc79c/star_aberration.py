@@ -12,7 +12,7 @@ import mirage as mr
 import mirage.vis as mrv
 
 mr.save_file_from_url(
-    "https://github.com/liamrobinson1/pyspaceaware-resources/raw/main/tycho2.json",
+    "https://github.com/liamrobinson1/mirage-resources/raw/main/tycho2.json",
     os.environ["DATADIR"],
 )
 

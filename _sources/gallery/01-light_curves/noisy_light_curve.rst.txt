@@ -25,7 +25,7 @@ Simulates torque-free rigid body motion for a simple object and computes the ful
 
 .. GENERATED FROM PYTHON SOURCE LINES 7-15
 
-.. code-block:: default
+.. code-block:: Python
 
 
     import matplotlib.pyplot as plt
@@ -48,7 +48,7 @@ Setting up analysis times
 
 .. GENERATED FROM PYTHON SOURCE LINES 17-23
 
-.. code-block:: default
+.. code-block:: Python
 
     date_start = mr.utc(2023, 5, 20, 20, 45, 0)
     (dates, epsecs) = mr.date_arange(
@@ -69,7 +69,7 @@ Setting up the scenario objects
 
 .. GENERATED FROM PYTHON SOURCE LINES 25-30
 
-.. code-block:: default
+.. code-block:: Python
 
     obj = mr.SpaceObject("hylas4.obj", identifier="goes 15")
     brdf = mr.Brdf("phong")
@@ -89,7 +89,7 @@ Defining observation constraints on the station
 
 .. GENERATED FROM PYTHON SOURCE LINES 32-42
 
-.. code-block:: default
+.. code-block:: Python
 
     station.constraints = [
         mr.SnrConstraint(3),
@@ -114,7 +114,7 @@ Defining the object's attitude profile and mass properties
 
 .. GENERATED FROM PYTHON SOURCE LINES 44-50
 
-.. code-block:: default
+.. code-block:: Python
 
     obj_attitude = mr.RbtfAttitude(
         w0=0.000 * np.array([0, 1, 1]),
@@ -135,7 +135,7 @@ Computing the full noisy light curve
 
 .. GENERATED FROM PYTHON SOURCE LINES 52-57
 
-.. code-block:: default
+.. code-block:: Python
 
     (lc_noisy_sampler, aux_data) = station.observe_light_curve(
         obj, obj_attitude, brdf, dates, use_engine=True
@@ -155,7 +155,7 @@ Extracting data and plotting results
 
 .. GENERATED FROM PYTHON SOURCE LINES 59-72
 
-.. code-block:: default
+.. code-block:: Python
 
     lc_clean = aux_data["lc_clean"]
 
@@ -185,7 +185,7 @@ Extracting data and plotting results
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  12.196 seconds)
+   **Total running time of the script:** (0 minutes 15.133 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_noisy_light_curve.py:
@@ -194,16 +194,13 @@ Extracting data and plotting results
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
 
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
+      :download:`Download Jupyter notebook: noisy_light_curve.ipynb <noisy_light_curve.ipynb>`
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: noisy_light_curve.py <noisy_light_curve.py>`
-
-    .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-      :download:`Download Jupyter notebook: noisy_light_curve.ipynb <noisy_light_curve.ipynb>`
 
 
 .. only:: html

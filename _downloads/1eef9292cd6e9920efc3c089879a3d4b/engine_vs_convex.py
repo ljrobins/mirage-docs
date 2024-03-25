@@ -14,7 +14,6 @@ import mirage as mr
 # %%
 # Defining the object and BRDF
 obj = mr.SpaceObject("cylinder.obj")
-del obj.file_name
 brdf = mr.Brdf("phong", cd=0.1, cs=0.9, n=30)
 
 # %%

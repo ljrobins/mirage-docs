@@ -35,7 +35,7 @@ Let's first load the coefficient arrays :math:`f_{iso}`, :math:`f_{geo}`, and :m
 
 .. GENERATED FROM PYTHON SOURCE LINES 15-32
 
-.. code-block:: default
+.. code-block:: Python
 
 
     import matplotlib.pyplot as plt
@@ -67,7 +67,7 @@ The surface BRDF function in `Blanc 2014 <https://hal-mines-paristech.archives-o
 
 .. GENERATED FROM PYTHON SOURCE LINES 34-45
 
-.. code-block:: default
+.. code-block:: Python
 
 
     pws = (
@@ -93,7 +93,7 @@ Now we define the date to evaluate the reflected albedo irradiance at and the EC
 
 .. GENERATED FROM PYTHON SOURCE LINES 47-51
 
-.. code-block:: default
+.. code-block:: Python
 
     date = mr.utc(2022, 6, 23, 5, 53, 0)
     datestr = f'{date.strftime("%Y-%m-%d %H:%M:%S")} UTC'
@@ -112,7 +112,7 @@ Now we identify all the useful geometry: the ECEF positions of the grid cells, t
 
 .. GENERATED FROM PYTHON SOURCE LINES 53-65
 
-.. code-block:: default
+.. code-block:: Python
 
     ecef_grid = mr.lla_to_itrf(
         lat_geod=lat_geod_grid.flatten(),
@@ -139,7 +139,7 @@ For fun, let's classify the types of twilight to plot later
 
 .. GENERATED FROM PYTHON SOURCE LINES 67-83
 
-.. code-block:: default
+.. code-block:: Python
 
     solar_type_grid = np.zeros_like(solar_zenith_grid)
     solar_type_grid[
@@ -170,7 +170,7 @@ Computing which grid cells are visible from the satellite
 
 .. GENERATED FROM PYTHON SOURCE LINES 85-110
 
-.. code-block:: default
+.. code-block:: Python
 
     surf_to_sat = sat_pos_ecef - ecef_grid
     surf_to_sat_dir = mr.hat(surf_to_sat)
@@ -210,7 +210,7 @@ Computes the areas of each grid cell
 
 .. GENERATED FROM PYTHON SOURCE LINES 112-123
 
-.. code-block:: default
+.. code-block:: Python
 
     dp, dt = (
         lat_geod_space[1] - lat_geod_space[0],
@@ -236,7 +236,7 @@ Computing Lambertian reflection (for the land) and Phong reflection (for the oce
 
 .. GENERATED FROM PYTHON SOURCE LINES 125-134
 
-.. code-block:: default
+.. code-block:: Python
 
     rmag_loss_grid = 1 / surf_to_sat_rmag_m_grid**2
     irrad_from_surf = (
@@ -266,7 +266,7 @@ Let's compare with the implementation in the pyspaceaware package
 
 .. GENERATED FROM PYTHON SOURCE LINES 136-141
 
-.. code-block:: default
+.. code-block:: Python
 
     mr.tic()
     alb_irrad = mr.albedo_irradiance(date, sat_pos_ecef)
@@ -281,7 +281,7 @@ Let's compare with the implementation in the pyspaceaware package
 
  .. code-block:: none
 
-    Elapsed time: 4.64e-01 seconds
+    Elapsed time: 3.28e-01 seconds
     6.48e+00
 
 
@@ -293,7 +293,7 @@ Defining a few useful functions to simplify the plotting process
 
 .. GENERATED FROM PYTHON SOURCE LINES 143-145
 
-.. code-block:: default
+.. code-block:: Python
 
     bcmap = "PiYG"
 
@@ -310,7 +310,7 @@ Plotting the albedo across the grid
 
 .. GENERATED FROM PYTHON SOURCE LINES 147-152
 
-.. code-block:: default
+.. code-block:: Python
 
     mrv.plot_map_with_grid(
         albedo_grid, "March Mean Albedo", "Surface Albedo", cmap="PuBuGn_r", borders=True
@@ -335,7 +335,7 @@ Plotting the solar zenith angle
 
 .. GENERATED FROM PYTHON SOURCE LINES 154-162
 
-.. code-block:: default
+.. code-block:: Python
 
     mrv.plot_map_with_grid(
         solar_zenith_grid,
@@ -363,7 +363,7 @@ Plotting the twilight types
 
 .. GENERATED FROM PYTHON SOURCE LINES 164-180
 
-.. code-block:: default
+.. code-block:: Python
 
     mrv.plot_map_with_grid(
         solar_type_grid,
@@ -394,7 +394,7 @@ Plotting the twilight types
 
  .. code-block:: none
 
-    /Users/liamrobinson/Documents/PyLightCurves/examples/04-environment/reflected_albedo.py:168: MatplotlibDeprecationWarning: The get_cmap function was deprecated in Matplotlib 3.7 and will be removed two minor releases later. Use ``matplotlib.colormaps[name]`` or ``matplotlib.colormaps.get_cmap(obj)`` instead.
+    /Users/liamrobinson/Documents/mirage/examples/04-environment/reflected_albedo.py:168: MatplotlibDeprecationWarning: The get_cmap function was deprecated in Matplotlib 3.7 and will be removed two minor releases later. Use ``matplotlib.colormaps[name]`` or ``matplotlib.colormaps.get_cmap(obj)`` instead.
       cmap=plt.cm.get_cmap("Blues", 5),
 
 
@@ -406,7 +406,7 @@ Plotting grid cell visibility and illumination conditions
 
 .. GENERATED FROM PYTHON SOURCE LINES 182-197
 
-.. code-block:: default
+.. code-block:: Python
 
     mrv.plot_map_with_grid(
         obs_type_grid,
@@ -436,7 +436,7 @@ Plotting grid cell visibility and illumination conditions
 
  .. code-block:: none
 
-    /Users/liamrobinson/Documents/PyLightCurves/examples/04-environment/reflected_albedo.py:186: MatplotlibDeprecationWarning: The get_cmap function was deprecated in Matplotlib 3.7 and will be removed two minor releases later. Use ``matplotlib.colormaps[name]`` or ``matplotlib.colormaps.get_cmap(obj)`` instead.
+    /Users/liamrobinson/Documents/mirage/examples/04-environment/reflected_albedo.py:186: MatplotlibDeprecationWarning: The get_cmap function was deprecated in Matplotlib 3.7 and will be removed two minor releases later. Use ``matplotlib.colormaps[name]`` or ``matplotlib.colormaps.get_cmap(obj)`` instead.
       cmap=plt.cm.get_cmap("Paired", 4),
 
 
@@ -448,7 +448,7 @@ BRDF kernel values at each point
 
 .. GENERATED FROM PYTHON SOURCE LINES 199-208
 
-.. code-block:: default
+.. code-block:: Python
 
     mrv.plot_map_with_grid(
         loss_at_surf_diffuse + loss_at_surface_specular,
@@ -477,7 +477,7 @@ Plotting the areas of each grid cell
 
 .. GENERATED FROM PYTHON SOURCE LINES 210-219
 
-.. code-block:: default
+.. code-block:: Python
 
     mrv.plot_map_with_grid(
         cell_area_grid,
@@ -506,7 +506,7 @@ Plotting the irradiance from each grid cell
 
 .. GENERATED FROM PYTHON SOURCE LINES 221-230
 
-.. code-block:: default
+.. code-block:: Python
 
     mrv.plot_map_with_grid(
         irrad_from_surf,
@@ -532,7 +532,7 @@ Plotting the irradiance from each grid cell
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  9.159 seconds)
+   **Total running time of the script:** (0 minutes 8.313 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_reflected_albedo.py:
@@ -541,16 +541,13 @@ Plotting the irradiance from each grid cell
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
 
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
+      :download:`Download Jupyter notebook: reflected_albedo.ipynb <reflected_albedo.ipynb>`
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: reflected_albedo.py <reflected_albedo.py>`
-
-    .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-      :download:`Download Jupyter notebook: reflected_albedo.ipynb <reflected_albedo.ipynb>`
 
 
 .. only:: html

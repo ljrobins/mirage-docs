@@ -25,7 +25,7 @@ Expressing the same light curve in different units.
 
 .. GENERATED FROM PYTHON SOURCE LINES 7-30
 
-.. code-block:: default
+.. code-block:: Python
 
 
     import datetime
@@ -63,7 +63,7 @@ Setting up analysis times
 
 .. GENERATED FROM PYTHON SOURCE LINES 32-38
 
-.. code-block:: default
+.. code-block:: Python
 
     date_start = mr.utc(2023, 5, 26)
     (dates, epsecs) = mr.date_arange(
@@ -84,7 +84,7 @@ Setting up the scenario objects
 
 .. GENERATED FROM PYTHON SOURCE LINES 40-45
 
-.. code-block:: default
+.. code-block:: Python
 
     obj = mr.SpaceObject("matlib_hylas4.obj", identifier="goes 15")
     brdf = mr.Brdf("phong")
@@ -104,7 +104,7 @@ Defining observation constraints on the station
 
 .. GENERATED FROM PYTHON SOURCE LINES 47-57
 
-.. code-block:: default
+.. code-block:: Python
 
     station.constraints = [
         mr.SnrConstraint(3),
@@ -129,7 +129,7 @@ Defining the object's attitude profile and mass properties
 
 .. GENERATED FROM PYTHON SOURCE LINES 59-61
 
-.. code-block:: default
+.. code-block:: Python
 
     obj_attitude = aligned_nadir_constrained_sun_attitude(obj, dates)
 
@@ -146,7 +146,7 @@ Computing the full noisy light curve
 
 .. GENERATED FROM PYTHON SOURCE LINES 63-76
 
-.. code-block:: default
+.. code-block:: Python
 
     (lc_noisy_sampler, aux_data) = station.observe_light_curve(
         obj,
@@ -174,7 +174,7 @@ Extracting data and plotting results
 
 .. GENERATED FROM PYTHON SOURCE LINES 78-130
 
-.. code-block:: default
+.. code-block:: Python
 
     lc_clean = aux_data["lc_clean"]
     sint = aux_data["sint"]
@@ -243,7 +243,7 @@ Extracting data and plotting results
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  5.674 seconds)
+   **Total running time of the script:** (0 minutes 7.016 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_light_curve_units.py:
@@ -252,16 +252,13 @@ Extracting data and plotting results
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
 
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
+      :download:`Download Jupyter notebook: light_curve_units.ipynb <light_curve_units.ipynb>`
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: light_curve_units.py <light_curve_units.py>`
-
-    .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-      :download:`Download Jupyter notebook: light_curve_units.ipynb <light_curve_units.ipynb>`
 
 
 .. only:: html

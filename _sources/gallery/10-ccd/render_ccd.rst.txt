@@ -25,7 +25,7 @@ Renders a synthetic CCD image of an observation taken by the POGS telescope
 
 .. GENERATED FROM PYTHON SOURCE LINES 7-17
 
-.. code-block:: default
+.. code-block:: Python
 
 
     import os
@@ -50,7 +50,7 @@ Loading a fits image from the Purdue Optical Ground Station
 
 .. GENERATED FROM PYTHON SOURCE LINES 19-41
 
-.. code-block:: default
+.. code-block:: Python
 
 
     ccd_dir = os.path.join(os.environ["SRCDIR"], "..", "data")
@@ -61,7 +61,7 @@ Loading a fits image from the Purdue Optical Ground Station
     # fits_path = os.path.join(
     #     os.environ["SRCDIR"], "..", "00161341.GALAXY_23__TELSTAR_13__#27854U.fit"
     # )
-    # fits_path = "/Users/liamrobinson/Documents/PyLightCurves/00161344.fit" # recent
+    # fits_path = "/Users/liamrobinson/Documents/mirage/00161344.fit" # recent
     # fits_path = os.path.join(os.environ["SRCDIR"], "..", "00161298.Jupiter.fit")
 
     fits_dict = mr.info_from_fits(fits_path)
@@ -87,7 +87,7 @@ Let's synthesize a CCD image for the same observation conditions
 
 .. GENERATED FROM PYTHON SOURCE LINES 43-54
 
-.. code-block:: default
+.. code-block:: Python
 
 
     # pl = pv.Plotter()
@@ -117,7 +117,7 @@ Let's synthesize a CCD image for the same observation conditions
 
 .. GENERATED FROM PYTHON SOURCE LINES 59-104
 
-.. code-block:: default
+.. code-block:: Python
 
 
     observing_station.telescope.fwhm = 4
@@ -175,7 +175,7 @@ Let's synthesize a CCD image for the same observation conditions
     WARNING: no observation constraints assigned!
     Objects in frame 1:
     NAVSTAR 81 (USA 319)
-    Elapsed time: 5.86e+00 seconds
+    Elapsed time: 6.83e+00 seconds
 
 
 
@@ -186,7 +186,7 @@ Let's take a look at the real and synthetic CCD images
 
 .. GENERATED FROM PYTHON SOURCE LINES 106-130
 
-.. code-block:: default
+.. code-block:: Python
 
 
     ccd_adu = np.clip(ccd_adu - br_parabola_obs, 1, np.inf)
@@ -230,7 +230,7 @@ Plotting the two images on top of eachother
 
 .. GENERATED FROM PYTHON SOURCE LINES 132-138
 
-.. code-block:: default
+.. code-block:: Python
 
 
     plt.figure(figsize=(4, 4))
@@ -256,7 +256,7 @@ Looking at the residual noise after subtracting off the parabolic background fro
 
 .. GENERATED FROM PYTHON SOURCE LINES 140-155
 
-.. code-block:: default
+.. code-block:: Python
 
 
     ccd_adu_minus_br = observing_station.telescope.ccd.subtract_parabola(ccd_adu)
@@ -282,7 +282,7 @@ Looking at the residual noise after subtracting off the parabolic background fro
  .. code-block:: none
 
     Real background variance: 113.7439377206357 [ADU^2]
-    Synthetic background variance: 505.4671421456516 [ADU^2]
+    Synthetic background variance: 505.4972651350604 [ADU^2]
 
 
 
@@ -293,7 +293,7 @@ Plotting the same, with the parabolic background subtracted from the real image
 
 .. GENERATED FROM PYTHON SOURCE LINES 157-174
 
-.. code-block:: default
+.. code-block:: Python
 
 
     cbar_kwargs = dict(label="$ADU$")
@@ -330,7 +330,7 @@ Inspecting the backgrounds
 
 .. GENERATED FROM PYTHON SOURCE LINES 176-212
 
-.. code-block:: default
+.. code-block:: Python
 
 
     frac_cuts = (1e-4, 5e-3)
@@ -381,7 +381,7 @@ Inspecting the backgrounds
 
  .. code-block:: none
 
-    Synthetic background: 11.023618002607593 [ADU]
+    Synthetic background: 11.025612663848117 [ADU]
     Real background: 5.857372967661838 [ADU]
 
 
@@ -390,7 +390,7 @@ Inspecting the backgrounds
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  30.356 seconds)
+   **Total running time of the script:** (0 minutes 32.728 seconds)
 
 
 .. _sphx_glr_download_gallery_10-ccd_render_ccd.py:
@@ -399,16 +399,13 @@ Inspecting the backgrounds
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
 
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
+      :download:`Download Jupyter notebook: render_ccd.ipynb <render_ccd.ipynb>`
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: render_ccd.py <render_ccd.py>`
-
-    .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-      :download:`Download Jupyter notebook: render_ccd.ipynb <render_ccd.ipynb>`
 
 
 .. only:: html

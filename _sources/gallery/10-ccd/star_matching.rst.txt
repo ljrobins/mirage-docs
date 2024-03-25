@@ -25,7 +25,7 @@ Given star centroid locations and an initial estimate of the look direction and 
 
 .. GENERATED FROM PYTHON SOURCE LINES 7-48
 
-.. code-block:: default
+.. code-block:: Python
 
 
     import os
@@ -76,7 +76,7 @@ Given star centroid locations and an initial estimate of the look direction and 
 
  .. code-block:: none
 
-    Loading star catalog: 2.24e+00 seconds
+    Loading star catalog: 2.53e+00 seconds
 
 
 
@@ -87,7 +87,7 @@ Let's figure out the streak direction
 
 .. GENERATED FROM PYTHON SOURCE LINES 50-122
 
-.. code-block:: default
+.. code-block:: Python
 
 
     # fits_path = os.path.join(os.environ["SRCDIR"], "..", "examples/10-ccd/00095337.fit")
@@ -169,15 +169,15 @@ Let's figure out the streak direction
 
  .. code-block:: none
 
-    /Users/liamrobinson/Documents/PyLightCurves/examples/10-ccd/star_matching.py:62: RuntimeWarning: invalid value encountered in log10
+    /Users/liamrobinson/Documents/mirage/examples/10-ccd/star_matching.py:62: RuntimeWarning: invalid value encountered in log10
       img = np.log10(img - mr.image_background_parabola(img))
     Objects in frame 1:
     NAVSTAR 81 (USA 319)
-    Elapsed time: 5.51e+00 seconds
-    /Users/liamrobinson/Documents/PyLightCurves/examples/10-ccd/star_matching.py:93: RuntimeWarning: invalid value encountered in log10
+    Elapsed time: 5.58e+00 seconds
+    /Users/liamrobinson/Documents/mirage/examples/10-ccd/star_matching.py:93: RuntimeWarning: invalid value encountered in log10
       adu_grid_streaked_sampled = np.log10(
-    Finding streaks:   0%|          | 0/776 [00:00<?, ?it/s]    Finding streaks: 100%|##########| 776/776 [00:00<00:00, 368104.49it/s]
-    contours: 1.17e-02 seconds
+    Finding streaks:   0%|          | 0/776 [00:00<?, ?it/s]    Finding streaks: 100%|██████████| 776/776 [00:00<00:00, 261638.26it/s]
+    contours: 1.68e-02 seconds
 
 
 
@@ -195,7 +195,7 @@ We're close, but we need to solve for the slight rotation and translation betwee
 
 .. GENERATED FROM PYTHON SOURCE LINES 130-211
 
-.. code-block:: default
+.. code-block:: Python
 
 
     plt.imshow(adu_grid_streaked_sampled, cmap="gray")
@@ -304,7 +304,7 @@ Now we solve for the translation
 
 .. GENERATED FROM PYTHON SOURCE LINES 213-244
 
-.. code-block:: default
+.. code-block:: Python
 
 
     use_inds = np.argsort(mr.vecnorm(nearest_expected_to_found).flatten())[
@@ -359,7 +359,7 @@ Now we solve for the translation
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  30.748 seconds)
+   **Total running time of the script:** (0 minutes 31.090 seconds)
 
 
 .. _sphx_glr_download_gallery_10-ccd_star_matching.py:
@@ -368,16 +368,13 @@ Now we solve for the translation
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
 
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
+      :download:`Download Jupyter notebook: star_matching.ipynb <star_matching.ipynb>`
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: star_matching.py <star_matching.py>`
-
-    .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-      :download:`Download Jupyter notebook: star_matching.ipynb <star_matching.ipynb>`
 
 
 .. only:: html

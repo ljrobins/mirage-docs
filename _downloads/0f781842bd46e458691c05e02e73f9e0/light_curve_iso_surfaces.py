@@ -11,7 +11,7 @@ import mirage as mr
 import mirage.sim as mrs
 import mirage.vis as mrv
 
-# path = "/Users/liamrobinson/Documents/PyLightCurves/mlp_model_train_on_irradiance_cube_brdf_phong_cd_0.5_cs_0.5_n_5.0_layers_50_50_50_50_50_50_50_50_50_50.onnx"
+# path = "/Users/liamrobinson/Documents/mirage/mlp_model_train_on_irradiance_cube_brdf_phong_cd_0.5_cs_0.5_n_5.0_layers_50_50_50_50_50_50_50_50_50_50.onnx"
 # mdl = mrs.MLPBrightnessModel(path=path)
 obj = mrv.SpaceObject("cube.obj")
 mdl = lambda svb, ovb: obj.convex_light_curve(

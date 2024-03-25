@@ -25,7 +25,7 @@ Visualizes the transformation from ITRF to J2000 over the course of a day and at
 
 .. GENERATED FROM PYTHON SOURCE LINES 7-18
 
-.. code-block:: default
+.. code-block:: Python
 
 
     # isort: off
@@ -51,7 +51,7 @@ Let's set up a space of dates over a single day
 
 .. GENERATED FROM PYTHON SOURCE LINES 20-26
 
-.. code-block:: default
+.. code-block:: Python
 
 
     ntimes = 4
@@ -72,7 +72,7 @@ We can use :class:`mr.EarthFixedFrame` to set up the coordinate frame transforma
 
 .. GENERATED FROM PYTHON SOURCE LINES 28-31
 
-.. code-block:: default
+.. code-block:: Python
 
     frame_conversion = mr.EarthFixedFrame("itrf", "j2000")
 
@@ -90,7 +90,7 @@ We can then plot the basis vectors at each of the selected times, labeling them 
 
 .. GENERATED FROM PYTHON SOURCE LINES 33-72
 
-.. code-block:: default
+.. code-block:: Python
 
     def plot_bases_at_date(pl: pv.Plotter, d: datetime.datetime) -> None:
         pl.add_text(d.strftime("%Y-%m-%d %H:%M:%S UTC"))
@@ -144,7 +144,7 @@ We can then plot the basis vectors at each of the selected times, labeling them 
 
  .. code-block:: none
 
-    /Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/pyvista/plotting/plotter.py:4633: PyVistaDeprecationWarning: This method is deprecated and will be removed in a future version of PyVista. Directly modify the scalars of a mesh in-place instead.
+    /Users/liamrobinson/Documents/mirage/lib/python3.11/site-packages/pyvista/plotting/plotter.py:4644: PyVistaDeprecationWarning: This method is deprecated and will be removed in a future version of PyVista. Directly modify the scalars of a mesh in-place instead.
       warnings.warn(
 
 
@@ -157,7 +157,7 @@ To dig into this, let's look at the transformation between ITRF and J2000 at noo
 
 .. GENERATED FROM PYTHON SOURCE LINES 75-98
 
-.. code-block:: default
+.. code-block:: Python
 
 
     vernal_equinox = datetime.datetime(2023, 3, 19, 12, 0, 0, tzinfo=datetime.timezone.utc)
@@ -195,7 +195,7 @@ To dig into this, let's look at the transformation between ITRF and J2000 at noo
 
  .. code-block:: none
 
-    /Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/pyvista/plotting/plotter.py:4633: PyVistaDeprecationWarning: This method is deprecated and will be removed in a future version of PyVista. Directly modify the scalars of a mesh in-place instead.
+    /Users/liamrobinson/Documents/mirage/lib/python3.11/site-packages/pyvista/plotting/plotter.py:4644: PyVistaDeprecationWarning: This method is deprecated and will be removed in a future version of PyVista. Directly modify the scalars of a mesh in-place instead.
       warnings.warn(
 
 
@@ -204,7 +204,7 @@ To dig into this, let's look at the transformation between ITRF and J2000 at noo
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  22.782 seconds)
+   **Total running time of the script:** (0 minutes 22.923 seconds)
 
 
 .. _sphx_glr_download_gallery_03-coordinate-systems_equinoxes.py:
@@ -213,16 +213,13 @@ To dig into this, let's look at the transformation between ITRF and J2000 at noo
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
 
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
+      :download:`Download Jupyter notebook: equinoxes.ipynb <equinoxes.ipynb>`
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: equinoxes.py <equinoxes.py>`
-
-    .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-      :download:`Download Jupyter notebook: equinoxes.ipynb <equinoxes.ipynb>`
 
 
 .. only:: html

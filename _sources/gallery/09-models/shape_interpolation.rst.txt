@@ -23,9 +23,9 @@ Shape Interpolation
 
 Given two shapes as triangulated 3D models, how can we smoothly interpolate another model between them using signed distance fields
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-33
+.. GENERATED FROM PYTHON SOURCE LINES 7-13
 
-.. code-block:: default
+.. code-block:: Python
 
 
     import numpy as np
@@ -33,45 +33,20 @@ Given two shapes as triangulated 3D models, how can we smoothly interpolate anot
 
     import mirage as mr
 
-    pl = pv.Plotter(shape=(2, 2))
-
-    for i, weight1 in enumerate(np.linspace(0, 1, 4)):
-        weights = np.array([1 - weight1, weight1]).astype(float)
-        obj_merged = mr.merge_shapes(
-            [
-                mr.SpaceObject("icosahedron.obj").clean(),
-                mr.SpaceObject("torus.obj").clean(),
-            ],
-            weights,
-        )
-        pl.subplot(i // 2, i % 2)
-        pl.add_mesh(obj_merged._mesh, color="lightblue", name="mesh", smooth_shading=True)
-        pl.add_text(
-            f"{weights[0]*100:3.0f}% Icosahedron \n{weights[1]*100:3.0f}% Torus",
-            font="courier",
-            name="label",
-        )
-    pl.show()
-
-
-
-
-.. image-sg:: /gallery/09-models/images/sphx_glr_shape_interpolation_001.png
-   :alt: shape interpolation
-   :srcset: /gallery/09-models/images/sphx_glr_shape_interpolation_001.png
-   :class: sphx-glr-single-img
 
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-35
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 14-15
 
 Animating the entire interpolation
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-55
+.. GENERATED FROM PYTHON SOURCE LINES 15-36
 
-.. code-block:: default
+.. code-block:: Python
 
 
     obj1 = mr.SpaceObject("icosahedron.obj").clean()
@@ -96,9 +71,10 @@ Animating the entire interpolation
 
 
 
-.. image-sg:: /gallery/09-models/images/sphx_glr_shape_interpolation_002.gif
+
+.. image-sg:: /gallery/09-models/images/sphx_glr_shape_interpolation_001.gif
    :alt: shape interpolation
-   :srcset: /gallery/09-models/images/sphx_glr_shape_interpolation_002.gif
+   :srcset: /gallery/09-models/images/sphx_glr_shape_interpolation_001.gif
    :class: sphx-glr-single-img
 
 
@@ -106,46 +82,114 @@ Animating the entire interpolation
 
  .. code-block:: none
 
-    Elapsed time: 1.49e+00 seconds
-    Elapsed time: 1.76e+00 seconds
-    Elapsed time: 1.96e+00 seconds
-    Elapsed time: 1.65e+00 seconds
-    Elapsed time: 1.56e+00 seconds
-    Elapsed time: 1.77e+00 seconds
-    Elapsed time: 1.34e+00 seconds
-    Elapsed time: 1.26e+00 seconds
-    Elapsed time: 1.27e+00 seconds
-    Elapsed time: 1.22e+00 seconds
-    Elapsed time: 1.61e+00 seconds
-    Elapsed time: 4.06e+00 seconds
-    Elapsed time: 2.27e+00 seconds
-    Elapsed time: 1.84e+00 seconds
-    Elapsed time: 1.62e+00 seconds
-    Elapsed time: 1.25e+00 seconds
-    Elapsed time: 1.33e+00 seconds
-    Elapsed time: 1.22e+00 seconds
-    Elapsed time: 1.27e+00 seconds
-    Elapsed time: 1.22e+00 seconds
-    Elapsed time: 1.25e+00 seconds
-    Elapsed time: 1.20e+00 seconds
-    Elapsed time: 1.19e+00 seconds
-    Elapsed time: 1.39e+00 seconds
-    Elapsed time: 1.26e+00 seconds
-    Elapsed time: 1.14e+00 seconds
-    Elapsed time: 1.21e+00 seconds
-    Elapsed time: 1.41e+00 seconds
-    Elapsed time: 1.23e+00 seconds
-    Elapsed time: 1.32e+00 seconds
-    Elapsed time: 1.36e+00 seconds
+    Model file icosahedron.obj not found in current model folder ('/Users/liamrobinson/Documents/mirage/mirage/resources/models'), checking model repository...
+    Attempting to download icosahedron.obj and its associated material file from the model repository...
+    Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//Regular/icosahedron.obj
+    Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//Regular/icosahedron.mtl
+    Model files were downloaded successfully!
+    Attempting to download spacelib.obj and its associated material file from the model repository...
+    Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//accurate_sats/spacelib.mtl
+    Model files were downloaded successfully!
+    Model file duck.obj not found in current model folder ('/Users/liamrobinson/Documents/mirage/mirage/resources/models'), checking model repository...
+    Attempting to download duck.obj and its associated material file from the model repository...
+    Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//Non-Convex/duck.obj
+    Model files were downloaded successfully!
+    Attempting to download spacelib.obj and its associated material file from the model repository...
+    Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//accurate_sats/spacelib.mtl
+    Model files were downloaded successfully!
     Elapsed time: 1.29e+00 seconds
-    Elapsed time: 1.35e+00 seconds
-    Elapsed time: 1.36e+00 seconds
-    Elapsed time: 1.39e+00 seconds
-    Elapsed time: 1.43e+00 seconds
-    Elapsed time: 1.39e+00 seconds
+    Elapsed time: 1.21e+00 seconds
+    Elapsed time: 1.51e+00 seconds
+    Elapsed time: 1.44e+00 seconds
     Elapsed time: 1.34e+00 seconds
-    Elapsed time: 1.41e+00 seconds
-    Elapsed time: 9.77e-01 seconds
+    Elapsed time: 1.30e+00 seconds
+    Elapsed time: 1.29e+00 seconds
+    Elapsed time: 1.23e+00 seconds
+    Elapsed time: 1.22e+00 seconds
+    Elapsed time: 1.20e+00 seconds
+    Elapsed time: 1.32e+00 seconds
+    Elapsed time: 1.16e+00 seconds
+    Elapsed time: 1.18e+00 seconds
+    Elapsed time: 1.15e+00 seconds
+    Elapsed time: 1.12e+00 seconds
+    Elapsed time: 1.09e+00 seconds
+    Elapsed time: 1.11e+00 seconds
+    Elapsed time: 1.05e+00 seconds
+    Elapsed time: 1.04e+00 seconds
+    Elapsed time: 1.01e+00 seconds
+    Elapsed time: 1.03e+00 seconds
+    Elapsed time: 1.02e+00 seconds
+    Elapsed time: 1.04e+00 seconds
+    Elapsed time: 1.06e+00 seconds
+    Elapsed time: 1.09e+00 seconds
+    Elapsed time: 1.10e+00 seconds
+    Elapsed time: 1.13e+00 seconds
+    Elapsed time: 1.11e+00 seconds
+    Elapsed time: 1.11e+00 seconds
+    Elapsed time: 1.19e+00 seconds
+    Elapsed time: 1.18e+00 seconds
+    Elapsed time: 1.19e+00 seconds
+    Elapsed time: 1.23e+00 seconds
+    Elapsed time: 1.40e+00 seconds
+    Elapsed time: 1.30e+00 seconds
+    Elapsed time: 1.30e+00 seconds
+    Elapsed time: 1.30e+00 seconds
+    Elapsed time: 1.40e+00 seconds
+    Elapsed time: 1.16e+00 seconds
+    Elapsed time: 8.99e-01 seconds
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 37-38
+
+Individual interpolation steps in a grid
+
+.. GENERATED FROM PYTHON SOURCE LINES 38-58
+
+.. code-block:: Python
+
+
+    pl = pv.Plotter(shape=(2, 2))
+
+    for i, weight1 in enumerate(np.linspace(0, 1, 4)):
+        weights = np.array([1 - weight1, weight1]).astype(float)
+        obj_merged = mr.merge_shapes(
+            [
+                mr.SpaceObject("icosahedron.obj").clean(),
+                mr.SpaceObject("torus.obj").clean(),
+            ],
+            weights,
+        )
+        pl.subplot(i // 2, i % 2)
+        pl.add_mesh(obj_merged._mesh, color="lightblue", name="mesh", smooth_shading=True)
+        pl.add_text(
+            f"{weights[0]*100:3.0f}% Icosahedron \n{weights[1]*100:3.0f}% Torus",
+            font="courier",
+            name="label",
+        )
+    pl.show()
+
+
+
+.. image-sg:: /gallery/09-models/images/sphx_glr_shape_interpolation_002.png
+   :alt: shape interpolation
+   :srcset: /gallery/09-models/images/sphx_glr_shape_interpolation_002.png
+   :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    Model file torus.obj not found in current model folder ('/Users/liamrobinson/Documents/mirage/mirage/resources/models'), checking model repository...
+    Attempting to download torus.obj and its associated material file from the model repository...
+    Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//Non-Convex/torus.obj
+    Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//Non-Convex/torus.mtl
+    Model files were downloaded successfully!
+    Attempting to download spacelib.obj and its associated material file from the model repository...
+    Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//accurate_sats/spacelib.mtl
+    Model files were downloaded successfully!
 
 
 
@@ -153,7 +197,7 @@ Animating the entire interpolation
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 1 minutes  11.237 seconds)
+   **Total running time of the script:** (1 minutes 1.106 seconds)
 
 
 .. _sphx_glr_download_gallery_09-models_shape_interpolation.py:
@@ -162,16 +206,13 @@ Animating the entire interpolation
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
 
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
+      :download:`Download Jupyter notebook: shape_interpolation.ipynb <shape_interpolation.ipynb>`
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: shape_interpolation.py <shape_interpolation.py>`
-
-    .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-      :download:`Download Jupyter notebook: shape_interpolation.ipynb <shape_interpolation.ipynb>`
 
 
 .. only:: html

@@ -25,7 +25,7 @@ Various methods to switch between TLEs for more accurate long-term propagation
 
 .. GENERATED FROM PYTHON SOURCE LINES 7-14
 
-.. code-block:: default
+.. code-block:: Python
 
 
     import numpy as np
@@ -47,7 +47,7 @@ Let's use the SUPERBIRD 6 satellite
 
 .. GENERATED FROM PYTHON SOURCE LINES 16-19
 
-.. code-block:: default
+.. code-block:: Python
 
     satdefs = mr.load_satdef_array()
     satnum = satdefs.get_satnum_by_name("SUPERBIRD 6")
@@ -65,7 +65,7 @@ And propagate for the previous 30 days
 
 .. GENERATED FROM PYTHON SOURCE LINES 21-26
 
-.. code-block:: default
+.. code-block:: Python
 
     base_date = mr.utc(2020, 1, 1)
     dtimes, epsec_space = mr.date_linspace(
@@ -88,7 +88,7 @@ We can then propagate with three switching strategies:
 
 .. GENERATED FROM PYTHON SOURCE LINES 31-41
 
-.. code-block:: default
+.. code-block:: Python
 
     r_closest = mr.tle_propagate_with_switching(
         satnum, dtimes, switch_strategy="closest", frame="ecef"
@@ -113,7 +113,7 @@ We can plot these trajectories to show that they result in similar trajectories
 
 .. GENERATED FROM PYTHON SOURCE LINES 43-56
 
-.. code-block:: default
+.. code-block:: Python
 
     pl = pv.Plotter()
     mrv.plot_earth(pl, date=dtimes[0], mode="eci", night_lights=True, atmosphere=True)
@@ -141,7 +141,7 @@ We can plot these trajectories to show that they result in similar trajectories
 
  .. code-block:: none
 
-    /Users/liamrobinson/Documents/PyLightCurves/lib/python3.10/site-packages/pyvista/plotting/plotter.py:4633: PyVistaDeprecationWarning: This method is deprecated and will be removed in a future version of PyVista. Directly modify the scalars of a mesh in-place instead.
+    /Users/liamrobinson/Documents/mirage/lib/python3.11/site-packages/pyvista/plotting/plotter.py:4644: PyVistaDeprecationWarning: This method is deprecated and will be removed in a future version of PyVista. Directly modify the scalars of a mesh in-place instead.
       warnings.warn(
 
 
@@ -153,7 +153,7 @@ We can also plot the error between these switching methods. Clearly, the interpo
 
 .. GENERATED FROM PYTHON SOURCE LINES 58-68
 
-.. code-block:: default
+.. code-block:: Python
 
 
     import matplotlib.pyplot as plt
@@ -180,7 +180,7 @@ We can also plot the error between these switching methods. Clearly, the interpo
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  6.482 seconds)
+   **Total running time of the script:** (0 minutes 7.884 seconds)
 
 
 .. _sphx_glr_download_gallery_00-orbits_tle_switching.py:
@@ -189,16 +189,13 @@ We can also plot the error between these switching methods. Clearly, the interpo
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
 
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
+      :download:`Download Jupyter notebook: tle_switching.ipynb <tle_switching.ipynb>`
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: tle_switching.py <tle_switching.py>`
-
-    .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-      :download:`Download Jupyter notebook: tle_switching.ipynb <tle_switching.ipynb>`
 
 
 .. only:: html

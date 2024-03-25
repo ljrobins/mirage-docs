@@ -35,17 +35,22 @@ lc = mr.run_light_curve_engine(
 
 fig, ax = plt.subplots(facecolor="k", figsize=(5, 5))
 
-actor = ax.imshow(np.ones((10, 10)), cmap="gray", vmin=0, vmax=255)
+
+imgs = []
+for i in range(t.size):
+    impath = os.path.join("out", f"frame{i+1}.png")
+    with Image.open(impath) as img:
+        imgs.append(mr.rgba_to_f32(np.array(img)))
+imgs = np.nan_to_num(np.array(imgs))
+
+actor = ax.imshow(np.ones((10, 10)), cmap="gray", vmin=0, vmax=np.max(imgs))
 plt.xticks([])
 plt.yticks([])
 
 
 def animate(i):
-    impath = os.path.join("out", f"frame{i+1}.png")
-    with Image.open(impath) as img:
-        data = np.array(img)[:, :, 0]
-        actor.set_data(data)
-        plt.tight_layout()
+    actor.set_data(imgs[i])
+    plt.tight_layout()
     return (actor,)
 
 
