@@ -19,7 +19,7 @@ def main():
     # fits_dir = os.dirname(obs_mat_path)
 
     obs_mat_path = "/Users/liamrobinson/Downloads/ObsData/ObservationData.mat"
-    fits_dir = os.path.join(os.environ['SRCDIR'], "..", "2024_02_29")
+    fits_dir = os.path.join(os.environ["SRCDIR"], "..", "2024_02_29")
 
     station = mr.Station()
     mr.tic("Loading Data")

@@ -5,7 +5,6 @@ Propagating the catalog
 Load the full TLE catalog and propagate all objects to a given epoch
 """
 
-
 import datetime
 # %%
 # First, let's define a function that plots the catalog at a given date

@@ -3,13 +3,14 @@ Atmospheric Refraction
 ======================
 Computing the effect of atmospheric refraction on observations
 """
+
 import matplotlib.pyplot as plt
 import numpy as np
 
 import mirage as mr
 import mirage.vis as mrv
 
-true_el = np.deg2rad(np.linspace(0, 90, int(1e3)))
+true_el = np.deg2rad(np.linspace(15.1, 90, int(1e3)))
 atmos_pressure = 1028.4463393  # mbar
 atmos_temp = 277.594  # Kelvin
 

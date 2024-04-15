@@ -4,7 +4,6 @@ Light Curve Uncertainty
 Plotting a realistic light curve with uncertainty
 """
 
-
 import matplotlib.pyplot as plt
 import numpy as np
 

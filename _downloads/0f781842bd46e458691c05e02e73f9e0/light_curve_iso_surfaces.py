@@ -4,11 +4,11 @@ Brightness Isosurfaces
 
 Plotting all orientations of a cube that produce a certian brightness value at a given phase angle
 """
+
 import numpy as np
 import pyvista as pv
 
 import mirage as mr
-import mirage.sim as mrs
 import mirage.vis as mrv
 
 # path = "/Users/liamrobinson/Documents/mirage/mlp_model_train_on_irradiance_cube_brdf_phong_cd_0.5_cs_0.5_n_5.0_layers_50_50_50_50_50_50_50_50_50_50.onnx"

@@ -5,7 +5,6 @@ Global Elevation
 Plots global elevations
 """
 
-
 import os
 
 import rasterio

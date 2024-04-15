@@ -5,7 +5,6 @@ Horizon Masks
 Builds a terrain-driven horizon mask for a given station and displays the result
 """
 
-
 import numpy as np
 import pyvista as pv
 import terrainman as tm

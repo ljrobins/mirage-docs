@@ -166,9 +166,11 @@ for noise in [False, True]:
 
             # Inversion
             egi_opt_initial, egi_opt = mr.optimize_egi(
-                lc_noisy_unit_irrad_masked
-                if noise
-                else lc_hat[~lc_noisy_unit_irrad.mask],
+                (
+                    lc_noisy_unit_irrad_masked
+                    if noise
+                    else lc_hat[~lc_noisy_unit_irrad.mask]
+                ),
                 svb_masked,
                 ovb_masked,
                 brdf,

@@ -395,7 +395,6 @@ document.write(`
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/light_time_delay.html">Light Time Delay</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/local_sidereal_time.html">Local Sidereal Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../07-observer/synthetic_rpo_images.html">Synthetic RPO</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/atmos_refraction.html">Atmospheric Refraction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/horizon_mask.html">Horizon Masks</a></li>
@@ -426,6 +425,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../09-models/shape_interpolation.html">Shape Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/satellite_lineup.html">Satellite Lineup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/sfds.html">Signed Distance Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/shape_metrics.html">Shape Comparison Metrics</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../10-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -441,6 +441,11 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../11-work-in-progress/universal_variables.html">Universal Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../11-work-in-progress/inversion_gradient.html">EGI Jacobian</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../11-work-in-progress/precise_orbit_determination.html">Precise Orbit Determination with Batch Least Squares</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../12-rpo/index.html">Synthetic RPO</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../12-rpo/synthetic_rpo_images.html">Synthetic RPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-rpo/gps-iii-approach.html">Relative orbit sequence</a></li>
 </ul>
 </li>
 </ul>
@@ -534,6 +539,15 @@ to download the full example code</p>
 <span class="n">lc</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">run_light_curve_engine</span><span class="p">(</span>
     <span class="n">brdf</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">svb</span><span class="p">,</span> <span class="n">ovb</span><span class="p">,</span> <span class="n">save_imgs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rotate_panels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">instances</span><span class="o">=</span><span class="mi">1</span>
 <span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Model file matlib_tdrs.obj not found in current model folder (&#39;/Users/liamrobinson/Documents/mirage/mirage/resources/models&#39;), checking model repository...
+Attempting to download matlib_tdrs.obj and its associated material file from the model repository...
+Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//accurate_sats/matlib_tdrs.obj
+Model files were downloaded successfully!
+Attempting to download spacelib.obj and its associated material file from the model repository...
+Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//accurate_sats/spacelib.mtl
+Model files were downloaded successfully!
 </pre></div>
 </div>
 <p>Saves a gif of the output images, restricting the image to the red channel to get brightness without the masks</p>
@@ -751,42 +765,42 @@ input[type=range].anim-slider {
 </style>
 
 <div class="animation">
-  <img id="_anim_imgf7adf20f8324484bb178767e0fe3baef">
+  <img id="_anim_imgc9fda33d2af04ec49b381e80cf5d5795">
   <div class="anim-controls">
-    <input id="_anim_sliderf7adf20f8324484bb178767e0fe3baef" type="range" class="anim-slider"
+    <input id="_anim_sliderc9fda33d2af04ec49b381e80cf5d5795" type="range" class="anim-slider"
            name="points" min="0" max="1" step="1" value="0"
-           oninput="animf7adf20f8324484bb178767e0fe3baef.set_frame(parseInt(this.value));">
+           oninput="animc9fda33d2af04ec49b381e80cf5d5795.set_frame(parseInt(this.value));">
     <div class="anim-buttons">
-      <button title="Decrease speed" aria-label="Decrease speed" onclick="animf7adf20f8324484bb178767e0fe3baef.slower()">
+      <button title="Decrease speed" aria-label="Decrease speed" onclick="animc9fda33d2af04ec49b381e80cf5d5795.slower()">
           <i class="fa fa-minus"></i></button>
-      <button title="First frame" aria-label="First frame" onclick="animf7adf20f8324484bb178767e0fe3baef.first_frame()">
+      <button title="First frame" aria-label="First frame" onclick="animc9fda33d2af04ec49b381e80cf5d5795.first_frame()">
         <i class="fa fa-fast-backward"></i></button>
-      <button title="Previous frame" aria-label="Previous frame" onclick="animf7adf20f8324484bb178767e0fe3baef.previous_frame()">
+      <button title="Previous frame" aria-label="Previous frame" onclick="animc9fda33d2af04ec49b381e80cf5d5795.previous_frame()">
           <i class="fa fa-step-backward"></i></button>
-      <button title="Play backwards" aria-label="Play backwards" onclick="animf7adf20f8324484bb178767e0fe3baef.reverse_animation()">
+      <button title="Play backwards" aria-label="Play backwards" onclick="animc9fda33d2af04ec49b381e80cf5d5795.reverse_animation()">
           <i class="fa fa-play fa-flip-horizontal"></i></button>
-      <button title="Pause" aria-label="Pause" onclick="animf7adf20f8324484bb178767e0fe3baef.pause_animation()">
+      <button title="Pause" aria-label="Pause" onclick="animc9fda33d2af04ec49b381e80cf5d5795.pause_animation()">
           <i class="fa fa-pause"></i></button>
-      <button title="Play" aria-label="Play" onclick="animf7adf20f8324484bb178767e0fe3baef.play_animation()">
+      <button title="Play" aria-label="Play" onclick="animc9fda33d2af04ec49b381e80cf5d5795.play_animation()">
           <i class="fa fa-play"></i></button>
-      <button title="Next frame" aria-label="Next frame" onclick="animf7adf20f8324484bb178767e0fe3baef.next_frame()">
+      <button title="Next frame" aria-label="Next frame" onclick="animc9fda33d2af04ec49b381e80cf5d5795.next_frame()">
           <i class="fa fa-step-forward"></i></button>
-      <button title="Last frame" aria-label="Last frame" onclick="animf7adf20f8324484bb178767e0fe3baef.last_frame()">
+      <button title="Last frame" aria-label="Last frame" onclick="animc9fda33d2af04ec49b381e80cf5d5795.last_frame()">
           <i class="fa fa-fast-forward"></i></button>
-      <button title="Increase speed" aria-label="Increase speed" onclick="animf7adf20f8324484bb178767e0fe3baef.faster()">
+      <button title="Increase speed" aria-label="Increase speed" onclick="animc9fda33d2af04ec49b381e80cf5d5795.faster()">
           <i class="fa fa-plus"></i></button>
     </div>
-    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_selectf7adf20f8324484bb178767e0fe3baef"
+    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_selectc9fda33d2af04ec49b381e80cf5d5795"
           class="anim-state">
-      <input type="radio" name="state" value="once" id="_anim_radio1_f7adf20f8324484bb178767e0fe3baef"
+      <input type="radio" name="state" value="once" id="_anim_radio1_c9fda33d2af04ec49b381e80cf5d5795"
              >
-      <label for="_anim_radio1_f7adf20f8324484bb178767e0fe3baef">Once</label>
-      <input type="radio" name="state" value="loop" id="_anim_radio2_f7adf20f8324484bb178767e0fe3baef"
+      <label for="_anim_radio1_c9fda33d2af04ec49b381e80cf5d5795">Once</label>
+      <input type="radio" name="state" value="loop" id="_anim_radio2_c9fda33d2af04ec49b381e80cf5d5795"
              checked>
-      <label for="_anim_radio2_f7adf20f8324484bb178767e0fe3baef">Loop</label>
-      <input type="radio" name="state" value="reflect" id="_anim_radio3_f7adf20f8324484bb178767e0fe3baef"
+      <label for="_anim_radio2_c9fda33d2af04ec49b381e80cf5d5795">Loop</label>
+      <input type="radio" name="state" value="reflect" id="_anim_radio3_c9fda33d2af04ec49b381e80cf5d5795"
              >
-      <label for="_anim_radio3_f7adf20f8324484bb178767e0fe3baef">Reflect</label>
+      <label for="_anim_radio3_c9fda33d2af04ec49b381e80cf5d5795">Reflect</label>
     </form>
   </div>
 </div>
@@ -796,9 +810,9 @@ input[type=range].anim-slider {
   /* Instantiate the Animation class. */
   /* The IDs given should match those used in the template above. */
   (function() {
-    var img_id = "_anim_imgf7adf20f8324484bb178767e0fe3baef";
-    var slider_id = "_anim_sliderf7adf20f8324484bb178767e0fe3baef";
-    var loop_select_id = "_anim_loop_selectf7adf20f8324484bb178767e0fe3baef";
+    var img_id = "_anim_imgc9fda33d2af04ec49b381e80cf5d5795";
+    var slider_id = "_anim_sliderc9fda33d2af04ec49b381e80cf5d5795";
+    var loop_select_id = "_anim_loop_selectc9fda33d2af04ec49b381e80cf5d5795";
     var frames = new Array(50);
 
   frames[0] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAAH0CAYAAADL1t+KAAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90\
@@ -46535,12 +46549,12 @@ AAAAAElFTkSuQmCC\
     /* set a timeout to make sure all the above elements are created before
        the object is initialized. */
     setTimeout(function() {
-        animf7adf20f8324484bb178767e0fe3baef = new Animation(frames, img_id, slider_id, 50.0,
+        animc9fda33d2af04ec49b381e80cf5d5795 = new Animation(frames, img_id, slider_id, 50.0,
                                  loop_select_id);
     }, 0);
   })()
 </script></div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 9.016 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 10.624 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-01-light-curves-rotate-panels-vid-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/beed39b047e9624793e9da79a7875fad/rotate_panels_vid.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">rotate_panels_vid.ipynb</span></code></a></p>

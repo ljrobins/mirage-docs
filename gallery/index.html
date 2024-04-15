@@ -399,7 +399,6 @@ document.write(`
 <li class="toctree-l1 has-children"><a class="reference internal" href="07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="07-observer/light_time_delay.html">Light Time Delay</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07-observer/local_sidereal_time.html">Local Sidereal Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="07-observer/synthetic_rpo_images.html">Synthetic RPO</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07-observer/atmos_refraction.html">Atmospheric Refraction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07-observer/az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07-observer/horizon_mask.html">Horizon Masks</a></li>
@@ -430,6 +429,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="09-models/shape_interpolation.html">Shape Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="09-models/satellite_lineup.html">Satellite Lineup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="09-models/sfds.html">Signed Distance Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-models/shape_metrics.html">Shape Comparison Metrics</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="10-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -445,6 +445,11 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="11-work-in-progress/universal_variables.html">Universal Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="11-work-in-progress/inversion_gradient.html">EGI Jacobian</a></li>
 <li class="toctree-l2"><a class="reference internal" href="11-work-in-progress/precise_orbit_determination.html">Precise Orbit Determination with Batch Least Squares</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="12-rpo/index.html">Synthetic RPO</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="12-rpo/synthetic_rpo_images.html">Synthetic RPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="12-rpo/gps-iii-approach.html">Relative orbit sequence</a></li>
 </ul>
 </li>
 </ul>
@@ -666,7 +671,7 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="Passbands for the Gaia and Johnson-Cousins photometric systems."><img alt="" src="../_images/sphx_glr_passbands_thumb.png" />
 <p><a class="reference internal" href="04-environment/passbands.html#sphx-glr-gallery-04-environment-passbands-py"><span class="std std-ref">Passbands</span></a></p>
   <div class="sphx-glr-thumbnail-title">Passbands</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Plotting the solar system planet directions with respect to the Earth at a given time"><img alt="" src="../_images/sphx_glr_solar_system_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plotting the solar system planet directions with respect to the Earth at a given time"><img alt="" src="../_images/sphx_glr_solar_system_thumb.gif" />
 <p><a class="reference internal" href="04-environment/solar_system.html#sphx-glr-gallery-04-environment-solar-system-py"><span class="std std-ref">Solar System</span></a></p>
   <div class="sphx-glr-thumbnail-title">Solar System</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plotting and querying a large dataset of zenith light pollution from the Light Pollution Map, w..."><img alt="" src="../_images/sphx_glr_nightlights_thumb.png" />
@@ -726,9 +731,6 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="Local Sidereal Time"><img alt="" src="../_images/sphx_glr_local_sidereal_time_thumb.png" />
 <p><a class="reference internal" href="07-observer/local_sidereal_time.html#sphx-glr-gallery-07-observer-local-sidereal-time-py"><span class="std std-ref">Local Sidereal Time</span></a></p>
   <div class="sphx-glr-thumbnail-title">Local Sidereal Time</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Generating and displaying synthetic images of a nearby space object"><img alt="" src="../_images/sphx_glr_synthetic_rpo_images_thumb.png" />
-<p><a class="reference internal" href="07-observer/synthetic_rpo_images.html#sphx-glr-gallery-07-observer-synthetic-rpo-images-py"><span class="std std-ref">Synthetic RPO</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Synthetic RPO</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Atmospheric Refraction"><img alt="" src="../_images/sphx_glr_atmos_refraction_thumb.png" />
 <p><a class="reference internal" href="07-observer/atmos_refraction.html#sphx-glr-gallery-07-observer-atmos-refraction-py"><span class="std std-ref">Atmospheric Refraction</span></a></p>
   <div class="sphx-glr-thumbnail-title">Atmospheric Refraction</div>
@@ -798,7 +800,7 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="Merging trimeshes using their SDFs with spherical bias weighting"><img alt="" src="../_images/sphx_glr_merge_biased_thumb.png" />
 <p><a class="reference internal" href="09-models/merge_biased.html#sphx-glr-gallery-09-models-merge-biased-py"><span class="std std-ref">Merging with Bias</span></a></p>
   <div class="sphx-glr-thumbnail-title">Merging with Bias</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Given two shapes as triangulated 3D models, how can we smoothly interpolate another model betwe..."><img alt="" src="../_images/sphx_glr_shape_interpolation_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="Given two shapes as triangulated 3D models, how can we smoothly interpolate another model betwe..."><img alt="" src="../_images/sphx_glr_shape_interpolation_thumb.gif" />
 <p><a class="reference internal" href="09-models/shape_interpolation.html#sphx-glr-gallery-09-models-shape-interpolation-py"><span class="std std-ref">Shape Interpolation</span></a></p>
   <div class="sphx-glr-thumbnail-title">Shape Interpolation</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plotting a variety of space objects against a soccer field background for size reference"><img alt="" src="../_images/sphx_glr_satellite_lineup_thumb.png" />
@@ -807,6 +809,9 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plotting 2D and 3D Signed Distance Fields"><img alt="" src="../_images/sphx_glr_sfds_thumb.png" />
 <p><a class="reference internal" href="09-models/sfds.html#sphx-glr-gallery-09-models-sfds-py"><span class="std std-ref">Signed Distance Fields</span></a></p>
   <div class="sphx-glr-thumbnail-title">Signed Distance Fields</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Shape Comparison Metrics"><img alt="" src="../_images/sphx_glr_shape_metrics_thumb.png" />
+<p><a class="reference internal" href="09-models/shape_metrics.html#sphx-glr-gallery-09-models-shape-metrics-py"><span class="std std-ref">Shape Comparison Metrics</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Shape Comparison Metrics</div>
 </div></div></section>
 <section id="utility">
 <h1>Utility<a class="headerlink" href="#utility" title="Link to this heading">#</a></h1>
@@ -841,6 +846,15 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="Precise Orbit Determination with Batch Least Squares"><img alt="" src="../_images/sphx_glr_precise_orbit_determination_thumb.png" />
 <p><a class="reference internal" href="11-work-in-progress/precise_orbit_determination.html#sphx-glr-gallery-11-work-in-progress-precise-orbit-determination-py"><span class="std std-ref">Precise Orbit Determination with Batch Least Squares</span></a></p>
   <div class="sphx-glr-thumbnail-title">Precise Orbit Determination with Batch Least Squares</div>
+</div></div></section>
+<section id="synthetic-rpo">
+<h1>Synthetic RPO<a class="headerlink" href="#synthetic-rpo" title="Link to this heading">#</a></h1>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Generating and displaying synthetic images of a nearby space object"><img alt="" src="../_images/sphx_glr_synthetic_rpo_images_thumb.png" />
+<p><a class="reference internal" href="12-rpo/synthetic_rpo_images.html#sphx-glr-gallery-12-rpo-synthetic-rpo-images-py"><span class="std std-ref">Synthetic RPO</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Synthetic RPO</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Relative orbit sequence"><img alt="" src="../_images/sphx_glr_gps-iii-approach_thumb.png" />
+<p><a class="reference internal" href="12-rpo/gps-iii-approach.html#sphx-glr-gallery-12-rpo-gps-iii-approach-py"><span class="std std-ref">Relative orbit sequence</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Relative orbit sequence</div>
 </div></div><div class="toctree-wrapper compound">
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
@@ -907,6 +921,7 @@ document.write(`
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#d-models">3D Models</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#utility">Utility</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#works-in-progress">Works In Progress</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#synthetic-rpo">Synthetic RPO</a></li>
 </ul>
 
   </nav></div>

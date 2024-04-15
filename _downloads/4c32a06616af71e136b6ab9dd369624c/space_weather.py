@@ -5,7 +5,6 @@ Space Weather
 Plotting the :math:`K_p`, :math:`A_p`, and F10.7 space weather indices
 """
 
-
 import datetime
 import os
 

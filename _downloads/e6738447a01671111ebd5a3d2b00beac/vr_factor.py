@@ -3,6 +3,7 @@ Airmass Function Comparison
 ===========================
 Comparing the approximate and true airmass functions
 """
+
 import matplotlib.pyplot as plt
 import numpy as np
 

@@ -7,9 +7,6 @@ Simulates and animates an aligned and constrained attitude profile
 .. note:: If you want to record a .mp4 video instead, try ``pl.open_movie("aligned_and_constrained.mov", framerate=30, quality=9)``
 """
 
-
-import datetime
-
 import numpy as np
 import pyvista as pv
 

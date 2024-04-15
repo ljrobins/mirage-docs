@@ -14,6 +14,7 @@ import mirage.vis as mrv
     mr.now(), mr.now() + mr.seconds(10), 200, return_epsecs=True
 )
 obj = mr.SpaceObject("hylas4.obj", identifier=36411)
+obj.build_pyvista_mesh()
 itensor = np.diag((1.0, 2.0, 3.0))
 q0 = np.array([0, 0, 0, 1])
 wmag = 3  # rad/s

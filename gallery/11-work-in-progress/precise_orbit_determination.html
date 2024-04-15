@@ -50,7 +50,7 @@
     <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="References" href="../../references.html" />
+    <link rel="next" title="Synthetic RPO" href="../12-rpo/index.html" />
     <link rel="prev" title="EGI Jacobian" href="inversion_gradient.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -395,7 +395,6 @@ document.write(`
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/light_time_delay.html">Light Time Delay</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/local_sidereal_time.html">Local Sidereal Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../07-observer/synthetic_rpo_images.html">Synthetic RPO</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/atmos_refraction.html">Atmospheric Refraction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/horizon_mask.html">Horizon Masks</a></li>
@@ -426,6 +425,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../09-models/shape_interpolation.html">Shape Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/satellite_lineup.html">Satellite Lineup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/sfds.html">Signed Distance Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/shape_metrics.html">Shape Comparison Metrics</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../10-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -441,6 +441,11 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="universal_variables.html">Universal Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="inversion_gradient.html">EGI Jacobian</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Precise Orbit Determination with Batch Least Squares</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../12-rpo/index.html">Synthetic RPO</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../12-rpo/synthetic_rpo_images.html">Synthetic RPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-rpo/gps-iii-approach.html">Relative orbit sequence</a></li>
 </ul>
 </li>
 </ul>
@@ -522,6 +527,16 @@ to download the full example code</p>
 <p>First, let’s define a station and a truth object</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">station</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">Station</span><span class="p">()</span>
 <span class="n">obj</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">SpaceObject</span><span class="p">(</span><span class="s2">&quot;cube.obj&quot;</span><span class="p">,</span> <span class="n">identifier</span><span class="o">=</span><span class="mi">36411</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Model file cube.obj not found in current model folder (&#39;/Users/liamrobinson/Documents/Light-Curve-Models/accurate_sats&#39;), checking model repository...
+Attempting to download cube.obj and its associated material file from the model repository...
+Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//Regular/cube.obj
+Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//Regular/cube.mtl
+Model files were downloaded successfully!
+Attempting to download spacelib.obj and its associated material file from the model repository...
+Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//accurate_sats/spacelib.mtl
+Model files were downloaded successfully!
 </pre></div>
 </div>
 <p>Let’s create three line of sight observations of the object</p>
@@ -626,7 +641,7 @@ to download the full example code</p>
 <span class="c1"># )</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.110 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.734 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-11-work-in-progress-precise-orbit-determination-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/2c2eb4ea9284cb8abde7f0a1512820be/precise_orbit_determination.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">precise_orbit_determination.ipynb</span></code></a></p>
@@ -658,11 +673,11 @@ to download the full example code</p>
       </div>
     </a>
     <a class="right-next"
-       href="../../references.html"
+       href="../12-rpo/index.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">References</p>
+        <p class="prev-next-title">Synthetic RPO</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

@@ -5,7 +5,6 @@ IAU-76 J2000 Reduction
 Converting an ITRF vector to J2000 using the IAU-76 nutation theory, comparing results to Vallado's Fundamentals of Astrodynamics 4th edition
 """
 
-
 import numpy as np
 
 import mirage as mr

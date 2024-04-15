@@ -253,6 +253,7 @@ update_model_scale(1)
 toggle_through(True)
 toggle_update_all(True)
 
+
 # Keyboard callbacks
 def view_x():
     pl.view_yz()
@@ -294,7 +295,7 @@ def preview_model(_) -> None:
         instances=1,
         frame_rate=20,
         show_window=True,
-        silent=False,
+        verbose=True,
         rotate_panels=True,
     )
 

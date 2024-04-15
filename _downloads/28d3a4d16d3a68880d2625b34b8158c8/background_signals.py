@@ -5,7 +5,6 @@ Background Signals
 The mean background signal model due to various sources
 """
 
-
 import datetime
 
 import numpy as np

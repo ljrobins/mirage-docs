@@ -23,7 +23,7 @@ Non-Convex Inversion
 
 Implementing non-convex inversion using my method from summer 2022 :cite:p:`robinson2022`
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-252
+.. GENERATED FROM PYTHON SOURCE LINES 7-254
 
 
 
@@ -177,7 +177,7 @@ Implementing non-convex inversion using my method from summer 2022 :cite:p:`robi
     Tried psi = 60.0 deg, got err = 0.00
     Tried psi = 70.0 deg, got err = 0.00
     Tried psi = 80.0 deg, got err = 0.00
-    Optimal concavity angle: 10.0 deg
+    Optimal concavity angle: 30.0 deg
     Optimizing concavity angle...
     Tried psi = 10.0 deg, got err = 0.00
     Tried psi = 20.0 deg, got err = 0.00
@@ -400,9 +400,11 @@ Implementing non-convex inversion using my method from summer 2022 :cite:p:`robi
 
                 # Inversion
                 egi_opt_initial, egi_opt = mr.optimize_egi(
-                    lc_noisy_unit_irrad_masked
-                    if noise
-                    else lc_hat[~lc_noisy_unit_irrad.mask],
+                    (
+                        lc_noisy_unit_irrad_masked
+                        if noise
+                        else lc_hat[~lc_noisy_unit_irrad.mask]
+                    ),
                     svb_masked,
                     ovb_masked,
                     brdf,
@@ -487,7 +489,7 @@ Implementing non-convex inversion using my method from summer 2022 :cite:p:`robi
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (4 minutes 22.164 seconds)
+   **Total running time of the script:** (3 minutes 22.673 seconds)
 
 
 .. _sphx_glr_download_gallery_02-light_curve_inversion_aas_non_convex_inversion.py:

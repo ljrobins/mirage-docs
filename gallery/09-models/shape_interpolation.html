@@ -395,7 +395,6 @@ document.write(`
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/light_time_delay.html">Light Time Delay</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/local_sidereal_time.html">Local Sidereal Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../07-observer/synthetic_rpo_images.html">Synthetic RPO</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/atmos_refraction.html">Atmospheric Refraction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/horizon_mask.html">Horizon Masks</a></li>
@@ -426,6 +425,7 @@ document.write(`
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Shape Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="satellite_lineup.html">Satellite Lineup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sfds.html">Signed Distance Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shape_metrics.html">Shape Comparison Metrics</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../10-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -441,6 +441,11 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../11-work-in-progress/universal_variables.html">Universal Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../11-work-in-progress/inversion_gradient.html">EGI Jacobian</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../11-work-in-progress/precise_orbit_determination.html">Precise Orbit Determination with Batch Least Squares</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../12-rpo/index.html">Synthetic RPO</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../12-rpo/synthetic_rpo_images.html">Synthetic RPO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-rpo/gps-iii-approach.html">Relative orbit sequence</a></li>
 </ul>
 </li>
 </ul>
@@ -539,61 +544,46 @@ to download the full example code</p>
 <span class="n">pl</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_shape_interpolation_001.gif" srcset="../../_images/sphx_glr_shape_interpolation_001.gif" alt="shape interpolation" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Model file icosahedron.obj not found in current model folder (&#39;/Users/liamrobinson/Documents/mirage/mirage/resources/models&#39;), checking model repository...
-Attempting to download icosahedron.obj and its associated material file from the model repository...
-Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//Regular/icosahedron.obj
-Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//Regular/icosahedron.mtl
-Model files were downloaded successfully!
-Attempting to download spacelib.obj and its associated material file from the model repository...
-Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//accurate_sats/spacelib.mtl
-Model files were downloaded successfully!
-Model file duck.obj not found in current model folder (&#39;/Users/liamrobinson/Documents/mirage/mirage/resources/models&#39;), checking model repository...
-Attempting to download duck.obj and its associated material file from the model repository...
-Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//Non-Convex/duck.obj
-Model files were downloaded successfully!
-Attempting to download spacelib.obj and its associated material file from the model repository...
-Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/main//accurate_sats/spacelib.mtl
-Model files were downloaded successfully!
-Elapsed time: 1.29e+00 seconds
-Elapsed time: 1.21e+00 seconds
-Elapsed time: 1.51e+00 seconds
-Elapsed time: 1.44e+00 seconds
-Elapsed time: 1.34e+00 seconds
-Elapsed time: 1.30e+00 seconds
-Elapsed time: 1.29e+00 seconds
-Elapsed time: 1.23e+00 seconds
-Elapsed time: 1.22e+00 seconds
-Elapsed time: 1.20e+00 seconds
-Elapsed time: 1.32e+00 seconds
-Elapsed time: 1.16e+00 seconds
-Elapsed time: 1.18e+00 seconds
-Elapsed time: 1.15e+00 seconds
-Elapsed time: 1.12e+00 seconds
-Elapsed time: 1.09e+00 seconds
-Elapsed time: 1.11e+00 seconds
-Elapsed time: 1.05e+00 seconds
-Elapsed time: 1.04e+00 seconds
+<img src="../../_images/sphx_glr_shape_interpolation_001.gif" srcset="../../_images/sphx_glr_shape_interpolation_001.gif" alt="shape interpolation" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 9.47e-01 seconds
 Elapsed time: 1.01e+00 seconds
+Elapsed time: 1.00e+00 seconds
+Elapsed time: 9.36e-01 seconds
+Elapsed time: 9.89e-01 seconds
+Elapsed time: 8.87e-01 seconds
+Elapsed time: 1.14e+00 seconds
+Elapsed time: 9.51e-01 seconds
 Elapsed time: 1.03e+00 seconds
-Elapsed time: 1.02e+00 seconds
-Elapsed time: 1.04e+00 seconds
-Elapsed time: 1.06e+00 seconds
-Elapsed time: 1.09e+00 seconds
-Elapsed time: 1.10e+00 seconds
-Elapsed time: 1.13e+00 seconds
-Elapsed time: 1.11e+00 seconds
-Elapsed time: 1.11e+00 seconds
-Elapsed time: 1.19e+00 seconds
-Elapsed time: 1.18e+00 seconds
-Elapsed time: 1.19e+00 seconds
-Elapsed time: 1.23e+00 seconds
-Elapsed time: 1.40e+00 seconds
-Elapsed time: 1.30e+00 seconds
-Elapsed time: 1.30e+00 seconds
-Elapsed time: 1.30e+00 seconds
-Elapsed time: 1.40e+00 seconds
+Elapsed time: 1.25e+00 seconds
+Elapsed time: 1.12e+00 seconds
+Elapsed time: 9.65e-01 seconds
+Elapsed time: 9.34e-01 seconds
 Elapsed time: 1.16e+00 seconds
-Elapsed time: 8.99e-01 seconds
+Elapsed time: 1.28e+00 seconds
+Elapsed time: 1.31e+00 seconds
+Elapsed time: 9.30e-01 seconds
+Elapsed time: 9.15e-01 seconds
+Elapsed time: 8.96e-01 seconds
+Elapsed time: 9.02e-01 seconds
+Elapsed time: 1.06e+00 seconds
+Elapsed time: 1.02e+00 seconds
+Elapsed time: 1.07e+00 seconds
+Elapsed time: 1.13e+00 seconds
+Elapsed time: 1.20e+00 seconds
+Elapsed time: 1.39e+00 seconds
+Elapsed time: 1.21e+00 seconds
+Elapsed time: 1.10e+00 seconds
+Elapsed time: 1.09e+00 seconds
+Elapsed time: 1.12e+00 seconds
+Elapsed time: 1.20e+00 seconds
+Elapsed time: 1.06e+00 seconds
+Elapsed time: 1.34e+00 seconds
+Elapsed time: 1.21e+00 seconds
+Elapsed time: 1.29e+00 seconds
+Elapsed time: 1.07e+00 seconds
+Elapsed time: 9.44e-01 seconds
+Elapsed time: 9.40e-01 seconds
+Elapsed time: 1.01e+00 seconds
+Elapsed time: 1.10e+00 seconds
 </pre></div>
 </div>
 <p>Individual interpolation steps in a grid</p>
@@ -628,7 +618,7 @@ Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/m
 Model files were downloaded successfully!
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (1 minutes 1.106 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 54.558 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-09-models-shape-interpolation-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/0f496649d00b2647c64bbdfdc39b4ebf/shape_interpolation.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">shape_interpolation.ipynb</span></code></a></p>

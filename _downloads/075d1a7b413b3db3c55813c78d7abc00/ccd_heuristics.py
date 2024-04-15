@@ -4,6 +4,7 @@ CCD Heuristics
 
 Examples to develop a better intuition for CCD counts from known sources
 """
+
 import numpy as np
 
 import mirage as mr

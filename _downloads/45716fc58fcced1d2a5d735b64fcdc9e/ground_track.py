@@ -5,7 +5,6 @@ Ground Tracks
 Plots the ground track for a GPS satellite
 """
 
-
 import os
 
 import matplotlib.pyplot as plt
