@@ -326,6 +326,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_ambiguities.html">Light Curve Ambiguities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/importance_sampling_cook_torrance.html">Importance Sampling Cook-Torrance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_units.html">Light Curve Units</a></li>
@@ -385,6 +386,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../06-attitude/index.html">Attitude Kinematics and Dynamics</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/orthogonal_procrustes.html">Orthogonal Procrustes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
@@ -426,6 +428,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="satellite_lineup.html">Satellite Lineup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sfds.html">Signed Distance Fields</a></li>
 <li class="toctree-l2"><a class="reference internal" href="shape_metrics.html">Shape Comparison Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aabb_tree.html">AABB Trees</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../10-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -433,6 +436,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/importance_sampling.html">Importance Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/computer_graphics_background.html">Graphics Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/model_editor.html">Model Editor</a></li>
 </ul>
@@ -544,46 +548,46 @@ to download the full example code</p>
 <span class="n">pl</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_shape_interpolation_001.gif" srcset="../../_images/sphx_glr_shape_interpolation_001.gif" alt="shape interpolation" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 9.47e-01 seconds
-Elapsed time: 1.01e+00 seconds
-Elapsed time: 1.00e+00 seconds
-Elapsed time: 9.36e-01 seconds
-Elapsed time: 9.89e-01 seconds
+<img src="../../_images/sphx_glr_shape_interpolation_001.gif" srcset="../../_images/sphx_glr_shape_interpolation_001.gif" alt="shape interpolation" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 7.33e-01 seconds
+Elapsed time: 6.75e-01 seconds
+Elapsed time: 6.83e-01 seconds
+Elapsed time: 8.36e-01 seconds
+Elapsed time: 7.71e-01 seconds
+Elapsed time: 7.51e-01 seconds
+Elapsed time: 7.95e-01 seconds
+Elapsed time: 7.10e-01 seconds
+Elapsed time: 8.11e-01 seconds
+Elapsed time: 6.88e-01 seconds
+Elapsed time: 7.08e-01 seconds
+Elapsed time: 7.96e-01 seconds
+Elapsed time: 7.00e-01 seconds
+Elapsed time: 8.01e-01 seconds
+Elapsed time: 7.34e-01 seconds
+Elapsed time: 7.52e-01 seconds
+Elapsed time: 8.11e-01 seconds
+Elapsed time: 7.72e-01 seconds
+Elapsed time: 8.12e-01 seconds
+Elapsed time: 8.30e-01 seconds
 Elapsed time: 8.87e-01 seconds
-Elapsed time: 1.14e+00 seconds
-Elapsed time: 9.51e-01 seconds
-Elapsed time: 1.03e+00 seconds
-Elapsed time: 1.25e+00 seconds
-Elapsed time: 1.12e+00 seconds
-Elapsed time: 9.65e-01 seconds
-Elapsed time: 9.34e-01 seconds
-Elapsed time: 1.16e+00 seconds
-Elapsed time: 1.28e+00 seconds
-Elapsed time: 1.31e+00 seconds
-Elapsed time: 9.30e-01 seconds
-Elapsed time: 9.15e-01 seconds
-Elapsed time: 8.96e-01 seconds
-Elapsed time: 9.02e-01 seconds
-Elapsed time: 1.06e+00 seconds
-Elapsed time: 1.02e+00 seconds
-Elapsed time: 1.07e+00 seconds
-Elapsed time: 1.13e+00 seconds
-Elapsed time: 1.20e+00 seconds
-Elapsed time: 1.39e+00 seconds
-Elapsed time: 1.21e+00 seconds
-Elapsed time: 1.10e+00 seconds
-Elapsed time: 1.09e+00 seconds
-Elapsed time: 1.12e+00 seconds
-Elapsed time: 1.20e+00 seconds
-Elapsed time: 1.06e+00 seconds
-Elapsed time: 1.34e+00 seconds
-Elapsed time: 1.21e+00 seconds
-Elapsed time: 1.29e+00 seconds
-Elapsed time: 1.07e+00 seconds
-Elapsed time: 9.44e-01 seconds
-Elapsed time: 9.40e-01 seconds
-Elapsed time: 1.01e+00 seconds
-Elapsed time: 1.10e+00 seconds
+Elapsed time: 8.74e-01 seconds
+Elapsed time: 1.11e+00 seconds
+Elapsed time: 8.14e-01 seconds
+Elapsed time: 7.58e-01 seconds
+Elapsed time: 7.40e-01 seconds
+Elapsed time: 7.52e-01 seconds
+Elapsed time: 7.89e-01 seconds
+Elapsed time: 7.22e-01 seconds
+Elapsed time: 7.72e-01 seconds
+Elapsed time: 7.81e-01 seconds
+Elapsed time: 7.10e-01 seconds
+Elapsed time: 7.85e-01 seconds
+Elapsed time: 7.79e-01 seconds
+Elapsed time: 1.00e+00 seconds
+Elapsed time: 8.79e-01 seconds
+Elapsed time: 7.48e-01 seconds
+Elapsed time: 8.51e-01 seconds
+Elapsed time: 7.44e-01 seconds
+Elapsed time: 8.65e-01 seconds
 </pre></div>
 </div>
 <p>Individual interpolation steps in a grid</p>
@@ -618,7 +622,7 @@ Requesting: https://raw.githubusercontent.com/liamrobinson1/Light-Curve-Models/m
 Model files were downloaded successfully!
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 54.558 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 42.324 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-09-models-shape-interpolation-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/0f496649d00b2647c64bbdfdc39b4ebf/shape_interpolation.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">shape_interpolation.ipynb</span></code></a></p>

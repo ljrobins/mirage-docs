@@ -50,7 +50,7 @@
     <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Euler Angle Sequence" href="euler_sequence.html" />
+    <link rel="next" title="Orthogonal Procrustes" href="orthogonal_procrustes.html" />
     <link rel="prev" title="Plotting Earth" href="../05-vis/plot_earth.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -326,6 +326,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_ambiguities.html">Light Curve Ambiguities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/importance_sampling_cook_torrance.html">Importance Sampling Cook-Torrance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_units.html">Light Curve Units</a></li>
@@ -385,6 +386,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Attitude Kinematics and Dynamics</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="orthogonal_procrustes.html">Orthogonal Procrustes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="euler_sequence.html">Euler Angle Sequence</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="aligned_angle_constrained.html">Aligned and Constrained</a></li>
@@ -426,6 +428,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../09-models/satellite_lineup.html">Satellite Lineup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/sfds.html">Signed Distance Fields</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/shape_metrics.html">Shape Comparison Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/aabb_tree.html">AABB Trees</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../10-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -433,6 +436,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/importance_sampling.html">Importance Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/computer_graphics_background.html">Graphics Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/model_editor.html">Model Editor</a></li>
 </ul>
@@ -508,7 +512,10 @@ document.write(`
   <section id="attitude-kinematics-and-dynamics">
 <span id="sphx-glr-gallery-06-attitude"></span><h1>Attitude Kinematics and Dynamics<a class="headerlink" href="#attitude-kinematics-and-dynamics" title="Link to this heading">#</a></h1>
 <p>Visualizing various attitude profiles and parameterizations</p>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Three consecutive axis rotations forming an Euler angle sequence"><img alt="" src="../../_images/sphx_glr_euler_sequence_thumb.png" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Solving the orthogonal procrustes problem via the SVD and Davenport&#x27;s q-method"><img alt="" src="../../_images/sphx_glr_orthogonal_procrustes_thumb.png" />
+<p><a class="reference internal" href="orthogonal_procrustes.html#sphx-glr-gallery-06-attitude-orthogonal-procrustes-py"><span class="std std-ref">Orthogonal Procrustes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Orthogonal Procrustes</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Three consecutive axis rotations forming an Euler angle sequence"><img alt="" src="../../_images/sphx_glr_euler_sequence_thumb.png" />
 <p><a class="reference internal" href="euler_sequence.html#sphx-glr-gallery-06-attitude-euler-sequence-py"><span class="std std-ref">Euler Angle Sequence</span></a></p>
   <div class="sphx-glr-thumbnail-title">Euler Angle Sequence</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Animates the attitude motion of an object in torque free motion"><img alt="" src="../../_images/sphx_glr_vis_attitude_motion_thumb.gif" />
@@ -547,11 +554,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="euler_sequence.html"
+       href="orthogonal_procrustes.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Euler Angle Sequence</p>
+        <p class="prev-next-title">Orthogonal Procrustes</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

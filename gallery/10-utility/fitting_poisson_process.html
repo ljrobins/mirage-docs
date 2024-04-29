@@ -326,6 +326,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_ambiguities.html">Light Curve Ambiguities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/importance_sampling_cook_torrance.html">Importance Sampling Cook-Torrance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_units.html">Light Curve Units</a></li>
@@ -385,6 +386,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../06-attitude/index.html">Attitude Kinematics and Dynamics</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/orthogonal_procrustes.html">Orthogonal Procrustes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
@@ -426,6 +428,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../09-models/satellite_lineup.html">Satellite Lineup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/sfds.html">Signed Distance Fields</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/shape_metrics.html">Shape Comparison Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/aabb_tree.html">AABB Trees</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Utility</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
@@ -433,6 +436,7 @@ document.write(`
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Fitting Poisson Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="importance_sampling.html">Importance Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="computer_graphics_background.html">Graphics Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="model_editor.html">Model Editor</a></li>
 </ul>
@@ -536,7 +540,7 @@ to download the full example code</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_fitting_poisson_process_001.png" srcset="../../_images/sphx_glr_fitting_poisson_process_001.png, ../../_images/sphx_glr_fitting_poisson_process_001_2_00x.png 2.00x" alt="fitting poisson process" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Estimated rate parameter: 2.99881
+<img src="../../_images/sphx_glr_fitting_poisson_process_001.png" srcset="../../_images/sphx_glr_fitting_poisson_process_001.png, ../../_images/sphx_glr_fitting_poisson_process_001_2_00x.png 2.00x" alt="fitting poisson process" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Estimated rate parameter: 3.00322
 </pre></div>
 </div>
 <p>Expected absolute error in a sample should be equal to the standard deviation</p>
@@ -544,11 +548,11 @@ to download the full example code</p>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sample standard deviation: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">data_to_fit</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Expected standard deviation: 1.73170725008588
-Sample standard deviation: 1.734632117741396
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Expected standard deviation: 1.732980092211102
+Sample standard deviation: 1.7316551711007593
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.603 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.653 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-10-utility-fitting-poisson-process-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/918b7fbab33d450f81cceb4e428b0de3/fitting_poisson_process.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">fitting_poisson_process.ipynb</span></code></a></p>

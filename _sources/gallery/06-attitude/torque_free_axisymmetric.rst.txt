@@ -74,9 +74,9 @@ Comparing various methods for propagating torque-free rigid-body motion
 
  .. code-block:: none
 
-    Axisymmetric form: 5.79e+06 [quats/sec]
-    Generalized form: 1.40e+06 [quats/sec]
-    Max quaternion error: 3.6285354720888563e-09
+    Axisymmetric form: 7.00e+06 [quats/sec]
+    Generalized form: 1.45e+06 [quats/sec]
+    Max quaternion error: 1.1110783043610795e-08
 
 
 
@@ -130,7 +130,7 @@ Let's test a whole grid of options to stress test these methods
         if i == 3:
             cb = plt.colorbar(label="$\Delta t$ [sec]", cax=mrv.get_cbar_ax())
             tics = cb.get_ticks()
-            cb.set_ticklabels([f"$10^{{{t}}}$" for t in tics])
+            cb.set_ticklabels([f"$10^{t}$" for t in tics])
         plt.tight_layout()
     plt.show()
 
@@ -147,7 +147,7 @@ Let's test a whole grid of options to stress test these methods
  .. code-block:: none
 
     /Users/liamrobinson/Documents/mirage/examples/06-attitude/torque_free_axisymmetric.py:89: UserWarning: set_ticklabels() should only be used with a fixed number of ticks, i.e. after set_ticks() or using a FixedLocator.
-      cb.set_ticklabels([f"$10^{{{t}}}$" for t in tics])
+      cb.set_ticklabels([f"$10^{t}$" for t in tics])
 
 
 
@@ -155,7 +155,7 @@ Let's test a whole grid of options to stress test these methods
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 7.974 seconds)
+   **Total running time of the script:** (0 minutes 8.250 seconds)
 
 
 .. _sphx_glr_download_gallery_06-attitude_torque_free_axisymmetric.py:

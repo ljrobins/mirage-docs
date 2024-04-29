@@ -93,7 +93,7 @@ def write_obj_file(obj: mr.SpaceObject, materials: list[Material]) -> None:
             )
 
 
-mr.set_model_directory("/Users/liamrobinson/Documents/Light-Curve-Models/accurate_sats")
+mr.set_model_directory("/Users/liamrobinson/Documents/mirage-models/accurate_sats")
 obj = mr.SpaceObject("gps_iii.obj")
 tree = KDTree(obj._mesh.points)
 point_material_selected = np.nan * np.zeros_like(obj._mesh.points[:, 0])

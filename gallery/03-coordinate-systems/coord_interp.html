@@ -326,6 +326,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_ambiguities.html">Light Curve Ambiguities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/importance_sampling_cook_torrance.html">Importance Sampling Cook-Torrance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_units.html">Light Curve Units</a></li>
@@ -385,6 +386,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../06-attitude/index.html">Attitude Kinematics and Dynamics</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/orthogonal_procrustes.html">Orthogonal Procrustes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
@@ -426,6 +428,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../09-models/satellite_lineup.html">Satellite Lineup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/sfds.html">Signed Distance Fields</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/shape_metrics.html">Shape Comparison Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/aabb_tree.html">AABB Trees</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../10-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -433,6 +436,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/importance_sampling.html">Importance Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/computer_graphics_background.html">Graphics Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/model_editor.html">Model Editor</a></li>
 </ul>
@@ -544,9 +548,9 @@ to download the full example code</p>
 <span class="n">mr</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Computing rotation matrices: 7.30e-03 seconds
-Computing rotation matrices, fine: 5.33e-02 seconds
-Evaluate interpolator: 2.22e-04 seconds
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Computing rotation matrices: 8.25e-03 seconds
+Computing rotation matrices, fine: 5.57e-02 seconds
+Evaluate interpolator: 2.04e-04 seconds
 </pre></div>
 </div>
 <p>Comparing with true values, via the error in the position of a station on the surface</p>
@@ -561,8 +565,8 @@ Evaluate interpolator: 2.22e-04 seconds
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max position error: </span><span class="si">{</span><span class="n">max_pos_err</span><span class="si">}</span><span class="s2"> km&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Mean position error: 2.3286075996745474e-05 km
-Max position error: 0.00036947666165316854 km
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Mean position error: 2.3231839911777415e-05 km
+Max position error: 0.00036882391055068764 km
 </pre></div>
 </div>
 <p>Plotting</p>
@@ -585,7 +589,7 @@ Max position error: 0.00036947666165316854 km
 <li><img src="../../_images/sphx_glr_coord_interp_001.png" srcset="../../_images/sphx_glr_coord_interp_001.png, ../../_images/sphx_glr_coord_interp_001_2_00x.png 2.00x" alt="Position Error of Station on Earth Surface" class = "sphx-glr-multi-img"/></li>
 <li><img src="../../_images/sphx_glr_coord_interp_002.png" srcset="../../_images/sphx_glr_coord_interp_002.png, ../../_images/sphx_glr_coord_interp_002_2_00x.png 2.00x" alt="Position Error of Station on Earth Surface" class = "sphx-glr-multi-img"/></li>
 </ul>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.815 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.657 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-03-coordinate-systems-coord-interp-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/d89a5a742b2f2f202c2c1419cbb47732/coord_interp.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">coord_interp.ipynb</span></code></a></p>

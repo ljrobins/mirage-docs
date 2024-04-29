@@ -86,6 +86,6 @@ for i, grid in enumerate([t_num, t_ana, t_axi], 1):
     if i == 3:
         cb = plt.colorbar(label="$\Delta t$ [sec]", cax=mrv.get_cbar_ax())
         tics = cb.get_ticks()
-        cb.set_ticklabels([f"$10^{{{t}}}$" for t in tics])
+        cb.set_ticklabels([f"$10^{t}$" for t in tics])
     plt.tight_layout()
 plt.show()

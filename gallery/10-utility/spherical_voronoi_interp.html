@@ -50,7 +50,7 @@
     <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Graphics Background" href="computer_graphics_background.html" />
+    <link rel="next" title="Importance Sampling" href="importance_sampling.html" />
     <link rel="prev" title="Samplers" href="samplers.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -326,6 +326,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_ambiguities.html">Light Curve Ambiguities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/importance_sampling_cook_torrance.html">Importance Sampling Cook-Torrance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_units.html">Light Curve Units</a></li>
@@ -385,6 +386,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../06-attitude/index.html">Attitude Kinematics and Dynamics</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/orthogonal_procrustes.html">Orthogonal Procrustes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
@@ -426,6 +428,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../09-models/satellite_lineup.html">Satellite Lineup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/sfds.html">Signed Distance Fields</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/shape_metrics.html">Shape Comparison Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/aabb_tree.html">AABB Trees</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Utility</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
@@ -433,6 +436,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="fitting_poisson_process.html">Fitting Poisson Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="samplers.html">Samplers</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Spherical Voronoi Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="importance_sampling.html">Importance Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="computer_graphics_background.html">Graphics Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="model_editor.html">Model Editor</a></li>
 </ul>
@@ -545,7 +549,7 @@ to download the full example code</p>
 <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_spherical_voronoi_interp_001.png" srcset="../../_images/sphx_glr_spherical_voronoi_interp_001.png" alt="spherical voronoi interp" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 9.43e-01 seconds
+<img src="../../_images/sphx_glr_spherical_voronoi_interp_001.png" srcset="../../_images/sphx_glr_spherical_voronoi_interp_001.png" alt="spherical voronoi interp" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 9.47e-01 seconds
 </pre></div>
 </div>
 <p>Defining a new set of weights and merging the two</p>
@@ -576,7 +580,7 @@ to download the full example code</p>
 <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_spherical_voronoi_interp_003.png" srcset="../../_images/sphx_glr_spherical_voronoi_interp_003.png" alt="spherical voronoi interp" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 7.023 seconds)</p>
+<img src="../../_images/sphx_glr_spherical_voronoi_interp_003.png" srcset="../../_images/sphx_glr_spherical_voronoi_interp_003.png" alt="spherical voronoi interp" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 6.383 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-10-utility-spherical-voronoi-interp-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/2fa230ea2e47e6f8ab91f1fe5e23416e/spherical_voronoi_interp.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">spherical_voronoi_interp.ipynb</span></code></a></p>
@@ -608,11 +612,11 @@ to download the full example code</p>
       </div>
     </a>
     <a class="right-next"
-       href="computer_graphics_background.html"
+       href="importance_sampling.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Graphics Background</p>
+        <p class="prev-next-title">Importance Sampling</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

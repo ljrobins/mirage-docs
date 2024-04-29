@@ -214,5 +214,15 @@ plt.show()
 import imageio
 from PIL import Image
 
+img_prepared = img_prepared / np.max(img_prepared) * 255
+adu_grid_streaked_sampled_prepared = (
+    adu_grid_streaked_sampled_prepared
+    / np.max(adu_grid_streaked_sampled_prepared)
+    * 255
+)
+
 imageio.imwrite("observed_log_adu.png", Image.fromarray(img_prepared).convert("L"))
-imageio.imwrite("synthetic_log_adu.png", Image.fromarray(adu_grid_streaked_sampled_prepared).convert("L"))
+imageio.imwrite(
+    "synthetic_log_adu.png",
+    Image.fromarray(adu_grid_streaked_sampled_prepared).convert("L"),
+)

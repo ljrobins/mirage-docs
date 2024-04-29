@@ -330,6 +330,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="01-light_curves/light_curve_ambiguities.html">Light Curve Ambiguities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-light_curves/importance_sampling_cook_torrance.html">Importance Sampling Cook-Torrance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
 <li class="toctree-l2"><a class="reference internal" href="01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="01-light_curves/light_curve_units.html">Light Curve Units</a></li>
@@ -389,6 +390,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="06-attitude/index.html">Attitude Kinematics and Dynamics</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="06-attitude/orthogonal_procrustes.html">Orthogonal Procrustes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
 <li class="toctree-l2"><a class="reference internal" href="06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
@@ -430,6 +432,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="09-models/satellite_lineup.html">Satellite Lineup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="09-models/sfds.html">Signed Distance Fields</a></li>
 <li class="toctree-l2"><a class="reference internal" href="09-models/shape_metrics.html">Shape Comparison Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-models/aabb_tree.html">AABB Trees</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="10-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -437,6 +440,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="10-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="10-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="10-utility/spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10-utility/importance_sampling.html">Importance Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="10-utility/computer_graphics_background.html">Graphics Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="10-utility/model_editor.html">Model Editor</a></li>
 </ul>
@@ -555,6 +559,9 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="Demonstrating various ways a light curve can be ambiguous as a function of the object and its a..."><img alt="" src="../_images/sphx_glr_light_curve_ambiguities_thumb.png" />
 <p><a class="reference internal" href="01-light_curves/light_curve_ambiguities.html#sphx-glr-gallery-01-light-curves-light-curve-ambiguities-py"><span class="std std-ref">Light Curve Ambiguities</span></a></p>
   <div class="sphx-glr-thumbnail-title">Light Curve Ambiguities</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Importance Sampling Cook-Torrance"><img alt="" src="../_images/sphx_glr_importance_sampling_cook_torrance_thumb.png" />
+<p><a class="reference internal" href="01-light_curves/importance_sampling_cook_torrance.html#sphx-glr-gallery-01-light-curves-importance-sampling-cook-torrance-py"><span class="std std-ref">Importance Sampling Cook-Torrance</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Importance Sampling Cook-Torrance</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Trains a neural network to predict the brightness of a specular cube in an arbitrary lighting a..."><img alt="" src="../_images/sphx_glr_neural_network_brightness_thumb.png" />
 <p><a class="reference internal" href="01-light_curves/neural_network_brightness.html#sphx-glr-gallery-01-light-curves-neural-network-brightness-py"><span class="std std-ref">Neural Network Brightness</span></a></p>
   <div class="sphx-glr-thumbnail-title">Neural Network Brightness</div>
@@ -706,7 +713,10 @@ document.write(`
 <section id="attitude-kinematics-and-dynamics">
 <h1>Attitude Kinematics and Dynamics<a class="headerlink" href="#attitude-kinematics-and-dynamics" title="Link to this heading">#</a></h1>
 <p>Visualizing various attitude profiles and parameterizations</p>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Three consecutive axis rotations forming an Euler angle sequence"><img alt="" src="../_images/sphx_glr_euler_sequence_thumb.png" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Solving the orthogonal procrustes problem via the SVD and Davenport&#x27;s q-method"><img alt="" src="../_images/sphx_glr_orthogonal_procrustes_thumb.png" />
+<p><a class="reference internal" href="06-attitude/orthogonal_procrustes.html#sphx-glr-gallery-06-attitude-orthogonal-procrustes-py"><span class="std std-ref">Orthogonal Procrustes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Orthogonal Procrustes</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Three consecutive axis rotations forming an Euler angle sequence"><img alt="" src="../_images/sphx_glr_euler_sequence_thumb.png" />
 <p><a class="reference internal" href="06-attitude/euler_sequence.html#sphx-glr-gallery-06-attitude-euler-sequence-py"><span class="std std-ref">Euler Angle Sequence</span></a></p>
   <div class="sphx-glr-thumbnail-title">Euler Angle Sequence</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Animates the attitude motion of an object in torque free motion"><img alt="" src="../_images/sphx_glr_vis_attitude_motion_thumb.gif" />
@@ -812,6 +822,9 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="Shape Comparison Metrics"><img alt="" src="../_images/sphx_glr_shape_metrics_thumb.png" />
 <p><a class="reference internal" href="09-models/shape_metrics.html#sphx-glr-gallery-09-models-shape-metrics-py"><span class="std std-ref">Shape Comparison Metrics</span></a></p>
   <div class="sphx-glr-thumbnail-title">Shape Comparison Metrics</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Building an axis-aligned bounding box (AABB) for a given trimesh"><img alt="" src="../_images/sphx_glr_aabb_tree_thumb.png" />
+<p><a class="reference internal" href="09-models/aabb_tree.html#sphx-glr-gallery-09-models-aabb-tree-py"><span class="std std-ref">AABB Trees</span></a></p>
+  <div class="sphx-glr-thumbnail-title">AABB Trees</div>
 </div></div></section>
 <section id="utility">
 <h1>Utility<a class="headerlink" href="#utility" title="Link to this heading">#</a></h1>
@@ -828,6 +841,9 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="Spherical Voronoi Interpolation"><img alt="" src="../_images/sphx_glr_spherical_voronoi_interp_thumb.png" />
 <p><a class="reference internal" href="10-utility/spherical_voronoi_interp.html#sphx-glr-gallery-10-utility-spherical-voronoi-interp-py"><span class="std std-ref">Spherical Voronoi Interpolation</span></a></p>
   <div class="sphx-glr-thumbnail-title">Spherical Voronoi Interpolation</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Importance Sampling"><img alt="" src="../_images/sphx_glr_importance_sampling_thumb.png" />
+<p><a class="reference internal" href="10-utility/importance_sampling.html#sphx-glr-gallery-10-utility-importance-sampling-py"><span class="std std-ref">Importance Sampling</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Importance Sampling</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plotting various transformations and concepts from computer graphics"><img alt="" src="../_images/sphx_glr_computer_graphics_background_thumb.png" />
 <p><a class="reference internal" href="10-utility/computer_graphics_background.html#sphx-glr-gallery-10-utility-computer-graphics-background-py"><span class="std std-ref">Graphics Background</span></a></p>
   <div class="sphx-glr-thumbnail-title">Graphics Background</div>

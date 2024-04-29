@@ -818,6 +818,56 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="mirage.attitude.analytic_torque_free_angular_velocity">
+<span class="sig-prename descclassname"><span class="pre">mirage.attitude.</span></span><span class="sig-name descname"><span class="pre">analytic_torque_free_angular_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">omega0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">itensor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">teval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">itensor_org_factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mirage.attitude.analytic_torque_free_angular_velocity" title="Link to this definition">#</a></dt>
+<dd><p>Analytically propogates angular velocity assuming no torque is being applied</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>omega0</strong> (<em>np.ndarray</em><em> [</em><em>3x1</em><em>]</em>) – Initial angular velocity in body frame [rad/s]</p></li>
+<li><p><strong>itensor</strong> (<em>np.ndarray</em><em> [</em><em>3x1</em><em>]</em>) – Principal moments of inertia satisfying <cite>i[3,3] &lt; i[2,2] &lt; i[1,1]</cite> [kg m^2]</p></li>
+<li><p><strong>teval</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Times to compute angular velocity for after initial state time [seconds]</p></li>
+<li><p><strong>itensor_org_factor</strong> (<em>int</em><em>, </em><em>optional</em>) – If inertia tensor was reorganized with an even or odd number of flips, defaults to 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Angular velocity [rad/s]; <span class="math notranslate nohighlight">\(k^2\)</span> term of elliptic integral, <span class="math notranslate nohighlight">\(\tau_0\)</span>, <span class="math notranslate nohighlight">\(\dot{\tau}\)</span>; short-axis model (SAM) flag</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[np.ndarray [3x1], float, float, float, bool]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mirage.attitude.analytic_torque_free_attitude">
+<span class="sig-prename descclassname"><span class="pre">mirage.attitude.</span></span><span class="sig-name descname"><span class="pre">analytic_torque_free_attitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quat0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omega</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">itensor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">teval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ksquared</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau_dot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_sam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">itensor_org_factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">itensor_inv_inds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">2]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.attitude.analytic_torque_free_attitude" title="Link to this definition">#</a></dt>
+<dd><p>Analytically propagates orientation under torque-free rigid-body motion</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>quat0</strong> (<em>np.ndarray</em><em> [</em><em>4x1</em><em>]</em>) – Quaternion from the body frame to inertial at initial time step</p></li>
+<li><p><strong>omega</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Body angular velocities at each point in <cite>teval</cite> [rad/s]</p></li>
+<li><p><strong>itensor</strong> (<em>np.ndarray</em><em> [</em><em>3x3</em><em>]</em>) – Principal inertia tensor satisfying <cite>itensor[0,0] &lt;= itensor[1,1] &lt;= itensor[2,2]</cite> [kg m^2]</p></li>
+<li><p><strong>teval</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Times to output attitude soliution at, <cite>teval[0]</cite> corresponds to <cite>quat0</cite> and <cite>omega[0,:]</cite></p></li>
+<li><p><strong>ksquared</strong> (<em>float</em>) – <span class="math notranslate nohighlight">\(k^2\)</span> parameter from the angular velocity propagation</p></li>
+<li><p><strong>tau0</strong> (<em>float</em>) – Initial value of :math:`       au` from the angular velocity propagation</p></li>
+<li><p><strong>tau_dot</strong> (<em>float</em>) – Rate of change of :math:`   au` from the angular velocity propagation</p></li>
+<li><p><strong>is_sam</strong> (<em>bool</em>) – Indicates the rotation mode. 0 = long-axis mode (LAM), 1 = short-axis mode (SAM)</p></li>
+<li><p><strong>itensor_org_factor</strong> (<em>int</em><em>, </em><em>optional</em>) – Indicates if an even or odd number of flips was required to reorganize the inertia tensor, defaults to 1</p></li>
+<li><p><strong>itensor_inv_inds</strong> (<em>list</em><em>, </em><em>optional</em>) – Inverse mapping from the user’s inertia tensor to the one used here, defaults to [0, 1, 2]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Propagated quaternions at each time in <cite>teval</cite></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray [nx1]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="mirage.attitude.davenport">
 <span class="sig-prename descclassname"><span class="pre">mirage.attitude.</span></span><span class="sig-name descname"><span class="pre">davenport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rhat_body</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rhat_ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.attitude.davenport" title="Link to this definition">#</a></dt>
 <dd><p>Computes the quaternion estimate of the attitude of a body using Davenport’s q-method.</p>
@@ -1111,7 +1161,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="mirage.attitude.quat_ang">
 <span class="sig-prename descclassname"><span class="pre">mirage.attitude.</span></span><span class="sig-name descname"><span class="pre">quat_ang</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.attitude.quat_ang" title="Link to this definition">#</a></dt>
-<dd><p>Angle between two quaternion arrays</p>
+<dd><p>Angle between orientations expressed as quaternion arrays (makes sure they are on the same hemisphere of the hypersphere first)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1186,6 +1236,29 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="mirage.attitude.quat_r_from_eas">
+<span class="sig-prename descclassname"><span class="pre">mirage.attitude.</span></span><span class="sig-name descname"><span class="pre">quat_r_from_eas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hhat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_sam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.attitude.quat_r_from_eas" title="Link to this definition">#</a></dt>
+<dd><p>Computes quaternion for attitude solution from Euler angle sequence</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hhat</strong> (<em>np.ndarray</em><em> [</em><em>1x3</em><em>]</em>) – Inertial angular momentum direction</p></li>
+<li><p><strong>phi</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Spin angle [rad]</p></li>
+<li><p><strong>theta</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Nutation angle [rad]</p></li>
+<li><p><strong>psi</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Precession angle [rad]</p></li>
+<li><p><strong>is_sam</strong> (<em>bool</em>) – Whether the rotation is short axis mode (SAM)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Computed quaternions</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray [nx4]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="mirage.attitude.quat_to_dcm">
 <span class="sig-prename descclassname"><span class="pre">mirage.attitude.</span></span><span class="sig-name descname"><span class="pre">quat_to_dcm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.attitude.quat_to_dcm" title="Link to this definition">#</a></dt>
 <dd><p>Converts quaternions to direction cosine matrices</p>
@@ -1249,26 +1322,6 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>np.ndarray [nx4]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mirage.attitude.quest">
-<span class="sig-prename descclassname"><span class="pre">mirage.attitude.</span></span><span class="sig-name descname"><span class="pre">quest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rhat_body</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rhat_ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.attitude.quest" title="Link to this definition">#</a></dt>
-<dd><p>Computes the quaternion estimate of the attitude of a body using the QUEST algorithm.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>rhat_body</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vectors in body frame</p></li>
-<li><p><strong>rhat_ref</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Those same unit vectors in reference frame</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Quaternion estimate of the attitude of the body</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [4,1]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3761,6 +3814,42 @@ indices: dst indices of the nearest neighbor</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="mirage.lighting.cook_torrance_beckmann">
+<span class="sig-prename descclassname"><span class="pre">mirage.lighting.</span></span><span class="sig-name descname"><span class="pre">cook_torrance_beckmann</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.lighting.cook_torrance_beckmann" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mirage.lighting.cook_torrance_fresnel_schlick">
+<span class="sig-prename descclassname"><span class="pre">mirage.lighting.</span></span><span class="sig-name descname"><span class="pre">cook_torrance_fresnel_schlick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">L</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.lighting.cook_torrance_fresnel_schlick" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mirage.lighting.cook_torrance_g_smith">
+<span class="sig-prename descclassname"><span class="pre">mirage.lighting.</span></span><span class="sig-name descname"><span class="pre">cook_torrance_g_smith</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">O</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">L</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.lighting.cook_torrance_g_smith" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mirage.lighting.cook_torrance_ggx">
+<span class="sig-prename descclassname"><span class="pre">mirage.lighting.</span></span><span class="sig-name descname"><span class="pre">cook_torrance_ggx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">M</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.lighting.cook_torrance_ggx" title="Link to this definition">#</a></dt>
+<dd><p>Calculates the GGX normal distribution function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>M</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Microfacet surface normal direction</p></li>
+<li><p><strong>N</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Macro surface normal</p></li>
+<li><p><strong>a</strong> (<em>float</em>) – Surface roughness</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Normal distribution density</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="mirage.lighting.irradiance_to_apparent_magnitude">
 <span class="sig-prename descclassname"><span class="pre">mirage.lighting.</span></span><span class="sig-name descname"><span class="pre">irradiance_to_apparent_magnitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">E</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.lighting.irradiance_to_apparent_magnitude" title="Link to this definition">#</a></dt>
 <dd><p>Computes apparent magnitude from irradiance [W/m^2] (assumed same spectrum as sunlight)</p>
@@ -3902,6 +3991,11 @@ indices: dst indices of the nearest neighbor</p>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mirage.lighting.reflect">
+<span class="sig-prename descclassname"><span class="pre">mirage.lighting.</span></span><span class="sig-name descname"><span class="pre">reflect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.lighting.reflect" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mirage.lighting.s10_to_irradiance">
@@ -6766,7 +6860,7 @@ indices: dst indices of the nearest neighbor</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mirage.tle.get_latest_catalog_at_date">
-<span class="sig-prename descclassname"><span class="pre">mirage.tle.</span></span><span class="sig-name descname"><span class="pre">get_latest_catalog_at_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtime</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.datetime(2024,</span> <span class="pre">4,</span> <span class="pre">15,</span> <span class="pre">2,</span> <span class="pre">31,</span> <span class="pre">55,</span> <span class="pre">20937,</span> <span class="pre">tzinfo=datetime.timezone.utc)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days_back</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.timedelta(days=1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tle_latest'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">query_kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mirage.tle.get_latest_catalog_at_date" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">mirage.tle.</span></span><span class="sig-name descname"><span class="pre">get_latest_catalog_at_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtime</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.datetime(2024,</span> <span class="pre">4,</span> <span class="pre">29,</span> <span class="pre">2,</span> <span class="pre">38,</span> <span class="pre">51,</span> <span class="pre">440415,</span> <span class="pre">tzinfo=datetime.timezone.utc)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days_back</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.timedelta(days=1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tle_latest'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">query_kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mirage.tle.get_latest_catalog_at_date" title="Link to this definition">#</a></dt>
 <dd><p>Gets the first TLE produced for a given NORAD SAT ID after the datetime provided</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -6914,6 +7008,8 @@ indices: dst indices of the nearest neighbor</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.SpinStabilizedAttitude.propagate"><code class="docutils literal notranslate"><span class="pre">SpinStabilizedAttitude.propagate()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.analytic_torque_free_angular_velocity"><code class="docutils literal notranslate"><span class="pre">analytic_torque_free_angular_velocity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.analytic_torque_free_attitude"><code class="docutils literal notranslate"><span class="pre">analytic_torque_free_attitude()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.davenport"><code class="docutils literal notranslate"><span class="pre">davenport()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.dcm_to_ea313"><code class="docutils literal notranslate"><span class="pre">dcm_to_ea313()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.dcm_to_mrp"><code class="docutils literal notranslate"><span class="pre">dcm_to_mrp()</span></code></a></li>
@@ -6933,11 +7029,11 @@ indices: dst indices of the nearest neighbor</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.quat_inv"><code class="docutils literal notranslate"><span class="pre">quat_inv()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.quat_inverse_kinematics"><code class="docutils literal notranslate"><span class="pre">quat_inverse_kinematics()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.quat_kinematics"><code class="docutils literal notranslate"><span class="pre">quat_kinematics()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.quat_r_from_eas"><code class="docutils literal notranslate"><span class="pre">quat_r_from_eas()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.quat_to_dcm"><code class="docutils literal notranslate"><span class="pre">quat_to_dcm()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.quat_to_mrp"><code class="docutils literal notranslate"><span class="pre">quat_to_mrp()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.quat_to_rv"><code class="docutils literal notranslate"><span class="pre">quat_to_rv()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.quat_upper_hemisphere"><code class="docutils literal notranslate"><span class="pre">quat_upper_hemisphere()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.quest"><code class="docutils literal notranslate"><span class="pre">quest()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.r1"><code class="docutils literal notranslate"><span class="pre">r1()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.r2"><code class="docutils literal notranslate"><span class="pre">r2()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.r3"><code class="docutils literal notranslate"><span class="pre">r3()</span></code></a></li>
@@ -7184,6 +7280,10 @@ indices: dst indices of the nearest neighbor</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.lighting.brdf_oren_naymar"><code class="docutils literal notranslate"><span class="pre">brdf_oren_naymar()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.lighting.brdf_phong"><code class="docutils literal notranslate"><span class="pre">brdf_phong()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.lighting.candela_to_watt_per_sr"><code class="docutils literal notranslate"><span class="pre">candela_to_watt_per_sr()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.lighting.cook_torrance_beckmann"><code class="docutils literal notranslate"><span class="pre">cook_torrance_beckmann()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.lighting.cook_torrance_fresnel_schlick"><code class="docutils literal notranslate"><span class="pre">cook_torrance_fresnel_schlick()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.lighting.cook_torrance_g_smith"><code class="docutils literal notranslate"><span class="pre">cook_torrance_g_smith()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.lighting.cook_torrance_ggx"><code class="docutils literal notranslate"><span class="pre">cook_torrance_ggx()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.lighting.irradiance_to_apparent_magnitude"><code class="docutils literal notranslate"><span class="pre">irradiance_to_apparent_magnitude()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.lighting.irradiance_to_s10"><code class="docutils literal notranslate"><span class="pre">irradiance_to_s10()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.lighting.mcd_m2_to_watt_m2sr"><code class="docutils literal notranslate"><span class="pre">mcd_m2_to_watt_m2sr()</span></code></a></li>
@@ -7192,6 +7292,7 @@ indices: dst indices of the nearest neighbor</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.lighting.mpsas_to_mcd_per_m2"><code class="docutils literal notranslate"><span class="pre">mpsas_to_mcd_per_m2()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.lighting.normalized_light_curve_sphere"><code class="docutils literal notranslate"><span class="pre">normalized_light_curve_sphere()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.lighting.query_brdf_shader_ind"><code class="docutils literal notranslate"><span class="pre">query_brdf_shader_ind()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.lighting.reflect"><code class="docutils literal notranslate"><span class="pre">reflect()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.lighting.s10_to_irradiance"><code class="docutils literal notranslate"><span class="pre">s10_to_irradiance()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.lighting.watt_per_sr_to_candela"><code class="docutils literal notranslate"><span class="pre">watt_per_sr_to_candela()</span></code></a></li>
 </ul>

@@ -326,6 +326,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_ambiguities.html">Light Curve Ambiguities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/importance_sampling_cook_torrance.html">Importance Sampling Cook-Torrance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_units.html">Light Curve Units</a></li>
@@ -385,6 +386,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../06-attitude/index.html">Attitude Kinematics and Dynamics</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/orthogonal_procrustes.html">Orthogonal Procrustes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
@@ -426,6 +428,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../09-models/satellite_lineup.html">Satellite Lineup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/sfds.html">Signed Distance Fields</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/shape_metrics.html">Shape Comparison Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/aabb_tree.html">AABB Trees</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../10-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -433,6 +436,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/importance_sampling.html">Importance Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/computer_graphics_background.html">Graphics Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/model_editor.html">Model Editor</a></li>
 </ul>
@@ -610,7 +614,7 @@ to download the full example code</p>
 <span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_star_matching_001.png" srcset="../../_images/sphx_glr_star_matching_001.png, ../../_images/sphx_glr_star_matching_001_2_00x.png 2.00x" alt="star matching" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Loading star catalog: 6.52e+00 seconds
+<img src="../../_images/sphx_glr_star_matching_001.png" srcset="../../_images/sphx_glr_star_matching_001.png, ../../_images/sphx_glr_star_matching_001_2_00x.png 2.00x" alt="star matching" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Loading star catalog: 6.39e+00 seconds
 dict_keys([&#39;TYC1&#39;, &#39;TYC2&#39;, &#39;TYC3&#39;, &#39;Gaia_ID&#39;, &#39;Gmag&#39;, &#39;Vmag&#39;, &#39;catalog_ra_ICRS_J2016&#39;, &#39;catalog_dec_ICRS_J2016&#39;, &#39;catalog_ra_GCRS&#39;, &#39;catalog_dec_GCRS&#39;, &#39;catalog_ra_apparent&#39;, &#39;catalog_dec_apparent&#39;, &#39;catalog_imgFrame&#39;, &#39;catalog_x0&#39;, &#39;catalog_y0&#39;, &#39;observed_ra_apparent&#39;, &#39;observed_dec_apparent&#39;, &#39;observed_az_apparent&#39;, &#39;observed_el_apparent&#39;, &#39;observed_ra_true&#39;, &#39;observed_dec_true&#39;, &#39;observed_az_true&#39;, &#39;observed_el_true&#39;, &#39;x0&#39;, &#39;y0&#39;, &#39;phi&#39;, &#39;Length&#39;, &#39;endpoints_x&#39;, &#39;endpoints_y&#39;, &#39;brightness&#39;, &#39;JD&#39;, &#39;SNR&#39;, &#39;idx_body&#39;, &#39;idx_ref&#39;, &#39;idx_catMatched&#39;, &#39;angle_errors_arcsec&#39;])
 </pre></div>
 </div>
@@ -719,7 +723,7 @@ dict_keys([&#39;TYC1&#39;, &#39;TYC2&#39;, &#39;TYC3&#39;, &#39;Gaia_ID&#39;, &#
  [-23.54386063 -13.72167532]]
 [[-0.04395724]]
 
-&lt;matplotlib.collections.PathCollection object at 0x371057c10&gt;
+&lt;matplotlib.collections.PathCollection object at 0x3ab1c6090&gt;
 </pre></div>
 </div>
 <p>Generating the synthetic image</p>
@@ -748,195 +752,9 @@ dict_keys([&#39;TYC1&#39;, &#39;TYC2&#39;, &#39;TYC3&#39;, &#39;Gaia_ID&#39;, &#
 <span class="c1"># adu_grid_streaked_sampled += int(1e3)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16 1.13112425e+16 1.13112425e+16
- 1.13112425e+16 1.13112425e+16]
-Objects in frame 1:
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Objects in frame 1:
 NAVSTAR 80 (USA 309)
-Synthesizing CCD Image: 6.19e+00 seconds
+Synthesizing CCD Image: 6.02e+00 seconds
 </pre></div>
 </div>
 <p>Overlaying the two images</p>
@@ -973,11 +791,21 @@ Synthesizing CCD Image: 6.19e+00 seconds
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">imageio</span>
 <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
 
+<span class="n">img_prepared</span> <span class="o">=</span> <span class="n">img_prepared</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">img_prepared</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span>
+<span class="n">adu_grid_streaked_sampled_prepared</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">adu_grid_streaked_sampled_prepared</span>
+    <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">adu_grid_streaked_sampled_prepared</span><span class="p">)</span>
+    <span class="o">*</span> <span class="mi">255</span>
+<span class="p">)</span>
+
 <span class="n">imageio</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="s2">&quot;observed_log_adu.png&quot;</span><span class="p">,</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">img_prepared</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s2">&quot;L&quot;</span><span class="p">))</span>
-<span class="n">imageio</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="s2">&quot;synthetic_log_adu.png&quot;</span><span class="p">,</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">adu_grid_streaked_sampled_prepared</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s2">&quot;L&quot;</span><span class="p">))</span>
+<span class="n">imageio</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span>
+    <span class="s2">&quot;synthetic_log_adu.png&quot;</span><span class="p">,</span>
+    <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">adu_grid_streaked_sampled_prepared</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s2">&quot;L&quot;</span><span class="p">),</span>
+<span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 34.826 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 32.682 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-08-ccd-star-matching-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/fff95d41954a3dbdc819aaf87ceefdbb/star_matching.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">star_matching.ipynb</span></code></a></p>
