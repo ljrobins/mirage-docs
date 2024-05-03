@@ -18,6 +18,7 @@ dec_grid, ra_grid = np.meshgrid(
     np.linspace(-np.pi, np.pi, 360),
     indexing="ij",
 )
+look_dir_grid = mr.ra_dec_to_eci(ra_grid.flatten(), dec_grid.flatten())
 
 # %%
 # Conversion from :math:`S_{10}` to irradiance
@@ -37,10 +38,19 @@ s10_to_irrad_true = np.rad2deg(1) ** 2 * mr.apparent_magnitude_to_irradiance(10)
 f_star = mr.catalog_starlight_signal(
     ra_grid, dec_grid
 )  # Units [10th magnitude stars / deg^2] = S_10
-
+station = mr.Station()
+signal = mr.integrated_starlight_signal(
+    station, look_dir_grid, look_dir_grid * mr.AstroConstants.earth_r_eq
+)
+signal = np.log10(np.reshape(signal, ra_grid.shape))
+xx, yy = np.meshgrid(
+    np.linspace(-180, 180, signal.shape[1]), np.linspace(-90, 90, signal.shape[0])
+)
+cs = plt.contour(xx, yy, signal, levels=[1], colors="k", linestyles="solid")
+plt.gca().clabel(cs, inline=True, fontsize=10)
 plt.imshow(
-    np.flipud(f_star),
-    cmap="hot",
+    np.flipud(signal),
+    cmap="plasma",
     extent=(-180, 180, -90, 90),
 )
 
@@ -50,9 +60,7 @@ mrv.texit(
     "Declination [deg]",
     grid=False,
 )
-plt.colorbar(
-    label="Surface brightness $\\left[ S_{10} \\right]$", cax=mrv.get_cbar_ax()
-)
+plt.colorbar(label=r"Zenith signal $\log_{10}\text{[ADU]}$", cax=mrv.get_cbar_ax())
 plt.show()
 
 # %%
@@ -78,14 +86,14 @@ plt.imshow(
 )
 import os
 
-urls_and_dirs = {
-    "https://github.com/liamrobinson1/mirage-resources/raw/main/tycho2.json": os.environ[
-        "DATADIR"
-    ],
-}
+# urls_and_dirs = {
+#     "https://github.com/liamrobinson1/mirage-resources/raw/main/tycho2.json": os.environ[
+#         "DATADIR"
+#     ],
+# }
 
-for url, dir in urls_and_dirs.items():
-    mr.save_file_from_url(url, dir)
+# for url, dir in urls_and_dirs.items():
+#     mr.save_file_from_url(url, dir)
 
 t2 = mr.load_json_data("tycho2.json")
 tycho2_ra_rad = t2["j2000_ra"][::10]

@@ -101,7 +101,7 @@ def build_boxes(
     if split_axis == 2:
         boxes["left_bounds"] = (mins[0], maxs[0], mins[1], maxs[1], mins[2], mid_pt)
         boxes["right_bounds"] = (mins[0], maxs[0], mins[1], maxs[1], mid_pt, maxs[2])
-    
+
     boxes["left_members"] = points_in_box(all_points, boxes["left_bounds"])
     boxes["right_members"] = points_in_box(all_points, boxes["right_bounds"])
     boxes["depth"] = depth

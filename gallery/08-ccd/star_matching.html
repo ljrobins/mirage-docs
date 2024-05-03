@@ -434,6 +434,7 @@ document.write(`
 <li class="toctree-l1 has-children"><a class="reference internal" href="../10-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/wavelength_to_rgb.html">Wavelength to RGB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/fitting_gaussian.html">Fitting Gaussians</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/importance_sampling.html">Importance Sampling</a></li>
@@ -520,7 +521,8 @@ to download the full example code</p>
 <section class="sphx-glr-example-title" id="star-matching">
 <span id="sphx-glr-gallery-08-ccd-star-matching-py"></span><h1>Star Matching<a class="headerlink" href="#star-matching" title="Link to this heading">#</a></h1>
 <p>Given star centroid locations and an initial estimate of the look direction and tracking rate, fit the catalog</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">os</span>
 
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -529,238 +531,286 @@ to download the full example code</p>
 <span class="kn">import</span> <span class="nn">mirage</span> <span class="k">as</span> <span class="nn">mr</span>
 
 
+<span class="k">def</span> <span class="nf">update_refraction</span><span class="p">(</span>
+    <span class="n">look_dir_eci</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">up_dir_eci</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">date</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span>
+    <span class="n">p_mbar</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">t_k</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">el_true</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">eci_to_az_el</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">look_dir_eci</span><span class="p">)</span>
+    <span class="n">el_app</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">apparent_refacted_elevation</span><span class="p">(</span><span class="n">p_mbar</span><span class="p">,</span> <span class="n">t_k</span><span class="p">,</span> <span class="n">el_true</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Applying </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">el_app</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">el_true</span><span class="p">)</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2"> deg of refraction&quot;</span><span class="p">)</span>
+
+    <span class="n">dcm_tele</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">up_dir_eci</span><span class="p">,</span> <span class="n">look_dir_eci</span><span class="p">),</span> <span class="n">up_dir_eci</span><span class="p">,</span> <span class="n">look_dir_eci</span><span class="p">))</span>
+    <span class="n">dcm_true_to_app</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">rv_to_dcm</span><span class="p">(</span><span class="n">dcm_tele</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*</span> <span class="p">(</span><span class="n">el_true</span> <span class="o">-</span> <span class="n">el_app</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">dcm_tele_app</span> <span class="o">=</span> <span class="n">dcm_true_to_app</span> <span class="o">@</span> <span class="n">dcm_tele</span>
+
+    <span class="n">look_dir_eci_app</span> <span class="o">=</span> <span class="n">dcm_tele_app</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">up_dir_eci_app</span> <span class="o">=</span> <span class="n">dcm_tele_app</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="k">return</span> <span class="n">look_dir_eci_app</span><span class="p">,</span> <span class="n">up_dir_eci_app</span>
+
+
 <span class="k">def</span> <span class="nf">expected_star_centroids_in_fits</span><span class="p">(</span>
+    <span class="n">station</span><span class="p">:</span> <span class="n">mr</span><span class="o">.</span><span class="n">Station</span><span class="p">,</span>
     <span class="n">catalog</span><span class="p">:</span> <span class="n">mr</span><span class="o">.</span><span class="n">StarCatalog</span><span class="p">,</span>
-    <span class="n">look_dir_eci_app</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-    <span class="n">up_dir_eci_app</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">look_dir_eci</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">up_dir_eci</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">limiting_magnitude</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">15.0</span><span class="p">,</span>
     <span class="n">add_distortion</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 
     <span class="n">uvs_in_frame</span><span class="p">,</span> <span class="n">vm_in_frame</span> <span class="o">=</span> <span class="n">catalog</span><span class="o">.</span><span class="n">in_fov</span><span class="p">(</span>
-        <span class="n">look_dir_eci_app</span><span class="p">,</span> <span class="n">up_dir_eci_app</span><span class="p">,</span> <span class="n">limiting_magnitude</span><span class="o">=</span><span class="n">limiting_magnitude</span>
+        <span class="n">look_dir_eci</span><span class="p">,</span> <span class="n">up_dir_eci</span><span class="p">,</span> <span class="n">limiting_magnitude</span><span class="o">=</span><span class="n">limiting_magnitude</span>
     <span class="p">)</span>
     <span class="n">star_xs</span><span class="p">,</span> <span class="n">star_ys</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">j2000_unit_vectors_to_pixels</span><span class="p">(</span>
-        <span class="n">look_dir_eci_app</span><span class="p">,</span> <span class="n">up_dir_eci_app</span><span class="p">,</span> <span class="n">uvs_in_frame</span><span class="p">,</span> <span class="n">add_distortion</span><span class="o">=</span><span class="n">add_distortion</span>
+        <span class="n">look_dir_eci</span><span class="p">,</span> <span class="n">up_dir_eci</span><span class="p">,</span> <span class="n">uvs_in_frame</span><span class="p">,</span> <span class="n">add_distortion</span><span class="o">=</span><span class="n">add_distortion</span>
     <span class="p">)</span>
+
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">star_xs</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">star_ys</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">vm_in_frame</span><span class="o">.</span><span class="n">flatten</span><span class="p">()))</span><span class="o">.</span><span class="n">T</span>
 
 
 <span class="n">info_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/2022-09-18_GPS_PRN14/ObservationData.mat&quot;</span>
-<span class="n">img_ind</span> <span class="o">=</span> <span class="mi">299</span>
+<span class="n">img_ind</span> <span class="o">=</span> <span class="mi">200</span>
 <span class="n">add_distortion</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">limiting_magnitude</span> <span class="o">=</span> <span class="mf">15.0</span>
+<span class="n">add_aberration</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">add_refraction</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">limiting_magnitude</span> <span class="o">=</span> <span class="mf">11.0</span>
 <span class="n">station</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">Station</span><span class="p">()</span>
+
 <span class="n">data_mat</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">load_obs_data</span><span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="n">info_path</span><span class="p">,</span> <span class="n">img_ind</span><span class="p">)</span>
 <span class="n">date_mid</span> <span class="o">=</span> <span class="n">data_mat</span><span class="p">[</span><span class="s2">&quot;date_mid&quot;</span><span class="p">]</span>
 <span class="n">mr</span><span class="o">.</span><span class="n">tic</span><span class="p">(</span><span class="s2">&quot;Loading star catalog&quot;</span><span class="p">)</span>
-<span class="n">catalog</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">StarCatalog</span><span class="p">(</span><span class="s2">&quot;gaia&quot;</span><span class="p">,</span> <span class="n">station</span><span class="p">,</span> <span class="n">date_mid</span><span class="p">,</span> <span class="n">aberration</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">catalog</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">StarCatalog</span><span class="p">(</span><span class="s2">&quot;gaia&quot;</span><span class="p">,</span> <span class="n">station</span><span class="p">,</span> <span class="n">date_mid</span><span class="p">,</span> <span class="n">add_aberration</span><span class="p">)</span>
 <span class="n">mr</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
 
-<span class="n">obs_look_dir_from_az_el</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">az_el_to_eci</span><span class="p">(</span>
-    <span class="n">data_mat</span><span class="p">[</span><span class="s2">&quot;az_rad&quot;</span><span class="p">],</span> <span class="n">data_mat</span><span class="p">[</span><span class="s2">&quot;el_rad_true&quot;</span><span class="p">],</span> <span class="n">date_mid</span>
-<span class="p">)</span>
-<span class="n">el_app</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">apparent_refacted_elevation</span><span class="p">(</span>
-    <span class="n">data_mat</span><span class="p">[</span><span class="s2">&quot;pressure_pa&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span> <span class="n">data_mat</span><span class="p">[</span><span class="s2">&quot;temp_k&quot;</span><span class="p">],</span> <span class="n">data_mat</span><span class="p">[</span><span class="s2">&quot;el_rad_true&quot;</span><span class="p">]</span>
-<span class="p">)</span>
-<span class="n">obs_look_dir_from_az_el_app</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">az_el_to_eci</span><span class="p">(</span><span class="n">data_mat</span><span class="p">[</span><span class="s2">&quot;az_rad&quot;</span><span class="p">],</span> <span class="n">el_app</span><span class="p">,</span> <span class="n">date_mid</span><span class="p">)</span>
-<span class="n">angle_rot</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">angle_between_vecs</span><span class="p">(</span><span class="n">obs_look_dir_from_az_el</span><span class="p">,</span> <span class="n">obs_look_dir_from_az_el_app</span><span class="p">)</span>
-<span class="n">axis_rot</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">obs_look_dir_from_az_el</span><span class="p">,</span> <span class="n">obs_look_dir_from_az_el_app</span><span class="p">))</span>
-<span class="n">dcm_app_to_true</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">rv_to_dcm</span><span class="p">(</span><span class="n">axis_rot</span> <span class="o">*</span> <span class="n">angle_rot</span><span class="p">)</span>
+<span class="n">look_dir_eci</span> <span class="o">=</span> <span class="n">data_mat</span><span class="p">[</span><span class="s2">&quot;look_dir_eci_processed&quot;</span><span class="p">]</span>
+<span class="n">up_dir_eci</span> <span class="o">=</span> <span class="n">data_mat</span><span class="p">[</span><span class="s2">&quot;up_dir_eci_processed&quot;</span><span class="p">]</span>
+<span class="n">p_mbar</span> <span class="o">=</span> <span class="n">data_mat</span><span class="p">[</span><span class="s2">&quot;pressure_pa&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">100</span>
+<span class="n">t_k</span> <span class="o">=</span> <span class="n">data_mat</span><span class="p">[</span><span class="s2">&quot;temp_k&quot;</span><span class="p">]</span>
+<span class="k">if</span> <span class="n">add_refraction</span><span class="p">:</span>
+    <span class="n">look_dir_eci</span><span class="p">,</span> <span class="n">up_dir_eci</span> <span class="o">=</span> <span class="n">update_refraction</span><span class="p">(</span>
+        <span class="n">look_dir_eci</span><span class="p">,</span> <span class="n">up_dir_eci</span><span class="p">,</span> <span class="n">date_mid</span><span class="p">,</span> <span class="n">p_mbar</span><span class="p">,</span> <span class="n">t_k</span>
+    <span class="p">)</span>
 
 <span class="n">fits_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">info_path</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data_mat</span><span class="p">[</span><span class="s2">&quot;fits_file&quot;</span><span class="p">])</span>
 <span class="n">fits_info</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">info_from_fits</span><span class="p">(</span><span class="n">fits_path</span><span class="p">)</span>
-
-<span class="n">look_dir_eci</span> <span class="o">=</span> <span class="n">data_mat</span><span class="p">[</span><span class="s2">&quot;look_dir_eci_processed&quot;</span><span class="p">]</span>
-<span class="n">look_dir_eci_app</span> <span class="o">=</span> <span class="n">dcm_app_to_true</span> <span class="o">@</span> <span class="n">look_dir_eci</span>
-
-<span class="n">scope_up_dir_eci</span> <span class="o">=</span> <span class="n">data_mat</span><span class="p">[</span><span class="s2">&quot;up_dir_eci_processed&quot;</span><span class="p">]</span>
-<span class="n">scope_up_dir_eci_app</span> <span class="o">=</span> <span class="n">dcm_app_to_true</span> <span class="o">@</span> <span class="n">scope_up_dir_eci</span>
 
 <span class="n">sms_names</span> <span class="o">=</span> <span class="n">data_mat</span><span class="p">[</span><span class="s2">&quot;_obs_mat&quot;</span><span class="p">][</span><span class="s2">&quot;saveMatchedStars&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">img_ind</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span>
 <span class="n">sms</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">sms_names</span><span class="p">,</span> <span class="n">data_mat</span><span class="p">[</span><span class="s2">&quot;_obs_mat&quot;</span><span class="p">][</span><span class="s2">&quot;saveMatchedStars&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">img_ind</span><span class="p">]))</span>
 <span class="n">sms</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">sms</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">sms</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="n">ex</span> <span class="o">=</span> <span class="n">sms</span><span class="p">[</span><span class="s2">&quot;endpoints_x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
+<span class="n">ey</span> <span class="o">=</span> <span class="n">sms</span><span class="p">[</span><span class="s2">&quot;endpoints_y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">ex</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">ex</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">ey</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">ey</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="c1"># angle of m in the plane</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mr</span><span class="o">.</span><span class="n">atan2d</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mf">1.0</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">x2</span><span class="p">))</span>
 <span class="n">stars_found</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="mi">4096</span> <span class="o">-</span> <span class="n">sms</span><span class="p">[</span><span class="s2">&quot;x0&quot;</span><span class="p">],</span> <span class="mi">4096</span> <span class="o">-</span> <span class="n">sms</span><span class="p">[</span><span class="s2">&quot;y0&quot;</span><span class="p">],</span> <span class="n">sms</span><span class="p">[</span><span class="s2">&quot;Gmag&quot;</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span>
 
-<span class="c1"># print(stars_found.shape)</span>
-<span class="c1"># endd</span>
 <span class="n">matched_gmag</span> <span class="o">=</span> <span class="n">catalog</span><span class="o">.</span><span class="n">_mags</span><span class="p">[</span><span class="n">sms</span><span class="p">[</span><span class="s2">&quot;idx_catMatched&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
 <span class="n">matched_irrad</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">apparent_magnitude_to_irradiance</span><span class="p">(</span><span class="n">matched_gmag</span><span class="p">)</span>
 <span class="n">matched_brightness</span> <span class="o">=</span> <span class="n">sms</span><span class="p">[</span><span class="s2">&quot;brightness&quot;</span><span class="p">]</span>
-<span class="n">coefs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">matched_irrad</span><span class="p">,</span> <span class="n">matched_brightness</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">coefs</span> <span class="o">=</span> <span class="p">[</span><span class="n">coefs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">]</span>
-<span class="n">sint</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">irrad</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">coefs</span><span class="p">,</span> <span class="n">irrad</span><span class="p">)</span> <span class="o">/</span> <span class="n">fits_info</span><span class="p">[</span><span class="s2">&quot;integration_time&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">irrad</span>
+<span class="n">coefs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">matched_irrad</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">matched_brightness</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">fit_adu_of_irrad</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">irrad</span><span class="p">:</span> <span class="mi">10</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">coefs</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">irrad</span><span class="p">))</span>
+<span class="n">sint</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">irrad</span><span class="p">:</span> <span class="n">fit_adu_of_irrad</span><span class="p">(</span><span class="n">irrad</span><span class="p">)</span> <span class="o">/</span> <span class="n">fits_info</span><span class="p">[</span><span class="s2">&quot;integration_time&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">irrad</span>
+
+<span class="n">sint_synth</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">sint</span><span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">data_mat</span><span class="p">[</span><span class="s2">&quot;el_rad_true&quot;</span><span class="p">])</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">matched_irrad</span><span class="p">,</span> <span class="n">matched_brightness</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matched_irrad</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">coefs</span><span class="p">,</span> <span class="n">matched_irrad</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matched_irrad</span><span class="p">,</span> <span class="n">fit_adu_of_irrad</span><span class="p">(</span><span class="n">matched_irrad</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Irradiance [W/m^2]&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;ADU&quot;</span><span class="p">)</span>
-<span class="c1"># plt.show()</span>
-<span class="c1"># enddd</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s2">&quot;Data&quot;</span><span class="p">,</span> <span class="s2">&quot;Best linear fit&quot;</span><span class="p">])</span>
 
 <span class="n">img</span> <span class="o">=</span> <span class="n">fits_info</span><span class="p">[</span><span class="s2">&quot;ccd_adu&quot;</span><span class="p">]</span>
 <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fliplr</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">img</span><span class="p">))</span>
 
-<span class="n">tele</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">telescope</span>
-
 <span class="n">stars_expected</span> <span class="o">=</span> <span class="n">expected_star_centroids_in_fits</span><span class="p">(</span>
+    <span class="n">station</span><span class="p">,</span>
     <span class="n">catalog</span><span class="p">,</span>
-    <span class="n">look_dir_eci_app</span><span class="p">,</span>
-    <span class="n">scope_up_dir_eci_app</span><span class="p">,</span>
+    <span class="n">look_dir_eci</span><span class="p">,</span>
+    <span class="n">up_dir_eci</span><span class="p">,</span>
     <span class="n">limiting_magnitude</span><span class="o">=</span><span class="n">limiting_magnitude</span><span class="p">,</span>
     <span class="n">add_distortion</span><span class="o">=</span><span class="n">add_distortion</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_star_matching_001.png" srcset="../../_images/sphx_glr_star_matching_001.png, ../../_images/sphx_glr_star_matching_001_2_00x.png 2.00x" alt="star matching" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Loading star catalog: 6.39e+00 seconds
+<ul class="sphx-glr-horizontal">
+<li><img src="../../_images/sphx_glr_star_matching_001.png" srcset="../../_images/sphx_glr_star_matching_001.png, ../../_images/sphx_glr_star_matching_001_2_00x.png 2.00x" alt="star matching" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_star_matching_002.png" srcset="../../_images/sphx_glr_star_matching_002.png, ../../_images/sphx_glr_star_matching_002_2_00x.png 2.00x" alt="star matching" class = "sphx-glr-multi-img"/></li>
+</ul>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Loading star catalog: 1.98e+00 seconds
+Applying 1.14e-02 deg of refraction
 dict_keys([&#39;TYC1&#39;, &#39;TYC2&#39;, &#39;TYC3&#39;, &#39;Gaia_ID&#39;, &#39;Gmag&#39;, &#39;Vmag&#39;, &#39;catalog_ra_ICRS_J2016&#39;, &#39;catalog_dec_ICRS_J2016&#39;, &#39;catalog_ra_GCRS&#39;, &#39;catalog_dec_GCRS&#39;, &#39;catalog_ra_apparent&#39;, &#39;catalog_dec_apparent&#39;, &#39;catalog_imgFrame&#39;, &#39;catalog_x0&#39;, &#39;catalog_y0&#39;, &#39;observed_ra_apparent&#39;, &#39;observed_dec_apparent&#39;, &#39;observed_az_apparent&#39;, &#39;observed_el_apparent&#39;, &#39;observed_ra_true&#39;, &#39;observed_dec_true&#39;, &#39;observed_az_true&#39;, &#39;observed_el_true&#39;, &#39;x0&#39;, &#39;y0&#39;, &#39;phi&#39;, &#39;Length&#39;, &#39;endpoints_x&#39;, &#39;endpoints_y&#39;, &#39;brightness&#39;, &#39;JD&#39;, &#39;SNR&#39;, &#39;idx_body&#39;, &#39;idx_ref&#39;, &#39;idx_catMatched&#39;, &#39;angle_errors_arcsec&#39;])
+[-0.70784829 -0.47235506]
+-35.29270334033877
 </pre></div>
 </div>
 <p>We’re close, but we need to solve for the slight rotation and translation between the two images</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># building a tree for the expected stars</span>
-<span class="n">tree</span> <span class="o">=</span> <span class="n">KDTree</span><span class="p">(</span><span class="n">stars_expected</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">tree</span> <span class="o">=</span> <span class="n">KDTree</span><span class="p">(</span><span class="n">stars_found</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">])</span>
 
 <span class="c1"># finding the nearest neighbor for each found star</span>
-<span class="n">expected_to_found_dist</span><span class="p">,</span> <span class="n">nearest</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">stars_found</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">])</span>
-<span class="n">nearest_expected_centroid</span> <span class="o">=</span> <span class="n">stars_expected</span><span class="p">[</span><span class="n">nearest</span><span class="p">,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span>
-<span class="c1"># only use lowest 25% dist pairs to avoid outliers</span>
-<span class="n">use_inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">expected_to_found_dist</span><span class="o">.</span><span class="n">flatten</span><span class="p">())[</span>
-    <span class="p">:</span> <span class="n">expected_to_found_dist</span><span class="o">.</span><span class="n">size</span> <span class="o">//</span> <span class="mi">4</span>
-<span class="p">]</span>
+<span class="n">expected_to_found_dist</span><span class="p">,</span> <span class="n">nearest</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">stars_expected</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">nearest_found_centroid</span> <span class="o">=</span> <span class="n">stars_found</span><span class="p">[</span><span class="n">nearest</span><span class="p">,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span>
 
-<span class="n">nearest_expected_uvs</span> <span class="o">=</span> <span class="n">tele</span><span class="o">.</span><span class="n">pixels_to_j2000_unit_vectors</span><span class="p">(</span>
-    <span class="n">look_dir_eci_app</span><span class="p">,</span>
-    <span class="n">scope_up_dir_eci_app</span><span class="p">,</span>
-    <span class="n">nearest_expected_centroid</span><span class="p">[</span><span class="n">use_inds</span><span class="p">],</span>
+<span class="n">nearest_expected_uvs</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">pixels_to_j2000_unit_vectors</span><span class="p">(</span>
+    <span class="n">look_dir_eci</span><span class="p">,</span>
+    <span class="n">up_dir_eci</span><span class="p">,</span>
+    <span class="n">stars_expected</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">],</span>
     <span class="n">input_is_distorted</span><span class="o">=</span><span class="n">add_distortion</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">stars_found_uvs</span> <span class="o">=</span> <span class="n">tele</span><span class="o">.</span><span class="n">pixels_to_j2000_unit_vectors</span><span class="p">(</span>
-    <span class="n">look_dir_eci_app</span><span class="p">,</span>
-    <span class="n">scope_up_dir_eci_app</span><span class="p">,</span>
-    <span class="n">stars_found</span><span class="p">[</span><span class="n">use_inds</span><span class="p">,</span> <span class="p">:</span><span class="mi">2</span><span class="p">],</span>
+<span class="n">stars_found_uvs</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">pixels_to_j2000_unit_vectors</span><span class="p">(</span>
+    <span class="n">look_dir_eci</span><span class="p">,</span>
+    <span class="n">up_dir_eci</span><span class="p">,</span>
+    <span class="n">nearest_found_centroid</span><span class="p">,</span>
     <span class="n">input_is_distorted</span><span class="o">=</span><span class="n">add_distortion</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">nearest_expected_centroid</span><span class="p">[</span><span class="n">use_inds</span><span class="p">]</span> <span class="o">-</span> <span class="n">stars_found</span><span class="p">[</span><span class="n">use_inds</span><span class="p">,</span> <span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">centroid_err</span> <span class="o">=</span> <span class="n">stars_expected</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">nearest_found_centroid</span>
+<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;SRCDIR&#39;</span><span class="p">],</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;testfitdata.txt&#39;</span><span class="p">),</span> <span class="n">centroid_err</span><span class="p">)</span>
 
-<span class="n">q_davenport</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">davenport</span><span class="p">(</span><span class="n">nearest_expected_uvs</span><span class="p">,</span> <span class="n">stars_found_uvs</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">mr</span><span class="o">.</span><span class="n">wrap_to_pi</span><span class="p">(</span><span class="n">mr</span><span class="o">.</span><span class="n">vecnorm</span><span class="p">(</span><span class="n">mr</span><span class="o">.</span><span class="n">quat_to_rv</span><span class="p">(</span><span class="n">q_davenport</span><span class="p">)))</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">use_inds</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">fit_2d_gaussian</span><span class="p">(</span><span class="n">centroid_err</span><span class="p">,</span> <span class="n">return_used_inds</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mahal_dist_tol</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Performing the QUEST fit with </span><span class="si">{</span><span class="n">use_inds</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2"> stars&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">median_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">centroid_err</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">centroid_err</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">centroid_err</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s2">&quot;Set1&quot;</span><span class="p">)(</span><span class="n">use_inds</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">median_err</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">median_err</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+    <span class="n">linewidths</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span>
+    <span class="n">zorder</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$x$ error&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$y$ error&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s2">&quot;Centroid errors&quot;</span><span class="p">,</span> <span class="s2">&quot;Cluster centroids&quot;</span><span class="p">])</span>
+<span class="c1"># plt.show()</span>
+<span class="c1"># endd</span>
+
+<span class="n">q_davenport</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">davenport</span><span class="p">(</span>
+    <span class="n">nearest_expected_uvs</span><span class="p">[</span><span class="n">use_inds</span><span class="p">,</span> <span class="p">:],</span> <span class="n">stars_found_uvs</span><span class="p">[</span><span class="n">use_inds</span><span class="p">,</span> <span class="p">:]</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;Applying a </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">mr</span><span class="o">.</span><span class="n">wrap_to_pi</span><span class="p">(</span><span class="n">mr</span><span class="o">.</span><span class="n">vecnorm</span><span class="p">(</span><span class="n">mr</span><span class="o">.</span><span class="n">quat_to_rv</span><span class="p">(</span><span class="n">q_davenport</span><span class="p">))))</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> degree rotation to the telescope orientation&quot;</span>
+<span class="p">)</span>
 
 <span class="n">A_davenport</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">quat_to_dcm</span><span class="p">(</span><span class="n">q_davenport</span><span class="p">)</span>
 
-<span class="n">look_dir_app_true</span> <span class="o">=</span> <span class="n">A_davenport</span> <span class="o">@</span> <span class="n">look_dir_eci_app</span>
-<span class="n">up_dir_app_true</span> <span class="o">=</span> <span class="n">A_davenport</span> <span class="o">@</span> <span class="n">scope_up_dir_eci_app</span>
+<span class="n">look_dir_true</span> <span class="o">=</span> <span class="n">A_davenport</span> <span class="o">@</span> <span class="n">look_dir_eci</span>
+<span class="n">up_dir_true</span> <span class="o">=</span> <span class="n">A_davenport</span> <span class="o">@</span> <span class="n">up_dir_eci</span>
+<span class="n">cross_dir</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">look_dir_true</span><span class="p">,</span> <span class="n">up_dir_true</span><span class="p">)</span>
 
 <span class="n">erc</span> <span class="o">=</span> <span class="n">expected_star_centroids_in_fits</span><span class="p">(</span>
+    <span class="n">station</span><span class="p">,</span>
     <span class="n">catalog</span><span class="p">,</span>
-    <span class="n">look_dir_app_true</span><span class="p">,</span>
-    <span class="n">up_dir_app_true</span><span class="p">,</span>
+    <span class="n">look_dir_true</span><span class="p">,</span>
+    <span class="n">up_dir_true</span><span class="p">,</span>
     <span class="n">limiting_magnitude</span><span class="o">=</span><span class="n">limiting_magnitude</span><span class="p">,</span>
     <span class="n">add_distortion</span><span class="o">=</span><span class="n">add_distortion</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="n">img_prepared</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">prepare_fits_for_plotting</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">background_method</span><span class="o">=</span><span class="s2">&quot;parabola&quot;</span><span class="p">)</span>
+<span class="n">dists</span><span class="p">,</span> <span class="n">nearest</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">erc</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="n">err_updated</span> <span class="o">=</span> <span class="n">erc</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">stars_found</span><span class="p">[</span><span class="n">nearest</span><span class="p">,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Median error: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">dists</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> pixels&quot;</span><span class="p">)</span>
+
+<span class="c1"># img_prepared = mr.prepare_fits_for_plotting(img, background_method=&quot;parabola&quot;)</span>
+<span class="c1"># img -= int(1e3)</span>
+<span class="n">img_prepared</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_prepared</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">stars_found</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">stars_found</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
     <span class="n">erc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
     <span class="n">erc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
-    <span class="n">c</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span>
+    <span class="n">c</span><span class="o">=</span><span class="s2">&quot;lime&quot;</span><span class="p">,</span>
     <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span>
-    <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">stars_found</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">stars_found</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">2700</span><span class="p">,</span> <span class="mi">2934</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">900</span><span class="p">,</span> <span class="mi">1090</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s2">&quot;Observed centroids&quot;</span><span class="p">,</span> <span class="s2">&quot;Synthetic centroids&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Centroids over Observed Image&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">err_updated</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">err_updated</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s2">&quot;symlog&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s2">&quot;symlog&quot;</span><span class="p">)</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;Centroid errors&quot;</span><span class="p">,</span> <span class="s2">&quot;5-pixel boundary&quot;</span><span class="p">,</span> <span class="s2">&quot;1-pixel boundary&quot;</span><span class="p">],</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$x$ pixel error&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$y$ pixel error&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_star_matching_002.png" srcset="../../_images/sphx_glr_star_matching_002.png, ../../_images/sphx_glr_star_matching_002_2_00x.png 2.00x" alt="star matching" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[[  4.09962529  -6.62921664]
- [  8.7455041   -4.66456677]
- [ -8.90256346  -7.47430558]
- [  2.65058808 -11.46411275]
- [  2.01988109  13.73990143]
- [ -3.86128496 -14.98453861]
- [ 14.89775379   8.34650945]
- [  0.38672114 -17.16440693]
- [-13.2698188   12.95095172]
- [ 18.45956845  -3.04503807]
- [  8.4345174   20.3281701 ]
- [-22.94681606   3.65207241]
- [ 10.77661988 -20.91403286]
- [ 25.08287268  -1.50349717]
- [-15.00329806 -20.26061481]
- [ 12.8586806   21.84560064]
- [-20.5749     -16.41753562]
- [-21.75981101 -14.91634754]
- [-15.71158824 -21.24271513]
- [-21.58752815 -15.30460209]
- [-17.179205   -20.12865468]
- [-21.09114363 -16.05726849]
- [-22.09182778 -14.74845847]
- [-17.88591982 -19.81588828]
- [-21.91394595 -15.51587467]
- [-21.71571357 -15.93516642]
- [-22.47111904 -14.86099936]
- [-22.66213892 -14.60396253]
- [-21.94659718 -15.70772272]
- [-22.89509048 -14.30996776]
- [-19.4556788  -18.76769888]
- [-22.95936978 -14.27791219]
- [-23.0169597  -14.20667698]
- [-22.00142334 -15.74727581]
- [-23.33198737 -13.72093561]
- [-22.85396542 -14.50571544]
- [-22.92098281 -14.40665687]
- [-22.4262527  -15.19937785]
- [-23.3482535  -13.76469663]
- [ -6.45023533 -26.34478018]
- [-23.33509956 -13.82589084]
- [-22.59092613 -15.06335611]
- [-23.74717721 -13.1695243 ]
- [-23.20732119 -14.12511402]
- [-23.84001946 -13.07119271]
- [-23.49904881 -13.67738323]
- [-23.54386063 -13.72167532]]
-[[-0.04395724]]
-
-&lt;matplotlib.collections.PathCollection object at 0x3ab1c6090&gt;
+<ul class="sphx-glr-horizontal">
+<li><img src="../../_images/sphx_glr_star_matching_003.png" srcset="../../_images/sphx_glr_star_matching_003.png, ../../_images/sphx_glr_star_matching_003_2_00x.png 2.00x" alt="star matching" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_star_matching_004.png" srcset="../../_images/sphx_glr_star_matching_004.png, ../../_images/sphx_glr_star_matching_004_2_00x.png 2.00x" alt="Centroids over Observed Image" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_star_matching_005.png" srcset="../../_images/sphx_glr_star_matching_005.png, ../../_images/sphx_glr_star_matching_005_2_00x.png 2.00x" alt="star matching" class = "sphx-glr-multi-img"/></li>
+</ul>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Performing the QUEST fit with 23 stars
+Applying a -0.02 degree rotation to the telescope orientation
+Median error: 0.73 pixels
 </pre></div>
 </div>
 <p>Generating the synthetic image</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">station</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">fwhm</span> <span class="o">=</span> <span class="mf">4.0</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">station</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">fwhm</span> <span class="o">=</span> <span class="mf">3.0</span>
 <span class="n">mr</span><span class="o">.</span><span class="n">tic</span><span class="p">(</span><span class="s2">&quot;Synthesizing CCD Image&quot;</span><span class="p">)</span>
-<span class="n">adu_grid_streaked_sampled</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">ccd</span><span class="o">.</span><span class="n">generate_ccd_image</span><span class="p">(</span>
+<span class="n">img_sym</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">ccd</span><span class="o">.</span><span class="n">generate_ccd_image</span><span class="p">(</span>
     <span class="n">date_mid</span><span class="p">,</span>
     <span class="n">fits_info</span><span class="p">[</span><span class="s2">&quot;integration_time&quot;</span><span class="p">],</span>
     <span class="n">station</span><span class="p">,</span>
-    <span class="n">look_dir_app_true</span><span class="p">,</span>
+    <span class="n">look_dir_true</span><span class="p">,</span>
     <span class="p">[</span><span class="n">fits_info</span><span class="p">[</span><span class="s2">&quot;ra_rate&quot;</span><span class="p">],</span> <span class="n">fits_info</span><span class="p">[</span><span class="s2">&quot;dec_rate&quot;</span><span class="p">]],</span>
     <span class="mf">1e4</span><span class="p">,</span>
     <span class="n">catalog</span><span class="p">,</span>
-    <span class="n">up_dir_eci</span><span class="o">=</span><span class="n">up_dir_app_true</span><span class="p">,</span>
+    <span class="n">up_dir_eci</span><span class="o">=</span><span class="n">up_dir_true</span><span class="p">,</span>
     <span class="n">limiting_magnitude</span><span class="o">=</span><span class="n">limiting_magnitude</span><span class="p">,</span>
     <span class="n">add_distortion</span><span class="o">=</span><span class="n">add_distortion</span><span class="p">,</span>
     <span class="n">sint_val</span><span class="o">=</span><span class="n">sint</span><span class="p">,</span>
+    <span class="n">noise</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">mr</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
 
-<span class="n">adu_grid_streaked_sampled_prepared</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">prepare_fits_for_plotting</span><span class="p">(</span>
-    <span class="n">adu_grid_streaked_sampled</span><span class="p">,</span> <span class="n">background_method</span><span class="o">=</span><span class="s2">&quot;naive&quot;</span>
-<span class="p">)</span>
-
-<span class="c1"># adu_grid_streaked_sampled = adu_grid_streaked_sampled / 10</span>
-<span class="c1"># adu_grid_streaked_sampled += int(1e3)</span>
+<span class="c1"># img_sym_prepared = mr.prepare_fits_for_plotting(img_sym, background_method=&quot;naive&quot;)</span>
+<span class="n">img_sym</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e3</span><span class="p">)</span>
+<span class="n">img_sym_prepared</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">img_sym</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Objects in frame 1:
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[13.1253542]
+Objects in frame 1:
 NAVSTAR 80 (USA 309)
-Synthesizing CCD Image: 6.02e+00 seconds
+Synthesizing CCD Image: 1.83e+00 seconds
 </pre></div>
 </div>
 <p>Overlaying the two images</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_prepared</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">adu_grid_streaked_sampled_prepared</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray_r&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_sym_prepared</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray_r&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
     <span class="n">erc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
     <span class="n">erc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
@@ -770,42 +820,61 @@ Synthesizing CCD Image: 6.02e+00 seconds
 <span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">stars_found</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">stars_found</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
+<span class="n">clim_obs</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">img_prepared</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">img_prepared</span><span class="p">)]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">clim_obs</span><span class="p">)</span>
+<span class="n">clim_sym</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">img_sym_prepared</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">img_sym_prepared</span><span class="p">)]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">clim_sym</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_prepared</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">clim</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">img_sym_prepared</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">img_sym_prepared</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">adu_grid_streaked_sampled_prepared</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_sym_prepared</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
-<span class="c1"># plt.figure()</span>
-<span class="c1"># plt.imshow(np.log10(np.clip(np.abs(img - adu_grid_streaked_sampled), 1, np.inf)), cmap=&quot;coolwarm&quot;)</span>
-<span class="c1"># plt.colorbar()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 <ul class="sphx-glr-horizontal">
-<li><img src="../../_images/sphx_glr_star_matching_003.png" srcset="../../_images/sphx_glr_star_matching_003.png, ../../_images/sphx_glr_star_matching_003_2_00x.png 2.00x" alt="star matching" class = "sphx-glr-multi-img"/></li>
-<li><img src="../../_images/sphx_glr_star_matching_004.png" srcset="../../_images/sphx_glr_star_matching_004.png, ../../_images/sphx_glr_star_matching_004_2_00x.png 2.00x" alt="star matching" class = "sphx-glr-multi-img"/></li>
-<li><img src="../../_images/sphx_glr_star_matching_005.png" srcset="../../_images/sphx_glr_star_matching_005.png, ../../_images/sphx_glr_star_matching_005_2_00x.png 2.00x" alt="star matching" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_star_matching_006.png" srcset="../../_images/sphx_glr_star_matching_006.png, ../../_images/sphx_glr_star_matching_006_2_00x.png 2.00x" alt="star matching" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_star_matching_007.png" srcset="../../_images/sphx_glr_star_matching_007.png, ../../_images/sphx_glr_star_matching_007_2_00x.png 2.00x" alt="star matching" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_star_matching_008.png" srcset="../../_images/sphx_glr_star_matching_008.png, ../../_images/sphx_glr_star_matching_008_2_00x.png 2.00x" alt="star matching" class = "sphx-glr-multi-img"/></li>
 </ul>
-<p>Saving the images to file</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">imageio</span>
-<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[4.06277, 2.9845273]
+[3.8113895060868654, 3.00475066626887]
 
-<span class="n">img_prepared</span> <span class="o">=</span> <span class="n">img_prepared</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">img_prepared</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span>
-<span class="n">adu_grid_streaked_sampled_prepared</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">adu_grid_streaked_sampled_prepared</span>
-    <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">adu_grid_streaked_sampled_prepared</span><span class="p">)</span>
-    <span class="o">*</span> <span class="mi">255</span>
-<span class="p">)</span>
-
-<span class="n">imageio</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="s2">&quot;observed_log_adu.png&quot;</span><span class="p">,</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">img_prepared</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s2">&quot;L&quot;</span><span class="p">))</span>
-<span class="n">imageio</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span>
-    <span class="s2">&quot;synthetic_log_adu.png&quot;</span><span class="p">,</span>
-    <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">adu_grid_streaked_sampled_prepared</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s2">&quot;L&quot;</span><span class="p">),</span>
-<span class="p">)</span>
+&lt;matplotlib.colorbar.Colorbar object at 0x3a5adbf10&gt;
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 32.682 seconds)</p>
+<p>Subtracting the two images</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">adu_err</span> <span class="o">=</span> <span class="n">img_sym</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span> <span class="o">-</span> <span class="n">img</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+<span class="n">adu_err_stdev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">adu_err</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">adu_err_stdev</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;plasma&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">clim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">2700</span><span class="p">,</span> <span class="mi">2934</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">900</span><span class="p">,</span> <span class="mi">1090</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_star_matching_009.png" srcset="../../_images/sphx_glr_star_matching_009.png, ../../_images/sphx_glr_star_matching_009_2_00x.png 2.00x" alt="star matching" class = "sphx-glr-single-img"/><p>Saving the images to file</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># import imageio</span>
+<span class="c1"># from PIL import Image</span>
+
+<span class="c1"># img_prepared = img_prepared / np.max(img_prepared) * 255</span>
+<span class="c1"># img_sym_prepared = (</span>
+<span class="c1">#     img_sym_prepared</span>
+<span class="c1">#     / np.max(img_sym_prepared)</span>
+<span class="c1">#     * 255</span>
+<span class="c1"># )</span>
+
+<span class="c1"># imageio.imwrite(&quot;observed_log_adu.png&quot;, Image.fromarray(img_prepared).convert(&quot;L&quot;))</span>
+<span class="c1"># imageio.imwrite(</span>
+<span class="c1">#     &quot;synthetic_log_adu.png&quot;,</span>
+<span class="c1">#     Image.fromarray(img_sym_prepared).convert(&quot;L&quot;),</span>
+<span class="c1"># )</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 15.957 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-08-ccd-star-matching-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/fff95d41954a3dbdc819aaf87ceefdbb/star_matching.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">star_matching.ipynb</span></code></a></p>

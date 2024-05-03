@@ -13,6 +13,7 @@ import mirage.vis as mrv
 
 date_space = mr.date_linspace(mr.today(), mr.today() + mr.hours(3), 1000)
 # Propagate out one day
+
 r_eci = mr.propagate_satnum_to_dates(dates=date_space, satnum=25544)
 # Propagates ISS, note that output is technically in TEME frame, but we'll treat it as if it's just ECI
 

@@ -1600,8 +1600,8 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>station</strong> (<a class="reference internal" href="#mirage.station.Station" title="mirage.station.Station"><em>Station</em></a>) – The station to observe from</p></li>
-<li><p><strong>look_dirs_eci_eq</strong> (<em>np.ndarray</em>) – Look unit vectors in ecliptic Earth-centered inertial (ECI)</p></li>
-<li><p><strong>obs_pos_eci_eq</strong> (<em>np.ndarray</em>) – Observer positions in ecliptic Earth-centered inertial (ECI) [km]</p></li>
+<li><p><strong>look_dirs_eci_eq</strong> (<em>np.ndarray</em>) – Look unit vectors in equatorial Earth-centered inertial (ECI)</p></li>
+<li><p><strong>obs_pos_eci_eq</strong> (<em>np.ndarray</em>) – Observer positions in equatorial Earth-centered inertial (ECI) [km]</p></li>
 <li><p><strong>is_ground_based</strong> (<em>bool</em>) – Whether the station taking the observation is ground or space based</p></li>
 </ul>
 </dd>
@@ -3450,62 +3450,6 @@ DEPRECATED
 </dd></dl>
 
 </section>
-<section id="module-mirage.icp">
-<span id="mirage-icp-module"></span><h2>mirage.icp module<a class="headerlink" href="#module-mirage.icp" title="Link to this heading">#</a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="mirage.icp.best_fit_transform">
-<span class="sig-prename descclassname"><span class="pre">mirage.icp.</span></span><span class="sig-name descname"><span class="pre">best_fit_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mirage.icp.best_fit_transform" title="Link to this definition">#</a></dt>
-<dd><p>Calculates the least-squares best-fit transform that maps corresponding points A to B in m spatial dimensions
-Input:</p>
-<blockquote>
-<div><p>A: Nxm numpy array of corresponding points
-B: Nxm numpy array of corresponding points</p>
-</div></blockquote>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>T: (m+1)x(m+1) homogeneous transformation matrix that maps A on to B
-R: mxm rotation matrix
-t: mx1 translation vector</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mirage.icp.icp">
-<span class="sig-prename descclassname"><span class="pre">mirage.icp.</span></span><span class="sig-name descname"><span class="pre">icp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_pose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mirage.icp.icp" title="Link to this definition">#</a></dt>
-<dd><p>The Iterative Closest Point method: finds best-fit transform that maps points A on to points B
-Input:</p>
-<blockquote>
-<div><p>A: Nxm numpy array of source mD points
-B: Nxm numpy array of destination mD point
-init_pose: (m+1)x(m+1) homogeneous transformation
-max_iterations: exit algorithm after max_iterations
-tolerance: convergence criteria</p>
-</div></blockquote>
-<dl class="simple">
-<dt>Output:</dt><dd><p>T: final homogeneous transformation that maps A on to B
-distances: Euclidean distances (errors) of the nearest neighbor
-i: number of iterations to converge</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mirage.icp.nearest_neighbor">
-<span class="sig-prename descclassname"><span class="pre">mirage.icp.</span></span><span class="sig-name descname"><span class="pre">nearest_neighbor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mirage.icp.nearest_neighbor" title="Link to this definition">#</a></dt>
-<dd><p>Find the nearest (Euclidean) neighbor in dst for each point in src
-Input:</p>
-<blockquote>
-<div><p>src: Nxm array of points
-dst: Nxm array of points</p>
-</div></blockquote>
-<dl class="simple">
-<dt>Output:</dt><dd><p>distances: Euclidean distances of the nearest neighbor
-indices: dst indices of the nearest neighbor</p>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
 <section id="module-mirage.iod">
 <span id="mirage-iod-module"></span><h2>mirage.iod module<a class="headerlink" href="#module-mirage.iod" title="Link to this heading">#</a></h2>
 <dl class="py function">
@@ -4323,6 +4267,11 @@ indices: dst indices of the nearest neighbor</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="mirage.math.fit_2d_gaussian">
+<span class="sig-prename descclassname"><span class="pre">mirage.math.</span></span><span class="sig-name descname"><span class="pre">fit_2d_gaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mahal_dist_tol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_used_inds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mirage.math.fit_2d_gaussian" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="mirage.math.fit_poisson_process">
 <span class="sig-prename descclassname"><span class="pre">mirage.math.</span></span><span class="sig-name descname"><span class="pre">fit_poisson_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#mirage.math.fit_poisson_process" title="Link to this definition">#</a></dt>
 <dd><p>Fits a Poisson random process to the given data</p>
@@ -4412,6 +4361,27 @@ indices: dst indices of the nearest neighbor</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>np.ndarray [4x4]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mirage.math.mahal">
+<span class="sig-prename descclassname"><span class="pre">mirage.math.</span></span><span class="sig-name descname"><span class="pre">mahal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.math.mahal" title="Link to this definition">#</a></dt>
+<dd><p>Computes the Mahalanobis distance from a set of points to a Gaussian distribution defined by its mean and covariance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pts</strong> (<em>np.ndarray</em><em> [</em><em>nxm</em><em>]</em>) – Points to test</p></li>
+<li><p><strong>mu</strong> (<em>np.ndarray</em><em> [</em><em>1xm</em><em>]</em>) – Mean of the distribution</p></li>
+<li><p><strong>cov</strong> (<em>np.ndarray</em><em> [</em><em>mxm</em><em>]</em>) – Covariance matrix of the distribution</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Mahalanobis distances</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray  [nx1]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -6860,7 +6830,7 @@ indices: dst indices of the nearest neighbor</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mirage.tle.get_latest_catalog_at_date">
-<span class="sig-prename descclassname"><span class="pre">mirage.tle.</span></span><span class="sig-name descname"><span class="pre">get_latest_catalog_at_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtime</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.datetime(2024,</span> <span class="pre">4,</span> <span class="pre">29,</span> <span class="pre">2,</span> <span class="pre">38,</span> <span class="pre">51,</span> <span class="pre">440415,</span> <span class="pre">tzinfo=datetime.timezone.utc)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days_back</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.timedelta(days=1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tle_latest'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">query_kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mirage.tle.get_latest_catalog_at_date" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">mirage.tle.</span></span><span class="sig-name descname"><span class="pre">get_latest_catalog_at_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtime</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.datetime(2024,</span> <span class="pre">5,</span> <span class="pre">3,</span> <span class="pre">3,</span> <span class="pre">21,</span> <span class="pre">16,</span> <span class="pre">609346,</span> <span class="pre">tzinfo=datetime.timezone.utc)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days_back</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.timedelta(days=1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tle_latest'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">query_kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mirage.tle.get_latest_catalog_at_date" title="Link to this definition">#</a></dt>
 <dd><p>Gets the first TLE produced for a given NORAD SAT ID after the datetime provided</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -7249,12 +7219,6 @@ indices: dst indices of the nearest neighbor</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.geodetic.radius_at_geodetic_lat"><code class="docutils literal notranslate"><span class="pre">radius_at_geodetic_lat()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mirage.icp">mirage.icp module</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.icp.best_fit_transform"><code class="docutils literal notranslate"><span class="pre">best_fit_transform()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.icp.icp"><code class="docutils literal notranslate"><span class="pre">icp()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.icp.nearest_neighbor"><code class="docutils literal notranslate"><span class="pre">nearest_neighbor()</span></code></a></li>
-</ul>
-</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mirage.iod">mirage.iod module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.iod.check_admissibility"><code class="docutils literal notranslate"><span class="pre">check_admissibility()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.iod.gauss_iod"><code class="docutils literal notranslate"><span class="pre">gauss_iod()</span></code></a></li>
@@ -7313,11 +7277,13 @@ indices: dst indices of the nearest neighbor</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.dot"><code class="docutils literal notranslate"><span class="pre">dot()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.elliptic_pi_complete"><code class="docutils literal notranslate"><span class="pre">elliptic_pi_complete()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.elliptic_pi_incomplete"><code class="docutils literal notranslate"><span class="pre">elliptic_pi_incomplete()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.fit_2d_gaussian"><code class="docutils literal notranslate"><span class="pre">fit_2d_gaussian()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.fit_poisson_process"><code class="docutils literal notranslate"><span class="pre">fit_poisson_process()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.hat"><code class="docutils literal notranslate"><span class="pre">hat()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.hms_to_rad"><code class="docutils literal notranslate"><span class="pre">hms_to_rad()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.least_squares_line_intersection"><code class="docutils literal notranslate"><span class="pre">least_squares_line_intersection()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.look_at_matrix"><code class="docutils literal notranslate"><span class="pre">look_at_matrix()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.mahal"><code class="docutils literal notranslate"><span class="pre">mahal()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.merge_clusters"><code class="docutils literal notranslate"><span class="pre">merge_clusters()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.perspective_projection_matrix"><code class="docutils literal notranslate"><span class="pre">perspective_projection_matrix()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.points_to_planes_dist"><code class="docutils literal notranslate"><span class="pre">points_to_planes_dist()</span></code></a></li>
