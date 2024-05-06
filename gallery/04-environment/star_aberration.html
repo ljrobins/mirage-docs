@@ -408,6 +408,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/mapping_function.html">Mapping Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/characterize_ccd.html">Characterizing the CCD Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/ccd_integration_time.html">Integration Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-ccd/matched_imgs_gif.html">Digital Twin Animated</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/noise_accum_gifs.html">Noise Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/airy_disk_gaussian_fit.html">Airy Disk Gaussian Fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/ccd_heuristics.html">CCD Heuristics</a></li>
@@ -416,8 +417,8 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/background_shape.html">Background Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/streaks.html">Streak Detection and Centroiding</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/snr.html">Signal-to-Noise Ratio (SNR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-ccd/synth_image_results.html">Synthetic Image Results</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/render_ccd.html">CCD Rendering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../08-ccd/star_matching.html">Star Matching</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../09-models/index.html">3D Models</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -438,6 +439,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/importance_sampling.html">Importance Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/kdtree_vs_balltree.html">KDTree vs BallTree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/computer_graphics_background.html">Graphics Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/model_editor.html">Model Editor</a></li>
 </ul>
@@ -529,7 +531,7 @@ to download the full example code</p>
 <span class="kn">import</span> <span class="nn">mirage.vis</span> <span class="k">as</span> <span class="nn">mrv</span>
 
 <span class="n">mr</span><span class="o">.</span><span class="n">save_file_from_url</span><span class="p">(</span>
-    <span class="s2">&quot;https://github.com/liamrobinson1/mirage-resources/raw/main/tycho2.json&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;https://github.com/ljrobins/mirage-resources/raw/main/tycho2.json&quot;</span><span class="p">,</span>
     <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;DATADIR&quot;</span><span class="p">],</span>
 <span class="p">)</span>
 
@@ -544,68 +546,73 @@ to download the full example code</p>
 </pre></div>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>tycho2.json:   0%|          | 0.00/83.8M [00:00&lt;?, ?B/s]
-tycho2.json:   2%|▏         | 1.54M/83.8M [00:00&lt;00:05, 15.3MB/s]
-tycho2.json:   4%|▎         | 3.07M/83.8M [00:00&lt;00:05, 13.9MB/s]
-tycho2.json:   5%|▌         | 4.47M/83.8M [00:00&lt;00:07, 10.2MB/s]
-tycho2.json:   8%|▊         | 6.75M/83.8M [00:00&lt;00:05, 14.1MB/s]
-tycho2.json:  10%|▉         | 8.31M/83.8M [00:00&lt;00:05, 13.9MB/s]
-tycho2.json:  12%|█▏        | 9.81M/83.8M [00:00&lt;00:05, 13.6MB/s]
-tycho2.json:  13%|█▎        | 11.2M/83.8M [00:00&lt;00:05, 13.4MB/s]
-tycho2.json:  15%|█▌        | 12.6M/83.8M [00:00&lt;00:05, 13.3MB/s]
-tycho2.json:  17%|█▋        | 14.0M/83.8M [00:01&lt;00:05, 13.2MB/s]
-tycho2.json:  18%|█▊        | 15.3M/83.8M [00:01&lt;00:05, 13.2MB/s]
-tycho2.json:  20%|█▉        | 16.7M/83.8M [00:01&lt;00:05, 13.2MB/s]
-tycho2.json:  21%|██▏       | 18.0M/83.8M [00:01&lt;00:05, 13.1MB/s]
-tycho2.json:  23%|██▎       | 19.3M/83.8M [00:01&lt;00:04, 13.1MB/s]
-tycho2.json:  25%|██▍       | 20.6M/83.8M [00:01&lt;00:04, 13.1MB/s]
-tycho2.json:  26%|██▌       | 22.0M/83.8M [00:01&lt;00:04, 13.0MB/s]
-tycho2.json:  28%|██▊       | 23.3M/83.8M [00:01&lt;00:04, 13.0MB/s]
-tycho2.json:  29%|██▉       | 24.6M/83.8M [00:01&lt;00:04, 13.1MB/s]
-tycho2.json:  31%|███       | 26.0M/83.8M [00:01&lt;00:04, 13.0MB/s]
-tycho2.json:  33%|███▎      | 27.3M/83.8M [00:02&lt;00:04, 13.0MB/s]
-tycho2.json:  34%|███▍      | 28.7M/83.8M [00:02&lt;00:04, 13.1MB/s]
-tycho2.json:  36%|███▌      | 30.0M/83.8M [00:02&lt;00:04, 13.1MB/s]
-tycho2.json:  37%|███▋      | 31.3M/83.8M [00:02&lt;00:04, 13.1MB/s]
-tycho2.json:  39%|███▉      | 32.6M/83.8M [00:02&lt;00:03, 13.1MB/s]
-tycho2.json:  40%|████      | 33.9M/83.8M [00:02&lt;00:03, 13.1MB/s]
-tycho2.json:  42%|████▏     | 35.2M/83.8M [00:02&lt;00:03, 13.0MB/s]
-tycho2.json:  44%|████▎     | 36.6M/83.8M [00:02&lt;00:03, 13.1MB/s]
-tycho2.json:  45%|████▌     | 37.9M/83.8M [00:02&lt;00:03, 13.0MB/s]
-tycho2.json:  47%|████▋     | 39.2M/83.8M [00:02&lt;00:03, 13.0MB/s]
-tycho2.json:  48%|████▊     | 40.5M/83.8M [00:03&lt;00:03, 13.0MB/s]
-tycho2.json:  50%|████▉     | 41.8M/83.8M [00:03&lt;00:03, 13.0MB/s]
-tycho2.json:  52%|█████▏    | 43.2M/83.8M [00:03&lt;00:03, 13.0MB/s]
-tycho2.json:  53%|█████▎    | 44.5M/83.8M [00:03&lt;00:03, 13.1MB/s]
-tycho2.json:  55%|█████▍    | 45.8M/83.8M [00:03&lt;00:02, 13.0MB/s]
-tycho2.json:  56%|█████▋    | 47.1M/83.8M [00:03&lt;00:02, 13.1MB/s]
-tycho2.json:  58%|█████▊    | 48.4M/83.8M [00:03&lt;00:02, 13.1MB/s]
-tycho2.json:  59%|█████▉    | 49.8M/83.8M [00:03&lt;00:02, 13.1MB/s]
-tycho2.json:  61%|██████    | 51.1M/83.8M [00:03&lt;00:02, 13.1MB/s]
-tycho2.json:  63%|██████▎   | 52.4M/83.8M [00:03&lt;00:02, 13.0MB/s]
-tycho2.json:  64%|██████▍   | 53.7M/83.8M [00:04&lt;00:02, 13.0MB/s]
-tycho2.json:  66%|██████▌   | 55.0M/83.8M [00:04&lt;00:02, 13.0MB/s]
-tycho2.json:  67%|██████▋   | 56.4M/83.8M [00:04&lt;00:02, 13.1MB/s]
-tycho2.json:  69%|██████▉   | 57.7M/83.8M [00:04&lt;00:02, 13.0MB/s]
-tycho2.json:  70%|███████   | 59.0M/83.8M [00:04&lt;00:01, 13.0MB/s]
-tycho2.json:  72%|███████▏  | 60.3M/83.8M [00:04&lt;00:02, 10.3MB/s]
-tycho2.json:  75%|███████▍  | 62.8M/83.8M [00:04&lt;00:01, 13.9MB/s]
-tycho2.json:  77%|███████▋  | 64.3M/83.8M [00:04&lt;00:01, 13.8MB/s]
-tycho2.json:  79%|███████▊  | 65.8M/83.8M [00:05&lt;00:01, 13.5MB/s]
-tycho2.json:  80%|████████  | 67.2M/83.8M [00:05&lt;00:01, 13.4MB/s]
-tycho2.json:  82%|████████▏ | 68.6M/83.8M [00:05&lt;00:01, 13.3MB/s]
-tycho2.json:  83%|████████▎ | 69.9M/83.8M [00:05&lt;00:01, 13.2MB/s]
-tycho2.json:  85%|████████▌ | 71.3M/83.8M [00:05&lt;00:00, 13.1MB/s]
-tycho2.json:  87%|████████▋ | 72.6M/83.8M [00:05&lt;00:00, 13.2MB/s]
-tycho2.json:  88%|████████▊ | 73.9M/83.8M [00:05&lt;00:00, 13.1MB/s]
-tycho2.json:  90%|████████▉ | 75.3M/83.8M [00:05&lt;00:00, 13.1MB/s]
-tycho2.json:  91%|█████████▏| 76.6M/83.8M [00:05&lt;00:00, 13.1MB/s]
-tycho2.json:  93%|█████████▎| 77.9M/83.8M [00:05&lt;00:00, 13.1MB/s]
-tycho2.json:  95%|█████████▍| 79.2M/83.8M [00:06&lt;00:00, 13.0MB/s]
-tycho2.json:  96%|█████████▌| 80.6M/83.8M [00:06&lt;00:00, 13.0MB/s]
-tycho2.json:  98%|█████████▊| 81.9M/83.8M [00:06&lt;00:00, 13.0MB/s]
-tycho2.json:  99%|█████████▉| 83.2M/83.8M [00:06&lt;00:00, 13.0MB/s]
-tycho2.json: 100%|██████████| 83.8M/83.8M [00:06&lt;00:00, 13.1MB/s]
-Elapsed time: 2.73e-01 seconds
+tycho2.json:   1%|▏         | 1.11M/83.8M [00:00&lt;00:07, 11.0MB/s]
+tycho2.json:   3%|▎         | 2.54M/83.8M [00:00&lt;00:06, 12.8MB/s]
+tycho2.json:   5%|▍         | 3.83M/83.8M [00:00&lt;00:07, 10.7MB/s]
+tycho2.json:   7%|▋         | 5.52M/83.8M [00:00&lt;00:06, 12.7MB/s]
+tycho2.json:   8%|▊         | 6.84M/83.8M [00:00&lt;00:06, 11.9MB/s]
+tycho2.json:  10%|▉         | 8.07M/83.8M [00:00&lt;00:06, 11.9MB/s]
+tycho2.json:  11%|█         | 9.28M/83.8M [00:00&lt;00:06, 11.8MB/s]
+tycho2.json:  13%|█▎        | 10.5M/83.8M [00:00&lt;00:06, 11.4MB/s]
+tycho2.json:  14%|█▍        | 11.6M/83.8M [00:00&lt;00:06, 11.5MB/s]
+tycho2.json:  15%|█▌        | 12.8M/83.8M [00:01&lt;00:06, 11.5MB/s]
+tycho2.json:  17%|█▋        | 14.0M/83.8M [00:01&lt;00:06, 11.5MB/s]
+tycho2.json:  18%|█▊        | 15.1M/83.8M [00:01&lt;00:06, 11.3MB/s]
+tycho2.json:  19%|█▉        | 16.3M/83.8M [00:01&lt;00:05, 11.3MB/s]
+tycho2.json:  21%|██        | 17.4M/83.8M [00:01&lt;00:05, 11.3MB/s]
+tycho2.json:  22%|██▏       | 18.6M/83.8M [00:01&lt;00:05, 11.3MB/s]
+tycho2.json:  24%|██▎       | 19.8M/83.8M [00:01&lt;00:05, 11.3MB/s]
+tycho2.json:  25%|██▌       | 21.0M/83.8M [00:01&lt;00:05, 11.7MB/s]
+tycho2.json:  27%|██▋       | 22.3M/83.8M [00:01&lt;00:05, 12.1MB/s]
+tycho2.json:  28%|██▊       | 23.7M/83.8M [00:02&lt;00:04, 12.3MB/s]
+tycho2.json:  30%|██▉       | 25.0M/83.8M [00:02&lt;00:04, 12.5MB/s]
+tycho2.json:  31%|███▏      | 26.3M/83.8M [00:02&lt;00:04, 12.6MB/s]
+tycho2.json:  33%|███▎      | 27.7M/83.8M [00:02&lt;00:04, 12.9MB/s]
+tycho2.json:  35%|███▍      | 29.0M/83.8M [00:02&lt;00:04, 12.8MB/s]
+tycho2.json:  36%|███▋      | 30.4M/83.8M [00:02&lt;00:04, 13.1MB/s]
+tycho2.json:  38%|███▊      | 31.7M/83.8M [00:02&lt;00:04, 12.7MB/s]
+tycho2.json:  40%|███▉      | 33.1M/83.8M [00:02&lt;00:03, 13.1MB/s]
+tycho2.json:  41%|████      | 34.4M/83.8M [00:02&lt;00:03, 13.1MB/s]
+tycho2.json:  43%|████▎     | 35.8M/83.8M [00:02&lt;00:03, 13.1MB/s]
+tycho2.json:  44%|████▍     | 37.1M/83.8M [00:03&lt;00:03, 13.1MB/s]
+tycho2.json:  46%|████▌     | 38.4M/83.8M [00:03&lt;00:03, 13.0MB/s]
+tycho2.json:  47%|████▋     | 39.7M/83.8M [00:03&lt;00:03, 13.0MB/s]
+tycho2.json:  49%|████▉     | 41.1M/83.8M [00:03&lt;00:03, 13.0MB/s]
+tycho2.json:  51%|█████     | 42.4M/83.8M [00:03&lt;00:03, 13.0MB/s]
+tycho2.json:  52%|█████▏    | 43.7M/83.8M [00:03&lt;00:03, 13.1MB/s]
+tycho2.json:  54%|█████▍    | 45.1M/83.8M [00:03&lt;00:02, 13.1MB/s]
+tycho2.json:  55%|█████▌    | 46.4M/83.8M [00:03&lt;00:02, 13.1MB/s]
+tycho2.json:  57%|█████▋    | 47.7M/83.8M [00:03&lt;00:02, 13.1MB/s]
+tycho2.json:  59%|█████▊    | 49.0M/83.8M [00:03&lt;00:02, 13.0MB/s]
+tycho2.json:  60%|██████    | 50.3M/83.8M [00:04&lt;00:02, 13.1MB/s]
+tycho2.json:  62%|██████▏   | 51.6M/83.8M [00:04&lt;00:02, 13.0MB/s]
+tycho2.json:  63%|██████▎   | 53.0M/83.8M [00:04&lt;00:02, 13.0MB/s]
+tycho2.json:  65%|██████▍   | 54.4M/83.8M [00:04&lt;00:02, 13.1MB/s]
+tycho2.json:  66%|██████▋   | 55.7M/83.8M [00:04&lt;00:02, 12.3MB/s]
+tycho2.json:  68%|██████▊   | 56.9M/83.8M [00:04&lt;00:02, 12.1MB/s]
+tycho2.json:  69%|██████▉   | 58.1M/83.8M [00:04&lt;00:02, 11.9MB/s]
+tycho2.json:  71%|███████   | 59.3M/83.8M [00:04&lt;00:02, 11.8MB/s]
+tycho2.json:  72%|███████▏  | 60.5M/83.8M [00:04&lt;00:01, 11.7MB/s]
+tycho2.json:  74%|███████▎  | 61.7M/83.8M [00:05&lt;00:01, 11.6MB/s]
+tycho2.json:  75%|███████▌  | 62.9M/83.8M [00:05&lt;00:01, 11.6MB/s]
+tycho2.json:  77%|███████▋  | 64.1M/83.8M [00:05&lt;00:01, 11.6MB/s]
+tycho2.json:  78%|███████▊  | 65.3M/83.8M [00:05&lt;00:01, 11.8MB/s]
+tycho2.json:  79%|███████▉  | 66.5M/83.8M [00:05&lt;00:01, 11.8MB/s]
+tycho2.json:  81%|████████  | 67.7M/83.8M [00:05&lt;00:01, 11.6MB/s]
+tycho2.json:  82%|████████▏ | 68.9M/83.8M [00:05&lt;00:01, 11.6MB/s]
+tycho2.json:  84%|████████▎ | 70.0M/83.8M [00:05&lt;00:01, 11.5MB/s]
+tycho2.json:  85%|████████▌ | 71.2M/83.8M [00:05&lt;00:01, 11.2MB/s]
+tycho2.json:  87%|████████▋ | 72.5M/83.8M [00:05&lt;00:00, 11.7MB/s]
+tycho2.json:  88%|████████▊ | 73.7M/83.8M [00:06&lt;00:00, 11.6MB/s]
+tycho2.json:  89%|████████▉ | 74.8M/83.8M [00:06&lt;00:00, 11.6MB/s]
+tycho2.json:  91%|█████████ | 76.1M/83.8M [00:06&lt;00:00, 11.8MB/s]
+tycho2.json:  92%|█████████▏| 77.4M/83.8M [00:06&lt;00:00, 12.2MB/s]
+tycho2.json:  94%|█████████▍| 78.7M/83.8M [00:06&lt;00:00, 12.2MB/s]
+tycho2.json:  96%|█████████▌| 80.0M/83.8M [00:06&lt;00:00, 12.6MB/s]
+tycho2.json:  97%|█████████▋| 81.4M/83.8M [00:06&lt;00:00, 12.4MB/s]
+tycho2.json:  99%|█████████▉| 82.8M/83.8M [00:06&lt;00:00, 12.9MB/s]
+tycho2.json: 100%|██████████| 83.8M/83.8M [00:06&lt;00:00, 12.2MB/s]
+Elapsed time: 2.74e-01 seconds
 </pre></div>
 </div>
 <p>Plotting the resulting right ascensions and declinations</p>
@@ -624,7 +631,7 @@ Elapsed time: 2.73e-01 seconds
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_star_aberration_001.png" srcset="../../_images/sphx_glr_star_aberration_001.png, ../../_images/sphx_glr_star_aberration_001_2_00x.png 2.00x" alt="Apparent and True Star Positions" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 17.784 seconds)</p>
+<img src="../../_images/sphx_glr_star_aberration_001.png" srcset="../../_images/sphx_glr_star_aberration_001.png, ../../_images/sphx_glr_star_aberration_001_2_00x.png 2.00x" alt="Apparent and True Star Positions" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 17.930 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-04-environment-star-aberration-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/ac2c098fce13a1b2645dd4a578a56501/star_aberration.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">star_aberration.ipynb</span></code></a></p>

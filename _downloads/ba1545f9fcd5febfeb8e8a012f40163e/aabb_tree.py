@@ -191,6 +191,8 @@ def trace_children(pl, ray_origin, ray_direction, boxes, faces_vertices):
 
 
 obj = mr.SpaceObject("stanford_dragon.obj")
+
+
 obj.v = obj.v.astype(np.float32)
 mr.tic("Building AABB")
 boxes = build_boxes(

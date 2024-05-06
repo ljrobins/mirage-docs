@@ -408,6 +408,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="mapping_function.html">Mapping Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="characterize_ccd.html">Characterizing the CCD Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_integration_time.html">Integration Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matched_imgs_gif.html">Digital Twin Animated</a></li>
 <li class="toctree-l2"><a class="reference internal" href="noise_accum_gifs.html">Noise Sampling</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Airy Disk Gaussian Fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_heuristics.html">CCD Heuristics</a></li>
@@ -416,8 +417,8 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="background_shape.html">Background Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaks.html">Streak Detection and Centroiding</a></li>
 <li class="toctree-l2"><a class="reference internal" href="snr.html">Signal-to-Noise Ratio (SNR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synth_image_results.html">Synthetic Image Results</a></li>
 <li class="toctree-l2"><a class="reference internal" href="render_ccd.html">CCD Rendering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="star_matching.html">Star Matching</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../09-models/index.html">3D Models</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -438,6 +439,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/importance_sampling.html">Importance Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/kdtree_vs_balltree.html">KDTree vs BallTree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/computer_graphics_background.html">Graphics Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/model_editor.html">Model Editor</a></li>
 </ul>
@@ -570,8 +572,8 @@ to download the full example code</p>
 <span class="n">mr</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 4.08e-03 seconds
-Elapsed time: 9.82e-04 seconds
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 4.15e-03 seconds
+Elapsed time: 9.59e-04 seconds
 </pre></div>
 </div>
 <p>Let’s look at the volume of both distributions</p>
@@ -579,7 +581,7 @@ Elapsed time: 9.82e-04 seconds
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gaussian volume: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">gaussian_pattern</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Airy disk volume: 965.5956
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Airy disk volume: 965.6006
 Gaussian volume: 838.0000
 </pre></div>
 </div>
@@ -607,7 +609,7 @@ Gaussian volume: 838.0000
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_airy_disk_gaussian_fit_002.png" srcset="../../_images/sphx_glr_airy_disk_gaussian_fit_002.png, ../../_images/sphx_glr_airy_disk_gaussian_fit_002_2_00x.png 2.00x" alt="Airy Diffraction, Gaussian Diffraction" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.687 seconds)</p>
+<img src="../../_images/sphx_glr_airy_disk_gaussian_fit_002.png" srcset="../../_images/sphx_glr_airy_disk_gaussian_fit_002.png, ../../_images/sphx_glr_airy_disk_gaussian_fit_002_2_00x.png 2.00x" alt="Airy Diffraction, Gaussian Diffraction" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.697 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-08-ccd-airy-disk-gaussian-fit-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/b3997876f522560d6fd8a842d93225a1/airy_disk_gaussian_fit.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">airy_disk_gaussian_fit.ipynb</span></code></a></p>

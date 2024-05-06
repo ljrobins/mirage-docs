@@ -23,7 +23,7 @@ AABB Trees
 
 Building an axis-aligned bounding box (AABB) for a given trimesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-210
+.. GENERATED FROM PYTHON SOURCE LINES 7-212
 
 .. code-block:: Python
 
@@ -214,6 +214,8 @@ Building an axis-aligned bounding box (AABB) for a given trimesh
 
 
     obj = mr.SpaceObject("stanford_dragon.obj")
+
+
     obj.v = obj.v.astype(np.float32)
     mr.tic("Building AABB")
     boxes = build_boxes(
@@ -243,16 +245,24 @@ Building an axis-aligned bounding box (AABB) for a given trimesh
 
  .. code-block:: none
 
-    Building AABB: 2.05e+00 seconds
+    Model file stanford_dragon.obj not found in current model folder ('/Users/liamrobinson/Documents/mirage-models/accurate_sats'), checking model repository...
+    Attempting to download stanford_dragon.obj and its associated material file from the model repository...
+    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Non-Convex/stanford_dragon.obj
+    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Non-Convex/stanford_dragon.mtl
+    Model files were downloaded successfully!
+    Attempting to download spacelib.obj and its associated material file from the model repository...
+    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//accurate_sats/spacelib.mtl
+    Model files were downloaded successfully!
+    Building AABB: 2.21e+00 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 211-212
+.. GENERATED FROM PYTHON SOURCE LINES 213-214
 
 Now that we have some boxes, let's see how much faster they make our raytracing
 
-.. GENERATED FROM PYTHON SOURCE LINES 212-239
+.. GENERATED FROM PYTHON SOURCE LINES 214-241
 
 .. code-block:: Python
 
@@ -296,8 +306,8 @@ Now that we have some boxes, let's see how much faster they make our raytracing
 
  .. code-block:: none
 
-    Brute force tracing: 4.15e+00 seconds
-    AABB tracing: 1.60e-02 seconds
+    Brute force tracing: 4.25e+00 seconds
+    AABB tracing: 1.57e-02 seconds
 
 
 
@@ -305,7 +315,7 @@ Now that we have some boxes, let's see how much faster they make our raytracing
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 7.322 seconds)
+   **Total running time of the script:** (0 minutes 9.350 seconds)
 
 
 .. _sphx_glr_download_gallery_09-models_aabb_tree.py:

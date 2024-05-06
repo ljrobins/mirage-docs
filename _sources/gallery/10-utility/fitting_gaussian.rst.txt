@@ -23,7 +23,7 @@ Fitting Gaussians
 
 Let's fit a Gaussian to some scattered data
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-37
+.. GENERATED FROM PYTHON SOURCE LINES 7-39
 
 
 
@@ -59,20 +59,22 @@ Let's fit a Gaussian to some scattered data
         plt.contour(xpts, ypts, prob)
         plt.colorbar()
 
-    data = np.loadtxt(os.path.join(os.environ['SRCDIR'], '..', 'testfitdata.txt'))
+
+    data = np.loadtxt(os.path.join(os.environ["SRCDIR"], "..", "testfitdata.txt"))
 
     rv_mle, inds = mr.fit_2d_gaussian(data, return_used_inds=True)
 
     plt.figure()
-    plt.scatter(data[:, 0], data[:, 1], s=10, c=inds, cmap='cividis')
-    plt.scatter(rv_mle.mean[0], rv_mle.mean[1], marker='x', s=30, c='m')
+    plt.scatter(data[:, 0], data[:, 1], s=10, c=inds, cmap="cividis")
+    plt.scatter(rv_mle.mean[0], rv_mle.mean[1], marker="x", s=30, c="m")
     plt.axis("equal")
     plot_gaussian_fit(rv_mle)
     plt.show()
 
+
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.204 seconds)
+   **Total running time of the script:** (0 minutes 0.206 seconds)
 
 
 .. _sphx_glr_download_gallery_10-utility_fitting_gaussian.py:

@@ -409,6 +409,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/mapping_function.html">Mapping Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/characterize_ccd.html">Characterizing the CCD Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/ccd_integration_time.html">Integration Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-ccd/matched_imgs_gif.html">Digital Twin Animated</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/noise_accum_gifs.html">Noise Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/airy_disk_gaussian_fit.html">Airy Disk Gaussian Fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/ccd_heuristics.html">CCD Heuristics</a></li>
@@ -417,8 +418,8 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/background_shape.html">Background Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/streaks.html">Streak Detection and Centroiding</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/snr.html">Signal-to-Noise Ratio (SNR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-ccd/synth_image_results.html">Synthetic Image Results</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/render_ccd.html">CCD Rendering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../08-ccd/star_matching.html">Star Matching</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../09-models/index.html">3D Models</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -439,6 +440,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/importance_sampling.html">Importance Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/kdtree_vs_balltree.html">KDTree vs BallTree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/computer_graphics_background.html">Graphics Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/model_editor.html">Model Editor</a></li>
 </ul>
@@ -551,8 +553,8 @@ to download the full example code</p>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dec_truth = </span><span class="si">{</span><span class="n">dec_truth</span><span class="si">}</span><span class="s2"> [rad]&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>ra_truth = [6.24680457 5.97702366] [rad]
-dec_truth = [-1.43709025 -1.4741761 ] [rad]
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>ra_truth = [3.53831668 3.57380089] [rad]
+dec_truth = [0.04197313 0.06452282] [rad]
 </pre></div>
 </div>
 <p>To check our work, we should be able to go in the opposite direction to recover the same satellite position vector</p>
@@ -572,8 +574,8 @@ dec_truth = [-1.43709025 -1.4741761 ] [rad]
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dec_obs = </span><span class="si">{</span><span class="n">dec_obs</span><span class="si">}</span><span class="s2"> [rad]&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>ra_obs = [6.24672579 5.97709107] [rad]
-dec_obs = [-1.43714208 -1.4741786 ] [rad]
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>ra_obs = [3.53832137 3.57387542] [rad]
+dec_obs = [0.04195461 0.06449143] [rad]
 </pre></div>
 </div>
 <p>With these observations in hand, we can start to estimate things about the orbit
@@ -631,7 +633,7 @@ This means that the angle between the true position vectors of the object at the
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_restricted_circular_od_001.png" srcset="../../_images/sphx_glr_restricted_circular_od_001.png, ../../_images/sphx_glr_restricted_circular_od_001_2_00x.png 2.00x" alt="restricted circular od" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>a_est = 6809.17986853655 [km]
+<img src="../../_images/sphx_glr_restricted_circular_od_001.png" srcset="../../_images/sphx_glr_restricted_circular_od_001.png, ../../_images/sphx_glr_restricted_circular_od_001_2_00x.png 2.00x" alt="restricted circular od" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>a_est = 6781.721189898425 [km]
 </pre></div>
 </div>
 <p>Now we can find the estimated position vectors at the two observation times</p>
@@ -652,7 +654,7 @@ This means that the angle between the true position vectors of the object at the
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;v_est = </span><span class="si">{</span><span class="n">v_est</span><span class="si">}</span><span class="s2"> [km/s]&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>v_est = [[-6.53848178 -3.61781139  1.64267546]] [km/s]
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>v_est = [[ 4.64470729 -4.52557203  4.08920489]] [km/s]
 </pre></div>
 </div>
 <p>Let’s see how well the estimated orbit matches the measurements</p>
@@ -668,10 +670,10 @@ This means that the angle between the true position vectors of the object at the
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dec_error2 = </span><span class="si">{</span><span class="n">dec_synth2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dec_obs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> [rad]&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>ra_error1 = [0.] [rad]
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>ra_error1 = [-4.4408921e-16] [rad]
 dec_error1 = [0.] [rad]
-ra_error2 = [0.] [rad]
-dec_error2 = [0.] [rad]
+ra_error2 = [-4.4408921e-16] [rad]
+dec_error2 = [2.77555756e-17] [rad]
 </pre></div>
 </div>
 <p>Plotting the orbits</p>
@@ -693,7 +695,7 @@ dec_error2 = [0.] [rad]
 <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_restricted_circular_od_002.png" srcset="../../_images/sphx_glr_restricted_circular_od_002.png" alt="restricted circular od" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>maximum position error = 3050.595812306981 [km]
+<img src="../../_images/sphx_glr_restricted_circular_od_002.png" srcset="../../_images/sphx_glr_restricted_circular_od_002.png" alt="restricted circular od" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>maximum position error = 1512.8125851217826 [km]
 </pre></div>
 </div>
 <p>We could solve for other orbital elements:
@@ -703,7 +705,7 @@ The inclination of the orbit is the angle between the angular momentum vector an
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;i_est = </span><span class="si">{</span><span class="n">i_est</span><span class="si">}</span><span class="s2"> [rad]&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>i_est = 0.9019775800767335 [rad]
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>i_est = 0.9003036676914066 [rad]
 </pre></div>
 </div>
 <p>The cross product of the inertial z-axis with angular momentum vector is the ascending node vector.
@@ -713,7 +715,7 @@ The right ascension of the ascending node is the angle between the ascending nod
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Omega_est = </span><span class="si">{</span><span class="n">Omega_est</span><span class="si">}</span><span class="s2"> [rad]&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Omega_est = 2.810832683071404 [rad]
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Omega_est = 2.8928753461852947 [rad]
 </pre></div>
 </div>
 <p>The argument of latitude is the angle between the ascending node vector and the position vector at the first observation time</p>
@@ -721,10 +723,10 @@ The right ascension of the ascending node is the angle between the ascending nod
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;u_est = </span><span class="si">{</span><span class="n">u_est</span><span class="si">}</span><span class="s2"> [rad]&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>u_est = 1.293602865415901 [rad]
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>u_est = 0.8220003999998319 [rad]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 3.679 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 4.103 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-00-orbits-restricted-circular-od-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/3c5b1ad8ff7a0386a22da52985daecda/restricted_circular_od.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">restricted_circular_od.ipynb</span></code></a></p>

@@ -87,7 +87,7 @@ plt.imshow(
 import os
 
 # urls_and_dirs = {
-#     "https://github.com/liamrobinson1/mirage-resources/raw/main/tycho2.json": os.environ[
+#     "https://github.com/ljrobins/mirage-resources/raw/main/tycho2.json": os.environ[
 #         "DATADIR"
 #     ],
 # }

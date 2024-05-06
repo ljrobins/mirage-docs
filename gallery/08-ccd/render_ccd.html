@@ -50,8 +50,8 @@
     <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Star Matching" href="star_matching.html" />
-    <link rel="prev" title="Signal-to-Noise Ratio (SNR)" href="snr.html" />
+    <link rel="next" title="3D Models" href="../09-models/index.html" />
+    <link rel="prev" title="Synthetic Image Results" href="synth_image_results.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -408,6 +408,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="mapping_function.html">Mapping Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="characterize_ccd.html">Characterizing the CCD Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_integration_time.html">Integration Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matched_imgs_gif.html">Digital Twin Animated</a></li>
 <li class="toctree-l2"><a class="reference internal" href="noise_accum_gifs.html">Noise Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="airy_disk_gaussian_fit.html">Airy Disk Gaussian Fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_heuristics.html">CCD Heuristics</a></li>
@@ -416,8 +417,8 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="background_shape.html">Background Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaks.html">Streak Detection and Centroiding</a></li>
 <li class="toctree-l2"><a class="reference internal" href="snr.html">Signal-to-Noise Ratio (SNR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synth_image_results.html">Synthetic Image Results</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">CCD Rendering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="star_matching.html">Star Matching</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../09-models/index.html">3D Models</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -438,6 +439,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/importance_sampling.html">Importance Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/kdtree_vs_balltree.html">KDTree vs BallTree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/computer_graphics_background.html">Graphics Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/model_editor.html">Model Editor</a></li>
 </ul>
@@ -613,9 +615,10 @@ to download the full example code</p>
 </pre></div>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>WARNING: no observation constraints assigned!
+[647.36759136]
 Objects in frame 1:
 NAVSTAR 81 (USA 319)
-Elapsed time: 2.08e+01 seconds
+Elapsed time: 2.68e+01 seconds
 </pre></div>
 </div>
 <p>Let’s take a look at the real and synthetic CCD images</p>
@@ -666,7 +669,7 @@ Elapsed time: 2.08e+01 seconds
 </pre></div>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Real background variance: 113.7439377206357 [ADU^2]
-Synthetic background variance: 506.45681490839985 [ADU^2]
+Synthetic background variance: 506.216579148781 [ADU^2]
 </pre></div>
 </div>
 <p>Plotting the same, with the parabolic background subtracted from the real image</p>
@@ -725,11 +728,11 @@ Synthetic background variance: 506.45681490839985 [ADU^2]
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_render_ccd_004.png" srcset="../../_images/sphx_glr_render_ccd_004.png, ../../_images/sphx_glr_render_ccd_004_2_00x.png 2.00x" alt="Synthetic backgrounds, Real backgrounds" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Synthetic background: 11.024857422062981 [ADU]
+<img src="../../_images/sphx_glr_render_ccd_004.png" srcset="../../_images/sphx_glr_render_ccd_004.png, ../../_images/sphx_glr_render_ccd_004_2_00x.png 2.00x" alt="Synthetic backgrounds, Real backgrounds" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Synthetic background: 11.028229817295111 [ADU]
 Real background: 5.857372967661838 [ADU]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 47.587 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 55.687 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-08-ccd-render-ccd-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/a5038fd8f348bb936ff32da5a97a38ba/render_ccd.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">render_ccd.ipynb</span></code></a></p>
@@ -752,20 +755,20 @@ Real background: 5.857372967661838 [ADU]
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="snr.html"
+       href="synth_image_results.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Signal-to-Noise Ratio (SNR)</p>
+        <p class="prev-next-title">Synthetic Image Results</p>
       </div>
     </a>
     <a class="right-next"
-       href="star_matching.html"
+       href="../09-models/index.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Star Matching</p>
+        <p class="prev-next-title">3D Models</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

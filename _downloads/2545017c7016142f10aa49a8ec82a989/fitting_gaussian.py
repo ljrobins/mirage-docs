@@ -25,13 +25,14 @@ def plot_gaussian_fit(rv):
     plt.contour(xpts, ypts, prob)
     plt.colorbar()
 
-data = np.loadtxt(os.path.join(os.environ['SRCDIR'], '..', 'testfitdata.txt'))
+
+data = np.loadtxt(os.path.join(os.environ["SRCDIR"], "..", "testfitdata.txt"))
 
 rv_mle, inds = mr.fit_2d_gaussian(data, return_used_inds=True)
 
 plt.figure()
-plt.scatter(data[:, 0], data[:, 1], s=10, c=inds, cmap='cividis')
-plt.scatter(rv_mle.mean[0], rv_mle.mean[1], marker='x', s=30, c='m')
+plt.scatter(data[:, 0], data[:, 1], s=10, c=inds, cmap="cividis")
+plt.scatter(rv_mle.mean[0], rv_mle.mean[1], marker="x", s=30, c="m")
 plt.axis("equal")
 plot_gaussian_fit(rv_mle)
 plt.show()
