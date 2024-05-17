@@ -50,7 +50,7 @@
     <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Precise Star Matching" href="precise_star_matching.html" />
+    <link rel="next" title="Background Shape" href="background_shape.html" />
     <link rel="prev" title="CCD Heuristics" href="ccd_heuristics.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -374,6 +374,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/solar_system.html">Solar System</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/star_catalogs.html">Star Catalogs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/background_importance.html">Background Importance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/reflected_albedo.html">Earth Albedo BRDF</a></li>
@@ -405,25 +406,27 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">CCD Characterization</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="mapping_function.html">Mapping Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="characterize_ccd.html">Characterizing the CCD Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_integration_time.html">Integration Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="matched_imgs_gif.html">Digital Twin Animated</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convolution_streaks.html">Convolution for Streaks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="noise_accum_gifs.html">Noise Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mapping_function.html">Mapping Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matched_imgs_gif.html">Digital Twin Animated</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stars_in_fov.html">Stars in FOV</a></li>
 <li class="toctree-l2"><a class="reference internal" href="airy_disk_gaussian_fit.html">Airy Disk Gaussian Fit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bias_frame.html">Bias Frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_heuristics.html">CCD Heuristics</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Airy Disk Diffraction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="precise_star_matching.html">Precise Star Matching</a></li>
 <li class="toctree-l2"><a class="reference internal" href="background_shape.html">Background Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaks.html">Streak Detection and Centroiding</a></li>
 <li class="toctree-l2"><a class="reference internal" href="snr.html">Signal-to-Noise Ratio (SNR)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="synth_image_results.html">Synthetic Image Results</a></li>
-<li class="toctree-l2"><a class="reference internal" href="render_ccd.html">CCD Rendering</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../09-models/index.html">3D Models</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/introduce_concavity.html">Introducing Concavities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/merge_bracket.html">Shape Interpolation Bracket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/load_with_mtl.html">Loading with MTL Properties</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/merge_biased.html">Merging with Bias</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/shape_interpolation.html">Shape Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/satellite_lineup.html">Satellite Lineup</a></li>
@@ -433,13 +436,13 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../10-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../10-utility/wavelength_to_rgb.html">Wavelength to RGB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/wavelength_to_rgb.html">Wavelength to RGB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/fitting_gaussian.html">Fitting Gaussians</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/kdtree_vs_balltree.html">KDTree vs BallTree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/importance_sampling.html">Importance Sampling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../10-utility/kdtree_vs_balltree.html">KDTree vs BallTree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/computer_graphics_background.html">Graphics Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/model_editor.html">Model Editor</a></li>
 </ul>
@@ -649,11 +652,11 @@ to download the full example code</p>
       </div>
     </a>
     <a class="right-next"
-       href="precise_star_matching.html"
+       href="background_shape.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Precise Star Matching</p>
+        <p class="prev-next-title">Background Shape</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

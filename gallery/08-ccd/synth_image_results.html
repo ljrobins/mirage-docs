@@ -50,7 +50,7 @@
     <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="CCD Rendering" href="render_ccd.html" />
+    <link rel="next" title="3D Models" href="../09-models/index.html" />
     <link rel="prev" title="Signal-to-Noise Ratio (SNR)" href="snr.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -374,6 +374,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/solar_system.html">Solar System</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/star_catalogs.html">Star Catalogs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/background_importance.html">Background Importance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/reflected_albedo.html">Earth Albedo BRDF</a></li>
@@ -405,25 +406,27 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">CCD Characterization</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="mapping_function.html">Mapping Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="characterize_ccd.html">Characterizing the CCD Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_integration_time.html">Integration Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="matched_imgs_gif.html">Digital Twin Animated</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convolution_streaks.html">Convolution for Streaks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="noise_accum_gifs.html">Noise Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mapping_function.html">Mapping Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matched_imgs_gif.html">Digital Twin Animated</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stars_in_fov.html">Stars in FOV</a></li>
 <li class="toctree-l2"><a class="reference internal" href="airy_disk_gaussian_fit.html">Airy Disk Gaussian Fit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bias_frame.html">Bias Frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_heuristics.html">CCD Heuristics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="airy_disk_diffraction.html">Airy Disk Diffraction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="precise_star_matching.html">Precise Star Matching</a></li>
 <li class="toctree-l2"><a class="reference internal" href="background_shape.html">Background Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaks.html">Streak Detection and Centroiding</a></li>
 <li class="toctree-l2"><a class="reference internal" href="snr.html">Signal-to-Noise Ratio (SNR)</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Synthetic Image Results</a></li>
-<li class="toctree-l2"><a class="reference internal" href="render_ccd.html">CCD Rendering</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../09-models/index.html">3D Models</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/introduce_concavity.html">Introducing Concavities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/merge_bracket.html">Shape Interpolation Bracket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/load_with_mtl.html">Loading with MTL Properties</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/merge_biased.html">Merging with Bias</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/shape_interpolation.html">Shape Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/satellite_lineup.html">Satellite Lineup</a></li>
@@ -433,13 +436,13 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../10-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../10-utility/wavelength_to_rgb.html">Wavelength to RGB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/wavelength_to_rgb.html">Wavelength to RGB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/fitting_gaussian.html">Fitting Gaussians</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/kdtree_vs_balltree.html">KDTree vs BallTree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/importance_sampling.html">Importance Sampling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../10-utility/kdtree_vs_balltree.html">KDTree vs BallTree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/computer_graphics_background.html">Graphics Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/model_editor.html">Model Editor</a></li>
 </ul>
@@ -528,8 +531,10 @@ to download the full example code</p>
 
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">colormaps</span> <span class="k">as</span> <span class="n">cm</span>
 
 <span class="kn">import</span> <span class="nn">mirage</span> <span class="k">as</span> <span class="nn">mr</span>
+<span class="kn">import</span> <span class="nn">mirage.vis</span> <span class="k">as</span> <span class="nn">mrv</span>
 <span class="kn">from</span> <span class="nn">digitaltwin</span> <span class="kn">import</span> <span class="n">generate_matched_image</span>
 
 
@@ -538,75 +543,65 @@ to download the full example code</p>
     <span class="n">irrad</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">apparent_magnitude_to_irradiance</span><span class="p">(</span><span class="n">gmag</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">sint</span> <span class="o">*</span> <span class="n">irrad</span> <span class="o">*</span> <span class="n">integration_time_s</span>
 
-
 <span class="n">info_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/2022-09-18_GPS_PRN14/ObservationData.mat&quot;</span>
+<span class="c1"># info_path = &quot;/Users/liamrobinson/Documents/mirage/digitaltwin/data/ObservationData.mat&quot;</span>
 <span class="n">add_distortion</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="n">add_refraction</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="n">limiting_magnitude</span> <span class="o">=</span> <span class="mf">15.0</span>
 <span class="n">station</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">Station</span><span class="p">()</span>
-<span class="n">station</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">fwhm</span> <span class="o">=</span> <span class="mf">2.5</span>
+<span class="n">station</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">fwhm</span> <span class="o">=</span> <span class="mi">3</span>
 <span class="n">mr</span><span class="o">.</span><span class="n">tic</span><span class="p">(</span><span class="s2">&quot;Loading star catalog&quot;</span><span class="p">)</span>
 <span class="n">catalog</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">StarCatalog</span><span class="p">(</span><span class="s2">&quot;gaia&quot;</span><span class="p">,</span> <span class="n">station</span><span class="p">,</span> <span class="n">mr</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="n">aberration</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">mr</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
 
-<span class="n">yaoe</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">800</span>
-<span class="n">xaoe</span> <span class="o">=</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">490</span>
+<span class="n">yaoe1</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">800</span>
+<span class="n">xaoe1</span> <span class="o">=</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">490</span>
+<span class="n">yaoe2</span> <span class="o">=</span> <span class="mi">750</span><span class="p">,</span> <span class="mi">550</span>
+<span class="n">xaoe2</span> <span class="o">=</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">490</span>
 
-<span class="n">res</span> <span class="o">=</span> <span class="n">generate_matched_image</span><span class="p">(</span><span class="n">info_path</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="n">station</span><span class="p">,</span> <span class="n">catalog</span><span class="p">,</span> <span class="n">add_distortion</span><span class="p">,</span> <span class="n">add_refraction</span><span class="p">,</span> <span class="n">limiting_magnitude</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">generate_matched_image</span><span class="p">(</span>
+    <span class="n">info_path</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="n">station</span><span class="p">,</span> <span class="n">catalog</span><span class="p">,</span> <span class="n">add_distortion</span><span class="p">,</span> <span class="n">add_refraction</span><span class="p">,</span> <span class="n">limiting_magnitude</span>
+<span class="p">)</span>
 <span class="n">data_mat</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;data_mat&quot;</span><span class="p">]</span>
 <span class="n">sint_synth</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">sint</span><span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">data_mat</span><span class="p">[</span><span class="s2">&quot;el_rad_true&quot;</span><span class="p">])</span>
 
 <span class="n">n</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="o">**</span><span class="n">res</span><span class="p">)</span>
 
-<span class="n">in_aoe</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">expected_stars_corrected</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">xaoe</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">expected_stars_corrected</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">xaoe</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">expected_stars_corrected</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">yaoe</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">expected_stars_corrected</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">yaoe</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">star_aoe</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">expected_stars_corrected</span><span class="p">[</span><span class="n">in_aoe</span><span class="p">,:]</span>
-<span class="n">star_aoe</span> <span class="o">=</span> <span class="n">star_aoe</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">star_aoe</span><span class="p">[:,</span><span class="o">-</span><span class="mi">2</span><span class="p">]),</span> <span class="p">:]</span>
-<span class="n">gmag_aoe</span> <span class="o">=</span> <span class="n">star_aoe</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
-<span class="n">irrad_aoe</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">apparent_magnitude_to_irradiance</span><span class="p">(</span><span class="n">gmag_aoe</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">fit_adu_of_irrad</span><span class="p">(</span><span class="n">irrad_aoe</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">img</span><span class="p">))</span>
-
-<span class="n">img_sym_prepared</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">img_sym</span><span class="p">)</span>
+<span class="n">br_variance</span> <span class="o">=</span> <span class="mi">175</span>
+<span class="n">img_sym_prepared</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">img_sym</span> <span class="o">+</span> <span class="n">br_variance</span><span class="p">)</span> <span class="o">-</span> <span class="n">br_variance</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">))</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">matched_irrad</span><span class="p">,</span> <span class="n">n</span><span class="o">.</span><span class="n">matched_adu</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">matched_irrad</span><span class="p">,</span> <span class="n">n</span><span class="o">.</span><span class="n">fit_adu_of_irrad</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">matched_irrad</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">matched_irrad</span><span class="p">,</span> <span class="n">n</span><span class="o">.</span><span class="n">matched_adu</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Irradiance [W/m^2]&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;ADU&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s2">&quot;Data&quot;</span><span class="p">,</span> <span class="s2">&quot;Best linear fit&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s2">&quot;Best linear fit&quot;</span><span class="p">,</span> <span class="s2">&quot;Data&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_synth_image_results_001.png" srcset="../../_images/sphx_glr_synth_image_results_001.png, ../../_images/sphx_glr_synth_image_results_001_2_00x.png 2.00x" alt="synth image results" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Loading star catalog: 2.13e+00 seconds
+<img src="../../_images/sphx_glr_synth_image_results_001.png" srcset="../../_images/sphx_glr_synth_image_results_001.png, ../../_images/sphx_glr_synth_image_results_001_2_00x.png 2.00x" alt="synth image results" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Loading star catalog: 2.05e+00 seconds
 Applying 1.14e-02 deg of refraction
+21.85958272934199 28.073689770007547
+[21.5079697, 28.0521493]
 BEFORE QUEST: median error 84.73 pixels
 Performing the QUEST fit with 158 stars
 Applying a 0.02 degree rotation to the telescope orientation
 AFTER QUEST: median error 1.21 pixels
 Objects in frame 1:
 NAVSTAR 80 (USA 309)
-Synthesizing CCD Image: 1.22e+00 seconds
-2174352.371275218
-965
+Synthesizing CCD Image: 1.36e+00 seconds
 
-&lt;matplotlib.legend.Legend object at 0x34d91e8d0&gt;
+&lt;matplotlib.legend.Legend object at 0x30ffdc650&gt;
 </pre></div>
 </div>
 <p>Overlaying the two images</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">n</span><span class="o">.</span><span class="n">img</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">img</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-<span class="n">n</span><span class="o">.</span><span class="n">img</span><span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">img</span> <span class="o">&lt;=</span> <span class="mi">999</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1000</span>
-<span class="n">n</span><span class="o">.</span><span class="n">img</span> <span class="o">-=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">999</span><span class="p">)</span>
-
-<span class="c1"># n.img_sym = n.img_sym.astype(float)</span>
-<span class="c1"># n.img = n.img.astype(float)</span>
-<span class="c1"># n.img_sym -= mr.image_background_parabola(n.img_sym)</span>
-<span class="c1"># n.img -= mr.image_background_parabola(n.img)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">img_sym</span><span class="p">[</span><span class="n">yaoe</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span><span class="n">yaoe</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xaoe</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">xaoe</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">img</span><span class="p">[</span><span class="n">yaoe</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span><span class="n">yaoe</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xaoe</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">xaoe</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
-<span class="c1"># endd</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># br_val = 1000 # for the geo obs</span>
+<span class="n">br_val</span> <span class="o">=</span> <span class="mi">1005</span> <span class="c1"># For the gps obs</span>
+<span class="n">n</span><span class="o">.</span><span class="n">img</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">img</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">n</span><span class="o">.</span><span class="n">img</span><span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">img</span> <span class="o">&lt;=</span> <span class="n">br_val</span><span class="p">]</span> <span class="o">=</span> <span class="n">br_val</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">n</span><span class="o">.</span><span class="n">img</span> <span class="o">-=</span> <span class="n">br_val</span>
 
 <span class="n">img_prepared</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">img</span><span class="p">)</span>
 
@@ -626,66 +621,83 @@ Synthesizing CCD Image: 1.22e+00 seconds
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$y$ pixel error&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
 
+<span class="c1"># img_prepared_sub = img_prepared[1000:2000, 1000:2000]</span>
+<span class="c1"># img_sym_prepared_sub = img_sym_prepared[1000:2000, 1000:2000]</span>
+<span class="n">img_prepared_sub</span> <span class="o">=</span> <span class="n">img_prepared</span>
+<span class="n">img_sym_prepared_sub</span> <span class="o">=</span> <span class="n">img_sym_prepared</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_prepared</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_sym_prepared</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray_r&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
-    <span class="n">n</span><span class="o">.</span><span class="n">expected_stars_corrected</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
-    <span class="n">n</span><span class="o">.</span><span class="n">expected_stars_corrected</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
-    <span class="n">c</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span>
-    <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span>
-    <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
-    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Expected centroids&quot;</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
-    <span class="n">n</span><span class="o">.</span><span class="n">stars_found</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
-    <span class="n">n</span><span class="o">.</span><span class="n">stars_found</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
-    <span class="n">c</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">,</span>
-    <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
-    <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Observed centroids&quot;</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="n">clim_obs</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">img_prepared</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">img_prepared</span><span class="p">)]</span>
-<span class="n">clim_sym</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">img_sym_prepared</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">img_sym_prepared</span><span class="p">)]</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_prepared</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">clim</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">img_sym_prepared</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">img_sym_prepared</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\log_</span><span class="si">{10}</span><span class="s2">\left(\text</span><span class="si">{ADU}</span><span class="s2">\right)$&quot;</span><span class="p">)</span>
+<span class="n">clim_obs</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">img_prepared_sub</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">img_prepared_sub</span><span class="p">)]</span>
+<span class="n">clim_sym</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">img_sym_prepared_sub</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">img_sym_prepared_sub</span><span class="p">)]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_prepared_sub</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Observed&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">clim</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">img_sym_prepared_sub</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">img_sym_prepared_sub</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\log_</span><span class="si">{10}</span><span class="s2">\left(\text</span><span class="si">{ADU}</span><span class="s2">\right)$&quot;</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">mrv</span><span class="o">.</span><span class="n">get_cbar_ax</span><span class="p">())</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_sym_prepared</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\log_</span><span class="si">{10}</span><span class="s2">\left(\text</span><span class="si">{ADU}</span><span class="s2">\right)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_sym_prepared_sub</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Synthetic&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\log_</span><span class="si">{10}</span><span class="s2">\left(\text</span><span class="si">{ADU}</span><span class="s2">\right)$&quot;</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">mrv</span><span class="o">.</span><span class="n">get_cbar_ax</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
 <ul class="sphx-glr-horizontal">
 <li><img src="../../_images/sphx_glr_synth_image_results_002.png" srcset="../../_images/sphx_glr_synth_image_results_002.png, ../../_images/sphx_glr_synth_image_results_002_2_00x.png 2.00x" alt="synth image results" class = "sphx-glr-multi-img"/></li>
-<li><img src="../../_images/sphx_glr_synth_image_results_003.png" srcset="../../_images/sphx_glr_synth_image_results_003.png, ../../_images/sphx_glr_synth_image_results_003_2_00x.png 2.00x" alt="synth image results" class = "sphx-glr-multi-img"/></li>
-<li><img src="../../_images/sphx_glr_synth_image_results_004.png" srcset="../../_images/sphx_glr_synth_image_results_004.png, ../../_images/sphx_glr_synth_image_results_004_2_00x.png 2.00x" alt="Observed" class = "sphx-glr-multi-img"/></li>
-<li><img src="../../_images/sphx_glr_synth_image_results_005.png" srcset="../../_images/sphx_glr_synth_image_results_005.png, ../../_images/sphx_glr_synth_image_results_005_2_00x.png 2.00x" alt="Synthetic" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_synth_image_results_003.png" srcset="../../_images/sphx_glr_synth_image_results_003.png, ../../_images/sphx_glr_synth_image_results_003_2_00x.png 2.00x" alt="Observed, Synthetic" class = "sphx-glr-multi-img"/></li>
 </ul>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>2358954.5603832416
-3372972
-
-Text(0.5, 1.0, &#39;Synthetic&#39;)
-</pre></div>
-</div>
 <p>Subtracting the two images</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">adu_err</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">img_sym</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span> <span class="o">-</span> <span class="n">n</span><span class="o">.</span><span class="n">img</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
-<span class="n">adu_err_stdev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">adu_err</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">img</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">adu_err_stdev</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;plasma&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">clim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;ADU error standard deviations&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">*</span><span class="n">xaoe</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">*</span><span class="n">yaoe</span><span class="p">)</span>
+<span class="n">adu_err_stdev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">adu_err</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">img_sym</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s1">&#39;plasma&#39;</span><span class="p">)</span>
+<span class="n">max_sigma</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">adu_err_stdev</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">clim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_sigma</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">*</span><span class="n">xaoe2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">*</span><span class="n">yaoe2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;x [pix]&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;y [pix]&quot;</span><span class="p">)</span>
+<span class="c1"># plt.colorbar(label=&quot;ADU error standard deviations&quot;, cax=mrv.get_cbar_ax())</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">adu_err_stdev</span><span class="p">[</span><span class="n">yaoe2</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span><span class="n">yaoe2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xaoe2</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">xaoe2</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+<span class="n">n</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">patches</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="n">max_sigma</span><span class="p">),</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">bin_centers</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">bins</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">bins</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+<span class="n">col</span> <span class="o">=</span> <span class="n">bin_centers</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">bin_centers</span><span class="p">)</span>
+<span class="n">col</span> <span class="o">/=</span> <span class="nb">max</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">patches</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s1">&#39;facecolor&#39;</span><span class="p">,</span> <span class="n">cm</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+
+<span class="n">mrv</span><span class="o">.</span><span class="n">texit</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;Error $\sigma$&quot;</span><span class="p">,</span> <span class="s2">&quot;Density&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">adu_err_stdev</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">clim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_sigma</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">*</span><span class="n">xaoe1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">*</span><span class="n">yaoe1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;x [pix]&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;y [pix]&quot;</span><span class="p">)</span>
+<span class="c1"># plt.colorbar(label=&quot;ADU error standard deviations&quot;, cax=mrv.get_cbar_ax())</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">adu_err_stdev</span><span class="p">[</span><span class="n">yaoe1</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span><span class="n">yaoe1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xaoe1</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">xaoe1</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">n</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">patches</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="n">max_sigma</span><span class="p">),</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">bin_centers</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">bins</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">bins</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+<span class="n">col</span> <span class="o">=</span> <span class="n">bin_centers</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">bin_centers</span><span class="p">)</span>
+<span class="n">col</span> <span class="o">/=</span> <span class="nb">max</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">patches</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s1">&#39;facecolor&#39;</span><span class="p">,</span> <span class="n">cm</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+
+<span class="n">mrv</span><span class="o">.</span><span class="n">texit</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;Error $\sigma$&quot;</span><span class="p">,</span> <span class="s2">&quot;Density&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_synth_image_results_006.png" srcset="../../_images/sphx_glr_synth_image_results_006.png, ../../_images/sphx_glr_synth_image_results_006_2_00x.png 2.00x" alt="synth image results" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 13.203 seconds)</p>
+<img src="../../_images/sphx_glr_synth_image_results_004.png" srcset="../../_images/sphx_glr_synth_image_results_004.png, ../../_images/sphx_glr_synth_image_results_004_2_00x.png 2.00x" alt="synth image results" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 16.626 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-08-ccd-synth-image-results-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/5685126ba656f3924ad4b7437e8a1028/synth_image_results.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">synth_image_results.ipynb</span></code></a></p>
@@ -717,11 +729,11 @@ Text(0.5, 1.0, &#39;Synthetic&#39;)
       </div>
     </a>
     <a class="right-next"
-       href="render_ccd.html"
+       href="../09-models/index.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">CCD Rendering</p>
+        <p class="prev-next-title">3D Models</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

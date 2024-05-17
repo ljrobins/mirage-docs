@@ -50,8 +50,8 @@
     <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="CCD Heuristics" href="ccd_heuristics.html" />
-    <link rel="prev" title="Noise Sampling" href="noise_accum_gifs.html" />
+    <link rel="next" title="Bias Frames" href="bias_frame.html" />
+    <link rel="prev" title="Stars in FOV" href="stars_in_fov.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -374,6 +374,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/solar_system.html">Solar System</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/star_catalogs.html">Star Catalogs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/background_importance.html">Background Importance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/reflected_albedo.html">Earth Albedo BRDF</a></li>
@@ -405,25 +406,27 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">CCD Characterization</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="mapping_function.html">Mapping Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="characterize_ccd.html">Characterizing the CCD Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_integration_time.html">Integration Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="matched_imgs_gif.html">Digital Twin Animated</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convolution_streaks.html">Convolution for Streaks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="noise_accum_gifs.html">Noise Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mapping_function.html">Mapping Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matched_imgs_gif.html">Digital Twin Animated</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stars_in_fov.html">Stars in FOV</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Airy Disk Gaussian Fit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bias_frame.html">Bias Frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_heuristics.html">CCD Heuristics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="airy_disk_diffraction.html">Airy Disk Diffraction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="precise_star_matching.html">Precise Star Matching</a></li>
 <li class="toctree-l2"><a class="reference internal" href="background_shape.html">Background Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaks.html">Streak Detection and Centroiding</a></li>
 <li class="toctree-l2"><a class="reference internal" href="snr.html">Signal-to-Noise Ratio (SNR)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="synth_image_results.html">Synthetic Image Results</a></li>
-<li class="toctree-l2"><a class="reference internal" href="render_ccd.html">CCD Rendering</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../09-models/index.html">3D Models</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/introduce_concavity.html">Introducing Concavities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/merge_bracket.html">Shape Interpolation Bracket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/load_with_mtl.html">Loading with MTL Properties</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/merge_biased.html">Merging with Bias</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/shape_interpolation.html">Shape Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/satellite_lineup.html">Satellite Lineup</a></li>
@@ -433,13 +436,13 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../10-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../10-utility/wavelength_to_rgb.html">Wavelength to RGB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/wavelength_to_rgb.html">Wavelength to RGB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/fitting_gaussian.html">Fitting Gaussians</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/kdtree_vs_balltree.html">KDTree vs BallTree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/importance_sampling.html">Importance Sampling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../10-utility/kdtree_vs_balltree.html">KDTree vs BallTree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/computer_graphics_background.html">Graphics Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/model_editor.html">Model Editor</a></li>
 </ul>
@@ -572,8 +575,8 @@ to download the full example code</p>
 <span class="n">mr</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 4.15e-03 seconds
-Elapsed time: 9.59e-04 seconds
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 5.51e-03 seconds
+Elapsed time: 1.31e-03 seconds
 </pre></div>
 </div>
 <p>Let’s look at the volume of both distributions</p>
@@ -581,7 +584,7 @@ Elapsed time: 9.59e-04 seconds
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gaussian volume: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">gaussian_pattern</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Airy disk volume: 965.6006
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Airy disk volume: 965.5957
 Gaussian volume: 838.0000
 </pre></div>
 </div>
@@ -609,7 +612,7 @@ Gaussian volume: 838.0000
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_airy_disk_gaussian_fit_002.png" srcset="../../_images/sphx_glr_airy_disk_gaussian_fit_002.png, ../../_images/sphx_glr_airy_disk_gaussian_fit_002_2_00x.png 2.00x" alt="Airy Diffraction, Gaussian Diffraction" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.697 seconds)</p>
+<img src="../../_images/sphx_glr_airy_disk_gaussian_fit_002.png" srcset="../../_images/sphx_glr_airy_disk_gaussian_fit_002.png, ../../_images/sphx_glr_airy_disk_gaussian_fit_002_2_00x.png 2.00x" alt="Airy Diffraction, Gaussian Diffraction" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.865 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-08-ccd-airy-disk-gaussian-fit-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/b3997876f522560d6fd8a842d93225a1/airy_disk_gaussian_fit.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">airy_disk_gaussian_fit.ipynb</span></code></a></p>
@@ -632,20 +635,20 @@ Gaussian volume: 838.0000
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="noise_accum_gifs.html"
+       href="stars_in_fov.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Noise Sampling</p>
+        <p class="prev-next-title">Stars in FOV</p>
       </div>
     </a>
     <a class="right-next"
-       href="ccd_heuristics.html"
+       href="bias_frame.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">CCD Heuristics</p>
+        <p class="prev-next-title">Bias Frames</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

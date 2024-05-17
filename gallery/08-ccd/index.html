@@ -50,7 +50,7 @@
     <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Mapping Model" href="mapping_function.html" />
+    <link rel="next" title="Characterizing the CCD Background" href="characterize_ccd.html" />
     <link rel="prev" title="Live Satellites From Observer" href="../07-observer/local_hemisphere.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -374,6 +374,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/solar_system.html">Solar System</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/star_catalogs.html">Star Catalogs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/background_importance.html">Background Importance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/reflected_albedo.html">Earth Albedo BRDF</a></li>
@@ -405,25 +406,27 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">CCD Characterization</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="mapping_function.html">Mapping Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="characterize_ccd.html">Characterizing the CCD Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_integration_time.html">Integration Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="matched_imgs_gif.html">Digital Twin Animated</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convolution_streaks.html">Convolution for Streaks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="noise_accum_gifs.html">Noise Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mapping_function.html">Mapping Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matched_imgs_gif.html">Digital Twin Animated</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stars_in_fov.html">Stars in FOV</a></li>
 <li class="toctree-l2"><a class="reference internal" href="airy_disk_gaussian_fit.html">Airy Disk Gaussian Fit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bias_frame.html">Bias Frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_heuristics.html">CCD Heuristics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="airy_disk_diffraction.html">Airy Disk Diffraction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="precise_star_matching.html">Precise Star Matching</a></li>
 <li class="toctree-l2"><a class="reference internal" href="background_shape.html">Background Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaks.html">Streak Detection and Centroiding</a></li>
 <li class="toctree-l2"><a class="reference internal" href="snr.html">Signal-to-Noise Ratio (SNR)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="synth_image_results.html">Synthetic Image Results</a></li>
-<li class="toctree-l2"><a class="reference internal" href="render_ccd.html">CCD Rendering</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../09-models/index.html">3D Models</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/introduce_concavity.html">Introducing Concavities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/merge_bracket.html">Shape Interpolation Bracket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/load_with_mtl.html">Loading with MTL Properties</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/merge_biased.html">Merging with Bias</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/shape_interpolation.html">Shape Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/satellite_lineup.html">Satellite Lineup</a></li>
@@ -433,13 +436,13 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../10-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../10-utility/wavelength_to_rgb.html">Wavelength to RGB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/wavelength_to_rgb.html">Wavelength to RGB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/fitting_gaussian.html">Fitting Gaussians</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/kdtree_vs_balltree.html">KDTree vs BallTree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/importance_sampling.html">Importance Sampling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../10-utility/kdtree_vs_balltree.html">KDTree vs BallTree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/computer_graphics_background.html">Graphics Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/model_editor.html">Model Editor</a></li>
 </ul>
@@ -514,33 +517,39 @@ document.write(`
                   
   <section id="ccd-characterization">
 <span id="sphx-glr-gallery-08-ccd"></span><h1>CCD Characterization<a class="headerlink" href="#ccd-characterization" title="Link to this heading">#</a></h1>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Modeling the shape of the CCD image"><img alt="" src="../../_images/sphx_glr_mapping_function_thumb.png" />
-<p><a class="reference internal" href="mapping_function.html#sphx-glr-gallery-08-ccd-mapping-function-py"><span class="std std-ref">Mapping Model</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Mapping Model</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Saving background parabola information for the POGS CCD"><img alt="" src="../../_images/sphx_glr_characterize_ccd_thumb.png" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Saving background parabola information for the POGS CCD"><img alt="" src="../../_images/sphx_glr_characterize_ccd_thumb.png" />
 <p><a class="reference internal" href="characterize_ccd.html#sphx-glr-gallery-08-ccd-characterize-ccd-py"><span class="std std-ref">Characterizing the CCD Background</span></a></p>
   <div class="sphx-glr-thumbnail-title">Characterizing the CCD Background</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Integration Time"><img alt="" src="../../_images/sphx_glr_ccd_integration_time_thumb.png" />
 <p><a class="reference internal" href="ccd_integration_time.html#sphx-glr-gallery-08-ccd-ccd-integration-time-py"><span class="std std-ref">Integration Time</span></a></p>
   <div class="sphx-glr-thumbnail-title">Integration Time</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="An animated gif of the real and simulated images taken by POGS"><img alt="" src="../../_images/sphx_glr_matched_imgs_gif_thumb.gif" />
-<p><a class="reference internal" href="matched_imgs_gif.html#sphx-glr-gallery-08-ccd-matched-imgs-gif-py"><span class="std std-ref">Digital Twin Animated</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Digital Twin Animated</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Convolution for Streaks"><img alt="" src="../../_images/sphx_glr_convolution_streaks_thumb.png" />
+<p><a class="reference internal" href="convolution_streaks.html#sphx-glr-gallery-08-ccd-convolution-streaks-py"><span class="std std-ref">Convolution for Streaks</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Convolution for Streaks</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plots the accumulation of noise in the CCD due to integration noise, readout noise, and truncat..."><img alt="" src="../../_images/sphx_glr_noise_accum_gifs_thumb.gif" />
 <p><a class="reference internal" href="noise_accum_gifs.html#sphx-glr-gallery-08-ccd-noise-accum-gifs-py"><span class="std std-ref">Noise Sampling</span></a></p>
   <div class="sphx-glr-thumbnail-title">Noise Sampling</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Modeling the shape of the CCD image"><img alt="" src="../../_images/sphx_glr_mapping_function_thumb.png" />
+<p><a class="reference internal" href="mapping_function.html#sphx-glr-gallery-08-ccd-mapping-function-py"><span class="std std-ref">Mapping Model</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Mapping Model</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="An animated gif of the real and simulated images taken by POGS"><img alt="" src="../../_images/sphx_glr_matched_imgs_gif_thumb.png" />
+<p><a class="reference internal" href="matched_imgs_gif.html#sphx-glr-gallery-08-ccd-matched-imgs-gif-py"><span class="std std-ref">Digital Twin Animated</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Digital Twin Animated</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Computing which stars are in the field of view"><img alt="" src="../../_images/sphx_glr_stars_in_fov_thumb.png" />
+<p><a class="reference internal" href="stars_in_fov.html#sphx-glr-gallery-08-ccd-stars-in-fov-py"><span class="std std-ref">Stars in FOV</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Stars in FOV</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Airy Disk Gaussian Fit"><img alt="" src="../../_images/sphx_glr_airy_disk_gaussian_fit_thumb.png" />
 <p><a class="reference internal" href="airy_disk_gaussian_fit.html#sphx-glr-gallery-08-ccd-airy-disk-gaussian-fit-py"><span class="std std-ref">Airy Disk Gaussian Fit</span></a></p>
   <div class="sphx-glr-thumbnail-title">Airy Disk Gaussian Fit</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Characterizing the background bias of the POGS CCD"><img alt="" src="../../_images/sphx_glr_bias_frame_thumb.png" />
+<p><a class="reference internal" href="bias_frame.html#sphx-glr-gallery-08-ccd-bias-frame-py"><span class="std std-ref">Bias Frames</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Bias Frames</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Examples to develop a better intuition for CCD counts from known sources"><img alt="" src="../../_images/sphx_glr_ccd_heuristics_thumb.png" />
 <p><a class="reference internal" href="ccd_heuristics.html#sphx-glr-gallery-08-ccd-ccd-heuristics-py"><span class="std std-ref">CCD Heuristics</span></a></p>
   <div class="sphx-glr-thumbnail-title">CCD Heuristics</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Airy Disk Diffraction"><img alt="" src="../../_images/sphx_glr_airy_disk_diffraction_thumb.png" />
 <p><a class="reference internal" href="airy_disk_diffraction.html#sphx-glr-gallery-08-ccd-airy-disk-diffraction-py"><span class="std std-ref">Airy Disk Diffraction</span></a></p>
   <div class="sphx-glr-thumbnail-title">Airy Disk Diffraction</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Using processed data to match the pixel positions of stars in a CCD image"><img alt="" src="../../_images/sphx_glr_precise_star_matching_thumb.png" />
-<p><a class="reference internal" href="precise_star_matching.html#sphx-glr-gallery-08-ccd-precise-star-matching-py"><span class="std std-ref">Precise Star Matching</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Precise Star Matching</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Inspecting the shape of the background in a POGS CCD image"><img alt="" src="../../_images/sphx_glr_background_shape_thumb.png" />
 <p><a class="reference internal" href="background_shape.html#sphx-glr-gallery-08-ccd-background-shape-py"><span class="std std-ref">Background Shape</span></a></p>
   <div class="sphx-glr-thumbnail-title">Background Shape</div>
@@ -553,9 +562,6 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="Comparison plots for the synthetic and real images"><img alt="" src="../../_images/sphx_glr_synth_image_results_thumb.png" />
 <p><a class="reference internal" href="synth_image_results.html#sphx-glr-gallery-08-ccd-synth-image-results-py"><span class="std std-ref">Synthetic Image Results</span></a></p>
   <div class="sphx-glr-thumbnail-title">Synthetic Image Results</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Renders a synthetic CCD image of an observation taken by the POGS telescope"><img alt="" src="../../_images/sphx_glr_render_ccd_thumb.png" />
-<p><a class="reference internal" href="render_ccd.html#sphx-glr-gallery-08-ccd-render-ccd-py"><span class="std std-ref">CCD Rendering</span></a></p>
-  <div class="sphx-glr-thumbnail-title">CCD Rendering</div>
 </div></div><div class="toctree-wrapper compound">
 </div>
 </section>
@@ -580,11 +586,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="mapping_function.html"
+       href="characterize_ccd.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Mapping Model</p>
+        <p class="prev-next-title">Characterizing the CCD Background</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

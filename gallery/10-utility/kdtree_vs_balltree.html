@@ -51,8 +51,8 @@
     <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Graphics Background" href="computer_graphics_background.html" />
-    <link rel="prev" title="Importance Sampling" href="importance_sampling.html" />
+    <link rel="next" title="Samplers" href="samplers.html" />
+    <link rel="prev" title="Fitting Gaussians" href="fitting_gaussian.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -375,6 +375,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/solar_system.html">Solar System</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/star_catalogs.html">Star Catalogs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/background_importance.html">Background Importance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/reflected_albedo.html">Earth Albedo BRDF</a></li>
@@ -406,25 +407,27 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../08-ccd/index.html">CCD Characterization</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../08-ccd/mapping_function.html">Mapping Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/characterize_ccd.html">Characterizing the CCD Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/ccd_integration_time.html">Integration Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../08-ccd/matched_imgs_gif.html">Digital Twin Animated</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-ccd/convolution_streaks.html">Convolution for Streaks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/noise_accum_gifs.html">Noise Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-ccd/mapping_function.html">Mapping Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-ccd/matched_imgs_gif.html">Digital Twin Animated</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-ccd/stars_in_fov.html">Stars in FOV</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/airy_disk_gaussian_fit.html">Airy Disk Gaussian Fit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-ccd/bias_frame.html">Bias Frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/ccd_heuristics.html">CCD Heuristics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/airy_disk_diffraction.html">Airy Disk Diffraction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../08-ccd/precise_star_matching.html">Precise Star Matching</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/background_shape.html">Background Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/streaks.html">Streak Detection and Centroiding</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/snr.html">Signal-to-Noise Ratio (SNR)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/synth_image_results.html">Synthetic Image Results</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../08-ccd/render_ccd.html">CCD Rendering</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../09-models/index.html">3D Models</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/introduce_concavity.html">Introducing Concavities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/merge_bracket.html">Shape Interpolation Bracket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-models/load_with_mtl.html">Loading with MTL Properties</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/merge_biased.html">Merging with Bias</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/shape_interpolation.html">Shape Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/satellite_lineup.html">Satellite Lineup</a></li>
@@ -434,13 +437,13 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Utility</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="wavelength_to_rgb.html">Wavelength to RGB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fitting_poisson_process.html">Fitting Poisson Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wavelength_to_rgb.html">Wavelength to RGB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fitting_gaussian.html">Fitting Gaussians</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">KDTree vs BallTree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="importance_sampling.html">Importance Sampling</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">KDTree vs BallTree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="computer_graphics_background.html">Graphics Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="model_editor.html">Model Editor</a></li>
 </ul>
@@ -533,36 +536,6 @@ to download the full example code</p>
 <span class="kn">import</span> <span class="nn">mirage</span> <span class="k">as</span> <span class="nn">mr</span>
 <span class="kn">import</span> <span class="nn">mirage.vis</span> <span class="k">as</span> <span class="nn">mrv</span>
 
-
-<span class="k">def</span> <span class="nf">plot_kdtree</span><span class="p">(</span><span class="n">pl</span><span class="p">:</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">,</span> <span class="n">tree</span><span class="p">):</span>
-    <span class="n">tree_data</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">tree_nodes</span><span class="p">,</span> <span class="n">node_bounds</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">get_arrays</span><span class="p">()</span>
-
-    <span class="n">bounds_boxes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">node_bounds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">6</span><span class="p">))</span> <span class="c1"># xmin, xmax, ymin, ymax</span>
-    <span class="n">bounds_boxes</span><span class="p">[:,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">]]</span> <span class="o">=</span> <span class="n">node_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">,:,:]</span>
-    <span class="n">bounds_boxes</span><span class="p">[:,[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">]]</span> <span class="o">=</span> <span class="n">node_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">,:,:]</span>
-
-    <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span>
-        <span class="n">pv</span><span class="o">.</span><span class="n">MultiBlock</span><span class="p">([</span><span class="n">pv</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span><span class="n">bound</span><span class="p">)</span> <span class="k">for</span> <span class="n">bound</span> <span class="ow">in</span> <span class="n">bounds_boxes</span><span class="p">]),</span>
-        <span class="n">line_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="n">style</span><span class="o">=</span><span class="s2">&quot;wireframe&quot;</span><span class="p">,</span>
-        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">plot_balltree</span><span class="p">(</span><span class="n">pl</span><span class="p">:</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">,</span> <span class="n">tree</span><span class="p">):</span>
-    <span class="n">tree_data</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">tree_nodes</span><span class="p">,</span> <span class="n">node_bounds</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">get_arrays</span><span class="p">()</span>
-    <span class="n">centers</span> <span class="o">=</span> <span class="n">node_bounds</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
-
-    <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span>
-        <span class="n">pv</span><span class="o">.</span><span class="n">MultiBlock</span><span class="p">([</span><span class="n">pv</span><span class="o">.</span><span class="n">Sphere</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">r</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-                                 <span class="n">center</span><span class="o">=</span><span class="n">b</span><span class="p">,</span>
-                                 <span class="n">theta_resolution</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
-                                 <span class="n">phi_resolution</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">tree_nodes</span><span class="p">,</span> <span class="n">centers</span><span class="p">)]),</span>
-        <span class="n">opacity</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
-        <span class="n">style</span><span class="o">=</span><span class="s1">&#39;wireframe&#39;</span><span class="p">,</span>
-        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
-        <span class="n">line_width</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
-    <span class="p">)</span>
-
 <span class="n">obj</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">SpaceObject</span><span class="p">(</span><span class="s2">&quot;stanford_bunny.obj&quot;</span><span class="p">)</span>
 <span class="n">pts</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">face_centroids</span>
 
@@ -579,17 +552,9 @@ to download the full example code</p>
 <span class="n">mr</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Model file stanford_bunny.obj not found in current model folder (&#39;/Users/liamrobinson/Documents/mirage/mirage/resources/models&#39;), checking model repository...
-Attempting to download stanford_bunny.obj and its associated material file from the model repository...
-Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//accurate_sats/stanford_bunny.obj
-Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//accurate_sats/stanford_bunny.mtl
-Model files were downloaded successfully!
-Attempting to download spacelib.obj and its associated material file from the model repository...
-Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//accurate_sats/spacelib.mtl
-Model files were downloaded successfully!
-sklearn KDTree build: 1.59e-03 seconds
-sklearn BallTree build: 1.59e-03 seconds
-scipy KDTree build: 1.73e-03 seconds
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>sklearn KDTree build: 1.76e-03 seconds
+sklearn BallTree build: 1.78e-03 seconds
+scipy KDTree build: 2.77e-03 seconds
 </pre></div>
 </div>
 <p>Querying benchmarks</p>
@@ -607,25 +572,25 @@ scipy KDTree build: 1.73e-03 seconds
 <span class="n">mr</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 3.91e-01 seconds
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Elapsed time: 3.89e-01 seconds
 Elapsed time: 2.64e-01 seconds
-Elapsed time: 6.00e-01 seconds
+Elapsed time: 6.34e-01 seconds
 </pre></div>
 </div>
 <p>KDTree</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">window_size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="mi">1080</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="mi">720</span><span class="p">))</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">window_size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">1080</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">720</span><span class="p">))</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">(</span><span class="mf">4.0</span><span class="p">)</span>
 <span class="n">mrv</span><span class="o">.</span><span class="n">render_spaceobject</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
-<span class="n">plot_kdtree</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">kt</span><span class="p">)</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">plot_kdtree</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">kt</span><span class="p">)</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 <span class="c1"># $$</span>
 <span class="c1"># BallTree</span>
 
-<span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">window_size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="mi">1080</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="mi">720</span><span class="p">))</span>
+<span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">window_size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">1080</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">720</span><span class="p">))</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">(</span><span class="mf">4.0</span><span class="p">)</span>
 <span class="n">mrv</span><span class="o">.</span><span class="n">render_spaceobject</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
-<span class="n">plot_balltree</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">bt</span><span class="p">)</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">plot_balltree</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">bt</span><span class="p">)</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -633,7 +598,7 @@ Elapsed time: 6.00e-01 seconds
 <li><img src="../../_images/sphx_glr_kdtree_vs_balltree_001.png" srcset="../../_images/sphx_glr_kdtree_vs_balltree_001.png" alt="kdtree vs balltree" class = "sphx-glr-multi-img"/></li>
 <li><img src="../../_images/sphx_glr_kdtree_vs_balltree_002.png" srcset="../../_images/sphx_glr_kdtree_vs_balltree_002.png" alt="kdtree vs balltree" class = "sphx-glr-multi-img"/></li>
 </ul>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 4.390 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 3.899 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-10-utility-kdtree-vs-balltree-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/fddb833463b7c8fbc97a88f68bc7ec80/kdtree_vs_balltree.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">kdtree_vs_balltree.ipynb</span></code></a></p>
@@ -656,20 +621,20 @@ Elapsed time: 6.00e-01 seconds
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="importance_sampling.html"
+       href="fitting_gaussian.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Importance Sampling</p>
+        <p class="prev-next-title">Fitting Gaussians</p>
       </div>
     </a>
     <a class="right-next"
-       href="computer_graphics_background.html"
+       href="samplers.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Graphics Background</p>
+        <p class="prev-next-title">Samplers</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

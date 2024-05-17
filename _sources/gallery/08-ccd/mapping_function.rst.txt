@@ -27,7 +27,7 @@ Modeling the shape of the CCD image
 
 It's important to understand where each pixel in the CCD originates from in the far field
 
-.. GENERATED FROM PYTHON SOURCE LINES 10-36
+.. GENERATED FROM PYTHON SOURCE LINES 10-37
 
 .. code-block:: Python
 
@@ -50,13 +50,14 @@ It's important to understand where each pixel in the CCD originates from in the 
 
     dist = np.sqrt((x - xd) ** 2 + (y - yx) ** 2)
 
+    plt.figure()
     plt.imshow(dist, cmap="cool")
     plt.colorbar(label="Apparent Distance from Pinhole Model [pix]")
     cp = plt.contour(dist, levels=[0.01, 0.1, 1, 2, 4, 7], colors="k")
     plt.clabel(cp, inline=True, fontsize=14)
     plt.title("POGS Pixel Distortion")
     plt.tight_layout()
-    plt.show()
+
 
 
 
@@ -70,7 +71,62 @@ It's important to understand where each pixel in the CCD originates from in the 
 
  .. code-block:: none
 
-    Mapping: 2.07e+00 seconds
+    Mapping: 2.60e+00 seconds
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 38-39
+
+Corner of the image principal lines
+
+.. GENERATED FROM PYTHON SOURCE LINES 39-74
+
+.. code-block:: Python
+
+    look_dir = np.array([[1.0, 0.0, 0.0]])
+    up_dir = np.array([[0.0, 0.0, 1.0]])
+
+    plt.figure()
+    for v in np.arange(0, 101, 10):
+        px = np.arange(0, 101, 10)
+        py = np.full_like(px, v)
+
+        for x, y in zip([px, py], [py, px]):
+            uvs = station.telescope.pixels_to_j2000_unit_vectors(
+                look_dir, up_dir, np.vstack((x, y)).T
+            )
+            pxd, pyd = station.telescope.j2000_unit_vectors_to_pixels(
+                look_dir, up_dir, uvs, add_distortion=True
+            )
+            kwargs = {}
+            if v != 0 and v != 100:
+                kwargs["alpha"] = 0.15
+                plt.scatter(pxd, pyd, c="m", marker="+", **kwargs)
+                plt.scatter(x, y, c="k", marker="+", **kwargs)
+            plt.plot(x, y, c="k", **kwargs)
+            plt.plot(pxd, pyd, c="m", **kwargs)
+
+    plt.gca().invert_yaxis()
+    plt.xlabel("x [pixels]")
+    plt.ylabel("y [pixels]")
+    plt.legend(
+        ["Distorted", "Undistorted"],
+        loc="upper center",
+        bbox_to_anchor=(0.5, 1.10),
+        ncol=2,
+        fancybox=True,
+        shadow=True,
+    )
+    plt.show()
+
+
+
+.. image-sg:: /gallery/08-ccd/images/sphx_glr_mapping_function_002.png
+   :alt: mapping function
+   :srcset: /gallery/08-ccd/images/sphx_glr_mapping_function_002.png, /gallery/08-ccd/images/sphx_glr_mapping_function_002_2_00x.png 2.00x
+   :class: sphx-glr-single-img
+
 
 
 
@@ -78,7 +134,7 @@ It's important to understand where each pixel in the CCD originates from in the 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 5.627 seconds)
+   **Total running time of the script:** (0 minutes 6.169 seconds)
 
 
 .. _sphx_glr_download_gallery_08-ccd_mapping_function.py:

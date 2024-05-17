@@ -9,7 +9,7 @@ import numpy as np
 
 import mirage as mr
 
-z_obs = np.pi / 4  # Point the telescope towards zenith
+z_obs = 0.0  # Point the telescope towards zenith
 station = mr.Station(preset="pogs")
 projected_irrad_per_pixel_area = mr.dms_to_rad(
     0, 0, station.telescope.pixel_scale
