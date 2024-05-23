@@ -38,9 +38,9 @@ sun_in_body = mr.stack_mat_mult_vec(c, sat_sun)
 obs_in_body = mr.stack_mat_mult_vec(c, sat_nadir)
 
 pl = pv.Plotter()
-pl.open_gif("aligned_and_constrained.gif")
+pl.open_gif("aligned_and_constrained.gif", fps=20)
 
-mrv.plot3(pl, r, color="cyan")
+mrv.plot3(pl, r, color="cyan", line_width=10)
 
 omesh = obj._mesh.copy()
 cdist = 300
@@ -48,13 +48,17 @@ pdist = cdist / 4
 psize = 30
 pl._on_first_render_request()
 pl.render()
+cam_light = pv.Light(
+    color="white", attenuation_values=(0.0, 0.01, 0.0), positional=True
+)
+
 for i in range(data_points - 1):
     pl.camera.position = (
         r[i, :] - cdist * sat_nadir[i, :] + cdist / 10 * orbit_normal[i, :]
     )
     pl.camera.focal_point = r[i, :]
     mrv.render_spaceobject(
-        pl, obj, origin=r[i, :], scale=1, opacity=1.0, quat=quat[i, :], lighting=False
+        pl, obj, origin=r[i, :], scale=5, opacity=1.0, quat=quat[i, :], lighting=True
     )
     mrv.plot_arrow(pl, r[i, :], v1[i, :], scale=pdist, name="arr_v1")
     mrv.plot_arrow(pl, r[i, :], v2[i, :], scale=pdist, name="arr_v2")
@@ -69,6 +73,11 @@ for i in range(data_points - 1):
         label="Sun",
     )
     mrv.plot_earth(pl, date=date_space[i], atmosphere=True, night_lights=True)
+    cam_light.position = pl.camera.position
+    cam_light.focal_point = pl.camera.focal_point
+    if i == 0:
+        pl.add_light(cam_light)
+
     pl.write_frame()
     obj._mesh.copy_from(omesh)
 pl.close()

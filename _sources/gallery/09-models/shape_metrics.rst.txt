@@ -44,19 +44,6 @@ Using Frueh and Oliker's delta-neighborhood metric to compare shapes.
 
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    Model file gem.obj not found in current model folder ('/Users/liamrobinson/Documents/mirage-models/accurate_sats'), checking model repository...
-    Attempting to download gem.obj and its associated material file from the model repository...
-    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Irregular/gem.obj
-    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Irregular/gem.mtl
-    Model files were downloaded successfully!
-    Attempting to download spacelib.obj and its associated material file from the model repository...
-    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//accurate_sats/spacelib.mtl
-    Model files were downloaded successfully!
-
 
 
 
@@ -65,21 +52,10 @@ Using Frueh and Oliker's delta-neighborhood metric to compare shapes.
 We need to find the in-sphere and out-sphere of the object. This optimization problem ends up boiling down to the
 location and radius of each sphere. Equivalently, we can just optimize the location of the origin to maximize the minimum support
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-119
+.. GENERATED FROM PYTHON SOURCE LINES 23-80
 
 .. code-block:: Python
 
-
-    # mr.set_profile_dt_threshold(1e-5)
-    # @mr.with_profiler
-    # def profile_me():
-    #     p2 = mr.SpaceObject('cube.obj')
-
-    # mr.tic()
-    # profile_me()
-    # mr.toc()
-    # mr.print_profiling_results()
-    # endd
 
 
     def compute_in_sphere(p: mr.SpaceObject) -> Tuple[np.ndarray, float]:
@@ -90,7 +66,6 @@ location and radius of each sphere. Equivalently, we can just optimize the locat
         def in_sphere_objective(x):
             p2 = mr.SpaceObject(vertices_and_faces=(p.v.copy() - x, p.f.copy()))
             return -np.min(p2.supports)
-            # return np.max(mr.vecnorm(p.dual.v - x))
 
         solver_kwargs = dict(jac="3-point", method="BFGS")
         in_sol = minimize(in_sphere_objective, np.zeros(3), **solver_kwargs)
@@ -121,17 +96,6 @@ location and radius of each sphere. Equivalently, we can just optimize the locat
     print(in_solx, in_solr)
     print(out_solx, out_solr)
 
-    # in_sphere = mr.SpaceObject("sphere_uv.obj")
-    # out_sphere = mr.SpaceObject("sphere_uv.obj")
-    # del out_sphere.file_name
-    # del in_sphere.file_name
-
-    print(in_solr)
-    print(out_solr)
-
-    # in_sphere._mesh.points = in_sphere._mesh.points * (-in_solr) + in_solx
-    # out_sphere._mesh.points = out_sphere._mesh.points * out_solr + out_solx
-
 
     def delta_neighborhood(p1: mr.SpaceObject, p2: mr.SpaceObject) -> float:
         _, R1 = compute_out_sphere(p1)
@@ -143,34 +107,18 @@ location and radius of each sphere. Equivalently, we can just optimize the locat
         return ctilde
 
 
-    # print(delta_neighborhood(p, p))
-
     pl = pv.Plotter()
-    mrv.render_spaceobject(pl, p.dual, opacity=0.8)
-    sph_out = mr.SpaceObject("sphere_uv.obj")
-    sph_out.v = sph_out.v * out_solr + out_solx
-    sph_out = mr.SpaceObject(vertices_and_faces=(sph_out.v, sph_out.f))
-
-    sph_in = mr.SpaceObject("sphere_uv.obj")
-    sph_in.v = sph_in.v * in_solr + in_solx
-    sph_in = mr.SpaceObject(vertices_and_faces=(sph_in.v, sph_in.f))
-    # mrv.two_sphere(pl, 1/in_solr, in_solx, color='r', opacity=0.3)
-    # mrv.two_sphere(pl, 1/out_solr, out_solx, color='b', opacity=0.3)
-    mrv.render_spaceobject(pl, sph_out.dual, opacity=0.3, color="b")
-    mrv.render_spaceobject(pl, sph_in.dual, opacity=0.3, color="r")
-
-
-    # mrv.render_spaceobject(pl, p, opacity=0.8)
-    # mrv.two_sphere(pl, -in_solr, in_solx, color='r', opacity=0.3)
-    # mrv.two_sphere(pl, out_solr, out_solx, color='b', opacity=0.3)
-    # mrv.orbit_plotter(pl)
+    mrv.render_spaceobject(pl, p, opacity=0.8)
+    mrv.two_sphere(pl, -in_solr, in_solx, color="r", opacity=0.3)
+    mrv.two_sphere(pl, out_solr, out_solx, color="b", opacity=0.3)
+    mrv.orbit_plotter(pl)
     pl.show()
 
 
 
-.. image-sg:: /gallery/09-models/images/sphx_glr_shape_metrics_001.png
+.. image-sg:: /gallery/09-models/images/sphx_glr_shape_metrics_001.gif
    :alt: shape metrics
-   :srcset: /gallery/09-models/images/sphx_glr_shape_metrics_001.png
+   :srcset: /gallery/09-models/images/sphx_glr_shape_metrics_001.gif
    :class: sphx-glr-single-img
 
 
@@ -178,12 +126,10 @@ location and radius of each sphere. Equivalently, we can just optimize the locat
 
  .. code-block:: none
 
-    Optimizing in-sphere: 3.63e-01 seconds
-    Optimizing out-sphere: 1.64e-02 seconds
+    Optimizing in-sphere: 4.50e-01 seconds
+    Optimizing out-sphere: 2.49e-02 seconds
     [0.20002671 0.19999049 0.06628717] 0.4371330964719045
     [0.19999979 0.2        0.20000005] 0.8669241446166784
-    0.4371330964719045
-    0.8669241446166784
 
 
 
@@ -191,7 +137,7 @@ location and radius of each sphere. Equivalently, we can just optimize the locat
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.327 seconds)
+   **Total running time of the script:** (0 minutes 5.691 seconds)
 
 
 .. _sphx_glr_download_gallery_09-models_shape_metrics.py:

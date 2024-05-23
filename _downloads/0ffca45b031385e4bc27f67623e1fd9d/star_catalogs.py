@@ -95,3 +95,29 @@ axs[1].set_aspect("equal")
 
 plt.tight_layout()
 plt.show()
+
+# %%
+# Star Aberration
+
+t2 = mr.load_json_data("tycho2.json")
+alpha_rad, delta_rad = t2["j2000_ra"], t2["j2000_dec"]
+mr.tic()
+alpha_rad_app, delta_rad_app = mr.apparent_star_positons(
+    mr.now(), station.lat_geod_rad, alpha_rad, delta_rad
+)
+mr.toc()
+
+# %%
+# Plotting the resulting right ascensions and declinations
+
+plt.scatter(np.rad2deg(alpha_rad), np.rad2deg(delta_rad), s=2)
+plt.scatter(np.rad2deg(alpha_rad_app), np.rad2deg(delta_rad_app), s=2)
+plt.xlim(0, 1)
+plt.ylim(0, 1)
+mrv.texit(
+    "Apparent and True Star Positions",
+    "Right ascension [deg]",
+    "Declination [deg]",
+    ["True", "Apparent"],
+)
+plt.show()

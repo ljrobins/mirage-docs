@@ -48,7 +48,7 @@ Comparing various methods for propagating torque-free rigid-body motion
     q0 = mr.rand_quaternions(ni)
     w0 = mr.rand_unit_vectors(ni)
     mr.tic()
-    q_par = mr.propagate_attitude_torque_free_axisymmetric(
+    q_par, _ = mr.propagate_attitude_torque_free_axisymmetric(
         q0, w0, itensor, np.linspace(0, 1, nt)
     )
     dt = mr.toc(return_elapsed_seconds=True)
@@ -62,7 +62,7 @@ Comparing various methods for propagating torque-free rigid-body motion
     print(f"Generalized form: {nt * 1 / dt:.2e} [quats/sec]")
 
     err = np.max(
-        np.abs(mr.quat_upper_hemisphere(q_ana) - mr.quat_upper_hemisphere(q_par[:, :, 0]))
+        np.abs(mr.quat_upper_hemisphere(q_ana) - mr.quat_upper_hemisphere(q_par[0, :, :]))
     )
     print(f"Max quaternion error: {err}")
 
@@ -74,9 +74,9 @@ Comparing various methods for propagating torque-free rigid-body motion
 
  .. code-block:: none
 
-    Axisymmetric form: 6.18e+06 [quats/sec]
-    Generalized form: 1.33e+06 [quats/sec]
-    Max quaternion error: 1.3415729471777382e-08
+    Axisymmetric form: 2.71e+06 [quats/sec]
+    Generalized form: 2.88e+06 [quats/sec]
+    Max quaternion error: 0.0
 
 
 
@@ -155,7 +155,7 @@ Let's test a whole grid of options to stress test these methods
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 7.907 seconds)
+   **Total running time of the script:** (0 minutes 10.148 seconds)
 
 
 .. _sphx_glr_download_gallery_06-attitude_torque_free_axisymmetric.py:

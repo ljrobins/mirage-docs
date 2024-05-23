@@ -69,11 +69,11 @@ Initializing and querying star catalogs
 
  .. code-block:: none
 
-    Loading Gaia: 2.29e+00 seconds
-    Loading Tycho-2: 3.32e-01 seconds
-    Finding stars in frame for Tycho-2: 3.87e-03 seconds
+    Loading Gaia: 2.10e+00 seconds
+    Loading Tycho-2: 3.06e-01 seconds
+    Finding stars in frame for Tycho-2: 4.45e-03 seconds
     Tycho-2 found 17 stars in frame
-    Finding stars in frame for Gaia: 5.93e-04 seconds
+    Finding stars in frame for Gaia: 5.47e-04 seconds
     Gaia found 79 stars in frame
 
 
@@ -120,7 +120,7 @@ Plotting the FOV stars
 
 Plotting a heatmap of the RA/Dec of both catalogs with seaborn
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-98
+.. GENERATED FROM PYTHON SOURCE LINES 62-99
 
 .. code-block:: Python
 
@@ -163,6 +163,7 @@ Plotting a heatmap of the RA/Dec of both catalogs with seaborn
 
 
 
+
 .. image-sg:: /gallery/04-environment/images/sphx_glr_star_catalogs_002.png
    :alt: Tycho-2, Gaia
    :srcset: /gallery/04-environment/images/sphx_glr_star_catalogs_002.png, /gallery/04-environment/images/sphx_glr_star_catalogs_002_2_00x.png 2.00x
@@ -172,10 +173,72 @@ Plotting a heatmap of the RA/Dec of both catalogs with seaborn
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 100-101
+
+Star Aberration
+
+.. GENERATED FROM PYTHON SOURCE LINES 101-110
+
+.. code-block:: Python
+
+
+    t2 = mr.load_json_data("tycho2.json")
+    alpha_rad, delta_rad = t2["j2000_ra"], t2["j2000_dec"]
+    mr.tic()
+    alpha_rad_app, delta_rad_app = mr.apparent_star_positons(
+        mr.now(), station.lat_geod_rad, alpha_rad, delta_rad
+    )
+    mr.toc()
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    Elapsed time: 2.83e-01 seconds
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 111-112
+
+Plotting the resulting right ascensions and declinations
+
+.. GENERATED FROM PYTHON SOURCE LINES 112-124
+
+.. code-block:: Python
+
+
+    plt.scatter(np.rad2deg(alpha_rad), np.rad2deg(delta_rad), s=2)
+    plt.scatter(np.rad2deg(alpha_rad_app), np.rad2deg(delta_rad_app), s=2)
+    plt.xlim(0, 1)
+    plt.ylim(0, 1)
+    mrv.texit(
+        "Apparent and True Star Positions",
+        "Right ascension [deg]",
+        "Declination [deg]",
+        ["True", "Apparent"],
+    )
+    plt.show()
+
+
+
+.. image-sg:: /gallery/04-environment/images/sphx_glr_star_catalogs_003.png
+   :alt: Apparent and True Star Positions
+   :srcset: /gallery/04-environment/images/sphx_glr_star_catalogs_003.png, /gallery/04-environment/images/sphx_glr_star_catalogs_003_2_00x.png 2.00x
+   :class: sphx-glr-single-img
+
+
+
+
+
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 20.980 seconds)
+   **Total running time of the script:** (0 minutes 33.543 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_star_catalogs.py:

@@ -91,7 +91,7 @@ Loading the CCD image
 
 Plotting the background values as a function of the distance from the center of the image
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-61
+.. GENERATED FROM PYTHON SOURCE LINES 36-64
 
 .. code-block:: Python
 
@@ -99,7 +99,10 @@ Plotting the background values as a function of the distance from the center of 
     im_center = np.array(ccd_adu.shape) / 2
     x_pix, y_pix = np.meshgrid(np.arange(ccd_adu.shape[1]), np.arange(ccd_adu.shape[0]))
     r_dist = np.sqrt((x_pix - im_center[0]) ** 2 + (y_pix - im_center[1]) ** 2)
+
+    mr.tic("Parabola estimation")
     im_br_parabola = mr.image_background_parabola(ccd_adu)
+    mr.toc()
 
     x = r_dist[br_mask_naive][::1000]
     y_real = ccd_adu[br_mask_naive][::1000]
@@ -129,14 +132,20 @@ Plotting the background values as a function of the distance from the center of 
    :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    Parabola estimation: 1.63e-02 seconds
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-63
+
+.. GENERATED FROM PYTHON SOURCE LINES 65-66
 
 Plotting the parabolic fit to the background
 
-.. GENERATED FROM PYTHON SOURCE LINES 63-68
+.. GENERATED FROM PYTHON SOURCE LINES 66-71
 
 .. code-block:: Python
 
@@ -157,11 +166,11 @@ Plotting the parabolic fit to the background
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 69-70
+.. GENERATED FROM PYTHON SOURCE LINES 72-73
 
 Plotting the residual noise after accounting for the image background, compared to a Poisson fit
 
-.. GENERATED FROM PYTHON SOURCE LINES 70-88
+.. GENERATED FROM PYTHON SOURCE LINES 73-91
 
 .. code-block:: Python
 
@@ -196,12 +205,12 @@ Plotting the residual noise after accounting for the image background, compared 
 
  .. code-block:: none
 
-    Residual variance: 189.92398261676226 [ADU^2]]
+    Residual variance: 189.76045641215504 [ADU^2]]
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 90-120
+.. GENERATED FROM PYTHON SOURCE LINES 93-123
 
 .. code-block:: Python
 
@@ -257,7 +266,7 @@ Plotting the residual noise after accounting for the image background, compared 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 25.420 seconds)
+   **Total running time of the script:** (0 minutes 24.021 seconds)
 
 
 .. _sphx_glr_download_gallery_08-ccd_background_shape.py:

@@ -608,7 +608,7 @@ The surface BRDF function used here is found in <a class="reference external" hr
 <dd><p>Body basis vectors in inertial coordinates</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>nx1</em><em>]</em>) – Dates (UTC)</p>
+<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>n</em><em>,</em><em>]</em>) – Dates (UTC)</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>First, second, and third body basis vectors in inertial coordinates</p>
@@ -625,13 +625,13 @@ The surface BRDF function used here is found in <a class="reference external" hr
 <dd><p>DCM from inertial to body axes</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dates_or_jds</strong> (<em>np.ndarray</em><em>[</em><em>Union</em><em>[</em><em>datetime.datetime</em><em>, </em><em>float</em><em>]</em><em>] </em><em>[</em><em>nx1</em><em>]</em>) – Dates or Julian dates (UTC)</p>
+<dd class="field-odd"><p><strong>dates_or_jds</strong> (<em>np.ndarray</em><em>[</em><em>Union</em><em>[</em><em>datetime.datetime</em><em>, </em><em>float</em><em>]</em><em>] </em><em>[</em><em>n</em><em>,</em><em>]</em>) – Dates or Julian dates (UTC)</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>DCM array</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [3x3xn]</p>
+<dd class="field-odd"><p>np.ndarray [3,3xn]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -642,13 +642,13 @@ The surface BRDF function used here is found in <a class="reference external" hr
 <dd><p>Propagates the attitude profile to an array of epoch seconds</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>epsecs</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Seconds after the definition epoch</p>
+<dd class="field-odd"><p><strong>epsecs</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Seconds after the definition epoch</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Quaternion and angular velocity [rad/s] at each requested time</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple[np.ndarray [nx4], np.ndarray [nx3]]</p>
+<dd class="field-odd"><p>tuple[np.ndarray [n,4], np.ndarray [n,3]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -738,7 +738,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd class="field-even"><p>Stack of DCMs <span class="math notranslate nohighlight">\(A_i\)</span> which each transform inertial vectors into the body frame via multiplication on the left</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [3x3xn]</p>
+<dd class="field-odd"><p>np.ndarray [3,3xn]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -755,7 +755,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd class="field-even"><p>Orientation of body over time as a quaternion and body frame angular velocity</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Tuple[np.ndarray [nx4], np.ndarray [nx3]]</p>
+<dd class="field-odd"><p>Tuple[np.ndarray [n,4], np.ndarray [n,3]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -772,13 +772,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Returns the set of basis vectors in the inertial frame at a given Julian date, used for plotting</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>jd_eval</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Julian dates to evaluate at</p>
+<dd class="field-odd"><p><strong>jd_eval</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Julian dates to evaluate at</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Unit vector bases at each time</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Tuple[np.ndarray [nx3], np.ndarray [nx3], np.ndarray [nx3]]</p>
+<dd class="field-odd"><p>Tuple[np.ndarray [n,3], np.ndarray [n,3], np.ndarray [n,3]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -789,13 +789,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>DCM from inertial to body axes</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dates_or_jds</strong> (<em>np.ndarray</em><em>[</em><em>Union</em><em>[</em><em>datetime.datetime</em><em>, </em><em>float</em><em>]</em><em>] </em><em>[</em><em>nx1</em><em>]</em>) – Dates or Julian dates to evaluate at (UTC)</p>
+<dd class="field-odd"><p><strong>dates_or_jds</strong> (<em>np.ndarray</em><em>[</em><em>Union</em><em>[</em><em>datetime.datetime</em><em>, </em><em>float</em><em>]</em><em>] </em><em>[</em><em>n</em><em>,</em><em>]</em>) – Dates or Julian dates to evaluate at (UTC)</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>DCMs</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [3x3xn]</p>
+<dd class="field-odd"><p>np.ndarray [3,3xn]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -806,13 +806,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Propagates the attitude profile to an array of epoch seconds</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>epsecs</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Seconds after the definition epoch</p>
+<dd class="field-odd"><p><strong>epsecs</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Seconds after the definition epoch</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Quaternion and angular velocity [rad/s] at each requested time</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple[np.ndarray [nx4], np.ndarray [nx3]]</p>
+<dd class="field-odd"><p>tuple[np.ndarray [n,4], np.ndarray [n,3]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -826,9 +826,9 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>omega0</strong> (<em>np.ndarray</em><em> [</em><em>3x1</em><em>]</em>) – Initial angular velocity in body frame [rad/s]</p></li>
-<li><p><strong>itensor</strong> (<em>np.ndarray</em><em> [</em><em>3x1</em><em>]</em>) – Principal moments of inertia satisfying <cite>i[3,3] &lt; i[2,2] &lt; i[1,1]</cite> [kg m^2]</p></li>
-<li><p><strong>teval</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Times to compute angular velocity for after initial state time [seconds]</p></li>
+<li><p><strong>omega0</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Initial angular velocity in body frame [rad/s]</p></li>
+<li><p><strong>itensor</strong> (<em>np.ndarray</em><em> [</em><em>3</em><em>,</em><em>3</em><em>]</em>) – Principal moments of inertia satisfying <cite>i[3,3] &lt; i[2,2] &lt; i[1,1]</cite> [kg m^2]</p></li>
+<li><p><strong>teval</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Times to compute angular velocity for after initial state time [seconds]</p></li>
 <li><p><strong>itensor_org_factor</strong> (<em>int</em><em>, </em><em>optional</em>) – If inertia tensor was reorganized with an even or odd number of flips, defaults to 1</p></li>
 </ul>
 </dd>
@@ -836,7 +836,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd class="field-even"><p>Angular velocity [rad/s]; <span class="math notranslate nohighlight">\(k^2\)</span> term of elliptic integral, <span class="math notranslate nohighlight">\(\tau_0\)</span>, <span class="math notranslate nohighlight">\(\dot{\tau}\)</span>; short-axis model (SAM) flag</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Tuple[np.ndarray [3x1], float, float, float, bool]</p>
+<dd class="field-odd"><p>Tuple[np.ndarray [n,3], float, float, float, bool]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -849,9 +849,9 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>quat0</strong> (<em>np.ndarray</em><em> [</em><em>4x1</em><em>]</em>) – Quaternion from the body frame to inertial at initial time step</p></li>
-<li><p><strong>omega</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Body angular velocities at each point in <cite>teval</cite> [rad/s]</p></li>
-<li><p><strong>itensor</strong> (<em>np.ndarray</em><em> [</em><em>3x3</em><em>]</em>) – Principal inertia tensor satisfying <cite>itensor[0,0] &lt;= itensor[1,1] &lt;= itensor[2,2]</cite> [kg m^2]</p></li>
-<li><p><strong>teval</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Times to output attitude soliution at, <cite>teval[0]</cite> corresponds to <cite>quat0</cite> and <cite>omega[0,:]</cite></p></li>
+<li><p><strong>omega</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Body angular velocities at each point in <cite>teval</cite> [rad/s]</p></li>
+<li><p><strong>itensor</strong> (<em>np.ndarray</em><em> [</em><em>3</em><em>,</em><em>3</em><em>]</em>) – Principal inertia tensor satisfying <cite>itensor[0,0] &lt;= itensor[1,1] &lt;= itensor[2,2]</cite> [kg m^2]</p></li>
+<li><p><strong>teval</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Times to output attitude soliution at, <cite>teval[0]</cite> corresponds to <cite>quat0</cite> and <cite>omega[0,:]</cite></p></li>
 <li><p><strong>ksquared</strong> (<em>float</em>) – <span class="math notranslate nohighlight">\(k^2\)</span> parameter from the angular velocity propagation</p></li>
 <li><p><strong>tau0</strong> (<em>float</em>) – Initial value of :math:`       au` from the angular velocity propagation</p></li>
 <li><p><strong>tau_dot</strong> (<em>float</em>) – Rate of change of :math:`   au` from the angular velocity propagation</p></li>
@@ -864,7 +864,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd class="field-even"><p>Propagated quaternions at each time in <cite>teval</cite></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx1]</p>
+<dd class="field-odd"><p>np.ndarray [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -895,13 +895,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Finds the Euler angle (3-1-3) body frame sequence corresponding to the input direction cosine matrices</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dcm</strong> (<em>np.ndarray</em><em> [</em><em>3x3xn</em><em>]</em>) – DCM array</p>
+<dd class="field-odd"><p><strong>dcm</strong> (<em>np.ndarray</em><em> [</em><em>3</em><em>,</em><em>3xn</em><em>]</em>) – DCM array</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Euler angle array</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -912,13 +912,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Converts direction cosine matrices to modified Rodrigues parameters via quaternions</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>c</strong> (<em>np.ndarray</em><em> [</em><em>3x3xn</em><em>]</em>) – Direction cosine matrix array</p>
+<dd class="field-odd"><p><strong>c</strong> (<em>np.ndarray</em><em> [</em><em>3</em><em>,</em><em>3xn</em><em>]</em>) – Direction cosine matrix array</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>MRP array</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -929,13 +929,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Converts DCMs to quaternions using Sheppard’s method</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>c</strong> (<em>np.ndarray</em><em> [</em><em>3x3xn</em><em>]</em>) – Input DCM array</p>
+<dd class="field-odd"><p><strong>c</strong> (<em>np.ndarray</em><em> [</em><em>3</em><em>,</em><em>3xn</em><em>]</em>) – Input DCM array</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Computed quaternions</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx4]</p>
+<dd class="field-odd"><p>np.ndarray [n,4]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -946,13 +946,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Converts DCMs to rotation vectors by way of quaternions</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>c</strong> (<em>np.ndarray</em><em> [</em><em>3x3xn</em><em>]</em>) – Input DCM array</p>
+<dd class="field-odd"><p><strong>c</strong> (<em>np.ndarray</em><em> [</em><em>3</em><em>,</em><em>3xn</em><em>]</em>) – Input DCM array</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Computed rotation vectors</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -965,16 +965,16 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>seq</strong> (<em>Tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>]</em>) – Axes to rotate about, ex: (1,2,3) gives 1-2-3 sequence</p></li>
-<li><p><strong>a1</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – First rotation angle [rad]</p></li>
-<li><p><strong>a2</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Second rotation angle [rad]</p></li>
-<li><p><strong>a3</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Third rotation angle [rad]</p></li>
+<li><p><strong>a1</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – First rotation angle [rad]</p></li>
+<li><p><strong>a2</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Second rotation angle [rad]</p></li>
+<li><p><strong>a3</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Third rotation angle [rad]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Computed DCMs</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [3x3xn]</p>
+<dd class="field-odd"><p>np.ndarray [3,3xn]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -986,7 +986,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>itensor</strong> (<em>np.ndarray</em><em> [</em><em>3x3</em><em>]</em>) – Inertia tensor in body axes [kg m^2]</p></li>
+<li><p><strong>itensor</strong> (<em>np.ndarray</em><em> [</em><em>3</em><em>,</em><em>3</em><em>]</em>) – Inertia tensor in body axes [kg m^2]</p></li>
 <li><p><strong>rvec</strong> (<em>np.ndarray</em><em> [</em><em>1x3</em><em>]</em>) – Position vector of body [km]</p></li>
 <li><p><strong>mu</strong> (<em>float</em><em>, </em><em>optional</em>) – Gravitational parameter of central body, defaults to AstroConstants.earth_mu</p></li>
 </ul>
@@ -1009,15 +1009,15 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>q0</strong> (<em>np.ndarray</em><em> [</em><em>1x4</em><em>]</em>) – Initial quaternion from inertial to body frame</p></li>
 <li><p><strong>omega0</strong> (<em>np.ndarray</em><em> [</em><em>1x3</em><em>]</em>) – Initial angular velocity vector of body relative to inertial space [rad/s]</p></li>
-<li><p><strong>itensor</strong> (<em>np.ndarray</em><em> [</em><em>3x3</em><em>]</em>) – Principal inertia tensor [kg m^2]</p></li>
-<li><p><strong>teval</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Times to return integrated trajectory at [second]</p></li>
+<li><p><strong>itensor</strong> (<em>np.ndarray</em><em> [</em><em>3</em><em>,</em><em>3</em><em>]</em>) – Principal inertia tensor [kg m^2]</p></li>
+<li><p><strong>teval</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Times to return integrated trajectory at [second]</p></li>
 <li><p><strong>body_torque</strong> (<em>Callable</em><em>, </em><em>optional</em>) – Body torques function <cite>f(t,y) -&gt; [3,]</cite> [Nm], defaults to <cite>np.zeros(3)</cite></p></li>
 <li><p><strong>int_tol</strong> (<em>float</em><em>, </em><em>optional</em>) – Integration rtol and atol for RK45, defaults to 1e-13</p></li>
 <li><p><strong>method</strong> (<em>str</em><em>, </em><em>optional</em>) – <code class="docutils literal notranslate"><span class="pre">scipy.integrate.solve_ivp</span></code> method keyword argument to use, defaults to ‘RK45’</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Integrated quaternions [nx4]; integrated angular velocities [nx3]</p>
+<dd class="field-even"><p>Integrated quaternions [n,4]; integrated angular velocities [n,3]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Tuple[np.ndarray, np.ndarray]</p>
@@ -1026,21 +1026,26 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="mirage.attitude.itensor_is_symmetric">
+<span class="sig-prename descclassname"><span class="pre">mirage.attitude.</span></span><span class="sig-name descname"><span class="pre">itensor_is_symmetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">itensor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span></span></span><a class="headerlink" href="#mirage.attitude.itensor_is_symmetric" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="mirage.attitude.mrp_add">
 <span class="sig-prename descclassname"><span class="pre">mirage.attitude.</span></span><span class="sig-name descname"><span class="pre">mrp_add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.attitude.mrp_add" title="Link to this definition">#</a></dt>
 <dd><p>Adds modified Rodrigues parameters (see <code class="docutils literal notranslate"><span class="pre">quat_add</span></code>)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>s1</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Modified Rodrigues parameter array</p></li>
-<li><p><strong>s2</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Modified Rodrigues parameter array</p></li>
+<li><p><strong>s1</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Modified Rodrigues parameter array</p></li>
+<li><p><strong>s2</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Modified Rodrigues parameter array</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Modified Rodrigues parameter array</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1051,13 +1056,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Converts modified Rodrigues parameters to direction cosine matrices</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>s</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Modified Rodrigues parameter array</p>
+<dd class="field-odd"><p><strong>s</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Modified Rodrigues parameter array</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Direction cosine matrix array</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [3x3xn]</p>
+<dd class="field-odd"><p>np.ndarray [3,3xn]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1068,13 +1073,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Converts modified Rodrigues parameters to quaternions</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>s</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Modified Rodrigues parameter array</p>
+<dd class="field-odd"><p><strong>s</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Modified Rodrigues parameter array</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Quaternion array</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx4]</p>
+<dd class="field-odd"><p>np.ndarray [n,4]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1085,13 +1090,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Converts modified Rodrigues parameters to rotation vectors</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>s</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Modified Rodrigues parameter array</p>
+<dd class="field-odd"><p><strong>s</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Modified Rodrigues parameter array</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Rotation vector array</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1103,39 +1108,39 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>quat0</strong> (<em>np.ndarray</em><em> [</em><em>1x4</em><em>]</em>) – Initial orientation as quaternion</p></li>
-<li><p><strong>omega0</strong> (<em>np.ndarray</em><em> [</em><em>1x3</em><em>]</em>) – Initial angular velocity [rad/s]</p></li>
-<li><p><strong>itensor</strong> (<em>np.ndarray</em><em> [</em><em>3x3</em><em>]</em>) – Inertia tensor in principal axes [kg m^2]</p></li>
-<li><p><strong>teval</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Times to evaluate at past initial state [second]</p></li>
+<li><p><strong>quat0</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>4</em><em>]</em>) – Initial orientation as quaternion</p></li>
+<li><p><strong>omega0</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Initial angular velocity [rad/s]</p></li>
+<li><p><strong>itensor</strong> (<em>np.ndarray</em><em> [</em><em>3</em><em>,</em><em>3</em><em>]</em>) – Inertia tensor in principal axes [kg m^2]</p></li>
+<li><p><strong>teval</strong> (<em>np.ndarray</em><em> [</em><em>m</em><em>,</em><em>]</em>) – Times to evaluate at past initial state [second]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Orientation of body over time as a quaternion and body frame angular velocity</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Tuple[np.ndarray [nx4], np.ndarray [nx3]]</p>
+<dd class="field-odd"><p>Tuple[np.ndarray [n,m,4], np.ndarray [n,m,3]]</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mirage.attitude.propagate_attitude_torque_free_axisymmetric">
-<span class="sig-prename descclassname"><span class="pre">mirage.attitude.</span></span><span class="sig-name descname"><span class="pre">propagate_attitude_torque_free_axisymmetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">itensor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tspace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.attitude.propagate_attitude_torque_free_axisymmetric" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">mirage.attitude.</span></span><span class="sig-name descname"><span class="pre">propagate_attitude_torque_free_axisymmetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quat0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omega0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">itensor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">teval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.attitude.propagate_attitude_torque_free_axisymmetric" title="Link to this definition">#</a></dt>
 <dd><p>Propagates torque-free axisymmetric motion using an analytic solution to the constant spin and precession rate</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>q0</strong> (<em>np.ndarray</em><em> [</em><em>1x4</em><em>]</em>) – Initial quaternion transforming from the inertial to body frames</p></li>
-<li><p><strong>w0</strong> (<em>np.ndarray</em><em> [</em><em>1x3</em><em>]</em>) – Initial angular velocity [rad/s]</p></li>
+<li><p><strong>quat0</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>4</em><em>]</em>) – Initial quaternion transforming from the inertial to body frames</p></li>
+<li><p><strong>omega0</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Initial angular velocity [rad/s]</p></li>
 <li><p><strong>itensor</strong> (<em>np.ndarray</em>) – Inertia tensor [kg m^2]</p></li>
-<li><p><strong>tspace</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Time space in seconds after the definition epoch where <code class="docutils literal notranslate"><span class="pre">q0</span></code> and <code class="docutils literal notranslate"><span class="pre">w0</span></code> are defined</p></li>
+<li><p><strong>teval</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Time space in seconds after the definition epoch where <code class="docutils literal notranslate"><span class="pre">quat0</span></code> and <code class="docutils literal notranslate"><span class="pre">omega0</span></code> are defined</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The time history of the quaterion at the requested epochs</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx4]</p>
+<dd class="field-odd"><p>np.ndarray [n,4]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1147,15 +1152,15 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>q1</strong> (<em>np.ndarray</em><em> [</em><em>nx4</em><em>]</em>) – Quaternion array</p></li>
-<li><p><strong>q2</strong> (<em>np.ndarray</em><em> [</em><em>nx4</em><em>]</em>) – Quaternion array</p></li>
+<li><p><strong>q1</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>4</em><em>]</em>) – Quaternion array</p></li>
+<li><p><strong>q2</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>4</em><em>]</em>) – Quaternion array</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Quaternion array</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx4]</p>
+<dd class="field-odd"><p>np.ndarray [n,4]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1167,15 +1172,15 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>q1</strong> (<em>np.ndarray</em><em> [</em><em>nx4</em><em>]</em>) – Quaternion array</p></li>
-<li><p><strong>q2</strong> (<em>np.ndarray</em><em> [</em><em>nx4</em><em>]</em>) – Quaternion array</p></li>
+<li><p><strong>q1</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>4</em><em>]</em>) – Quaternion array</p></li>
+<li><p><strong>q2</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>4</em><em>]</em>) – Quaternion array</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Angle between quaternion arrays [rad]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx1]</p>
+<dd class="field-odd"><p>np.ndarray [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1186,13 +1191,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Finds the quaternion inverse (conjugate for unit quaternions)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>q</strong> (<em>np.ndarray</em><em> [</em><em>nx4</em><em>]</em>) – Input quaternion array</p>
+<dd class="field-odd"><p><strong>q</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>4</em><em>]</em>) – Input quaternion array</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Inverse quaternion array</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx4]</p>
+<dd class="field-odd"><p>np.ndarray [n,4]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1204,15 +1209,15 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>q</strong> (<em>np.ndarray</em><em> [</em><em>nx4</em><em>]</em>) – Quaternions</p></li>
-<li><p><strong>qdot</strong> (<em>np.ndarray</em><em> [</em><em>nx4</em><em>]</em>) – Quaternion derivatives</p></li>
+<li><p><strong>q</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>4</em><em>]</em>) – Quaternions</p></li>
+<li><p><strong>qdot</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>4</em><em>]</em>) – Quaternion derivatives</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Angular velocity of body frame [rad/s]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1245,9 +1250,9 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>hhat</strong> (<em>np.ndarray</em><em> [</em><em>1x3</em><em>]</em>) – Inertial angular momentum direction</p></li>
-<li><p><strong>phi</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Spin angle [rad]</p></li>
-<li><p><strong>theta</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Nutation angle [rad]</p></li>
-<li><p><strong>psi</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Precession angle [rad]</p></li>
+<li><p><strong>phi</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Spin angle [rad]</p></li>
+<li><p><strong>theta</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Nutation angle [rad]</p></li>
+<li><p><strong>psi</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Precession angle [rad]</p></li>
 <li><p><strong>is_sam</strong> (<em>bool</em>) – Whether the rotation is short axis mode (SAM)</p></li>
 </ul>
 </dd>
@@ -1255,7 +1260,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd class="field-even"><p>Computed quaternions</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx4]</p>
+<dd class="field-odd"><p>np.ndarray [n,4]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1266,13 +1271,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Converts quaternions to direction cosine matrices</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>q</strong> (<em>np.ndarray</em><em> [</em><em>nx4</em><em>]</em>) – Quaternion array</p>
+<dd class="field-odd"><p><strong>q</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>4</em><em>]</em>) – Quaternion array</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Direction cosine matrix array</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [3x3xn]</p>
+<dd class="field-odd"><p>np.ndarray [3,3xn]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1283,13 +1288,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Converts quaternions to modified Rodrigues parameters</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>q</strong> (<em>np.ndarray</em><em> [</em><em>nx4</em><em>]</em>) – Quaternion array</p>
+<dd class="field-odd"><p><strong>q</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>4</em><em>]</em>) – Quaternion array</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Modified Rodrigues parameter array</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1300,13 +1305,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Converts quaternions to rotation vectors</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>q</strong> (<em>np.ndarray</em><em> [</em><em>nx4</em><em>]</em>) – Quaternion array</p>
+<dd class="field-odd"><p><strong>q</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>4</em><em>]</em>) – Quaternion array</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Rotation vector array</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1317,13 +1322,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Transforms any quaternions in q to the upper hemisphere of S^3 such that <cite>q[:,3] &gt; 0</cite></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>q</strong> (<em>np.ndarray</em><em> [</em><em>nx4</em><em>]</em>) – Quaternion array</p>
+<dd class="field-odd"><p><strong>q</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>4</em><em>]</em>) – Quaternion array</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Transformed quaternion array</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx4]</p>
+<dd class="field-odd"><p>np.ndarray [n,4]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1391,7 +1396,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd class="field-even"><p>Sampled quaternions</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx4]</p>
+<dd class="field-odd"><p>np.ndarray [n,4]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1405,7 +1410,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>t</strong> (<em>float</em>) – Current integration time [seconds]</p></li>
 <li><p><strong>w</strong> (<em>np.ndarray</em><em> [</em><em>1x3</em><em>]</em>) – Angular velocity vector of body relative to inertial space [rad/s]</p></li>
-<li><p><strong>itensor</strong> (<em>np.ndarray</em><em> [</em><em>3x3</em><em>]</em>) – Inertia tensor in principal axes, should be diagonal [kg m^2]</p></li>
+<li><p><strong>itensor</strong> (<em>np.ndarray</em><em> [</em><em>3</em><em>,</em><em>3</em><em>]</em>) – Inertia tensor in principal axes, should be diagonal [kg m^2]</p></li>
 <li><p><strong>torque</strong> (<em>Callable</em><em>, </em><em>optional</em>) – Torque applied to the body due to external forces [N m], defaults to None</p></li>
 </ul>
 </dd>
@@ -1425,15 +1430,15 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>p1</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Rotation vector array</p></li>
-<li><p><strong>p2</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Rotation vector array</p></li>
+<li><p><strong>p1</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Rotation vector array</p></li>
+<li><p><strong>p2</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Rotation vector array</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Rotation vector array</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1444,13 +1449,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Converts rotation vectors to direction cosine matrices</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>p</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Rotation vector array</p>
+<dd class="field-odd"><p><strong>p</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Rotation vector array</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Direction cosine matrix array</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [3x3xn]</p>
+<dd class="field-odd"><p>np.ndarray [3,3xn]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1461,13 +1466,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Converts rotation vectors to modified Rodrigues parameters via quaternions</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>p</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Rotation vector array</p>
+<dd class="field-odd"><p><strong>p</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Rotation vector array</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Quaternion array</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx4]</p>
+<dd class="field-odd"><p>np.ndarray [n,4]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1478,13 +1483,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Converts rotation vectors to quaternions</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>p</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Rotation vector array</p>
+<dd class="field-odd"><p><strong>p</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Rotation vector array</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Quaternion array</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx4]</p>
+<dd class="field-odd"><p>np.ndarray [n,4]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1804,7 +1809,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mirage.ccd.ChargeCoupledDevice.generate_ccd_image">
-<span class="sig-name descname"><span class="pre">generate_ccd_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">integration_time_s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">station</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">look_dir_eci</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tracking_rates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lc_adu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">catalog</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mirage.stars.StarCatalog" title="mirage.stars.StarCatalog"><span class="pre">StarCatalog</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">up_dir_eci</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sky_brightness</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_catalog</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_planets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_distortion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limiting_magnitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">16.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sint_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.ccd.ChargeCoupledDevice.generate_ccd_image" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">generate_ccd_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">integration_time_s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">station</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">look_dir_eci</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tracking_rates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lc_adu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">catalog</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mirage.stars.StarCatalog" title="mirage.stars.StarCatalog"><span class="pre">StarCatalog</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">up_dir_eci</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sky_brightness</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_catalog</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_planets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_distortion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limiting_magnitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">16.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sint_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_variance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.ccd.ChargeCoupledDevice.generate_ccd_image" title="Link to this definition">#</a></dt>
 <dd><p>Generates a CCD image for a set of observation conditions</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1988,13 +1993,14 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mirage.ccd.image_background_parabola">
-<span class="sig-prename descclassname"><span class="pre">mirage.ccd.</span></span><span class="sig-name descname"><span class="pre">image_background_parabola</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ccd_adu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_eq_str</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.ccd.image_background_parabola" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">mirage.ccd.</span></span><span class="sig-name descname"><span class="pre">image_background_parabola</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ccd_adu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_eq_str</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduction_factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">16</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.ccd.image_background_parabola" title="Link to this definition">#</a></dt>
 <dd><p>Fits a parabola to the background of a CCD image</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ccd_adu</strong> (<em>np.ndarray</em>) – CCD image in ADU</p></li>
 <li><p><strong>return_eq_str</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to return the string form of the parabola equation, defaults to False</p></li>
+<li><p><strong>reduction_factor</strong> (<em>int</em><em>, </em><em>optional</em>) – Factor to reduce the image by for speed, defaults to 10</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -2367,7 +2373,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd class="field-even"><p>DCM from home frame to target frame</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2380,14 +2386,14 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dates</strong> (<em>Union</em><em>[</em><em>datetime.datetime</em><em>, </em><em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – Date(s) to evaluate at [UTC’</p></li>
-<li><p><strong>vecs_in_home_frame</strong> (<em>np.ndarray</em><em> [</em><em>1x3</em><em>] or </em><em>[</em><em>nx3</em><em>]</em>) – Single vector (at evaluated at all dates), or a vector for each date - must be in the home frame</p></li>
+<li><p><strong>vecs_in_home_frame</strong> (<em>np.ndarray</em><em> [</em><em>1x3</em><em>] or </em><em>[</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Single vector (at evaluated at all dates), or a vector for each date - must be in the home frame</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Transformed vectors in the target frame</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [1x3] or [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [1x3] or [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2417,15 +2423,15 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>az</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Azimuth [rad], measured CCW from the East vector</p></li>
-<li><p><strong>el</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Elevation [rad], measured from the East-North plane, with positive elevations above the plane</p></li>
+<li><p><strong>az</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Azimuth [rad], measured CCW from the East vector</p></li>
+<li><p><strong>el</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Elevation [rad], measured from the East-North plane, with positive elevations above the plane</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>ECI unit vectors</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2496,7 +2502,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd class="field-even"><p>Rotation matrix at that ECEF point</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [3x3]</p>
+<dd class="field-odd"><p>np.ndarray [3,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2507,7 +2513,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Converts from an Earth-centered inertial (ECI) direction to inertial right ascension (RA) and declination (Dec)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>eci_dir</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Directions of interest in ECI</p>
+<dd class="field-odd"><p><strong>eci_dir</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Directions of interest in ECI</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Right ascension [rad] and declination [rad] angles</p>
@@ -2564,7 +2570,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd class="field-even"><p>Rotation matrix at that ECEF point</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [3x3]</p>
+<dd class="field-odd"><p>np.ndarray [3,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2581,7 +2587,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd class="field-even"><p>Rotation matrix</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [3x3xn] or [3x3]</p>
+<dd class="field-odd"><p>np.ndarray [3,3xn] or [3,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2598,7 +2604,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd class="field-even"><p>Rotation matrix from ECEF to ECI</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [3x3xn] if more than one date provided, otherwise [3x3]</p>
+<dd class="field-odd"><p>np.ndarray [3,3xn] if more than one date provided, otherwise [3,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2609,13 +2615,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Converts from the International Terrestrial Reference Frame (ITRF) to latitude, longitude, and altitude above the WGS84 ellipsoid</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>r_itrf_km</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – ITRF positions for each LLA triplet [km]</p>
+<dd class="field-odd"><p><strong>r_itrf_km</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – ITRF positions for each LLA triplet [km]</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Geodetic latitude [rad], longitude [rad], and altitude [km]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Tuple[np.ndarray, np.ndarray, np.ndarray] each [nx1]</p>
+<dd class="field-odd"><p>Tuple[np.ndarray, np.ndarray, np.ndarray] each [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2632,7 +2638,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd class="field-even"><p>Rotation matrix from ECI to ECEF</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [3x3xn] if more than one date provided, otherwise [3x3]</p>
+<dd class="field-odd"><p>np.ndarray [3,3xn] if more than one date provided, otherwise [3,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2649,7 +2655,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd class="field-even"><p>Rotation matrix or stack of rotation matrices</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Union[np.ndarray, float] [3x3xn] or [3x3]</p>
+<dd class="field-odd"><p>Union[np.ndarray, float] [3,3xn] or [3,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2660,13 +2666,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Computes the position of Jupiter in equatorial J2000 using SPICE</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>nx1</em><em>]</em>) – Array of UTC dates</p>
+<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>n</em><em>,</em><em>]</em>) – Array of UTC dates</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Vector to Jupiter from Earth center [km]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2678,16 +2684,16 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>lat_geod</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Geodetic latitudes [rad]</p></li>
-<li><p><strong>lon</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Longitudes [rad]</p></li>
-<li><p><strong>alt_km</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Altitudes above the WGS84 ellipsoid [km]</p></li>
+<li><p><strong>lat_geod</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Geodetic latitudes [rad]</p></li>
+<li><p><strong>lon</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Longitudes [rad]</p></li>
+<li><p><strong>alt_km</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Altitudes above the WGS84 ellipsoid [km]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>ITRF positions for each LLA triplet [km]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.array [nx3]</p>
+<dd class="field-odd"><p>np.array [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2702,14 +2708,14 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <li><p><strong>lat_geod</strong> (<em>float</em>) – Geodetic latitudes [rad]</p></li>
 <li><p><strong>lon</strong> (<em>float</em>) – Longitudes [rad]</p></li>
 <li><p><strong>a</strong> (<em>float</em>) – Altitudes above the WGS84 ellipsoid [km]</p></li>
-<li><p><strong>date</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>nx1</em><em>]</em>) – Date to evaluate conversion [UTC]</p></li>
+<li><p><strong>date</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>n</em><em>,</em><em>]</em>) – Date to evaluate conversion [UTC]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>ECI positions for each LLA triplet [km]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2720,13 +2726,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Computes the position of Mars in equatorial J2000 using SPICE</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>nx1</em><em>]</em>) – Array of UTC dates</p>
+<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>n</em><em>,</em><em>]</em>) – Array of UTC dates</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Vector to Mars from Earth center [km]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2737,13 +2743,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Rotation matrix from Moon-Centered-Moon-Fixed (MCMF) to J2000</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>nx1</em><em>]</em>) – Date(s) to evaluate at (UTC)</p>
+<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>n</em><em>,</em><em>]</em>) – Date(s) to evaluate at (UTC)</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Rotation matrices from MCMF to J2000</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [3x3xn] if n &gt; 1 else [3x3]</p>
+<dd class="field-odd"><p>np.ndarray [3,3xn] if n &gt; 1 else [3,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2776,13 +2782,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Computes the position of Mercury in equatorial J2000 using SPICE</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>nx1</em><em>]</em>) – Array of UTC dates</p>
+<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>n</em><em>,</em><em>]</em>) – Array of UTC dates</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Vector to Mercury from Earth center [km]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2799,7 +2805,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd class="field-even"><p>Rotation matrix</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [3x3xn] or [3x3]</p>
+<dd class="field-odd"><p>np.ndarray [3,3xn] or [3,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2810,13 +2816,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Computes the position of the Moon in equatorial J2000 using the JPL NAIF SPICE toolkit</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>nx1</em><em>]</em>) – Array of UTC dates</p>
+<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>n</em><em>,</em><em>]</em>) – Array of UTC dates</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Vector to Moon from Earth center [km]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2827,13 +2833,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Computes the position of Neptune in equatorial J2000 using SPICE</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>nx1</em><em>]</em>) – Array of UTC dates</p>
+<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>n</em><em>,</em><em>]</em>) – Array of UTC dates</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Vector to Neptune from Earth center [km]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2844,13 +2850,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Computes the position of Pluto in equatorial J2000 using SPICE</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>nx1</em><em>]</em>) – Array of UTC dates</p>
+<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>n</em><em>,</em><em>]</em>) – Array of UTC dates</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Vector to Pluto from Earth center [km]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2881,13 +2887,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Computes the position of Saturn in equatorial J2000 using SPICE</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>nx1</em><em>]</em>) – Array of UTC dates</p>
+<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>n</em><em>,</em><em>]</em>) – Array of UTC dates</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Vector to Saturn from Earth center [km]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2898,13 +2904,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Computes the position of the Sun in equatorial J2000 using the JPL NAIF SPICE toolkit</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>nx1</em><em>]</em>) – Array of UTC dates</p>
+<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>n</em><em>,</em><em>]</em>) – Array of UTC dates</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Vector to Sun from Earth center [km]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2917,14 +2923,14 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>date</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>]</em>) – UTC datetime to evaluate at</p></li>
-<li><p><strong>r_ecef</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Array of position vectors in ECEF coordinates to test</p></li>
+<li><p><strong>r_ecef</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Array of position vectors in ECEF coordinates to test</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Angle between Sun and horizon [rad]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx1]</p>
+<dd class="field-odd"><p>np.ndarray [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2954,14 +2960,14 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>]</em>) – Dates to evaluate at [UTC]</p></li>
-<li><p><strong>r_eci</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Position of interest in ECI [km]</p></li>
+<li><p><strong>r_eci</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Position of interest in ECI [km]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Irradiance fraction at given points: unshadowed -&gt; 1.0, full shadow -&gt; 0.0, semi-shadow lies between</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx1]</p>
+<dd class="field-odd"><p>np.ndarray [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2978,7 +2984,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd class="field-even"><p>Rotation matrix(s)</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [3x3xn] or [3x3]</p>
+<dd class="field-odd"><p>np.ndarray [3,3xn] or [3,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2995,7 +3001,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd class="field-even"><p>Rotation matrix(s)</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [3x3xn] or [3x3]</p>
+<dd class="field-odd"><p>np.ndarray [3,3xn] or [3,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3006,13 +3012,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Computes the position of Uranus in equatorial J2000 using SPICE</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>nx1</em><em>]</em>) – Array of UTC dates</p>
+<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>n</em><em>,</em><em>]</em>) – Array of UTC dates</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Vector to Uranus from Earth center [km]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3023,13 +3029,13 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd><p>Computes the position of Venus in equatorial J2000 using SPICE</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>nx1</em><em>]</em>) – Array of UTC dates</p>
+<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>n</em><em>,</em><em>]</em>) – Array of UTC dates</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Vector to Venus from Earth center [km]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3165,8 +3171,8 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>brdf</strong> (<a class="reference internal" href="#mirage.lighting.Brdf" title="mirage.lighting.Brdf"><em>Brdf</em></a>) – BRDF to use</p></li>
 <li><p><strong>obj</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="#mirage.spaceobject.SpaceObject" title="mirage.spaceobject.SpaceObject"><em>SpaceObject</em></a><em>]</em>) – Loaded SpaceObject or <code class="docutils literal notranslate"><span class="pre">*.obj</span></code> file name in the <code class="docutils literal notranslate"><span class="pre">os.environ[&quot;MODELDIR&quot;]</span></code> to use</p></li>
-<li><p><strong>svb</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Sun vectors in the object body frame</p></li>
-<li><p><strong>ovb</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Observer vectors in the object body frame</p></li>
+<li><p><strong>svb</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Sun vectors in the object body frame</p></li>
+<li><p><strong>ovb</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Observer vectors in the object body frame</p></li>
 <li><p><strong>save_imgs</strong> (<em>bool</em><em>, </em><em>optional</em>) – Flag to output rendered images to calling directory/out, defaults to False</p></li>
 <li><p><strong>output_dir</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory to output images to, defaults to None</p></li>
 <li><p><strong>instances</strong> (int, optional, <span class="math notranslate nohighlight">\(1 \leq \texttt{instances} \leq 25\)</span>) – Instances to render at once, leads to roughly linear performance improvement, defaults to 9</p></li>
@@ -3181,7 +3187,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd class="field-even"><p>Irradiance at unit distance in given geometries</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx1]</p>
+<dd class="field-odd"><p>np.ndarray [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3193,8 +3199,8 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>svb</strong> (<em>np.array</em><em> [</em><em>nx3</em><em>]</em>) – Sun vectors in the object body frame</p></li>
-<li><p><strong>ovb</strong> (<em>np.array</em><em> [</em><em>nx3</em><em>]</em>) – Observer vectors in the object body frame</p></li>
+<li><p><strong>svb</strong> (<em>np.array</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Sun vectors in the object body frame</p></li>
+<li><p><strong>ovb</strong> (<em>np.array</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Observer vectors in the object body frame</p></li>
 <li><p><strong>command_file</strong> (<em>str</em><em>, </em><em>optional</em>) – Command file name read by <code class="docutils literal notranslate"><span class="pre">LightCurveEngine</span></code></p></li>
 </ul>
 </dd>
@@ -3232,7 +3238,7 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>obs_pos</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Position of the observer</p></li>
+<li><p><strong>obs_pos</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Position of the observer</p></li>
 <li><p><strong>obj_pos</strong> – Position of the object being observed</p></li>
 </ul>
 </dd>
@@ -3291,26 +3297,19 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dd></dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="mirage.fits.expected_star_centroids_in_fits">
+<span class="sig-prename descclassname"><span class="pre">mirage.fits.</span></span><span class="sig-name descname"><span class="pre">expected_star_centroids_in_fits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">station</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mirage.station.Station" title="mirage.station.Station"><span class="pre">Station</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">catalog</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mirage.stars.StarCatalog" title="mirage.stars.StarCatalog"><span class="pre">StarCatalog</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">look_dir_eci</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">up_dir_eci</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limiting_magnitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_distortion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.fits.expected_star_centroids_in_fits" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="mirage.fits.find_stars_in_rotated_image">
 <span class="sig-prename descclassname"><span class="pre">mirage.fits.</span></span><span class="sig-name descname"><span class="pre">find_stars_in_rotated_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotated_image_raw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotated_image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta_rad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_pix_tracked</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mirage.fits.find_stars_in_rotated_image" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="mirage.fits.fits_up_direction">
-<span class="sig-prename descclassname"><span class="pre">mirage.fits.</span></span><span class="sig-name descname"><span class="pre">fits_up_direction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fits_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.fits.fits_up_direction" title="Link to this definition">#</a></dt>
-<dd><p>Solves for the ECI direction normal to the tracking and observation directions (normal, up from the image plane)</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>fits_info</strong> (<em>dict</em>) – Dictionary of observation information loaded from <a class="reference internal" href="#mirage.fits.info_from_fits" title="mirage.fits.info_from_fits"><code class="xref py py-func docutils literal notranslate"><span class="pre">info_from_fits()</span></code></a></p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The ECI direction normal to the tracking and observation directions</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
+<dt class="sig sig-object py" id="mirage.fits.generate_matched_image">
+<span class="sig-prename descclassname"><span class="pre">mirage.fits.</span></span><span class="sig-name descname"><span class="pre">generate_matched_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">info_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_ind</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">station</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mirage.station.Station" title="mirage.station.Station"><span class="pre">Station</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">catalog</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mirage.stars.StarCatalog" title="mirage.stars.StarCatalog"><span class="pre">StarCatalog</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_distortion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_refraction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limiting_magnitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">12.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_variance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">150</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mirage.fits.generate_matched_image" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mirage.fits.info_from_fits">
@@ -3340,13 +3339,30 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>station</strong> (<em>mr.Station</em>) – The station object</p></li>
+<li><p><strong>station</strong> (<a class="reference internal" href="#mirage.station.Station" title="mirage.station.Station"><em>Station</em></a>) – The station object</p></li>
 <li><p><strong>obs_mat_path</strong> (<em>str</em>) – Path to the ObservationData.mat file</p></li>
 <li><p><strong>ind</strong> (<em>int</em>) – Index of the observation in the .mat file</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Dictionary of observation information</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mirage.fits.load_obs_mat">
+<span class="sig-prename descclassname"><span class="pre">mirage.fits.</span></span><span class="sig-name descname"><span class="pre">load_obs_mat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obs_mat_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#mirage.fits.load_obs_mat" title="Link to this definition">#</a></dt>
+<dd><p>Loads Nathan’s observation data from the processing pipeline</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obs_mat_path</strong> (<em>str</em>) – Path to the observations.mat file</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict of saved data</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
@@ -3362,6 +3378,11 @@ using accelerated semi-analytical solution with elliptic integrals</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="mirage.fits.solve_star_centroids">
 <span class="sig-prename descclassname"><span class="pre">mirage.fits.</span></span><span class="sig-name descname"><span class="pre">solve_star_centroids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fits_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mirage.fits.solve_star_centroids" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mirage.fits.update_refraction">
+<span class="sig-prename descclassname"><span class="pre">mirage.fits.</span></span><span class="sig-name descname"><span class="pre">update_refraction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">station</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mirage.station.Station" title="mirage.station.Station"><span class="pre">Station</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">look_dir_eci</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">up_dir_eci</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_mbar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.fits.update_refraction" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 </section>
@@ -3494,8 +3515,8 @@ DEPRECATED
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>L</strong> (<em>np.array</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector illumination directions</p></li>
-<li><p><strong>O</strong> (<em>np.array</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector observation directions</p></li>
+<li><p><strong>L</strong> (<em>np.array</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector illumination directions</p></li>
+<li><p><strong>O</strong> (<em>np.array</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector observation directions</p></li>
 <li><p><strong>N</strong> (<em>np.array</em><em> [</em><em>mx3</em><em>]</em>) – Unit vector surface normals</p></li>
 </ul>
 </dd>
@@ -3515,9 +3536,9 @@ DEPRECATED
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>L</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector illumination directions</p></li>
-<li><p><strong>O</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector observation directions</p></li>
-<li><p><strong>N</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector surface normals</p></li>
+<li><p><strong>L</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector illumination directions</p></li>
+<li><p><strong>O</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector observation directions</p></li>
+<li><p><strong>N</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector surface normals</p></li>
 <li><p><strong>cd</strong> (<em>float</em><em> or </em><em>np.ndarray</em><em>, </em><em>defaults to None</em>) – Coefficients of diffuse reflection, optional</p></li>
 <li><p><strong>cs</strong> (<em>float</em><em> or </em><em>np.ndarray</em><em>, </em><em>defaults to None</em>) – Coefficients of specular reflection, optional</p></li>
 <li><p><strong>n</strong> (<em>float</em><em> or </em><em>np.ndarray</em><em>, </em><em>defaults to None</em>) – Specular exponents, optional</p></li>
@@ -3527,7 +3548,7 @@ DEPRECATED
 <dd class="field-even"><p>Fraction of incident irradiance reflected towards observer</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx1]</p>
+<dd class="field-odd"><p>np.ndarray [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3539,9 +3560,9 @@ DEPRECATED
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>L</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector illumination directions</p></li>
-<li><p><strong>O</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector observation directions</p></li>
-<li><p><strong>N</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector surface normals</p></li>
+<li><p><strong>L</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector illumination directions</p></li>
+<li><p><strong>O</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector observation directions</p></li>
+<li><p><strong>N</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector surface normals</p></li>
 <li><p><strong>cd</strong> (<em>float</em><em> or </em><em>np.ndarray</em><em>, </em><em>defaults to None</em>) – Coefficients of diffuse reflection, optional</p></li>
 <li><p><strong>cs</strong> (<em>float</em><em> or </em><em>np.ndarray</em><em>, </em><em>defaults to None</em>) – Coefficients of specular reflection, optional</p></li>
 <li><p><strong>n</strong> (<em>float</em><em> or </em><em>np.ndarray</em><em>, </em><em>defaults to None</em>) – Specular exponents, optional</p></li>
@@ -3551,7 +3572,7 @@ DEPRECATED
 <dd class="field-even"><p>Fraction of incident irradiance reflected towards observer at unit distance</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx1]</p>
+<dd class="field-odd"><p>np.ndarray [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3593,19 +3614,19 @@ DEPRECATED
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>L</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector illumination directions</p></li>
-<li><p><strong>O</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector observation directions</p></li>
-<li><p><strong>N</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector surface normals</p></li>
-<li><p><strong>cd</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Coefficients of diffuse reflection for each face</p></li>
-<li><p><strong>cs</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Coefficients of specular reflection for each face</p></li>
-<li><p><strong>n</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Specular exponents for each face</p></li>
+<li><p><strong>L</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector illumination directions</p></li>
+<li><p><strong>O</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector observation directions</p></li>
+<li><p><strong>N</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector surface normals</p></li>
+<li><p><strong>cd</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Coefficients of diffuse reflection for each face</p></li>
+<li><p><strong>cs</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Coefficients of specular reflection for each face</p></li>
+<li><p><strong>n</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Specular exponents for each face</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Fraction of incident light reflected towards observer</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx1]</p>
+<dd class="field-odd"><p>np.ndarray [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3617,19 +3638,19 @@ DEPRECATED
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>L</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector illumination directions</p></li>
-<li><p><strong>O</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector observation directions</p></li>
-<li><p><strong>N</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector surface normals</p></li>
-<li><p><strong>cd</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Coefficients of diffuse reflection for each face</p></li>
-<li><p><strong>cs</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Coefficients of specular reflection for each face</p></li>
-<li><p><strong>n</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Specular exponents for each face</p></li>
+<li><p><strong>L</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector illumination directions</p></li>
+<li><p><strong>O</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector observation directions</p></li>
+<li><p><strong>N</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector surface normals</p></li>
+<li><p><strong>cd</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Coefficients of diffuse reflection for each face</p></li>
+<li><p><strong>cs</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Coefficients of specular reflection for each face</p></li>
+<li><p><strong>n</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Specular exponents for each face</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Fraction of incident light reflected towards observer</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx1]</p>
+<dd class="field-odd"><p>np.ndarray [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3641,19 +3662,19 @@ DEPRECATED
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>L</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector illumination directions</p></li>
-<li><p><strong>O</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector observation directions</p></li>
-<li><p><strong>N</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector surface normals</p></li>
-<li><p><strong>cd</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Coefficients of diffuse reflection for each face</p></li>
-<li><p><strong>cs</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Coefficients of specular reflection for each face</p></li>
-<li><p><strong>a</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Surface roughness <span class="math notranslate nohighlight">\(a \in [0,1]\)</span></p></li>
+<li><p><strong>L</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector illumination directions</p></li>
+<li><p><strong>O</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector observation directions</p></li>
+<li><p><strong>N</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector surface normals</p></li>
+<li><p><strong>cd</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Coefficients of diffuse reflection for each face</p></li>
+<li><p><strong>cs</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Coefficients of specular reflection for each face</p></li>
+<li><p><strong>a</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Surface roughness <span class="math notranslate nohighlight">\(a \in [0,1]\)</span></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Fraction of incident light reflected towards observer</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx1]</p>
+<dd class="field-odd"><p>np.ndarray [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3682,10 +3703,10 @@ DEPRECATED
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>L</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector illumination directions</p></li>
-<li><p><strong>O</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector observation directions</p></li>
-<li><p><strong>N</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector surface normals</p></li>
-<li><p><strong>cs</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Coefficients of specular reflection for each face</p></li>
+<li><p><strong>L</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector illumination directions</p></li>
+<li><p><strong>O</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector observation directions</p></li>
+<li><p><strong>N</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector surface normals</p></li>
+<li><p><strong>cs</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Coefficients of specular reflection for each face</p></li>
 <li><p><strong>s</strong> (<em>float</em>) – Variance of BRDF Gaussian</p></li>
 </ul>
 </dd>
@@ -3693,7 +3714,7 @@ DEPRECATED
 <dd class="field-even"><p>Fraction of incident light reflected towards observer</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx1]</p>
+<dd class="field-odd"><p>np.ndarray [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3705,10 +3726,10 @@ DEPRECATED
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>L</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector illumination directions</p></li>
-<li><p><strong>O</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector observation directions</p></li>
-<li><p><strong>N</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector surface normals</p></li>
-<li><p><strong>cd</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Coefficients of diffuse reflection for each face</p></li>
+<li><p><strong>L</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector illumination directions</p></li>
+<li><p><strong>O</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector observation directions</p></li>
+<li><p><strong>N</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector surface normals</p></li>
+<li><p><strong>cd</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Coefficients of diffuse reflection for each face</p></li>
 <li><p><strong>s</strong> (<em>float</em>) – Variance of BRDF Gaussian</p></li>
 </ul>
 </dd>
@@ -3716,7 +3737,7 @@ DEPRECATED
 <dd class="field-even"><p>Fraction of incident light reflected towards observer</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx1]</p>
+<dd class="field-odd"><p>np.ndarray [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3728,19 +3749,19 @@ DEPRECATED
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>L</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector illumination directions</p></li>
-<li><p><strong>O</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector observation directions</p></li>
-<li><p><strong>N</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Unit vector surface normals</p></li>
-<li><p><strong>cd</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Coefficients of diffuse reflection for each face</p></li>
-<li><p><strong>cs</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Coefficients of specular reflection for each face</p></li>
-<li><p><strong>n</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Specular exponents for each face</p></li>
+<li><p><strong>L</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector illumination directions</p></li>
+<li><p><strong>O</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector observation directions</p></li>
+<li><p><strong>N</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Unit vector surface normals</p></li>
+<li><p><strong>cd</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Coefficients of diffuse reflection for each face</p></li>
+<li><p><strong>cs</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Coefficients of specular reflection for each face</p></li>
+<li><p><strong>n</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Specular exponents for each face</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Fraction of incident light reflected towards observer</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx1]</p>
+<dd class="field-odd"><p>np.ndarray [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3787,8 +3808,8 @@ DEPRECATED
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>M</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Microfacet surface normal direction</p></li>
-<li><p><strong>N</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Macro surface normal</p></li>
+<li><p><strong>M</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Microfacet surface normal direction</p></li>
+<li><p><strong>N</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Macro surface normal</p></li>
 <li><p><strong>a</strong> (<em>float</em>) – Surface roughness</p></li>
 </ul>
 </dd>
@@ -4073,8 +4094,8 @@ DEPRECATED
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>v1</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>] or </em><em>[</em><em>1x3</em><em>] </em><em>if v2 is</em><em> [</em><em>nx3</em><em>]</em>) – First vector</p></li>
-<li><p><strong>v2</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>] or </em><em>[</em><em>1x3</em><em>] </em><em>if v1 is</em><em> [</em><em>nx3</em><em>]</em>) – Second vector</p></li>
+<li><p><strong>v1</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>] or </em><em>[</em><em>1x3</em><em>] </em><em>if v2 is</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – First vector</p></li>
+<li><p><strong>v2</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>] or </em><em>[</em><em>1x3</em><em>] </em><em>if v1 is</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Second vector</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -4164,13 +4185,13 @@ DEPRECATED
 <dd><p>Enforces closure condition by adding mean closure error to each row <span id="id12">[<a class="reference internal" href="references.html#id96" title="Liam Robinson and Carolin Frueh. Light curve inversion for reliable shape reconstruction of human-made space objects. In Proceedings of the 32nd AIAA/AAS Astrodynamics Specialist Conference, 1-19. 09 2022.">RF22</a>]</span></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>egi</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Extended Gaussian Image (EGI)</p>
+<dd class="field-odd"><p><strong>egi</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Extended Gaussian Image (EGI)</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Shifted EGI such that the sum of rows is zero</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4228,7 +4249,7 @@ DEPRECATED
 <dd class="field-even"><p>Dot products of corresponding rows</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx1]</p>
+<dd class="field-odd"><p>np.ndarray [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4260,16 +4281,16 @@ DEPRECATED
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>n</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – <span class="math notranslate nohighlight">\(n\)</span> parameter of the integral</p></li>
-<li><p><strong>phi</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – <span class="math notranslate nohighlight">\(\phi\)</span></p></li>
-<li><p><strong>ksquared</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – <span class="math notranslate nohighlight">\(k^2\)</span> parameter of the integral</p></li>
+<li><p><strong>n</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – <span class="math notranslate nohighlight">\(n\)</span> parameter of the integral</p></li>
+<li><p><strong>phi</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – <span class="math notranslate nohighlight">\(\phi\)</span></p></li>
+<li><p><strong>ksquared</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – <span class="math notranslate nohighlight">\(k^2\)</span> parameter of the integral</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="math notranslate nohighlight">\(\Pi(n, \phi, k^2)\)</span></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx1]</p>
+<dd class="field-odd"><p>np.ndarray [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4299,16 +4320,16 @@ DEPRECATED
 <dl class="py function">
 <dt class="sig sig-object py" id="mirage.math.hat">
 <span class="sig-prename descclassname"><span class="pre">mirage.math.</span></span><span class="sig-name descname"><span class="pre">hat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.math.hat" title="Link to this definition">#</a></dt>
-<dd><p>Normalizes input np.ndarray nx3 such that each row is unit length. If a row is <code class="docutils literal notranslate"><span class="pre">[0,0,0]</span></code>, <code class="docutils literal notranslate"><span class="pre">hat()</span></code> returns it unchanged</p>
+<dd><p>Normalizes input np.ndarray n,3 such that each row is unit length. If a row is <code class="docutils literal notranslate"><span class="pre">[0,0,0]</span></code>, <code class="docutils literal notranslate"><span class="pre">hat()</span></code> returns it unchanged</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>v</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Input vectors</p>
+<dd class="field-odd"><p><strong>v</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Input vectors</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Unit vectors</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4389,7 +4410,7 @@ DEPRECATED
 <dd class="field-even"><p>Mahalanobis distances</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray  [nx1]</p>
+<dd class="field-odd"><p>np.ndarray  [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4401,7 +4422,7 @@ DEPRECATED
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>v</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Array of row vectors to merge</p></li>
+<li><p><strong>v</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Array of row vectors to merge</p></li>
 <li><p><strong>atol</strong> (<em>float</em>) – Angle between vectors to merge by [rad]</p></li>
 <li><p><strong>miter</strong> (<em>int</em><em>, </em><em>optional</em>) – Merge iterations, defaults to 3</p></li>
 </ul>
@@ -4411,6 +4432,32 @@ DEPRECATED
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>np.ndarray [mx3], <code class="docutils literal notranslate"><span class="pre">m</span> <span class="pre">&lt;=</span> <span class="pre">n</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mirage.math.multithreaded_gaussian">
+<span class="sig-prename descclassname"><span class="pre">mirage.math.</span></span><span class="sig-name descname"><span class="pre">multithreaded_gaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.math.multithreaded_gaussian" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mirage.math.multithreaded_poisson">
+<span class="sig-prename descclassname"><span class="pre">mirage.math.</span></span><span class="sig-name descname"><span class="pre">multithreaded_poisson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">8</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#mirage.math.multithreaded_poisson" title="Link to this definition">#</a></dt>
+<dd><p>Multithreaded Poisson random variable number generation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lam</strong> (<em>np.ndarray</em>) – Means (and equivalently variances) of the Poisson distributions to sample</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em>, </em><em>optional</em>) – Seed value for the PRNG, defaults to None</p></li>
+<li><p><strong>threads</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of threads to use, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sampled values, uint32</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4444,23 +4491,23 @@ DEPRECATED
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pt</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Array of points in R^3</p></li>
-<li><p><strong>plane_n</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Normal vectors of planes</p></li>
-<li><p><strong>support</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Distance from each plane to the origin</p></li>
+<li><p><strong>pt</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Array of points in R^3</p></li>
+<li><p><strong>plane_n</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Normal vectors of planes</p></li>
+<li><p><strong>support</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Distance from each plane to the origin</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Distance from points to planes</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx1]</p>
+<dd class="field-odd"><p>np.ndarray [n,]</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mirage.math.r3_grid">
-<span class="sig-prename descclassname"><span class="pre">mirage.math.</span></span><span class="sig-name descname"><span class="pre">r3_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_half_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_side_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mirage.math.r3_grid" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">mirage.math.</span></span><span class="sig-name descname"><span class="pre">r3_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_half_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_side_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mirage.math.r3_grid" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -4478,7 +4525,7 @@ DEPRECATED
 <dd class="field-even"><p>Positive dot product of <code class="docutils literal notranslate"><span class="pre">v1</span></code> rows with <code class="docutils literal notranslate"><span class="pre">v2`</span></code> rows</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx1]</p>
+<dd class="field-odd"><p>np.ndarray [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4571,16 +4618,16 @@ DEPRECATED
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ref_points</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Reference points on <span class="math notranslate nohighlight">\(\mathbb{S}^2\)</span></p></li>
-<li><p><strong>ref_weights</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Weights associated with each reference point</p></li>
-<li><p><strong>query_points</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Query points elsewhere on <span class="math notranslate nohighlight">\(\mathbb{S}^2\)</span></p></li>
+<li><p><strong>ref_points</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Reference points on <span class="math notranslate nohighlight">\(\mathbb{S}^2\)</span></p></li>
+<li><p><strong>ref_weights</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Weights associated with each reference point</p></li>
+<li><p><strong>query_points</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Query points elsewhere on <span class="math notranslate nohighlight">\(\mathbb{S}^2\)</span></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Query weights, computed through a nearest neighbor query of the Voronoi diagram of the reference points</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx1]</p>
+<dd class="field-odd"><p>np.ndarray [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4592,17 +4639,17 @@ DEPRECATED
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ref_points</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Reference points on <span class="math notranslate nohighlight">\(\mathbb{S}^2\)</span></p></li>
-<li><p><strong>ref_weights</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Weights associated with each reference point</p></li>
-<li><p><strong>query_az</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Query point azimuths [rad]</p></li>
-<li><p><strong>query_el</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Query point elevations [rad]</p></li>
+<li><p><strong>ref_points</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Reference points on <span class="math notranslate nohighlight">\(\mathbb{S}^2\)</span></p></li>
+<li><p><strong>ref_weights</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Weights associated with each reference point</p></li>
+<li><p><strong>query_az</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Query point azimuths [rad]</p></li>
+<li><p><strong>query_el</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Query point elevations [rad]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Query weights, computed through a nearest neighbor query of the Voronoi diagram of the reference points</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx1]</p>
+<dd class="field-odd"><p>np.ndarray [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4667,13 +4714,13 @@ DEPRECATED
 <dd><p>Matrix cross product operator such that <span class="math notranslate nohighlight">\(v \times x = \left[\tilde{v}\right]x\)</span></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>v</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Vector to operate on</p>
+<dd class="field-odd"><p><strong>v</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Vector to operate on</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Cross product matrices</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [3x3xn]</p>
+<dd class="field-odd"><p>np.ndarray [3,3xn]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4693,7 +4740,7 @@ DEPRECATED
 <dd class="field-even"><p>Dot product of <code class="docutils literal notranslate"><span class="pre">v1</span></code> with <code class="docutils literal notranslate"><span class="pre">v2</span></code>, clipped to [-1,1]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx1]</p>
+<dd class="field-odd"><p>np.ndarray [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4731,7 +4778,7 @@ DEPRECATED
 <dd class="field-even"><p>Norm of each row</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx1]</p>
+<dd class="field-odd"><p>np.ndarray [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4921,13 +4968,13 @@ DEPRECATED
 <dd><p>Acceleration due to the J2 perturbation (Earth oblateness)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>rvec</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Position vector of the satellite [km]</p>
+<dd class="field-odd"><p><strong>rvec</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Position vector of the satellite [km]</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Acceleration due to J2 [km/s^2]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4945,14 +4992,14 @@ DEPRECATED
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>date</strong> – UTC date to evaluate at</p></li>
-<li><p><strong>rv</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Position and velocity state in Earth-centered inertial coordinates</p></li>
+<li><p><strong>rv</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Position and velocity state in Earth-centered inertial coordinates</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Acceleration due to the sun [m/s^2]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4973,7 +5020,7 @@ DEPRECATED
 <dd class="field-even"><p>Position [km] and velocity [km/s] in J2000</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4985,7 +5032,7 @@ DEPRECATED
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dates</strong> (<em>datetime.datetime</em><em> [</em><em>nx1</em><em>]</em>) – Array of datetimes [UTC]</p></li>
+<li><p><strong>dates</strong> (<em>datetime.datetime</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Array of datetimes [UTC]</p></li>
 <li><p><strong>satnum</strong> (<em>int</em>) – NORAD satellite number</p></li>
 <li><p><strong>target_frame</strong> (<em>str</em><em>, </em><em>optional</em>) – Reference frame to propagate in, defaults to “teme”</p></li>
 </ul>
@@ -4994,7 +5041,7 @@ DEPRECATED
 <dd class="field-even"><p>Position [km] in the target reference frame</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -5027,7 +5074,7 @@ DEPRECATED
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>epsecs</strong> (<em>np.ndarray</em>) – Epoch seconds to evaluate at after the initial epoch</p></li>
-<li><p><strong>rv</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Position and velocity state in Earth-centered inertial coordinates</p></li>
+<li><p><strong>rv</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Position and velocity state in Earth-centered inertial coordinates</p></li>
 <li><p><strong>interpolator</strong> (<a class="reference internal" href="#mirage.solarsystem.SpiceInterpolator" title="mirage.solarsystem.SpiceInterpolator"><em>SpiceInterpolator</em></a>) – SpiceInterpolator object for the body</p></li>
 </ul>
 </dd>
@@ -5035,7 +5082,7 @@ DEPRECATED
 <dd class="field-even"><p>Acceleration due to the sun [m/s^2]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -5059,7 +5106,7 @@ DEPRECATED
 <dd class="field-even"><p>Position of the satellite at the datetimes</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -5149,13 +5196,13 @@ DEPRECATED
 <dl class="py function">
 <dt class="sig sig-object py" id="mirage.profiling.toc">
 <span class="sig-prename descclassname"><span class="pre">mirage.profiling.</span></span><span class="sig-name descname"><span class="pre">toc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_elapsed_seconds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#mirage.profiling.toc" title="Link to this definition">#</a></dt>
-<dd><p>Ends the timer began by <code class="docutils literal notranslate"><span class="pre">tic()</span></code>, returns the elapsed time</p>
+<dd><p>Ends the timer began by the most recent <code class="docutils literal notranslate"><span class="pre">tic()</span></code>, returns the elapsed time</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>return_elapsed_seconds</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to return the time as well as printing it, defaults to False</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>Exception</strong> – If there’s no active <code class="docutils literal notranslate"><span class="pre">tic()</span></code> timer running</p>
+<dd class="field-even"><p><strong>Exception</strong> – If there’s no active <code class="docutils literal notranslate"><span class="pre">tic()</span></code> timer running with the given message</p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The elapsed time in seconds, if requested</p>
@@ -5206,7 +5253,7 @@ DEPRECATED
 <dd class="field-even"><p>Sampled unit vectors</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -5227,7 +5274,7 @@ DEPRECATED
 <dd class="field-even"><p>Sampled unit vectors</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -5250,7 +5297,7 @@ DEPRECATED
 <dd class="field-odd"><p>Sampled points</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>np.ndarray [nx3]</p>
+<dd class="field-even"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -5271,7 +5318,7 @@ DEPRECATED
 <dd class="field-even"><p>Sampled points</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -5291,7 +5338,7 @@ DEPRECATED
 <dd class="field-even"><p>Sampled points</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -5308,7 +5355,7 @@ DEPRECATED
 <dd class="field-even"><p>Sampled unit vectors</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -5325,7 +5372,7 @@ DEPRECATED
 <dd class="field-even"><p>Sampled unit vectors</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -5462,15 +5509,15 @@ DEPRECATED
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>brdf</strong> (<a class="reference internal" href="#mirage.lighting.Brdf" title="mirage.lighting.Brdf"><em>Brdf</em></a>) – BRDF to render with</p></li>
-<li><p><strong>svb</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Sun unit vectors in the body frame</p></li>
-<li><p><strong>ovb</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Observer unit vectors in the body frame</p></li>
+<li><p><strong>svb</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Sun unit vectors in the body frame</p></li>
+<li><p><strong>ovb</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Observer unit vectors in the body frame</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Observed irradiance at unit distance</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx1]</p>
+<dd class="field-odd"><p>np.ndarray [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -5578,7 +5625,7 @@ DEPRECATED
 <dl class="py method">
 <dt class="sig sig-object py" id="mirage.spaceobject.SpaceObject.vertices_on_each_face">
 <span class="sig-name descname"><span class="pre">vertices_on_each_face</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mirage.spaceobject.SpaceObject.vertices_on_each_face" title="Link to this definition">#</a></dt>
-<dd><p>Computes a np.ndarray 3x3xn of vertices on each face</p>
+<dd><p>Computes a np.ndarray [3,3,n] of vertices on each face</p>
 </dd></dl>
 
 </dd></dl>
@@ -5590,8 +5637,8 @@ DEPRECATED
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>normals</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Outward-facing normal vectors</p></li>
-<li><p><strong>supports</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Support of each face (see <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_supports()</span></code>)</p></li>
+<li><p><strong>normals</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Outward-facing normal vectors</p></li>
+<li><p><strong>supports</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Support of each face (see <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_supports()</span></code>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -5610,8 +5657,8 @@ DEPRECATED
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>egi</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – EGI of the object</p></li>
-<li><p><strong>support</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Supports of each face in the EGI</p></li>
+<li><p><strong>egi</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – EGI of the object</p></li>
+<li><p><strong>support</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Supports of each face in the EGI</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -5646,8 +5693,8 @@ DEPRECATED
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>h</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Support vector</p></li>
-<li><p><strong>egi</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Extended Gaussian image to reconstruct from</p></li>
+<li><p><strong>h</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Support vector</p></li>
+<li><p><strong>egi</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Extended Gaussian image to reconstruct from</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -5666,8 +5713,8 @@ DEPRECATED
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>h</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Supports vector</p></li>
-<li><p><strong>egi</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Extended Gaussian image to reconstruct from</p></li>
+<li><p><strong>h</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Supports vector</p></li>
+<li><p><strong>egi</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Extended Gaussian image to reconstruct from</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -5744,9 +5791,9 @@ DEPRECATED
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>lc</strong> (<em>np.ndarray</em><em> [</em><em>nx1</em><em>]</em>) – Unit irradiance light curve</p></li>
-<li><p><strong>svb</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Sun unit vectors in the body frame for each observation</p></li>
-<li><p><strong>ovb</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Observer unit vectors in the body frame</p></li>
+<li><p><strong>lc</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>]</em>) – Unit irradiance light curve</p></li>
+<li><p><strong>svb</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Sun unit vectors in the body frame for each observation</p></li>
+<li><p><strong>ovb</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Observer unit vectors in the body frame</p></li>
 <li><p><strong>brdf</strong> (<a class="reference internal" href="#mirage.lighting.Brdf" title="mirage.lighting.Brdf"><em>Brdf</em></a>) – BRDF to use</p></li>
 <li><p><strong>num_candidates</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of candidate normal vectors to fit, defaults to int(1e3)</p></li>
 <li><p><strong>merge_iter</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of iterations for the merging step, defaults to 1</p></li>
@@ -5770,13 +5817,13 @@ DEPRECATED
 <dd><p>Optimizes a support vector to construct the polytope with the given Extended Gaussian Image (EGI) <span id="id16">Little [<a class="reference internal" href="references.html#id77" title="James J. Little. An iterative method for reconstructing convex polyhedra from extended gaussian images. In Proceedings of the Third AAAI Conference on Artificial Intelligence, AAAI'83, 247-250. AAAI Press, 1983.">Lit83</a>]</span></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>egi</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – EGI to find supports for, convergence only possible if the sum of rows is zero. See <code class="xref py py-meth docutils literal notranslate"><span class="pre">close_egi()</span></code></p>
+<dd class="field-odd"><p><strong>egi</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – EGI to find supports for, convergence only possible if the sum of rows is zero. See <code class="xref py py-meth docutils literal notranslate"><span class="pre">close_egi()</span></code></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Optimal set of supports</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx1]</p>
+<dd class="field-odd"><p>np.ndarray [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -5908,7 +5955,7 @@ DEPRECATED
 <dd class="field-even"><p>ECI unit vector</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3] or [3,]</p>
+<dd class="field-odd"><p>np.ndarray [n,3] or [3,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -5945,7 +5992,7 @@ DEPRECATED
 <dd class="field-even"><p>Stack of rotation matrices</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [3x3xn] or [3x3]</p>
+<dd class="field-odd"><p>np.ndarray [3,3xn] or [3,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -5979,7 +6026,7 @@ DEPRECATED
 <dd class="field-even"><p>J2000 positions of the station</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3] or [3,]</p>
+<dd class="field-odd"><p>np.ndarray [n,3] or [3,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -6005,7 +6052,7 @@ DEPRECATED
 <dd class="field-even"><p>Line of sight vectors from the station to the object</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -6063,8 +6110,8 @@ DEPRECATED
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>nx1</em><em>]</em>) – Dates to evaluate at (UTC)</p></li>
-<li><p><strong>look_dir_eci</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Look directions in ECI</p></li>
+<li><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>n</em><em>,</em><em>]</em>) – Dates to evaluate at (UTC)</p></li>
+<li><p><strong>look_dir_eci</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Look directions in ECI</p></li>
 <li><p><strong>is_ground_based</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether the observer observing from below the atmosphere, defaults to True</p></li>
 <li><p><strong>airglow</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to include the airglow signal, defaults to True</p></li>
 <li><p><strong>integrated_starlight</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to include the signal due to faint background stars, defaults to True</p></li>
@@ -6269,7 +6316,7 @@ DEPRECATED
 <dd class="field-even"><p>Unit vectors in ECI</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -6357,13 +6404,13 @@ DEPRECATED
 <dd><p>Finds the beginning of the day for given datetime array</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>nx1</em><em>]</em>) – Date array (UTC)</p>
+<dd class="field-odd"><p><strong>dates</strong> (<em>np.ndarray</em><em>[</em><em>datetime.datetime</em><em>, </em><em>Any</em><em>] </em><em>[</em><em>n</em><em>,</em><em>]</em>) – Date array (UTC)</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Beginning of day for each date (UTC)</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray[datetime.datetime, Any] [nx1]</p>
+<dd class="field-odd"><p>np.ndarray[datetime.datetime, Any] [n,]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -6876,7 +6923,7 @@ DEPRECATED
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mirage.tle.get_latest_catalog_at_date">
-<span class="sig-prename descclassname"><span class="pre">mirage.tle.</span></span><span class="sig-name descname"><span class="pre">get_latest_catalog_at_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtime</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.datetime(2024,</span> <span class="pre">5,</span> <span class="pre">17,</span> <span class="pre">15,</span> <span class="pre">23,</span> <span class="pre">48,</span> <span class="pre">985746,</span> <span class="pre">tzinfo=datetime.timezone.utc)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days_back</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.timedelta(days=1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tle_latest'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">query_kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mirage.tle.get_latest_catalog_at_date" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">mirage.tle.</span></span><span class="sig-name descname"><span class="pre">get_latest_catalog_at_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtime</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.datetime(2024,</span> <span class="pre">5,</span> <span class="pre">23,</span> <span class="pre">12,</span> <span class="pre">16,</span> <span class="pre">29,</span> <span class="pre">633607,</span> <span class="pre">tzinfo=datetime.timezone.utc)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days_back</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.timedelta(days=1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tle_latest'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">query_kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mirage.tle.get_latest_catalog_at_date" title="Link to this definition">#</a></dt>
 <dd><p>Gets the first TLE produced for a given NORAD SAT ID after the datetime provided</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -7034,6 +7081,7 @@ DEPRECATED
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.ea_to_dcm"><code class="docutils literal notranslate"><span class="pre">ea_to_dcm()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.gravity_gradient_torque"><code class="docutils literal notranslate"><span class="pre">gravity_gradient_torque()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.integrate_rigid_attitude_dynamics"><code class="docutils literal notranslate"><span class="pre">integrate_rigid_attitude_dynamics()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.itensor_is_symmetric"><code class="docutils literal notranslate"><span class="pre">itensor_is_symmetric()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.mrp_add"><code class="docutils literal notranslate"><span class="pre">mrp_add()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.mrp_to_dcm"><code class="docutils literal notranslate"><span class="pre">mrp_to_dcm()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.attitude.mrp_to_quat"><code class="docutils literal notranslate"><span class="pre">mrp_to_quat()</span></code></a></li>
@@ -7249,12 +7297,15 @@ DEPRECATED
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mirage.fits">mirage.fits module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.fits.approximate_background_variance"><code class="docutils literal notranslate"><span class="pre">approximate_background_variance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.fits.expected_star_centroids_in_fits"><code class="docutils literal notranslate"><span class="pre">expected_star_centroids_in_fits()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.fits.find_stars_in_rotated_image"><code class="docutils literal notranslate"><span class="pre">find_stars_in_rotated_image()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.fits.fits_up_direction"><code class="docutils literal notranslate"><span class="pre">fits_up_direction()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.fits.generate_matched_image"><code class="docutils literal notranslate"><span class="pre">generate_matched_image()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.fits.info_from_fits"><code class="docutils literal notranslate"><span class="pre">info_from_fits()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.fits.load_obs_data"><code class="docutils literal notranslate"><span class="pre">load_obs_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.fits.load_obs_mat"><code class="docutils literal notranslate"><span class="pre">load_obs_mat()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.fits.prepare_fits_for_plotting"><code class="docutils literal notranslate"><span class="pre">prepare_fits_for_plotting()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.fits.solve_star_centroids"><code class="docutils literal notranslate"><span class="pre">solve_star_centroids()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.fits.update_refraction"><code class="docutils literal notranslate"><span class="pre">update_refraction()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mirage.geodetic">mirage.geodetic module</a><ul class="nav section-nav flex-column">
@@ -7331,6 +7382,8 @@ DEPRECATED
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.look_at_matrix"><code class="docutils literal notranslate"><span class="pre">look_at_matrix()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.mahal"><code class="docutils literal notranslate"><span class="pre">mahal()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.merge_clusters"><code class="docutils literal notranslate"><span class="pre">merge_clusters()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.multithreaded_gaussian"><code class="docutils literal notranslate"><span class="pre">multithreaded_gaussian()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.multithreaded_poisson"><code class="docutils literal notranslate"><span class="pre">multithreaded_poisson()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.perspective_projection_matrix"><code class="docutils literal notranslate"><span class="pre">perspective_projection_matrix()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.points_to_planes_dist"><code class="docutils literal notranslate"><span class="pre">points_to_planes_dist()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mirage.math.r3_grid"><code class="docutils literal notranslate"><span class="pre">r3_grid()</span></code></a></li>

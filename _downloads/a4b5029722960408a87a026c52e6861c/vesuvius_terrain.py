@@ -3,6 +3,7 @@ Terrain Tiles
 =============
 """
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pyvista as pv
 import terrainman as tm
@@ -33,18 +34,17 @@ dem["Longitude"] = tile.lon_grid.flatten(order="f")
 
 # %%
 # Plotting in 2D
-import matplotlib.pyplot as plt
 
 mrv.plot_map_with_grid(
     elev_grid,
     "Terrain Around Naples, Italy",
     "Elevation above geoid [km]",
-    alpha=1,
-    cmap="terrain",
-    extent=(40, 41, 14, 15),
+    alpha=1.0,
+    cmap="gist_earth",
+    extent=(14, 15, 40, 41),  # left lon, right lon, bottom lat, top lat
+    hillshade=True,
 )
 plt.show()
-
 
 # %%
 # Plotting in 3D wrapped on the Earth
@@ -59,7 +59,11 @@ pl.add_mesh(
     cmap="terrain",
 )
 mrv.plot_earth(
-    pl, mode="ecef", date=mr.utc(2023, 12, 9, 12), high_def=True, ocean_floor=False
+    pl,
+    mode="ecef",
+    date=mr.utc(2023, 12, 9, 12),
+    high_def=True,
+    ocean_floor=False,
 )
 pl.camera.focal_point = np.mean(itrf_terrain, axis=0)
 pl.camera.position = 6600 * mr.hat(np.mean(itrf_terrain, axis=0))

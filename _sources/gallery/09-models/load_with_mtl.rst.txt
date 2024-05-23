@@ -32,8 +32,8 @@ Loading with MTL Properties
 
     import mirage as mr
 
-    obj_name = 'untitled.obj'
-    obj_path = os.path.join('/Users/liamrobinson/Downloads/', obj_name)
+    obj_name = "untitled.obj"
+    obj_path = os.path.join("/Users/liamrobinson/Downloads/", obj_name)
 
 
 
@@ -51,7 +51,7 @@ Let's take a look at what the obj file looks like
 .. code-block:: Python
 
 
-    with open(obj_path, 'r') as f:
+    with open(obj_path, "r") as f:
         print(f.read())
 
 
@@ -122,7 +122,7 @@ And the mtl file
 
 .. code-block:: Python
 
-    with open(os.path.join(os.path.split(obj_path)[0], 'untitled.mtl'), 'r') as f:
+    with open(os.path.join(os.path.split(obj_path)[0], "untitled.mtl"), "r") as f:
         print(f.read())
 
 
@@ -189,7 +189,7 @@ For more information on making an mesh in blender with per-face materials, see `
 
  .. code-block:: none
 
-    Pure python load time: 1.45e-03 seconds
+    Pure python load time: 8.60e-04 seconds
 
 
 
@@ -203,9 +203,9 @@ We can print the the cd, cs, and n attributes of the object, each of which shoul
 .. code-block:: Python
 
 
-    print(f'{obj.cd=}')
-    print(f'{obj.cs=}')
-    print(f'{obj.n=}')
+    print(f"{obj.cd=}")
+    print(f"{obj.cs=}")
+    print(f"{obj.n=}")
 
 
 
@@ -264,7 +264,7 @@ Let's build a BRDF with these attributes. Note if validate=True, the BRDF initia
 .. code-block:: Python
 
 
-    brdf = mr.Brdf('phong', cd=obj.cd, cs=obj.cs, n=obj.n, validate=False)
+    brdf = mr.Brdf("phong", cd=obj.cd, cs=obj.cs, n=obj.n, validate=False)
 
 
 
@@ -297,7 +297,7 @@ Now the BRDF will apply the material properties of each face when computing a co
 
  .. code-block:: none
 
-    lc: 5.34e-04 seconds
+    lc: 5.80e-04 seconds
 
 
 
@@ -306,7 +306,7 @@ Now the BRDF will apply the material properties of each face when computing a co
 
 Notice that you can also mix and match uniform and varying properties. Here :math:`C_d` has one entry per face, but the other two properties are uniform
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-71
+.. GENERATED FROM PYTHON SOURCE LINES 65-70
 
 .. code-block:: Python
 
@@ -323,10 +323,9 @@ Notice that you can also mix and match uniform and varying properties. Here :mat
 
 
 
-
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.011 seconds)
+   **Total running time of the script:** (0 minutes 0.007 seconds)
 
 
 .. _sphx_glr_download_gallery_09-models_load_with_mtl.py:

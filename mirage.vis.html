@@ -419,7 +419,7 @@ document.write(`
 <dd class="field-odd"><p>Country borders, separated by <cite>np.nan</cite> rows so they can be plotted all at once</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>np.ndarray [nx3]</p>
+<dd class="field-even"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -467,7 +467,7 @@ document.write(`
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>pl</strong> (<em>pv.Plotter</em>) – Plotter object to add line to</p></li>
-<li><p><strong>v</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Vector to plot</p></li>
+<li><p><strong>v</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Vector to plot</p></li>
 <li><p><strong>use_spline</strong> (<em>bool</em>) – Whether to plot as a spline, defaults to False</p></li>
 <li><p><strong>**kwargs</strong> – Additional arguments passed to <code class="docutils literal notranslate"><span class="pre">pl.add_mesh()</span></code></p></li>
 </ul>
@@ -590,7 +590,7 @@ document.write(`
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mirage.vis.visualization.plot_map_with_grid">
-<span class="sig-prename descclassname"><span class="pre">mirage.vis.visualization.</span></span><span class="sig-name descname"><span class="pre">plot_map_with_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbar_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">borders</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">border_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'black'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbar_tick_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_plot_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">im_kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mirage.vis.visualization.plot_map_with_grid" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">mirage.vis.visualization.</span></span><span class="sig-name descname"><span class="pre">plot_map_with_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbar_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">borders</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">border_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'black'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbar_tick_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_plot_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hillshade</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">im_kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mirage.vis.visualization.plot_map_with_grid" title="Link to this definition">#</a></dt>
 <dd><p>Plots a global map of the Earth and overlays a transparent, colormapped grid with formatting</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -601,9 +601,10 @@ document.write(`
 <li><p><strong>alpha</strong> (<em>float</em><em>, </em><em>optional</em>) – Transparency of the grid on top of the map, defaults to None</p></li>
 <li><p><strong>cmap</strong> (<em>str</em><em>, </em><em>optional</em>) – Colormap to use, defaults to None</p></li>
 <li><p><strong>borders</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to use borders instead of a background image, defaults to False</p></li>
-<li><p><strong>border_color</strong> (<em>bool</em><em>, </em><em>optional</em>) – The color of the borders, defaults to “black”</p></li>
+<li><p><strong>border_color</strong> (<em>list</em><em>[</em><em>Any</em><em>]</em><em>, </em><em>optional</em>) – The color of the borders, defaults to “black”</p></li>
 <li><p><strong>cbar_tick_labels</strong> – The tick labels to use in the colorbar, defaults to None</p></li>
-<li><p><strong>set_plot_size</strong> – Whether to set the size of the plot within this function, defaults to True</p></li>
+<li><p><strong>set_plot_size</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to set the size of the plot within this function, defaults to True</p></li>
+<li><p><strong>hillshade</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to shade the slopes, defaults to False</p></li>
 </ul>
 </dd>
 </dl>
@@ -696,7 +697,7 @@ document.write(`
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>pl</strong> (<em>pv.Plotter</em>) – Plotter object to add points to</p></li>
-<li><p><strong>v</strong> (<em>np.ndarray</em><em> [</em><em>nx3</em><em>]</em>) – Vector to scatter</p></li>
+<li><p><strong>v</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>3</em><em>]</em>) – Vector to scatter</p></li>
 <li><p><strong>**kwargs</strong> – Additional arguments passed to <code class="docutils literal notranslate"><span class="pre">pl.add_mesh()</span></code></p></li>
 </ul>
 </dd>
@@ -744,7 +745,7 @@ document.write(`
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>a</strong> (<em>float</em>) – Semimajor axis of the body</p></li>
 <li><p><strong>f</strong> (<em>float</em>) – Flattening ratio of the body</p></li>
-<li><p><strong>rotm</strong> (<em>np.ndarray</em><em> [</em><em>3x3</em><em>]</em>) – Rotation matrix to apply to the body points, defaults to np.eye(3)</p></li>
+<li><p><strong>rotm</strong> (<em>np.ndarray</em><em> [</em><em>3</em><em>,</em><em>3</em><em>]</em>) – Rotation matrix to apply to the body points, defaults to np.eye(3)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -779,7 +780,7 @@ document.write(`
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>obj</strong> (<a class="reference internal" href="mirage.html#mirage.spaceobject.SpaceObject" title="mirage.spaceobject.SpaceObject"><em>SpaceObject</em></a>) – Object to visualize orientations with</p></li>
-<li><p><strong>quat</strong> (<em>np.ndarray</em><em> [</em><em>nx4</em><em>]</em>) – Orientation history</p></li>
+<li><p><strong>quat</strong> (<em>np.ndarray</em><em> [</em><em>n</em><em>,</em><em>4</em><em>]</em>) – Orientation history</p></li>
 <li><p><strong>fname</strong> (<em>str</em><em>, </em><em>optional</em>) – File name to save movie to, defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, no video saved</p></li>
 <li><p><strong>framerate</strong> (<em>int</em><em>, </em><em>optional</em>) – Frame rate of movie [frames/second], defaults to 60</p></li>
 <li><p><strong>quality</strong> (<em>int</em><em>, </em><em>optional</em>) – Quality of movie file, defaults to 9, less than 10</p></li>
@@ -801,7 +802,7 @@ document.write(`
 <dd class="field-even"><p>RGBs, out of 255</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray [nx3]</p>
+<dd class="field-odd"><p>np.ndarray [n,3]</p>
 </dd>
 </dl>
 </dd></dl>

@@ -2,6 +2,7 @@
 Streak Detection and Centroiding
 ================================
 
+Doing image processing to figure out where the streaks are on a FITS image
 """
 
 import os

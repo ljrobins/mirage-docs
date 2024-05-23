@@ -37,7 +37,10 @@ br_mask_naive, _ = mr.image_background_naive(ccd_adu)
 im_center = np.array(ccd_adu.shape) / 2
 x_pix, y_pix = np.meshgrid(np.arange(ccd_adu.shape[1]), np.arange(ccd_adu.shape[0]))
 r_dist = np.sqrt((x_pix - im_center[0]) ** 2 + (y_pix - im_center[1]) ** 2)
+
+mr.tic("Parabola estimation")
 im_br_parabola = mr.image_background_parabola(ccd_adu)
+mr.toc()
 
 x = r_dist[br_mask_naive][::1000]
 y_real = ccd_adu[br_mask_naive][::1000]

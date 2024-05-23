@@ -10,6 +10,8 @@ import numpy as np
 import vtk
 import pyvista as pv
 
+vtk.__version__
+
 import mirage as mr
 import mirage.vis as mrv
 
@@ -22,7 +24,6 @@ app = r2 @ ap
 appp = r3 @ app
 sc, d = 1.4, 0.5
 pl = pv.Plotter(shape=(1, 3))
-pl.set_background("w")
 pl.subplot(0, 0)
 mrv.plot_basis(pl, a.T, labels="a")
 mrv.plot_basis(pl, ap.T, labels="b", color="blue", scale=sc)

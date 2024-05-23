@@ -88,7 +88,7 @@ We then transform the true terrestrial pole in TOD to J2000 to look at the effec
       warnings.warn('ERFA function "{}" yielded {}'.format(func_name, wmsg),
     /Users/liamrobinson/Documents/mirage/lib/python3.11/site-packages/erfa/core.py:154: ErfaWarning: ERFA function "utctai" yielded 99309 of "dubious year (Note 3)"
       warnings.warn('ERFA function "{}" yielded {}'.format(func_name, wmsg),
-    Elapsed time: 2.23e+00 seconds
+    Elapsed time: 2.26e+00 seconds
 
 
 
@@ -125,7 +125,7 @@ We can view this data from a distance to view precession
 
 And from close up to show nutation
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-51
+.. GENERATED FROM PYTHON SOURCE LINES 42-50
 
 .. code-block:: Python
 
@@ -140,7 +140,6 @@ And from close up to show nutation
 
 
 
-
 .. image-sg:: /gallery/03-coordinate-systems/images/sphx_glr_precession_and_nutation_002.png
    :alt: precession and nutation
    :srcset: /gallery/03-coordinate-systems/images/sphx_glr_precession_and_nutation_002.png
@@ -150,42 +149,10 @@ And from close up to show nutation
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 52-53
-
-Animating a full zoom sequence
-
-.. GENERATED FROM PYTHON SOURCE LINES 53-65
-
-.. code-block:: Python
-
-
-    pl = pv.Plotter()
-    pl.open_gif("precession_nutation_zoom.gif", fps=20)
-    mrv.plot_earth(pl, lighting=False, high_def=True)
-    mrv.plot3(pl, pole_instant, line_width=10, color="m")
-    for z in np.logspace(-10, 30, 100, base=1.2):
-        pl.camera = pv.Camera()
-        pl.camera.focal_point = pole_instant[0, :]
-        pl.camera.position = pole_instant[0, :] + np.array([1e-2, 1e-2, 2_000])
-        pl.camera.zoom(z)
-        pl.write_frame()
-    pl.close()
-
-
-
-.. image-sg:: /gallery/03-coordinate-systems/images/sphx_glr_precession_and_nutation_003.gif
-   :alt: precession and nutation
-   :srcset: /gallery/03-coordinate-systems/images/sphx_glr_precession_and_nutation_003.gif
-   :class: sphx-glr-single-img
-
-
-
-
-
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 38.252 seconds)
+   **Total running time of the script:** (0 minutes 20.355 seconds)
 
 
 .. _sphx_glr_download_gallery_03-coordinate-systems_precession_and_nutation.py:

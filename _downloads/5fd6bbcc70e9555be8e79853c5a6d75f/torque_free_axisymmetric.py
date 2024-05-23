@@ -25,7 +25,7 @@ nt, ni = int(1e6), int(1e1)
 q0 = mr.rand_quaternions(ni)
 w0 = mr.rand_unit_vectors(ni)
 mr.tic()
-q_par = mr.propagate_attitude_torque_free_axisymmetric(
+q_par, _ = mr.propagate_attitude_torque_free_axisymmetric(
     q0, w0, itensor, np.linspace(0, 1, nt)
 )
 dt = mr.toc(return_elapsed_seconds=True)
@@ -39,7 +39,7 @@ dt = mr.toc(return_elapsed_seconds=True)
 print(f"Generalized form: {nt * 1 / dt:.2e} [quats/sec]")
 
 err = np.max(
-    np.abs(mr.quat_upper_hemisphere(q_ana) - mr.quat_upper_hemisphere(q_par[:, :, 0]))
+    np.abs(mr.quat_upper_hemisphere(q_ana) - mr.quat_upper_hemisphere(q_par[0, :, :]))
 )
 print(f"Max quaternion error: {err}")
 
