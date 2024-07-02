@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_09-models_shape_metrics.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -36,7 +36,7 @@ Using Frueh and Oliker's delta-neighborhood metric to compare shapes.
     import mirage as mr
     import mirage.vis as mrv
 
-    p = mr.SpaceObject("gem.obj")
+    p = mr.SpaceObject('gem.obj')
     v_vol1 = p.v / p.volume ** (1 / 3)
     p = mr.SpaceObject(vertices_and_faces=(v_vol1 + 0.2, p.f.copy()))
 
@@ -67,7 +67,7 @@ location and radius of each sphere. Equivalently, we can just optimize the locat
             p2 = mr.SpaceObject(vertices_and_faces=(p.v.copy() - x, p.f.copy()))
             return -np.min(p2.supports)
 
-        solver_kwargs = dict(jac="3-point", method="BFGS")
+        solver_kwargs = dict(jac='3-point', method='BFGS')
         in_sol = minimize(in_sphere_objective, np.zeros(3), **solver_kwargs)
         return in_sol.x, -in_sol.fun
 
@@ -80,16 +80,16 @@ location and radius of each sphere. Equivalently, we can just optimize the locat
         def out_sphere_objective(x):
             return np.max(mr.vecnorm(p.v - x))
 
-        solver_kwargs = dict(jac="3-point", method="BFGS")
+        solver_kwargs = dict(jac='3-point', method='BFGS')
         out_sol = minimize(out_sphere_objective, np.zeros(3), **solver_kwargs)
         return out_sol.x, out_sol.fun
 
 
-    mr.tic("Optimizing in-sphere")
+    mr.tic('Optimizing in-sphere')
     in_solx, in_solr = compute_in_sphere(p)
     mr.toc()
 
-    mr.tic("Optimizing out-sphere")
+    mr.tic('Optimizing out-sphere')
     out_solx, out_solr = compute_out_sphere(p)
     mr.toc()
 
@@ -109,8 +109,8 @@ location and radius of each sphere. Equivalently, we can just optimize the locat
 
     pl = pv.Plotter()
     mrv.render_spaceobject(pl, p, opacity=0.8)
-    mrv.two_sphere(pl, -in_solr, in_solx, color="r", opacity=0.3)
-    mrv.two_sphere(pl, out_solr, out_solx, color="b", opacity=0.3)
+    mrv.two_sphere(pl, -in_solr, in_solx, color='r', opacity=0.3)
+    mrv.two_sphere(pl, out_solr, out_solx, color='b', opacity=0.3)
     mrv.orbit_plotter(pl)
     pl.show()
 
@@ -126,8 +126,8 @@ location and radius of each sphere. Equivalently, we can just optimize the locat
 
  .. code-block:: none
 
-    Optimizing in-sphere: 4.50e-01 seconds
-    Optimizing out-sphere: 2.49e-02 seconds
+    Optimizing in-sphere: 4.51e-01 seconds
+    Optimizing out-sphere: 1.86e-02 seconds
     [0.20002671 0.19999049 0.06628717] 0.4371330964719045
     [0.19999979 0.2        0.20000005] 0.8669241446166784
 
@@ -137,7 +137,7 @@ location and radius of each sphere. Equivalently, we can just optimize the locat
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 5.691 seconds)
+   **Total running time of the script:** (0 minutes 5.354 seconds)
 
 
 .. _sphx_glr_download_gallery_09-models_shape_metrics.py:

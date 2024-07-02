@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_03-coordinate-systems_equinoxes.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -76,7 +76,7 @@ We can use :class:`mr.EarthFixedFrame` to set up the coordinate frame transforma
 
 .. code-block:: Python
 
-    frame_conversion = mr.EarthFixedFrame("itrf", "j2000")
+    frame_conversion = mr.EarthFixedFrame('itrf', 'j2000')
 
 
 
@@ -95,10 +95,10 @@ We can then plot the basis vectors at each of the selected times, labeling them 
 .. code-block:: Python
 
     def plot_bases_at_date(pl: pv.Plotter, d: datetime.datetime) -> None:
-        pl.add_text(d.strftime("%Y-%m-%d %H:%M:%S UTC"))
+        pl.add_text(d.strftime('%Y-%m-%d %H:%M:%S UTC'))
         mrv.plot_earth(
             pl,
-            mode="eci",
+            mode='eci',
             date=d,
             night_lights=True,
             atmosphere=True,
@@ -107,24 +107,24 @@ We can then plot the basis vectors at each of the selected times, labeling them 
         mrv.plot_basis(
             pl,
             frame_conversion.rotms_at_dates(d),
-            color="r",
-            labels=["$ITRF_x$", "$ITRF_y$", "$z$"],
-            **label_kwargs
+            color='r',
+            labels=['$ITRF_x$', '$ITRF_y$', '$z$'],
+            **label_kwargs,
         )
 
         mrv.plot_basis(
             pl,
             np.eye(3),
-            color="g",
-            labels=["$J2000_x$", "$J2000_y$", "$z$"],
-            **label_kwargs
+            color='g',
+            labels=['$J2000_x$', '$J2000_y$', '$z$'],
+            **label_kwargs,
         )
 
 
     label_kwargs = {
-        "shape_opacity": 0.3,
-        "font_size": 20,
-        "scale": 10e3,
+        'shape_opacity': 0.3,
+        'font_size': 20,
+        'scale': 10e3,
     }
     pl = pv.Plotter(shape=(ntimes // 2, ntimes // 2))
     for i, d in enumerate(dspace):
@@ -192,7 +192,7 @@ To dig into this, let's look at the transformation between ITRF and J2000 at noo
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 19.202 seconds)
+   **Total running time of the script:** (0 minutes 21.496 seconds)
 
 
 .. _sphx_glr_download_gallery_03-coordinate-systems_equinoxes.py:

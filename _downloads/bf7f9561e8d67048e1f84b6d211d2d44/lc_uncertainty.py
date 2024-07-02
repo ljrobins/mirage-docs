@@ -16,10 +16,10 @@ idate = mr.utc(2023, 2, 26, 0)
 obs_time = mr.minutes(20)
 obs_dt = mr.seconds(3)
 
-obj_file = "cube.obj"
+obj_file = 'cube.obj'
 
-station = mr.Station(preset="pogs")
-brdf = mr.Brdf(name="phong", cd=0.5, cs=0.0, n=0)
+station = mr.Station(preset='pogs')
+brdf = mr.Brdf(name='phong', cd=0.5, cs=0.0, n=0)
 attitude = mr.RbtfAttitude(w0=w0, q0=np.array([[0.0, 0.0, 0.0, 1.0]]), itensor=itensor)
 dates, epsecs = mr.date_arange(idate, idate + obs_time, obs_dt, return_epsecs=True)
 
@@ -34,12 +34,12 @@ diffuse_mag = mr.irradiance_to_apparent_magnitude(diffuse_irrad)
 q_of_t, w_of_t = attitude.propagate(epsecs)
 dcms_of_t = mr.quat_to_dcm(q_of_t)
 
-obj = mr.SpaceObject(obj_file, identifier="goes 15")
+obj = mr.SpaceObject(obj_file, identifier='goes 15')
 lc_ccd_signal_sampler, aux_data = station.observe_light_curve(
     obj, attitude, brdf, dates, use_engine=False, model_scale_factor=0.5
 )
 
-print(np.mean(aux_data["background_mean"]))
+print(np.mean(aux_data['background_mean']))
 # endd
 
 plt.figure(figsize=(10, 5))
@@ -47,20 +47,20 @@ plt.figure(figsize=(10, 5))
 plt.subplot(1, 2, 1)
 lcs_noisy_adu = np.array([lc_ccd_signal_sampler() for _ in range(1000)])
 lcs_noisy_irrad = lcs_noisy_adu / (
-    aux_data["sint"] * station.telescope.integration_time
+    aux_data['sint'] * station.telescope.integration_time
 )
 lcs_noisy_mag = lcs_noisy_irrad
 var_lcs = np.var(lcs_noisy_mag, axis=0)
 mean_lcs = np.mean(lcs_noisy_mag, axis=0)
 
-plt.plot(epsecs, mean_lcs, c="k")
+plt.plot(epsecs, mean_lcs, c='k')
 for stdev in [1, 2, 3]:
     plt.fill_between(
         epsecs,
         np.clip(mean_lcs - (stdev - 1) * np.sqrt(var_lcs), 0, np.inf),
         np.clip(mean_lcs - stdev * np.sqrt(var_lcs), 0, np.inf),
         alpha=0.4 - 0.1 * stdev,
-        color="b",
+        color='b',
         edgecolor=None,
     )
     plt.fill_between(
@@ -68,21 +68,21 @@ for stdev in [1, 2, 3]:
         np.clip(mean_lcs + (stdev - 1) * np.sqrt(var_lcs), 0, np.inf),
         np.clip(mean_lcs + stdev * np.sqrt(var_lcs), 0, np.inf),
         alpha=0.4 - 0.1 * stdev,
-        color="b",
+        color='b',
         edgecolor=None,
     )
 mrv.texit(
-    "Light Curve with Uncertainty",
-    "Epoch seconds",
-    "Recieved irradiance [W/m$^2$]",
+    'Light Curve with Uncertainty',
+    'Epoch seconds',
+    'Recieved irradiance [W/m$^2$]',
     grid=False,
-    legend=["Mean", "1$\sigma$", "2$\sigma$", "3$\sigma$"],
+    legend=['Mean', '1$\sigma$', '2$\sigma$', '3$\sigma$'],
 )
 
 plt.subplot(1, 2, 2)
-plt.plot(epsecs, aux_data["snr"], c="k")
-plt.ylim(0, np.max(aux_data["snr"]) * 1.1)
-mrv.texit("CCD Signal to Noise Ratio", "Epoch seconds", "SNR")
+plt.plot(epsecs, aux_data['snr'], c='k')
+plt.ylim(0, np.max(aux_data['snr']) * 1.1)
+mrv.texit('CCD Signal to Noise Ratio', 'Epoch seconds', 'SNR')
 plt.tight_layout()
 plt.show()
 
@@ -99,26 +99,26 @@ for nights in np.arange(4):
         obj, attitude, brdf, this_dates, use_engine=False, model_scale_factor=0.5
     )
 
-    print(np.mean(aux_data["background_mean"]))
+    print(np.mean(aux_data['background_mean']))
 
     plt.subplot(2, 2, nights + 1)
 
     lcs_noisy_adu = np.array([lc_ccd_signal_sampler() for _ in range(1000)])
     lcs_noisy_irrad = lcs_noisy_adu / (
-        aux_data["sint"] * station.telescope.integration_time
+        aux_data['sint'] * station.telescope.integration_time
     )
     lcs_noisy_mag = mr.irradiance_to_apparent_magnitude(lcs_noisy_irrad)
     var_lcs = np.var(lcs_noisy_mag, axis=0)
     mean_lcs = np.mean(lcs_noisy_mag, axis=0)
 
-    plt.plot(epsecs, mean_lcs, c="k", lw=1)
+    plt.plot(epsecs, mean_lcs, c='k', lw=1)
     for stdev in [1, 2, 3]:
         plt.fill_between(
             epsecs,
             np.clip(mean_lcs - (stdev - 1) * np.sqrt(var_lcs), 0, np.inf),
             np.clip(mean_lcs - stdev * np.sqrt(var_lcs), 0, np.inf),
             alpha=0.4 - 0.1 * stdev,
-            color="b",
+            color='b',
             edgecolor=None,
         )
         plt.fill_between(
@@ -126,21 +126,21 @@ for nights in np.arange(4):
             np.clip(mean_lcs + (stdev - 1) * np.sqrt(var_lcs), 0, np.inf),
             np.clip(mean_lcs + stdev * np.sqrt(var_lcs), 0, np.inf),
             alpha=0.4 - 0.1 * stdev,
-            color="b",
+            color='b',
             edgecolor=None,
         )
     mrv.texit(
-        this_dates[0].strftime("%Y-%m-%d"),
-        "",
-        "",
+        this_dates[0].strftime('%Y-%m-%d'),
+        '',
+        '',
         grid=False,
-        legend=["Mean", "1$\sigma$", "2$\sigma$", "3$\sigma$"] if nights == 0 else None,
+        legend=['Mean', '1$\sigma$', '2$\sigma$', '3$\sigma$'] if nights == 0 else None,
     )
     plt.ylim(13, 18)
     plt.gca().invert_yaxis()
 
-plt.gcf().supxlabel("Seconds after midnight UTC")
-plt.gcf().supylabel("Recieved irradiance [W/m$^2$]")
+plt.gcf().supxlabel('Seconds after midnight UTC')
+plt.gcf().supylabel('Recieved irradiance [W/m$^2$]')
 
 plt.tight_layout()
 plt.show()

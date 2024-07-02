@@ -14,19 +14,19 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -37,15 +37,16 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=98d29b3f" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
-  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'gallery/index';</script>
     <link rel="icon" href="../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -61,27 +62,23 @@
 
   
   
-  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -103,18 +100,25 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
   
   <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
 
+  
+    
   
 
 <a class="navbar-brand logo" href="../index.html">
@@ -143,36 +147,36 @@
     <div class="me-auto navbar-header-items__center">
       
         <div class="navbar-item">
-<nav class="navbar-nav">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../getting_started.html">
-                        Getting Started
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting Started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../modules.html">
-                        mirage
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
-                        Examples Gallery
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../modules.html">
+    mirage
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../references.html">
-                        References
-                      </a>
-                    </li>
-                
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    Examples Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -186,7 +190,7 @@
 
  <script>
  document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
     <span class="search-button__default-text">Search</span>
     <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -200,10 +204,10 @@
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
   </button>
 `);
 </script></div>
@@ -217,7 +221,7 @@ document.write(`
 
  <script>
  document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
     <span class="search-button__default-text">Search</span>
     <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -228,9 +232,9 @@ document.write(`
   
 
   
-    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
       <span class="fa-solid fa-outdent"></span>
-    </label>
+    </button>
   
 </div>
 
@@ -251,39 +255,42 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item">
-<nav class="navbar-nav">
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../getting_started.html">
-                        Getting Started
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting Started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../modules.html">
-                        mirage
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
-                        Examples Gallery
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../modules.html">
+    mirage
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../references.html">
-                        References
-                      </a>
-                    </li>
-                
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    Examples Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -295,10 +302,10 @@ document.write(`
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
   </button>
 `);
 </script></div>
@@ -313,7 +320,7 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="00-orbits/index.html">Orbits</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="00-orbits/index.html">Orbits</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="00-orbits/propagate_single_tle.html">Propagating single TLE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="00-orbits/ground_track.html">Ground Tracks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="00-orbits/hifi_propagation.html">Propagating with Perturbations</a></li>
@@ -322,8 +329,8 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="00-orbits/propagate_catalog.html">Propagating the catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="00-orbits/restricted_circular_od.html">Restricted Circular IOD</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="01-light_curves/index.html">Light Curves</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="01-light_curves/index.html">Light Curves</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="01-light_curves/convex_light_curve.html">Convex Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="01-light_curves/rotate_panels_vid.html">Rotating Solar Panels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="01-light_curves/support_unobservability.html">Support Unobservability</a></li>
@@ -331,14 +338,14 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="01-light_curves/light_curve_ambiguities.html">Light Curve Ambiguities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="01-light_curves/importance_sampling_cook_torrance.html">Importance Sampling Cook-Torrance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
 <li class="toctree-l2"><a class="reference internal" href="01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
 <li class="toctree-l2"><a class="reference internal" href="01-light_curves/light_curve_units.html">Light Curve Units</a></li>
 <li class="toctree-l2"><a class="reference internal" href="01-light_curves/lc_uncertainty.html">Light Curve Uncertainty</a></li>
 <li class="toctree-l2"><a class="reference internal" href="01-light_curves/light_curves_types.html">Types of Light Curves</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="02-light_curve_inversion/index.html">Light Curve Inversion</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="02-light_curve_inversion/index.html">Light Curve Inversion</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="02-light_curve_inversion/support_optimization.html">Support Optimization Comparison</a></li>
 <li class="toctree-l2"><a class="reference internal" href="02-light_curve_inversion/perfect_info_inversion.html">Perfect Information Inversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="02-light_curve_inversion/poisson_shape_variance.html">Shape Uncertainty</a></li>
@@ -349,65 +356,66 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="02-light_curve_inversion/aas_non_convex_inversion.html">Non-Convex Inversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="02-light_curve_inversion/parametric_box_wing.html">Parametric Box-Wing Inversion</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="03-coordinate-systems/index.html">Coordinate Frames</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="03-coordinate-systems/index.html">Coordinate Frames</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="03-coordinate-systems/time_systems.html">Time Systems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03-coordinate-systems/equation_of_time.html">The Equation of Time</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03-coordinate-systems/polar_motion.html">Polar Motion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03-coordinate-systems/precession_and_nutation.html">Precession and Nutation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03-coordinate-systems/third_body_interp.html">Third Body Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03-coordinate-systems/coord_interp.html">Coordinate System Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03-coordinate-systems/equinoxes.html">Equinoxes and Solstices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03-coordinate-systems/itrf_to_j2000.html">IAU-76 J2000 Reduction</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="04-environment/index.html">Environment</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="04-environment/index.html">Environment</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="04-environment/luminous_efficiency.html">Luminous Efficiency Function</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04-environment/twilight_model.html">Twilight Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04-environment/geoid_heights.html">Global Elevation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04-environment/airmass.html">Airmass Function Comparison</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-environment/astm_spectra.html">ASTM Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04-environment/space_weather.html">Space Weather</a></li>
-<li class="toctree-l2"><a class="reference internal" href="04-environment/astro_spectra.html">Astrometrical Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-environment/astro_spectra.html">Astronomical Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04-environment/background_zenith.html">Background Signals at Zenith</a></li>
-<li class="toctree-l2"><a class="reference internal" href="04-environment/atmospheric_absorption.html">Atmospheric Transmission</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04-environment/penumbra_plane.html">Penumbra Visualized</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-environment/shadow_functions.html">Shadow Functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04-environment/solar_spectrum.html">Solar Spectrum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-environment/atmospheric_transmission.html">Atmospheric Transmission</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04-environment/passbands.html">Passbands</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04-environment/solar_system.html">Solar System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-environment/star_catalogs.html">Star Catalogs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04-environment/nightlights.html">Zenith Light Pollution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04-environment/background_importance.html">Background Importance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="04-environment/star_catalogs.html">Star Catalogs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-environment/single_star_spectrum.html">Vega and Apparent Magnitudes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04-environment/background_signals.html">Background Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04-environment/reflected_albedo.html">Earth Albedo BRDF</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="05-vis/index.html">Plotting Options</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="05-vis/index.html">Plotting Options</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="05-vis/moon_libration.html">Moon Librations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="05-vis/conic_sensor.html">Conic Sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="05-vis/plot_earth.html">Plotting Earth</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="06-attitude/index.html">Attitude Kinematics and Dynamics</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="06-attitude/index.html">Attitude Kinematics and Dynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
 <li class="toctree-l2"><a class="reference internal" href="06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
 <li class="toctree-l2"><a class="reference internal" href="06-attitude/light_curve_iso_surfaces.html">Brightness Isosurfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="06-attitude/torque_free_axisymmetric.html">Torque-free Attitude Propagation</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="07-observer/index.html">Observer</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="07-observer/index.html">Observer</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="07-observer/light_time_delay.html">Light Time Delay</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07-observer/local_sidereal_time.html">Local Sidereal Time</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07-observer/atmos_refraction.html">Atmospheric Refraction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07-observer/az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="07-observer/horizon_mask.html">Horizon Masks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="07-observer/visualize_constraints.html">Horizon Masked Observations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07-observer/local_hemisphere.html">Live Satellites From Observer</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="08-ccd/index.html">CCD Characterization</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="08-ccd/index.html">CCD Characterization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="08-ccd/vega_psf.html">Vega PSF</a></li>
 <li class="toctree-l2"><a class="reference internal" href="08-ccd/convolution_streaks.html">Convolution for Streaks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="08-ccd/noise_accum_gifs.html">Noise Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="08-ccd/mapping_function.html">Mapping Model</a></li>
@@ -415,15 +423,15 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="08-ccd/stars_in_fov.html">Stars in FOV</a></li>
 <li class="toctree-l2"><a class="reference internal" href="08-ccd/airy_disk_gaussian_fit.html">Airy Disk Gaussian Fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="08-ccd/bias_frame.html">Bias Frames</a></li>
-<li class="toctree-l2"><a class="reference internal" href="08-ccd/ccd_heuristics.html">CCD Heuristics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="08-ccd/airy_disk_diffraction.html">Airy Disk Diffraction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="08-ccd/streaks.html">Streak Detection and Centroiding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-ccd/ccd_heuristics.html">CCD Heuristics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="08-ccd/background_shape.html">Background Shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-ccd/streaks.html">Streak Detection and Centroiding</a></li>
 <li class="toctree-l2"><a class="reference internal" href="08-ccd/snr.html">Signal-to-Noise Ratio (SNR)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="08-ccd/synth_image_results.html">Synthetic Image Results</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="09-models/index.html">3D Models</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="09-models/index.html">3D Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="09-models/introduce_concavity.html">Introducing Concavities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="09-models/merge_bracket.html">Shape Interpolation Bracket</a></li>
 <li class="toctree-l2"><a class="reference internal" href="09-models/load_with_mtl.html">Loading with MTL Properties</a></li>
@@ -433,12 +441,12 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="09-models/shape_metrics.html">Shape Comparison Metrics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="09-models/sfds.html">Signed Distance Fields</a></li>
 <li class="toctree-l2"><a class="reference internal" href="09-models/aabb_tree.html">AABB Trees</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-models/model_editor.html">Model Editor</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="10-utility/index.html">Utility</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="10-utility/index.html">Utility</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="10-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="10-utility/wavelength_to_rgb.html">Wavelength to RGB</a></li>
-<li class="toctree-l2"><a class="reference internal" href="10-utility/fitting_gaussian.html">Fitting Gaussians</a></li>
 <li class="toctree-l2"><a class="reference internal" href="10-utility/kdtree_vs_balltree.html">KDTree vs BallTree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="10-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="10-utility/spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
@@ -446,20 +454,18 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="10-utility/importance_sampling.html">Importance Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="10-utility/rng_speed.html">PRNG Speed</a></li>
 <li class="toctree-l2"><a class="reference internal" href="10-utility/computer_graphics_background.html">Graphics Background</a></li>
-<li class="toctree-l2"><a class="reference internal" href="10-utility/model_editor.html">Model Editor</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="11-work-in-progress/index.html">Works In Progress</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="11-work-in-progress/universal_variables.html">Universal Variables</a></li>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="11-work-in-progress/index.html">Works In Progress</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="11-work-in-progress/inversion_gradient.html">EGI Jacobian</a></li>
 <li class="toctree-l2"><a class="reference internal" href="11-work-in-progress/precise_orbit_determination.html">Precise Orbit Determination with Batch Least Squares</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="12-rpo/index.html">Synthetic RPO</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="12-rpo/index.html">Synthetic RPO</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="12-rpo/synthetic_rpo_images.html">Synthetic RPO</a></li>
 <li class="toctree-l2"><a class="reference internal" href="12-rpo/gps-iii-approach.html">Relative orbit sequence</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 </div>
 </nav></div>
@@ -474,13 +480,13 @@ document.write(`
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
@@ -489,7 +495,7 @@ document.write(`
 
 
 
-<nav aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
@@ -566,12 +572,12 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="Importance Sampling Cook-Torrance"><img alt="" src="../_images/sphx_glr_importance_sampling_cook_torrance_thumb.png" />
 <p><a class="reference internal" href="01-light_curves/importance_sampling_cook_torrance.html#sphx-glr-gallery-01-light-curves-importance-sampling-cook-torrance-py"><span class="std std-ref">Importance Sampling Cook-Torrance</span></a></p>
   <div class="sphx-glr-thumbnail-title">Importance Sampling Cook-Torrance</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Trains a neural network to predict the brightness of a specular cube in an arbitrary lighting a..."><img alt="" src="../_images/sphx_glr_neural_network_brightness_thumb.png" />
-<p><a class="reference internal" href="01-light_curves/neural_network_brightness.html#sphx-glr-gallery-01-light-curves-neural-network-brightness-py"><span class="std std-ref">Neural Network Brightness</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Neural Network Brightness</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plotting BRDF kernels and their rendered results"><img alt="" src="../_images/sphx_glr_brdf_renders_thumb.png" />
 <p><a class="reference internal" href="01-light_curves/brdf_renders.html#sphx-glr-gallery-01-light-curves-brdf-renders-py"><span class="std std-ref">BRDFs in Action</span></a></p>
   <div class="sphx-glr-thumbnail-title">BRDFs in Action</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Trains a neural network to predict the brightness of a specular cube in an arbitrary lighting a..."><img alt="" src="../_images/sphx_glr_neural_network_brightness_thumb.png" />
+<p><a class="reference internal" href="01-light_curves/neural_network_brightness.html#sphx-glr-gallery-01-light-curves-neural-network-brightness-py"><span class="std std-ref">Neural Network Brightness</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Neural Network Brightness</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Expressing the same light curve in different units."><img alt="" src="../_images/sphx_glr_light_curve_units_thumb.png" />
 <p><a class="reference internal" href="01-light_curves/light_curve_units.html#sphx-glr-gallery-01-light-curves-light-curve-units-py"><span class="std std-ref">Light Curve Units</span></a></p>
   <div class="sphx-glr-thumbnail-title">Light Curve Units</div>
@@ -624,9 +630,6 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plotting polar motion components x_p and y_p over the past ~3 decades"><img alt="" src="../_images/sphx_glr_polar_motion_thumb.png" />
 <p><a class="reference internal" href="03-coordinate-systems/polar_motion.html#sphx-glr-gallery-03-coordinate-systems-polar-motion-py"><span class="std std-ref">Polar Motion</span></a></p>
   <div class="sphx-glr-thumbnail-title">Polar Motion</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Viewing the evolution of the instantaneous terrestrial pole due to precession and nutation"><img alt="" src="../_images/sphx_glr_precession_and_nutation_thumb.png" />
-<p><a class="reference internal" href="03-coordinate-systems/precession_and_nutation.html#sphx-glr-gallery-03-coordinate-systems-precession-and-nutation-py"><span class="std std-ref">Precession and Nutation</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Precession and Nutation</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Third Body Interpolation"><img alt="" src="../_images/sphx_glr_third_body_interp_thumb.png" />
 <p><a class="reference internal" href="03-coordinate-systems/third_body_interp.html#sphx-glr-gallery-03-coordinate-systems-third-body-interp-py"><span class="std std-ref">Third Body Interpolation</span></a></p>
   <div class="sphx-glr-thumbnail-title">Third Body Interpolation</div>
@@ -655,45 +658,54 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="Airmass Function Comparison"><img alt="" src="../_images/sphx_glr_airmass_thumb.png" />
 <p><a class="reference internal" href="04-environment/airmass.html#sphx-glr-gallery-04-environment-airmass-py"><span class="std std-ref">Airmass Function Comparison</span></a></p>
   <div class="sphx-glr-thumbnail-title">Airmass Function Comparison</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="ASTM Spectra"><img alt="" src="../_images/sphx_glr_astm_spectra_thumb.png" />
+<p><a class="reference internal" href="04-environment/astm_spectra.html#sphx-glr-gallery-04-environment-astm-spectra-py"><span class="std std-ref">ASTM Spectra</span></a></p>
+  <div class="sphx-glr-thumbnail-title">ASTM Spectra</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plotting the K_p, A_p, and F10.7 space weather indices"><img alt="" src="../_images/sphx_glr_space_weather_thumb.png" />
 <p><a class="reference internal" href="04-environment/space_weather.html#sphx-glr-gallery-04-environment-space-weather-py"><span class="std std-ref">Space Weather</span></a></p>
   <div class="sphx-glr-thumbnail-title">Space Weather</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="A few useful spectra for simulating CCD measurements"><img alt="" src="../_images/sphx_glr_astro_spectra_thumb.png" />
-<p><a class="reference internal" href="04-environment/astro_spectra.html#sphx-glr-gallery-04-environment-astro-spectra-py"><span class="std std-ref">Astrometrical Spectra</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Astrometrical Spectra</div>
+<p><a class="reference internal" href="04-environment/astro_spectra.html#sphx-glr-gallery-04-environment-astro-spectra-py"><span class="std std-ref">Astronomical Spectra</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Astronomical Spectra</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Background Signals at Zenith"><img alt="" src="../_images/sphx_glr_background_zenith_thumb.gif" />
 <p><a class="reference internal" href="04-environment/background_zenith.html#sphx-glr-gallery-04-environment-background-zenith-py"><span class="std std-ref">Background Signals at Zenith</span></a></p>
   <div class="sphx-glr-thumbnail-title">Background Signals at Zenith</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Atmospheric Transmission"><img alt="" src="../_images/sphx_glr_atmospheric_absorption_thumb.png" />
-<p><a class="reference internal" href="04-environment/atmospheric_absorption.html#sphx-glr-gallery-04-environment-atmospheric-absorption-py"><span class="std std-ref">Atmospheric Transmission</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Atmospheric Transmission</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Visualizing the penumbra and umbra of the Earth&#x27;s shadow."><img alt="" src="../_images/sphx_glr_penumbra_plane_thumb.png" />
 <p><a class="reference internal" href="04-environment/penumbra_plane.html#sphx-glr-gallery-04-environment-penumbra-plane-py"><span class="std std-ref">Penumbra Visualized</span></a></p>
   <div class="sphx-glr-thumbnail-title">Penumbra Visualized</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Comparing the effect of the atmosphere on penumbra shadow modeling"><img alt="" src="../_images/sphx_glr_shadow_functions_thumb.png" />
+<p><a class="reference internal" href="04-environment/shadow_functions.html#sphx-glr-gallery-04-environment-shadow-functions-py"><span class="std std-ref">Shadow Functions</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Shadow Functions</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Terrain Tiles"><img alt="" src="../_images/sphx_glr_vesuvius_terrain_thumb.png" />
 <p><a class="reference internal" href="04-environment/vesuvius_terrain.html#sphx-glr-gallery-04-environment-vesuvius-terrain-py"><span class="std std-ref">Terrain Tiles</span></a></p>
   <div class="sphx-glr-thumbnail-title">Terrain Tiles</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Solar Spectrum"><img alt="" src="../_images/sphx_glr_solar_spectrum_thumb.png" />
 <p><a class="reference internal" href="04-environment/solar_spectrum.html#sphx-glr-gallery-04-environment-solar-spectrum-py"><span class="std std-ref">Solar Spectrum</span></a></p>
   <div class="sphx-glr-thumbnail-title">Solar Spectrum</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Transmission spectra using the LOWTRAN atmosphere model"><img alt="" src="../_images/sphx_glr_atmospheric_transmission_thumb.png" />
+<p><a class="reference internal" href="04-environment/atmospheric_transmission.html#sphx-glr-gallery-04-environment-atmospheric-transmission-py"><span class="std std-ref">Atmospheric Transmission</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Atmospheric Transmission</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Passbands for the Gaia and Johnson-Cousins photometric systems."><img alt="" src="../_images/sphx_glr_passbands_thumb.png" />
 <p><a class="reference internal" href="04-environment/passbands.html#sphx-glr-gallery-04-environment-passbands-py"><span class="std std-ref">Passbands</span></a></p>
   <div class="sphx-glr-thumbnail-title">Passbands</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plotting the solar system planet directions with respect to the Earth at a given time"><img alt="" src="../_images/sphx_glr_solar_system_thumb.gif" />
 <p><a class="reference internal" href="04-environment/solar_system.html#sphx-glr-gallery-04-environment-solar-system-py"><span class="std std-ref">Solar System</span></a></p>
   <div class="sphx-glr-thumbnail-title">Solar System</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Initializing and querying star catalogs"><img alt="" src="../_images/sphx_glr_star_catalogs_thumb.png" />
+<p><a class="reference internal" href="04-environment/star_catalogs.html#sphx-glr-gallery-04-environment-star-catalogs-py"><span class="std std-ref">Star Catalogs</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Star Catalogs</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plotting and querying a large dataset of zenith light pollution from the Light Pollution Map, w..."><img alt="" src="../_images/sphx_glr_nightlights_thumb.png" />
 <p><a class="reference internal" href="04-environment/nightlights.html#sphx-glr-gallery-04-environment-nightlights-py"><span class="std std-ref">Zenith Light Pollution</span></a></p>
   <div class="sphx-glr-thumbnail-title">Zenith Light Pollution</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plotting the changes in background signal values over the course of one night"><img alt="" src="../_images/sphx_glr_background_importance_thumb.png" />
 <p><a class="reference internal" href="04-environment/background_importance.html#sphx-glr-gallery-04-environment-background-importance-py"><span class="std std-ref">Background Importance</span></a></p>
   <div class="sphx-glr-thumbnail-title">Background Importance</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Initializing and querying star catalogs"><img alt="" src="../_images/sphx_glr_star_catalogs_thumb.png" />
-<p><a class="reference internal" href="04-environment/star_catalogs.html#sphx-glr-gallery-04-environment-star-catalogs-py"><span class="std std-ref">Star Catalogs</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Star Catalogs</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Displays the patched GAIA catalog"><img alt="" src="../_images/sphx_glr_gaia_patched_catalog_thumb.png" />
 <p><a class="reference internal" href="04-environment/gaia_patched_catalog.html#sphx-glr-gallery-04-environment-gaia-patched-catalog-py"><span class="std std-ref">GAIA Patched Catalog</span></a></p>
   <div class="sphx-glr-thumbnail-title">GAIA Patched Catalog</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Computing the apparent magnitude of a star from its absolute flux spectrum in a given passband"><img alt="" src="../_images/sphx_glr_single_star_spectrum_thumb.png" />
+<p><a class="reference internal" href="04-environment/single_star_spectrum.html#sphx-glr-gallery-04-environment-single-star-spectrum-py"><span class="std std-ref">Vega and Apparent Magnitudes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Vega and Apparent Magnitudes</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="The mean background signal model due to various sources"><img alt="" src="../_images/sphx_glr_background_signals_thumb.png" />
 <p><a class="reference internal" href="04-environment/background_signals.html#sphx-glr-gallery-04-environment-background-signals-py"><span class="std std-ref">Background Signals</span></a></p>
   <div class="sphx-glr-thumbnail-title">Background Signals</div>
@@ -723,7 +735,7 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="Animates the attitude motion of an object in torque free motion"><img alt="" src="../_images/sphx_glr_vis_attitude_motion_thumb.gif" />
 <p><a class="reference internal" href="06-attitude/vis_attitude_motion.html#sphx-glr-gallery-06-attitude-vis-attitude-motion-py"><span class="std std-ref">Rigid Body Torque Free Attitudes</span></a></p>
   <div class="sphx-glr-thumbnail-title">Rigid Body Torque Free Attitudes</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Simulates and animates an aligned and constrained attitude profile"><img alt="" src="../_images/sphx_glr_aligned_angle_constrained_thumb.gif" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="Simulates and animates an aligned and constrained attitude profile"><img alt="" src="../_images/sphx_glr_aligned_angle_constrained_thumb.png" />
 <p><a class="reference internal" href="06-attitude/aligned_angle_constrained.html#sphx-glr-gallery-06-attitude-aligned-angle-constrained-py"><span class="std std-ref">Aligned and Constrained</span></a></p>
   <div class="sphx-glr-thumbnail-title">Aligned and Constrained</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plotting all orientations of a cube that produce a certian brightness value at a given phase an..."><img alt="" src="../_images/sphx_glr_light_curve_iso_surfaces_thumb.png" />
@@ -748,19 +760,16 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="Given a station and a target in inertial space we can compute the azimuth and elevation of the ..."><img alt="" src="../_images/sphx_glr_az_el_parallel_thumb.png" />
 <p><a class="reference internal" href="07-observer/az_el_parallel.html#sphx-glr-gallery-07-observer-az-el-parallel-py"><span class="std std-ref">Azimuth/Elevation Conversion</span></a></p>
   <div class="sphx-glr-thumbnail-title">Azimuth/Elevation Conversion</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Builds a terrain-driven horizon mask for a given station and displays the result"><img alt="" src="../_images/sphx_glr_horizon_mask_thumb.gif" />
-<p><a class="reference internal" href="07-observer/horizon_mask.html#sphx-glr-gallery-07-observer-horizon-mask-py"><span class="std std-ref">Horizon Masks</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Horizon Masks</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Horizon Masked Observations"><img alt="" src="../_images/sphx_glr_visualize_constraints_thumb.gif" />
-<p><a class="reference internal" href="07-observer/visualize_constraints.html#sphx-glr-gallery-07-observer-visualize-constraints-py"><span class="std std-ref">Horizon Masked Observations</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Horizon Masked Observations</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plots satellites that would be visible from a station&#x27;s telescope in real time"><img alt="" src="../_images/sphx_glr_local_hemisphere_thumb.gif" />
 <p><a class="reference internal" href="07-observer/local_hemisphere.html#sphx-glr-gallery-07-observer-local-hemisphere-py"><span class="std std-ref">Live Satellites From Observer</span></a></p>
   <div class="sphx-glr-thumbnail-title">Live Satellites From Observer</div>
 </div></div></section>
 <section id="ccd-characterization">
 <h1>CCD Characterization<a class="headerlink" href="#ccd-characterization" title="Link to this heading">#</a></h1>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Convolution for Streaks"><img alt="" src="../_images/sphx_glr_convolution_streaks_thumb.png" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Plotting the point spread function of Vega"><img alt="" src="../_images/sphx_glr_vega_psf_thumb.png" />
+<p><a class="reference internal" href="08-ccd/vega_psf.html#sphx-glr-gallery-08-ccd-vega-psf-py"><span class="std std-ref">Vega PSF</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Vega PSF</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Convolution for Streaks"><img alt="" src="../_images/sphx_glr_convolution_streaks_thumb.png" />
 <p><a class="reference internal" href="08-ccd/convolution_streaks.html#sphx-glr-gallery-08-ccd-convolution-streaks-py"><span class="std std-ref">Convolution for Streaks</span></a></p>
   <div class="sphx-glr-thumbnail-title">Convolution for Streaks</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plots the accumulation of noise in the CCD due to integration noise, readout noise, and truncat..."><img alt="" src="../_images/sphx_glr_noise_accum_gifs_thumb.gif" />
@@ -769,7 +778,7 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="Modeling the shape of the CCD image"><img alt="" src="../_images/sphx_glr_mapping_function_thumb.png" />
 <p><a class="reference internal" href="08-ccd/mapping_function.html#sphx-glr-gallery-08-ccd-mapping-function-py"><span class="std std-ref">Mapping Model</span></a></p>
   <div class="sphx-glr-thumbnail-title">Mapping Model</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="An animated gif of the real and simulated images taken by POGS"><img alt="" src="../_images/sphx_glr_matched_imgs_gif_thumb.gif" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="An animated gif of the real and simulated images taken by POGS"><img alt="" src="../_images/sphx_glr_matched_imgs_gif_thumb.png" />
 <p><a class="reference internal" href="08-ccd/matched_imgs_gif.html#sphx-glr-gallery-08-ccd-matched-imgs-gif-py"><span class="std std-ref">Digital Twin Animated</span></a></p>
   <div class="sphx-glr-thumbnail-title">Digital Twin Animated</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Computing which stars are in the field of view"><img alt="" src="../_images/sphx_glr_stars_in_fov_thumb.png" />
@@ -781,18 +790,18 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="Characterizing the background bias of the POGS CCD"><img alt="" src="../_images/sphx_glr_bias_frame_thumb.png" />
 <p><a class="reference internal" href="08-ccd/bias_frame.html#sphx-glr-gallery-08-ccd-bias-frame-py"><span class="std std-ref">Bias Frames</span></a></p>
   <div class="sphx-glr-thumbnail-title">Bias Frames</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Examples to develop a better intuition for CCD counts from known sources"><img alt="" src="../_images/sphx_glr_ccd_heuristics_thumb.png" />
-<p><a class="reference internal" href="08-ccd/ccd_heuristics.html#sphx-glr-gallery-08-ccd-ccd-heuristics-py"><span class="std std-ref">CCD Heuristics</span></a></p>
-  <div class="sphx-glr-thumbnail-title">CCD Heuristics</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Airy Disk Diffraction"><img alt="" src="../_images/sphx_glr_airy_disk_diffraction_thumb.png" />
 <p><a class="reference internal" href="08-ccd/airy_disk_diffraction.html#sphx-glr-gallery-08-ccd-airy-disk-diffraction-py"><span class="std std-ref">Airy Disk Diffraction</span></a></p>
   <div class="sphx-glr-thumbnail-title">Airy Disk Diffraction</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Doing image processing to figure out where the streaks are on a FITS image"><img alt="" src="../_images/sphx_glr_streaks_thumb.png" />
-<p><a class="reference internal" href="08-ccd/streaks.html#sphx-glr-gallery-08-ccd-streaks-py"><span class="std std-ref">Streak Detection and Centroiding</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Streak Detection and Centroiding</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Examples to develop a better intuition for CCD counts from known sources"><img alt="" src="../_images/sphx_glr_ccd_heuristics_thumb.png" />
+<p><a class="reference internal" href="08-ccd/ccd_heuristics.html#sphx-glr-gallery-08-ccd-ccd-heuristics-py"><span class="std std-ref">CCD Heuristics</span></a></p>
+  <div class="sphx-glr-thumbnail-title">CCD Heuristics</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Inspecting the shape of the background in a POGS CCD image"><img alt="" src="../_images/sphx_glr_background_shape_thumb.png" />
 <p><a class="reference internal" href="08-ccd/background_shape.html#sphx-glr-gallery-08-ccd-background-shape-py"><span class="std std-ref">Background Shape</span></a></p>
   <div class="sphx-glr-thumbnail-title">Background Shape</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Doing image processing to figure out where the streaks are on a FITS image"><img alt="" src="../_images/sphx_glr_streaks_thumb.png" />
+<p><a class="reference internal" href="08-ccd/streaks.html#sphx-glr-gallery-08-ccd-streaks-py"><span class="std std-ref">Streak Detection and Centroiding</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Streak Detection and Centroiding</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Signal-to-Noise Ratio (SNR)"><img alt="" src="../_images/sphx_glr_snr_thumb.png" />
 <p><a class="reference internal" href="08-ccd/snr.html#sphx-glr-gallery-08-ccd-snr-py"><span class="std std-ref">Signal-to-Noise Ratio (SNR)</span></a></p>
   <div class="sphx-glr-thumbnail-title">Signal-to-Noise Ratio (SNR)</div>
@@ -829,6 +838,9 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="Building an axis-aligned bounding box (AABB) for a given trimesh"><img alt="" src="../_images/sphx_glr_aabb_tree_thumb.png" />
 <p><a class="reference internal" href="09-models/aabb_tree.html#sphx-glr-gallery-09-models-aabb-tree-py"><span class="std std-ref">AABB Trees</span></a></p>
   <div class="sphx-glr-thumbnail-title">AABB Trees</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="A custom material assignment tool for creating accurate space object models based on a standard..."><img alt="" src="../_images/sphx_glr_model_editor_thumb.png" />
+<p><a class="reference internal" href="09-models/model_editor.html#sphx-glr-gallery-09-models-model-editor-py"><span class="std std-ref">Model Editor</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Model Editor</div>
 </div></div></section>
 <section id="utility">
 <h1>Utility<a class="headerlink" href="#utility" title="Link to this heading">#</a></h1>
@@ -839,9 +851,6 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="Wavelength to RGB"><img alt="" src="../_images/sphx_glr_wavelength_to_rgb_thumb.png" />
 <p><a class="reference internal" href="10-utility/wavelength_to_rgb.html#sphx-glr-gallery-10-utility-wavelength-to-rgb-py"><span class="std std-ref">Wavelength to RGB</span></a></p>
   <div class="sphx-glr-thumbnail-title">Wavelength to RGB</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Let&#x27;s fit a Gaussian to some scattered data"><img alt="" src="../_images/sphx_glr_fitting_gaussian_thumb.png" />
-<p><a class="reference internal" href="10-utility/fitting_gaussian.html#sphx-glr-gallery-10-utility-fitting-gaussian-py"><span class="std std-ref">Fitting Gaussians</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Fitting Gaussians</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Benchmarking tree searches in R^3"><img alt="" src="../_images/sphx_glr_kdtree_vs_balltree_thumb.png" />
 <p><a class="reference internal" href="10-utility/kdtree_vs_balltree.html#sphx-glr-gallery-10-utility-kdtree-vs-balltree-py"><span class="std std-ref">KDTree vs BallTree</span></a></p>
   <div class="sphx-glr-thumbnail-title">KDTree vs BallTree</div>
@@ -863,16 +872,10 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plotting various transformations and concepts from computer graphics"><img alt="" src="../_images/sphx_glr_computer_graphics_background_thumb.png" />
 <p><a class="reference internal" href="10-utility/computer_graphics_background.html#sphx-glr-gallery-10-utility-computer-graphics-background-py"><span class="std std-ref">Graphics Background</span></a></p>
   <div class="sphx-glr-thumbnail-title">Graphics Background</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="A custom material assignment tool for creating accurate space object models based on a standard..."><img alt="" src="../_images/sphx_glr_model_editor_thumb.png" />
-<p><a class="reference internal" href="10-utility/model_editor.html#sphx-glr-gallery-10-utility-model-editor-py"><span class="std std-ref">Model Editor</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Model Editor</div>
 </div></div></section>
 <section id="works-in-progress">
 <h1>Works In Progress<a class="headerlink" href="#works-in-progress" title="Link to this heading">#</a></h1>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Universal Variables"><img alt="" src="../_images/sphx_glr_universal_variables_thumb.png" />
-<p><a class="reference internal" href="11-work-in-progress/universal_variables.html#sphx-glr-gallery-11-work-in-progress-universal-variables-py"><span class="std std-ref">Universal Variables</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Universal Variables</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Computing the change in the convex object guess (via its EGI) due to a change in the light curv..."><img alt="" src="../_images/sphx_glr_inversion_gradient_thumb.png" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Computing the change in the convex object guess (via its EGI) due to a change in the light curv..."><img alt="" src="../_images/sphx_glr_inversion_gradient_thumb.png" />
 <p><a class="reference internal" href="11-work-in-progress/inversion_gradient.html#sphx-glr-gallery-11-work-in-progress-inversion-gradient-py"><span class="std std-ref">EGI Jacobian</span></a></p>
   <div class="sphx-glr-thumbnail-title">EGI Jacobian</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Precise Orbit Determination with Batch Least Squares"><img alt="" src="../_images/sphx_glr_precise_orbit_determination_thumb.png" />
@@ -899,7 +902,7 @@ document.write(`
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -971,8 +974,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -992,7 +995,7 @@ document.write(`
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
     <br/>
   </p>
 </div>
@@ -1005,7 +1008,7 @@ document.write(`
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.2.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
 </p></div>
       
     </div>

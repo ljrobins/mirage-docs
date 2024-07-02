@@ -30,7 +30,7 @@ rv = mr.integrate_orbit_dynamics(
     rv0,
     dates,
     gravity_harmonics_degree=4,
-    third_bodies=["sun", "moon", "jupiter"],
+    third_bodies=['sun', 'moon', 'jupiter'],
     int_tol=1e-9,  # Because I want this example to render quickly
 )
 rv = rv.reshape((dates.size, 6, -1))
@@ -45,7 +45,7 @@ for i in range(rv.shape[-1]):
         r,
         lighting=True,
         scalars=epsecs,
-        cmap="twilight",
+        cmap='twilight',
         show_scalar_bar=False,
         line_width=15,
     )

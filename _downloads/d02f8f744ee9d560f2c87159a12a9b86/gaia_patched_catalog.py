@@ -16,7 +16,7 @@ import mirage.vis as mrv
 dec_grid, ra_grid = np.meshgrid(
     np.linspace(-np.pi / 2, np.pi / 2, 180),
     np.linspace(-np.pi, np.pi, 360),
-    indexing="ij",
+    indexing='ij',
 )
 look_dir_grid = mr.ra_dec_to_eci(ra_grid.flatten(), dec_grid.flatten())
 
@@ -46,21 +46,21 @@ signal = np.log10(np.reshape(signal, ra_grid.shape))
 xx, yy = np.meshgrid(
     np.linspace(-180, 180, signal.shape[1]), np.linspace(-90, 90, signal.shape[0])
 )
-cs = plt.contour(xx, yy, signal, levels=[1], colors="k", linestyles="solid")
+cs = plt.contour(xx, yy, signal, levels=[1], colors='k', linestyles='solid')
 plt.gca().clabel(cs, inline=True, fontsize=10)
 plt.imshow(
     np.flipud(signal),
-    cmap="plasma",
+    cmap='plasma',
     extent=(-180, 180, -90, 90),
 )
 
 mrv.texit(
-    "Patched GAIA Catalog $m \geq 16$",
-    "Right Ascension [deg]",
-    "Declination [deg]",
+    'Patched GAIA Catalog $m \geq 16$',
+    'Right Ascension [deg]',
+    'Declination [deg]',
     grid=False,
 )
-plt.colorbar(label=r"Zenith signal $\log_{10}\text{[ADU]}$", cax=mrv.get_cbar_ax())
+plt.colorbar(label=r'Zenith signal $\log_{10}\text{[ADU]}$', cax=mrv.get_cbar_ax())
 plt.show()
 
 # %%
@@ -68,7 +68,7 @@ plt.show()
 x, y, z = mr.sph_to_cart(ra_grid.flatten(), dec_grid.flatten())
 sample_dirs_eci = np.vstack((x, y, z)).T
 
-station = mr.Station("pogs")
+station = mr.Station('pogs')
 sig = mr.integrated_starlight_signal(
     station=station,
     look_dirs_eci_eq=sample_dirs_eci,
@@ -81,10 +81,9 @@ sig = mr.integrated_starlight_signal(
 
 plt.imshow(
     np.flipud(sig.reshape(dec_grid.shape)),
-    cmap="hot",
+    cmap='hot',
     extent=(-180, 180, -90, 90),
 )
-import os
 
 # urls_and_dirs = {
 #     "https://github.com/ljrobins/mirage-resources/raw/main/tycho2.json": os.environ[
@@ -95,18 +94,18 @@ import os
 # for url, dir in urls_and_dirs.items():
 #     mr.save_file_from_url(url, dir)
 
-t2 = mr.load_json_data("tycho2.json")
-tycho2_ra_rad = t2["j2000_ra"][::10]
-tycho2_dec_rad = t2["j2000_dec"][::10]
-vm = t2["visual_magnitude"][::10]
+t2 = mr.load_json_data('tycho2.json')
+tycho2_ra_rad = t2['j2000_ra'][::10]
+tycho2_dec_rad = t2['j2000_dec'][::10]
+vm = t2['visual_magnitude'][::10]
 
 mrv.texit(
-    "Patched GAIA Catalog $m \geq 16$",
-    "Right Ascension [deg]",
-    "Declination [deg]",
+    'Patched GAIA Catalog $m \geq 16$',
+    'Right Ascension [deg]',
+    'Declination [deg]',
     grid=False,
 )
-plt.colorbar(label="Total signal [e-/pix]", cax=mrv.get_cbar_ax())
+plt.colorbar(label='Total signal [e-/pix]', cax=mrv.get_cbar_ax())
 plt.show()
 
 # %%
@@ -116,13 +115,13 @@ import pyvista as pv
 tycho2_unit_vectors = np.vstack(mr.sph_to_cart(az=tycho2_ra_rad, el=tycho2_dec_rad)).T
 
 pl = pv.Plotter()
-pl.set_background("black")
+pl.set_background('black')
 mrv.scatter3(
     pl,
     sample_dirs_eci,
     scalars=sig,
     point_size=10,
-    cmap="fire",
+    cmap='fire',
     opacity=sig / np.max(sig),
 )
 mrv.scatter3(
@@ -130,8 +129,8 @@ mrv.scatter3(
     tycho2_unit_vectors,
     scalars=1 - vm / np.max(vm),
     point_size=0.05,
-    cmap="cool",
+    cmap='cool',
 )
-mrv.plot_basis(pl, np.eye(3), ["x", "y", "z"], scale=1.3, color="cyan")
+mrv.plot_basis(pl, np.eye(3), ['x', 'y', 'z'], scale=1.3, color='cyan')
 pl.view_isometric()
 pl.show()

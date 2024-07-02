@@ -6,16 +6,14 @@ Precise Orbit Determination with Batch Least Squares
 import datetime
 
 import numpy as np
-import pyvista as pv
 
 import mirage as mr
-import mirage.vis as mrv
 
 # %%
 # First, let's define a station and a truth object
 
 station = mr.Station()
-obj = mr.SpaceObject("cube.obj", identifier=36411)
+obj = mr.SpaceObject('cube.obj', identifier=36411)
 
 # %%
 # Let's create three line of sight observations of the object
@@ -41,7 +39,7 @@ def angles_only_measurement_model(state: np.ndarray, dates: np.ndarray) -> np.nd
         (state.shape[0] == len(dates))
         if isinstance(dates, np.ndarray)
         else state.size == 6
-    ), "state and dates must have the same number of rows"
+    ), 'state and dates must have the same number of rows'
     r = state.reshape(-1, 6)[:, :3]
     r_station = station.j2000_at_dates(dates)
     r_station_to_sat = r - r_station
@@ -55,7 +53,7 @@ def angles_only_measurement_model_jacobian(
         (state.shape[0] == len(dates))
         if isinstance(dates, np.ndarray)
         else state.size == 6
-    ), "state and dates must have the same number of rows"
+    ), 'state and dates must have the same number of rows'
     r = state.reshape(-1, 6)[:, :3]
     r_station = station.j2000_at_dates(dates)
     r_station_to_sat = r - r_station

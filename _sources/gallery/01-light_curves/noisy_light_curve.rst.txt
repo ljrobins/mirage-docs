@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_01-light_curves_noisy_light_curve.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -71,26 +71,14 @@ Setting up the scenario objects
 
 .. code-block:: Python
 
-    obj = mr.SpaceObject("hylas4.obj", identifier="goes 15")
-    brdf = mr.Brdf("phong")
-    station = mr.Station(preset="pogs")
+    obj = mr.SpaceObject('hylas4.obj', identifier='goes 15')
+    brdf = mr.Brdf('phong')
+    station = mr.Station(preset='pogs')
     # Observing from the Purdue Optical Ground Station in New Mexico
 
 
 
 
-
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    Model file hylas4.obj not found in current model folder ('/Users/liamrobinson/Documents/mirage/mirage/resources/models'), checking model repository...
-    Attempting to download hylas4.obj and its associated material file from the model repository...
-    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//accurate_sats/hylas4.obj
-    Model files were downloaded successfully!
-    Attempting to download spacelib.obj and its associated material file from the model repository...
-    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//accurate_sats/spacelib.mtl
-    Model files were downloaded successfully!
 
 
 
@@ -99,7 +87,7 @@ Setting up the scenario objects
 
 Defining observation constraints on the station
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-42
+.. GENERATED FROM PYTHON SOURCE LINES 32-41
 
 .. code-block:: Python
 
@@ -110,7 +98,6 @@ Defining observation constraints on the station
         mr.ObserverEclipseConstraint(station),
         mr.VisualMagnitudeConstraint(18),
         mr.MoonExclusionConstraint(10),
-        mr.HorizonMaskConstraint(station),
     ]
 
 
@@ -120,11 +107,11 @@ Defining observation constraints on the station
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-44
+.. GENERATED FROM PYTHON SOURCE LINES 42-43
 
 Defining the object's attitude profile and mass properties
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-50
+.. GENERATED FROM PYTHON SOURCE LINES 43-49
 
 .. code-block:: Python
 
@@ -141,11 +128,11 @@ Defining the object's attitude profile and mass properties
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 51-52
+.. GENERATED FROM PYTHON SOURCE LINES 50-51
 
 Computing the full noisy light curve
 
-.. GENERATED FROM PYTHON SOURCE LINES 52-57
+.. GENERATED FROM PYTHON SOURCE LINES 51-56
 
 .. code-block:: Python
 
@@ -161,24 +148,24 @@ Computing the full noisy light curve
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-59
+.. GENERATED FROM PYTHON SOURCE LINES 57-58
 
 Extracting data and plotting results
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-72
+.. GENERATED FROM PYTHON SOURCE LINES 58-71
 
 .. code-block:: Python
 
-    lc_clean = aux_data["lc_clean"]
+    lc_clean = aux_data['lc_clean']
 
     sns.scatterplot(x=ephr, y=lc_noisy, linewidth=0.05, size=0.2)
-    sns.scatterplot(x=ephr, y=lc_clean, linewidth=0.05, size=0.2, color="k")
+    sns.scatterplot(x=ephr, y=lc_clean, linewidth=0.05, size=0.2, color='k')
     plt.xlim((0, np.max(ephr)))
     mrv.texit(
-        f"Light Curves for {obj.satnum}",
-        "Epoch hours",
-        "[e-]",
-        ["Measurements", "True Mean"],
+        f'Light Curves for {obj.sat.satnum}',
+        'Epoch hours',
+        '[e-]',
+        ['Measurements', 'True Mean'],
     )
     plt.grid()
     plt.show()
@@ -197,7 +184,7 @@ Extracting data and plotting results
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 17.291 seconds)
+   **Total running time of the script:** (0 minutes 12.264 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_noisy_light_curve.py:

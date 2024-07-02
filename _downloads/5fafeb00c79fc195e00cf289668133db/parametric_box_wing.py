@@ -16,16 +16,16 @@ import mirage as mr
 import mirage.vis as mrv
 
 vars_enum = [
-    "x_scale",
-    "y_scale",
-    "z_scale",
-    "wing_area",
-    "cd_wing",
-    "cd_box",
-    "cs_box",
-    "cs_wing",
-    "n_box",
-    "n_wing",
+    'x_scale',
+    'y_scale',
+    'z_scale',
+    'wing_area',
+    'cd_wing',
+    'cd_box',
+    'cs_box',
+    'cs_wing',
+    'n_box',
+    'n_wing',
 ]
 
 
@@ -39,10 +39,10 @@ def construct_from_y(attitude, y: np.ndarray, knowns: dict):
     y = np.clip(y, 1e-8, np.inf)
     n_box, n_wing = y[8], y[9]
     brdf_box = mr.Brdf(
-        name="cook-torrance", cd=cd_box, cs=cs_box, n=n_box, validate=False
+        name='cook-torrance', cd=cd_box, cs=cs_box, n=n_box, validate=False
     )
     brdf_wing = mr.Brdf(
-        name="cook-torrance", cd=cd_wing, cs=cs_wing, n=n_wing, validate=False
+        name='cook-torrance', cd=cd_wing, cs=cs_wing, n=n_wing, validate=False
     )
     return BoxWingParametric(
         attitude,
@@ -69,7 +69,7 @@ class BoxWingParametric:
         self.attitude = attitude
         self.brdf_box = brdf_box
         self.brdf_wing = brdf_wing
-        self._cube_template = mr.SpaceObject("cube.obj")
+        self._cube_template = mr.SpaceObject('cube.obj')
         self._cube_template.v /= np.sqrt(self._cube_template.unique_areas[0])
         self.box = mr.SpaceObject(
             vertices_and_faces=(self._cube_template.v, self._cube_template.f)
@@ -126,7 +126,7 @@ class BoxWingParametric:
     ):
         if knowns is None:
             knowns = dict()
-        if hasattr(lc_unit_observed, "mask"):
+        if hasattr(lc_unit_observed, 'mask'):
             valid_inds = ~lc_unit_observed.mask
         else:
             valid_inds = ~np.isnan(lc_unit_observed)
@@ -145,11 +145,11 @@ class BoxWingParametric:
 
         print(y_from_bwp(self))
 
-        opt_sol = minimize(objective, y_from_bwp(self), options={"maxiter": 1})
+        opt_sol = minimize(objective, y_from_bwp(self), options={'maxiter': 1})
         return construct_from_y(self.attitude, opt_sol.x, knowns)
 
     def __repr__(self):
-        return f"BoxWingParametric(attitude={self.attitude}, brdf_box={self.brdf_box}, brdf_wing={self.brdf_wing}, x_scale={self.scales[0]}, y_scale={self.scales[1]}, z_scale={self.scales[2]}, wing_area={self.wing_area})"
+        return f'BoxWingParametric(attitude={self.attitude}, brdf_box={self.brdf_box}, brdf_wing={self.brdf_wing}, x_scale={self.scales[0]}, y_scale={self.scales[1]}, z_scale={self.scales[2]}, wing_area={self.wing_area})'
 
 
 def y_from_bwp(bwp: BoxWingParametric):
@@ -171,17 +171,17 @@ def y_from_bwp(bwp: BoxWingParametric):
 
 from scipy.io import loadmat
 
-orbit_sol_path = "/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/2022-09-18_GPS_PRN14/ProcessedData/Fitted_Orbits/OrbitSolutions.mat"
+orbit_sol_path = '/Volumes/Data 1/imgs/pogs/2022/2022-09-18_GPS_PRN14/ProcessedData/Fitted_Orbits/OrbitSolutions.mat'
 orbit_mat = loadmat(orbit_sol_path)
 sol_mat = {
-    k: orbit_mat["CuratedObjects"][0][k][0].squeeze()
-    for k in orbit_mat["CuratedObjects"][0].dtype.names
+    k: orbit_mat['CuratedObjects'][0][k][0].squeeze()
+    for k in orbit_mat['CuratedObjects'][0].dtype.names
 }
-sol_mat["JD"] = np.sum(sol_mat["JD"], axis=0)
-dates = mr.jd_to_date(sol_mat["JD"])
-rmag = mr.vecnorm(sol_mat["r"].T).flatten()
+sol_mat['JD'] = np.sum(sol_mat['JD'], axis=0)
+dates = mr.jd_to_date(sol_mat['JD'])
+rmag = mr.vecnorm(sol_mat['r'].T).flatten()
 isun = mr.total_solar_irradiance_at_dates(dates)
-lc_norm_true = sol_mat["flux"] / isun * rmag**2 * 1e6
+lc_norm_true = sol_mat['flux'] / isun * rmag**2 * 1e6
 
 epsecs = mr.date_to_epsec(dates)
 ephrs = (epsecs - epsecs[0]) / 3600
@@ -195,10 +195,9 @@ station.constraints = [
     mr.ObserverEclipseConstraint(station),
     mr.VisualMagnitudeConstraint(20),
     mr.MoonExclusionConstraint(10),
-    mr.HorizonMaskConstraint(station),
 ]
 
-obj = mr.SpaceObject("matlib_gps_iii.obj", identifier="NAVSTAR 80 (USA 309)")
+obj = mr.SpaceObject('matlib_gps_iii.obj', identifier='NAVSTAR 80 (USA 309)')
 r_obj_j2k = obj.propagate(dates)
 
 sv = mr.sun(dates)
@@ -211,20 +210,20 @@ attitude = mr.AlignedAndConstrainedAttitude(
 )
 
 vars_enum = [
-    "x_scale",
-    "y_scale",
-    "z_scale",
-    "wing_area",
-    "cd_wing",
-    "cd_box",
-    "cs_box",
-    "cs_wing",
-    "n_box",
-    "n_wing",
+    'x_scale',
+    'y_scale',
+    'z_scale',
+    'wing_area',
+    'cd_wing',
+    'cd_box',
+    'cs_box',
+    'cs_wing',
+    'n_box',
+    'n_wing',
 ]
 
-brdf_box = mr.Brdf("phong", cd=0.32, cs=0.27, n=0.165)
-brdf_wing = mr.Brdf("phong", cd=0.0, cs=1.0, n=0.273)
+brdf_box = mr.Brdf('phong', cd=0.32, cs=0.27, n=0.165)
+brdf_wing = mr.Brdf('phong', cd=0.0, cs=1.0, n=0.273)
 
 station_pos_eci = station.j2000_at_dates(dates)
 object_pos_eci = obj.propagate(dates)
@@ -247,9 +246,9 @@ box_lc, wing_lc = bwp.eval(dates, ovb)
 
 fig, ax = plt.subplots(figsize=(10, 5))
 plt.subplots_adjust(bottom=0.5)
-blc = plt.plot(ephrs, box_lc + wing_lc, label="Fit")
-plt.plot(ephrs, lc_norm_true, label="Observed")
-mrv.texit("Parametric Box-Wing Fit", "Date", "Normalized Brightness")
+blc = plt.plot(ephrs, box_lc + wing_lc, label='Fit')
+plt.scatter(ephrs, lc_norm_true, label='Observed', s=1)
+mrv.texit('Parametric Box-Wing Fit', 'Date', 'Normalized Brightness')
 plt.legend()
 
 
@@ -312,52 +311,52 @@ def update_z_scale(val):
 dy = 0.07
 
 slider_box_cd = Slider(
-    plt.axes([0.1, 0.01, 0.2, 0.03]), "box_cd", 0, 1, valinit=brdf_box.cd
+    plt.axes([0.1, 0.01, 0.2, 0.03]), 'box_cd', 0, 1, valinit=brdf_box.cd
 )
 slider_box_cd.on_changed(update_box_cd)
 
 slider_box_cs = Slider(
-    plt.axes([0.4, 0.01, 0.2, 0.03]), "box_cs", 0, 1, valinit=brdf_box.cs
+    plt.axes([0.4, 0.01, 0.2, 0.03]), 'box_cs', 0, 1, valinit=brdf_box.cs
 )
 slider_box_cs.on_changed(update_box_cs)
 
 slider_box_n = Slider(
-    plt.axes([0.7, 0.01, 0.2, 0.03]), "box_n", 1e-8, 2, valinit=brdf_box.n
+    plt.axes([0.7, 0.01, 0.2, 0.03]), 'box_n', 1e-8, 2, valinit=brdf_box.n
 )
 slider_box_n.on_changed(update_box_n)
 
 slider_wing_cd = Slider(
-    plt.axes([0.1, dy, 0.2, 0.03]), "wing_cd", 0, 1, valinit=brdf_wing.cd
+    plt.axes([0.1, dy, 0.2, 0.03]), 'wing_cd', 0, 1, valinit=brdf_wing.cd
 )
 slider_wing_cd.on_changed(update_wing_cd)
 
 slider_wing_cs = Slider(
-    plt.axes([0.4, dy, 0.2, 0.03]), "wing_cs", 0, 1, valinit=brdf_wing.cs
+    plt.axes([0.4, dy, 0.2, 0.03]), 'wing_cs', 0, 1, valinit=brdf_wing.cs
 )
 slider_wing_cs.on_changed(update_wing_cs)
 
 slider_wing_n = Slider(
-    plt.axes([0.7, dy, 0.2, 0.03]), "wing_n", 1e-8, 2, valinit=brdf_wing.n
+    plt.axes([0.7, dy, 0.2, 0.03]), 'wing_n', 1e-8, 2, valinit=brdf_wing.n
 )
 slider_wing_n.on_changed(update_wing_n)
 
 slider_x_scale = Slider(
-    plt.axes([0.1, 2 * dy, 0.2, 0.03]), "x_scale", 1e-8, 5, valinit=x_scale
+    plt.axes([0.1, 2 * dy, 0.2, 0.03]), 'x_scale', 1e-8, 5, valinit=x_scale
 )
 slider_x_scale.on_changed(update_x_scale)
 
 slider_y_scale = Slider(
-    plt.axes([0.4, 2 * dy, 0.2, 0.03]), "y_scale", 1e-8, 5, valinit=y_scale
+    plt.axes([0.4, 2 * dy, 0.2, 0.03]), 'y_scale', 1e-8, 5, valinit=y_scale
 )
 slider_y_scale.on_changed(update_y_scale)
 
 slider_z_scale = Slider(
-    plt.axes([0.7, 2 * dy, 0.2, 0.03]), "z_scale", 1e-8, 5, valinit=z_scale
+    plt.axes([0.7, 2 * dy, 0.2, 0.03]), 'z_scale', 1e-8, 5, valinit=z_scale
 )
 slider_z_scale.on_changed(update_z_scale)
 
 slider_wing_area = Slider(
-    plt.axes([0.1, 3 * dy, 0.2, 0.03]), "wing_area", 1e-8, 50, valinit=wing_area
+    plt.axes([0.1, 3 * dy, 0.2, 0.03]), 'wing_area', 1e-8, 50, valinit=wing_area
 )
 slider_wing_area.on_changed(update_wing_area)
 
@@ -383,7 +382,7 @@ def _opt_button_callback(*args):
     _update_blc()
 
 
-opt_button = Button(plt.axes([0.4, 3 * dy, 0.2, 0.03]), "Optimize")
+opt_button = Button(plt.axes([0.4, 3 * dy, 0.2, 0.03]), 'Optimize')
 opt_button.on_clicked(_opt_button_callback)
 _opt_button_callback()
 

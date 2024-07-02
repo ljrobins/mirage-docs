@@ -14,7 +14,7 @@ import mirage as mr
 import mirage.vis as mrv
 
 data_points = 100
-obj = mr.SpaceObject("matlib_gps_iii.obj", identifier="NAVSTAR 80 (USA 309)")
+obj = mr.SpaceObject('matlib_gps_iii.obj', identifier='NAVSTAR 80 (USA 309)')
 jd0, jdf = 2459840.6618391783, 2459840.9182615164
 date0, datef = mr.jd_to_date(jd0), mr.jd_to_date(jdf)
 (date_space, epsec_space) = mr.date_linspace(
@@ -38,9 +38,9 @@ sun_in_body = mr.stack_mat_mult_vec(c, sat_sun)
 obs_in_body = mr.stack_mat_mult_vec(c, sat_nadir)
 
 pl = pv.Plotter()
-pl.open_gif("aligned_and_constrained.gif", fps=20)
+pl.open_gif('aligned_and_constrained.gif', fps=20)
 
-mrv.plot3(pl, r, color="cyan", line_width=10)
+mrv.plot3(pl, r, color='cyan', line_width=10)
 
 omesh = obj._mesh.copy()
 cdist = 300
@@ -49,7 +49,7 @@ psize = 30
 pl._on_first_render_request()
 pl.render()
 cam_light = pv.Light(
-    color="white", attenuation_values=(0.0, 0.01, 0.0), positional=True
+    color='white', attenuation_values=(0.0, 0.01, 0.0), positional=True
 )
 
 for i in range(data_points - 1):
@@ -60,17 +60,17 @@ for i in range(data_points - 1):
     mrv.render_spaceobject(
         pl, obj, origin=r[i, :], scale=5, opacity=1.0, quat=quat[i, :], lighting=True
     )
-    mrv.plot_arrow(pl, r[i, :], v1[i, :], scale=pdist, name="arr_v1")
-    mrv.plot_arrow(pl, r[i, :], v2[i, :], scale=pdist, name="arr_v2")
-    mrv.plot_arrow(pl, r[i, :], v3[i, :], scale=pdist, name="arr_v3")
+    mrv.plot_arrow(pl, r[i, :], v1[i, :], scale=pdist, name='arr_v1')
+    mrv.plot_arrow(pl, r[i, :], v2[i, :], scale=pdist, name='arr_v2')
+    mrv.plot_arrow(pl, r[i, :], v3[i, :], scale=pdist, name='arr_v3')
     mrv.plot_arrow(
         pl,
         r[i, :],
         sat_sun[i, :],
         scale=pdist,
-        name="arr_sun",
-        color="y",
-        label="Sun",
+        name='arr_sun',
+        color='y',
+        label='Sun',
     )
     mrv.plot_earth(pl, date=date_space[i], atmosphere=True, night_lights=True)
     cam_light.position = pl.camera.position

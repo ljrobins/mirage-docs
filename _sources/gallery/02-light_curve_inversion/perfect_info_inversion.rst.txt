@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_02-light_curve_inversion_perfect_info_inversion.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -23,7 +23,7 @@ Perfect Information Inversion
 
 Providing a near-perfect brightness function, let's see how well we can recover the object's shape.
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-33
+.. GENERATED FROM PYTHON SOURCE LINES 7-32
 
 
 
@@ -39,7 +39,6 @@ Providing a near-perfect brightness function, let's see how well we can recover 
 .. code-block:: Python
 
 
-    import numpy as np
     import pyvista as pv
 
     import mirage as mr
@@ -49,9 +48,9 @@ Providing a near-perfect brightness function, let's see how well we can recover 
     svb = mr.rand_unit_vectors(n)
     ovb = mr.rand_unit_vectors(n)
 
-    brdf = mr.Brdf("phong", 0.5, 0.5, 5)
+    brdf = mr.Brdf('phong', 0.5, 0.5, 5)
 
-    obj = mr.SpaceObject("cube.obj")
+    obj = mr.SpaceObject('cube.obj')
 
     bf = obj.convex_light_curve(brdf, svb, ovb)
 
@@ -61,14 +60,14 @@ Providing a near-perfect brightness function, let's see how well we can recover 
 
     pl = pv.Plotter()
     mrv.render_spaceobject(pl, obj)
-    mrv.render_spaceobject(pl, obj_rec, color="red")
+    mrv.render_spaceobject(pl, obj_rec, color='red')
 
     pl.show()
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 5.447 seconds)
+   **Total running time of the script:** (4 minutes 22.911 seconds)
 
 
 .. _sphx_glr_download_gallery_02-light_curve_inversion_perfect_info_inversion.py:

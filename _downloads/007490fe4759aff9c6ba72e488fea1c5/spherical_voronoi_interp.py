@@ -26,9 +26,9 @@ mrv.scatter3(
     query_pts,
     scalars=query_weights,
     point_size=10,
-    scalar_bar_args=dict(title="Weight"),
+    scalar_bar_args=dict(title='Weight'),
 )
-mrv.scatter3(pl, w1.ref_pts, color="r", point_size=20)
+mrv.scatter3(pl, w1.ref_pts, color='r', point_size=20)
 pl.camera.zoom(1.3)
 pl.show()
 
@@ -44,7 +44,7 @@ mrv.scatter3(
     query_pts,
     scalars=m12.query_points(query_pts),
     point_size=10,
-    scalar_bar_args=dict(title="Weight"),
+    scalar_bar_args=dict(title='Weight'),
 )
 pl.show()
 
@@ -55,9 +55,9 @@ pl = pv.Plotter()
 mrv.scatter3(
     pl,
     query_pts,
-    scalars=m12.query_points(query_pts, method="bilinear"),
+    scalars=m12.query_points(query_pts, method='bilinear'),
     point_size=10,
-    scalar_bar_args=dict(title="Weight"),
+    scalar_bar_args=dict(title='Weight'),
 )
-mrv.scatter3(pl, m12.ref_pts, color="r", point_size=20)
+mrv.scatter3(pl, m12.ref_pts, color='r', point_size=20)
 pl.show()

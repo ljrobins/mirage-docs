@@ -5,16 +5,9 @@ Noise Sampling
 Plots the accumulation of noise in the CCD due to integration noise, readout noise, and truncation noise.
 """
 
-import os
-
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 import numpy as np
-import pyvista as pv
-from PIL import Image
-
-import mirage as mr
-import mirage.vis as mrv
 
 # %%
 # Integration noise
@@ -25,7 +18,7 @@ grid = np.zeros((d, d))
 
 fig, ax = plt.subplots(figsize=(5, 5))
 
-actor = ax.imshow(grid, cmap="gray", vmin=0, vmax=255)
+actor = ax.imshow(grid, cmap='gray', vmin=0, vmax=255)
 plt.xticks([])
 plt.yticks([])
 
@@ -36,7 +29,7 @@ def animate(i):
     actor.set_data(grid)
     plt.tight_layout()
     actor.vmin = 0
-    plt.title(f"Integrating... {i / t.size * 100:.1f}%")
+    plt.title(f'Integrating... {i / t.size * 100:.1f}%')
     return (actor,)
 
 
@@ -51,7 +44,7 @@ grid = np.zeros((d, d))
 
 fig, ax = plt.subplots(figsize=(5, 5))
 
-actor = ax.imshow(grid, cmap="gray", vmin=-2, vmax=2)
+actor = ax.imshow(grid, cmap='gray', vmin=-2, vmax=2)
 plt.xticks([])
 plt.yticks([])
 
@@ -61,7 +54,7 @@ def animate(i):
     grid = np.random.normal(0, 1, (d, d))
     actor.set_data(grid)
     plt.tight_layout()
-    plt.title(f"Readout Sample {i+1}/{t.size}")
+    plt.title(f'Readout Sample {i+1}/{t.size}')
     return (actor,)
 
 
@@ -76,7 +69,7 @@ grid = np.zeros((d, d))
 
 fig, ax = plt.subplots(figsize=(5, 5))
 
-actor = ax.imshow(grid, cmap="gray", vmin=-0.5, vmax=0.5)
+actor = ax.imshow(grid, cmap='gray', vmin=-0.5, vmax=0.5)
 plt.xticks([])
 plt.yticks([])
 
@@ -86,7 +79,7 @@ def animate(i):
     grid = 0.5 - np.random.random((d, d))
     actor.set_data(grid)
     plt.tight_layout()
-    plt.title(f"Truncation Sample {i+1}/{t.size}")
+    plt.title(f'Truncation Sample {i+1}/{t.size}')
     return (actor,)
 
 

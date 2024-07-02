@@ -18,8 +18,8 @@ mpsas = mr.twilight_zenith_mpsas(gammas)
 plt.plot(gammas, mpsas)
 plt.gca().invert_yaxis()
 mrv.texit(
-    "Twilight Model Brightness",
-    "Solar zenith angle [deg]",
-    "Surface brightness in $\\left[ \\frac{mag}{arcsecond^2} \\right]$",
+    'Twilight Model Brightness',
+    'Solar zenith angle [deg]',
+    'Surface brightness in $\\left[ \\frac{mag}{arcsecond^2} \\right]$',
 )
 plt.show()

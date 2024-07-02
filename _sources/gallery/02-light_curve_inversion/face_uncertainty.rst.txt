@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_02-light_curve_inversion_face_uncertainty.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -27,7 +27,7 @@ More rigorously defining the uncertainty in the faces of an estimated object
 
 Setting up the observation conditions
 
-.. GENERATED FROM PYTHON SOURCE LINES 10-38
+.. GENERATED FROM PYTHON SOURCE LINES 10-37
 
 .. code-block:: Python
 
@@ -36,7 +36,6 @@ Setting up the observation conditions
 
     import matplotlib.pyplot as plt
     import numpy as np
-    import vtk
     import pyvista as pv
 
     import mirage as mr
@@ -48,11 +47,11 @@ Setting up the observation conditions
     obs_time = mr.hours(4)
     obs_dt = mr.seconds(10)
 
-    obj_file = "collapsed_cube.obj"
+    obj_file = 'collapsed_cube.obj'
 
-    station = mr.Station(preset="pogs")
-    brdf = mr.Brdf(name="phong", cd=0.5, cs=0.3, n=10)
-    obj = mr.SpaceObject(obj_file, identifier="goes 15")
+    station = mr.Station(preset='pogs')
+    brdf = mr.Brdf(name='phong', cd=0.5, cs=0.3, n=10)
+    obj = mr.SpaceObject(obj_file, identifier='goes 15')
 
     dates, epsecs = mr.date_arange(idate, idate + obs_time, obs_dt, return_epsecs=True)
 
@@ -63,27 +62,14 @@ Setting up the observation conditions
 
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    Model file collapsed_cube.obj not found in current model folder ('/Users/liamrobinson/Documents/mirage/mirage/resources/models'), checking model repository...
-    Attempting to download collapsed_cube.obj and its associated material file from the model repository...
-    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Non-Convex/collapsed_cube.obj
-    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Non-Convex/collapsed_cube.mtl
-    Model files were downloaded successfully!
-    Attempting to download spacelib.obj and its associated material file from the model repository...
-    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//accurate_sats/spacelib.mtl
-    Model files were downloaded successfully!
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 39-40
+.. GENERATED FROM PYTHON SOURCE LINES 38-39
 
 Computing the light curve
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-45
+.. GENERATED FROM PYTHON SOURCE LINES 39-44
 
 .. code-block:: Python
 
@@ -105,23 +91,23 @@ Computing the light curve
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-47
+.. GENERATED FROM PYTHON SOURCE LINES 45-46
 
 Inversion from the noisy light curve
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-71
+.. GENERATED FROM PYTHON SOURCE LINES 46-70
 
 .. code-block:: Python
 
 
-    sun_body = aux_data["sun_vector_object_body"]
-    obs_body = aux_data["observer_vector_object_body"]
+    sun_body = aux_data['sun_vector_object_body']
+    obs_body = aux_data['observer_vector_object_body']
 
     lc_ccd_signal = lc_ccd_signal_sampler()
-    lc_noisy_irrad = lc_ccd_signal / (aux_data["sint"] * station.telescope.integration_time)
+    lc_noisy_irrad = lc_ccd_signal / (aux_data['sint'] * station.telescope.integration_time)
     lc_noisy_unit_irrad = (
         lc_noisy_irrad
-        * (aux_data["rmag_station_to_sat"] * 1e3) ** 2
+        * (aux_data['rmag_station_to_sat'] * 1e3) ** 2
         / mr.AstroConstants.sun_irradiance_vacuum
     )
 
@@ -144,11 +130,11 @@ Inversion from the noisy light curve
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 72-73
+.. GENERATED FROM PYTHON SOURCE LINES 71-72
 
 Plotting the reconstructed and truth objects
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-81
+.. GENERATED FROM PYTHON SOURCE LINES 72-80
 
 .. code-block:: Python
 
@@ -172,33 +158,33 @@ Plotting the reconstructed and truth objects
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 82-83
+.. GENERATED FROM PYTHON SOURCE LINES 81-82
 
 Plotting the reflection matrix of the reconstructed object
 
-.. GENERATED FROM PYTHON SOURCE LINES 83-104
+.. GENERATED FROM PYTHON SOURCE LINES 82-103
 
 .. code-block:: Python
 
 
     G_rec = brdf.compute_reflection_matrix(
-        L=sun_body[~lc_noisy_unit_irrad.mask, :],
-        O=obs_body[~lc_noisy_unit_irrad.mask, :],
-        N=rec_obj.unique_normals,
+        sun_body[~lc_noisy_unit_irrad.mask, :],
+        obs_body[~lc_noisy_unit_irrad.mask, :],
+        rec_obj.unique_normals,
     )
 
     is_g_full_rank = np.linalg.matrix_rank(G_rec) == G_rec.shape[1]
-    print(f"Is G full rank? {is_g_full_rank}")
+    print(f'Is G full rank? {is_g_full_rank}')
 
-    plt.imshow(G_rec, aspect="auto", cmap="plasma")
+    plt.imshow(G_rec, aspect='auto', cmap='plasma')
     mrv.texit(
-        "Reconstructed Object Reflection Matrix $G$",
-        "Normal index",
-        "Time index",
+        'Reconstructed Object Reflection Matrix $G$',
+        'Normal index',
+        'Time index',
         grid=False,
     )
     plt.clim([0, 1])
-    plt.colorbar(cax=mrv.get_cbar_ax(), label="Normalized irradiance per unit area")
+    plt.colorbar(cax=mrv.get_cbar_ax(), label='Normalized irradiance per unit area')
     plt.show()
 
 
@@ -219,11 +205,11 @@ Plotting the reflection matrix of the reconstructed object
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 105-106
+.. GENERATED FROM PYTHON SOURCE LINES 104-105
 
 Plotting the expected normalized irradiance from each facet at each time
 
-.. GENERATED FROM PYTHON SOURCE LINES 106-121
+.. GENERATED FROM PYTHON SOURCE LINES 105-120
 
 .. code-block:: Python
 
@@ -235,9 +221,9 @@ Plotting the expected normalized irradiance from each facet at each time
 
     plt.bar(np.arange(len(total_expected_norm_irrad)), total_expected_norm_irrad)
     mrv.texit(
-        "Expected Normalized Irradiance $a_j\sum_{i}{G_{ij}}$",
-        "Normal index",
-        "Total normalized irradiance",
+        'Expected Normalized Irradiance $a_j\sum_{i}{G_{ij}}$',
+        'Normal index',
+        'Total normalized irradiance',
         grid=False,
     )
     plt.show()
@@ -254,17 +240,17 @@ Plotting the expected normalized irradiance from each facet at each time
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 122-123
+.. GENERATED FROM PYTHON SOURCE LINES 121-122
 
 Plotting the light curve error at each timestep
 
-.. GENERATED FROM PYTHON SOURCE LINES 123-141
+.. GENERATED FROM PYTHON SOURCE LINES 122-140
 
 .. code-block:: Python
 
 
-    if hasattr(obj, "file_name"):
-        delattr(obj, "file_name")
+    if hasattr(obj, 'file_name'):
+        delattr(obj, 'file_name')
     lc_rec = mr.run_light_curve_engine(
         brdf,
         obj,
@@ -273,10 +259,10 @@ Plotting the light curve error at each timestep
     )
     lc_err = np.abs(lc_rec - lc_noisy_unit_irrad[~lc_noisy_unit_irrad.mask])
     plt.figure(figsize=(7, 5))
-    plt.plot(epsecs[~lc_noisy_unit_irrad.mask], lc_err, c="k")
-    plt.xlabel("Epoch seconds")
-    plt.ylabel("Normalized irradiance [W/m$^2$]")
-    plt.legend(["Noisy", "Reconstructed"])
+    plt.plot(epsecs[~lc_noisy_unit_irrad.mask], lc_err, c='k')
+    plt.xlabel('Epoch seconds')
+    plt.ylabel('Normalized irradiance [W/m$^2$]')
+    plt.legend(['Noisy', 'Reconstructed'])
     plt.tight_layout()
     plt.show()
 
@@ -292,11 +278,11 @@ Plotting the light curve error at each timestep
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 142-143
+.. GENERATED FROM PYTHON SOURCE LINES 141-142
 
 Attributing that light curve error to each face and plotting
 
-.. GENERATED FROM PYTHON SOURCE LINES 143-150
+.. GENERATED FROM PYTHON SOURCE LINES 142-149
 
 .. code-block:: Python
 
@@ -314,11 +300,11 @@ Attributing that light curve error to each face and plotting
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 151-152
+.. GENERATED FROM PYTHON SOURCE LINES 150-151
 
 This has all been wrapped in a single function:
 
-.. GENERATED FROM PYTHON SOURCE LINES 152-161
+.. GENERATED FROM PYTHON SOURCE LINES 151-160
 
 .. code-block:: Python
 
@@ -344,27 +330,27 @@ This has all been wrapped in a single function:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 162-163
+.. GENERATED FROM PYTHON SOURCE LINES 161-162
 
 Plotting various uncertainties
 
-.. GENERATED FROM PYTHON SOURCE LINES 163-177
+.. GENERATED FROM PYTHON SOURCE LINES 162-176
 
 .. code-block:: Python
 
 
     pl = pv.Plotter()
     mrv.render_spaceobject(pl, rec_obj, scalars=u_quantity[rec_obj.unique_to_all])
-    pl.add_text("$u_{quantity}$")
+    pl.add_text('$u_{quantity}$')
     pl.show()
     pl = pv.Plotter()
     mrv.render_spaceobject(pl, rec_obj, scalars=u_quality[rec_obj.unique_to_all])
-    pl.add_text("$u_{quality}$")
+    pl.add_text('$u_{quality}$')
     pl.show()
 
     pl = pv.Plotter()
     mrv.render_spaceobject(pl, rec_obj, scalars=fu)
-    pl.add_text("$u_j$")
+    pl.add_text('$u_j$')
     pl.show()
 
 
@@ -400,7 +386,7 @@ Plotting various uncertainties
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 9.510 seconds)
+   **Total running time of the script:** (0 minutes 6.787 seconds)
 
 
 .. _sphx_glr_download_gallery_02-light_curve_inversion_face_uncertainty.py:

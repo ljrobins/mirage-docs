@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_10-utility_importance_sampling.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -26,10 +26,10 @@ Reducing the variance of Monte Carlo integration
 
 .. code-block:: Python
 
+
     import matplotlib.pyplot as plt
     import numpy as np
     import sympy as sp
-    from scipy import stats as st
 
 
 
@@ -46,7 +46,7 @@ Let's say we want to estimate the integral of an unknown function :math:`f(x)`
 
 .. code-block:: Python
 
-    x = sp.symbols("x")
+    x = sp.symbols('x')
     f_symbolic = sp.sin(np.pi * x)
     bounds = (0, 1)
     f = sp.lambdify(x, f_symbolic)
@@ -54,8 +54,8 @@ Let's say we want to estimate the integral of an unknown function :math:`f(x)`
 
     plt.plot(xs, f(xs))
     plt.grid()
-    plt.title("f(x)")
-    plt.xlabel("x")
+    plt.title('f(x)')
+    plt.xlabel('x')
     plt.show()
 
 
@@ -79,7 +79,7 @@ We can analytically compute the integral of this function
 .. code-block:: Python
 
     int_symbolic = sp.integrate(f_symbolic, (x, 0, 1))
-    print(f"The analytic integral is {int_symbolic:.4f}")
+    print(f'The analytic integral is {int_symbolic:.4f}')
 
 
 
@@ -108,7 +108,7 @@ A naive attempt at Monte Carlo integration would be to uniformly take samples of
     percent_error_naive = (int_naive - int_symbolic) / int_symbolic * 100
 
     print(
-        f"The naive Monte Carlo integral is {int_naive:.4f}, {percent_error_naive:.2f}% error"
+        f'The naive Monte Carlo integral is {int_naive:.4f}, {percent_error_naive:.2f}% error'
     )
 
 
@@ -119,7 +119,7 @@ A naive attempt at Monte Carlo integration would be to uniformly take samples of
 
  .. code-block:: none
 
-    The naive Monte Carlo integral is 0.7053, 10.79% error
+    The naive Monte Carlo integral is 0.7454, 17.09% error
 
 
 
@@ -171,7 +171,7 @@ Let's try Monte Carlo integration again with the new pdf
     percent_error_importance = (int_importance - int_symbolic) / int_symbolic * 100
 
     print(
-        f"The importance sampled integral is {int_importance:.4f}, {percent_error_importance:.2f}% error"
+        f'The importance sampled integral is {int_importance:.4f}, {percent_error_importance:.2f}% error'
     )
 
 
@@ -182,7 +182,7 @@ Let's try Monte Carlo integration again with the new pdf
 
  .. code-block:: none
 
-    The importance sampled integral is 0.6305, -0.96% error
+    The importance sampled integral is 0.6343, -0.36% error
 
 
 
@@ -202,9 +202,9 @@ Let's take a look at the points we sampled
     plt.plot(xs, dist.pdf(xs))
     plt.scatter(xs_sample, 0 * xs_sample, s=5, alpha=0.2)
     plt.grid()
-    plt.title("probability")
-    plt.xlabel("x")
-    plt.legend(["true pdf", "approximate pdf", "samples"])
+    plt.title('probability')
+    plt.xlabel('x')
+    plt.legend(['true pdf', 'approximate pdf', 'samples'])
     plt.show()
 
 
@@ -221,7 +221,7 @@ Let's take a look at the points we sampled
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.223 seconds)
+   **Total running time of the script:** (0 minutes 2.740 seconds)
 
 
 .. _sphx_glr_download_gallery_10-utility_importance_sampling.py:

@@ -13,7 +13,7 @@ import pyvista as pv
 import mirage as mr
 import mirage.vis as mrv
 
-obj = mr.SpaceObject("stanford_bunny.obj").clean()
+obj = mr.SpaceObject('stanford_bunny.obj').clean()
 obj.v -= np.mean(obj.v, axis=0)
 
 f = pysdf.SDF(obj.v, obj.f)
@@ -32,16 +32,16 @@ plt.figure()
 plt.contour(
     sdf_slice,
     levels=np.linspace(np.min(sdf_slice), np.max(sdf_slice), 10),
-    colors="k",
+    colors='k',
     extent=[-grid_width, grid_width, -grid_width, grid_width],
 )
 plt.imshow(
     np.flipud(sdf_slice),
     extent=[-grid_width, grid_width, -grid_width, grid_width],
-    cmap="RdBu",
+    cmap='RdBu',
 )
-mrv.texit("Signed Distance Field", "x", "y", grid=False)
-plt.colorbar(label="Signed Distance", cax=mrv.get_cbar_ax())
+mrv.texit('Signed Distance Field', 'x', 'y', grid=False)
+plt.colorbar(label='Signed Distance', cax=mrv.get_cbar_ax())
 plt.tight_layout()
 plt.show()
 
@@ -52,16 +52,16 @@ plt.show()
 pl = pv.Plotter(window_size=(1000, 1000))
 
 for cval in np.linspace(np.min(sdf_vals), -np.min(sdf_vals), 7):
-    mesh1, mesh2 = grid.contour([cval], sdf_vals, method="flying_edges").clip(
-        "y", origin=(0.0, 0.0, 0.0), return_clipped=True
+    mesh1, mesh2 = grid.contour([cval], sdf_vals, method='flying_edges').clip(
+        'y', origin=(0.0, 0.0, 0.0), return_clipped=True
     )
     if mesh1.points.shape[0] > 0:
         pl.add_mesh(
             mesh1,
             opacity=1.0,
             scalars=cval * np.ones(mesh1.n_points),
-            cmap="coolwarm",
-            scalar_bar_args=dict(title="SDF Value"),
+            cmap='coolwarm',
+            scalar_bar_args=dict(title='SDF Value'),
             clim=[np.min(sdf_vals), -np.min(sdf_vals)],
             smooth_shading=True,
         )
@@ -75,16 +75,16 @@ pl.show()
 pl = pv.Plotter()
 
 for cval in np.linspace(np.min(sdf_vals), -np.min(sdf_vals), 10):
-    mesh = grid.contour([cval], sdf_vals, method="flying_edges")
+    mesh = grid.contour([cval], sdf_vals, method='flying_edges')
     if mesh.points.shape[0] > 0:
         pl.add_mesh(
             mesh,
             opacity=0.1,
             scalars=cval * np.ones(mesh.n_points),
-            cmap="coolwarm",
-            scalar_bar_args=dict(title="SDF Value"),
+            cmap='coolwarm',
+            scalar_bar_args=dict(title='SDF Value'),
         )
 
-pl.open_gif("sdf_orbit.gif")
+pl.open_gif('sdf_orbit.gif')
 path = pl.generate_orbital_path(n_points=36, shift=mesh.length / 3)
 pl.orbit_on_path(path, write_frames=True)

@@ -28,19 +28,19 @@ dem = pv.StructuredGrid(
     itrf_terrain[:, 1].reshape(elev_grid.shape),
     itrf_terrain[:, 2].reshape(elev_grid.shape),
 )
-dem["Elevation [km]"] = elev_grid.flatten(order="f")
-dem["Latitude"] = tile.lat_grid.flatten(order="f")
-dem["Longitude"] = tile.lon_grid.flatten(order="f")
+dem['Elevation [km]'] = elev_grid.flatten(order='f')
+dem['Latitude'] = tile.lat_grid.flatten(order='f')
+dem['Longitude'] = tile.lon_grid.flatten(order='f')
 
 # %%
 # Plotting in 2D
 
 mrv.plot_map_with_grid(
     elev_grid,
-    "Terrain Around Naples, Italy",
-    "Elevation above geoid [km]",
+    'Terrain Around Naples, Italy',
+    'Elevation above geoid [km]',
     alpha=1.0,
-    cmap="gist_earth",
+    cmap='gist_earth',
     extent=(14, 15, 40, 41),  # left lon, right lon, bottom lat, top lat
     hillshade=True,
 )
@@ -53,14 +53,14 @@ pl = pv.Plotter()
 pl.add_mesh(
     dem,
     smooth_shading=True,
-    scalars="Elevation [km]",
+    scalars='Elevation [km]',
     opacity=0.8,
     show_scalar_bar=False,
-    cmap="terrain",
+    cmap='terrain',
 )
 mrv.plot_earth(
     pl,
-    mode="ecef",
+    mode='ecef',
     date=mr.utc(2023, 12, 9, 12),
     high_def=True,
     ocean_floor=False,

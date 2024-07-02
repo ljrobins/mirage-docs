@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_04-environment_background_importance.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -23,7 +23,7 @@ Background Importance
 
 Plotting the changes in background signal values over the course of one night
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-17
+.. GENERATED FROM PYTHON SOURCE LINES 7-15
 
 .. code-block:: Python
 
@@ -32,10 +32,8 @@ Plotting the changes in background signal values over the course of one night
 
     import matplotlib.pyplot as plt
     import numpy as np
-    import pyvista as pv
 
     import mirage as mr
-    import mirage.vis as mrv
 
 
 
@@ -44,11 +42,11 @@ Plotting the changes in background signal values over the course of one night
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-19
+.. GENERATED FROM PYTHON SOURCE LINES 16-17
 
 Defining a function we can use to plot various background signals
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-53
+.. GENERATED FROM PYTHON SOURCE LINES 17-51
 
 .. code-block:: Python
 
@@ -61,7 +59,7 @@ Defining a function we can use to plot various background signals
     ) -> None:
         true_signals = [k for k in signal_kwargs.keys() if signal_kwargs[k]]
         if len(true_signals) == len(signal_kwargs.keys()):
-            signal_type = "All Signals"
+            signal_type = 'All Signals'
         else:
             signal_type = true_signals[0].capitalize()
 
@@ -81,8 +79,8 @@ Defining a function we can use to plot various background signals
         sb = station.sky_brightness(dates_tiled, look_dirs_eci_eq_tiled, **signal_kwargs)
         mr.toc()
 
-        print(f"Max:  {sb.max():.2e}")
-        print(f"Mean: {sb.mean():.2e}")
+        print(f'Max:  {sb.max():.2e}')
+        print(f'Mean: {sb.mean():.2e}')
         return sb
 
 
@@ -93,16 +91,16 @@ Defining a function we can use to plot various background signals
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 54-56
+.. GENERATED FROM PYTHON SOURCE LINES 52-54
 
 Setting up observation conditions using an example Space Debris Telescope preset from Krag2003
 station = mr.Station(preset="lmt", lat_deg=33.776864, lon_deg=-84.363777) # Atlanta, GA
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-60
+.. GENERATED FROM PYTHON SOURCE LINES 54-58
 
 .. code-block:: Python
 
-    station = mr.Station(preset="pogs")
+    station = mr.Station(preset='pogs')
     station.telescope.integration_time = 1.0
     date = mr.utc(2023, 10, 1, 0, 0, 0)
 
@@ -113,23 +111,23 @@ station = mr.Station(preset="lmt", lat_deg=33.776864, lon_deg=-84.363777) # Atla
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-62
+.. GENERATED FROM PYTHON SOURCE LINES 59-60
 
 Plotting the background signal for scattered moonlight
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-108
+.. GENERATED FROM PYTHON SOURCE LINES 60-106
 
 .. code-block:: Python
 
     signals = [
-        "moonlight",
-        "airglow",
-        "integrated_starlight",
-        "zodiac",
-        "pollution",
-        "twilight",
+        'moonlight',
+        'airglow',
+        'integrated_starlight',
+        'zodiac',
+        'pollution',
+        'twilight',
     ]
-    cs = ["k", "m", "c", "b", "r", "g"]
+    cs = ['k', 'm', 'c', 'b', 'r', 'g']
 
     dates = mr.date_arange(date, date + mr.hours(14), mr.hours(0.5))
     sun_ang_deg = np.rad2deg(mr.sun_angle_to_horizon(dates, station.itrf)).flatten()
@@ -147,23 +145,23 @@ Plotting the background signal for scattered moonlight
         kwargs = {s: (False if s is not signal else True) for s in signals}
         sb = hemisphere_signal(station, dates, kwargs)
         sb = sb.reshape(-1, dates.size)
-        label = signal.replace("_", " ").capitalize()
-        if len(label.split(" ")) > 1:
-            label = label.split(" ")[1].capitalize()
+        label = signal.replace('_', ' ').capitalize()
+        if len(label.split(' ')) > 1:
+            label = label.split(' ')[1].capitalize()
         plt.subplot(1, 2, 1)
-        plt.plot(hr_after_dark, np.max(sb, axis=0), c=c, marker="+", label=label)
-        plt.xlabel("Hours after sunset")
-        plt.ylabel("Signal rate maximum [ADU / pix / s]")
-        plt.yscale("log")
+        plt.plot(hr_after_dark, np.max(sb, axis=0), c=c, marker='+', label=label)
+        plt.xlabel('Hours after sunset')
+        plt.ylabel('Signal rate maximum [ADU / pix / s]')
+        plt.yscale('log')
         plt.grid(visible=True)
         plt.subplot(1, 2, 2)
-        plt.plot(hr_after_dark, np.mean(sb, axis=0), c=c, marker="+", label=label)
-        plt.xlabel("Hours after sunset")
-        plt.ylabel("Signal rate mean [ADU / pix / s]")
-        plt.yscale("log")
+        plt.plot(hr_after_dark, np.mean(sb, axis=0), c=c, marker='+', label=label)
+        plt.xlabel('Hours after sunset')
+        plt.ylabel('Signal rate mean [ADU / pix / s]')
+        plt.yscale('log')
         plt.grid(visible=True)
 
-    plt.legend(loc="upper center", ncol=2, fancybox=True, shadow=True)
+    plt.legend(loc='upper center', ncol=2, fancybox=True, shadow=True)
 
     plt.tight_layout()
     plt.show()
@@ -180,24 +178,24 @@ Plotting the background signal for scattered moonlight
 
  .. code-block:: none
 
-    Moonlight: 8.95e+00 seconds
-    Max:  9.36e+02
-    Mean: 3.34e+01
-    Airglow: 7.59e+00 seconds
-    Max:  6.69e+00
-    Mean: 1.78e+00
-    Integrated_starlight: 3.26e+00 seconds
-    Max:  2.33e+00
-    Mean: 5.07e-02
-    Zodiac: 4.71e+00 seconds
-    Max:  4.45e+01
-    Mean: 7.06e-01
-    Pollution: 4.57e+00 seconds
-    Max:  8.90e-01
-    Mean: 2.70e-01
-    Twilight: 1.13e+01 seconds
-    Max:  1.03e+04
-    Mean: 2.37e+02
+    Moonlight: 6.98e+00 seconds
+    Max:  9.50e+02
+    Mean: 3.33e+01
+    Airglow: 3.95e+00 seconds
+    Max:  1.14e+01
+    Mean: 2.20e+00
+    Integrated_starlight: 3.42e+00 seconds
+    Max:  2.29e+00
+    Mean: 5.00e-02
+    Zodiac: 4.96e+00 seconds
+    Max:  4.55e+01
+    Mean: 6.99e-01
+    Pollution: 3.99e+00 seconds
+    Max:  1.13e+00
+    Mean: 2.78e-01
+    Twilight: 1.17e+01 seconds
+    Max:  1.31e+04
+    Mean: 2.46e+02
 
 
 
@@ -205,7 +203,7 @@ Plotting the background signal for scattered moonlight
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 41.524 seconds)
+   **Total running time of the script:** (0 minutes 36.222 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_background_importance.py:

@@ -19,7 +19,7 @@ date = mr.utc(2023, 3, 1, 1)
 npts = int(1e6)
 pts = 1e4 * mr.spiral_sample_sphere(npts)
 sv = np.tile(mr.hat(mr.sun(date)), (npts, 1))
-station = mr.Station(preset="pogs")
+station = mr.Station(preset='pogs')
 tdargs = (
     station,
     pts,
@@ -42,8 +42,8 @@ def plot_sig(pl, s, cmap, scale=1):
 
 
 pl = pv.Plotter()
-mrv.plot_earth(pl, mode="eci", night_lights=True, atmosphere=True, date=date),
-plot_sig(pl, ss, "fire", scale=1.2)
+(mrv.plot_earth(pl, mode='eci', night_lights=True, atmosphere=True, date=date),)
+plot_sig(pl, ss, 'fire', scale=1.2)
 pl.camera.position = (35e3, 35e3, -8e3)
 
 mrv.orbit_plotter(pl)
@@ -52,7 +52,7 @@ mrv.orbit_plotter(pl)
 # A still frame
 
 pl = pv.Plotter()
-mrv.plot_earth(pl, mode="eci", night_lights=True, atmosphere=True, date=date),
-plot_sig(pl, ss, "fire", scale=1.2)
+(mrv.plot_earth(pl, mode='eci', night_lights=True, atmosphere=True, date=date),)
+plot_sig(pl, ss, 'fire', scale=1.2)
 pl.camera.position = (35e3, 35e3, -8e3)
 pl.show()

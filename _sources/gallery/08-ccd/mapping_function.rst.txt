@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_08-ccd_mapping_function.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -42,7 +42,7 @@ It's important to understand where each pixel in the CCD originates from in the 
         np.arange(station.telescope.sensor_pixels),
         np.arange(station.telescope.sensor_pixels),
     )
-    mr.tic("Mapping")
+    mr.tic('Mapping')
     xd, yx = station.telescope.pixel_distortion(
         x, y, station.telescope.sensor_pixels // 2, station.telescope.sensor_pixels // 2
     )
@@ -51,11 +51,11 @@ It's important to understand where each pixel in the CCD originates from in the 
     dist = np.sqrt((x - xd) ** 2 + (y - yx) ** 2)
 
     plt.figure()
-    plt.imshow(dist, cmap="cool")
-    plt.colorbar(label="Apparent Distance from Pinhole Model [pix]")
-    cp = plt.contour(dist, levels=[0.01, 0.1, 1, 2, 4, 7], colors="k")
+    plt.imshow(dist, cmap='cool')
+    plt.colorbar(label='Apparent Distance from Pinhole Model [pix]')
+    cp = plt.contour(dist, levels=[0.01, 0.1, 1, 2, 4, 7], colors='k')
     plt.clabel(cp, inline=True, fontsize=14)
-    plt.title("POGS Pixel Distortion")
+    plt.title('POGS Pixel Distortion')
     plt.tight_layout()
 
 
@@ -71,7 +71,7 @@ It's important to understand where each pixel in the CCD originates from in the 
 
  .. code-block:: none
 
-    Mapping: 1.92e+00 seconds
+    Mapping: 1.28e+00 seconds
 
 
 
@@ -101,18 +101,18 @@ Corner of the image principal lines
             )
             kwargs = {}
             if v != 0 and v != 100:
-                kwargs["alpha"] = 0.15
-                plt.scatter(pxd, pyd, c="m", marker="+", **kwargs)
-                plt.scatter(x, y, c="k", marker="+", **kwargs)
-            plt.plot(x, y, c="k", **kwargs)
-            plt.plot(pxd, pyd, c="m", **kwargs)
+                kwargs['alpha'] = 0.15
+                plt.scatter(pxd, pyd, c='m', marker='+', **kwargs)
+                plt.scatter(x, y, c='k', marker='+', **kwargs)
+            plt.plot(x, y, c='k', **kwargs)
+            plt.plot(pxd, pyd, c='m', **kwargs)
 
     plt.gca().invert_yaxis()
-    plt.xlabel("x [pixels]")
-    plt.ylabel("y [pixels]")
+    plt.xlabel('x [pixels]')
+    plt.ylabel('y [pixels]')
     plt.legend(
-        ["Distorted", "Undistorted"],
-        loc="upper center",
+        ['Distorted', 'Undistorted'],
+        loc='upper center',
         bbox_to_anchor=(0.5, 1.10),
         ncol=2,
         fancybox=True,
@@ -134,7 +134,7 @@ Corner of the image principal lines
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 5.662 seconds)
+   **Total running time of the script:** (0 minutes 5.229 seconds)
 
 
 .. _sphx_glr_download_gallery_08-ccd_mapping_function.py:

@@ -23,10 +23,10 @@ xs = np.linspace(-20, 20)
 pxs = p_skellam(xs, *lams)
 diff = s1 - s2
 
-print(f"Numerical  mean: {diff.mean():.3f}")
-print(f"Analytical mean: {lams[0]-lams[1]:.3f}\n")
-print(f"Numerical  variance: {diff.var():.3f}")
-print(f"Analytical variance: {lams[0]+lams[1]:.3f}")
+print(f'Numerical  mean: {diff.mean():.3f}')
+print(f'Analytical mean: {lams[0]-lams[1]:.3f}\n')
+print(f'Numerical  variance: {diff.var():.3f}')
+print(f'Analytical variance: {lams[0]+lams[1]:.3f}')
 
 # %%
 # Let's plot these sampled random variables as well as the expected distribution of their difference
@@ -36,28 +36,28 @@ plt.hist(
     bins=range(s1.min(), s1.max() + 1),
     alpha=0.8,
     density=True,
-    align="left",
-    label="$N_1$",
+    align='left',
+    label='$N_1$',
 )
 plt.hist(
     s2,
     bins=range(s1.min(), s1.max() + 1),
     alpha=0.8,
     density=True,
-    align="left",
-    label="$N_2$",
+    align='left',
+    label='$N_2$',
 )
 plt.hist(
     diff,
     bins=range(diff.min(), diff.max() + 1),
     alpha=0.4,
     density=True,
-    align="left",
-    label="$K=N_1-N_2$",
+    align='left',
+    label='$K=N_1-N_2$',
 )
-plt.plot(xs, pxs, color="g", label="$Pr(K=k)$")
-plt.xlabel("$k$")
-plt.ylabel("p(k)")
+plt.plot(xs, pxs, color='g', label='$Pr(K=k)$')
+plt.xlabel('$k$')
+plt.ylabel('p(k)')
 plt.legend()
 plt.xlim(-10, 25)
 plt.grid()

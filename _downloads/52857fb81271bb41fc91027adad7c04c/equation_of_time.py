@@ -23,8 +23,8 @@ sun_lon = np.arctan2(sun_pos[:, 1], sun_pos[:, 0])
 
 
 plt.plot(
-    12 * year_frac, -sun_lon / (np.pi * 2) * 86400 / 60, label="Apparent solar time"
+    12 * year_frac, -sun_lon / (np.pi * 2) * 86400 / 60, label='Apparent solar time'
 )
-mrv.texit("The Equation of Time", "Month of the Year", "Minutes")
+mrv.texit('The Equation of Time', 'Month of the Year', 'Minutes')
 plt.legend()
 plt.show()

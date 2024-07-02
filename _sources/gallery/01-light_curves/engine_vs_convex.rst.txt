@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_01-light_curves_engine_vs_convex.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -49,25 +49,12 @@ Defining the object and BRDF
 
 .. code-block:: Python
 
-    obj = mr.SpaceObject("cylinder.obj")
-    brdf = mr.Brdf("phong", cd=0.1, cs=0.9, n=30)
+    obj = mr.SpaceObject('cylinder.obj')
+    brdf = mr.Brdf('phong', cd=0.1, cs=0.9, n=30)
 
 
 
 
-
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    Model file cylinder.obj not found in current model folder ('/Users/liamrobinson/Documents/mirage/mirage/resources/models'), checking model repository...
-    Attempting to download cylinder.obj and its associated material file from the model repository...
-    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//accurate_sats/cylinder.obj
-    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Irregular/cylinder.mtl
-    Model files were downloaded successfully!
-    Attempting to download spacelib.obj and its associated material file from the model repository...
-    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//accurate_sats/spacelib.mtl
-    Model files were downloaded successfully!
 
 
 
@@ -131,7 +118,7 @@ We can now run the engine and compute a convex light curve:
 
  .. code-block:: none
 
-    Elapsed time: 1.33e+00 seconds
+    Elapsed time: 8.73e-01 seconds
     [1.436186 1.431122 1.450145 ... 1.427974 1.347964 1.298291] [1.49668747 1.49674882 1.49692643 ... 1.46660954 1.40084044 1.33174767]
 
 
@@ -149,10 +136,10 @@ And plot the results
     plt.figure()
     sns.lineplot(x=t_eval, y=b_non_convex, errorbar=None)
     sns.lineplot(x=t_eval, y=b_convex, errorbar=None)
-    plt.title(f"Light Curves for {obj.file_name}")
-    plt.xlabel("Time [s]")
-    plt.ylabel("Normalized brightness")
-    plt.legend(["LightCurveEngine", "Convex"])
+    plt.title(f'Light Curves for {obj.file_name}')
+    plt.xlabel('Time [s]')
+    plt.ylabel('Normalized brightness')
+    plt.legend(['LightCurveEngine', 'Convex'])
     plt.grid()
     # plt.show()
 
@@ -180,9 +167,9 @@ Plotting the error instead of the brightness values
 
     plt.figure()
     sns.lineplot(x=t_eval, y=b_non_convex - b_convex, errorbar=None)
-    plt.title(f"Light Curves Error for {obj.file_name}")
-    plt.xlabel("Time [s]")
-    plt.ylabel("Normalized brightness error")
+    plt.title(f'Light Curves Error for {obj.file_name}')
+    plt.xlabel('Time [s]')
+    plt.ylabel('Normalized brightness error')
     plt.grid()
     plt.show()
 
@@ -207,8 +194,8 @@ This is nice and small, which we like to see. If we repeat this process for a no
 .. code-block:: Python
 
 
-    obj = mr.SpaceObject("tess.obj")
-    brdf = mr.Brdf("phong", cd=0.5, cs=0.5, n=5)
+    obj = mr.SpaceObject('tess.obj')
+    brdf = mr.Brdf('phong', cd=0.5, cs=0.5, n=5)
 
     b_non_convex = mr.run_light_curve_engine(brdf, obj, svb, ovb, instances=1)
     b_non_convex_rotating = mr.run_light_curve_engine(
@@ -221,10 +208,10 @@ This is nice and small, which we like to see. If we repeat this process for a no
     sns.lineplot(x=t_eval, y=b_non_convex, errorbar=None)
     sns.lineplot(x=t_eval, y=b_non_convex_rotating, errorbar=None)
     sns.lineplot(x=t_eval, y=b_convex, errorbar=None)
-    plt.title(f"Light Curves for {obj.file_name}")
-    plt.xlabel("Time [s]")
-    plt.ylabel("Normalized brightness")
-    plt.legend(["LightCurveEngine", "LightCurveEngine - rotating panels", "Convex"])
+    plt.title(f'Light Curves for {obj.file_name}')
+    plt.xlabel('Time [s]')
+    plt.ylabel('Normalized brightness')
+    plt.legend(['LightCurveEngine', 'LightCurveEngine - rotating panels', 'Convex'])
     plt.grid()
     plt.show()
 
@@ -242,7 +229,7 @@ This is nice and small, which we like to see. If we repeat this process for a no
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 13.861 seconds)
+   **Total running time of the script:** (0 minutes 10.421 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_engine_vs_convex.py:

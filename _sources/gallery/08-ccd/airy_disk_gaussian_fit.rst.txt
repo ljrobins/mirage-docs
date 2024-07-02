@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_08-ccd_airy_disk_gaussian_fit.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -33,11 +33,11 @@ Comparing the Airy disk diffraction pattern to its Gaussian approximation
     import mirage as mr
     import mirage.vis as mrv
 
-    telescope = mr.Telescope(preset="pogs")
+    telescope = mr.Telescope(preset='pogs')
     telescope.sensor_pixels = 400
     telescope.pixel_scale = 0.005
     telescope.fwhm = (
-        telescope.airy_disk_fwhm(550e-9) * mr.AstroConstants.rad_to_arcsecond
+        telescope.airy_disk_fwhm(550) * mr.AstroConstants.rad_to_arcsecond
     )  # arcseconds
 
 
@@ -59,13 +59,13 @@ One dimensional falloff as a function of the distance from the center of the ima
     r_pix = np.linspace(0, telescope.sensor_pixels // 2, int(1e3))
     theta_arcsec = r_pix * telescope.pixel_scale
     theta_rad = mr.dms_to_rad(0, 0, theta_arcsec)
-    airy_pattern = telescope.airy_disk_pattern(c_all, theta_rad, 550e-9)
-    gaussian_pattern = telescope.gaussian_diffraction_pattern(c_all, theta_rad, 550e-9)
+    airy_pattern = telescope.airy_disk_pattern(c_all, theta_rad, 550)
+    gaussian_pattern = telescope.gaussian_diffraction_pattern(c_all, theta_rad)
 
     plt.figure(figsize=(6, 6))
-    plt.plot(theta_arcsec, airy_pattern, label="Airy Disk")
-    plt.plot(theta_arcsec, gaussian_pattern, label="Gaussian")
-    mrv.texit("", "Distance from center (arcseconds)", "Normalized intensity")
+    plt.plot(theta_arcsec, airy_pattern, label='Airy Disk')
+    plt.plot(theta_arcsec, gaussian_pattern, label='Gaussian')
+    mrv.texit('', 'Distance from center (arcseconds)', 'Normalized intensity')
     plt.legend()
     plt.show()
 
@@ -101,10 +101,10 @@ Two dimensional renders
     theta_grid_rad = mr.dms_to_rad(0, 0, r_dist * telescope.pixel_scale)
 
     mr.tic()
-    airy_pattern = telescope.airy_disk_pattern(c_all, theta_grid_rad, 550e-9)
+    airy_pattern = telescope.airy_disk_pattern(c_all, theta_grid_rad, 550)
     mr.toc()
     mr.tic()
-    gaussian_pattern = telescope.gaussian_diffraction_pattern(c_all, theta_grid_rad, 550e-9)
+    gaussian_pattern = telescope.gaussian_diffraction_pattern(c_all, theta_grid_rad)
     mr.toc()
 
 
@@ -115,8 +115,8 @@ Two dimensional renders
 
  .. code-block:: none
 
-    Elapsed time: 6.74e-03 seconds
-    Elapsed time: 1.48e-03 seconds
+    Elapsed time: 9.62e-03 seconds
+    Elapsed time: 1.83e-03 seconds
 
 
 
@@ -129,8 +129,8 @@ Let's look at the volume of both distributions
 
 .. code-block:: Python
 
-    print(f"Airy disk volume: {np.sum(airy_pattern):.4f}")
-    print(f"Gaussian volume: {np.sum(gaussian_pattern):.4f}")
+    print(f'Airy disk volume: {np.sum(airy_pattern):.4f}')
+    print(f'Gaussian volume: {np.sum(gaussian_pattern):.4f}')
 
 
 
@@ -141,7 +141,7 @@ Let's look at the volume of both distributions
 
  .. code-block:: none
 
-    Airy disk volume: 965.5936
+    Airy disk volume: 965.5944
     Gaussian volume: 838.0000
 
 
@@ -159,20 +159,20 @@ Visualize the Airy disk on the CCD grid
     plt.subplot(1, 2, 1)
     plt.imshow(
         airy_pattern,
-        cmap="inferno",
+        cmap='inferno',
         extent=[x_pix.min(), x_pix.max(), y_pix.min(), y_pix.max()],
     )
-    mrv.texit("Airy Diffraction", "Pixels (x)", "Pixels (y)", grid=False)
-    plt.colorbar(label="Normalized intensity", cax=mrv.get_cbar_ax())
+    mrv.texit('Airy Diffraction', 'Pixels (x)', 'Pixels (y)', grid=False)
+    plt.colorbar(label='Normalized intensity', cax=mrv.get_cbar_ax())
     plt.clim(0, np.max(airy_pattern))
     plt.subplot(1, 2, 2)
     plt.imshow(
         gaussian_pattern,
-        cmap="inferno",
+        cmap='inferno',
         extent=[x_pix.min(), x_pix.max(), y_pix.min(), y_pix.max()],
     )
-    mrv.texit("Gaussian Diffraction", "Pixels (x)", "Pixels (y)", grid=False)
-    plt.colorbar(label="Normalized intensity", cax=mrv.get_cbar_ax())
+    mrv.texit('Gaussian Diffraction', 'Pixels (x)', 'Pixels (y)', grid=False)
+    plt.colorbar(label='Normalized intensity', cax=mrv.get_cbar_ax())
     plt.clim(0, np.max(airy_pattern))
     plt.tight_layout()
     plt.show()
@@ -191,7 +191,7 @@ Visualize the Airy disk on the CCD grid
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.055 seconds)
+   **Total running time of the script:** (0 minutes 1.081 seconds)
 
 
 .. _sphx_glr_download_gallery_08-ccd_airy_disk_gaussian_fit.py:

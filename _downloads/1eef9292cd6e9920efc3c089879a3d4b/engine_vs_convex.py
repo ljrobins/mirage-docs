@@ -13,8 +13,8 @@ import mirage as mr
 
 # %%
 # Defining the object and BRDF
-obj = mr.SpaceObject("cylinder.obj")
-brdf = mr.Brdf("phong", cd=0.1, cs=0.9, n=30)
+obj = mr.SpaceObject('cylinder.obj')
+brdf = mr.Brdf('phong', cd=0.1, cs=0.9, n=30)
 
 # %%
 # Defining the attitude profile
@@ -54,10 +54,10 @@ print(b_non_convex, b_convex)
 plt.figure()
 sns.lineplot(x=t_eval, y=b_non_convex, errorbar=None)
 sns.lineplot(x=t_eval, y=b_convex, errorbar=None)
-plt.title(f"Light Curves for {obj.file_name}")
-plt.xlabel("Time [s]")
-plt.ylabel("Normalized brightness")
-plt.legend(["LightCurveEngine", "Convex"])
+plt.title(f'Light Curves for {obj.file_name}')
+plt.xlabel('Time [s]')
+plt.ylabel('Normalized brightness')
+plt.legend(['LightCurveEngine', 'Convex'])
 plt.grid()
 # plt.show()
 
@@ -67,17 +67,17 @@ plt.grid()
 
 plt.figure()
 sns.lineplot(x=t_eval, y=b_non_convex - b_convex, errorbar=None)
-plt.title(f"Light Curves Error for {obj.file_name}")
-plt.xlabel("Time [s]")
-plt.ylabel("Normalized brightness error")
+plt.title(f'Light Curves Error for {obj.file_name}')
+plt.xlabel('Time [s]')
+plt.ylabel('Normalized brightness error')
 plt.grid()
 plt.show()
 
 # %%
 # This is nice and small, which we like to see. If we repeat this process for a non-convex object, the error quickly becomes clear
 
-obj = mr.SpaceObject("tess.obj")
-brdf = mr.Brdf("phong", cd=0.5, cs=0.5, n=5)
+obj = mr.SpaceObject('tess.obj')
+brdf = mr.Brdf('phong', cd=0.5, cs=0.5, n=5)
 
 b_non_convex = mr.run_light_curve_engine(brdf, obj, svb, ovb, instances=1)
 b_non_convex_rotating = mr.run_light_curve_engine(
@@ -90,9 +90,9 @@ plt.figure()
 sns.lineplot(x=t_eval, y=b_non_convex, errorbar=None)
 sns.lineplot(x=t_eval, y=b_non_convex_rotating, errorbar=None)
 sns.lineplot(x=t_eval, y=b_convex, errorbar=None)
-plt.title(f"Light Curves for {obj.file_name}")
-plt.xlabel("Time [s]")
-plt.ylabel("Normalized brightness")
-plt.legend(["LightCurveEngine", "LightCurveEngine - rotating panels", "Convex"])
+plt.title(f'Light Curves for {obj.file_name}')
+plt.xlabel('Time [s]')
+plt.ylabel('Normalized brightness')
+plt.legend(['LightCurveEngine', 'LightCurveEngine - rotating panels', 'Convex'])
 plt.grid()
 plt.show()

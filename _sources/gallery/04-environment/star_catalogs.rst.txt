@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_04-environment_star_catalogs.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -23,43 +23,42 @@ Star Catalogs
 
 Initializing and querying star catalogs
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-41
+.. GENERATED FROM PYTHON SOURCE LINES 7-40
 
 .. code-block:: Python
 
 
     import matplotlib.pyplot as plt
     import numpy as np
-    import seaborn as sns
 
     import mirage as mr
     import mirage.vis as mrv
 
     station = mr.Station()
     date = mr.now()
-    mr.tic("Loading Gaia")
-    gaia = mr.StarCatalog("gaia", station, date)
+    mr.tic('Loading Gaia')
+    gaia = mr.GaiaStarCatalog(station, date)
     mr.toc()
 
-    mr.tic("Loading Tycho-2")
-    tycho2 = mr.StarCatalog("tycho2", station, date)
+    mr.tic('Loading Tycho-2')
+    tycho2 = mr.Tycho2StarCatalog(station, date)
     mr.toc()
 
     eci_look_dir = mr.hat(np.array([1, 1, 0]))
     look_ra, look_dec = mr.eci_to_ra_dec(eci_look_dir)
     scope_up_initial = np.array([0, 1, 0])
-    telescope = mr.Telescope(preset="pogs")
-    mr.tic("Finding stars in frame for Tycho-2")
-    if_uvs_tycho2, if_mags_tycho2 = tycho2.in_fov(eci_look_dir, scope_up_initial)
+    telescope = mr.Telescope(preset='pogs')
+    mr.tic('Finding stars in frame for Tycho-2')
+    if_uvs_tycho2, if_spec_tycho2 = tycho2.in_fov(eci_look_dir, scope_up_initial)
     mr.toc()
 
-    print(f"Tycho-2 found {if_uvs_tycho2.shape[0]} stars in frame")
+    print(f'Tycho-2 found {if_uvs_tycho2.shape[0]} stars in frame')
 
-    mr.tic("Finding stars in frame for Gaia")
-    if_uvs_gaia, if_mags_gaia = gaia.in_fov(eci_look_dir, scope_up_initial)
+    mr.tic('Finding stars in frame for Gaia')
+    if_uvs_gaia, if_spec_gaia = gaia.in_fov(eci_look_dir, scope_up_initial)
     mr.toc()
 
-    print(f"Gaia found {if_uvs_gaia.shape[0]} stars in frame")
+    print(f'Gaia found {if_uvs_gaia.shape[0]} stars in frame')
 
 
 
@@ -69,21 +68,21 @@ Initializing and querying star catalogs
 
  .. code-block:: none
 
-    Loading Gaia: 2.10e+00 seconds
-    Loading Tycho-2: 3.06e-01 seconds
-    Finding stars in frame for Tycho-2: 4.45e-03 seconds
+    Loading Gaia: 1.93e+00 seconds
+    Loading Tycho-2: 4.39e-01 seconds
+    Finding stars in frame for Tycho-2: 5.55e-03 seconds
     Tycho-2 found 17 stars in frame
-    Finding stars in frame for Gaia: 5.47e-04 seconds
+    Finding stars in frame for Gaia: 1.15e-03 seconds
     Gaia found 79 stars in frame
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-43
+.. GENERATED FROM PYTHON SOURCE LINES 41-42
 
 Plotting the FOV stars
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-60
+.. GENERATED FROM PYTHON SOURCE LINES 42-59
 
 .. code-block:: Python
 
@@ -95,13 +94,13 @@ Plotting the FOV stars
     )
 
     plt.figure()
-    plt.scatter(gaia_pix_x, gaia_pix_y, s=2 * if_mags_gaia, c="black")
-    plt.scatter(tycho_pix_x, tycho_pix_y, s=if_mags_tycho2 / 10, c="cyan")
-    plt.title("Tycho-2 vs Gaia up close")
-    plt.xlabel("RA (pixels)")
-    plt.ylabel("Dec (pixels)")
-    plt.gca().set_aspect("equal")
-    plt.legend(["Gaia", "Tycho-2"])
+    plt.scatter(gaia_pix_x, gaia_pix_y, s=20, c='black')
+    plt.scatter(tycho_pix_x, tycho_pix_y, s=1, c='cyan')
+    plt.title('Tycho-2 vs Gaia up close')
+    plt.xlabel('RA (pixels)')
+    plt.ylabel('Dec (pixels)')
+    plt.gca().set_aspect('equal')
+    plt.legend(['Gaia', 'Tycho-2'])
     plt.show()
 
 
@@ -116,74 +115,17 @@ Plotting the FOV stars
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-62
-
-Plotting a heatmap of the RA/Dec of both catalogs with seaborn
-
-.. GENERATED FROM PYTHON SOURCE LINES 62-99
-
-.. code-block:: Python
-
-
-    fig, axs = plt.subplots(2, 1, figsize=(8, 8))
-    tycho_weights = mr.apparent_magnitude_to_irradiance(tycho2._mags)
-    gaia_weights = mr.apparent_magnitude_to_irradiance(gaia._mags)
-
-    sns.histplot(
-        x=tycho2._alpha,
-        y=tycho2._delta,
-        ax=axs[0],
-        bins=50,
-        cbar=False,
-        weights=tycho_weights,
-        cbar_kws={"label": "Cummulative irradiance [W/m^2]"},
-    )
-    axs[0].set_title("Tycho-2")
-    axs[0].set_xlabel("RA (rad)")
-    axs[0].set_ylabel("Dec (rad)")
-    axs[0].set_aspect("equal")
-
-    sns.histplot(
-        x=gaia._alpha,
-        y=gaia._delta,
-        ax=axs[1],
-        bins=50,
-        cbar=True,
-        cbar_kws={"label": "Cummulative irradiance [W/m^2]"},
-        weights=gaia_weights,
-        cbar_ax=mrv.get_cbar_ax(),
-    )
-    axs[1].set_title("Gaia")
-    axs[1].set_xlabel("RA (rad)")
-    axs[1].set_ylabel("Dec (rad)")
-    axs[1].set_aspect("equal")
-
-    plt.tight_layout()
-    plt.show()
-
-
-
-
-.. image-sg:: /gallery/04-environment/images/sphx_glr_star_catalogs_002.png
-   :alt: Tycho-2, Gaia
-   :srcset: /gallery/04-environment/images/sphx_glr_star_catalogs_002.png, /gallery/04-environment/images/sphx_glr_star_catalogs_002_2_00x.png 2.00x
-   :class: sphx-glr-single-img
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 100-101
+.. GENERATED FROM PYTHON SOURCE LINES 60-61
 
 Star Aberration
 
-.. GENERATED FROM PYTHON SOURCE LINES 101-110
+.. GENERATED FROM PYTHON SOURCE LINES 61-70
 
 .. code-block:: Python
 
 
-    t2 = mr.load_json_data("tycho2.json")
-    alpha_rad, delta_rad = t2["j2000_ra"], t2["j2000_dec"]
+    t2 = mr.load_json_data('tycho2.json')
+    alpha_rad, delta_rad = t2['j2000_ra'], t2['j2000_dec']
     mr.tic()
     alpha_rad_app, delta_rad_app = mr.apparent_star_positons(
         mr.now(), station.lat_geod_rad, alpha_rad, delta_rad
@@ -198,16 +140,16 @@ Star Aberration
 
  .. code-block:: none
 
-    Elapsed time: 2.83e-01 seconds
+    Elapsed time: 3.23e-01 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 111-112
+.. GENERATED FROM PYTHON SOURCE LINES 71-72
 
 Plotting the resulting right ascensions and declinations
 
-.. GENERATED FROM PYTHON SOURCE LINES 112-124
+.. GENERATED FROM PYTHON SOURCE LINES 72-84
 
 .. code-block:: Python
 
@@ -217,18 +159,18 @@ Plotting the resulting right ascensions and declinations
     plt.xlim(0, 1)
     plt.ylim(0, 1)
     mrv.texit(
-        "Apparent and True Star Positions",
-        "Right ascension [deg]",
-        "Declination [deg]",
-        ["True", "Apparent"],
+        'Apparent and True Star Positions',
+        'Right ascension [deg]',
+        'Declination [deg]',
+        ['True', 'Apparent'],
     )
     plt.show()
 
 
 
-.. image-sg:: /gallery/04-environment/images/sphx_glr_star_catalogs_003.png
+.. image-sg:: /gallery/04-environment/images/sphx_glr_star_catalogs_002.png
    :alt: Apparent and True Star Positions
-   :srcset: /gallery/04-environment/images/sphx_glr_star_catalogs_003.png, /gallery/04-environment/images/sphx_glr_star_catalogs_003_2_00x.png 2.00x
+   :srcset: /gallery/04-environment/images/sphx_glr_star_catalogs_002.png, /gallery/04-environment/images/sphx_glr_star_catalogs_002_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
 
@@ -238,7 +180,7 @@ Plotting the resulting right ascensions and declinations
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 33.543 seconds)
+   **Total running time of the script:** (0 minutes 13.650 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_star_catalogs.py:

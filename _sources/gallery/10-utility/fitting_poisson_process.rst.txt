@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_10-utility_fitting_poisson_process.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -38,12 +38,12 @@ Fitting a random Poisson-distributed process to a set of data
     data_to_fit = np.random.poisson(3, int(1e5))  # Simulated Poisson data with lambda = 5
     lambda_est = mr.fit_poisson_process(data_to_fit)
 
-    print(f"Estimated rate parameter: {lambda_est}")
+    print(f'Estimated rate parameter: {lambda_est}')
 
     x_plot = np.arange(0, 15)
 
-    sns.histplot(data_to_fit, stat="density", binwidth=1)
-    sns.histplot(poisson(lambda_est).rvs(data_to_fit.size), stat="density", binwidth=1)
+    sns.histplot(data_to_fit, stat='density', binwidth=1)
+    sns.histplot(poisson(lambda_est).rvs(data_to_fit.size), stat='density', binwidth=1)
 
     plt.show()
 
@@ -60,7 +60,7 @@ Fitting a random Poisson-distributed process to a set of data
 
  .. code-block:: none
 
-    Estimated rate parameter: 3.00292
+    Estimated rate parameter: 2.99551
 
 
 
@@ -74,8 +74,8 @@ Expected absolute error in a sample should be equal to the standard deviation
 .. code-block:: Python
 
 
-    print(f"Expected standard deviation: {np.sqrt(lambda_est)}")
-    print(f"Sample standard deviation: {np.std(data_to_fit)}")
+    print(f'Expected standard deviation: {np.sqrt(lambda_est)}')
+    print(f'Sample standard deviation: {np.std(data_to_fit)}')
 
 
 
@@ -84,8 +84,8 @@ Expected absolute error in a sample should be equal to the standard deviation
 
  .. code-block:: none
 
-    Expected standard deviation: 1.7328935339483496
-    Sample standard deviation: 1.7351920566899792
+    Expected standard deviation: 1.7307541708746508
+    Sample standard deviation: 1.7322095254038987
 
 
 
@@ -93,7 +93,7 @@ Expected absolute error in a sample should be equal to the standard deviation
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.462 seconds)
+   **Total running time of the script:** (0 minutes 0.470 seconds)
 
 
 .. _sphx_glr_download_gallery_10-utility_fitting_poisson_process.py:

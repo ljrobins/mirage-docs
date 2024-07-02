@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_07-observer_local_hemisphere.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -23,14 +23,13 @@ Live Satellites From Observer
 
 Plots satellites that would be visible from a station's telescope in real time
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-15
+.. GENERATED FROM PYTHON SOURCE LINES 7-14
 
 .. code-block:: Python
 
 
     import numpy as np
     import pyvista as pv
-    import vtk
 
     import mirage as mr
     import mirage.vis as mrv
@@ -42,16 +41,16 @@ Plots satellites that would be visible from a station's telescope in real time
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-17
+.. GENERATED FROM PYTHON SOURCE LINES 15-17
 
 Since I'm currently stuck in the Philadelphia airport, let's plot things from the perspective of there
+obs_lat, obs_lon = mr.lat_lon_of_address("Philadelphia, PA")
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-20
+.. GENERATED FROM PYTHON SOURCE LINES 17-19
 
 .. code-block:: Python
 
-    obs_lat, obs_lon = mr.lat_lon_of_address("Philadelphia, PA")
-    station = mr.Station(lat_deg=obs_lat, lon_deg=obs_lon)
+    station = mr.Station()
 
 
 
@@ -60,11 +59,11 @@ Since I'm currently stuck in the Philadelphia airport, let's plot things from th
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-22
+.. GENERATED FROM PYTHON SOURCE LINES 20-21
 
 Let's impose a signal to noise ratio constraint, require satellites to be above the horizon, be illuminated, and have a visual magnitude brighter than 12
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-29
+.. GENERATED FROM PYTHON SOURCE LINES 21-28
 
 .. code-block:: Python
 
@@ -82,28 +81,28 @@ Let's impose a signal to noise ratio constraint, require satellites to be above 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-31
+.. GENERATED FROM PYTHON SOURCE LINES 29-30
 
 We can now plot everything!
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-171
+.. GENERATED FROM PYTHON SOURCE LINES 30-170
 
 .. code-block:: Python
 
 
     pl = pv.Plotter()
-    pl.set_background("k")
+    pl.set_background('k')
 
     pl.add_point_labels(
         np.vstack((np.eye(3), -np.eye(3)[:2, :])),
-        ["East", "North", "Zenith", "West", "South"],
-        text_color="lime",
-        font_family="courier",
+        ['East', 'North', 'Zenith', 'West', 'South'],
+        text_color='lime',
+        font_family='courier',
         font_size=30,
         shape_opacity=0.2,
         always_visible=True,
         show_points=False,
-        name="enu_labels",
+        name='enu_labels',
     )
 
     # Plotting the Azimuth/Elevation sphere
@@ -112,16 +111,16 @@ We can now plot everything!
         pl,
         lines,
         lighting=False,
-        color="cornflowerblue",
+        color='cornflowerblue',
         line_width=5,
-        name="local_grid",
+        name='local_grid',
         opacity=lines[:, 2] >= 0,
     )
 
 
     def show_scene(epsec: float):
         date = mr.today() + mr.seconds(epsec)  # Fig 5.38
-        r_eci, names = mr.propagate_catalog_to_dates(date, return_names=True)
+        r_eci, v_eci, names = mr.propagate_catalog_to_dates(date, return_names=True)
         station_eci = station.j2000_at_dates(date)
         look_vec_eci = r_eci - station_eci
         look_dir_eci = mr.hat(look_vec_eci)
@@ -167,22 +166,22 @@ We can now plot everything!
             r_enu,
             point_size=20,
             lighting=False,
-            color="m",
-            name="sat_enu",
+            color='m',
+            name='sat_enu',
             opacity=constraint_satisfaction,
             render=False,
         )
 
         pl.add_point_labels(
             r_moon_enu,
-            ["Moon"],
-            text_color="cyan",
-            font_family="courier",
+            ['Moon'],
+            text_color='cyan',
+            font_family='courier',
             font_size=20,
             shape_opacity=0.2,
             always_visible=True,
             show_points=True,
-            name="moon_label",
+            name='moon_label',
             render=False,
         )
 
@@ -202,21 +201,21 @@ We can now plot everything!
         pl.add_point_labels(
             r_enu[constraint_satisfaction, :],
             names[constraint_satisfaction],
-            text_color="white",
-            font_family="courier",
-            shape_color="k",
+            text_color='white',
+            font_family='courier',
+            shape_color='k',
             font_size=15,
             shape_opacity=0.4,
             always_visible=True,
             show_points=False,
-            name="obj_labels",
+            name='obj_labels',
             render=False,
         )
 
         pl.add_text(
             f'{date.strftime("%m/%d/%Y, %H:%M:%S")} UTC',
-            name="utc_str",
-            font="courier",
+            name='utc_str',
+            font='courier',
         )
 
         pl.set_viewup((0.0, 1.0, 0.0), render=False)
@@ -224,7 +223,7 @@ We can now plot everything!
         pl.set_position((0.0, 0.0, -5.0))
 
 
-    pl.open_gif("test.gif")
+    pl.open_gif('test.gif')
     for i in np.linspace(0, 80, 60):
         show_scene(i)
         pl.write_frame()
@@ -245,7 +244,7 @@ We can now plot everything!
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 32.969 seconds)
+   **Total running time of the script:** (0 minutes 25.073 seconds)
 
 
 .. _sphx_glr_download_gallery_07-observer_local_hemisphere.py:

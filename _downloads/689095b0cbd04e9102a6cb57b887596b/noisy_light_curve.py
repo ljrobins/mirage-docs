@@ -22,9 +22,9 @@ ephr = epsecs / 3600  # Epoch hours
 
 # %%
 # Setting up the scenario objects
-obj = mr.SpaceObject("hylas4.obj", identifier="goes 15")
-brdf = mr.Brdf("phong")
-station = mr.Station(preset="pogs")
+obj = mr.SpaceObject('hylas4.obj', identifier='goes 15')
+brdf = mr.Brdf('phong')
+station = mr.Station(preset='pogs')
 # Observing from the Purdue Optical Ground Station in New Mexico
 
 # %%
@@ -36,7 +36,6 @@ station.constraints = [
     mr.ObserverEclipseConstraint(station),
     mr.VisualMagnitudeConstraint(18),
     mr.MoonExclusionConstraint(10),
-    mr.HorizonMaskConstraint(station),
 ]
 
 # %%
@@ -56,16 +55,16 @@ lc_noisy = lc_noisy_sampler()
 
 # %%
 # Extracting data and plotting results
-lc_clean = aux_data["lc_clean"]
+lc_clean = aux_data['lc_clean']
 
 sns.scatterplot(x=ephr, y=lc_noisy, linewidth=0.05, size=0.2)
-sns.scatterplot(x=ephr, y=lc_clean, linewidth=0.05, size=0.2, color="k")
+sns.scatterplot(x=ephr, y=lc_clean, linewidth=0.05, size=0.2, color='k')
 plt.xlim((0, np.max(ephr)))
 mrv.texit(
-    f"Light Curves for {obj.satnum}",
-    "Epoch hours",
-    "[e-]",
-    ["Measurements", "True Mean"],
+    f'Light Curves for {obj.sat.satnum}',
+    'Epoch hours',
+    '[e-]',
+    ['Measurements', 'True Mean'],
 )
 plt.grid()
 plt.show()

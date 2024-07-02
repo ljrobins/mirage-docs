@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_04-environment_solar_spectrum.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -22,14 +22,13 @@ Solar Spectrum
 ==============
 Plots of the solar irradiance spectrum and the total solar irradiance.
 
-.. GENERATED FROM PYTHON SOURCE LINES 6-15
+.. GENERATED FROM PYTHON SOURCE LINES 6-14
 
 .. code-block:: Python
 
 
     import matplotlib.pyplot as plt
     import numpy as np
-    import pyvista as pv
     from terrainman import TsiDataHandler
 
     import mirage as mr
@@ -42,11 +41,11 @@ Plots of the solar irradiance spectrum and the total solar irradiance.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-17
+.. GENERATED FROM PYTHON SOURCE LINES 15-16
 
 The solar spectrum and irradiance at Earth
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-24
+.. GENERATED FROM PYTHON SOURCE LINES 16-23
 
 .. code-block:: Python
 
@@ -64,11 +63,11 @@ The solar spectrum and irradiance at Earth
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-26
+.. GENERATED FROM PYTHON SOURCE LINES 24-25
 
 The ``terrainman.TsiDataHandler`` class deals with downloading the relevant netCDF4 files from `This NOAA server <https://www.ncei.noaa.gov/data/total-solar-irradiance/access/daily/>`_. Outside of the interval covered by this dataset (1882-current_year) :math:`1361 \frac{W}{m^2}` is used as a default.
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-35
+.. GENERATED FROM PYTHON SOURCE LINES 25-34
 
 .. code-block:: Python
 
@@ -89,16 +88,16 @@ The ``terrainman.TsiDataHandler`` class deals with downloading the relevant netC
 
  .. code-block:: none
 
-    Elapsed time: 8.86e-02 seconds
+    Elapsed time: 1.15e-01 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-37
+.. GENERATED FROM PYTHON SOURCE LINES 35-36
 
 With this distance information, we can augment the Total Solar Irradiance plot to show the actual irradiance felt by a shell at Earth's instantaneous orbital radius. We can do this by noting that doubling the radius of a sphere squares its area, so we just have to divide by the square of the ``earth_to_sun_dist_au``
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-67
+.. GENERATED FROM PYTHON SOURCE LINES 36-66
 
 .. code-block:: Python
 
@@ -107,27 +106,27 @@ With this distance information, we can augment the Total Solar Irradiance plot t
     plt.subplot(1, 2, 1)
     sc_at_earth_radius = sc_at_one_au / earth_to_sun_dist_au**2
     ax1 = plt.gca()
-    ax1.scatter(epyrs + 2000, sc_at_one_au, s=1, color="C0")
-    ax1.set_ylabel(r"$\left[\frac{W}{m^2}\right]$")
-    ax1.set_xlabel("Year")
-    plt.title("Total Solar Irradiance at 1 AU")
+    ax1.scatter(epyrs + 2000, sc_at_one_au, s=1, color='C0')
+    ax1.set_ylabel(r'$\left[\frac{W}{m^2}\right]$')
+    ax1.set_xlabel('Year')
+    plt.title('Total Solar Irradiance at 1 AU')
 
     plt.subplot(1, 2, 2)
 
-    lambdas = np.linspace(100e-9, 1500e-9, 200)
+    lambdas = np.linspace(100, 1500, 200)
 
     solar_spectrum = mr.sun_spectrum(lambdas)
-    plt.plot(lambdas * 1e9, solar_spectrum)
+    plt.plot(lambdas, solar_spectrum)
     mrv.plot_visible_band(lambdas, solar_spectrum)
     # label IR and UV
-    plt.xlim([np.min(lambdas) * 1e9, np.max(lambdas) * 1e9])
+    plt.xlim([np.min(lambdas), np.max(lambdas)])
     plt.ylim([0, 1.3 * np.max(solar_spectrum)])
-    plt.text(1000, 1.5e9, "IR", color="r", fontsize=12)
-    plt.text(200, 1.5e9, "UV", color="violet", fontsize=12)
+    plt.text(1000, 1.5, 'IR', color='r', fontsize=12)
+    plt.text(200, 1.5, 'UV', color='violet', fontsize=12)
 
-    plt.title("Solar Spectrum")
-    plt.xlabel("Wavelength [nm]")
-    plt.ylabel("Irradiance [W/m$^2$/m]")
+    plt.title('Solar Spectrum')
+    plt.xlabel('Wavelength [nm]')
+    plt.ylabel('Irradiance [W/m$^2$/nm]')
 
     plt.tight_layout()
     plt.show()
@@ -144,19 +143,19 @@ With this distance information, we can augment the Total Solar Irradiance plot t
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 68-69
+.. GENERATED FROM PYTHON SOURCE LINES 67-68
 
 True irradiance at Earth
 
-.. GENERATED FROM PYTHON SOURCE LINES 69-75
+.. GENERATED FROM PYTHON SOURCE LINES 68-74
 
 .. code-block:: Python
 
 
     plt.scatter(epyrs[-900:] + 2000, sc_at_earth_radius[-900:], s=1)
-    plt.ylabel(r"$\left[\frac{W}{m^2}\right]$")
-    plt.xlabel("Year")
-    plt.title("Total Solar Irradiance at Earth")
+    plt.ylabel(r'$\left[\frac{W}{m^2}\right]$')
+    plt.xlabel('Year')
+    plt.title('Total Solar Irradiance at Earth')
     plt.show()
 
 
@@ -173,7 +172,7 @@ True irradiance at Earth
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.081 seconds)
+   **Total running time of the script:** (0 minutes 1.211 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_solar_spectrum.py:

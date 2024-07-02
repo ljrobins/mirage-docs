@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_12-rpo_synthetic_rpo_images.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -53,7 +53,7 @@ Generating the dataset with key point selection UI enabled
 .. code-block:: Python
 
     mrsyn.generate_synthetic_dataset(
-        "matlib_goes17.obj",
+        'matlib_goes17.obj',
         data_points=9,
         key_point_count=10,
         manual_key_point_selection=True,
@@ -74,10 +74,10 @@ Generating the dataset with key point selection UI enabled
  .. code-block:: none
 
     Found 11 key points!
-    Computed visibility for point 1/9, 0.15ish minutes remaining
-    Computed visibility for point 2/9, 0.08ish minutes remaining
-    Computed visibility for point 3/9, 0.07ish minutes remaining
-    Computed visibility for point 4/9, 0.06ish minutes remaining
+    Computed visibility for point 1/9, 0.22ish minutes remaining
+    Computed visibility for point 2/9, 0.06ish minutes remaining
+    Computed visibility for point 3/9, 0.05ish minutes remaining
+    Computed visibility for point 4/9, 0.04ish minutes remaining
     Computed visibility for point 5/9, 0.04ish minutes remaining
     Computed visibility for point 6/9, 0.03ish minutes remaining
     Computed visibility for point 7/9, 0.02ish minutes remaining
@@ -96,9 +96,9 @@ Loading the resulting data
 .. code-block:: Python
 
 
-    with open(os.path.join("out", "iminfo.json"), "r") as f:
+    with open(os.path.join('out', 'iminfo.json'), 'r') as f:
         iminfo = json.load(f)
-        kp_pix = np.array(iminfo["key_points"]["image_pixels"])
+        kp_pix = np.array(iminfo['key_points']['image_pixels'])
 
 
 
@@ -118,12 +118,12 @@ Plotting a grid of rendered images
     fig, axs = plt.subplots(3, 3)
     for fnum in range(9):
         plt.subplot(3, 3, fnum + 1)
-        with Image.open(os.path.join("out", f"frame{fnum}.png"), "r") as im:
+        with Image.open(os.path.join('out', f'frame{fnum}.png'), 'r') as im:
             im_arr = np.array(im)
-            plt.imshow(im_arr[:, :, 0], cmap="gray")
-            plt.scatter(kp_pix[fnum, :, 0], kp_pix[fnum, :, 1], c="c", s=1)
-            plt.axis("off")
-    fig.suptitle("Synthetic images of GOES-17 with Key Points", fontsize=12)
+            plt.imshow(im_arr[:, :, 0], cmap='gray')
+            plt.scatter(kp_pix[fnum, :, 0], kp_pix[fnum, :, 1], c='c', s=1)
+            plt.axis('off')
+    fig.suptitle('Synthetic images of GOES-17 with Key Points', fontsize=12)
     plt.tight_layout()
     plt.show()
 
@@ -141,7 +141,7 @@ Plotting a grid of rendered images
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 8.662 seconds)
+   **Total running time of the script:** (0 minutes 7.691 seconds)
 
 
 .. _sphx_glr_download_gallery_12-rpo_synthetic_rpo_images.py:

@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_04-environment_vesuvius_terrain.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -51,9 +51,9 @@ Terrain Tiles
         itrf_terrain[:, 1].reshape(elev_grid.shape),
         itrf_terrain[:, 2].reshape(elev_grid.shape),
     )
-    dem["Elevation [km]"] = elev_grid.flatten(order="f")
-    dem["Latitude"] = tile.lat_grid.flatten(order="f")
-    dem["Longitude"] = tile.lon_grid.flatten(order="f")
+    dem['Elevation [km]'] = elev_grid.flatten(order='f')
+    dem['Latitude'] = tile.lat_grid.flatten(order='f')
+    dem['Longitude'] = tile.lon_grid.flatten(order='f')
 
 
 
@@ -73,10 +73,10 @@ Plotting in 2D
 
     mrv.plot_map_with_grid(
         elev_grid,
-        "Terrain Around Naples, Italy",
-        "Elevation above geoid [km]",
+        'Terrain Around Naples, Italy',
+        'Elevation above geoid [km]',
         alpha=1.0,
-        cmap="gist_earth",
+        cmap='gist_earth',
         extent=(14, 15, 40, 41),  # left lon, right lon, bottom lat, top lat
         hillshade=True,
     )
@@ -107,14 +107,14 @@ Plotting in 3D wrapped on the Earth
     pl.add_mesh(
         dem,
         smooth_shading=True,
-        scalars="Elevation [km]",
+        scalars='Elevation [km]',
         opacity=0.8,
         show_scalar_bar=False,
-        cmap="terrain",
+        cmap='terrain',
     )
     mrv.plot_earth(
         pl,
-        mode="ecef",
+        mode='ecef',
         date=mr.utc(2023, 12, 9, 12),
         high_def=True,
         ocean_floor=False,
@@ -138,7 +138,7 @@ Plotting in 3D wrapped on the Earth
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 29.604 seconds)
+   **Total running time of the script:** (0 minutes 26.956 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_vesuvius_terrain.py:

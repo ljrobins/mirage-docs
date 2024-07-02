@@ -7,15 +7,14 @@ Plots satellites that would be visible from a station's telescope in real time
 
 import numpy as np
 import pyvista as pv
-import vtk
 
 import mirage as mr
 import mirage.vis as mrv
 
 # %%
 # Since I'm currently stuck in the Philadelphia airport, let's plot things from the perspective of there
-obs_lat, obs_lon = mr.lat_lon_of_address("Philadelphia, PA")
-station = mr.Station(lat_deg=obs_lat, lon_deg=obs_lon)
+# obs_lat, obs_lon = mr.lat_lon_of_address("Philadelphia, PA")
+station = mr.Station()
 
 # %%
 # Let's impose a signal to noise ratio constraint, require satellites to be above the horizon, be illuminated, and have a visual magnitude brighter than 12
@@ -30,18 +29,18 @@ station.constraints = [
 # We can now plot everything!
 
 pl = pv.Plotter()
-pl.set_background("k")
+pl.set_background('k')
 
 pl.add_point_labels(
     np.vstack((np.eye(3), -np.eye(3)[:2, :])),
-    ["East", "North", "Zenith", "West", "South"],
-    text_color="lime",
-    font_family="courier",
+    ['East', 'North', 'Zenith', 'West', 'South'],
+    text_color='lime',
+    font_family='courier',
     font_size=30,
     shape_opacity=0.2,
     always_visible=True,
     show_points=False,
-    name="enu_labels",
+    name='enu_labels',
 )
 
 # Plotting the Azimuth/Elevation sphere
@@ -50,16 +49,16 @@ mrv.plot3(
     pl,
     lines,
     lighting=False,
-    color="cornflowerblue",
+    color='cornflowerblue',
     line_width=5,
-    name="local_grid",
+    name='local_grid',
     opacity=lines[:, 2] >= 0,
 )
 
 
 def show_scene(epsec: float):
     date = mr.today() + mr.seconds(epsec)  # Fig 5.38
-    r_eci, names = mr.propagate_catalog_to_dates(date, return_names=True)
+    r_eci, v_eci, names = mr.propagate_catalog_to_dates(date, return_names=True)
     station_eci = station.j2000_at_dates(date)
     look_vec_eci = r_eci - station_eci
     look_dir_eci = mr.hat(look_vec_eci)
@@ -105,22 +104,22 @@ def show_scene(epsec: float):
         r_enu,
         point_size=20,
         lighting=False,
-        color="m",
-        name="sat_enu",
+        color='m',
+        name='sat_enu',
         opacity=constraint_satisfaction,
         render=False,
     )
 
     pl.add_point_labels(
         r_moon_enu,
-        ["Moon"],
-        text_color="cyan",
-        font_family="courier",
+        ['Moon'],
+        text_color='cyan',
+        font_family='courier',
         font_size=20,
         shape_opacity=0.2,
         always_visible=True,
         show_points=True,
-        name="moon_label",
+        name='moon_label',
         render=False,
     )
 
@@ -140,21 +139,21 @@ def show_scene(epsec: float):
     pl.add_point_labels(
         r_enu[constraint_satisfaction, :],
         names[constraint_satisfaction],
-        text_color="white",
-        font_family="courier",
-        shape_color="k",
+        text_color='white',
+        font_family='courier',
+        shape_color='k',
         font_size=15,
         shape_opacity=0.4,
         always_visible=True,
         show_points=False,
-        name="obj_labels",
+        name='obj_labels',
         render=False,
     )
 
     pl.add_text(
         f'{date.strftime("%m/%d/%Y, %H:%M:%S")} UTC',
-        name="utc_str",
-        font="courier",
+        name='utc_str',
+        font='courier',
     )
 
     pl.set_viewup((0.0, 1.0, 0.0), render=False)
@@ -162,7 +161,7 @@ def show_scene(epsec: float):
     pl.set_position((0.0, 0.0, -5.0))
 
 
-pl.open_gif("test.gif")
+pl.open_gif('test.gif')
 for i in np.linspace(0, 80, 60):
     show_scene(i)
     pl.write_frame()

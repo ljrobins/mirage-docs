@@ -5,8 +5,6 @@ Convex Light Curves
 Simulates torque-free rigid body motion for a simple object and computes the light curve
 """
 
-import datetime
-
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
@@ -15,8 +13,8 @@ import mirage as mr
 
 # %%
 # To keep things simple, we'll just use a cube for this demo
-obj = mr.SpaceObject("cube.obj")
-brdf = mr.Brdf("diffuse", cd=1.0, cs=0.0)
+obj = mr.SpaceObject('cube.obj')
+brdf = mr.Brdf('diffuse', cd=1.0, cs=0.0)
 
 # %%
 # Computing the quaternion time history of the object
@@ -44,8 +42,8 @@ lc = obj.convex_light_curve(brdf, svb, ovb)
 
 plt.figure()
 sns.lineplot(x=teval, y=lc)
-plt.title("Convex Light Curves")
-plt.xlabel("Time [s]")
-plt.ylabel("Normalized brightness")
+plt.title('Convex Light Curves')
+plt.xlabel('Time [s]')
+plt.ylabel('Normalized brightness')
 plt.grid()
 plt.show()

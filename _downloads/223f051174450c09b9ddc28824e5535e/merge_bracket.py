@@ -14,7 +14,7 @@ import pyvista as pv
 import mirage as mr
 import mirage.vis as mrv
 
-objs = [mr.SpaceObject(x) for x in ["duck.obj", "cylinder.obj"]]
+objs = [mr.SpaceObject(x) for x in ['duck.obj', 'cylinder.obj']]
 
 w2 = mr.SphericalWeight(mr.spiral_sample_sphere(5), np.random.rand(5))
 weights = np.array([10, w2])

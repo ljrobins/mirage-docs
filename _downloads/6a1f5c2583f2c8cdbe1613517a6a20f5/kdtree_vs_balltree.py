@@ -5,7 +5,6 @@ KDTree vs BallTree
 Benchmarking tree searches in :math:`R^3`
 """
 
-import numpy as np
 import pyvista as pv
 from scipy.spatial import KDTree as ssKD
 from sklearn.neighbors import BallTree as skBT
@@ -14,18 +13,18 @@ from sklearn.neighbors import KDTree as skKD
 import mirage as mr
 import mirage.vis as mrv
 
-obj = mr.SpaceObject("stanford_bunny.obj")
+obj = mr.SpaceObject('stanford_bunny.obj')
 pts = obj.face_centroids
 
-mr.tic("sklearn KDTree build")
+mr.tic('sklearn KDTree build')
 kt = skKD(pts, 10)
 mr.toc()
 
-mr.tic("sklearn BallTree build")
+mr.tic('sklearn BallTree build')
 bt = skBT(pts, 10)
 mr.toc()
 
-mr.tic("scipy KDTree build")
+mr.tic('scipy KDTree build')
 kt2 = ssKD(pts, 10)
 mr.toc()
 

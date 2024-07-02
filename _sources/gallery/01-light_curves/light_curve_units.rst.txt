@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_01-light_curves_light_curve_units.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -86,26 +86,14 @@ Setting up the scenario objects
 
 .. code-block:: Python
 
-    obj = mr.SpaceObject("matlib_hylas4.obj", identifier="goes 15")
-    brdf = mr.Brdf("phong")
-    station = mr.Station(preset="pogs")
+    obj = mr.SpaceObject('matlib_hylas4.obj', identifier='goes 15')
+    brdf = mr.Brdf('phong')
+    station = mr.Station(preset='pogs')
     # Observing from the Purdue Optical Ground Station in New Mexico
 
 
 
 
-
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    Model file matlib_hylas4.obj not found in current model folder ('/Users/liamrobinson/Documents/mirage/mirage/resources/models'), checking model repository...
-    Attempting to download matlib_hylas4.obj and its associated material file from the model repository...
-    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//accurate_sats/matlib_hylas4.obj
-    Model files were downloaded successfully!
-    Attempting to download spacelib.obj and its associated material file from the model repository...
-    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//accurate_sats/spacelib.mtl
-    Model files were downloaded successfully!
 
 
 
@@ -114,7 +102,7 @@ Setting up the scenario objects
 
 Defining observation constraints on the station
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-57
+.. GENERATED FROM PYTHON SOURCE LINES 47-56
 
 .. code-block:: Python
 
@@ -125,7 +113,6 @@ Defining observation constraints on the station
         mr.ObserverEclipseConstraint(station),
         mr.VisualMagnitudeConstraint(18),
         mr.MoonExclusionConstraint(30),
-        mr.HorizonMaskConstraint(station),
     ]
 
 
@@ -135,11 +122,11 @@ Defining observation constraints on the station
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-59
+.. GENERATED FROM PYTHON SOURCE LINES 57-58
 
 Defining the object's attitude profile and mass properties
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-61
+.. GENERATED FROM PYTHON SOURCE LINES 58-60
 
 .. code-block:: Python
 
@@ -152,11 +139,11 @@ Defining the object's attitude profile and mass properties
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-63
+.. GENERATED FROM PYTHON SOURCE LINES 61-62
 
 Computing the full noisy light curve
 
-.. GENERATED FROM PYTHON SOURCE LINES 63-76
+.. GENERATED FROM PYTHON SOURCE LINES 62-75
 
 .. code-block:: Python
 
@@ -180,16 +167,16 @@ Computing the full noisy light curve
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 77-78
+.. GENERATED FROM PYTHON SOURCE LINES 76-77
 
 Extracting data and plotting results
 
-.. GENERATED FROM PYTHON SOURCE LINES 78-130
+.. GENERATED FROM PYTHON SOURCE LINES 77-129
 
 .. code-block:: Python
 
-    lc_clean = aux_data["lc_clean"]
-    sint = aux_data["sint"]
+    lc_clean = aux_data['lc_clean']
+    sint = aux_data['sint']
 
     plt.figure(figsize=(10, 8))
     plt.subplot(4, 1, 1)
@@ -197,10 +184,10 @@ Extracting data and plotting results
     # sns.scatterplot(x=ephr, y=lc_clean, linewidth=0.05, size=0.05, color="k")
     plt.xlim((0, np.max(ephr)))
     mrv.texit(
-        f"Synthetic GOES 15 Light Curves",
-        "",
-        r"$\left[\mathrm{ADU} \right]$",
-        ["Measurements"],
+        'Synthetic GOES 15 Light Curves',
+        '',
+        r'$\left[\mathrm{ADU} \right]$',
+        ['Measurements'],
     )
 
     lc_noisy_irrad = lc_noisy / (sint * station.telescope.integration_time)
@@ -209,21 +196,21 @@ Extracting data and plotting results
     sns.scatterplot(x=ephr, y=lc_noisy_irrad, linewidth=0.05, size=0.2)
     # sns.scatterplot(x=ephr, y=lc_clean_irrad, linewidth=0.05, size=0.1, color="k")
     mrv.texit(
-        "",
-        "",
-        r"$I \: \left[ \frac{W}{m^2} \right]$",
+        '',
+        '',
+        r'$I \: \left[ \frac{W}{m^2} \right]$',
     )
     plt.xlim((0, np.max(ephr)))
 
-    lc_noisy_irrad_unit = lc_noisy_irrad * (aux_data["rmag_station_to_sat"] * 1e3) ** 2
-    lc_clean_irrad_unit = lc_clean_irrad * (aux_data["rmag_station_to_sat"] * 1e3) ** 2
+    lc_noisy_irrad_unit = lc_noisy_irrad * (aux_data['rmag_station_to_sat'] * 1e3) ** 2
+    lc_clean_irrad_unit = lc_clean_irrad * (aux_data['rmag_station_to_sat'] * 1e3) ** 2
     plt.subplot(4, 1, 3)
     sns.scatterplot(x=ephr, y=lc_noisy_irrad_unit, linewidth=0.05, size=0.2)
     # sns.scatterplot(x=ephr, y=lc_clean_irrad_unit, linewidth=0.05, size=0.1, color="k")
     mrv.texit(
-        "",
-        "",
-        r"$\hat{I}$ [nondim]",
+        '',
+        '',
+        r'$\hat{I}$ [nondim]',
     )
     plt.xlim((0, np.max(ephr)))
 
@@ -233,9 +220,9 @@ Extracting data and plotting results
     sns.scatterplot(x=ephr, y=lc_noisy_mag, linewidth=0.05, size=0.05)
     # sns.scatterplot(x=ephr, y=lc_clean_mag, linewidth=0.05, size=0.1, color="k")
     mrv.texit(
-        "",
+        '',
         f"Hours after {date_start.strftime('%Y-%m-%d %H:%M:%S UTC')}",
-        "$m$ [nondim]",
+        '$m$ [nondim]',
     )
     plt.xlim((0, np.max(ephr)))
     plt.tight_layout()
@@ -255,7 +242,7 @@ Extracting data and plotting results
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 5.705 seconds)
+   **Total running time of the script:** (0 minutes 4.126 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_light_curve_units.py:

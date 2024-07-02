@@ -19,7 +19,7 @@ date_space_day = date + mr.days(np.linspace(0, 1, 50, endpoint=False))
 # %%
 # Just so that the thumbnail of this example is exciting, let's animate a full photorealistic Earth over the course of a day
 pl = pv.Plotter()
-pl.open_gif("earth_day.gif", fps=15)
+pl.open_gif('earth_day.gif', fps=15)
 for date in date_space_day:
     mrv.plot_earth(pl, date=date, night_lights=True, atmosphere=True)
     pl.camera.position = (40e3, 0.0, 0.0)
@@ -38,7 +38,7 @@ grid = mrv.celestial_grid(15, 15)
 mrv.plot3(
     pl,
     mr.AstroConstants.earth_r_eq * grid,
-    color="cornflowerblue",
+    color='cornflowerblue',
     line_width=5,
     lighting=False,
     opacity=0.2,

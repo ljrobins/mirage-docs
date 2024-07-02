@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_04-environment_reflected_albedo.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -38,18 +38,18 @@ Let's first load the coefficient arrays :math:`f_{iso}`, :math:`f_{geo}`, and :m
 .. code-block:: Python
 
 
-    import matplotlib.pyplot as plt
+    import matplotlib as mpl
     import numpy as np
 
     import mirage as mr
     import mirage.vis as mrv
 
     save_dict = mr.load_albedo_file()
-    fiso_map = np.array(save_dict["fiso_map"])
-    fgeo_map = np.array(save_dict["fgeo_map"])
-    fvol_map = np.array(save_dict["fvol_map"])
-    lat_geod_grid = np.array(save_dict["lat_geod_grid"])
-    lon_grid = np.array(save_dict["lon_grid"])
+    fiso_map = np.array(save_dict['fiso_map'])
+    fgeo_map = np.array(save_dict['fgeo_map'])
+    fvol_map = np.array(save_dict['fvol_map'])
+    lat_geod_grid = np.array(save_dict['lat_geod_grid'])
+    lon_grid = np.array(save_dict['lon_grid'])
     lat_geod_space = lat_geod_grid[:, 0]
     lon_space = lon_grid[0, :]
     mapshape = lon_grid.shape
@@ -245,7 +245,7 @@ Computing Lambertian reflection (for the land) and Phong reflection (for the oce
         * cell_area_grid
         * (loss_at_surf_diffuse + loss_at_surface_specular)
     )
-    print(f"{np.sum(irrad_from_surf):.2e}")
+    print(f'{np.sum(irrad_from_surf):.2e}')
 
 
 
@@ -271,7 +271,7 @@ Let's compare with the implementation in the pyspaceaware package
     mr.tic()
     alb_irrad = mr.albedo_irradiance(date, sat_pos_ecef)
     mr.toc()
-    print(f"{alb_irrad:.2e}")
+    print(f'{alb_irrad:.2e}')
 
 
 
@@ -281,7 +281,7 @@ Let's compare with the implementation in the pyspaceaware package
 
  .. code-block:: none
 
-    Elapsed time: 2.69e-01 seconds
+    Elapsed time: 3.21e-01 seconds
     6.48e+00
 
 
@@ -295,7 +295,7 @@ Defining a few useful functions to simplify the plotting process
 
 .. code-block:: Python
 
-    bcmap = "PiYG"
+    bcmap = 'PiYG'
 
 
 
@@ -313,7 +313,7 @@ Plotting the albedo across the grid
 .. code-block:: Python
 
     mrv.plot_map_with_grid(
-        albedo_grid, "March Mean Albedo", "Surface Albedo", cmap="PuBuGn_r", borders=True
+        albedo_grid, 'March Mean Albedo', 'Surface Albedo', cmap='PuBuGn_r', borders=True
     )
 
 
@@ -339,9 +339,9 @@ Plotting the solar zenith angle
 
     mrv.plot_map_with_grid(
         solar_zenith_grid,
-        f"Solar Zenith Angles: {datestr}",
-        "Solar zenith angle [rad]",
-        cmap="Blues",
+        f'Solar Zenith Angles: {datestr}',
+        'Solar zenith angle [rad]',
+        cmap='Blues',
         borders=True,
     )
 
@@ -367,16 +367,16 @@ Plotting the twilight types
 
     mrv.plot_map_with_grid(
         solar_type_grid,
-        f"Twilight Types: {datestr}",
-        "",
-        cmap=plt.cm.get_cmap("Blues", 5),
+        f'Twilight Types: {datestr}',
+        '',
+        cmap=mpl.colormaps['Blues'].resampled(5),
         borders=True,
         cbar_tick_labels=[
-            "Day",
-            "Civil twilight",
-            "Nautical twilight",
-            "Astronomical twilight",
-            "Night",
+            'Day',
+            'Civil twilight',
+            'Nautical twilight',
+            'Astronomical twilight',
+            'Night',
         ],
     )
 
@@ -389,13 +389,6 @@ Plotting the twilight types
    :srcset: /gallery/04-environment/images/sphx_glr_reflected_albedo_003.png, /gallery/04-environment/images/sphx_glr_reflected_albedo_003_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
-
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    /Users/liamrobinson/Documents/mirage/examples/04-environment/reflected_albedo.py:168: MatplotlibDeprecationWarning: The get_cmap function was deprecated in Matplotlib 3.7 and will be removed two minor releases later. Use ``matplotlib.colormaps[name]`` or ``matplotlib.colormaps.get_cmap(obj)`` instead.
-      cmap=plt.cm.get_cmap("Blues", 5),
 
 
 
@@ -410,16 +403,16 @@ Plotting grid cell visibility and illumination conditions
 
     mrv.plot_map_with_grid(
         obs_type_grid,
-        f"Observation Conditions: {datestr}",
-        f"Twilight Types",
-        cmap=plt.cm.get_cmap("Paired", 4),
+        f'Observation Conditions: {datestr}',
+        'Twilight Types',
+        cmap=mpl.colormaps['Paired'].resampled(4),
         borders=True,
-        interpolation="nearest",
+        interpolation='nearest',
         cbar_tick_labels=[
-            "Not visible or illum.",
-            "Visible not illum.",
-            "Illum. not visible",
-            "Illum. and visible",
+            'Not visible or illum.',
+            'Visible not illum.',
+            'Illum. not visible',
+            'Illum. and visible',
         ],
     )
 
@@ -431,13 +424,6 @@ Plotting grid cell visibility and illumination conditions
    :srcset: /gallery/04-environment/images/sphx_glr_reflected_albedo_004.png, /gallery/04-environment/images/sphx_glr_reflected_albedo_004_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
-
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    /Users/liamrobinson/Documents/mirage/examples/04-environment/reflected_albedo.py:186: MatplotlibDeprecationWarning: The get_cmap function was deprecated in Matplotlib 3.7 and will be removed two minor releases later. Use ``matplotlib.colormaps[name]`` or ``matplotlib.colormaps.get_cmap(obj)`` instead.
-      cmap=plt.cm.get_cmap("Paired", 4),
 
 
 
@@ -452,11 +438,11 @@ BRDF kernel values at each point
 
     mrv.plot_map_with_grid(
         loss_at_surf_diffuse + loss_at_surface_specular,
-        f"BRDF Kernel: {datestr}",
-        f"",
-        cmap="Blues",
+        f'BRDF Kernel: {datestr}',
+        '',
+        cmap='Blues',
         borders=True,
-        interpolation="nearest",
+        interpolation='nearest',
     )
 
 
@@ -481,11 +467,11 @@ Plotting the areas of each grid cell
 
     mrv.plot_map_with_grid(
         cell_area_grid,
-        f"Cell Areas: {datestr}",
-        "$[m^2]$",
-        cmap="Blues",
+        f'Cell Areas: {datestr}',
+        '$[m^2]$',
+        cmap='Blues',
         borders=True,
-        interpolation="nearest",
+        interpolation='nearest',
     )
 
 
@@ -510,12 +496,12 @@ Plotting the irradiance from each grid cell
 
     mrv.plot_map_with_grid(
         irrad_from_surf,
-        f"Reflected Irradiance: {datestr}",
-        r"$\left[W/m^2\right]$",
-        cmap="hot",
+        f'Reflected Irradiance: {datestr}',
+        r'$\left[W/m^2\right]$',
+        cmap='hot',
         borders=True,
-        border_color="gray",
-        interpolation="nearest",
+        border_color='gray',
+        interpolation='nearest',
     )
 
 
@@ -532,7 +518,7 @@ Plotting the irradiance from each grid cell
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 8.432 seconds)
+   **Total running time of the script:** (0 minutes 7.995 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_reflected_albedo.py:

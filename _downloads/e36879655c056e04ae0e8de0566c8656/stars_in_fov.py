@@ -22,13 +22,13 @@ def plot_telescope_fov(station: mr.Station, look_dir: np.ndarray, up_dir: np.nda
     for xy in [xy1, xy2, xy3, xy4]:
         uvs = station.telescope.pixels_to_j2000_unit_vectors(look_dir, up_dir, xy)
         ras, decs = mr.eci_to_ra_dec(uvs)
-        plt.plot(ras, decs, linewidth=2, color="k")
+        plt.plot(ras, decs, linewidth=2, color='k')
 
 
 station = mr.Station()
-catalog = mr.StarCatalog("gaia", station, date=mr.now())
+catalog = mr.GaiaStarCatalog(station, date=mr.now())
 
-print(f"Number of stars in catalog: {catalog._alpha.size}")
+print(f'Number of stars in catalog: {catalog._alpha.size}')
 
 look_dir = mr.hat(np.array([[1.0, 1.0, 0.0]]))
 up_dir = np.array([[0.0, 0.0, 1.0]])
@@ -47,7 +47,7 @@ t1 = mr.toc(return_elapsed_seconds=True)
 
 assert (
     brute_inds.size == np.intersect1d(brute_inds, tree_inds).size
-), "Brute force and tree search returned different numbers of stars!"
+), 'Brute force and tree search returned different numbers of stars!'
 
 mr.tic()
 tree_inds_in_fov = mr.unit_vector_inds_in_fov(
@@ -55,9 +55,9 @@ tree_inds_in_fov = mr.unit_vector_inds_in_fov(
 )
 t2 = mr.toc(return_elapsed_seconds=True)
 
-print(f"Brute time total: {brute_time:.2e}")
-print(f"Tree time total: {t1+t2:.2e}")
-print(f"Factor speedup: {brute_time/(t1+t2):.1f}")
+print(f'Brute time total: {brute_time:.2e}')
+print(f'Tree time total: {t1+t2:.2e}')
+print(f'Factor speedup: {brute_time/(t1+t2):.1f}')
 
 # %%
 # Let's plot the tree solution
@@ -72,6 +72,6 @@ plt.scatter(
     s=3,
 )
 plot_telescope_fov(station, look_dir, up_dir)
-mrv.texit("Stars in FOV", "Right ascension [rad]", "Declination [rad]")
-plt.gca().set_aspect("equal")
+mrv.texit('Stars in FOV', 'Right ascension [rad]', 'Declination [rad]')
+plt.gca().set_aspect('equal')
 plt.show()

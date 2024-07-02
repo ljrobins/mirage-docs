@@ -51,8 +51,8 @@ def ray_box_intersection(ray_origin, ray_direction, box_lims):
             t_min[i] = (box_min[i] - ray_origin[i]) / ray_direction[i]
             t_max[i] = (box_max[i] - ray_origin[i]) / ray_direction[i]
         else:
-            t_min[i] = float("-inf") if ray_origin[i] < box_min[i] else float("inf")
-            t_max[i] = float("inf") if ray_origin[i] > box_max[i] else float("-inf")
+            t_min[i] = float('-inf') if ray_origin[i] < box_min[i] else float('inf')
+            t_max[i] = float('inf') if ray_origin[i] > box_max[i] else float('-inf')
 
         if t_min[i] > t_max[i]:
             t_min[i], t_max[i] = t_max[i], t_min[i]
@@ -93,43 +93,43 @@ def build_boxes(
     split_axis = np.argmax(maxs - mins)
     mid_pt = mins[split_axis] + (maxs[split_axis] - mins[split_axis]) / 2
     if split_axis == 0:
-        boxes["left_bounds"] = (mins[0], mid_pt, mins[1], maxs[1], mins[2], maxs[2])
-        boxes["right_bounds"] = (mid_pt, maxs[0], mins[1], maxs[1], mins[2], maxs[2])
+        boxes['left_bounds'] = (mins[0], mid_pt, mins[1], maxs[1], mins[2], maxs[2])
+        boxes['right_bounds'] = (mid_pt, maxs[0], mins[1], maxs[1], mins[2], maxs[2])
     if split_axis == 1:
-        boxes["left_bounds"] = (mins[0], maxs[0], mins[1], mid_pt, mins[2], maxs[2])
-        boxes["right_bounds"] = (mins[0], maxs[0], mid_pt, maxs[1], mins[2], maxs[2])
+        boxes['left_bounds'] = (mins[0], maxs[0], mins[1], mid_pt, mins[2], maxs[2])
+        boxes['right_bounds'] = (mins[0], maxs[0], mid_pt, maxs[1], mins[2], maxs[2])
     if split_axis == 2:
-        boxes["left_bounds"] = (mins[0], maxs[0], mins[1], maxs[1], mins[2], mid_pt)
-        boxes["right_bounds"] = (mins[0], maxs[0], mins[1], maxs[1], mid_pt, maxs[2])
+        boxes['left_bounds'] = (mins[0], maxs[0], mins[1], maxs[1], mins[2], mid_pt)
+        boxes['right_bounds'] = (mins[0], maxs[0], mins[1], maxs[1], mid_pt, maxs[2])
 
-    boxes["left_members"] = points_in_box(all_points, boxes["left_bounds"])
-    boxes["right_members"] = points_in_box(all_points, boxes["right_bounds"])
-    boxes["depth"] = depth
+    boxes['left_members'] = points_in_box(all_points, boxes['left_bounds'])
+    boxes['right_members'] = points_in_box(all_points, boxes['right_bounds'])
+    boxes['depth'] = depth
 
     if depth + 1 == max_depth:
         return boxes
 
-    boxes["left_leaves"] = build_boxes(
-        all_points, boxes["left_members"], max_depth=max_depth, depth=depth + 1
+    boxes['left_leaves'] = build_boxes(
+        all_points, boxes['left_members'], max_depth=max_depth, depth=depth + 1
     )
-    boxes["right_leaves"] = build_boxes(
-        all_points, boxes["right_members"], max_depth=max_depth, depth=depth + 1
+    boxes['right_leaves'] = build_boxes(
+        all_points, boxes['right_members'], max_depth=max_depth, depth=depth + 1
     )
-    if boxes["left_leaves"] is None:
-        del boxes["left_leaves"]
-    if boxes["right_leaves"] is None:
-        del boxes["right_leaves"]
+    if boxes['left_leaves'] is None:
+        del boxes['left_leaves']
+    if boxes['right_leaves'] is None:
+        del boxes['right_leaves']
     return boxes
 
 
 def aggregate_children(pl, boxes, block):
     block.extend(
-        [pv.Box(bounds=boxes["left_bounds"]), pv.Box(bounds=boxes["right_bounds"])]
+        [pv.Box(bounds=boxes['left_bounds']), pv.Box(bounds=boxes['right_bounds'])]
     )
-    if "left_leaves" in boxes:
-        aggregate_children(pl, boxes["left_leaves"], block)
-    if "right_leaves" in boxes:
-        aggregate_children(pl, boxes["right_leaves"], block)
+    if 'left_leaves' in boxes:
+        aggregate_children(pl, boxes['left_leaves'], block)
+    if 'right_leaves' in boxes:
+        aggregate_children(pl, boxes['right_leaves'], block)
 
 
 def trace_indices(ray_origin, ray_direction, face_indices, faces_vertices):
@@ -144,8 +144,8 @@ def trace_indices(ray_origin, ray_direction, face_indices, faces_vertices):
 
 
 def trace_children(pl, ray_origin, ray_direction, boxes, faces_vertices):
-    lpt, ltime = ray_box_intersection(ray_origin, ray_direction, boxes["left_bounds"])
-    rpt, rtime = ray_box_intersection(ray_origin, ray_direction, boxes["right_bounds"])
+    lpt, ltime = ray_box_intersection(ray_origin, ray_direction, boxes['left_bounds'])
+    rpt, rtime = ray_box_intersection(ray_origin, ray_direction, boxes['right_bounds'])
     go_left = None
 
     if lpt is not None:  # and rpt is None (implied)
@@ -159,42 +159,42 @@ def trace_children(pl, ray_origin, ray_direction, boxes, faces_vertices):
             go_left = False
 
     if go_left:
-        if "left_leaves" in boxes:
+        if 'left_leaves' in boxes:
             pl.add_mesh(
-                pv.Box(bounds=boxes["left_bounds"]),
+                pv.Box(bounds=boxes['left_bounds']),
                 line_width=10,
-                style="wireframe",
-                color="k",
+                style='wireframe',
+                color='k',
             )
             return trace_children(
-                pl, ray_origin, ray_direction, boxes["left_leaves"], faces_vertices
+                pl, ray_origin, ray_direction, boxes['left_leaves'], faces_vertices
             )
         else:
             return trace_indices(
-                ray_origin, ray_direction, boxes["left_members"], faces_vertices
+                ray_origin, ray_direction, boxes['left_members'], faces_vertices
             )
     else:
-        if "right_leaves" in boxes:
+        if 'right_leaves' in boxes:
             pl.add_mesh(
-                pv.Box(bounds=boxes["right_bounds"]),
+                pv.Box(bounds=boxes['right_bounds']),
                 line_width=10,
-                style="wireframe",
-                color="k",
+                style='wireframe',
+                color='k',
             )
             return trace_children(
-                pl, ray_origin, ray_direction, boxes["right_leaves"], faces_vertices
+                pl, ray_origin, ray_direction, boxes['right_leaves'], faces_vertices
             )
         else:
             return trace_indices(
-                ray_origin, ray_direction, boxes["right_members"], faces_vertices
+                ray_origin, ray_direction, boxes['right_members'], faces_vertices
             )
 
 
-obj = mr.SpaceObject("stanford_dragon.obj")
+obj = mr.SpaceObject('stanford_dragon.obj')
 
 
 obj.v = obj.v.astype(np.float32)
-mr.tic("Building AABB")
+mr.tic('Building AABB')
 boxes = build_boxes(
     obj.face_centroids, np.arange(obj.face_centroids.shape[0]), max_depth=11
 )
@@ -205,7 +205,7 @@ pl = pv.Plotter()
 mrv.render_spaceobject(pl, obj, opacity=1.0)
 block = pv.MultiBlock()
 aggregate_children(pl, boxes, block)
-pl.add_mesh(block, style="wireframe", color="r")
+pl.add_mesh(block, style='wireframe', color='r')
 pl.camera.position = (3.5, 0.0, 0.0)
 pl.show()
 
@@ -214,7 +214,7 @@ pl.show()
 ray_origin = 10 * np.array([0.1, 1.0, -0.1])
 ray_direction = -mr.hat(ray_origin)
 
-mr.tic("Brute force tracing")
+mr.tic('Brute force tracing')
 good_res = []
 for f in obj.f:
     x = ray_triangle_intersection(ray_origin, ray_direction, obj.v[f])
@@ -226,15 +226,15 @@ pl = pv.Plotter()
 mrv.render_spaceobject(pl, obj, opacity=1.0)
 
 for x in good_res:
-    mrv.scatter3(pl, x[-1], point_size=40, color="m")
+    mrv.scatter3(pl, x[-1], point_size=40, color='m')
 
 
-mr.tic("AABB tracing")
+mr.tic('AABB tracing')
 res = trace_children(pl, ray_origin, ray_direction, boxes, (obj.f, obj.v))
 mr.toc()
 
 for x in res:
-    mrv.scatter3(pl, x[-1], point_size=100, color="lime", opacity=0.2)
+    mrv.scatter3(pl, x[-1], point_size=100, color='lime', opacity=0.2)
 
 pl.camera.position = (3.5, 0.0, 0.0)
 pl.show()

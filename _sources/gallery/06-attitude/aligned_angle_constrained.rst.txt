@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_06-attitude_aligned_angle_constrained.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -35,8 +35,19 @@ Simulates and animates an aligned and constrained attitude profile
    :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    /Users/liamrobinson/Documents/mirage/mirage/orbit.py:523: UserWarning: Velocity is not being transformed correctly here -- liam: go read vallado and fix
+      warnings.warn(
 
 
+
+
+
+
+|
 
 .. code-block:: Python
 
@@ -48,7 +59,7 @@ Simulates and animates an aligned and constrained attitude profile
     import mirage.vis as mrv
 
     data_points = 100
-    obj = mr.SpaceObject("matlib_gps_iii.obj", identifier="NAVSTAR 80 (USA 309)")
+    obj = mr.SpaceObject('matlib_gps_iii.obj', identifier='NAVSTAR 80 (USA 309)')
     jd0, jdf = 2459840.6618391783, 2459840.9182615164
     date0, datef = mr.jd_to_date(jd0), mr.jd_to_date(jdf)
     (date_space, epsec_space) = mr.date_linspace(
@@ -72,9 +83,9 @@ Simulates and animates an aligned and constrained attitude profile
     obs_in_body = mr.stack_mat_mult_vec(c, sat_nadir)
 
     pl = pv.Plotter()
-    pl.open_gif("aligned_and_constrained.gif", fps=20)
+    pl.open_gif('aligned_and_constrained.gif', fps=20)
 
-    mrv.plot3(pl, r, color="cyan", line_width=10)
+    mrv.plot3(pl, r, color='cyan', line_width=10)
 
     omesh = obj._mesh.copy()
     cdist = 300
@@ -83,7 +94,7 @@ Simulates and animates an aligned and constrained attitude profile
     pl._on_first_render_request()
     pl.render()
     cam_light = pv.Light(
-        color="white", attenuation_values=(0.0, 0.01, 0.0), positional=True
+        color='white', attenuation_values=(0.0, 0.01, 0.0), positional=True
     )
 
     for i in range(data_points - 1):
@@ -94,17 +105,17 @@ Simulates and animates an aligned and constrained attitude profile
         mrv.render_spaceobject(
             pl, obj, origin=r[i, :], scale=5, opacity=1.0, quat=quat[i, :], lighting=True
         )
-        mrv.plot_arrow(pl, r[i, :], v1[i, :], scale=pdist, name="arr_v1")
-        mrv.plot_arrow(pl, r[i, :], v2[i, :], scale=pdist, name="arr_v2")
-        mrv.plot_arrow(pl, r[i, :], v3[i, :], scale=pdist, name="arr_v3")
+        mrv.plot_arrow(pl, r[i, :], v1[i, :], scale=pdist, name='arr_v1')
+        mrv.plot_arrow(pl, r[i, :], v2[i, :], scale=pdist, name='arr_v2')
+        mrv.plot_arrow(pl, r[i, :], v3[i, :], scale=pdist, name='arr_v3')
         mrv.plot_arrow(
             pl,
             r[i, :],
             sat_sun[i, :],
             scale=pdist,
-            name="arr_sun",
-            color="y",
-            label="Sun",
+            name='arr_sun',
+            color='y',
+            label='Sun',
         )
         mrv.plot_earth(pl, date=date_space[i], atmosphere=True, night_lights=True)
         cam_light.position = pl.camera.position
@@ -119,7 +130,7 @@ Simulates and animates an aligned and constrained attitude profile
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (1 minutes 12.516 seconds)
+   **Total running time of the script:** (1 minutes 25.685 seconds)
 
 
 .. _sphx_glr_download_gallery_06-attitude_aligned_angle_constrained.py:

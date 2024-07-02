@@ -26,15 +26,33 @@ Let's fit a Gaussian to some scattered data
 .. GENERATED FROM PYTHON SOURCE LINES 7-39
 
 
+.. rst-class:: sphx-glr-script-out
 
-.. image-sg:: /gallery/10-utility/images/sphx_glr_fitting_gaussian_001.png
-   :alt: fitting gaussian
-   :srcset: /gallery/10-utility/images/sphx_glr_fitting_gaussian_001.png, /gallery/10-utility/images/sphx_glr_fitting_gaussian_001_2_00x.png 2.00x
-   :class: sphx-glr-single-img
+.. code-block:: pytb
+
+    Traceback (most recent call last):
+      File "/Users/liamrobinson/Documents/mirage/examples/10-utility/fitting_gaussian.py", line 29, in <module>
+        data = np.loadtxt(os.path.join(os.environ["SRCDIR"], "..", "testfitdata.txt"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      File "/Users/liamrobinson/Documents/mirage/lib/python3.11/site-packages/numpy/lib/npyio.py", line 1373, in loadtxt
+        arr = _read(fname, dtype=dtype, comment=comment, delimiter=delimiter,
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      File "/Users/liamrobinson/Documents/mirage/lib/python3.11/site-packages/numpy/lib/npyio.py", line 992, in _read
+        fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      File "/Users/liamrobinson/Documents/mirage/lib/python3.11/site-packages/numpy/lib/_datasource.py", line 193, in open
+        return ds.open(path, mode, encoding=encoding, newline=newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      File "/Users/liamrobinson/Documents/mirage/lib/python3.11/site-packages/numpy/lib/_datasource.py", line 533, in open
+        raise FileNotFoundError(f"{path} not found.")
+    FileNotFoundError: /Users/liamrobinson/Documents/mirage/mirage/../testfitdata.txt not found.
 
 
 
 
+
+
+|
 
 .. code-block:: Python
 
@@ -74,7 +92,7 @@ Let's fit a Gaussian to some scattered data
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.316 seconds)
+   **Total running time of the script:** (0 minutes 0.007 seconds)
 
 
 .. _sphx_glr_download_gallery_10-utility_fitting_gaussian.py:

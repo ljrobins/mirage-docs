@@ -23,13 +23,13 @@ app_el_deg = np.rad2deg(
 )
 delta_el_deg = app_el_deg - test_el_deg
 delta_el_arcsec = delta_el_deg * 3600
-print(f"True elevation: {test_el_deg} deg")
-print(f"Apparent elevation: {app_el_deg} deg")
-print(f"Refraction: {delta_el_arcsec} arcsec")
+print(f'True elevation: {test_el_deg} deg')
+print(f'Apparent elevation: {app_el_deg} deg')
+print(f'Refraction: {delta_el_arcsec} arcsec')
 
 plt.plot(np.rad2deg(true_el), np.rad2deg(apparent_el - true_el))
 mrv.texit(
-    "Atmospheric Refraction", "True elevation $h$", "Refraction $R = h' - h$ [deg]"
+    'Atmospheric Refraction', 'True elevation $h$', "Refraction $R = h' - h$ [deg]"
 )
 plt.xlim(0, 90)
 plt.ylim(0, 0.53)

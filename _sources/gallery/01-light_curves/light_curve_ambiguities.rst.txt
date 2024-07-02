@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_01-light_curves_light_curve_ambiguities.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -23,14 +23,13 @@ Light Curve Ambiguities
 
 Demonstrating various ways a light curve can be ambiguous as a function of the object and its attitude profile.
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-15
+.. GENERATED FROM PYTHON SOURCE LINES 7-14
 
 .. code-block:: Python
 
 
     import matplotlib.pyplot as plt
     import numpy as np
-    import pyvista as pv
 
     import mirage as mr
     import mirage.vis as mrv
@@ -42,16 +41,16 @@ Demonstrating various ways a light curve can be ambiguous as a function of the o
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-17
+.. GENERATED FROM PYTHON SOURCE LINES 15-16
 
 Albedo-area ambiguity
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-60
+.. GENERATED FROM PYTHON SOURCE LINES 16-59
 
 .. code-block:: Python
 
 
-    brdf = mr.Brdf("cook-torrance", cd=0.5, cs=0.5, n=5.0)
+    brdf = mr.Brdf('cook-torrance', cd=0.5, cs=0.5, n=5.0)
     dates, epsecs = mr.date_linspace(
         mr.now(), mr.now() + mr.seconds(5), 1000, return_epsecs=True
     )
@@ -68,14 +67,14 @@ Albedo-area ambiguity
     ovb = mr.stack_mat_mult_vec(mr.quat_to_dcm(q_of_t), ovi)
 
     sf = 5.0
-    obj1 = mr.SpaceObject("cube.obj")
-    obj2 = mr.SpaceObject("cube.obj")
+    obj1 = mr.SpaceObject('cube.obj')
+    obj2 = mr.SpaceObject('cube.obj')
     obj2.v *= sf
     obj2.build_properties()
 
     lc1 = obj1.convex_light_curve(brdf, svb, ovb)
     plt.plot(
-        epsecs, lc1, lw=3, label=f"1m cube, Cook-Torrance $C_d={brdf.cd}$, $C_s={brdf.cs}$"
+        epsecs, lc1, lw=3, label=f'1m cube, Cook-Torrance $C_d={brdf.cd}$, $C_s={brdf.cs}$'
     )
     brdf.cd /= sf**2
     brdf.cs /= sf**2
@@ -84,11 +83,11 @@ Albedo-area ambiguity
     plt.plot(
         epsecs,
         lc2,
-        "--",
+        '--',
         lw=3,
-        label=f"{sf:.0f}m cube, Cook-Torrance $C_d={brdf.cd}$, $C_s={brdf.cs}$",
+        label=f'{sf:.0f}m cube, Cook-Torrance $C_d={brdf.cd}$, $C_s={brdf.cs}$',
     )
-    mrv.texit("Albedo-Area Ambiguity", "Epoch seconds", "Normalized irradiance")
+    mrv.texit('Albedo-Area Ambiguity', 'Epoch seconds', 'Normalized irradiance')
     plt.legend()
     plt.ylim([np.min(lc1) * 0.8, np.max(lc1) * 1.2])
     plt.show()
@@ -102,31 +101,24 @@ Albedo-area ambiguity
    :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    /Users/liamrobinson/Documents/mirage/mirage/lighting.py:190: RuntimeWarning: invalid value encountered in divide
-      return num / (den1 + den2)
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 61-63
+.. GENERATED FROM PYTHON SOURCE LINES 60-62
 
 Observation geometry ambiguity
 We know that the light curve is symmetric when the positions of the observer and sun are swapped.
 
-.. GENERATED FROM PYTHON SOURCE LINES 63-72
+.. GENERATED FROM PYTHON SOURCE LINES 62-71
 
 .. code-block:: Python
 
 
     lc1 = obj1.convex_light_curve(brdf, svb, ovb)
-    plt.plot(epsecs, lc1, lw=3, label=f"Nominal")
+    plt.plot(epsecs, lc1, lw=3, label='Nominal')
     lc2 = obj1.convex_light_curve(brdf, ovb, svb)
-    plt.plot(epsecs, lc2, "--", lw=3, label=f"Swapped observer and Sun")
-    mrv.texit("Observer Geometry Ambiguity", "Epoch seconds", "Normalized irradiance")
+    plt.plot(epsecs, lc2, '--', lw=3, label='Swapped observer and Sun')
+    mrv.texit('Observer Geometry Ambiguity', 'Epoch seconds', 'Normalized irradiance')
     plt.legend()
     plt.show()
 
@@ -142,11 +134,11 @@ We know that the light curve is symmetric when the positions of the observer and
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-74
+.. GENERATED FROM PYTHON SOURCE LINES 72-73
 
 Non-convex observability
 
-.. GENERATED FROM PYTHON SOURCE LINES 74-85
+.. GENERATED FROM PYTHON SOURCE LINES 73-84
 
 .. code-block:: Python
 
@@ -171,7 +163,7 @@ Non-convex observability
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.505 seconds)
+   **Total running time of the script:** (0 minutes 0.571 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_light_curve_ambiguities.py:

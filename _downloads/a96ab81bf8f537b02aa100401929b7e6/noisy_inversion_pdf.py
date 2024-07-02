@@ -26,9 +26,9 @@ idate = mr.utc(2023, 3, 26, 10)
 obs_time = mr.hours(3)
 obs_dt = mr.seconds(10)
 
-obj = mr.SpaceObject("cube.obj", identifier="goes 15")
-station = mr.Station(preset="pogs")
-brdf = mr.Brdf(name="phong", cd=0.5, cs=0.5, n=10)
+obj = mr.SpaceObject('cube.obj', identifier='goes 15')
+station = mr.Station(preset='pogs')
+brdf = mr.Brdf(name='phong', cd=0.5, cs=0.5, n=10)
 attitude = mr.RbtfAttitude(w0=w0, q0=q0, itensor=itensor)
 dates, epsecs = mr.date_arange(idate, idate + obs_time, obs_dt, return_epsecs=True)
 
@@ -42,7 +42,6 @@ station.constraints = [
     mr.ObserverEclipseConstraint(station),
     mr.VisualMagnitudeConstraint(18),
     mr.MoonExclusionConstraint(10),
-    mr.HorizonMaskConstraint(station),
 ]
 
 for i, msf in enumerate(model_scale_factor):
@@ -51,36 +50,36 @@ for i, msf in enumerate(model_scale_factor):
         obj, attitude, brdf, dates, use_engine=True, model_scale_factor=msf
     )
 
-    sun_body = aux_data["sun_vector_object_body"]
-    obs_body = aux_data["observer_vector_object_body"]
+    sun_body = aux_data['sun_vector_object_body']
+    obs_body = aux_data['observer_vector_object_body']
 
-    sint = aux_data["sint"]
-    lc_hat = aux_data["lc_clean_norm"]
-    constr = aux_data["all_constraints_satisfied"]
-    br_mean = aux_data["background_mean"]
-    airy_disk_pixels = aux_data["airy_disk_pixels"]
-    obs_to_moon = aux_data["obs_to_moon"]
-    lc_clean = aux_data["lc_clean"]
-    snr = aux_data["snr"]
+    sint = aux_data['sint']
+    lc_hat = aux_data['lc_clean_norm']
+    constr = aux_data['all_constraints_satisfied']
+    br_mean = aux_data['background_mean']
+    airy_disk_pixels = aux_data['airy_disk_pixels']
+    obs_to_moon = aux_data['obs_to_moon']
+    lc_clean = aux_data['lc_clean']
+    snr = aux_data['snr']
     mean_snr = np.mean(snr)
 
     pl.add_text(
-        f"Width {2*msf:.2f} m\nSNR = {mean_snr:.1f}",
+        f'Width {2*msf:.2f} m\nSNR = {mean_snr:.1f}',
         font_size=12,
-        font="courier",
-        position="upper_left",
-        color="k",
+        font='courier',
+        position='upper_left',
+        color='k',
     )
 
     rec_objs = []
     for _ in range(nper):
         lc_ccd_signal = lc_ccd_signal_sampler()
         lc_noisy_irrad = lc_ccd_signal / (
-            aux_data["sint"] * station.telescope.integration_time
+            aux_data['sint'] * station.telescope.integration_time
         )
         lc_noisy_unit_irrad = (
             lc_noisy_irrad
-            * (aux_data["rmag_station_to_sat"] * 1e3) ** 2
+            * (aux_data['rmag_station_to_sat'] * 1e3) ** 2
             / mr.AstroConstants.sun_irradiance_vacuum
         )
 
@@ -100,11 +99,11 @@ for i, msf in enumerate(model_scale_factor):
     grid = mr.r3_grid(1.2 * np.max(mr.vecnorm(obj.v)), 150)
 
     for i, rec_obj in enumerate(rec_objs):
-        rec_obj.file_name = f"rec_obj_{i}.obj"
+        rec_obj.file_name = f'rec_obj_{i}.obj'
         mrv.render_spaceobject(
             pl, rec_obj, opacity=0.3, feature_edges=True, line_width=2
         )
-        mrv.scatter3(pl, rec_obj.v, color="k", point_size=5)
+        mrv.scatter3(pl, rec_obj.v, color='k', point_size=5)
     pl.disable_anti_aliasing()
     pl.view_isometric()
 

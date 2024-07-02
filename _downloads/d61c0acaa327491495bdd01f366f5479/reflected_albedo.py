@@ -13,18 +13,18 @@ Modeling the incident radiation at a spacecraft due to reflected sunlight from t
 # %%
 # Let's first load the coefficient arrays :math:`f_{iso}`, :math:`f_{geo}`, and :math:`f_{vol}` from file
 
-import matplotlib.pyplot as plt
+import matplotlib as mpl
 import numpy as np
 
 import mirage as mr
 import mirage.vis as mrv
 
 save_dict = mr.load_albedo_file()
-fiso_map = np.array(save_dict["fiso_map"])
-fgeo_map = np.array(save_dict["fgeo_map"])
-fvol_map = np.array(save_dict["fvol_map"])
-lat_geod_grid = np.array(save_dict["lat_geod_grid"])
-lon_grid = np.array(save_dict["lon_grid"])
+fiso_map = np.array(save_dict['fiso_map'])
+fgeo_map = np.array(save_dict['fgeo_map'])
+fvol_map = np.array(save_dict['fvol_map'])
+lat_geod_grid = np.array(save_dict['lat_geod_grid'])
+lon_grid = np.array(save_dict['lon_grid'])
 lat_geod_space = lat_geod_grid[:, 0]
 lon_space = lon_grid[0, :]
 mapshape = lon_grid.shape
@@ -129,23 +129,23 @@ irrad_from_surf = (
     * cell_area_grid
     * (loss_at_surf_diffuse + loss_at_surface_specular)
 )
-print(f"{np.sum(irrad_from_surf):.2e}")
+print(f'{np.sum(irrad_from_surf):.2e}')
 
 # %%
 # Let's compare with the implementation in the pyspaceaware package
 mr.tic()
 alb_irrad = mr.albedo_irradiance(date, sat_pos_ecef)
 mr.toc()
-print(f"{alb_irrad:.2e}")
+print(f'{alb_irrad:.2e}')
 
 # %%
 # Defining a few useful functions to simplify the plotting process
-bcmap = "PiYG"
+bcmap = 'PiYG'
 
 # %%
 # Plotting the albedo across the grid
 mrv.plot_map_with_grid(
-    albedo_grid, "March Mean Albedo", "Surface Albedo", cmap="PuBuGn_r", borders=True
+    albedo_grid, 'March Mean Albedo', 'Surface Albedo', cmap='PuBuGn_r', borders=True
 )
 
 
@@ -153,9 +153,9 @@ mrv.plot_map_with_grid(
 # Plotting the solar zenith angle
 mrv.plot_map_with_grid(
     solar_zenith_grid,
-    f"Solar Zenith Angles: {datestr}",
-    "Solar zenith angle [rad]",
-    cmap="Blues",
+    f'Solar Zenith Angles: {datestr}',
+    'Solar zenith angle [rad]',
+    cmap='Blues',
     borders=True,
 )
 
@@ -163,16 +163,16 @@ mrv.plot_map_with_grid(
 # Plotting the twilight types
 mrv.plot_map_with_grid(
     solar_type_grid,
-    f"Twilight Types: {datestr}",
-    "",
-    cmap=plt.cm.get_cmap("Blues", 5),
+    f'Twilight Types: {datestr}',
+    '',
+    cmap=mpl.colormaps['Blues'].resampled(5),
     borders=True,
     cbar_tick_labels=[
-        "Day",
-        "Civil twilight",
-        "Nautical twilight",
-        "Astronomical twilight",
-        "Night",
+        'Day',
+        'Civil twilight',
+        'Nautical twilight',
+        'Astronomical twilight',
+        'Night',
     ],
 )
 
@@ -181,16 +181,16 @@ mrv.plot_map_with_grid(
 # Plotting grid cell visibility and illumination conditions
 mrv.plot_map_with_grid(
     obs_type_grid,
-    f"Observation Conditions: {datestr}",
-    f"Twilight Types",
-    cmap=plt.cm.get_cmap("Paired", 4),
+    f'Observation Conditions: {datestr}',
+    'Twilight Types',
+    cmap=mpl.colormaps['Paired'].resampled(4),
     borders=True,
-    interpolation="nearest",
+    interpolation='nearest',
     cbar_tick_labels=[
-        "Not visible or illum.",
-        "Visible not illum.",
-        "Illum. not visible",
-        "Illum. and visible",
+        'Not visible or illum.',
+        'Visible not illum.',
+        'Illum. not visible',
+        'Illum. and visible',
     ],
 )
 
@@ -198,32 +198,32 @@ mrv.plot_map_with_grid(
 # BRDF kernel values at each point
 mrv.plot_map_with_grid(
     loss_at_surf_diffuse + loss_at_surface_specular,
-    f"BRDF Kernel: {datestr}",
-    f"",
-    cmap="Blues",
+    f'BRDF Kernel: {datestr}',
+    '',
+    cmap='Blues',
     borders=True,
-    interpolation="nearest",
+    interpolation='nearest',
 )
 
 # %%
 # Plotting the areas of each grid cell
 mrv.plot_map_with_grid(
     cell_area_grid,
-    f"Cell Areas: {datestr}",
-    "$[m^2]$",
-    cmap="Blues",
+    f'Cell Areas: {datestr}',
+    '$[m^2]$',
+    cmap='Blues',
     borders=True,
-    interpolation="nearest",
+    interpolation='nearest',
 )
 
 # %%
 # Plotting the irradiance from each grid cell
 mrv.plot_map_with_grid(
     irrad_from_surf,
-    f"Reflected Irradiance: {datestr}",
-    r"$\left[W/m^2\right]$",
-    cmap="hot",
+    f'Reflected Irradiance: {datestr}',
+    r'$\left[W/m^2\right]$',
+    cmap='hot',
     borders=True,
-    border_color="gray",
-    interpolation="nearest",
+    border_color='gray',
+    interpolation='nearest',
 )

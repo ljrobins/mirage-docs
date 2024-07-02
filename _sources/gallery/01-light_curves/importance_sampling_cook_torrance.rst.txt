@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_01-light_curves_importance_sampling_cook_torrance.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -40,7 +40,7 @@ Importance Sampling Cook-Torrance
     Ns = np.tile(N, (n_samples, 1))
     Ls = mr.rand_cone_vectors(N, np.pi / 2, n_samples)
 
-    brdf = mr.Brdf("cook-torrance", cd=0.0, cs=1.0, n=0.05)
+    brdf = mr.Brdf('cook-torrance', cd=0.0, cs=1.0, n=0.05)
     a2 = brdf.n**2
     frs = brdf.eval(Ls, Os, Ns)
     integrand = frs * mr.dot(Ns, Ls)
@@ -49,7 +49,7 @@ Importance Sampling Cook-Torrance
     pl = pv.Plotter()
     pl.add_mesh(pv.Plane(direction=N))
     mrv.plot_arrow(pl, (0, 0, 0), N)
-    mrv.plot_arrow(pl, O, -O, color="green")
+    mrv.plot_arrow(pl, O, -O, color='green')
     mrv.scatter3(pl, 0.5 * Ls, scalars=frs, point_size=10, opacity=0.2)
     pl.show()
 
@@ -66,7 +66,7 @@ Importance Sampling Cook-Torrance
 
  .. code-block:: none
 
-    0.9764781360102958
+    1.0038012031680525
 
 
 
@@ -113,10 +113,10 @@ Now that we have a good estimate of the true integral value, let's begin down th
     pl = pv.Plotter()
     pl.add_mesh(pv.Plane(direction=N))
     mrv.plot_arrow(pl, (0, 0, 0), N)
-    mrv.plot_arrow(pl, O, -O, color="green")
+    mrv.plot_arrow(pl, O, -O, color='green')
     # mrv.scatter3(pl, 0.5*wos, scalars=ds, point_size=10)
     mrv.scatter3(pl, wi[ok.flatten(), :], point_size=5, opacity=0.2, scalars=weight[ok])
-    mrv.scatter3(pl, wm, point_size=10, opacity=0.1, scalars=ok, cmap="plasma")
+    mrv.scatter3(pl, wm, point_size=10, opacity=0.1, scalars=ok, cmap='plasma')
     pl.show()
 
 
@@ -131,7 +131,7 @@ Now that we have a good estimate of the true integral value, let's begin down th
 
  .. code-block:: none
 
-    1.0003063626631123
+    1.000897208360024
 
 
 
@@ -139,7 +139,7 @@ Now that we have a good estimate of the true integral value, let's begin down th
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.738 seconds)
+   **Total running time of the script:** (0 minutes 0.550 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_importance_sampling_cook_torrance.py:

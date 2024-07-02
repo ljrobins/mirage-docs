@@ -18,35 +18,34 @@ mus = np.random.randint(100, 100000, size=n).reshape(-1, 16)
 # %%
 # Poisson PRNG
 
-names = ["MT19937", "MT19937", "PCG64", "PCG64DXSM", "Philox", "SFC64"]
+names = ['MT19937', 'MT19937', 'PCG64', 'PCG64DXSM', 'Philox', 'SFC64']
 gens = [np.random.Generator(getattr(np.random, n)()).poisson for n in names]
 gens.append(mr.multithreaded_poisson)
-names.append(f"SFC64 8 threads")
+names.append('SFC64 8 threads')
 
-data = {"dt": [], "name": []}
+data = {'dt': [], 'name': []}
 for i, (gen, name) in enumerate(zip(gens, names)):
-
     mr.tic()
     samples = gen(mus)
     dt = mr.toc(return_elapsed_seconds=True)
     if i > 0:
-        data["dt"].append(dt)
-        data["name"].append(name)
+        data['dt'].append(dt)
+        data['name'].append(name)
 
 
 g = sns.catplot(
     data=pd.DataFrame(data),
-    kind="bar",
-    x="name",
-    y="dt",
-    errorbar="sd",
+    kind='bar',
+    x='name',
+    y='dt',
+    errorbar='sd',
     alpha=0.6,
     height=6,
 )
 g.despine(left=True)
-g.set_axis_labels("", "Time to sample image [s]")
-g.legend.set_title("")
-plt.title("Poisson sampling comparison")
+g.set_axis_labels('', 'Time to sample image [s]')
+g.legend.set_title('')
+plt.title('Poisson sampling comparison')
 plt.grid()
 g.despine(left=True)
 plt.tight_layout()
@@ -58,33 +57,32 @@ plt.show()
 mus = np.random.randn(n).reshape(-1, 16)
 sigmas = np.abs(np.random.randn(n).reshape(-1, 16))
 
-names = ["MT19937", "MT19937", "PCG64", "PCG64DXSM", "Philox", "SFC64"]
+names = ['MT19937', 'MT19937', 'PCG64', 'PCG64DXSM', 'Philox', 'SFC64']
 gens = [np.random.Generator(getattr(np.random, n)()).normal for n in names]
 gens.append(mr.multithreaded_gaussian)
-names.append(f"SFC64 8 threads")
+names.append('SFC64 8 threads')
 
-data = {"dt": [], "name": []}
+data = {'dt': [], 'name': []}
 for i, (gen, name) in enumerate(zip(gens, names)):
-
     mr.tic()
     samples = gen(mus, sigmas)
     dt = mr.toc(return_elapsed_seconds=True)
     if i > 0:
-        data["dt"].append(dt)
-        data["name"].append(name)
+        data['dt'].append(dt)
+        data['name'].append(name)
 
 g = sns.catplot(
     data=pd.DataFrame(data),
-    kind="bar",
-    x="name",
-    y="dt",
-    errorbar="sd",
+    kind='bar',
+    x='name',
+    y='dt',
+    errorbar='sd',
     alpha=0.6,
     height=6,
 )
-g.set_axis_labels("", "Time to sample image [s]")
-g.legend.set_title("")
-plt.title("Gaussian sampling comparison")
+g.set_axis_labels('', 'Time to sample image [s]')
+g.legend.set_title('')
+plt.title('Gaussian sampling comparison')
 plt.grid()
 g.despine(left=True)
 plt.tight_layout()
@@ -142,6 +140,6 @@ assert r1.shape == (n,)
 assert r1.shape == r2.shape
 
 t1 = timeit(numbacall, number=3)
-print(f"{t1:.2f} secs for {n} PCG64 (Numba/SFC64) gaussian randoms")
+print(f'{t1:.2f} secs for {n} PCG64 (Numba/SFC64) gaussian randoms')
 t2 = timeit(numpycall, number=3)
-print(f"{t2:.2f} secs for {n} PCG64 (NumPy/SFC64) gaussian randoms")
+print(f'{t2:.2f} secs for {n} PCG64 (NumPy/SFC64) gaussian randoms')

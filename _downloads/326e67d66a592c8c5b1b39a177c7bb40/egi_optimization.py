@@ -13,12 +13,12 @@ import mirage.vis as mrv
 
 # %%
 # Plotting the EGI of a cube
-obj = mr.SpaceObject("cube.obj")
+obj = mr.SpaceObject('cube.obj')
 obj.shift_to_center_of_mass()
 cpos = [7, 7, 5]
 
 pl = pv.Plotter()
-mrv.render_spaceobject(pl, obj, opacity=1, color="linen")
+mrv.render_spaceobject(pl, obj, opacity=1, color='linen')
 mrv.plot_egi(pl, obj, obj.egi, scale_opacity=False)
 pl.camera.position = cpos
 pl.show()
@@ -26,7 +26,7 @@ pl.show()
 # %%
 # Plotting the initial optimized EGI
 n = 500
-brdf = mr.Brdf("phong", cd=0.5, cs=0.5, n=10)
+brdf = mr.Brdf('phong', cd=0.5, cs=0.5, n=10)
 normal_candidates = mr.fibonacci_sample_sphere(n)
 svb = mr.rand_unit_vectors(n)
 ovb = mr.rand_unit_vectors(n)
@@ -37,7 +37,7 @@ valid = a_candidates > np.sum(a_candidates) / 100
 egi_candidate = normal_candidates[valid, :] * a_candidates[valid].reshape(-1, 1)
 
 pl = pv.Plotter()
-mrv.render_spaceobject(pl, obj, opacity=0.5, color="linen")
+mrv.render_spaceobject(pl, obj, opacity=0.5, color='linen')
 mrv.plot_egi(pl, obj, egi_candidate, scale_opacity=True)
 pl.camera.position = cpos
 pl.show()
@@ -60,8 +60,8 @@ egi_candidate_resampled = resampled_n_candidates[valid, :] * a_candidates[
 ].reshape(-1, 1)
 
 pl = pv.Plotter()
-mrv.render_spaceobject(pl, obj, color="linen", opacity=0.5)
-mrv.scatter3(pl, 1.2 * resampled_n_candidates, color="r", point_size=3, opacity=0.5)
+mrv.render_spaceobject(pl, obj, color='linen', opacity=0.5)
+mrv.scatter3(pl, 1.2 * resampled_n_candidates, color='r', point_size=3, opacity=0.5)
 mrv.plot_egi(pl, obj, egi_candidate_resampled, scale_opacity=True)
 pl.camera.position = cpos
 pl.show()
@@ -72,7 +72,7 @@ pl.show()
 egi_merged = mr.merge_clusters(egi_candidate_resampled, np.pi / 10)
 
 pl = pv.Plotter()
-mrv.render_spaceobject(pl, obj, color="linen", opacity=0.5)
+mrv.render_spaceobject(pl, obj, color='linen', opacity=0.5)
 mrv.plot_egi(pl, obj, egi_merged)
 pl.camera.position = cpos
 pl.show()
@@ -89,11 +89,11 @@ obj_reconstructed.shift_to_center_of_mass()
 
 pl = pv.Plotter(shape=(1, 2), window_size=(1000, 500))
 pl.subplot(0, 0)
-mrv.render_spaceobject(pl, obj, opacity=1, color="linen")
-pl.add_text("Original", font="courier", position="upper_left")
+mrv.render_spaceobject(pl, obj, opacity=1, color='linen')
+pl.add_text('Original', font='courier', position='upper_left')
 pl.subplot(0, 1)
-mrv.render_spaceobject(pl, obj_reconstructed, opacity=1, color="linen")
-pl.add_text("Reconstructed", font="courier", position="upper_left")
+mrv.render_spaceobject(pl, obj_reconstructed, opacity=1, color='linen')
+pl.add_text('Reconstructed', font='courier', position='upper_left')
 pl.link_views()
 pl.camera.position = cpos
 pl.camera.zoom(1.4)
@@ -105,8 +105,8 @@ pl.show()
 
 pl = pv.Plotter(shape=(1, 4), window_size=(2000, 500))
 pl.subplot(0, 0)
-mrv.render_spaceobject(pl, obj, opacity=1, color="linen")
-pl.add_text("Truth", font="courier", position="upper_left")
+mrv.render_spaceobject(pl, obj, opacity=1, color='linen')
+pl.add_text('Truth', font='courier', position='upper_left')
 
 egi_candidate = mr.close_egi(egi_candidate)
 egi_candidate_resampled = mr.close_egi(egi_candidate_resampled)
@@ -122,13 +122,13 @@ mrv.render_spaceobject(
     pl,
     obj_reconstructed_initial,
     opacity=0.7,
-    color="linen",
+    color='linen',
     feature_edges=True,
-    feature_edge_color="k",
+    feature_edge_color='k',
     feature_edge_angle=2,
 )
-mrv.render_spaceobject(pl, obj, style="wireframe", feature_edges=True)
-pl.add_text(f"Initial EGI: {dt_initial:.2f}s", font="courier", position="upper_left")
+mrv.render_spaceobject(pl, obj, style='wireframe', feature_edges=True)
+pl.add_text(f'Initial EGI: {dt_initial:.2f}s', font='courier', position='upper_left')
 
 pl.subplot(0, 2)
 mr.tic()
@@ -143,14 +143,14 @@ mrv.render_spaceobject(
     pl,
     obj_reconstructed_resampled,
     opacity=0.7,
-    color="linen",
+    color='linen',
     feature_edges=True,
-    feature_edge_color="k",
+    feature_edge_color='k',
     feature_edge_angle=2,
 )
-mrv.render_spaceobject(pl, obj, style="wireframe", feature_edges=True)
+mrv.render_spaceobject(pl, obj, style='wireframe', feature_edges=True)
 pl.add_text(
-    f"Resampled EGI: {dt_resampled:.2f}s", font="courier", position="upper_left"
+    f'Resampled EGI: {dt_resampled:.2f}s', font='courier', position='upper_left'
 )
 
 
@@ -159,12 +159,12 @@ mrv.render_spaceobject(
     pl,
     obj_reconstructed,
     opacity=0.7,
-    color="linen",
+    color='linen',
     feature_edges=True,
-    feature_edge_color="k",
+    feature_edge_color='k',
     feature_edge_angle=2,
 )
-mrv.render_spaceobject(pl, obj, style="wireframe", color="k", feature_edges=True)
-pl.add_text(f"Merged EGI: {dt:.2f}s", font="courier", position="upper_left")
+mrv.render_spaceobject(pl, obj, style='wireframe', color='k', feature_edges=True)
+pl.add_text(f'Merged EGI: {dt:.2f}s', font='courier', position='upper_left')
 
 pl.show()

@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_11-work-in-progress_precise_orbit_determination.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -21,7 +21,7 @@
 Precise Orbit Determination with Batch Least Squares
 ====================================================
 
-.. GENERATED FROM PYTHON SOURCE LINES 5-14
+.. GENERATED FROM PYTHON SOURCE LINES 5-12
 
 .. code-block:: Python
 
@@ -29,10 +29,8 @@ Precise Orbit Determination with Batch Least Squares
     import datetime
 
     import numpy as np
-    import pyvista as pv
 
     import mirage as mr
-    import mirage.vis as mrv
 
 
 
@@ -41,30 +39,40 @@ Precise Orbit Determination with Batch Least Squares
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-16
+.. GENERATED FROM PYTHON SOURCE LINES 13-14
 
 First, let's define a station and a truth object
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-20
+.. GENERATED FROM PYTHON SOURCE LINES 14-18
 
 .. code-block:: Python
 
 
     station = mr.Station()
-    obj = mr.SpaceObject("cube.obj", identifier=36411)
+    obj = mr.SpaceObject('cube.obj', identifier=36411)
 
 
 
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    Model file cube.obj not found in current model folder ('/Users/liamrobinson/Documents/mirage-models/accurate_sats'), checking model repository...
+    Attempting to download cube.obj and its associated material file from the model repository...
+    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Regular/cube.obj
+    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Regular/cube.mtl
+    Model files were downloaded successfully!
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-22
+
+.. GENERATED FROM PYTHON SOURCE LINES 19-20
 
 Let's create three line of sight observations of the object
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-28
+.. GENERATED FROM PYTHON SOURCE LINES 20-26
 
 .. code-block:: Python
 
@@ -81,11 +89,11 @@ Let's create three line of sight observations of the object
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 29-30
+.. GENERATED FROM PYTHON SOURCE LINES 27-28
 
 Now we collect a lot more observations
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-35
+.. GENERATED FROM PYTHON SOURCE LINES 28-33
 
 .. code-block:: Python
 
@@ -101,11 +109,11 @@ Now we collect a lot more observations
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-37
+.. GENERATED FROM PYTHON SOURCE LINES 34-35
 
 Let's compute the H matrix for this observation set. We know that the H matrix is defined as the partial derivatives of the observations with respect to the state vector.
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-113
+.. GENERATED FROM PYTHON SOURCE LINES 35-111
 
 .. code-block:: Python
 
@@ -116,7 +124,7 @@ Let's compute the H matrix for this observation set. We know that the H matrix i
             (state.shape[0] == len(dates))
             if isinstance(dates, np.ndarray)
             else state.size == 6
-        ), "state and dates must have the same number of rows"
+        ), 'state and dates must have the same number of rows'
         r = state.reshape(-1, 6)[:, :3]
         r_station = station.j2000_at_dates(dates)
         r_station_to_sat = r - r_station
@@ -130,7 +138,7 @@ Let's compute the H matrix for this observation set. We know that the H matrix i
             (state.shape[0] == len(dates))
             if isinstance(dates, np.ndarray)
             else state.size == 6
-        ), "state and dates must have the same number of rows"
+        ), 'state and dates must have the same number of rows'
         r = state.reshape(-1, 6)[:, :3]
         r_station = station.j2000_at_dates(dates)
         r_station_to_sat = r - r_station
@@ -192,11 +200,11 @@ Let's compute the H matrix for this observation set. We know that the H matrix i
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 114-115
+.. GENERATED FROM PYTHON SOURCE LINES 112-113
 
 Now let's run the batch least squares algorithm
 
-.. GENERATED FROM PYTHON SOURCE LINES 115-127
+.. GENERATED FROM PYTHON SOURCE LINES 113-125
 
 .. code-block:: Python
 
@@ -222,7 +230,7 @@ Now let's run the batch least squares algorithm
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.057 seconds)
+   **Total running time of the script:** (0 minutes 0.961 seconds)
 
 
 .. _sphx_glr_download_gallery_11-work-in-progress_precise_orbit_determination.py:

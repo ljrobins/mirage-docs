@@ -12,7 +12,6 @@ More rigorously defining the uncertainty in the faces of an estimated object
 
 import matplotlib.pyplot as plt
 import numpy as np
-import vtk
 import pyvista as pv
 
 import mirage as mr
@@ -24,11 +23,11 @@ idate = mr.utc(2023, 1, 1, 5)
 obs_time = mr.hours(4)
 obs_dt = mr.seconds(10)
 
-obj_file = "collapsed_cube.obj"
+obj_file = 'collapsed_cube.obj'
 
-station = mr.Station(preset="pogs")
-brdf = mr.Brdf(name="phong", cd=0.5, cs=0.3, n=10)
-obj = mr.SpaceObject(obj_file, identifier="goes 15")
+station = mr.Station(preset='pogs')
+brdf = mr.Brdf(name='phong', cd=0.5, cs=0.3, n=10)
+obj = mr.SpaceObject(obj_file, identifier='goes 15')
 
 dates, epsecs = mr.date_arange(idate, idate + obs_time, obs_dt, return_epsecs=True)
 
@@ -45,14 +44,14 @@ lc_ccd_signal_sampler, aux_data = station.observe_light_curve(
 # %%
 # Inversion from the noisy light curve
 
-sun_body = aux_data["sun_vector_object_body"]
-obs_body = aux_data["observer_vector_object_body"]
+sun_body = aux_data['sun_vector_object_body']
+obs_body = aux_data['observer_vector_object_body']
 
 lc_ccd_signal = lc_ccd_signal_sampler()
-lc_noisy_irrad = lc_ccd_signal / (aux_data["sint"] * station.telescope.integration_time)
+lc_noisy_irrad = lc_ccd_signal / (aux_data['sint'] * station.telescope.integration_time)
 lc_noisy_unit_irrad = (
     lc_noisy_irrad
-    * (aux_data["rmag_station_to_sat"] * 1e3) ** 2
+    * (aux_data['rmag_station_to_sat'] * 1e3) ** 2
     / mr.AstroConstants.sun_irradiance_vacuum
 )
 
@@ -82,23 +81,23 @@ pl.show()
 # Plotting the reflection matrix of the reconstructed object
 
 G_rec = brdf.compute_reflection_matrix(
-    L=sun_body[~lc_noisy_unit_irrad.mask, :],
-    O=obs_body[~lc_noisy_unit_irrad.mask, :],
-    N=rec_obj.unique_normals,
+    sun_body[~lc_noisy_unit_irrad.mask, :],
+    obs_body[~lc_noisy_unit_irrad.mask, :],
+    rec_obj.unique_normals,
 )
 
 is_g_full_rank = np.linalg.matrix_rank(G_rec) == G_rec.shape[1]
-print(f"Is G full rank? {is_g_full_rank}")
+print(f'Is G full rank? {is_g_full_rank}')
 
-plt.imshow(G_rec, aspect="auto", cmap="plasma")
+plt.imshow(G_rec, aspect='auto', cmap='plasma')
 mrv.texit(
-    "Reconstructed Object Reflection Matrix $G$",
-    "Normal index",
-    "Time index",
+    'Reconstructed Object Reflection Matrix $G$',
+    'Normal index',
+    'Time index',
     grid=False,
 )
 plt.clim([0, 1])
-plt.colorbar(cax=mrv.get_cbar_ax(), label="Normalized irradiance per unit area")
+plt.colorbar(cax=mrv.get_cbar_ax(), label='Normalized irradiance per unit area')
 plt.show()
 
 # %%
@@ -111,9 +110,9 @@ u_quantity = 1 - (total_expected_norm_irrad - np.min(total_expected_norm_irrad))
 
 plt.bar(np.arange(len(total_expected_norm_irrad)), total_expected_norm_irrad)
 mrv.texit(
-    "Expected Normalized Irradiance $a_j\sum_{i}{G_{ij}}$",
-    "Normal index",
-    "Total normalized irradiance",
+    'Expected Normalized Irradiance $a_j\sum_{i}{G_{ij}}$',
+    'Normal index',
+    'Total normalized irradiance',
     grid=False,
 )
 plt.show()
@@ -121,8 +120,8 @@ plt.show()
 # %%
 # Plotting the light curve error at each timestep
 
-if hasattr(obj, "file_name"):
-    delattr(obj, "file_name")
+if hasattr(obj, 'file_name'):
+    delattr(obj, 'file_name')
 lc_rec = mr.run_light_curve_engine(
     brdf,
     obj,
@@ -131,10 +130,10 @@ lc_rec = mr.run_light_curve_engine(
 )
 lc_err = np.abs(lc_rec - lc_noisy_unit_irrad[~lc_noisy_unit_irrad.mask])
 plt.figure(figsize=(7, 5))
-plt.plot(epsecs[~lc_noisy_unit_irrad.mask], lc_err, c="k")
-plt.xlabel("Epoch seconds")
-plt.ylabel("Normalized irradiance [W/m$^2$]")
-plt.legend(["Noisy", "Reconstructed"])
+plt.plot(epsecs[~lc_noisy_unit_irrad.mask], lc_err, c='k')
+plt.xlabel('Epoch seconds')
+plt.ylabel('Normalized irradiance [W/m$^2$]')
+plt.legend(['Noisy', 'Reconstructed'])
 plt.tight_layout()
 plt.show()
 
@@ -163,14 +162,14 @@ fu = mr.face_uncertainty(
 
 pl = pv.Plotter()
 mrv.render_spaceobject(pl, rec_obj, scalars=u_quantity[rec_obj.unique_to_all])
-pl.add_text("$u_{quantity}$")
+pl.add_text('$u_{quantity}$')
 pl.show()
 pl = pv.Plotter()
 mrv.render_spaceobject(pl, rec_obj, scalars=u_quality[rec_obj.unique_to_all])
-pl.add_text("$u_{quality}$")
+pl.add_text('$u_{quality}$')
 pl.show()
 
 pl = pv.Plotter()
 mrv.render_spaceobject(pl, rec_obj, scalars=fu)
-pl.add_text("$u_j$")
+pl.add_text('$u_j$')
 pl.show()

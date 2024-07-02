@@ -13,7 +13,7 @@ import mirage.vis as mrv
 (dates, epsecs) = mr.date_linspace(
     mr.now(), mr.now() + mr.seconds(10), 200, return_epsecs=True
 )
-obj = mr.SpaceObject("hylas4.obj", identifier=36411)
+obj = mr.SpaceObject('hylas4.obj', identifier=36411)
 obj.build_pyvista_mesh()
 itensor = np.diag((1.0, 2.0, 3.0))
 q0 = np.array([0, 0, 0, 1])
@@ -28,13 +28,13 @@ obj_attitude = mr.RbtfAttitude(
 )
 (q, w) = obj_attitude.propagate(epsecs)
 mrv.vis_attitude_motion(
-    obj, q, "tess_unstable.gif", framerate=20, background_color="white"
+    obj, q, 'tess_unstable.gif', framerate=20, background_color='white'
 )
 
 # %%
 # Black version of unstable motion
 mrv.vis_attitude_motion(
-    obj, q, "tess_unstable_black.gif", framerate=20, background_color="black"
+    obj, q, 'tess_unstable_black.gif', framerate=20, background_color='black'
 )
 
 # %%
@@ -45,7 +45,7 @@ obj_attitude = mr.RbtfAttitude(
     itensor=np.diag((1.0, 2.0, 2.0)),
 )
 (q, w) = obj_attitude.propagate(epsecs)
-mrv.vis_attitude_motion(obj, q, "tess_sp.gif", framerate=20, background_color="white")
+mrv.vis_attitude_motion(obj, q, 'tess_sp.gif', framerate=20, background_color='white')
 
 # %%
 # Stable rotation about the first axis
@@ -56,5 +56,5 @@ obj_attitude = mr.RbtfAttitude(
 )
 (q, w) = obj_attitude.propagate(epsecs)
 mrv.vis_attitude_motion(
-    obj, q, "tess_stable.gif", framerate=20, background_color="white"
+    obj, q, 'tess_stable.gif', framerate=20, background_color='white'
 )

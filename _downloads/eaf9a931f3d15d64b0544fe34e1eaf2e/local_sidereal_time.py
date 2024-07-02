@@ -4,14 +4,13 @@ Local Sidereal Time
 Studying the yearly variations in sidereal time
 """
 
-import matplotlib.cm as cmaps
 import matplotlib.pyplot as plt
 import numpy as np
 
 import mirage as mr
 import mirage.vis as mrv
 
-stations = [mr.Station(lon_deg=0.0), mr.Station(preset="pogs")]
+stations = [mr.Station(lon_deg=0.0), mr.Station(preset='pogs')]
 dates, epsecs = mr.date_arange(
     mr.utc(2020, 1, 1, 12),
     mr.utc(2020, 1, 1, 12) + mr.years(1),
@@ -27,10 +26,10 @@ for station in stations:
     sid_time = np.rad2deg(mr.sidereal_hour_angle(station.lon_rad, dates)) / 360 * 24
     plt.plot(epsecs / mr.AstroConstants.earth_sec_in_day, sid_time)
 mrv.texit(
-    f"Local Sidereal Time at 12:00 UTC",
-    "Day of the year",
-    "Sidereal time [hr]",
-    [f"$\lambda = {s.lon_deg:.2f}^\circ$" for s in stations],
+    'Local Sidereal Time at 12:00 UTC',
+    'Day of the year',
+    'Sidereal time [hr]',
+    [f'$\lambda = {s.lon_deg:.2f}^\circ$' for s in stations],
 )
 plt.ylim(0, 24)
 plt.xlim(0, 366)

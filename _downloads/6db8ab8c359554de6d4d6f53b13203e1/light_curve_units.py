@@ -37,9 +37,9 @@ ephr = epsecs / 3600  # Epoch hours
 
 # %%
 # Setting up the scenario objects
-obj = mr.SpaceObject("matlib_hylas4.obj", identifier="goes 15")
-brdf = mr.Brdf("phong")
-station = mr.Station(preset="pogs")
+obj = mr.SpaceObject('matlib_hylas4.obj', identifier='goes 15')
+brdf = mr.Brdf('phong')
+station = mr.Station(preset='pogs')
 # Observing from the Purdue Optical Ground Station in New Mexico
 
 # %%
@@ -51,7 +51,6 @@ station.constraints = [
     mr.ObserverEclipseConstraint(station),
     mr.VisualMagnitudeConstraint(18),
     mr.MoonExclusionConstraint(30),
-    mr.HorizonMaskConstraint(station),
 ]
 
 # %%
@@ -75,8 +74,8 @@ lc_noisy = lc_noisy_sampler()
 
 # %%
 # Extracting data and plotting results
-lc_clean = aux_data["lc_clean"]
-sint = aux_data["sint"]
+lc_clean = aux_data['lc_clean']
+sint = aux_data['sint']
 
 plt.figure(figsize=(10, 8))
 plt.subplot(4, 1, 1)
@@ -84,10 +83,10 @@ sns.scatterplot(x=ephr, y=lc_noisy, linewidth=0.05, size=0.1)
 # sns.scatterplot(x=ephr, y=lc_clean, linewidth=0.05, size=0.05, color="k")
 plt.xlim((0, np.max(ephr)))
 mrv.texit(
-    f"Synthetic GOES 15 Light Curves",
-    "",
-    r"$\left[\mathrm{ADU} \right]$",
-    ["Measurements"],
+    'Synthetic GOES 15 Light Curves',
+    '',
+    r'$\left[\mathrm{ADU} \right]$',
+    ['Measurements'],
 )
 
 lc_noisy_irrad = lc_noisy / (sint * station.telescope.integration_time)
@@ -96,21 +95,21 @@ plt.subplot(4, 1, 2)
 sns.scatterplot(x=ephr, y=lc_noisy_irrad, linewidth=0.05, size=0.2)
 # sns.scatterplot(x=ephr, y=lc_clean_irrad, linewidth=0.05, size=0.1, color="k")
 mrv.texit(
-    "",
-    "",
-    r"$I \: \left[ \frac{W}{m^2} \right]$",
+    '',
+    '',
+    r'$I \: \left[ \frac{W}{m^2} \right]$',
 )
 plt.xlim((0, np.max(ephr)))
 
-lc_noisy_irrad_unit = lc_noisy_irrad * (aux_data["rmag_station_to_sat"] * 1e3) ** 2
-lc_clean_irrad_unit = lc_clean_irrad * (aux_data["rmag_station_to_sat"] * 1e3) ** 2
+lc_noisy_irrad_unit = lc_noisy_irrad * (aux_data['rmag_station_to_sat'] * 1e3) ** 2
+lc_clean_irrad_unit = lc_clean_irrad * (aux_data['rmag_station_to_sat'] * 1e3) ** 2
 plt.subplot(4, 1, 3)
 sns.scatterplot(x=ephr, y=lc_noisy_irrad_unit, linewidth=0.05, size=0.2)
 # sns.scatterplot(x=ephr, y=lc_clean_irrad_unit, linewidth=0.05, size=0.1, color="k")
 mrv.texit(
-    "",
-    "",
-    r"$\hat{I}$ [nondim]",
+    '',
+    '',
+    r'$\hat{I}$ [nondim]',
 )
 plt.xlim((0, np.max(ephr)))
 
@@ -120,9 +119,9 @@ plt.subplot(4, 1, 4)
 sns.scatterplot(x=ephr, y=lc_noisy_mag, linewidth=0.05, size=0.05)
 # sns.scatterplot(x=ephr, y=lc_clean_mag, linewidth=0.05, size=0.1, color="k")
 mrv.texit(
-    "",
+    '',
     f"Hours after {date_start.strftime('%Y-%m-%d %H:%M:%S UTC')}",
-    "$m$ [nondim]",
+    '$m$ [nondim]',
 )
 plt.xlim((0, np.max(ephr)))
 plt.tight_layout()

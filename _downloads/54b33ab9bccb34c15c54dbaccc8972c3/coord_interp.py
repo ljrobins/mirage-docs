@@ -18,17 +18,17 @@ dates, epsecs = mr.date_linspace(
 fine_dates, fine_epsecs = mr.date_linspace(
     dates[0], dates[-1], dates.size * 10, return_epsecs=True
 )
-interpolator = mr.FrameInterpolator("j2000", "itrf", dates, max_surface_error_km=1e-4)
+interpolator = mr.FrameInterpolator('j2000', 'itrf', dates, max_surface_error_km=1e-4)
 
-mr.tic("Computing rotation matrices")
-dcms = mr.EarthFixedFrame("j2000", "itrf").rotms_at_dates(dates)
+mr.tic('Computing rotation matrices')
+dcms = mr.EarthFixedFrame('j2000', 'itrf').rotms_at_dates(dates)
 mr.toc()
 
-mr.tic("Computing rotation matrices, fine")
-dcms_fine = mr.EarthFixedFrame("j2000", "itrf").rotms_at_dates(fine_dates)
+mr.tic('Computing rotation matrices, fine')
+dcms_fine = mr.EarthFixedFrame('j2000', 'itrf').rotms_at_dates(fine_dates)
 mr.toc()
 
-mr.tic("Evaluate interpolator")
+mr.tic('Evaluate interpolator')
 fine_dcms_interp = interpolator(fine_epsecs)
 mr.toc()
 
@@ -41,22 +41,22 @@ pos_err_interp = (
 
 mean_pos_err = np.mean(mr.vecnorm(pos_err_interp))
 max_pos_err = np.max(mr.vecnorm(pos_err_interp))
-print(f"Mean position error: {mean_pos_err} km")
-print(f"Max position error: {max_pos_err} km")
+print(f'Mean position error: {mean_pos_err} km')
+print(f'Max position error: {max_pos_err} km')
 
 # %%
 # Plotting
 
 plt.figure()
 plt.plot(fine_dates, mr.vecnorm(pos_err_interp))
-plt.xlabel("Date")
-plt.ylabel("Position Error (km)")
-plt.title("Position Error of Station on Earth Surface")
+plt.xlabel('Date')
+plt.ylabel('Position Error (km)')
+plt.title('Position Error of Station on Earth Surface')
 plt.show()
 
 plt.figure()
 plt.hist(mr.vecnorm(pos_err_interp))
-plt.ylabel("Count")
-plt.xlabel("Position Error (km)")
-plt.title("Position Error of Station on Earth Surface")
+plt.ylabel('Count')
+plt.xlabel('Position Error (km)')
+plt.title('Position Error of Station on Earth Surface')
 plt.show()

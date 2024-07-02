@@ -6,7 +6,6 @@ Plots of the solar irradiance spectrum and the total solar irradiance.
 
 import matplotlib.pyplot as plt
 import numpy as np
-import pyvista as pv
 from terrainman import TsiDataHandler
 
 import mirage as mr
@@ -39,27 +38,27 @@ plt.figure(figsize=(8, 4))
 plt.subplot(1, 2, 1)
 sc_at_earth_radius = sc_at_one_au / earth_to_sun_dist_au**2
 ax1 = plt.gca()
-ax1.scatter(epyrs + 2000, sc_at_one_au, s=1, color="C0")
-ax1.set_ylabel(r"$\left[\frac{W}{m^2}\right]$")
-ax1.set_xlabel("Year")
-plt.title("Total Solar Irradiance at 1 AU")
+ax1.scatter(epyrs + 2000, sc_at_one_au, s=1, color='C0')
+ax1.set_ylabel(r'$\left[\frac{W}{m^2}\right]$')
+ax1.set_xlabel('Year')
+plt.title('Total Solar Irradiance at 1 AU')
 
 plt.subplot(1, 2, 2)
 
-lambdas = np.linspace(100e-9, 1500e-9, 200)
+lambdas = np.linspace(100, 1500, 200)
 
 solar_spectrum = mr.sun_spectrum(lambdas)
-plt.plot(lambdas * 1e9, solar_spectrum)
+plt.plot(lambdas, solar_spectrum)
 mrv.plot_visible_band(lambdas, solar_spectrum)
 # label IR and UV
-plt.xlim([np.min(lambdas) * 1e9, np.max(lambdas) * 1e9])
+plt.xlim([np.min(lambdas), np.max(lambdas)])
 plt.ylim([0, 1.3 * np.max(solar_spectrum)])
-plt.text(1000, 1.5e9, "IR", color="r", fontsize=12)
-plt.text(200, 1.5e9, "UV", color="violet", fontsize=12)
+plt.text(1000, 1.5, 'IR', color='r', fontsize=12)
+plt.text(200, 1.5, 'UV', color='violet', fontsize=12)
 
-plt.title("Solar Spectrum")
-plt.xlabel("Wavelength [nm]")
-plt.ylabel("Irradiance [W/m$^2$/m]")
+plt.title('Solar Spectrum')
+plt.xlabel('Wavelength [nm]')
+plt.ylabel('Irradiance [W/m$^2$/nm]')
 
 plt.tight_layout()
 plt.show()
@@ -68,7 +67,7 @@ plt.show()
 # True irradiance at Earth
 
 plt.scatter(epyrs[-900:] + 2000, sc_at_earth_radius[-900:], s=1)
-plt.ylabel(r"$\left[\frac{W}{m^2}\right]$")
-plt.xlabel("Year")
-plt.title("Total Solar Irradiance at Earth")
+plt.ylabel(r'$\left[\frac{W}{m^2}\right]$')
+plt.xlabel('Year')
+plt.title('Total Solar Irradiance at Earth')
 plt.show()

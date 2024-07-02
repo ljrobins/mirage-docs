@@ -15,7 +15,7 @@ def ccd_snr(signal_grid: np.ndarray, noise_grid: np.ndarray) -> float:
     return np.sum(signal_grid) / np.sqrt(np.sum(signal_grid) + np.sum(noise_grid))
 
 
-telescope = mr.Telescope(preset="pogs")
+telescope = mr.Telescope(preset='pogs')
 telescope.sensor_pixels = 50
 telescope.pixel_scale = 0.2
 
@@ -31,8 +31,8 @@ theta_grid_rad = mr.dms_to_rad(0, 0, r_dist * telescope.pixel_scale)
 
 dt = 0.3
 c_all = 1e4 * dt
-airy_pattern = telescope.gaussian_diffraction_pattern(c_all, theta_grid_rad, 550e-9)
-print(f"Airy disk volume: {np.sum(airy_pattern):.4f}")
+airy_pattern = telescope.gaussian_diffraction_pattern(c_all, theta_grid_rad)
+print(f'Airy disk volume: {np.sum(airy_pattern):.4f}')
 
 plt.figure(figsize=(6, 6))
 
@@ -53,20 +53,20 @@ for i, c_background in enumerate(br_levels):
     snr1 = 0.838 * c_all / np.sqrt(0.838 * c_all + two_sigma_pixel_area * c_background)
     snr2 = ccd_snr(airy_pattern[is_obj], adu_grid[is_obj] - airy_pattern[is_obj])
 
-    print(f"Background mean: {c_background}")
-    print(f"SNR from means: {snr1:.2f} \nSNR from samples: {snr2:.2f}")
+    print(f'Background mean: {c_background}')
+    print(f'SNR from means: {snr1:.2f} \nSNR from samples: {snr2:.2f}')
 
     plt.subplot(2, 2, i + 1)
     plt.imshow(
         adu_grid,
-        cmap="plasma",
+        cmap='plasma',
         extent=[x_pix.min(), x_pix.max(), y_pix.min(), y_pix.max()],
     )
-    mrv.texit(f"SNR = {snr1:.1f}", "", "", grid=False)
+    mrv.texit(f'SNR = {snr1:.1f}', '', '', grid=False)
     plt.xticks([])
     plt.yticks([])
     plt.clim(0, np.max(adu_grid))
-    plt.colorbar(cax=mrv.get_cbar_ax(), label="ADU")
+    plt.colorbar(cax=mrv.get_cbar_ax(), label='ADU')
 plt.tight_layout()
 plt.show()
 
@@ -79,9 +79,7 @@ c_all = 1e3
 snrs = []
 
 for dt in dts:
-    airy_pattern = telescope.gaussian_diffraction_pattern(
-        c_all * dt, theta_grid_rad, 550e-9
-    )
+    airy_pattern = telescope.gaussian_diffraction_pattern(c_all * dt, theta_grid_rad)
     adu_grid = np.random.poisson(lam=airy_pattern + c_background * dt).astype(float)
 
     two_sigma_pixel_width = (
@@ -96,10 +94,10 @@ snrs = np.array(snrs)
 
 # finding the slope of the log-log plot
 m, b = np.polyfit(np.log10(dts), np.log10(snrs), 1)
-print(f"SNR ~ x^{m:.2f}")
+print(f'SNR ~ x^{m:.2f}')
 
 plt.plot(dts, snrs)
 plt.scatter(dts, snrs)
-mrv.texit("", "Integration Time (s)", "SNR", ["$\sqrt{\Delta t} + \mathrm{SNR}_0$"])
+mrv.texit('', 'Integration Time (s)', 'SNR', ['$\sqrt{\Delta t} + \mathrm{SNR}_0$'])
 plt.tight_layout()
 plt.show()

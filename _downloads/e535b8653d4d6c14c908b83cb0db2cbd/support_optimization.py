@@ -19,7 +19,7 @@ egi -= np.sum(egi, axis=0) / num
 ns = mr.hat(egi)
 
 mr.tic()
-obj = mr.construct_mesh_from_egi(egi, implementation="fortran")
+obj = mr.construct_mesh_from_egi(egi, implementation='fortran')
 mr.toc()
 
 import pyvista as pv

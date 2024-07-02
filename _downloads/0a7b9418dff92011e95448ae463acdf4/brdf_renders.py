@@ -8,20 +8,19 @@ Plotting BRDF kernels and their rendered results
 import matplotlib.pyplot as plt
 import numpy as np
 import pyvista as pv
-import vtk
 from PIL import Image
 
 import mirage as mr
 import mirage.vis as mrv
 
 brdfs = [
-    mr.Brdf("diffuse", 0.5, 0.0, 0),
-    mr.Brdf("oren-nayar", 0.5, 0.0, 0),
-    mr.Brdf("phong", 0.5, 0.5, 5),
-    mr.Brdf("blinn-phong", 0.5, 0.5, 5),
-    mr.Brdf("ashikhmin-shirley", 0.5, 0.5, 15),
-    mr.Brdf("cook-torrance", 0.5, 0.5, 0.3),
-    mr.Brdf("glossy", 0.5, 0.5, 0.9),
+    mr.Brdf('diffuse', 0.5, 0.0, 0),
+    mr.Brdf('oren-nayar', 0.5, 0.0, 0),
+    mr.Brdf('phong', 0.5, 0.5, 5),
+    mr.Brdf('blinn-phong', 0.5, 0.5, 5),
+    mr.Brdf('ashikhmin-shirley', 0.5, 0.5, 15),
+    mr.Brdf('cook-torrance', 0.5, 0.5, 0.3),
+    mr.Brdf('glossy', 0.5, 0.5, 0.9),
 ]
 
 num = 200
@@ -33,7 +32,7 @@ el_grid, az_grid = np.meshgrid(el_space, az_space)
 # %%
 # Now we can iterate through a range of specular exponents and BRDFs to visualize how the BRDF varies
 pl = pv.Plotter(shape=pl_shape)
-pl.set_background("white")
+pl.set_background('white')
 for i, brdf in enumerate(brdfs):
     (xx, yy, zz) = mr.sph_to_cart(az_grid, el_grid, 0 * el_grid + 1)
     O = np.hstack(
@@ -48,24 +47,24 @@ for i, brdf in enumerate(brdfs):
     b = brdf.eval(L, O, N).reshape(xx.shape)
     mesh = pv.StructuredGrid(xx * b, yy * b, zz * b)
     pl.subplot(i // 3, i % 3)
-    pl.add_text(f"{brdf.name.upper()}", font_size=18, font="courier", color="black")
+    pl.add_text(f'{brdf.name.upper()}', font_size=18, font='courier', color='black')
     pl.add_mesh(
         mesh,
         scalars=b.T.flatten(),
         show_scalar_bar=False,
-        cmap="isolum",
+        cmap='isolum',
         smooth_shading=True,
     )
     mrv.plot_basis(
-        pl, np.eye(3), color="cornflowerblue", labels=["U", "V", "N"], scale=arrow_scale
+        pl, np.eye(3), color='cornflowerblue', labels=['U', 'V', 'N'], scale=arrow_scale
     )
     mrv.plot_arrow(
         pl,
         origin=[0, 0, 0],
         direction=L[0, :],
         scale=arrow_scale,
-        color="yellow",
-        label="L",
+        color='yellow',
+        label='L',
     )
 
 pl.link_views()
@@ -81,11 +80,11 @@ svb = mr.hat(np.tile(np.array([[-0.5, 0.0, 0.5]]), (1, 1)))
 
 for i, brdf in enumerate(brdfs):
     mr.run_light_curve_engine(
-        brdf, "stanford_dragon.obj", svb, ovb, save_imgs=True, instances=1
+        brdf, 'stanford_dragon.obj', svb, ovb, save_imgs=True, instances=1
     )
     plt.subplot(*pl_shape, i + 1)
-    im = np.asarray(Image.open("out/frame1.png"))
-    plt.imshow(im[:, :, 0], cmap="gray", alpha=(im[:, :, 1] > 0).astype(np.float32))
+    im = np.asarray(Image.open('out/frame1.png'))
+    plt.imshow(im[:, :, 0], cmap='gray', alpha=(im[:, :, 1] > 0).astype(np.float32))
     plt.xticks([])
     plt.yticks([])
     plt.title(brdf.name.upper())

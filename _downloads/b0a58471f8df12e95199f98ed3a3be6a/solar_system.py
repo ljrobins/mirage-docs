@@ -30,16 +30,16 @@ fcns = np.array(
 
 labels = np.array(
     [
-        "Mercury",
-        "Venus",
-        "Mars",
-        "Jupiter",
-        "Saturn",
-        "Uranus",
-        "Neptune",
-        "Moon",
-        "Sun",
-        "Pluto",
+        'Mercury',
+        'Venus',
+        'Mars',
+        'Jupiter',
+        'Saturn',
+        'Uranus',
+        'Neptune',
+        'Moon',
+        'Sun',
+        'Pluto',
     ]
 )
 
@@ -60,7 +60,7 @@ for pi, labeli in zip(planet_dirs, labels):
         pl,
         np.zeros(3),
         pi,
-        color="lime",
+        color='lime',
         label=labeli,
         name=labeli,
         scale=mag * 0.8,
@@ -70,7 +70,7 @@ grid = mrv.celestial_grid()
 mrv.plot3(
     pl,
     mag * grid,
-    color="cornflowerblue",
+    color='cornflowerblue',
     line_width=5,
     lighting=False,
     opacity=0.2,
@@ -82,12 +82,12 @@ mrv.orbit_plotter(pl)
 # We can also plot the whole solar system by using SPICE interpolation
 bodies = np.array(
     [
-        "Mercury",
-        "Venus",
-        "Mars",
-        "Jupiter",
-        "Saturn",
-        "Uranus",
+        'Mercury',
+        'Venus',
+        'Mars',
+        'Jupiter',
+        'Saturn',
+        'Uranus',
     ]
 )
 periods = mr.days(

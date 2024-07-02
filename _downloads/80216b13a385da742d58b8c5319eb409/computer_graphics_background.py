@@ -17,7 +17,7 @@ vtk.__version__
 import mirage as mr
 import mirage.vis as mrv
 
-pv.set_plot_theme("document")
+pv.set_plot_theme('document')
 
 
 def orthographic_frustum_as_pyvista_mesh(
@@ -50,7 +50,7 @@ position = camera.position
 focal_point = camera.focal_point
 line = pv.Line(position, focal_point)
 
-bunny_obj = mr.SpaceObject("stanford_bunny.obj")
+bunny_obj = mr.SpaceObject('stanford_bunny.obj')
 bunny = bunny_obj._mesh
 xyz = camera.position + unit_vector * 0.6 - np.mean(bunny.points, axis=0)
 bunny.points += np.array(xyz)
@@ -74,32 +74,32 @@ for i, frustum in enumerate([perspective_frustum, ortho_frustum]):
     clipping_plane_opacity = (
         np.abs(
             mr.dot(
-                unit_vector.reshape(-1, 3), frustum.compute_normals()["Normals"]
+                unit_vector.reshape(-1, 3), frustum.compute_normals()['Normals']
             ).flatten()
         )
         > 0.99
     ) * 0.2
     pl.subplot(i, 0)
     mrv.render_spaceobject(pl, bunny_obj)
-    pl.add_mesh(frustum, style="wireframe", line_width=5, color="k")
-    pl.add_mesh(frustum, color="orange", opacity=clipping_plane_opacity, line_width=5)
-    pl.add_mesh(line, color="k", line_width=5)
+    pl.add_mesh(frustum, style='wireframe', line_width=5, color='k')
+    pl.add_mesh(frustum, color='orange', opacity=clipping_plane_opacity, line_width=5)
+    pl.add_mesh(line, color='k', line_width=5)
 
     if i == 0:
         pl.add_text(
-            "Perspective Projection",
+            'Perspective Projection',
             font_size=25,
-            position="upper_edge",
-            color="k",
-            font="courier",
+            position='upper_edge',
+            color='k',
+            font='courier',
         )
     else:
         pl.add_text(
-            "Orthographic Projection",
+            'Orthographic Projection',
             font_size=25,
-            position="upper_edge",
-            color="k",
-            font="courier",
+            position='upper_edge',
+            color='k',
+            font='courier',
         )
 
     if i == 0:
@@ -110,13 +110,13 @@ for i, frustum in enumerate([perspective_frustum, ortho_frustum]):
                 camera.position + unit_vector * far_range,
                 focal_point,
             ],
-            ["$R_{cam}$", "Near plane", "Far plane", "$T_{cam}$"],
+            ['$R_{cam}$', 'Near plane', 'Far plane', '$T_{cam}$'],
             margin=0,
             fill_shape=True,
             font_size=30,
-            shape_color="white",
-            point_color="red",
-            text_color="black",
+            shape_color='white',
+            point_color='red',
+            text_color='black',
             always_visible=True,
         )
     else:
@@ -125,13 +125,13 @@ for i, frustum in enumerate([perspective_frustum, ortho_frustum]):
                 position,
                 focal_point,
             ],
-            ["$R_{cam}$", "$T_{cam}$"],
+            ['$R_{cam}$', '$T_{cam}$'],
             margin=0,
             fill_shape=True,
             font_size=30,
-            shape_color="white",
-            point_color="red",
-            text_color="black",
+            shape_color='white',
+            point_color='red',
+            text_color='black',
             always_visible=True,
         )
         near_range = 0.01
@@ -153,15 +153,15 @@ for i, frustum in enumerate([perspective_frustum, ortho_frustum]):
     bunny_on_near_plane.points += camera.position + unit_vector * near_range
 
     pl.add_mesh(bunny_on_near_plane, opacity=0.5)
-    pl.add_mesh(bunny_on_near_plane, opacity=0.1, color="k", style="wireframe")
+    pl.add_mesh(bunny_on_near_plane, opacity=0.1, color='k', style='wireframe')
 
     mrv.plot_basis(
-        pl, M[:3, :3].T, "M", origin=np.mean(bunny.points, axis=0), scale=0.2
+        pl, M[:3, :3].T, 'M', origin=np.mean(bunny.points, axis=0), scale=0.2
     )
-    mrv.plot_basis(pl, W[:3, :3].T, "W", origin=np.zeros(3), scale=0.2)
-    mrv.plot_basis(pl, V[:3, :3].T, "V", origin=camera.position, scale=0.2)
+    mrv.plot_basis(pl, W[:3, :3].T, 'W', origin=np.zeros(3), scale=0.2)
+    mrv.plot_basis(pl, V[:3, :3].T, 'V', origin=camera.position, scale=0.2)
     mrv.plot_arrow(
-        pl, camera.position, camera.up, label="$U_{cam}$", scale=0.15, color="c"
+        pl, camera.position, camera.up, label='$U_{cam}$', scale=0.15, color='c'
     )
 
 pl.link_views()

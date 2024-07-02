@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 import mirage as mr
 
-target_body = ("jupiter", mr.jupiter)
+target_body = ('jupiter', mr.jupiter)
 
 # %%
 # Define a date range and a set of points to interpolate
@@ -27,13 +27,13 @@ fine_dates, fine_epsecs = mr.date_linspace(
 
 # %%
 # Building an interpolator
-mr.tic("Building interpolator")
+mr.tic('Building interpolator')
 interpolator = mr.SpiceInterpolator(target_body[0], dates)
 mr.toc()
-mr.tic("Interpolating")
+mr.tic('Interpolating')
 pts_interp = interpolator(fine_epsecs)
 mr.toc()
-mr.tic("Computing true positions")
+mr.tic('Computing true positions')
 pts_fine_true = target_body[1](fine_dates)
 mr.toc()
 
@@ -43,12 +43,12 @@ mr.toc()
 pts_nd = pts / mr.AstroConstants.moon_orbit_semimajor_axis
 pts_interp_nd = pts_interp / mr.AstroConstants.moon_orbit_semimajor_axis
 plt.figure()
-plt.scatter(pts_nd[:, 0], pts_nd[:, 1], label="Reference nodes")
-plt.scatter(pts_interp_nd[:, 0], pts_interp_nd[:, 1], s=1, label="Interpolated")
-plt.axis("equal")
-plt.title("Interpolated Moon Positions")
-plt.xlabel("X (nd)")
-plt.ylabel("Y (nd)")
+plt.scatter(pts_nd[:, 0], pts_nd[:, 1], label='Reference nodes')
+plt.scatter(pts_interp_nd[:, 0], pts_interp_nd[:, 1], s=1, label='Interpolated')
+plt.axis('equal')
+plt.title('Interpolated Moon Positions')
+plt.xlabel('X (nd)')
+plt.ylabel('Y (nd)')
 plt.legend()
 
 # %%

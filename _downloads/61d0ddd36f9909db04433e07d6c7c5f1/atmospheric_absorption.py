@@ -1,7 +1,7 @@
 """
-Atmospheric Transmission
-========================
-Using Sun spectra to determine the atmospheric transmission spectrum
+ASTM Spectra
+============
+Standardized Sun spectra at different airmasses
 """
 
 import os
@@ -34,15 +34,3 @@ mrv.texit(
     ["AM0", "AM1.5 Global", "AM1.5 Direct", "PROOF zero airmass"],
 )
 plt.show()
-
-# %%
-# We can divide the direct spectrum by the vacuum spectrum to get the fraction of light at that wavelength transmitted by the atmosphere. Note that since the AM1.5 Direct spectrum is for a relative airmass of 1.5, we have to adjust for the optical path length difference
-
-y = mr.atmospheric_transmission_spectrum(lambdas_nm * 1e-9)
-plt.plot(lambdas_nm, y)
-mrv.plot_visible_band(lambdas_nm * 1e-9, y)
-mrv.texit("Atmospheric Absorption Spectrum", "Wavelength [nm]", "Fraction absorbed")
-plt.show()
-
-# %%
-# Let's define a function that can do all of this stuff for us

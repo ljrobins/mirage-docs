@@ -3,14 +3,14 @@ Importance Sampling
 ===================
 Reducing the variance of Monte Carlo integration
 """
+
 import matplotlib.pyplot as plt
 import numpy as np
 import sympy as sp
-from scipy import stats as st
 
 # %%
 # Let's say we want to estimate the integral of an unknown function :math:`f(x)`
-x = sp.symbols("x")
+x = sp.symbols('x')
 f_symbolic = sp.sin(np.pi * x)
 bounds = (0, 1)
 f = sp.lambdify(x, f_symbolic)
@@ -18,14 +18,14 @@ xs = np.linspace(*bounds, 1000)
 
 plt.plot(xs, f(xs))
 plt.grid()
-plt.title("f(x)")
-plt.xlabel("x")
+plt.title('f(x)')
+plt.xlabel('x')
 plt.show()
 
 # %%
 # We can analytically compute the integral of this function
 int_symbolic = sp.integrate(f_symbolic, (x, 0, 1))
-print(f"The analytic integral is {int_symbolic:.4f}")
+print(f'The analytic integral is {int_symbolic:.4f}')
 
 # %%
 # A naive attempt at Monte Carlo integration would be to uniformly take samples of the function over the integral and average them
@@ -35,7 +35,7 @@ int_naive = f_of_x_naive.sum() / n
 percent_error_naive = (int_naive - int_symbolic) / int_symbolic * 100
 
 print(
-    f"The naive Monte Carlo integral is {int_naive:.4f}, {percent_error_naive:.2f}% error"
+    f'The naive Monte Carlo integral is {int_naive:.4f}, {percent_error_naive:.2f}% error'
 )
 
 # %%
@@ -66,7 +66,7 @@ int_importance = (f(xs_sample) / dist.pdf(xs_sample)).sum() / n
 percent_error_importance = (int_importance - int_symbolic) / int_symbolic * 100
 
 print(
-    f"The importance sampled integral is {int_importance:.4f}, {percent_error_importance:.2f}% error"
+    f'The importance sampled integral is {int_importance:.4f}, {percent_error_importance:.2f}% error'
 )
 
 # %%
@@ -78,7 +78,7 @@ plt.plot(xs, true_pdf)
 plt.plot(xs, dist.pdf(xs))
 plt.scatter(xs_sample, 0 * xs_sample, s=5, alpha=0.2)
 plt.grid()
-plt.title("probability")
-plt.xlabel("x")
-plt.legend(["true pdf", "approximate pdf", "samples"])
+plt.title('probability')
+plt.xlabel('x')
+plt.legend(['true pdf', 'approximate pdf', 'samples'])
 plt.show()

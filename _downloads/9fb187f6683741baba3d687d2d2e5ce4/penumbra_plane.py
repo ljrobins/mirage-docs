@@ -35,9 +35,9 @@ mrv.scatter3(
     scalars=f_shadow,
     point_size=8,
     lighting=False,
-    cmap="bmy_r",
+    cmap='bmy_r',
     opacity=(f_shadow > 0) * 1,
-    scalar_bar_args={"title": "Shadow Fraction"},
+    scalar_bar_args={'title': 'Shadow Fraction'},
 )
 pl.view_xz()
 pl.camera.up = np.array([0, 0, -1]) @ rotm.squeeze()
@@ -47,6 +47,6 @@ pl.camera.position = np.array([0e3, -40e3, 0]) @ rotm.squeeze()
 # pl.camera.position += shift
 # pl.camera.focal_point += shift
 pl.camera.zoom(1.2)
-pl.set_background("white")
+pl.set_background('white')
 # pl.disable_parallel_projection()
 pl.show()

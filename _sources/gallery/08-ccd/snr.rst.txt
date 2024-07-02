@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_08-ccd_snr.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -38,7 +38,7 @@ Investigating the SNR applied to CCD images
         return np.sum(signal_grid) / np.sqrt(np.sum(signal_grid) + np.sum(noise_grid))
 
 
-    telescope = mr.Telescope(preset="pogs")
+    telescope = mr.Telescope(preset='pogs')
     telescope.sensor_pixels = 50
     telescope.pixel_scale = 0.2
 
@@ -54,8 +54,8 @@ Investigating the SNR applied to CCD images
 
     dt = 0.3
     c_all = 1e4 * dt
-    airy_pattern = telescope.gaussian_diffraction_pattern(c_all, theta_grid_rad, 550e-9)
-    print(f"Airy disk volume: {np.sum(airy_pattern):.4f}")
+    airy_pattern = telescope.gaussian_diffraction_pattern(c_all, theta_grid_rad)
+    print(f'Airy disk volume: {np.sum(airy_pattern):.4f}')
 
     plt.figure(figsize=(6, 6))
 
@@ -76,20 +76,20 @@ Investigating the SNR applied to CCD images
         snr1 = 0.838 * c_all / np.sqrt(0.838 * c_all + two_sigma_pixel_area * c_background)
         snr2 = ccd_snr(airy_pattern[is_obj], adu_grid[is_obj] - airy_pattern[is_obj])
 
-        print(f"Background mean: {c_background}")
-        print(f"SNR from means: {snr1:.2f} \nSNR from samples: {snr2:.2f}")
+        print(f'Background mean: {c_background}')
+        print(f'SNR from means: {snr1:.2f} \nSNR from samples: {snr2:.2f}')
 
         plt.subplot(2, 2, i + 1)
         plt.imshow(
             adu_grid,
-            cmap="plasma",
+            cmap='plasma',
             extent=[x_pix.min(), x_pix.max(), y_pix.min(), y_pix.max()],
         )
-        mrv.texit(f"SNR = {snr1:.1f}", "", "", grid=False)
+        mrv.texit(f'SNR = {snr1:.1f}', '', '', grid=False)
         plt.xticks([])
         plt.yticks([])
         plt.clim(0, np.max(adu_grid))
-        plt.colorbar(cax=mrv.get_cbar_ax(), label="ADU")
+        plt.colorbar(cax=mrv.get_cbar_ax(), label='ADU')
     plt.tight_layout()
     plt.show()
 
@@ -109,13 +109,13 @@ Investigating the SNR applied to CCD images
     Airy disk volume: 2514.0000
     Background mean: 3.0
     SNR from means: 43.28 
-    SNR from samples: 43.50
+    SNR from samples: 43.42
     Background mean: 30.0
     SNR from means: 23.84 
-    SNR from samples: 23.97
+    SNR from samples: 23.72
     Background mean: 300.0
     SNR from means: 8.45 
-    SNR from samples: 8.39
+    SNR from samples: 8.38
     Background mean: 1500.0
     SNR from means: 3.82 
     SNR from samples: 3.80
@@ -127,7 +127,7 @@ Investigating the SNR applied to CCD images
 
 Investigating the effect of integration time on SNR
 
-.. GENERATED FROM PYTHON SOURCE LINES 75-106
+.. GENERATED FROM PYTHON SOURCE LINES 75-104
 
 .. code-block:: Python
 
@@ -138,9 +138,7 @@ Investigating the effect of integration time on SNR
     snrs = []
 
     for dt in dts:
-        airy_pattern = telescope.gaussian_diffraction_pattern(
-            c_all * dt, theta_grid_rad, 550e-9
-        )
+        airy_pattern = telescope.gaussian_diffraction_pattern(c_all * dt, theta_grid_rad)
         adu_grid = np.random.poisson(lam=airy_pattern + c_background * dt).astype(float)
 
         two_sigma_pixel_width = (
@@ -155,11 +153,11 @@ Investigating the effect of integration time on SNR
 
     # finding the slope of the log-log plot
     m, b = np.polyfit(np.log10(dts), np.log10(snrs), 1)
-    print(f"SNR ~ x^{m:.2f}")
+    print(f'SNR ~ x^{m:.2f}')
 
     plt.plot(dts, snrs)
     plt.scatter(dts, snrs)
-    mrv.texit("", "Integration Time (s)", "SNR", ["$\sqrt{\Delta t} + \mathrm{SNR}_0$"])
+    mrv.texit('', 'Integration Time (s)', 'SNR', ['$\sqrt{\Delta t} + \mathrm{SNR}_0$'])
     plt.tight_layout()
     plt.show()
 
@@ -183,7 +181,7 @@ Investigating the effect of integration time on SNR
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.014 seconds)
+   **Total running time of the script:** (0 minutes 0.867 seconds)
 
 
 .. _sphx_glr_download_gallery_08-ccd_snr.py:

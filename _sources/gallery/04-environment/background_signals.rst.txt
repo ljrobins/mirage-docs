@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_04-environment_background_signals.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -60,7 +60,7 @@ Defining a function we can use to plot various background signals
     ) -> None:
         true_signals = [k for k in signal_kwargs.keys() if signal_kwargs[k]]
         if len(true_signals) == len(signal_kwargs.keys()):
-            signal_type = "All Signals"
+            signal_type = 'All Signals'
         else:
             signal_type = true_signals[0].capitalize()
 
@@ -99,16 +99,16 @@ Defining a function we can use to plot various background signals
             label_font_size=20,
             shadow=True,
             n_labels=4,
-            fmt="%.3e",
-            font_family="courier",
-            color="white",
+            fmt='%.3e',
+            font_family='courier',
+            color='white',
         )
 
         mrv.plot3(
             pl,
             stat_eci + 1.03 * r_dome * c_grid,
             line_width=4,
-            color="linen",
+            color='linen',
             lighting=False,
         )
 
@@ -116,13 +116,13 @@ Defining a function we can use to plot various background signals
             pl,
             stat_eci + r_dome * look_dirs_eci_eq,
             scalars=sb.flatten(),
-            cmap="bmy",
+            cmap='bmy',
             point_size=10,
             lighting=False,
             clim=[0, np.max(sb)],
             scalar_bar_args=sargs,
         )
-        pl.scalar_bar.SetTitle("[e-/pix]")
+        pl.scalar_bar.SetTitle('[e-/pix]')
         pl.camera.focal_point = stat_eci.flatten()
         cpos = (stat_eci + mr.hat(stat_eci) * view_dist).flatten() - np.array([0, 0, 1e4])
         pl.camera.position = cpos
@@ -130,9 +130,9 @@ Defining a function we can use to plot various background signals
 
         pl.add_text(
             f'{signal_type}: {date.strftime("%m/%d/%Y, %H:%M:%S")} UTC',
-            name="utc_str",
-            font="courier",
-            color="white",
+            name='utc_str',
+            font='courier',
+            color='white',
         )
 
         pl.show()
@@ -154,7 +154,7 @@ station = mr.Station(preset="lmt", lat_deg=33.776864, lon_deg=-84.363777) # Atla
 
 .. code-block:: Python
 
-    station = mr.Station(preset="pogs")
+    station = mr.Station(preset='pogs')
     date = mr.utc(2023, 10, 1, 5, 45, 0)  # Fig 5.38
 
 
@@ -173,12 +173,12 @@ Plotting the background signal for scattered moonlight
 .. code-block:: Python
 
     signal_kwargs = {
-        "moonlight": True,
-        "airglow": False,
-        "integrated_starlight": False,
-        "zodiac": False,
-        "pollution": False,
-        "twilight": False,
+        'moonlight': True,
+        'airglow': False,
+        'integrated_starlight': False,
+        'zodiac': False,
+        'pollution': False,
+        'twilight': False,
     }
     hemisphere_signal(station, date, signal_kwargs)
 
@@ -195,7 +195,7 @@ Plotting the background signal for scattered moonlight
 
  .. code-block:: none
 
-    Elapsed time: 1.05e+01 seconds
+    Elapsed time: 7.43e+00 seconds
 
 
 
@@ -209,12 +209,12 @@ Plotting the background signal for integrated starlight
 .. code-block:: Python
 
     signal_kwargs = {
-        "moonlight": False,
-        "airglow": False,
-        "integrated_starlight": True,
-        "zodiac": False,
-        "pollution": False,
-        "twilight": False,
+        'moonlight': False,
+        'airglow': False,
+        'integrated_starlight': True,
+        'zodiac': False,
+        'pollution': False,
+        'twilight': False,
     }
     hemisphere_signal(station, date, signal_kwargs)
 
@@ -231,7 +231,7 @@ Plotting the background signal for integrated starlight
 
  .. code-block:: none
 
-    Elapsed time: 3.78e+00 seconds
+    Elapsed time: 4.78e+00 seconds
 
 
 
@@ -245,12 +245,12 @@ Plotting the background signal for light pollution
 .. code-block:: Python
 
     signal_kwargs = {
-        "moonlight": False,
-        "airglow": False,
-        "integrated_starlight": False,
-        "zodiac": False,
-        "pollution": True,
-        "twilight": False,
+        'moonlight': False,
+        'airglow': False,
+        'integrated_starlight': False,
+        'zodiac': False,
+        'pollution': True,
+        'twilight': False,
     }
     hemisphere_signal(station, date, signal_kwargs)
 
@@ -267,7 +267,7 @@ Plotting the background signal for light pollution
 
  .. code-block:: none
 
-    Elapsed time: 3.43e+00 seconds
+    Elapsed time: 4.24e+00 seconds
 
 
 
@@ -281,12 +281,12 @@ Plotting the background signal for zodiac light
 .. code-block:: Python
 
     signal_kwargs = {
-        "moonlight": False,
-        "airglow": False,
-        "integrated_starlight": False,
-        "zodiac": True,
-        "pollution": False,
-        "twilight": False,
+        'moonlight': False,
+        'airglow': False,
+        'integrated_starlight': False,
+        'zodiac': True,
+        'pollution': False,
+        'twilight': False,
     }
     hemisphere_signal(station, date, signal_kwargs)
 
@@ -303,7 +303,7 @@ Plotting the background signal for zodiac light
 
  .. code-block:: none
 
-    Elapsed time: 4.92e+00 seconds
+    Elapsed time: 7.43e+00 seconds
 
 
 
@@ -317,12 +317,12 @@ Plotting the background signal for airglow
 .. code-block:: Python
 
     signal_kwargs = {
-        "moonlight": False,
-        "airglow": True,
-        "integrated_starlight": False,
-        "zodiac": False,
-        "pollution": False,
-        "twilight": False,
+        'moonlight': False,
+        'airglow': True,
+        'integrated_starlight': False,
+        'zodiac': False,
+        'pollution': False,
+        'twilight': False,
     }
     hemisphere_signal(station, date, signal_kwargs)
 
@@ -339,7 +339,7 @@ Plotting the background signal for airglow
 
  .. code-block:: none
 
-    Elapsed time: 8.64e+00 seconds
+    Elapsed time: 4.77e+00 seconds
 
 
 
@@ -353,12 +353,12 @@ Plotting the background signal for scattered twilight
 .. code-block:: Python
 
     signal_kwargs = {
-        "moonlight": False,
-        "airglow": False,
-        "integrated_starlight": False,
-        "zodiac": False,
-        "pollution": False,
-        "twilight": True,
+        'moonlight': False,
+        'airglow': False,
+        'integrated_starlight': False,
+        'zodiac': False,
+        'pollution': False,
+        'twilight': True,
     }
     hemisphere_signal(station, date - mr.hours(4), signal_kwargs)
 
@@ -375,7 +375,7 @@ Plotting the background signal for scattered twilight
 
  .. code-block:: none
 
-    Elapsed time: 1.12e+01 seconds
+    Elapsed time: 1.45e+01 seconds
 
 
 
@@ -389,12 +389,12 @@ Plotting the full background signal with all sources enabled
 .. code-block:: Python
 
     signal_kwargs = {
-        "moonlight": True,
-        "airglow": True,
-        "integrated_starlight": True,
-        "zodiac": True,
-        "pollution": True,
-        "twilight": True,
+        'moonlight': True,
+        'airglow': True,
+        'integrated_starlight': True,
+        'zodiac': True,
+        'pollution': True,
+        'twilight': True,
     }
     hemisphere_signal(station, date, signal_kwargs)
 
@@ -410,7 +410,7 @@ Plotting the full background signal with all sources enabled
 
  .. code-block:: none
 
-    Elapsed time: 2.35e+01 seconds
+    Elapsed time: 2.11e+01 seconds
 
 
 
@@ -418,7 +418,7 @@ Plotting the full background signal with all sources enabled
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (1 minutes 20.456 seconds)
+   **Total running time of the script:** (1 minutes 24.655 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_background_signals.py:

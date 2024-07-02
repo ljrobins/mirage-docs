@@ -29,19 +29,19 @@ q_par, _ = mr.propagate_attitude_torque_free_axisymmetric(
     q0, w0, itensor, np.linspace(0, 1, nt)
 )
 dt = mr.toc(return_elapsed_seconds=True)
-print(f"Axisymmetric form: {nt * ni / dt:.2e} [quats/sec]")
+print(f'Axisymmetric form: {nt * ni / dt:.2e} [quats/sec]')
 
 mr.tic()
 q_ana, _ = mr.propagate_attitude_torque_free(
     q0[0, :], w0[0, :], itensor, np.linspace(0, 1, nt)
 )
 dt = mr.toc(return_elapsed_seconds=True)
-print(f"Generalized form: {nt * 1 / dt:.2e} [quats/sec]")
+print(f'Generalized form: {nt * 1 / dt:.2e} [quats/sec]')
 
 err = np.max(
     np.abs(mr.quat_upper_hemisphere(q_ana) - mr.quat_upper_hemisphere(q_par[0, :, :]))
 )
-print(f"Max quaternion error: {err}")
+print(f'Max quaternion error: {err}')
 
 # %%
 # Let's test a whole grid of options to stress test these methods
@@ -67,7 +67,7 @@ for k, (ni, nt) in enumerate(zip(ni_grid.flatten(), nt_grid.flatten())):
 
 allt = np.log10(np.concatenate([t_num, t_ana, t_axi]).flatten())
 tlims = np.min(allt), np.max(allt)
-titles = ["Numerical", "Semi-analytic", "Axisymmetric parallel"]
+titles = ['Numerical', 'Semi-analytic', 'Axisymmetric parallel']
 plt.figure(figsize=(10, 6))
 for i, grid in enumerate([t_num, t_ana, t_axi], 1):
     plt.subplot(1, 3, i)
@@ -79,13 +79,13 @@ for i, grid in enumerate([t_num, t_ana, t_axi], 1):
     )
     mrv.texit(
         titles[i - 1],
-        "Number of times" if i == 2 else None,
-        "Number of ICs" if i == 1 else None,
+        'Number of times' if i == 2 else None,
+        'Number of ICs' if i == 1 else None,
         grid=False,
     )
     if i == 3:
-        cb = plt.colorbar(label="$\Delta t$ [sec]", cax=mrv.get_cbar_ax())
+        cb = plt.colorbar(label='$\Delta t$ [sec]', cax=mrv.get_cbar_ax())
         tics = cb.get_ticks()
-        cb.set_ticklabels([f"$10^{t}$" for t in tics])
+        cb.set_ticklabels([f'$10^{t}$' for t in tics])
     plt.tight_layout()
 plt.show()

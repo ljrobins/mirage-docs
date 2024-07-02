@@ -18,11 +18,32 @@
 .. _sphx_glr_gallery_04-environment_atmospheric_absorption.py:
 
 
-Atmospheric Transmission
-========================
-Using Sun spectra to determine the atmospheric transmission spectrum
+ASTM Spectra
+============
+Standardized Sun spectra at different airmasses
 
-.. GENERATED FROM PYTHON SOURCE LINES 6-38
+.. GENERATED FROM PYTHON SOURCE LINES 6-36
+
+
+
+.. image-sg:: /gallery/04-environment/images/sphx_glr_atmospheric_absorption_001.png
+   :alt: Sun Irradiance Spectra
+   :srcset: /gallery/04-environment/images/sphx_glr_atmospheric_absorption_001.png, /gallery/04-environment/images/sphx_glr_atmospheric_absorption_001_2_00x.png 2.00x
+   :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    1347.93432
+
+
+
+
+
+
+|
 
 .. code-block:: Python
 
@@ -58,59 +79,9 @@ Using Sun spectra to determine the atmospheric transmission spectrum
     )
     plt.show()
 
-
-
-
-.. image-sg:: /gallery/04-environment/images/sphx_glr_atmospheric_absorption_001.png
-   :alt: Sun Irradiance Spectra
-   :srcset: /gallery/04-environment/images/sphx_glr_atmospheric_absorption_001.png, /gallery/04-environment/images/sphx_glr_atmospheric_absorption_001_2_00x.png 2.00x
-   :class: sphx-glr-single-img
-
-
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    1347.93432
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 39-40
-
-We can divide the direct spectrum by the vacuum spectrum to get the fraction of light at that wavelength transmitted by the atmosphere. Note that since the AM1.5 Direct spectrum is for a relative airmass of 1.5, we have to adjust for the optical path length difference
-
-.. GENERATED FROM PYTHON SOURCE LINES 40-47
-
-.. code-block:: Python
-
-
-    y = mr.atmospheric_transmission_spectrum(lambdas_nm * 1e-9)
-    plt.plot(lambdas_nm, y)
-    mrv.plot_visible_band(lambdas_nm * 1e-9, y)
-    mrv.texit("Atmospheric Absorption Spectrum", "Wavelength [nm]", "Fraction absorbed")
-    plt.show()
-
-
-
-
-.. image-sg:: /gallery/04-environment/images/sphx_glr_atmospheric_absorption_002.png
-   :alt: Atmospheric Absorption Spectrum
-   :srcset: /gallery/04-environment/images/sphx_glr_atmospheric_absorption_002.png, /gallery/04-environment/images/sphx_glr_atmospheric_absorption_002_2_00x.png 2.00x
-   :class: sphx-glr-single-img
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 48-49
-
-Let's define a function that can do all of this stuff for us
-
-
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.043 seconds)
+   **Total running time of the script:** (0 minutes 0.613 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_atmospheric_absorption.py:

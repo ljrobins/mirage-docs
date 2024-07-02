@@ -14,19 +14,19 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
   
-  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -37,15 +37,16 @@
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=98d29b3f" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
-  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=f281be69"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'modules';</script>
     <link rel="icon" href="_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
@@ -61,27 +62,23 @@
 
   
   
-  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -103,18 +100,25 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
   
   <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
 
+  
+    
   
 
 <a class="navbar-brand logo" href="index.html">
@@ -143,36 +147,36 @@
     <div class="me-auto navbar-header-items__center">
       
         <div class="navbar-item">
-<nav class="navbar-nav">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="getting_started.html">
-                        Getting Started
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="getting_started.html">
+    Getting Started
+  </a>
+</li>
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
-                        mirage
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="gallery/index.html">
-                        Examples Gallery
-                      </a>
-                    </li>
-                
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    mirage
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="references.html">
-                        References
-                      </a>
-                    </li>
-                
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="gallery/index.html">
+    Examples Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -186,7 +190,7 @@
 
  <script>
  document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
     <span class="search-button__default-text">Search</span>
     <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -200,10 +204,10 @@
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
   </button>
 `);
 </script></div>
@@ -217,7 +221,7 @@ document.write(`
 
  <script>
  document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
     <span class="search-button__default-text">Search</span>
     <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -247,39 +251,42 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item">
-<nav class="navbar-nav">
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="getting_started.html">
-                        Getting Started
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="getting_started.html">
+    Getting Started
+  </a>
+</li>
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
-                        mirage
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="gallery/index.html">
-                        Examples Gallery
-                      </a>
-                    </li>
-                
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    mirage
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="references.html">
-                        References
-                      </a>
-                    </li>
-                
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="gallery/index.html">
+    Examples Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -291,10 +298,10 @@ document.write(`
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
   </button>
 `);
 </script></div>
@@ -309,13 +316,14 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="mirage.html">mirage package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="mirage.html">mirage package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="mirage.photo.html">mirage.photo package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mirage.sim.html">mirage.sim package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mirage.synth.html">mirage.synth package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mirage.tests.html">mirage.tests package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mirage.vis.html">mirage.vis package</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 </div>
 </nav></div>
@@ -330,13 +338,13 @@ document.write(`
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
@@ -345,7 +353,7 @@ document.write(`
 
 
 
-<nav aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
@@ -376,6 +384,15 @@ document.write(`
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="mirage.html">mirage package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="mirage.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mirage.photo.html">mirage.photo package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mirage.photo.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mirage.photo.html#module-mirage.photo.exceptions">mirage.photo.exceptions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mirage.photo.html#module-mirage.photo.io">mirage.photo.io module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mirage.photo.html#module-mirage.photo.photometry">mirage.photo.photometry module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mirage.photo.html#module-mirage.photo.vis">mirage.photo.vis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mirage.photo.html#module-mirage.photo">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.sim.html">mirage.sim package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="mirage.sim.html#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="mirage.sim.html#module-mirage.sim.interp">mirage.sim.interp module</a></li>
@@ -487,14 +504,14 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.background.aint"><code class="docutils literal notranslate"><span class="pre">aint()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.background.airglow_signal"><code class="docutils literal notranslate"><span class="pre">airglow_signal()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.background.atmospheric_extinction"><code class="docutils literal notranslate"><span class="pre">atmospheric_extinction()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.background.atmospheric_transmission"><code class="docutils literal notranslate"><span class="pre">atmospheric_transmission()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.background.equatorial_dir_to_ecliptic_azel"><code class="docutils literal notranslate"><span class="pre">equatorial_dir_to_ecliptic_azel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.background.individual_atmospheric_transmission"><code class="docutils literal notranslate"><span class="pre">individual_atmospheric_transmission()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.background.integrated_spectrum"><code class="docutils literal notranslate"><span class="pre">integrated_spectrum()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.background.integrated_starlight_signal"><code class="docutils literal notranslate"><span class="pre">integrated_starlight_signal()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.background.moon_phase_fraction"><code class="docutils literal notranslate"><span class="pre">moon_phase_fraction()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.background.moonlight_signal"><code class="docutils literal notranslate"><span class="pre">moonlight_signal()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.background.proof_zero_mag_stellar_spectrum"><code class="docutils literal notranslate"><span class="pre">proof_zero_mag_stellar_spectrum()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.background.sint"><code class="docutils literal notranslate"><span class="pre">sint()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.background.sun_spectrum"><code class="docutils literal notranslate"><span class="pre">sun_spectrum()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.background.twilight_signal"><code class="docutils literal notranslate"><span class="pre">twilight_signal()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.background.twilight_zenith_mpsas"><code class="docutils literal notranslate"><span class="pre">twilight_zenith_mpsas()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.background.zodiacal_signal"><code class="docutils literal notranslate"><span class="pre">zodiacal_signal()</span></code></a></li>
@@ -561,16 +578,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="mirage.html#module-mirage.constraints">mirage.constraints module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.constraints.ElevationConstraint"><code class="docutils literal notranslate"><span class="pre">ElevationConstraint</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.constraints.ElevationConstraint.DIFFICULTY"><code class="docutils literal notranslate"><span class="pre">ElevationConstraint.DIFFICULTY</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.constraints.HorizonMask"><code class="docutils literal notranslate"><span class="pre">HorizonMask</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.constraints.HorizonMask.build"><code class="docutils literal notranslate"><span class="pre">HorizonMask.build()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.constraints.HorizonMask.interpolate"><code class="docutils literal notranslate"><span class="pre">HorizonMask.interpolate()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.constraints.HorizonMask.terrain_grids"><code class="docutils literal notranslate"><span class="pre">HorizonMask.terrain_grids()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.constraints.HorizonMaskConstraint"><code class="docutils literal notranslate"><span class="pre">HorizonMaskConstraint</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.constraints.HorizonMaskConstraint.DIFFICULTY"><code class="docutils literal notranslate"><span class="pre">HorizonMaskConstraint.DIFFICULTY</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.constraints.MoonExclusionConstraint"><code class="docutils literal notranslate"><span class="pre">MoonExclusionConstraint</span></code></a><ul>
@@ -664,6 +671,7 @@ document.write(`
 </li>
 <li class="toctree-l2"><a class="reference internal" href="mirage.html#module-mirage.environment">mirage.environment module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.environment.apparent_refacted_elevation"><code class="docutils literal notranslate"><span class="pre">apparent_refacted_elevation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.environment.atmospheric_transmission"><code class="docutils literal notranslate"><span class="pre">atmospheric_transmission()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.environment.light_time_delay"><code class="docutils literal notranslate"><span class="pre">light_time_delay()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.environment.relative_airmass"><code class="docutils literal notranslate"><span class="pre">relative_airmass()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.environment.total_solar_irradiance_at_dates"><code class="docutils literal notranslate"><span class="pre">total_solar_irradiance_at_dates()</span></code></a></li>
@@ -755,6 +763,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.math.least_squares_line_intersection"><code class="docutils literal notranslate"><span class="pre">least_squares_line_intersection()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.math.look_at_matrix"><code class="docutils literal notranslate"><span class="pre">look_at_matrix()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.math.mahal"><code class="docutils literal notranslate"><span class="pre">mahal()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.math.matching_indices"><code class="docutils literal notranslate"><span class="pre">matching_indices()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.math.merge_clusters"><code class="docutils literal notranslate"><span class="pre">merge_clusters()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.math.multithreaded_gaussian"><code class="docutils literal notranslate"><span class="pre">multithreaded_gaussian()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.math.multithreaded_poisson"><code class="docutils literal notranslate"><span class="pre">multithreaded_poisson()</span></code></a></li>
@@ -791,12 +800,11 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="mirage.html#module-mirage.orbit">mirage.orbit module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.orbit.c2_c3"><code class="docutils literal notranslate"><span class="pre">c2_c3()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.orbit.coe_to_rv"><code class="docutils literal notranslate"><span class="pre">coe_to_rv()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.orbit.get_catalog_satrecs"><code class="docutils literal notranslate"><span class="pre">get_catalog_satrecs()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.orbit.integrate_orbit_and_attitude"><code class="docutils literal notranslate"><span class="pre">integrate_orbit_and_attitude()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.orbit.integrate_orbit_dynamics"><code class="docutils literal notranslate"><span class="pre">integrate_orbit_dynamics()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.orbit.j2_acceleration"><code class="docutils literal notranslate"><span class="pre">j2_acceleration()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.orbit.kepler"><code class="docutils literal notranslate"><span class="pre">kepler()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.orbit.moon_acceleration"><code class="docutils literal notranslate"><span class="pre">moon_acceleration()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.orbit.propagate_catalog_to_dates"><code class="docutils literal notranslate"><span class="pre">propagate_catalog_to_dates()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.orbit.propagate_satnum_to_dates"><code class="docutils literal notranslate"><span class="pre">propagate_satnum_to_dates()</span></code></a></li>
@@ -819,6 +827,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="mirage.html#module-mirage.sampling">mirage.sampling module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.sampling.closest_fibonacci_index"><code class="docutils literal notranslate"><span class="pre">closest_fibonacci_index()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.sampling.fibonacci_sample_sphere"><code class="docutils literal notranslate"><span class="pre">fibonacci_sample_sphere()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.sampling.quaternion_fibonacci_sample"><code class="docutils literal notranslate"><span class="pre">quaternion_fibonacci_sample()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.sampling.rand_cone_vectors"><code class="docutils literal notranslate"><span class="pre">rand_cone_vectors()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.sampling.rand_points_in_ball"><code class="docutils literal notranslate"><span class="pre">rand_points_in_ball()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.sampling.rand_points_in_cube"><code class="docutils literal notranslate"><span class="pre">rand_points_in_cube()</span></code></a></li>
@@ -897,6 +906,14 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="mirage.html#module-mirage.stars">mirage.stars module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.stars.GaiaSpectralStarCatalog"><code class="docutils literal notranslate"><span class="pre">GaiaSpectralStarCatalog</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.stars.GaiaSpectralStarCatalog.load"><code class="docutils literal notranslate"><span class="pre">GaiaSpectralStarCatalog.load()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.stars.GaiaStarCatalog"><code class="docutils literal notranslate"><span class="pre">GaiaStarCatalog</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.stars.GaiaStarCatalog.load"><code class="docutils literal notranslate"><span class="pre">GaiaStarCatalog.load()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.stars.StarCatalog"><code class="docutils literal notranslate"><span class="pre">StarCatalog</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.stars.StarCatalog.account_for_aberration"><code class="docutils literal notranslate"><span class="pre">StarCatalog.account_for_aberration()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.stars.StarCatalog.build_tree"><code class="docutils literal notranslate"><span class="pre">StarCatalog.build_tree()</span></code></a></li>
@@ -905,7 +922,14 @@ document.write(`
 <li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.stars.StarCatalog.save_tree_lazy"><code class="docutils literal notranslate"><span class="pre">StarCatalog.save_tree_lazy()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.stars.Tycho2StarCatalog"><code class="docutils literal notranslate"><span class="pre">Tycho2StarCatalog</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.stars.Tycho2StarCatalog.load"><code class="docutils literal notranslate"><span class="pre">Tycho2StarCatalog.load()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.stars.adjust_spectrum_to_mag_in_band"><code class="docutils literal notranslate"><span class="pre">adjust_spectrum_to_mag_in_band()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.stars.apparent_magnitude_in_band"><code class="docutils literal notranslate"><span class="pre">apparent_magnitude_in_band()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.stars.apparent_star_positons"><code class="docutils literal notranslate"><span class="pre">apparent_star_positons()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.stars.irradiance_in_band"><code class="docutils literal notranslate"><span class="pre">irradiance_in_band()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.stars.unit_vector_inds_in_fov"><code class="docutils literal notranslate"><span class="pre">unit_vector_inds_in_fov()</span></code></a></li>
 </ul>
 </li>
@@ -959,7 +983,9 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.time.jd_now"><code class="docutils literal notranslate"><span class="pre">jd_now()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.time.jd_to_date"><code class="docutils literal notranslate"><span class="pre">jd_to_date()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.time.jd_to_epsec"><code class="docutils literal notranslate"><span class="pre">jd_to_epsec()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.time.jd_to_mjd"><code class="docutils literal notranslate"><span class="pre">jd_to_mjd()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.time.minutes"><code class="docutils literal notranslate"><span class="pre">minutes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.time.mjd_to_jd"><code class="docutils literal notranslate"><span class="pre">mjd_to_jd()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.time.now"><code class="docutils literal notranslate"><span class="pre">now()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.time.seconds"><code class="docutils literal notranslate"><span class="pre">seconds()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.time.sidereal_hour_angle"><code class="docutils literal notranslate"><span class="pre">sidereal_hour_angle()</span></code></a></li>
@@ -981,6 +1007,7 @@ document.write(`
 <li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.tle.SatDefArray.get_ides_by_name"><code class="docutils literal notranslate"><span class="pre">SatDefArray.get_ides_by_name()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.tle.SatDefArray.get_sat_by_ides"><code class="docutils literal notranslate"><span class="pre">SatDefArray.get_sat_by_ides()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.tle.SatDefArray.get_sat_by_name"><code class="docutils literal notranslate"><span class="pre">SatDefArray.get_sat_by_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.tle.SatDefArray.get_sat_by_norad"><code class="docutils literal notranslate"><span class="pre">SatDefArray.get_sat_by_norad()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.tle.SatDefArray.get_satnum_by_ides"><code class="docutils literal notranslate"><span class="pre">SatDefArray.get_satnum_by_ides()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.tle.SatDefArray.get_satnum_by_name"><code class="docutils literal notranslate"><span class="pre">SatDefArray.get_satnum_by_name()</span></code></a></li>
 </ul>
@@ -991,8 +1018,14 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.tle.load_satdef_array"><code class="docutils literal notranslate"><span class="pre">load_satdef_array()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.tle.make_sync_st_request"><code class="docutils literal notranslate"><span class="pre">make_sync_st_request()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.tle.purge_tle_cache"><code class="docutils literal notranslate"><span class="pre">purge_tle_cache()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.tle.satdef_from_identifier"><code class="docutils literal notranslate"><span class="pre">satdef_from_identifier()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.tle.satname_from_identifier"><code class="docutils literal notranslate"><span class="pre">satname_from_identifier()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.tle.satnum_from_identifier"><code class="docutils literal notranslate"><span class="pre">satnum_from_identifier()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.tle.save_satdef_array"><code class="docutils literal notranslate"><span class="pre">save_satdef_array()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mirage.html#module-mirage.tools">mirage.tools module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.tools.cache"><code class="docutils literal notranslate"><span class="pre">cache()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="mirage.html#module-mirage">Module contents</a></li>
@@ -1009,7 +1042,7 @@ document.write(`
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -1037,8 +1070,6 @@ document.write(`
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"></div>
-              
             
           </div>
           <footer class="bd-footer-content">
@@ -1050,8 +1081,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1071,7 +1102,7 @@ document.write(`
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
     <br/>
   </p>
 </div>
@@ -1084,7 +1115,7 @@ document.write(`
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.2.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
 </p></div>
       
     </div>

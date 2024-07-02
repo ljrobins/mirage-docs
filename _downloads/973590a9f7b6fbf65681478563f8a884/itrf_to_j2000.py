@@ -57,23 +57,23 @@ eps_error = (np.rad2deg(eps_mine) - eps_vallado) * mr.AstroConstants.deg_to_arcs
 # %%
 # And assert that these errors are sufficiently small to the Vallado values
 
-assert np.abs(tt_error) < 1e-6, "TT error > 1e-6 days"
-assert np.abs(ut1_minus_utc_error) < 1e-3, "UT1-UTC error > 1e-3 sec"
-assert np.abs(gmst_error) < 1e-3, "GMST error > 1e-3 sec"
-assert all(np.abs(gast_error) < 1e-3), "GAST error > 1e-3 sec"
-assert all(np.abs(delta_psi_error) < 1e-3), "DeltaPsi error > 1e-3 arcsec"
-assert all(np.abs(delta_eps_error) < 1e-3), "DeltaEpsilon error > 1e-3 arcsec"
-assert np.abs(eps_bar_error) < 1e-4, "EpsilonBar error > 1e-4 arcsec"
-assert all(np.abs(eps_error) < 1e-3), "Epsilon error > 1e-4 arcsec"
+assert np.abs(tt_error) < 1e-6, 'TT error > 1e-6 days'
+assert np.abs(ut1_minus_utc_error) < 1e-3, 'UT1-UTC error > 1e-3 sec'
+assert np.abs(gmst_error) < 1e-3, 'GMST error > 1e-3 sec'
+assert all(np.abs(gast_error) < 1e-3), 'GAST error > 1e-3 sec'
+assert all(np.abs(delta_psi_error) < 1e-3), 'DeltaPsi error > 1e-3 arcsec'
+assert all(np.abs(delta_eps_error) < 1e-3), 'DeltaEpsilon error > 1e-3 arcsec'
+assert np.abs(eps_bar_error) < 1e-4, 'EpsilonBar error > 1e-4 arcsec'
+assert all(np.abs(eps_error) < 1e-3), 'Epsilon error > 1e-4 arcsec'
 
 
 # %%
 # As well as the individual frame transformations in the chain from ITRF to J2000.
 # In each transformation, we start with the truth Vallado value so that the error does not accumulate from earlier transformations. This lets us see how much error each transformation introduces by itself
-gtod_mine = mr.EarthFixedFrame("itrf", "gtod").vecs_at_dates(date, itrf_vallado)
-tod_mine = mr.EarthFixedFrame("gtod", "tod").vecs_at_dates(date, gtod_vallado)
-mod_mine = mr.EarthFixedFrame("tod", "mod").vecs_at_dates(date, tod_vallado)
-j2000_mine = mr.EarthFixedFrame("mod", "j2000").vecs_at_dates(date, mod_vallado)
+gtod_mine = mr.EarthFixedFrame('itrf', 'gtod').vecs_at_dates(date, itrf_vallado)
+tod_mine = mr.EarthFixedFrame('gtod', 'tod').vecs_at_dates(date, gtod_vallado)
+mod_mine = mr.EarthFixedFrame('tod', 'mod').vecs_at_dates(date, tod_vallado)
+j2000_mine = mr.EarthFixedFrame('mod', 'j2000').vecs_at_dates(date, mod_vallado)
 
 # %%
 # Likewise, we compute the componentwise errors in each transformation in meters
@@ -85,52 +85,52 @@ j2000_error = 1e3 * (j2000_mine - j2000_vallado)
 
 # %%
 # And assert that these must also be small -- for now we use 1 meter as the target error accumulation per transformation
-assert all(np.abs(gtod_error) < 1), "ITRF->GTOD error > 1 m"
-assert all(np.abs(tod_error) < 1), "GTID->TOD error > 1 m"
-assert all(np.abs(mod_error) < 1), "TOD->MOD error > 1 m"
-assert all(np.abs(j2000_error) < 1), "MOD->J2000 error > 1 m"
+assert all(np.abs(gtod_error) < 1), 'ITRF->GTOD error > 1 m'
+assert all(np.abs(tod_error) < 1), 'GTID->TOD error > 1 m'
+assert all(np.abs(mod_error) < 1), 'TOD->MOD error > 1 m'
+assert all(np.abs(j2000_error) < 1), 'MOD->J2000 error > 1 m'
 
 # %%
 # Let's collect these error results
 
-print(f"{tt_error=} [days]")
-print(f"{ut1_minus_utc_error=} [sec]")
-print(f"{gmst_error=} [sec]")
-print(f"{gast_error=} [sec]")
-print(f"{delta_psi_error=} [arcsec]")
-print(f"{delta_eps_error=} [arcsec]")
-print(f"{eps_bar_error=} [arcsec]")
-print(f"{eps_error=} [arcsec]")
+print(f'{tt_error=} [days]')
+print(f'{ut1_minus_utc_error=} [sec]')
+print(f'{gmst_error=} [sec]')
+print(f'{gast_error=} [sec]')
+print(f'{delta_psi_error=} [arcsec]')
+print(f'{delta_eps_error=} [arcsec]')
+print(f'{eps_bar_error=} [arcsec]')
+print(f'{eps_error=} [arcsec]')
 
-print("\n")
-print(f"{gtod_error=} [m]")
-print(f"{tod_error=} [m]")
-print(f"{mod_error=} [m]")
-print(f"{j2000_error=} [m]")
+print('\n')
+print(f'{gtod_error=} [m]')
+print(f'{tod_error=} [m]')
+print(f'{mod_error=} [m]')
+print(f'{j2000_error=} [m]')
 
 
 # %%
 # We can now perform a simultaneous transformation that deals with all the sub-rotations behind the scenes
 
-j2000_mine_combined = mr.EarthFixedFrame("itrf", "j2000").vecs_at_dates(
+j2000_mine_combined = mr.EarthFixedFrame('itrf', 'j2000').vecs_at_dates(
     date, itrf_vallado
 )
 
-print(f"MINE: {j2000_mine_combined}")
-print(f"VALL: {j2000_vallado}")
+print(f'MINE: {j2000_mine_combined}')
+print(f'VALL: {j2000_vallado}')
 print(
-    f"Transformation error: {np.linalg.norm(j2000_mine_combined - j2000_vallado) * 1e3} [m]"
+    f'Transformation error: {np.linalg.norm(j2000_mine_combined - j2000_vallado) * 1e3} [m]'
 )
 
 # %%
 # Finally, let's run the transformation in reverse to make sure we can both directions
 
-itrf_mine_combined = mr.EarthFixedFrame("j2000", "itrf").vecs_at_dates(
+itrf_mine_combined = mr.EarthFixedFrame('j2000', 'itrf').vecs_at_dates(
     date, j2000_vallado
 )
 
-print(f"MINE: {itrf_mine_combined}")
-print(f"VALL: {itrf_vallado}")
+print(f'MINE: {itrf_mine_combined}')
+print(f'VALL: {itrf_vallado}')
 print(
-    f"Transformation error: {np.linalg.norm(itrf_mine_combined - itrf_vallado) * 1e3} [m]"
+    f'Transformation error: {np.linalg.norm(itrf_mine_combined - itrf_vallado) * 1e3} [m]'
 )

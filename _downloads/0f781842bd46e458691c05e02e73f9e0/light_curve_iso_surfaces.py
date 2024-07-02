@@ -13,9 +13,9 @@ import mirage.vis as mrv
 
 # path = "/Users/liamrobinson/Documents/mirage/mlp_model_train_on_irradiance_cube_brdf_phong_cd_0.5_cs_0.5_n_5.0_layers_50_50_50_50_50_50_50_50_50_50.onnx"
 # mdl = mrs.MLPBrightnessModel(path=path)
-obj = mrv.SpaceObject("cube.obj")
+obj = mrv.SpaceObject('cube.obj')
 mdl = lambda svb, ovb: obj.convex_light_curve(
-    mr.Brdf("phong", cd=0.5, cs=0.5, n=5.0), svb, ovb
+    mr.Brdf('phong', cd=0.5, cs=0.5, n=5.0), svb, ovb
 )
 n = 150
 d_min = -np.pi
@@ -36,9 +36,9 @@ mr.tic()
 bv = mdl(lb, ob)  # Brightness values at sampled orientations
 mr.toc()
 
-print(f"Mean brightness value: {np.mean(bv)}")
+print(f'Mean brightness value: {np.mean(bv)}')
 
-mesh = grid.contour([np.mean(bv)], bv, method="marching_cubes")
+mesh = grid.contour([np.mean(bv)], bv, method='marching_cubes')
 mtri = mesh.triangulate()
 inds = np.tile([False, True, True, True], (mtri.faces.size // 4,))
 mesh.smooth(n_iter=100, inplace=True)
@@ -49,11 +49,11 @@ dist = mr.vecnorm(mesh.points)
 mesh.points[dist.flatten() > np.pi, :] = np.nan
 
 pl = pv.Plotter(lighting=None)
-pl.set_background("black")
+pl.set_background('black')
 
 pl.add_mesh(
     mesh,
-    color="linen",
+    color='linen',
     clim=(0, np.pi),
     show_scalar_bar=False,
     pbr=True,
@@ -62,16 +62,16 @@ pl.add_mesh(
     diffuse=1,
 )
 
-light = pv.Light((-2, 2, 0), (0, 0, 0), "white")
+light = pv.Light((-2, 2, 0), (0, 0, 0), 'white')
 pl.add_light(light)
 
 light = pv.Light((2, 0, 0), (0, 0, 0), (0.7, 0.0862, 0.0549))
 pl.add_light(light)
 
-light = pv.Light((0, 0, 10), (0, 0, 0), "white")
+light = pv.Light((0, 0, 10), (0, 0, 0), 'white')
 pl.add_light(light)
 
-mrv.two_sphere(pl, np.pi, color="linen", opacity=0.1)
+mrv.two_sphere(pl, np.pi, color='linen', opacity=0.1)
 
 pl.show()
 
@@ -82,7 +82,7 @@ pl = pv.Plotter()
 
 pl.add_mesh(
     mesh,
-    color="cornflowerblue",
+    color='cornflowerblue',
     show_scalar_bar=False,
     pbr=True,
     metallic=0.2,
@@ -90,11 +90,11 @@ pl.add_mesh(
     diffuse=1,
 )
 
-mrv.two_sphere(pl, np.pi, color="linen", opacity=0.1)
-pl.add_text("Rotation vector space", font_size=14, font="courier")
+mrv.two_sphere(pl, np.pi, color='linen', opacity=0.1)
+pl.add_text('Rotation vector space', font_size=14, font='courier')
 pl.show_bounds(
-    grid="front",
-    location="outer",
+    grid='front',
+    location='outer',
     all_edges=True,
 )
 pl.show()

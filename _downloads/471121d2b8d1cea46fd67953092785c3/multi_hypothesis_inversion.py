@@ -4,12 +4,9 @@ Multiple Hypothesis Inversion
 Inverting convex shapes from light curves with uncertainty
 """
 
-import matplotlib.pyplot as plt
 import numpy as np
-import pyvista as pv
 
 import mirage as mr
-import mirage.vis as mrv
 
 itensor = np.diag([1.0, 2.0, 3.0])
 w0 = 1e-1 * mr.hat(np.array([[0.1, 2.0, 0.1]]))
@@ -42,7 +39,7 @@ lw = 3
 
 # for obj_file in ['collapsed_cube.obj']:
 #     obj = mr.SpaceObject(obj_file).clean()
-#     obj.satnum = 36411 # goes 15
+#     obj.sat.satnum = 36411 # goes 15
 #     obj.shift_to_center_of_mass()
 
 #     # mrv.vis_attitude_motion(obj, q_of_t)

@@ -18,7 +18,7 @@ x, y = np.meshgrid(
     np.arange(station.telescope.sensor_pixels),
     np.arange(station.telescope.sensor_pixels),
 )
-mr.tic("Mapping")
+mr.tic('Mapping')
 xd, yx = station.telescope.pixel_distortion(
     x, y, station.telescope.sensor_pixels // 2, station.telescope.sensor_pixels // 2
 )
@@ -27,11 +27,11 @@ mr.toc()
 dist = np.sqrt((x - xd) ** 2 + (y - yx) ** 2)
 
 plt.figure()
-plt.imshow(dist, cmap="cool")
-plt.colorbar(label="Apparent Distance from Pinhole Model [pix]")
-cp = plt.contour(dist, levels=[0.01, 0.1, 1, 2, 4, 7], colors="k")
+plt.imshow(dist, cmap='cool')
+plt.colorbar(label='Apparent Distance from Pinhole Model [pix]')
+cp = plt.contour(dist, levels=[0.01, 0.1, 1, 2, 4, 7], colors='k')
 plt.clabel(cp, inline=True, fontsize=14)
-plt.title("POGS Pixel Distortion")
+plt.title('POGS Pixel Distortion')
 plt.tight_layout()
 
 # %%
@@ -53,18 +53,18 @@ for v in np.arange(0, 101, 10):
         )
         kwargs = {}
         if v != 0 and v != 100:
-            kwargs["alpha"] = 0.15
-            plt.scatter(pxd, pyd, c="m", marker="+", **kwargs)
-            plt.scatter(x, y, c="k", marker="+", **kwargs)
-        plt.plot(x, y, c="k", **kwargs)
-        plt.plot(pxd, pyd, c="m", **kwargs)
+            kwargs['alpha'] = 0.15
+            plt.scatter(pxd, pyd, c='m', marker='+', **kwargs)
+            plt.scatter(x, y, c='k', marker='+', **kwargs)
+        plt.plot(x, y, c='k', **kwargs)
+        plt.plot(pxd, pyd, c='m', **kwargs)
 
 plt.gca().invert_yaxis()
-plt.xlabel("x [pixels]")
-plt.ylabel("y [pixels]")
+plt.xlabel('x [pixels]')
+plt.ylabel('y [pixels]')
 plt.legend(
-    ["Distorted", "Undistorted"],
-    loc="upper center",
+    ['Distorted', 'Undistorted'],
+    loc='upper center',
     bbox_to_anchor=(0.5, 1.10),
     ncol=2,
     fancybox=True,

@@ -14,8 +14,8 @@ import mirage.sim as mrsim
 
 # %%
 # Let's define the object and the BRDF
-obj = mr.SpaceObject("cube.obj")
-brdf = mr.Brdf("phong", cd=0.5, cs=0.5, n=10)
+obj = mr.SpaceObject('cube.obj')
+brdf = mr.Brdf('phong', cd=0.5, cs=0.5, n=10)
 # %%
 # We now define the Multi-Layer Perceptron (MLP) brightness model. Note that the ``layers=(150, 50, 150)`` keyword argument defines the number of neurons in each densely-connected layer.
 mlp_bm = mrsim.MLPBrightnessModel(obj, brdf, use_engine=False)
@@ -39,30 +39,30 @@ svb = mr.stack_mat_mult_vec(dcm, np.array([[0, 1, 0]]))
 
 # %%
 # Evaluating the model in its two available formats - as a native ``scikit-learn`` model and as an Open Neural Network eXchange (ONNX) model
-mr.tic("Evaluate trained model with sklearn")
-mdl_b_sklearn = mlp_bm.eval(ovb, svb, eval_mode_pref="sklearn")
+mr.tic('Evaluate trained model with sklearn')
+mdl_b_sklearn = mlp_bm.eval(ovb, svb, eval_mode_pref='sklearn')
 mr.toc()
-mr.tic("Evaluate trained model with onnx")
-mdl_b_onnx = mlp_bm.eval(ovb, svb, eval_mode_pref="onnx")
+mr.tic('Evaluate trained model with onnx')
+mdl_b_onnx = mlp_bm.eval(ovb, svb, eval_mode_pref='onnx')
 mr.toc()
 
 # %%
 # We can save both of these representations to file:
-mlp_bm.save_to_file(save_as_format="onnx")
-mlp_bm.save_to_file(save_as_format="sklearn")
+mlp_bm.save_to_file(save_as_format='onnx')
+mlp_bm.save_to_file(save_as_format='sklearn')
 
 # %%
 # Now we load the model from its ``.onxx`` file we just saved and evaluate the brightness
 mlp_bm.load_from_file(mlp_bm.onnx_file_name)
-mr.tic("Evaluate loaded model with onxx")
-mdl_onnx_loaded = mlp_bm.eval(ovb, svb, eval_mode_pref="onnx")
+mr.tic('Evaluate loaded model with onxx')
+mdl_onnx_loaded = mlp_bm.eval(ovb, svb, eval_mode_pref='onnx')
 mr.toc()
 
 # %%
 # And we do the same for the ``scikit-learn`` ``.plk`` file we saved
 mlp_bm.load_from_file(mlp_bm.sklearn_file_name)
-mr.tic("Evaluate loaded model with sklearn")
-mdl_sklearn_loaded = mlp_bm.eval(ovb, svb, eval_mode_pref="sklearn")
+mr.tic('Evaluate loaded model with sklearn')
+mdl_sklearn_loaded = mlp_bm.eval(ovb, svb, eval_mode_pref='sklearn')
 mr.toc()
 
 # %%
@@ -79,10 +79,10 @@ true_b = mlp_bm.brightness(svb, ovb)
 plt.figure()
 sns.lineplot(x=t_eval, y=true_b, errorbar=None)
 sns.lineplot(x=t_eval, y=mdl_b_sklearn, errorbar=None)
-plt.title(f"Light Curves for {obj.file_name}, {num_train} Training Points")
-plt.xlabel("Time [s]")
-plt.ylabel("Normalized brightness")
-plt.legend(["True", "Model"])
+plt.title(f'Light Curves for {obj.file_name}, {num_train} Training Points')
+plt.xlabel('Time [s]')
+plt.ylabel('Normalized brightness')
+plt.legend(['True', 'Model'])
 plt.grid()
 plt.show()
 
@@ -91,7 +91,7 @@ plt.show()
 mlp_bm = mrsim.MLPBrightnessModel(obj, brdf, use_engine=True)
 mlp_bm.train(num_train)
 
-mr.tic("Evaluate trained model with onnx")
+mr.tic('Evaluate trained model with onnx')
 mdl_b_onnx = mlp_bm.eval(ovb, svb)
 mr.toc()
 
@@ -102,9 +102,9 @@ true_b = mlp_bm.brightness(svb, ovb)
 plt.figure()
 sns.lineplot(x=t_eval, y=true_b, errorbar=None)
 sns.lineplot(x=t_eval, y=mdl_b_onnx, errorbar=None)
-plt.title(f"Light Curves for {obj.file_name}, {num_train} Training Points")
-plt.xlabel("Time [s]")
-plt.ylabel("Apparent Magnitude")
-plt.legend(["True", "Model"])
+plt.title(f'Light Curves for {obj.file_name}, {num_train} Training Points')
+plt.xlabel('Time [s]')
+plt.ylabel('Apparent Magnitude')
+plt.legend(['True', 'Model'])
 plt.grid()
 plt.show()

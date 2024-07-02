@@ -17,15 +17,15 @@ import mirage.vis as mrv
 # %%
 # Let's plot the zenith sky radiances as reported by the World Atlas 2015 dataset.
 
-data_file = os.path.join(os.environ["DATADIR"], "World_Atlas_2015.tif")
+data_file = os.path.join(os.environ['DATADIR'], 'World_Atlas_2015.tif')
 
 if not os.path.exists(data_file):
     mr.save_file_from_url(
-        "https://filebin.net/v3ja2gt5jrifqsc6/World_Atlas_2015.zip",
-        os.environ["DATADIR"],
+        'https://filebin.net/v3ja2gt5jrifqsc6/World_Atlas_2015.zip',
+        os.environ['DATADIR'],
     )
 
-with rasterio.open(data_file, "r") as f:
+with rasterio.open(data_file, 'r') as f:
     mr.tic()
     art_brightness = f.read().squeeze()  # mcd / cm^2
     mr.toc()
@@ -37,15 +37,15 @@ with rasterio.open(data_file, "r") as f:
 # Plotting zenith light pollution in MPSAS
 plt.xlim(-102, -65)
 plt.ylim(22, 54)
-plt.xlabel("Longitude [deg]")
-plt.ylabel("Latitude [deg]")
+plt.xlabel('Longitude [deg]')
+plt.ylabel('Latitude [deg]')
 mrv.plot_map_with_grid(
     mpsas,
-    "Light Pollution in Eastern US",
-    r"World Atlas 2015 Zenith Brightness $\left[\frac{mag}{arcsec^2}\right]$",
-    cmap=plt.get_cmap("gnuplot_r"),
+    'Light Pollution in Eastern US',
+    r'World Atlas 2015 Zenith Brightness $\left[\frac{mag}{arcsec^2}\right]$',
+    cmap=plt.get_cmap('gnuplot_r'),
     borders=True,
-    border_color="w",
+    border_color='w',
     extent=(-180, 180, -60, 85),
     set_plot_size=False,
 )
@@ -54,15 +54,15 @@ plt.show()
 # %%
 # Let's plot the ground-level radiances as observed by the VIIRS satellite
 
-data_file = os.path.join(os.environ["DATADIR"], "viirs_2022_raw.tif")
+data_file = os.path.join(os.environ['DATADIR'], 'viirs_2022_raw.tif')
 
 if not os.path.exists(data_file):
     mr.save_file_from_url(
-        "ps://www2.lightpollutionmap.info/data/viirs_2022_raw.zip",
-        os.environ["DATADIR"],
+        'ps://www2.lightpollutionmap.info/data/viirs_2022_raw.zip',
+        os.environ['DATADIR'],
     )
 
-with rasterio.open(data_file, "r") as f:
+with rasterio.open(data_file, 'r') as f:
     mr.tic()
     x = f.read().squeeze()  # nW / cm^2 / sr
     mr.toc()
@@ -78,15 +78,15 @@ with rasterio.open(data_file, "r") as f:
 # Plotting ground light pollution sources
 plt.xlim(-102, -65)
 plt.ylim(22, 54)
-plt.xlabel("Longitude [deg]")
-plt.ylabel("Latitude [deg]")
+plt.xlabel('Longitude [deg]')
+plt.ylabel('Latitude [deg]')
 mrv.plot_map_with_grid(
     x,
-    "Ground Light Sources in Eastern US",
-    r"VIIRS/NPP Lunar BRDF-Adjusted Zenith Radiance $\left[\frac{mag}{arcsec^2}\right]$",
-    cmap=plt.get_cmap("gnuplot_r"),
+    'Ground Light Sources in Eastern US',
+    r'VIIRS/NPP Lunar BRDF-Adjusted Zenith Radiance $\left[\frac{mag}{arcsec^2}\right]$',
+    cmap=plt.get_cmap('gnuplot_r'),
     borders=True,
-    border_color="w",
+    border_color='w',
     extent=(-180, 180, -65, 75),
     set_plot_size=False,
 )

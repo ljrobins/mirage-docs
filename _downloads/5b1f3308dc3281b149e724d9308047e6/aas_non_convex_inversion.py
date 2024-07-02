@@ -34,15 +34,15 @@ def match_concavity_to_light_curve(
             brdf, rec_obj_with_concavity, svb[::5, :], ovb[::5, :]
         )
         err = np.sum((lc.flatten()[::5] - lc_hat.flatten()) ** 2)
-        print(f"Tried psi = {psi_deg:.1f} deg, got err = {err:.2f}")
+        print(f'Tried psi = {psi_deg:.1f} deg, got err = {err:.2f}')
         return err
 
-    print("Optimizing concavity angle...")
+    print('Optimizing concavity angle...')
     psis = np.arange(10, 90, 10)
     errs = np.array([objective_function(psi) for psi in psis])
 
     psi_opt = psis[np.argmin(errs)]
-    print(f"Optimal concavity angle: {psi_opt:.1f} deg")
+    print(f'Optimal concavity angle: {psi_opt:.1f} deg')
     return rec_convex_obj.introduce_concavity(
         err_egi_dir, psi_opt, normal_selection_tolerance=np.pi / 2 - 0.5, linear_iter=3
     )
@@ -60,8 +60,8 @@ obs_dt = mr.seconds(10)
 win_width = 1500
 obj_kwargs = dict(opacity=0.8, feature_edges=True, feature_edge_angle=10, line_width=1)
 
-station = mr.Station(preset="pogs")
-brdf = mr.Brdf(name="phong", cd=0.5, cs=0.5, n=10)
+station = mr.Station(preset='pogs')
+brdf = mr.Brdf(name='phong', cd=0.5, cs=0.5, n=10)
 attitude = mr.RbtfAttitude(w0=w0, q0=q0, itensor=itensor)
 dates, epsecs = mr.date_arange(idate, idate + obs_time, obs_dt, return_epsecs=True)
 
@@ -73,13 +73,13 @@ for noise in [False, True]:
     for non_convex in [False, True]:
         if non_convex:
             object_files = [
-                "collapsed_cube.obj",
-                "collapsed_ico.obj",
-                "collapsed_cyl.obj",
-                "collapsed_house.obj",
+                'collapsed_cube.obj',
+                'collapsed_ico.obj',
+                'collapsed_cyl.obj',
+                'collapsed_house.obj',
             ]
         else:
-            object_files = ["cube.obj", "icosahedron.obj", "cylinder.obj", "gem.obj"]
+            object_files = ['cube.obj', 'icosahedron.obj', 'cylinder.obj', 'gem.obj']
 
         # mrv.vis_attitude_motion(mr.SpaceObject(object_files[0]), q_of_t)
         # endd
@@ -91,7 +91,6 @@ for noise in [False, True]:
             mr.ObserverEclipseConstraint(station),
             mr.VisualMagnitudeConstraint(18),
             mr.MoonExclusionConstraint(30),
-            mr.HorizonMaskConstraint(station),
         ]
 
         pl = pv.Plotter(
@@ -99,15 +98,15 @@ for noise in [False, True]:
             window_size=(int(win_width * 4 / 3), win_width // 4 * len(object_files)),
         )
         for i, obj_file in enumerate(object_files):
-            obj = mr.SpaceObject(obj_file, identifier="goes 15")
+            obj = mr.SpaceObject(obj_file, identifier='goes 15')
             max_vertex_disp = np.max(mr.vecnorm(obj._mesh.points))
             obj._mesh.scale(1 / max_vertex_disp, inplace=True)
 
             pl.subplot(i, 0)
             mrv.render_spaceobject(pl, obj, **obj_kwargs)
             pl.add_text(
-                f"True Object",
-                font="courier",
+                'True Object',
+                font='courier',
             )
 
             lc_ccd_signal_sampler, aux_data = station.observe_light_curve(
@@ -121,25 +120,25 @@ for noise in [False, True]:
 
             lc_ccd_signal = lc_ccd_signal_sampler()
             lc_noisy_irrad = lc_ccd_signal / (
-                aux_data["sint"] * station.telescope.integration_time
+                aux_data['sint'] * station.telescope.integration_time
             )
             lc_noisy_unit_irrad = (
                 lc_noisy_irrad
-                * (aux_data["rmag_station_to_sat"] * 1e3) ** 2
+                * (aux_data['rmag_station_to_sat'] * 1e3) ** 2
                 / mr.AstroConstants.sun_irradiance_vacuum
             )
 
-            sun_body = aux_data["sun_vector_object_body"]
-            obs_body = aux_data["observer_vector_object_body"]
+            sun_body = aux_data['sun_vector_object_body']
+            obs_body = aux_data['observer_vector_object_body']
 
-            sint = aux_data["sint"]
-            lc_hat = aux_data["lc_clean_norm"]
-            constr = aux_data["all_constraints_satisfied"]
-            br_mean = aux_data["background_mean"]
-            airy_disk_pixels = aux_data["airy_disk_pixels"]
-            obs_to_moon = aux_data["obs_to_moon"]
-            lc_clean = aux_data["lc_clean"]
-            snr = aux_data["snr"]
+            sint = aux_data['sint']
+            lc_hat = aux_data['lc_clean_norm']
+            constr = aux_data['all_constraints_satisfied']
+            br_mean = aux_data['background_mean']
+            airy_disk_pixels = aux_data['airy_disk_pixels']
+            obs_to_moon = aux_data['obs_to_moon']
+            lc_clean = aux_data['lc_clean']
+            snr = aux_data['snr']
 
             svb_masked = sun_body[~lc_noisy_unit_irrad.mask]
             ovb_masked = obs_body[~lc_noisy_unit_irrad.mask]
@@ -148,18 +147,18 @@ for noise in [False, True]:
             plt.scatter(epsecs, lc_ccd_signal)
             mrv.texit(
                 f"{'Noisy' if noise else ''} Light Curve: {obj_file[:-4]} {'SNR = ' + str(np.round(np.mean(snr),2)) if noise else ''}",
-                "Epoch seconds",
-                "ADU",
+                'Epoch seconds',
+                'ADU',
                 grid=False,
             )
             plt.ylim(0, 1.1 * np.max(lc_ccd_signal))
             plt.tight_layout()
-            plt.gcf().savefig("temp.png", format="png", dpi=180)
+            plt.gcf().savefig('temp.png', format='png', dpi=180)
             plt.clf()
 
             pl.subplot(i, 1)
-            pl.add_background_image("temp.png", as_global=False)
-            os.remove("temp.png")
+            pl.add_background_image('temp.png', as_global=False)
+            os.remove('temp.png')
 
             # %%
             # Inversion
@@ -231,23 +230,23 @@ for noise in [False, True]:
                 pl,
                 rec_obj,
                 **obj_kwargs,
-                color="lightcoral" if ncvx_better else "palegreen",
+                color='lightcoral' if ncvx_better else 'palegreen',
             )
             pl.add_text(
-                f"Convex Guess",
-                font="courier",
+                'Convex Guess',
+                font='courier',
             )
             pl.subplot(i, 3)
             mrv.render_spaceobject(
                 pl,
                 rec_obj_with_concavity,
                 **obj_kwargs,
-                color="palegreen" if ncvx_better else "lightcoral",
+                color='palegreen' if ncvx_better else 'lightcoral',
             )
 
             pl.add_text(
-                f"Non-Convex Guess",
-                font="courier",
+                'Non-Convex Guess',
+                font='courier',
             )
 
         pl.show()

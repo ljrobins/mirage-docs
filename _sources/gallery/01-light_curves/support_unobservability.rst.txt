@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_01-light_curves_support_unobservability.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -50,7 +50,7 @@ Defining the nominal object
 .. code-block:: Python
 
 
-    obj = mrv.SpaceObject("cube.obj")
+    obj = mrv.SpaceObject('cube.obj')
 
     v2 = obj.v.copy()
     for fi, ni in zip(obj.f, obj.face_normals):
@@ -61,7 +61,7 @@ Defining the nominal object
 
     pl = pv.Plotter()
     mrv.render_spaceobject(pl, obj)
-    mrv.render_spaceobject(pl, obj2, color="gray")
+    mrv.render_spaceobject(pl, obj2, color='gray')
     pl.show()
 
 
@@ -92,7 +92,7 @@ Calculating the irradiance difference for a change of 1 meter for one of the fla
     irradiance_fraction_difference = 1 - (r_plate2 / r_plate) ** 2
 
     print(
-        f"The irradiance due to the closer plate is {irradiance_fraction_difference*100}% different"
+        f'The irradiance due to the closer plate is {irradiance_fraction_difference*100}% different'
     )
 
 
@@ -116,7 +116,7 @@ Figuring out the truncation losses in the CCD
 
 .. code-block:: Python
 
-    obs = mr.Station(preset="pogs")
+    obs = mr.Station(preset='pogs')
     npix = obs.telescope.get_airy_disk_pixels()
     ccd_signal = 1e4
     trunc_variance = npix**2 / 24
@@ -124,18 +124,18 @@ Figuring out the truncation losses in the CCD
 
     signal_difference = ccd_signal * irradiance_fraction_difference
 
-    print(f"The number of pixels in the airy disk is {npix}")
-    print(f"The standard deviation of the truncation noise is {trunc_std} ADU")
+    print(f'The number of pixels in the airy disk is {npix}')
+    print(f'The standard deviation of the truncation noise is {trunc_std} ADU')
     print(
-        f"The difference in the signal due to plate distance is {signal_difference:.3e} ADU"
+        f'The difference in the signal due to plate distance is {signal_difference:.3e} ADU'
     )
     print(
-        f"The truncation noise is {trunc_std / signal_difference} stronger than the signal difference"
+        f'The truncation noise is {trunc_std / signal_difference} stronger than the signal difference'
     )
 
     SNR = signal_difference / np.sqrt(signal_difference + trunc_std)
 
-    print(f"The SNR is {SNR:.3e}")
+    print(f'The SNR is {SNR:.3e}')
 
 
 
@@ -156,7 +156,7 @@ Figuring out the truncation losses in the CCD
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.180 seconds)
+   **Total running time of the script:** (0 minutes 0.217 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_support_unobservability.py:

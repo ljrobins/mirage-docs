@@ -14,11 +14,11 @@ from astropy.io import fits
 
 import mirage as mr
 
-bias_frames_dir = "/Users/liamrobinson/Documents/mirage/examples/08-ccd/bias_frames/"
+bias_frames_dir = '/Volumes/Data 1/imgs/pogs/bias_frames'
 bias_fit_paths = [
     os.path.join(bias_frames_dir, x)
     for x in os.listdir(bias_frames_dir)
-    if (("-20" in x or "_temp_" not in x) and "bias" in x.lower())
+    if (('-20' in x or '_temp_' not in x) and 'bias' in x.lower())
 ]
 
 means = []
@@ -35,7 +35,7 @@ for bias_fit_path in bias_fit_paths:
         data = hdul[0].data
         dates.append(
             datetime.datetime.strptime(
-                hdul[0].header["DATE-OBS"], "%Y-%m-%dT%H:%M:%S.%f"
+                hdul[0].header['DATE-OBS'], '%Y-%m-%dT%H:%M:%S.%f'
             ).replace(tzinfo=datetime.timezone.utc)
         )
 
@@ -45,7 +45,7 @@ dates = np.sort(dates)
 for date, bias_fit_path in zip(dates, bias_fit_paths):
     with fits.open(bias_fit_path) as hdul:
         data = hdul[0].data
-        temps.append(hdul[0].header["SET-TEMP"])
+        temps.append(hdul[0].header['SET-TEMP'])
 
     dataf = data.flatten()
     hot_pixels = dataf > roi[1]
@@ -74,23 +74,23 @@ for date, data_between in zip(dates, data_betweens):
     ]
     y_text = y.max()
     x_text = x[np.argmax(y)]
-    plt.text(x_text, y_text - np.random.rand() * y_text / 10, date.strftime("%Y-%m-%d"))
-plt.xlabel("Bias signal [ADU]")
-plt.ylabel("Pixel value probability")
+    plt.text(x_text, y_text - np.random.rand() * y_text / 10, date.strftime('%Y-%m-%d'))
+plt.xlabel('Bias signal [ADU]')
+plt.ylabel('Pixel value probability')
 plt.grid()
 
 plt.figure(figsize=(10, 3.5))
 plt.subplot(1, 3, 2)
-plt.plot(dates, vars, marker="+")
-plt.title("Variance")
+plt.plot(dates, vars, marker='+')
+plt.title('Variance')
 plt.grid()
 plt.subplot(1, 3, 1)
-plt.plot(dates, means, marker="+")
-plt.title("Mean")
+plt.plot(dates, means, marker='+')
+plt.title('Mean')
 plt.grid()
 plt.subplot(1, 3, 3)
-plt.plot(dates, hot_count, marker="+")
-plt.title("Hot Pixels")
+plt.plot(dates, hot_count, marker='+')
+plt.title('Hot Pixels')
 plt.grid()
 plt.tight_layout()
 

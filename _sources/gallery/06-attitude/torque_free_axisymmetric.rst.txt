@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_gallery_06-attitude_torque_free_axisymmetric.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -52,19 +52,19 @@ Comparing various methods for propagating torque-free rigid-body motion
         q0, w0, itensor, np.linspace(0, 1, nt)
     )
     dt = mr.toc(return_elapsed_seconds=True)
-    print(f"Axisymmetric form: {nt * ni / dt:.2e} [quats/sec]")
+    print(f'Axisymmetric form: {nt * ni / dt:.2e} [quats/sec]')
 
     mr.tic()
     q_ana, _ = mr.propagate_attitude_torque_free(
         q0[0, :], w0[0, :], itensor, np.linspace(0, 1, nt)
     )
     dt = mr.toc(return_elapsed_seconds=True)
-    print(f"Generalized form: {nt * 1 / dt:.2e} [quats/sec]")
+    print(f'Generalized form: {nt * 1 / dt:.2e} [quats/sec]')
 
     err = np.max(
         np.abs(mr.quat_upper_hemisphere(q_ana) - mr.quat_upper_hemisphere(q_par[0, :, :]))
     )
-    print(f"Max quaternion error: {err}")
+    print(f'Max quaternion error: {err}')
 
 
 
@@ -74,8 +74,8 @@ Comparing various methods for propagating torque-free rigid-body motion
 
  .. code-block:: none
 
-    Axisymmetric form: 2.71e+06 [quats/sec]
-    Generalized form: 2.88e+06 [quats/sec]
+    Axisymmetric form: 4.58e+06 [quats/sec]
+    Generalized form: 3.84e+06 [quats/sec]
     Max quaternion error: 0.0
 
 
@@ -111,7 +111,7 @@ Let's test a whole grid of options to stress test these methods
 
     allt = np.log10(np.concatenate([t_num, t_ana, t_axi]).flatten())
     tlims = np.min(allt), np.max(allt)
-    titles = ["Numerical", "Semi-analytic", "Axisymmetric parallel"]
+    titles = ['Numerical', 'Semi-analytic', 'Axisymmetric parallel']
     plt.figure(figsize=(10, 6))
     for i, grid in enumerate([t_num, t_ana, t_axi], 1):
         plt.subplot(1, 3, i)
@@ -123,14 +123,14 @@ Let's test a whole grid of options to stress test these methods
         )
         mrv.texit(
             titles[i - 1],
-            "Number of times" if i == 2 else None,
-            "Number of ICs" if i == 1 else None,
+            'Number of times' if i == 2 else None,
+            'Number of ICs' if i == 1 else None,
             grid=False,
         )
         if i == 3:
-            cb = plt.colorbar(label="$\Delta t$ [sec]", cax=mrv.get_cbar_ax())
+            cb = plt.colorbar(label='$\Delta t$ [sec]', cax=mrv.get_cbar_ax())
             tics = cb.get_ticks()
-            cb.set_ticklabels([f"$10^{t}$" for t in tics])
+            cb.set_ticklabels([f'$10^{t}$' for t in tics])
         plt.tight_layout()
     plt.show()
 
@@ -147,7 +147,7 @@ Let's test a whole grid of options to stress test these methods
  .. code-block:: none
 
     /Users/liamrobinson/Documents/mirage/examples/06-attitude/torque_free_axisymmetric.py:89: UserWarning: set_ticklabels() should only be used with a fixed number of ticks, i.e. after set_ticks() or using a FixedLocator.
-      cb.set_ticklabels([f"$10^{t}$" for t in tics])
+      cb.set_ticklabels([f'$10^{t}$' for t in tics])
 
 
 
@@ -155,7 +155,7 @@ Let's test a whole grid of options to stress test these methods
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 10.148 seconds)
+   **Total running time of the script:** (0 minutes 8.775 seconds)
 
 
 .. _sphx_glr_download_gallery_06-attitude_torque_free_axisymmetric.py:
