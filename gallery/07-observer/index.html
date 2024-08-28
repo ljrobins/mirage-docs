@@ -52,7 +52,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Light Time Delay" href="light_time_delay.html" />
-    <link rel="prev" title="Torque-free Attitude Propagation" href="../06-attitude/torque_free_axisymmetric.html" />
+    <link rel="prev" title="Comparing Runge-Kutta Methods" href="../06-attitude/rk_low_order.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -400,6 +400,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/light_curve_iso_surfaces.html">Brightness Isosurfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/torque_free_axisymmetric.html">Torque-free Attitude Propagation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/rk_low_order.html">Comparing Runge-Kutta Methods</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Observer</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -407,6 +408,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="local_sidereal_time.html">Local Sidereal Time</a></li>
 <li class="toctree-l2"><a class="reference internal" href="atmos_refraction.html">Atmospheric Refraction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pogs_hist.html">POGS Status</a></li>
 <li class="toctree-l2"><a class="reference internal" href="local_hemisphere.html">Live Satellites From Observer</a></li>
 </ul>
 </details></li>
@@ -442,6 +444,7 @@ document.write(`
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../10-utility/index.html">Utility</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/super_fib.html">Quaternion Sampling Efficiency</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/wavelength_to_rgb.html">Wavelength to RGB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/kdtree_vs_balltree.html">KDTree vs BallTree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/samplers.html">Samplers</a></li>
@@ -454,6 +457,7 @@ document.write(`
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../11-work-in-progress/index.html">Works In Progress</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../11-work-in-progress/inversion_gradient.html">EGI Jacobian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-work-in-progress/rhotater_count_minima.html">Attitude Inversion Minima</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../11-work-in-progress/precise_orbit_determination.html">Precise Orbit Determination with Batch Least Squares</a></li>
 </ul>
 </details></li>
@@ -534,6 +538,9 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="Given a station and a target in inertial space we can compute the azimuth and elevation of the ..."><img alt="" src="../../_images/sphx_glr_az_el_parallel_thumb.png" />
 <p><a class="reference internal" href="az_el_parallel.html#sphx-glr-gallery-07-observer-az-el-parallel-py"><span class="std std-ref">Azimuth/Elevation Conversion</span></a></p>
   <div class="sphx-glr-thumbnail-title">Azimuth/Elevation Conversion</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="The weather status of the Purdue Optical Ground Station"><img alt="" src="../../_images/sphx_glr_pogs_hist_thumb.png" />
+<p><a class="reference internal" href="pogs_hist.html#sphx-glr-gallery-07-observer-pogs-hist-py"><span class="std std-ref">POGS Status</span></a></p>
+  <div class="sphx-glr-thumbnail-title">POGS Status</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plots satellites that would be visible from a station&#x27;s telescope in real time"><img alt="" src="../../_images/sphx_glr_local_hemisphere_thumb.gif" />
 <p><a class="reference internal" href="local_hemisphere.html#sphx-glr-gallery-07-observer-local-hemisphere-py"><span class="std std-ref">Live Satellites From Observer</span></a></p>
   <div class="sphx-glr-thumbnail-title">Live Satellites From Observer</div>
@@ -552,12 +559,12 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../06-attitude/torque_free_axisymmetric.html"
+       href="../06-attitude/rk_low_order.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Torque-free Attitude Propagation</p>
+        <p class="prev-next-title">Comparing Runge-Kutta Methods</p>
       </div>
     </a>
     <a class="right-next"
