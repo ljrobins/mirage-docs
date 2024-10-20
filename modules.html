@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -502,6 +502,7 @@ document.write(`
 </li>
 <li class="toctree-l2"><a class="reference internal" href="mirage.html#module-mirage.background">mirage.background module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.background.aint"><code class="docutils literal notranslate"><span class="pre">aint()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.background.airglow_radiance"><code class="docutils literal notranslate"><span class="pre">airglow_radiance()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.background.airglow_signal"><code class="docutils literal notranslate"><span class="pre">airglow_signal()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.background.atmospheric_extinction"><code class="docutils literal notranslate"><span class="pre">atmospheric_extinction()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.background.equatorial_dir_to_ecliptic_azel"><code class="docutils literal notranslate"><span class="pre">equatorial_dir_to_ecliptic_azel()</span></code></a></li>
@@ -519,12 +520,10 @@ document.write(`
 </li>
 <li class="toctree-l2"><a class="reference internal" href="mirage.html#module-mirage.ccd">mirage.ccd module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.ccd.ChargeCoupledDevice"><code class="docutils literal notranslate"><span class="pre">ChargeCoupledDevice</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.ccd.ChargeCoupledDevice.add_parabola"><code class="docutils literal notranslate"><span class="pre">ChargeCoupledDevice.add_parabola()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.ccd.ChargeCoupledDevice.generate_ccd_image"><code class="docutils literal notranslate"><span class="pre">ChargeCoupledDevice.generate_ccd_image()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.ccd.ChargeCoupledDevice.mean"><code class="docutils literal notranslate"><span class="pre">ChargeCoupledDevice.mean()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.ccd.ChargeCoupledDevice.quantum_efficiency"><code class="docutils literal notranslate"><span class="pre">ChargeCoupledDevice.quantum_efficiency()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.ccd.ChargeCoupledDevice.sample_noise"><code class="docutils literal notranslate"><span class="pre">ChargeCoupledDevice.sample_noise()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.ccd.ChargeCoupledDevice.subtract_parabola"><code class="docutils literal notranslate"><span class="pre">ChargeCoupledDevice.subtract_parabola()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.ccd.ChargeCoupledDevice.variance"><code class="docutils literal notranslate"><span class="pre">ChargeCoupledDevice.variance()</span></code></a></li>
 </ul>
 </li>
@@ -694,7 +693,6 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.geodetic.geocentric_lat_to_geodetic"><code class="docutils literal notranslate"><span class="pre">geocentric_lat_to_geodetic()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.geodetic.geodetic_lat_to_geocentric"><code class="docutils literal notranslate"><span class="pre">geodetic_lat_to_geocentric()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.geodetic.lat_lon_cell_area"><code class="docutils literal notranslate"><span class="pre">lat_lon_cell_area()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.geodetic.lat_lon_of_address"><code class="docutils literal notranslate"><span class="pre">lat_lon_of_address()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.geodetic.radius_at_geodetic_lat"><code class="docutils literal notranslate"><span class="pre">radius_at_geodetic_lat()</span></code></a></li>
 </ul>
 </li>
@@ -729,7 +727,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.lighting.cook_torrance_ggx"><code class="docutils literal notranslate"><span class="pre">cook_torrance_ggx()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.lighting.irradiance_to_apparent_magnitude"><code class="docutils literal notranslate"><span class="pre">irradiance_to_apparent_magnitude()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.lighting.irradiance_to_s10"><code class="docutils literal notranslate"><span class="pre">irradiance_to_s10()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.lighting.mcd_m2_to_watt_m2sr"><code class="docutils literal notranslate"><span class="pre">mcd_m2_to_watt_m2sr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.lighting.mcd_m2_to_watt_m2_sr"><code class="docutils literal notranslate"><span class="pre">mcd_m2_to_watt_m2_sr()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.lighting.mcd_per_m2_to_mpsas"><code class="docutils literal notranslate"><span class="pre">mcd_per_m2_to_mpsas()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.lighting.mpsas_to_irradiance_per_steradian"><code class="docutils literal notranslate"><span class="pre">mpsas_to_irradiance_per_steradian()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.lighting.mpsas_to_mcd_per_m2"><code class="docutils literal notranslate"><span class="pre">mpsas_to_mcd_per_m2()</span></code></a></li>
@@ -895,6 +893,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.spaceobject.delete_all_models"><code class="docutils literal notranslate"><span class="pre">delete_all_models()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.spaceobject.faces_and_vertices_from_egi"><code class="docutils literal notranslate"><span class="pre">faces_and_vertices_from_egi()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.spaceobject.get_volume"><code class="docutils literal notranslate"><span class="pre">get_volume()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.spaceobject.intersects_obj"><code class="docutils literal notranslate"><span class="pre">intersects_obj()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.spaceobject.little_fun"><code class="docutils literal notranslate"><span class="pre">little_fun()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.spaceobject.load_mtllib"><code class="docutils literal notranslate"><span class="pre">load_mtllib()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.spaceobject.load_obj"><code class="docutils literal notranslate"><span class="pre">load_obj()</span></code></a></li>
@@ -1102,7 +1101,7 @@ document.write(`
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.0.2.
     <br/>
   </p>
 </div>

@@ -14,6 +14,7 @@ Modeling the incident radiation at a spacecraft due to reflected sunlight from t
 # Let's first load the coefficient arrays :math:`f_{iso}`, :math:`f_{geo}`, and :math:`f_{vol}` from file
 
 import matplotlib as mpl
+import matplotlib.pyplot as plt
 import numpy as np
 
 import mirage as mr
@@ -147,6 +148,7 @@ bcmap = 'PiYG'
 mrv.plot_map_with_grid(
     albedo_grid, 'March Mean Albedo', 'Surface Albedo', cmap='PuBuGn_r', borders=True
 )
+plt.show()
 
 
 # %%
@@ -158,6 +160,7 @@ mrv.plot_map_with_grid(
     cmap='Blues',
     borders=True,
 )
+plt.show()
 
 # %%
 # Plotting the twilight types
@@ -175,6 +178,7 @@ mrv.plot_map_with_grid(
         'Night',
     ],
 )
+plt.show()
 
 
 # %%
@@ -193,6 +197,7 @@ mrv.plot_map_with_grid(
         'Illum. and visible',
     ],
 )
+plt.show()
 
 # %%
 # BRDF kernel values at each point
@@ -204,6 +209,7 @@ mrv.plot_map_with_grid(
     borders=True,
     interpolation='nearest',
 )
+plt.show()
 
 # %%
 # Plotting the areas of each grid cell
@@ -215,6 +221,7 @@ mrv.plot_map_with_grid(
     borders=True,
     interpolation='nearest',
 )
+plt.show()
 
 # %%
 # Plotting the irradiance from each grid cell
@@ -227,3 +234,4 @@ mrv.plot_map_with_grid(
     border_color='gray',
     interpolation='nearest',
 )
+plt.show()

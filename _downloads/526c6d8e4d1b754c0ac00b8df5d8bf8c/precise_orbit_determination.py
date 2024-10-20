@@ -4,6 +4,7 @@ Precise Orbit Determination with Batch Least Squares
 """
 
 import datetime
+from typing import Callable
 
 import numpy as np
 
@@ -79,9 +80,6 @@ def angles_only_measurement_model_jacobian(
     H2 = H.transpose(2, 0, 1)
     H2 = H2.reshape(-1, 6)
     return H2
-
-
-from typing import Callable
 
 
 def lumve(

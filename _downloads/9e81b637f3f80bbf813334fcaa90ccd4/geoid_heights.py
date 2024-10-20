@@ -7,6 +7,7 @@ Plots global elevations
 
 import os
 
+import matplotlib.pyplot as plt
 import rasterio
 
 import mirage as mr
@@ -32,3 +33,4 @@ mrv.plot_map_with_grid(
     cmap='plasma',
     borders=True,
 )
+plt.show()

@@ -34,6 +34,7 @@ date_start = mr.utc(2023, 5, 26)
     date_start - mr.days(1), date_start, mr.seconds(100), return_epsecs=True
 )
 ephr = epsecs / 3600  # Epoch hours
+integration_time_s = 10.0  # Seconds
 
 # %%
 # Setting up the scenario objects
@@ -64,6 +65,7 @@ obj_attitude = aligned_nadir_constrained_sun_attitude(obj, dates)
     obj_attitude,
     brdf,
     dates,
+    integration_time_s,
     use_engine=True,
     model_scale_factor=1,
     show_window=True,
@@ -89,8 +91,8 @@ mrv.texit(
     ['Measurements'],
 )
 
-lc_noisy_irrad = lc_noisy / (sint * station.telescope.integration_time)
-lc_clean_irrad = lc_clean / (sint * station.telescope.integration_time)
+lc_noisy_irrad = lc_noisy / (sint * integration_time_s)
+lc_clean_irrad = lc_clean / (sint * integration_time_s)
 plt.subplot(4, 1, 2)
 sns.scatterplot(x=ephr, y=lc_noisy_irrad, linewidth=0.05, size=0.2)
 # sns.scatterplot(x=ephr, y=lc_clean_irrad, linewidth=0.05, size=0.1, color="k")

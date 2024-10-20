@@ -12,13 +12,11 @@ from typing import Any
 
 import matplotlib.pyplot as plt
 import numpy as np
-import vtk
 import pyvista as pv
-
-vtk.__version__
-
+from matplotlib.animation import FuncAnimation
 import mirage as mr
 import mirage.vis as mrv
+from PIL import Image
 
 # %%
 # Case 1: The light curve of a cube
@@ -223,7 +221,6 @@ lc, aux_data = station.observe_light_curve(
     save_imgs=True,
     instances=1,
 )
-from PIL import Image
 
 imgs = []
 for i in range(len(dates)):
@@ -231,7 +228,6 @@ for i in range(len(dates)):
 
 # %%
 # save a gif animation of the images in the out/ directory
-from matplotlib.animation import FuncAnimation
 
 fig = plt.figure(figsize=(10, 4))
 plt.subplot(1, 2, 1)

@@ -21,7 +21,7 @@
 Parametric Box-Wing Inversion
 =============================
 
-.. GENERATED FROM PYTHON SOURCE LINES 6-394
+.. GENERATED FROM PYTHON SOURCE LINES 6-393
 
 
 
@@ -35,7 +35,10 @@ Parametric Box-Wing Inversion
 
  .. code-block:: none
 
-    Model file matlib_gps_iii.obj not found in current model folder ('/Users/liamrobinson/Documents/mirage/mirage/resources/models'), checking model repository...
+    File not found in storage, proceeding to download...
+    Downloading tsi_v02r01_daily_s20220101_e20221231_c20230120.nc...
+    Using: https://www.ncei.noaa.gov/data/total-solar-irradiance/access/daily/tsi_v02r01_daily_s20220101_e20221231_c20230120.nc
+    Model file matlib_gps_iii.obj not found in current model folder ('/Users/liamrobinson/Documents/maintained-research/mirage/mirage/resources/models'), checking model repository...
     Attempting to download matlib_gps_iii.obj and its associated material file from the model repository...
     Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//accurate_sats/matlib_gps_iii.obj
     Model files were downloaded successfully!
@@ -57,6 +60,7 @@ Parametric Box-Wing Inversion
     import matplotlib.pyplot as plt
     import numpy as np
     from matplotlib.widgets import Button, Slider
+    from scipy.io import loadmat
     from scipy.optimize import minimize
 
     import mirage as mr
@@ -215,8 +219,6 @@ Parametric Box-Wing Inversion
             ]
         )
 
-
-    from scipy.io import loadmat
 
     orbit_sol_path = '/Volumes/Data 1/imgs/pogs/2022/2022-09-18_GPS_PRN14/ProcessedData/Fitted_Orbits/OrbitSolutions.mat'
     orbit_mat = loadmat(orbit_sol_path)
@@ -442,7 +444,7 @@ Parametric Box-Wing Inversion
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 6.435 seconds)
+   **Total running time of the script:** (0 minutes 9.025 seconds)
 
 
 .. _sphx_glr_download_gallery_02-light_curve_inversion_parametric_box_wing.py:
@@ -458,6 +460,10 @@ Parametric Box-Wing Inversion
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: parametric_box_wing.py <parametric_box_wing.py>`
+
+    .. container:: sphx-glr-download sphx-glr-download-zip
+
+      :download:`Download zipped: parametric_box_wing.zip <parametric_box_wing.zip>`
 
 
 .. only:: html

@@ -23,15 +23,18 @@ PRNG Speed
 
 Benchmarking the speed of various numpy pseudorandom number generators
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-18
+.. GENERATED FROM PYTHON SOURCE LINES 7-21
 
 .. code-block:: Python
 
+
+    from timeit import timeit
 
     import matplotlib.pyplot as plt
     import numpy as np
     import pandas as pd
     import seaborn as sns
+    from numba import njit
 
     import mirage as mr
 
@@ -45,11 +48,11 @@ Benchmarking the speed of various numpy pseudorandom number generators
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-20
+.. GENERATED FROM PYTHON SOURCE LINES 22-23
 
 Poisson PRNG
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-55
+.. GENERATED FROM PYTHON SOURCE LINES 23-58
 
 .. code-block:: Python
 
@@ -100,11 +103,11 @@ Poisson PRNG
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-57
+.. GENERATED FROM PYTHON SOURCE LINES 59-60
 
 Gaussian PRNG
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-91
+.. GENERATED FROM PYTHON SOURCE LINES 60-94
 
 .. code-block:: Python
 
@@ -154,19 +157,14 @@ Gaussian PRNG
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 92-93
+.. GENERATED FROM PYTHON SOURCE LINES 95-96
 
 Numba for sampling normals faster
 
-.. GENERATED FROM PYTHON SOURCE LINES 93-146
+.. GENERATED FROM PYTHON SOURCE LINES 96-144
 
 .. code-block:: Python
 
-
-    from timeit import timeit
-
-    import matplotlib.pyplot as plt
-    from numba import njit
 
     bit_gen = np.random.SFC64()
     next_d = bit_gen.cffi.next_double
@@ -223,8 +221,8 @@ Numba for sampling normals faster
 
  .. code-block:: none
 
-    1.29 secs for 16777216 PCG64 (Numba/SFC64) gaussian randoms
-    0.36 secs for 16777216 PCG64 (NumPy/SFC64) gaussian randoms
+    0.80 secs for 16777216 PCG64 (Numba/SFC64) gaussian randoms
+    0.23 secs for 16777216 PCG64 (NumPy/SFC64) gaussian randoms
 
 
 
@@ -232,7 +230,7 @@ Numba for sampling normals faster
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 17.478 seconds)
+   **Total running time of the script:** (0 minutes 10.811 seconds)
 
 
 .. _sphx_glr_download_gallery_10-utility_rng_speed.py:
@@ -248,6 +246,10 @@ Numba for sampling normals faster
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: rng_speed.py <rng_speed.py>`
+
+    .. container:: sphx-glr-download sphx-glr-download-zip
+
+      :download:`Download zipped: rng_speed.zip <rng_speed.zip>`
 
 
 .. only:: html

@@ -41,13 +41,12 @@ Comparing methods for sampling quaternions, with an emphasis on distributing the
 
     import matplotlib.pyplot as plt
     import numpy as np
-    import pyvista as pv
     from sklearn.neighbors import BallTree
 
     import mirage as mr
     import mirage.vis as mrv
 
-    n = int(1e5)
+    n = int(1e4)
 
     Q = mr.quat_upper_hemisphere(mr.quaternion_fibonacci_sample(n))
     cq = BallTree(Q).query(Q, k=2)[1][:, 1]
@@ -57,6 +56,7 @@ Comparing methods for sampling quaternions, with an emphasis on distributing the
     Q = mr.quat_upper_hemisphere(mr.rand_quaternions(n))
     cq = BallTree(Q).query(Q, k=2)[1][:, 1]
     ang2 = np.rad2deg(mr.quat_ang(Q, Q[cq, :]))
+
 
     plt.hist(ang1, bins=30, label='Fibonacci', density=True)
     plt.hist(ang2, bins=30, alpha=0.7, label='Random', density=True)
@@ -71,7 +71,7 @@ Comparing methods for sampling quaternions, with an emphasis on distributing the
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.487 seconds)
+   **Total running time of the script:** (0 minutes 0.229 seconds)
 
 
 .. _sphx_glr_download_gallery_10-utility_super_fib.py:
@@ -87,6 +87,10 @@ Comparing methods for sampling quaternions, with an emphasis on distributing the
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: super_fib.py <super_fib.py>`
+
+    .. container:: sphx-glr-download sphx-glr-download-zip
+
+      :download:`Download zipped: super_fib.zip <super_fib.zip>`
 
 
 .. only:: html

@@ -61,7 +61,7 @@ Expressing the same light curve in different units.
 
 Setting up analysis times
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-38
+.. GENERATED FROM PYTHON SOURCE LINES 32-39
 
 .. code-block:: Python
 
@@ -70,6 +70,7 @@ Setting up analysis times
         date_start - mr.days(1), date_start, mr.seconds(100), return_epsecs=True
     )
     ephr = epsecs / 3600  # Epoch hours
+    integration_time_s = 10.0  # Seconds
 
 
 
@@ -78,11 +79,11 @@ Setting up analysis times
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-40
+.. GENERATED FROM PYTHON SOURCE LINES 40-41
 
 Setting up the scenario objects
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-45
+.. GENERATED FROM PYTHON SOURCE LINES 41-46
 
 .. code-block:: Python
 
@@ -98,11 +99,11 @@ Setting up the scenario objects
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-47
+.. GENERATED FROM PYTHON SOURCE LINES 47-48
 
 Defining observation constraints on the station
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-56
+.. GENERATED FROM PYTHON SOURCE LINES 48-57
 
 .. code-block:: Python
 
@@ -122,11 +123,11 @@ Defining observation constraints on the station
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-58
+.. GENERATED FROM PYTHON SOURCE LINES 58-59
 
 Defining the object's attitude profile and mass properties
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-60
+.. GENERATED FROM PYTHON SOURCE LINES 59-61
 
 .. code-block:: Python
 
@@ -139,11 +140,11 @@ Defining the object's attitude profile and mass properties
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-62
+.. GENERATED FROM PYTHON SOURCE LINES 62-63
 
 Computing the full noisy light curve
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-75
+.. GENERATED FROM PYTHON SOURCE LINES 63-77
 
 .. code-block:: Python
 
@@ -152,6 +153,7 @@ Computing the full noisy light curve
         obj_attitude,
         brdf,
         dates,
+        integration_time_s,
         use_engine=True,
         model_scale_factor=1,
         show_window=True,
@@ -164,14 +166,25 @@ Computing the full noisy light curve
 
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    2024-10-19 23:52:49.643 LightCurveEngine-mac-arm[9281:56714553] +[IMKClient subclass]: chose IMKClient_Legacy
+    2024-10-19 23:52:49.643 LightCurveEngine-mac-arm[9281:56714553] +[IMKInputSession subclass]: chose IMKInputSession_Legacy
+
+    File not found in storage, proceeding to download...
+    Downloading tsi_v02r01_daily_s20230101_e20231231_c20240221.nc...
+    Using: https://www.ncei.noaa.gov/data/total-solar-irradiance/access/daily/tsi_v02r01_daily_s20230101_e20231231_c20240221.nc
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 76-77
+
+.. GENERATED FROM PYTHON SOURCE LINES 78-79
 
 Extracting data and plotting results
 
-.. GENERATED FROM PYTHON SOURCE LINES 77-129
+.. GENERATED FROM PYTHON SOURCE LINES 79-131
 
 .. code-block:: Python
 
@@ -190,8 +203,8 @@ Extracting data and plotting results
         ['Measurements'],
     )
 
-    lc_noisy_irrad = lc_noisy / (sint * station.telescope.integration_time)
-    lc_clean_irrad = lc_clean / (sint * station.telescope.integration_time)
+    lc_noisy_irrad = lc_noisy / (sint * integration_time_s)
+    lc_clean_irrad = lc_clean / (sint * integration_time_s)
     plt.subplot(4, 1, 2)
     sns.scatterplot(x=ephr, y=lc_noisy_irrad, linewidth=0.05, size=0.2)
     # sns.scatterplot(x=ephr, y=lc_clean_irrad, linewidth=0.05, size=0.1, color="k")
@@ -242,7 +255,7 @@ Extracting data and plotting results
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 4.126 seconds)
+   **Total running time of the script:** (0 minutes 4.458 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_light_curve_units.py:
@@ -258,6 +271,10 @@ Extracting data and plotting results
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: light_curve_units.py <light_curve_units.py>`
+
+    .. container:: sphx-glr-download sphx-glr-download-zip
+
+      :download:`Download zipped: light_curve_units.zip <light_curve_units.zip>`
 
 
 .. only:: html

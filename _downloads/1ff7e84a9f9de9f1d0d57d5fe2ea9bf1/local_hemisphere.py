@@ -11,9 +11,24 @@ import pyvista as pv
 import mirage as mr
 import mirage.vis as mrv
 
+
+def lat_lon_of_address(identifier: str) -> tuple[float, float]:
+    """Finds the (geodetic) latitude and longitude for a given address string
+
+    :param identifier: Address string, ex: "Vandalia, Illinois"
+    :type identifier: str
+    :return: Geodetic latitude and longitude, both in [deg]
+    :rtype: tuple[float, float]
+    """
+    import geopy
+
+    loc = geopy.geocoders.Nominatim(user_agent='GetLoc').geocode(identifier)
+    return loc.latitude, loc.longitude
+
+
 # %%
 # Since I'm currently stuck in the Philadelphia airport, let's plot things from the perspective of there
-# obs_lat, obs_lon = mr.lat_lon_of_address("Philadelphia, PA")
+# obs_lat, obs_lon = lat_lon_of_address("Philadelphia, PA")
 station = mr.Station()
 
 # %%
@@ -68,10 +83,6 @@ def show_scene(epsec: float):
     r_station_to_moon_eci = r_moon_eci - station_eci
     r_moon_enu = (station.eci_to_enu(date) @ mr.hat(r_station_to_moon_eci).T).T
     r_sun_eci = mr.sun(date)
-    r_station_to_sun_eci = r_sun_eci - station_eci
-    r_sun_enu = (station.eci_to_enu(date) @ mr.hat(r_station_to_sun_eci).T).T
-
-    lines_eci = (station.eci_to_enu(date).T @ lines.T).T
 
     obs_to_obj_rmag = mr.vecnorm(look_vec_eci)
     obj_to_sun_eci = r_sun_eci - r_eci
@@ -81,9 +92,6 @@ def show_scene(epsec: float):
         mr.normalized_light_curve_sphere(1, 1, phase_angle_rad)
         / (1e3 * obs_to_obj_rmag) ** 2
     )
-    vmag_sphere = mr.irradiance_to_apparent_magnitude(lc_sphere)
-
-    z_obs = mr.angle_between_vecs(look_dir_eci, station_eci)
 
     constraint_satisfaction = station.eval_constraints(
         obs_pos_eci=station_eci,
@@ -93,11 +101,6 @@ def show_scene(epsec: float):
         lc=lc_sphere,
         evaluate_all=False,
     )
-
-    # mrv.plot3(
-    #     pl, lines_eci, lighting=False, color="gray", line_width=5,
-    #     show_scalar_bar=False, name='eci_grid', opacity=lines_eci[:,2] > 0
-    # )
 
     mrv.scatter3(
         pl,

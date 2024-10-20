@@ -33,12 +33,13 @@ Useful papers not cited below:
 
 Let's first load the coefficient arrays :math:`f_{iso}`, :math:`f_{geo}`, and :math:`f_{vol}` from file
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-32
+.. GENERATED FROM PYTHON SOURCE LINES 15-33
 
 .. code-block:: Python
 
 
     import matplotlib as mpl
+    import matplotlib.pyplot as plt
     import numpy as np
 
     import mirage as mr
@@ -61,11 +62,11 @@ Let's first load the coefficient arrays :math:`f_{iso}`, :math:`f_{geo}`, and :m
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-34
+.. GENERATED FROM PYTHON SOURCE LINES 34-35
 
 The surface BRDF function in `Blanc 2014 <https://hal-mines-paristech.archives-ouvertes.fr/file/index/docid/1024989/filename/2014_igarss_albedo_blanc.pdf>`_
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-45
+.. GENERATED FROM PYTHON SOURCE LINES 35-46
 
 .. code-block:: Python
 
@@ -87,11 +88,11 @@ The surface BRDF function in `Blanc 2014 <https://hal-mines-paristech.archives-o
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-47
+.. GENERATED FROM PYTHON SOURCE LINES 47-48
 
 Now we define the date to evaluate the reflected albedo irradiance at and the ECEF position of the satellite
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-51
+.. GENERATED FROM PYTHON SOURCE LINES 48-52
 
 .. code-block:: Python
 
@@ -106,11 +107,11 @@ Now we define the date to evaluate the reflected albedo irradiance at and the EC
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 52-53
+.. GENERATED FROM PYTHON SOURCE LINES 53-54
 
 Now we identify all the useful geometry: the ECEF positions of the grid cells, the Sun vector, the solar zenith angle at each grid cell, and the albedo at each point
 
-.. GENERATED FROM PYTHON SOURCE LINES 53-65
+.. GENERATED FROM PYTHON SOURCE LINES 54-66
 
 .. code-block:: Python
 
@@ -133,11 +134,11 @@ Now we identify all the useful geometry: the ECEF positions of the grid cells, t
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 66-67
+.. GENERATED FROM PYTHON SOURCE LINES 67-68
 
 For fun, let's classify the types of twilight to plot later
 
-.. GENERATED FROM PYTHON SOURCE LINES 67-83
+.. GENERATED FROM PYTHON SOURCE LINES 68-84
 
 .. code-block:: Python
 
@@ -164,11 +165,11 @@ For fun, let's classify the types of twilight to plot later
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 84-85
+.. GENERATED FROM PYTHON SOURCE LINES 85-86
 
 Computing which grid cells are visible from the satellite
 
-.. GENERATED FROM PYTHON SOURCE LINES 85-110
+.. GENERATED FROM PYTHON SOURCE LINES 86-111
 
 .. code-block:: Python
 
@@ -204,11 +205,11 @@ Computing which grid cells are visible from the satellite
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 111-112
+.. GENERATED FROM PYTHON SOURCE LINES 112-113
 
 Computes the areas of each grid cell
 
-.. GENERATED FROM PYTHON SOURCE LINES 112-123
+.. GENERATED FROM PYTHON SOURCE LINES 113-124
 
 .. code-block:: Python
 
@@ -230,11 +231,11 @@ Computes the areas of each grid cell
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 124-125
+.. GENERATED FROM PYTHON SOURCE LINES 125-126
 
 Computing Lambertian reflection (for the land) and Phong reflection (for the ocean) from each grid cell
 
-.. GENERATED FROM PYTHON SOURCE LINES 125-134
+.. GENERATED FROM PYTHON SOURCE LINES 126-135
 
 .. code-block:: Python
 
@@ -255,16 +256,19 @@ Computing Lambertian reflection (for the land) and Phong reflection (for the oce
 
  .. code-block:: none
 
+    File not found in storage, proceeding to download...
+    Downloading tsi_v02r01_daily_s20220101_e20221231_c20230120.nc...
+    Using: https://www.ncei.noaa.gov/data/total-solar-irradiance/access/daily/tsi_v02r01_daily_s20220101_e20221231_c20230120.nc
     6.48e+00
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 135-136
+.. GENERATED FROM PYTHON SOURCE LINES 136-137
 
 Let's compare with the implementation in the pyspaceaware package
 
-.. GENERATED FROM PYTHON SOURCE LINES 136-141
+.. GENERATED FROM PYTHON SOURCE LINES 137-142
 
 .. code-block:: Python
 
@@ -281,17 +285,17 @@ Let's compare with the implementation in the pyspaceaware package
 
  .. code-block:: none
 
-    Elapsed time: 3.21e-01 seconds
+    Elapsed time: 1.91e-01 seconds
     6.48e+00
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 142-143
+.. GENERATED FROM PYTHON SOURCE LINES 143-144
 
 Defining a few useful functions to simplify the plotting process
 
-.. GENERATED FROM PYTHON SOURCE LINES 143-145
+.. GENERATED FROM PYTHON SOURCE LINES 144-146
 
 .. code-block:: Python
 
@@ -304,17 +308,18 @@ Defining a few useful functions to simplify the plotting process
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 146-147
+.. GENERATED FROM PYTHON SOURCE LINES 147-148
 
 Plotting the albedo across the grid
 
-.. GENERATED FROM PYTHON SOURCE LINES 147-152
+.. GENERATED FROM PYTHON SOURCE LINES 148-154
 
 .. code-block:: Python
 
     mrv.plot_map_with_grid(
         albedo_grid, 'March Mean Albedo', 'Surface Albedo', cmap='PuBuGn_r', borders=True
     )
+    plt.show()
 
 
 
@@ -329,11 +334,11 @@ Plotting the albedo across the grid
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 153-154
+.. GENERATED FROM PYTHON SOURCE LINES 155-156
 
 Plotting the solar zenith angle
 
-.. GENERATED FROM PYTHON SOURCE LINES 154-162
+.. GENERATED FROM PYTHON SOURCE LINES 156-165
 
 .. code-block:: Python
 
@@ -344,6 +349,7 @@ Plotting the solar zenith angle
         cmap='Blues',
         borders=True,
     )
+    plt.show()
 
 
 
@@ -357,11 +363,11 @@ Plotting the solar zenith angle
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 163-164
+.. GENERATED FROM PYTHON SOURCE LINES 166-167
 
 Plotting the twilight types
 
-.. GENERATED FROM PYTHON SOURCE LINES 164-180
+.. GENERATED FROM PYTHON SOURCE LINES 167-184
 
 .. code-block:: Python
 
@@ -379,6 +385,7 @@ Plotting the twilight types
             'Night',
         ],
     )
+    plt.show()
 
 
 
@@ -393,11 +400,11 @@ Plotting the twilight types
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 181-182
+.. GENERATED FROM PYTHON SOURCE LINES 185-186
 
 Plotting grid cell visibility and illumination conditions
 
-.. GENERATED FROM PYTHON SOURCE LINES 182-197
+.. GENERATED FROM PYTHON SOURCE LINES 186-202
 
 .. code-block:: Python
 
@@ -415,6 +422,7 @@ Plotting grid cell visibility and illumination conditions
             'Illum. and visible',
         ],
     )
+    plt.show()
 
 
 
@@ -428,11 +436,11 @@ Plotting grid cell visibility and illumination conditions
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 198-199
+.. GENERATED FROM PYTHON SOURCE LINES 203-204
 
 BRDF kernel values at each point
 
-.. GENERATED FROM PYTHON SOURCE LINES 199-208
+.. GENERATED FROM PYTHON SOURCE LINES 204-214
 
 .. code-block:: Python
 
@@ -444,6 +452,7 @@ BRDF kernel values at each point
         borders=True,
         interpolation='nearest',
     )
+    plt.show()
 
 
 
@@ -457,11 +466,11 @@ BRDF kernel values at each point
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 209-210
+.. GENERATED FROM PYTHON SOURCE LINES 215-216
 
 Plotting the areas of each grid cell
 
-.. GENERATED FROM PYTHON SOURCE LINES 210-219
+.. GENERATED FROM PYTHON SOURCE LINES 216-226
 
 .. code-block:: Python
 
@@ -473,6 +482,7 @@ Plotting the areas of each grid cell
         borders=True,
         interpolation='nearest',
     )
+    plt.show()
 
 
 
@@ -486,11 +496,11 @@ Plotting the areas of each grid cell
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 220-221
+.. GENERATED FROM PYTHON SOURCE LINES 227-228
 
 Plotting the irradiance from each grid cell
 
-.. GENERATED FROM PYTHON SOURCE LINES 221-230
+.. GENERATED FROM PYTHON SOURCE LINES 228-238
 
 .. code-block:: Python
 
@@ -503,6 +513,7 @@ Plotting the irradiance from each grid cell
         border_color='gray',
         interpolation='nearest',
     )
+    plt.show()
 
 
 
@@ -518,7 +529,7 @@ Plotting the irradiance from each grid cell
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 7.995 seconds)
+   **Total running time of the script:** (0 minutes 4.408 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_reflected_albedo.py:
@@ -534,6 +545,10 @@ Plotting the irradiance from each grid cell
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: reflected_albedo.py <reflected_albedo.py>`
+
+    .. container:: sphx-glr-download sphx-glr-download-zip
+
+      :download:`Download zipped: reflected_albedo.zip <reflected_albedo.zip>`
 
 
 .. only:: html

@@ -23,7 +23,7 @@ Live Satellites From Observer
 
 Plots satellites that would be visible from a station's telescope in real time
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-14
+.. GENERATED FROM PYTHON SOURCE LINES 7-29
 
 .. code-block:: Python
 
@@ -35,18 +35,33 @@ Plots satellites that would be visible from a station's telescope in real time
     import mirage.vis as mrv
 
 
+    def lat_lon_of_address(identifier: str) -> tuple[float, float]:
+        """Finds the (geodetic) latitude and longitude for a given address string
+
+        :param identifier: Address string, ex: "Vandalia, Illinois"
+        :type identifier: str
+        :return: Geodetic latitude and longitude, both in [deg]
+        :rtype: tuple[float, float]
+        """
+        import geopy
+
+        loc = geopy.geocoders.Nominatim(user_agent='GetLoc').geocode(identifier)
+        return loc.latitude, loc.longitude
 
 
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-17
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 30-32
 
 Since I'm currently stuck in the Philadelphia airport, let's plot things from the perspective of there
-obs_lat, obs_lon = mr.lat_lon_of_address("Philadelphia, PA")
+obs_lat, obs_lon = lat_lon_of_address("Philadelphia, PA")
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-19
+.. GENERATED FROM PYTHON SOURCE LINES 32-34
 
 .. code-block:: Python
 
@@ -59,11 +74,11 @@ obs_lat, obs_lon = mr.lat_lon_of_address("Philadelphia, PA")
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-21
+.. GENERATED FROM PYTHON SOURCE LINES 35-36
 
 Let's impose a signal to noise ratio constraint, require satellites to be above the horizon, be illuminated, and have a visual magnitude brighter than 12
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-28
+.. GENERATED FROM PYTHON SOURCE LINES 36-43
 
 .. code-block:: Python
 
@@ -81,11 +96,11 @@ Let's impose a signal to noise ratio constraint, require satellites to be above 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 29-30
+.. GENERATED FROM PYTHON SOURCE LINES 44-45
 
 We can now plot everything!
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-170
+.. GENERATED FROM PYTHON SOURCE LINES 45-173
 
 .. code-block:: Python
 
@@ -130,10 +145,6 @@ We can now plot everything!
         r_station_to_moon_eci = r_moon_eci - station_eci
         r_moon_enu = (station.eci_to_enu(date) @ mr.hat(r_station_to_moon_eci).T).T
         r_sun_eci = mr.sun(date)
-        r_station_to_sun_eci = r_sun_eci - station_eci
-        r_sun_enu = (station.eci_to_enu(date) @ mr.hat(r_station_to_sun_eci).T).T
-
-        lines_eci = (station.eci_to_enu(date).T @ lines.T).T
 
         obs_to_obj_rmag = mr.vecnorm(look_vec_eci)
         obj_to_sun_eci = r_sun_eci - r_eci
@@ -143,9 +154,6 @@ We can now plot everything!
             mr.normalized_light_curve_sphere(1, 1, phase_angle_rad)
             / (1e3 * obs_to_obj_rmag) ** 2
         )
-        vmag_sphere = mr.irradiance_to_apparent_magnitude(lc_sphere)
-
-        z_obs = mr.angle_between_vecs(look_dir_eci, station_eci)
 
         constraint_satisfaction = station.eval_constraints(
             obs_pos_eci=station_eci,
@@ -155,11 +163,6 @@ We can now plot everything!
             lc=lc_sphere,
             evaluate_all=False,
         )
-
-        # mrv.plot3(
-        #     pl, lines_eci, lighting=False, color="gray", line_width=5,
-        #     show_scalar_bar=False, name='eci_grid', opacity=lines_eci[:,2] > 0
-        # )
 
         mrv.scatter3(
             pl,
@@ -238,13 +241,21 @@ We can now plot everything!
    :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    File not found in storage, proceeding to download...
+    Downloading tsi_v02r01-preliminary_daily_s20240101_e20240331_c20240418.nc...
+    Using: https://www.ncei.noaa.gov/data/total-solar-irradiance/access/daily/tsi_v02r01-preliminary_daily_s20240101_e20240331_c20240418.nc
+
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 25.073 seconds)
+   **Total running time of the script:** (0 minutes 19.448 seconds)
 
 
 .. _sphx_glr_download_gallery_07-observer_local_hemisphere.py:
@@ -260,6 +271,10 @@ We can now plot everything!
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: local_hemisphere.py <local_hemisphere.py>`
+
+    .. container:: sphx-glr-download sphx-glr-download-zip
+
+      :download:`Download zipped: local_hemisphere.zip <local_hemisphere.zip>`
 
 
 .. only:: html

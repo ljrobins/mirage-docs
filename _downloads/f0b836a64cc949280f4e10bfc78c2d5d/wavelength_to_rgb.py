@@ -4,6 +4,7 @@ Wavelength to RGB
 An approximate conversion from wavelength to RGB values for plotting.
 """
 
+import matplotlib.pyplot as plt
 import numpy as np
 
 import mirage.vis as mrv
@@ -11,7 +12,6 @@ import mirage.vis as mrv
 wavelengths = np.linspace(400, 700, 1000)
 rgbs = mrv.wavelength_to_rgb(wavelengths).reshape(1, -1, 3)
 
-import matplotlib.pyplot as plt
 
 plt.figure(figsize=(6, 2))
 plt.imshow(rgbs, extent=[wavelengths.min(), wavelengths.max(), 0, 50])

@@ -47,7 +47,7 @@ The mean background signal model due to various sources
 
 Defining a function we can use to plot various background signals
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-105
+.. GENERATED FROM PYTHON SOURCE LINES 18-107
 
 .. code-block:: Python
 
@@ -68,8 +68,8 @@ Defining a function we can use to plot various background signals
         c_grid = mrv.celestial_grid(30, 30)
         c_grid = (station.eci_to_enu(date).T @ c_grid.T).T
         (g_az, g_el) = np.meshgrid(
-            np.linspace(0, 2 * np.pi, 250),
-            np.linspace(np.deg2rad(0), np.pi / 2, 250),
+            np.linspace(0, 2 * np.pi, 250, endpoint=False),
+            np.linspace(np.deg2rad(0), np.pi / 2, 250, endpoint=False),
         )
 
         look_dirs_eci_eq = station.az_el_to_eci(g_az.flatten(), g_el.flatten(), date)
@@ -77,7 +77,9 @@ Defining a function we can use to plot various background signals
         stat_eci = station.j2000_at_dates(date)
 
         mr.tic()
-        sb = station.sky_brightness(dates, look_dirs_eci_eq, **signal_kwargs)
+        sb = station.sky_brightness(
+            dates, look_dirs_eci_eq, **signal_kwargs, integration_time_s=1.0
+        )
         mr.toc()
         mrv.plot_earth(
             pl,
@@ -145,12 +147,12 @@ Defining a function we can use to plot various background signals
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 106-108
+.. GENERATED FROM PYTHON SOURCE LINES 108-110
 
 Setting up observation conditions using an example Space Debris Telescope preset from Krag2003
 station = mr.Station(preset="lmt", lat_deg=33.776864, lon_deg=-84.363777) # Atlanta, GA
 
-.. GENERATED FROM PYTHON SOURCE LINES 108-111
+.. GENERATED FROM PYTHON SOURCE LINES 110-113
 
 .. code-block:: Python
 
@@ -164,11 +166,11 @@ station = mr.Station(preset="lmt", lat_deg=33.776864, lon_deg=-84.363777) # Atla
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 112-113
+.. GENERATED FROM PYTHON SOURCE LINES 114-115
 
 Plotting the background signal for scattered moonlight
 
-.. GENERATED FROM PYTHON SOURCE LINES 113-123
+.. GENERATED FROM PYTHON SOURCE LINES 115-125
 
 .. code-block:: Python
 
@@ -195,16 +197,16 @@ Plotting the background signal for scattered moonlight
 
  .. code-block:: none
 
-    Elapsed time: 7.43e+00 seconds
+    Elapsed time: 4.12e+00 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 124-125
+.. GENERATED FROM PYTHON SOURCE LINES 126-127
 
 Plotting the background signal for integrated starlight
 
-.. GENERATED FROM PYTHON SOURCE LINES 125-135
+.. GENERATED FROM PYTHON SOURCE LINES 127-137
 
 .. code-block:: Python
 
@@ -231,16 +233,16 @@ Plotting the background signal for integrated starlight
 
  .. code-block:: none
 
-    Elapsed time: 4.78e+00 seconds
+    Elapsed time: 2.07e+00 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 136-137
+.. GENERATED FROM PYTHON SOURCE LINES 138-139
 
 Plotting the background signal for light pollution
 
-.. GENERATED FROM PYTHON SOURCE LINES 137-147
+.. GENERATED FROM PYTHON SOURCE LINES 139-149
 
 .. code-block:: Python
 
@@ -267,16 +269,16 @@ Plotting the background signal for light pollution
 
  .. code-block:: none
 
-    Elapsed time: 4.24e+00 seconds
+    Elapsed time: 2.13e+00 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 148-149
+.. GENERATED FROM PYTHON SOURCE LINES 150-151
 
 Plotting the background signal for zodiac light
 
-.. GENERATED FROM PYTHON SOURCE LINES 149-159
+.. GENERATED FROM PYTHON SOURCE LINES 151-161
 
 .. code-block:: Python
 
@@ -303,16 +305,16 @@ Plotting the background signal for zodiac light
 
  .. code-block:: none
 
-    Elapsed time: 7.43e+00 seconds
+    Elapsed time: 3.01e+00 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 160-161
+.. GENERATED FROM PYTHON SOURCE LINES 162-163
 
 Plotting the background signal for airglow
 
-.. GENERATED FROM PYTHON SOURCE LINES 161-171
+.. GENERATED FROM PYTHON SOURCE LINES 163-173
 
 .. code-block:: Python
 
@@ -339,16 +341,16 @@ Plotting the background signal for airglow
 
  .. code-block:: none
 
-    Elapsed time: 4.77e+00 seconds
+    Elapsed time: 2.12e+00 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 172-173
+.. GENERATED FROM PYTHON SOURCE LINES 174-175
 
 Plotting the background signal for scattered twilight
 
-.. GENERATED FROM PYTHON SOURCE LINES 173-183
+.. GENERATED FROM PYTHON SOURCE LINES 175-185
 
 .. code-block:: Python
 
@@ -375,16 +377,16 @@ Plotting the background signal for scattered twilight
 
  .. code-block:: none
 
-    Elapsed time: 1.45e+01 seconds
+    Elapsed time: 6.84e+00 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 184-185
+.. GENERATED FROM PYTHON SOURCE LINES 186-187
 
 Plotting the full background signal with all sources enabled
 
-.. GENERATED FROM PYTHON SOURCE LINES 185-194
+.. GENERATED FROM PYTHON SOURCE LINES 187-196
 
 .. code-block:: Python
 
@@ -410,7 +412,7 @@ Plotting the full background signal with all sources enabled
 
  .. code-block:: none
 
-    Elapsed time: 2.11e+01 seconds
+    Elapsed time: 1.09e+01 seconds
 
 
 
@@ -418,7 +420,7 @@ Plotting the full background signal with all sources enabled
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (1 minutes 24.655 seconds)
+   **Total running time of the script:** (0 minutes 40.089 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_background_signals.py:
@@ -434,6 +436,10 @@ Plotting the full background signal with all sources enabled
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: background_signals.py <background_signals.py>`
+
+    .. container:: sphx-glr-download sphx-glr-download-zip
+
+      :download:`Download zipped: background_signals.zip <background_signals.zip>`
 
 
 .. only:: html

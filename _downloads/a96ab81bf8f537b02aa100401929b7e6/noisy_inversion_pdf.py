@@ -25,6 +25,7 @@ q0 = np.array([0.0, 0.0, 0.0, 1.0])
 idate = mr.utc(2023, 3, 26, 10)
 obs_time = mr.hours(3)
 obs_dt = mr.seconds(10)
+integration_time_s = obs_dt.total_seconds()
 
 obj = mr.SpaceObject('cube.obj', identifier='goes 15')
 station = mr.Station(preset='pogs')
@@ -47,7 +48,13 @@ station.constraints = [
 for i, msf in enumerate(model_scale_factor):
     pl.subplot(0, i)
     lc_ccd_signal_sampler, aux_data = station.observe_light_curve(
-        obj, attitude, brdf, dates, use_engine=True, model_scale_factor=msf
+        obj,
+        attitude,
+        brdf,
+        dates,
+        integration_time_s,
+        use_engine=True,
+        model_scale_factor=msf,
     )
 
     sun_body = aux_data['sun_vector_object_body']
@@ -74,9 +81,7 @@ for i, msf in enumerate(model_scale_factor):
     rec_objs = []
     for _ in range(nper):
         lc_ccd_signal = lc_ccd_signal_sampler()
-        lc_noisy_irrad = lc_ccd_signal / (
-            aux_data['sint'] * station.telescope.integration_time
-        )
+        lc_noisy_irrad = lc_ccd_signal / (aux_data['sint'] * integration_time_s)
         lc_noisy_unit_irrad = (
             lc_noisy_irrad
             * (aux_data['rmag_station_to_sat'] * 1e3) ** 2

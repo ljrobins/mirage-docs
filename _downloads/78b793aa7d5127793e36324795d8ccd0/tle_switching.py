@@ -5,6 +5,7 @@ TLE Switching
 Various methods to switch between TLEs for more accurate long-term propagation
 """
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pyvista as pv
 
@@ -55,8 +56,6 @@ pl.show()
 
 # %%
 # We can also plot the error between these switching methods. Clearly, the interpolated switching strategy is the most accurate choice
-
-import matplotlib.pyplot as plt
 
 plt.plot(epsec_space / 86400, mr.vecnorm(r_interp - r_closest))
 plt.plot(epsec_space / 86400, mr.vecnorm(r_newest - r_closest))

@@ -10,6 +10,7 @@ from typing import Any
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.widgets import Button, Slider
+from scipy.io import loadmat
 from scipy.optimize import minimize
 
 import mirage as mr
@@ -168,8 +169,6 @@ def y_from_bwp(bwp: BoxWingParametric):
         ]
     )
 
-
-from scipy.io import loadmat
 
 orbit_sol_path = '/Volumes/Data 1/imgs/pogs/2022/2022-09-18_GPS_PRN14/ProcessedData/Fitted_Orbits/OrbitSolutions.mat'
 orbit_mat = loadmat(orbit_sol_path)

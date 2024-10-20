@@ -5,10 +5,10 @@ POGS Status
 The weather status of the Purdue Optical Ground Station
 """
 
-import numpy as np
-import matplotlib.pyplot as plt
 import datetime
 import itertools
+
+import matplotlib.pyplot as plt
 
 csv = """2024-07-03 22:15:04.958184,clouds
 2024-07-04 07:59:04.628433,daylight

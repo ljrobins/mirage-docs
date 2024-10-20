@@ -7,8 +7,10 @@ import os
 
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.animation import FuncAnimation
 
 import mirage as mr
+import mirage.synth as mrsyn
 
 coe_chief = np.array([7000, 0.1, 10, 5, 5, 5])
 coe_chase = coe_chief + np.array([0, 0.0005, 0.0005, 0.01, 0.01, 0.0])
@@ -47,8 +49,6 @@ q_camera = mr.dcm_to_quat(dcm_inertial_to_camera)
 # %%
 # Running the synthetic image generator
 
-import mirage.synth as mrsyn
-
 mrsyn.generate_synthetic_sequence(
     'matlib_goes17.obj',
     svb,
@@ -60,8 +60,6 @@ mrsyn.generate_synthetic_sequence(
 
 # %%
 # Making a matplotlib animation of the result
-
-from matplotlib.animation import FuncAnimation
 
 fig, ax = plt.subplots()
 ax.set_aspect('equal')

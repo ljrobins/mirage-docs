@@ -21,12 +21,13 @@
 Precise Orbit Determination with Batch Least Squares
 ====================================================
 
-.. GENERATED FROM PYTHON SOURCE LINES 5-12
+.. GENERATED FROM PYTHON SOURCE LINES 5-13
 
 .. code-block:: Python
 
 
     import datetime
+    from typing import Callable
 
     import numpy as np
 
@@ -39,11 +40,11 @@ Precise Orbit Determination with Batch Least Squares
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 13-14
+.. GENERATED FROM PYTHON SOURCE LINES 14-15
 
 First, let's define a station and a truth object
 
-.. GENERATED FROM PYTHON SOURCE LINES 14-18
+.. GENERATED FROM PYTHON SOURCE LINES 15-19
 
 .. code-block:: Python
 
@@ -55,24 +56,14 @@ First, let's define a station and a truth object
 
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    Model file cube.obj not found in current model folder ('/Users/liamrobinson/Documents/mirage-models/accurate_sats'), checking model repository...
-    Attempting to download cube.obj and its associated material file from the model repository...
-    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Regular/cube.obj
-    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Regular/cube.mtl
-    Model files were downloaded successfully!
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 19-20
+.. GENERATED FROM PYTHON SOURCE LINES 20-21
 
 Let's create three line of sight observations of the object
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-26
+.. GENERATED FROM PYTHON SOURCE LINES 21-27
 
 .. code-block:: Python
 
@@ -89,11 +80,11 @@ Let's create three line of sight observations of the object
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-28
+.. GENERATED FROM PYTHON SOURCE LINES 28-29
 
 Now we collect a lot more observations
 
-.. GENERATED FROM PYTHON SOURCE LINES 28-33
+.. GENERATED FROM PYTHON SOURCE LINES 29-34
 
 .. code-block:: Python
 
@@ -109,11 +100,11 @@ Now we collect a lot more observations
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-35
+.. GENERATED FROM PYTHON SOURCE LINES 35-36
 
 Let's compute the H matrix for this observation set. We know that the H matrix is defined as the partial derivatives of the observations with respect to the state vector.
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-111
+.. GENERATED FROM PYTHON SOURCE LINES 36-109
 
 .. code-block:: Python
 
@@ -166,9 +157,6 @@ Let's compute the H matrix for this observation set. We know that the H matrix i
         return H2
 
 
-    from typing import Callable
-
-
     def lumve(
         measurements: np.ndarray,
         dates: np.ndarray[datetime.datetime],
@@ -200,11 +188,11 @@ Let's compute the H matrix for this observation set. We know that the H matrix i
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 112-113
+.. GENERATED FROM PYTHON SOURCE LINES 110-111
 
 Now let's run the batch least squares algorithm
 
-.. GENERATED FROM PYTHON SOURCE LINES 113-125
+.. GENERATED FROM PYTHON SOURCE LINES 111-123
 
 .. code-block:: Python
 
@@ -230,7 +218,7 @@ Now let's run the batch least squares algorithm
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.961 seconds)
+   **Total running time of the script:** (0 minutes 1.653 seconds)
 
 
 .. _sphx_glr_download_gallery_11-work-in-progress_precise_orbit_determination.py:
@@ -246,6 +234,10 @@ Now let's run the batch least squares algorithm
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: precise_orbit_determination.py <precise_orbit_determination.py>`
+
+    .. container:: sphx-glr-download sphx-glr-download-zip
+
+      :download:`Download zipped: precise_orbit_determination.zip <precise_orbit_determination.zip>`
 
 
 .. only:: html

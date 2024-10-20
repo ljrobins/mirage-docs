@@ -22,7 +22,7 @@ Light Curve Uncertainty
 =======================
 Plotting a realistic light curve with uncertainty
 
-.. GENERATED FROM PYTHON SOURCE LINES 6-90
+.. GENERATED FROM PYTHON SOURCE LINES 6-95
 
 .. code-block:: Python
 
@@ -38,6 +38,7 @@ Plotting a realistic light curve with uncertainty
     idate = mr.utc(2023, 2, 26, 0)
     obs_time = mr.minutes(20)
     obs_dt = mr.seconds(3)
+    integration_time_s = obs_dt.total_seconds()
 
     obj_file = 'cube.obj'
 
@@ -59,7 +60,13 @@ Plotting a realistic light curve with uncertainty
 
     obj = mr.SpaceObject(obj_file, identifier='goes 15')
     lc_ccd_signal_sampler, aux_data = station.observe_light_curve(
-        obj, attitude, brdf, dates, use_engine=False, model_scale_factor=0.5
+        obj,
+        attitude,
+        brdf,
+        dates,
+        integration_time_s,
+        use_engine=False,
+        model_scale_factor=0.5,
     )
 
     print(np.mean(aux_data['background_mean']))
@@ -69,9 +76,7 @@ Plotting a realistic light curve with uncertainty
 
     plt.subplot(1, 2, 1)
     lcs_noisy_adu = np.array([lc_ccd_signal_sampler() for _ in range(1000)])
-    lcs_noisy_irrad = lcs_noisy_adu / (
-        aux_data['sint'] * station.telescope.integration_time
-    )
+    lcs_noisy_irrad = lcs_noisy_adu / (aux_data['sint'] * integration_time_s)
     lcs_noisy_mag = lcs_noisy_irrad
     var_lcs = np.var(lcs_noisy_mag, axis=0)
     mean_lcs = np.mean(lcs_noisy_mag, axis=0)
@@ -124,16 +129,16 @@ Plotting a realistic light curve with uncertainty
  .. code-block:: none
 
     WARNING: no observation constraints assigned!
-    27624.204708549547
+    4143.630705213781
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 91-92
+.. GENERATED FROM PYTHON SOURCE LINES 96-97
 
 Sampling the same light curve on different nights throughout the month
 
-.. GENERATED FROM PYTHON SOURCE LINES 92-147
+.. GENERATED FROM PYTHON SOURCE LINES 97-156
 
 .. code-block:: Python
 
@@ -141,10 +146,16 @@ Sampling the same light curve on different nights throughout the month
     idate = mr.utc(2022, 11, 15, 0)
     dates, epsecs = mr.date_arange(idate, idate + obs_time, obs_dt, return_epsecs=True)
 
-    for nights in np.arange(4):
+    for nights in range(4):
         this_dates = dates + mr.days(nights * 60.0)
         lc_ccd_signal_sampler, aux_data = station.observe_light_curve(
-            obj, attitude, brdf, this_dates, use_engine=False, model_scale_factor=0.5
+            obj,
+            attitude,
+            brdf,
+            this_dates,
+            integration_time_s,
+            use_engine=False,
+            model_scale_factor=0.5,
         )
 
         print(np.mean(aux_data['background_mean']))
@@ -152,9 +163,7 @@ Sampling the same light curve on different nights throughout the month
         plt.subplot(2, 2, nights + 1)
 
         lcs_noisy_adu = np.array([lc_ccd_signal_sampler() for _ in range(1000)])
-        lcs_noisy_irrad = lcs_noisy_adu / (
-            aux_data['sint'] * station.telescope.integration_time
-        )
+        lcs_noisy_irrad = lcs_noisy_adu / (aux_data['sint'] * integration_time_s)
         lcs_noisy_mag = mr.irradiance_to_apparent_magnitude(lcs_noisy_irrad)
         var_lcs = np.var(lcs_noisy_mag, axis=0)
         mean_lcs = np.mean(lcs_noisy_mag, axis=0)
@@ -206,15 +215,15 @@ Sampling the same light curve on different nights throughout the month
  .. code-block:: none
 
     WARNING: no observation constraints assigned!
-    27546.823536751443
-    /Users/liamrobinson/Documents/mirage/lib/python3.11/site-packages/numpy/core/_methods.py:173: RuntimeWarning: invalid value encountered in subtract
+    4132.023530251826
+    /Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/numpy/core/_methods.py:173: RuntimeWarning: invalid value encountered in subtract
       x = asanyarray(arr - arrmean)
     WARNING: no observation constraints assigned!
-    27487.911201571012
+    4123.186680250812
     WARNING: no observation constraints assigned!
-    27459.055805135995
+    4118.858370770398
     WARNING: no observation constraints assigned!
-    35508.78253114131
+    5326.317379671198
 
 
 
@@ -222,7 +231,7 @@ Sampling the same light curve on different nights throughout the month
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (2 minutes 14.506 seconds)
+   **Total running time of the script:** (0 minutes 5.221 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_lc_uncertainty.py:
@@ -238,6 +247,10 @@ Sampling the same light curve on different nights throughout the month
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: lc_uncertainty.py <lc_uncertainty.py>`
+
+    .. container:: sphx-glr-download sphx-glr-download-zip
+
+      :download:`Download zipped: lc_uncertainty.zip <lc_uncertainty.zip>`
 
 
 .. only:: html

@@ -32,8 +32,8 @@ def hemisphere_signal(
     c_grid = mrv.celestial_grid(30, 30)
     c_grid = (station.eci_to_enu(date).T @ c_grid.T).T
     (g_az, g_el) = np.meshgrid(
-        np.linspace(0, 2 * np.pi, 250),
-        np.linspace(np.deg2rad(0), np.pi / 2, 250),
+        np.linspace(0, 2 * np.pi, 250, endpoint=False),
+        np.linspace(np.deg2rad(0), np.pi / 2, 250, endpoint=False),
     )
 
     look_dirs_eci_eq = station.az_el_to_eci(g_az.flatten(), g_el.flatten(), date)
@@ -41,7 +41,9 @@ def hemisphere_signal(
     stat_eci = station.j2000_at_dates(date)
 
     mr.tic()
-    sb = station.sky_brightness(dates, look_dirs_eci_eq, **signal_kwargs)
+    sb = station.sky_brightness(
+        dates, look_dirs_eci_eq, **signal_kwargs, integration_time_s=1.0
+    )
     mr.toc()
     mrv.plot_earth(
         pl,

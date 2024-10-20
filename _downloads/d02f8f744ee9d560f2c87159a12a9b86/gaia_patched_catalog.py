@@ -5,13 +5,16 @@ GAIA Patched Catalog
 Displays the patched GAIA catalog
 """
 
+import os
+
 import matplotlib.pyplot as plt
 import numpy as np
 
-# %%
-# Let's set up a grid of directions to plot the starlight signal at in J2000
 import mirage as mr
 import mirage.vis as mrv
+
+# %%
+# Let's set up a grid of directions to plot the starlight signal at in J2000
 
 dec_grid, ra_grid = np.meshgrid(
     np.linspace(-np.pi / 2, np.pi / 2, 180),
@@ -35,102 +38,33 @@ s10_to_irrad_true = np.rad2deg(1) ** 2 * mr.apparent_magnitude_to_irradiance(10)
 # %%
 # Let's first display the raw :math:`S_{10}` brightness of the patched catalog
 
-f_star = mr.catalog_starlight_signal(
-    ra_grid, dec_grid
-)  # Units [10th magnitude stars / deg^2] = S_10
-station = mr.Station()
-signal = mr.integrated_starlight_signal(
-    station, look_dir_grid, look_dir_grid * mr.AstroConstants.earth_r_eq
-)
-signal = np.log10(np.reshape(signal, ra_grid.shape))
+x = np.load(os.path.join(os.environ['SRCDIR'], '..', 'patched6.npz'))
+signal_3d = x['isl']
+lims = x['mag_lims']
+
+start_ind = np.argwhere(lims[:, 0] == 14).squeeze()
+signal_2d = np.sum(signal_3d[:, :, start_ind:], axis=2)
+
 xx, yy = np.meshgrid(
-    np.linspace(-180, 180, signal.shape[1]), np.linspace(-90, 90, signal.shape[0])
+    np.linspace(-180, 180, signal_2d.shape[1]), np.linspace(-90, 90, signal_2d.shape[0])
 )
-cs = plt.contour(xx, yy, signal, levels=[1], colors='k', linestyles='solid')
-plt.gca().clabel(cs, inline=True, fontsize=10)
+
+plt.figure(figsize=(9, 4))
 plt.imshow(
-    np.flipud(signal),
+    np.flipud(np.log10(signal_2d)),
     cmap='plasma',
     extent=(-180, 180, -90, 90),
 )
 
 mrv.texit(
-    'Patched GAIA Catalog $m \geq 16$',
+    'Patched GAIA Catalog $m_{G} \geq 14$',
     'Right Ascension [deg]',
     'Declination [deg]',
     grid=False,
 )
-plt.colorbar(label=r'Zenith signal $\log_{10}\text{[ADU]}$', cax=mrv.get_cbar_ax())
+plt.colorbar(
+    label=r'Zenith signal $\log_{10} \: \frac{W}{m^2\cdot \text{deg}^2}$',
+    cax=mrv.get_cbar_ax(),
+)
+plt.tight_layout()
 plt.show()
-
-# %%
-# Now we define the telescope we want to perform the observations with, we'll use the Purdue Optical Ground Station (POGS)
-x, y, z = mr.sph_to_cart(ra_grid.flatten(), dec_grid.flatten())
-sample_dirs_eci = np.vstack((x, y, z)).T
-
-station = mr.Station('pogs')
-sig = mr.integrated_starlight_signal(
-    station=station,
-    look_dirs_eci_eq=sample_dirs_eci,
-    obs_pos_eci_eq=sample_dirs_eci,
-)
-
-# %%
-# Now we reshape the signal into the original grid and display the plot as an image
-# We'll also overlay the Tycho 2 RA/Dec coordinates to confirm that both overlap correctly
-
-plt.imshow(
-    np.flipud(sig.reshape(dec_grid.shape)),
-    cmap='hot',
-    extent=(-180, 180, -90, 90),
-)
-
-# urls_and_dirs = {
-#     "https://github.com/ljrobins/mirage-resources/raw/main/tycho2.json": os.environ[
-#         "DATADIR"
-#     ],
-# }
-
-# for url, dir in urls_and_dirs.items():
-#     mr.save_file_from_url(url, dir)
-
-t2 = mr.load_json_data('tycho2.json')
-tycho2_ra_rad = t2['j2000_ra'][::10]
-tycho2_dec_rad = t2['j2000_dec'][::10]
-vm = t2['visual_magnitude'][::10]
-
-mrv.texit(
-    'Patched GAIA Catalog $m \geq 16$',
-    'Right Ascension [deg]',
-    'Declination [deg]',
-    grid=False,
-)
-plt.colorbar(label='Total signal [e-/pix]', cax=mrv.get_cbar_ax())
-plt.show()
-
-# %%
-# We can also display the GAIA patched catalog and the Tycho 2 unit vectors on the ECI unit sphere:
-import pyvista as pv
-
-tycho2_unit_vectors = np.vstack(mr.sph_to_cart(az=tycho2_ra_rad, el=tycho2_dec_rad)).T
-
-pl = pv.Plotter()
-pl.set_background('black')
-mrv.scatter3(
-    pl,
-    sample_dirs_eci,
-    scalars=sig,
-    point_size=10,
-    cmap='fire',
-    opacity=sig / np.max(sig),
-)
-mrv.scatter3(
-    pl,
-    tycho2_unit_vectors,
-    scalars=1 - vm / np.max(vm),
-    point_size=0.05,
-    cmap='cool',
-)
-mrv.plot_basis(pl, np.eye(3), ['x', 'y', 'z'], scale=1.3, color='cyan')
-pl.view_isometric()
-pl.show()

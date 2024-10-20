@@ -23,7 +23,7 @@ Inversion PDF
 
 Estimating the probability density function for the surface of the object
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-112
+.. GENERATED FROM PYTHON SOURCE LINES 7-117
 
 
 
@@ -59,6 +59,7 @@ Estimating the probability density function for the surface of the object
     idate = mr.utc(2023, 3, 26, 10)
     obs_time = mr.hours(3)
     obs_dt = mr.seconds(10)
+    integration_time_s = obs_dt.total_seconds()
 
     obj = mr.SpaceObject('cube.obj', identifier='goes 15')
     station = mr.Station(preset='pogs')
@@ -81,7 +82,13 @@ Estimating the probability density function for the surface of the object
     for i, msf in enumerate(model_scale_factor):
         pl.subplot(0, i)
         lc_ccd_signal_sampler, aux_data = station.observe_light_curve(
-            obj, attitude, brdf, dates, use_engine=True, model_scale_factor=msf
+            obj,
+            attitude,
+            brdf,
+            dates,
+            integration_time_s,
+            use_engine=True,
+            model_scale_factor=msf,
         )
 
         sun_body = aux_data['sun_vector_object_body']
@@ -108,9 +115,7 @@ Estimating the probability density function for the surface of the object
         rec_objs = []
         for _ in range(nper):
             lc_ccd_signal = lc_ccd_signal_sampler()
-            lc_noisy_irrad = lc_ccd_signal / (
-                aux_data['sint'] * station.telescope.integration_time
-            )
+            lc_noisy_irrad = lc_ccd_signal / (aux_data['sint'] * integration_time_s)
             lc_noisy_unit_irrad = (
                 lc_noisy_irrad
                 * (aux_data['rmag_station_to_sat'] * 1e3) ** 2
@@ -147,7 +152,7 @@ Estimating the probability density function for the surface of the object
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 19.762 seconds)
+   **Total running time of the script:** (0 minutes 14.823 seconds)
 
 
 .. _sphx_glr_download_gallery_02-light_curve_inversion_noisy_inversion_pdf.py:
@@ -163,6 +168,10 @@ Estimating the probability density function for the surface of the object
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: noisy_inversion_pdf.py <noisy_inversion_pdf.py>`
+
+    .. container:: sphx-glr-download sphx-glr-download-zip
+
+      :download:`Download zipped: noisy_inversion_pdf.zip <noisy_inversion_pdf.zip>`
 
 
 .. only:: html

@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -51,7 +51,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Parametric Box-Wing Inversion" href="parametric_box_wing.html" />
-    <link rel="prev" title="Multiple Hypothesis Inversion" href="multi_hypothesis_inversion.html" />
+    <link rel="prev" title="EGI Optimization" href="egi_optimization.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -333,6 +333,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_ambiguities.html">Light Curve Ambiguities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/importance_sampling_cook_torrance.html">Importance Sampling Cook-Torrance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/box_wing_simple.html">Simple Box-Wing Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_units.html">Light Curve Units</a></li>
@@ -343,11 +344,8 @@ document.write(`
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Light Curve Inversion</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="support_optimization.html">Support Optimization Comparison</a></li>
 <li class="toctree-l2"><a class="reference internal" href="perfect_info_inversion.html">Perfect Information Inversion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="poisson_shape_variance.html">Shape Uncertainty</a></li>
 <li class="toctree-l2"><a class="reference internal" href="noisy_inversion_pdf.html">Inversion PDF</a></li>
-<li class="toctree-l2"><a class="reference internal" href="face_uncertainty.html">Face Uncertainty</a></li>
 <li class="toctree-l2"><a class="reference internal" href="egi_optimization.html">EGI Optimization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multi_hypothesis_inversion.html">Multiple Hypothesis Inversion</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Non-Convex Inversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="parametric_box_wing.html">Parametric Box-Wing Inversion</a></li>
 </ul>
@@ -365,24 +363,24 @@ document.write(`
 <li class="toctree-l1 has-children"><a class="reference internal" href="../04-environment/index.html">Environment</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/luminous_efficiency.html">Luminous Efficiency Function</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/twilight_model.html">Twilight Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/geoid_heights.html">Global Elevation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/airmass.html">Airmass Function Comparison</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/geoid_heights.html">Global Elevation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/astm_spectra.html">ASTM Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astronomical Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_zenith.html">Background Signals at Zenith</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/penumbra_plane.html">Penumbra Visualized</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/shadow_functions.html">Shadow Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/solar_spectrum.html">Solar Spectrum</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/atmospheric_transmission.html">Atmospheric Transmission</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/passbands.html">Passbands</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/solar_system.html">Solar System</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/star_catalogs.html">Star Catalogs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astronomical Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/single_star_spectrum.html">Calibrated Star Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_importance.html">Background Importance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/single_star_spectrum.html">Vega and Apparent Magnitudes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/reflected_albedo.html">Earth Albedo BRDF</a></li>
 </ul>
@@ -412,11 +410,13 @@ document.write(`
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../08-ccd/index.html">CCD Characterization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-ccd/qe_curves.html">Quantum Efficiency Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/vega_psf.html">Vega PSF</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/convolution_streaks.html">Convolution for Streaks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/noise_accum_gifs.html">Noise Sampling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../08-ccd/mapping_function.html">Mapping Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-ccd/digital_twin_compared.html">Digital Twin Animated</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/matched_imgs_gif.html">Digital Twin Animated</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-ccd/mapping_function.html">Mapping Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/stars_in_fov.html">Stars in FOV</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/airy_disk_gaussian_fit.html">Airy Disk Gaussian Fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/bias_frame.html">Bias Frames</a></li>
@@ -455,7 +455,7 @@ document.write(`
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../11-work-in-progress/index.html">Works In Progress</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../11-work-in-progress/inversion_gradient.html">EGI Jacobian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-work-in-progress/zod.html">Zodiacal Light</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../11-work-in-progress/rhotater_count_minima.html">Attitude Inversion Minima</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../11-work-in-progress/precise_orbit_determination.html">Precise Orbit Determination with Batch Least Squares</a></li>
 </ul>
@@ -532,7 +532,7 @@ to download the full example code.</p>
 </div>
 <section class="sphx-glr-example-title" id="non-convex-inversion">
 <span id="sphx-glr-gallery-02-light-curve-inversion-aas-non-convex-inversion-py"></span><h1>Non-Convex Inversion<a class="headerlink" href="#non-convex-inversion" title="Link to this heading">#</a></h1>
-<p>Implementing non-convex inversion using my method from summer 2022 <span id="id1">[<a class="reference internal" href="../../references.html#id96" title="Liam Robinson and Carolin Frueh. Light curve inversion for reliable shape reconstruction of human-made space objects. In Proceedings of the 32nd AIAA/AAS Astrodynamics Specialist Conference, 1-19. 09 2022.">RF22</a>]</span></p>
+<p>Implementing non-convex inversion using my method from summer 2022 <span id="id1">[<a class="reference internal" href="../../references.html#id88" title="Liam Robinson and Carolin Frueh. Light curve inversion for reliable shape reconstruction of human-made space objects. In Proceedings of the 32nd AIAA/AAS Astrodynamics Specialist Conference, 1-19. 09 2022.">RF22</a>]</span></p>
 <img src="../../_images/sphx_glr_aas_non_convex_inversion_001.png" srcset="../../_images/sphx_glr_aas_non_convex_inversion_001.png, ../../_images/sphx_glr_aas_non_convex_inversion_001_2_00x.png 2.00x" alt="aas non convex inversion" class = "sphx-glr-single-img"/><ul class="sphx-glr-horizontal">
 <li><img src="../../_images/sphx_glr_aas_non_convex_inversion_002.png" srcset="../../_images/sphx_glr_aas_non_convex_inversion_002.png" alt="aas non convex inversion" class = "sphx-glr-multi-img"/></li>
 <li><img src="../../_images/sphx_glr_aas_non_convex_inversion_003.png" srcset="../../_images/sphx_glr_aas_non_convex_inversion_003.png" alt="aas non convex inversion" class = "sphx-glr-multi-img"/></li>
@@ -547,34 +547,29 @@ Tried psi = 40.0 deg, got err = 0.00
 Tried psi = 50.0 deg, got err = 0.00
 Tried psi = 60.0 deg, got err = 0.00
 Tried psi = 70.0 deg, got err = 0.00
+Tried psi = 80.0 deg, got err = 0.02
+Optimal concavity angle: 70.0 deg
+Optimizing concavity angle...
+Tried psi = 10.0 deg, got err = 0.00
+Tried psi = 20.0 deg, got err = 0.00
+Tried psi = 30.0 deg, got err = 0.00
+Tried psi = 40.0 deg, got err = 0.00
+Tried psi = 50.0 deg, got err = 0.00
+Tried psi = 60.0 deg, got err = 0.00
+Tried psi = 70.0 deg, got err = 0.00
+Tried psi = 80.0 deg, got err = 0.00
+Optimal concavity angle: 50.0 deg
+Optimizing concavity angle...
+Tried psi = 10.0 deg, got err = 0.00
+Tried psi = 20.0 deg, got err = 0.00
+Tried psi = 30.0 deg, got err = 0.00
+Tried psi = 40.0 deg, got err = 0.00
+Tried psi = 50.0 deg, got err = 0.00
+Tried psi = 60.0 deg, got err = 0.00
+Tried psi = 70.0 deg, got err = 0.00
 Tried psi = 80.0 deg, got err = 0.01
-Optimal concavity angle: 10.0 deg
-Model file icosahedron.obj not found in current model folder (&#39;/Users/liamrobinson/Documents/mirage/mirage/resources/models&#39;), checking model repository...
-Attempting to download icosahedron.obj and its associated material file from the model repository...
-Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Regular/icosahedron.obj
-Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Regular/icosahedron.mtl
-Model files were downloaded successfully!
-Optimizing concavity angle...
-Tried psi = 10.0 deg, got err = 0.00
-Tried psi = 20.0 deg, got err = 0.00
-Tried psi = 30.0 deg, got err = 0.00
-Tried psi = 40.0 deg, got err = 0.00
-Tried psi = 50.0 deg, got err = 0.00
-Tried psi = 60.0 deg, got err = 0.00
-Tried psi = 70.0 deg, got err = 0.00
-Tried psi = 80.0 deg, got err = 0.00
-Optimal concavity angle: 10.0 deg
-Optimizing concavity angle...
-Tried psi = 10.0 deg, got err = 0.00
-Tried psi = 20.0 deg, got err = 0.00
-Tried psi = 30.0 deg, got err = 0.00
-Tried psi = 40.0 deg, got err = 0.00
-Tried psi = 50.0 deg, got err = 0.00
-Tried psi = 60.0 deg, got err = 0.00
-Tried psi = 70.0 deg, got err = 0.00
-Tried psi = 80.0 deg, got err = 0.00
-Optimal concavity angle: 10.0 deg
-Model file gem.obj not found in current model folder (&#39;/Users/liamrobinson/Documents/mirage/mirage/resources/models&#39;), checking model repository...
+Optimal concavity angle: 60.0 deg
+Model file gem.obj not found in current model folder (&#39;/Users/liamrobinson/Documents/maintained-research/mirage/mirage/resources/models&#39;), checking model repository...
 Attempting to download gem.obj and its associated material file from the model repository...
 Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Irregular/gem.obj
 Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Irregular/gem.mtl
@@ -588,7 +583,12 @@ Tried psi = 50.0 deg, got err = 0.00
 Tried psi = 60.0 deg, got err = 0.00
 Tried psi = 70.0 deg, got err = 0.00
 Tried psi = 80.0 deg, got err = 0.00
-Optimal concavity angle: 10.0 deg
+Optimal concavity angle: 30.0 deg
+Model file collapsed_cube.obj not found in current model folder (&#39;/Users/liamrobinson/Documents/maintained-research/mirage/mirage/resources/models&#39;), checking model repository...
+Attempting to download collapsed_cube.obj and its associated material file from the model repository...
+Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Non-Convex/collapsed_cube.obj
+Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Non-Convex/collapsed_cube.mtl
+Model files were downloaded successfully!
 Optimizing concavity angle...
 Tried psi = 10.0 deg, got err = 0.00
 Tried psi = 20.0 deg, got err = 0.00
@@ -597,9 +597,9 @@ Tried psi = 40.0 deg, got err = 0.00
 Tried psi = 50.0 deg, got err = 0.00
 Tried psi = 60.0 deg, got err = 0.00
 Tried psi = 70.0 deg, got err = 0.00
-Tried psi = 80.0 deg, got err = 0.02
-Optimal concavity angle: 10.0 deg
-Model file collapsed_ico.obj not found in current model folder (&#39;/Users/liamrobinson/Documents/mirage/mirage/resources/models&#39;), checking model repository...
+Tried psi = 80.0 deg, got err = 0.03
+Optimal concavity angle: 50.0 deg
+Model file collapsed_ico.obj not found in current model folder (&#39;/Users/liamrobinson/Documents/maintained-research/mirage/mirage/resources/models&#39;), checking model repository...
 Attempting to download collapsed_ico.obj and its associated material file from the model repository...
 Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Non-Convex/collapsed_ico.obj
 Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Non-Convex/collapsed_ico.mtl
@@ -613,8 +613,8 @@ Tried psi = 50.0 deg, got err = 0.00
 Tried psi = 60.0 deg, got err = 0.00
 Tried psi = 70.0 deg, got err = 0.00
 Tried psi = 80.0 deg, got err = 0.00
-Optimal concavity angle: 10.0 deg
-Model file collapsed_cyl.obj not found in current model folder (&#39;/Users/liamrobinson/Documents/mirage/mirage/resources/models&#39;), checking model repository...
+Optimal concavity angle: 70.0 deg
+Model file collapsed_cyl.obj not found in current model folder (&#39;/Users/liamrobinson/Documents/maintained-research/mirage/mirage/resources/models&#39;), checking model repository...
 Attempting to download collapsed_cyl.obj and its associated material file from the model repository...
 Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Non-Convex/collapsed_cyl.obj
 Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Non-Convex/collapsed_cyl.mtl
@@ -627,32 +627,32 @@ Tried psi = 40.0 deg, got err = 0.00
 Tried psi = 50.0 deg, got err = 0.00
 Tried psi = 60.0 deg, got err = 0.00
 Tried psi = 70.0 deg, got err = 0.00
-Tried psi = 80.0 deg, got err = 0.00
-Optimal concavity angle: 10.0 deg
-Model file collapsed_house.obj not found in current model folder (&#39;/Users/liamrobinson/Documents/mirage/mirage/resources/models&#39;), checking model repository...
+Tried psi = 80.0 deg, got err = 0.01
+Optimal concavity angle: 60.0 deg
+Model file collapsed_house.obj not found in current model folder (&#39;/Users/liamrobinson/Documents/maintained-research/mirage/mirage/resources/models&#39;), checking model repository...
 Attempting to download collapsed_house.obj and its associated material file from the model repository...
 Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Non-Convex/collapsed_house.obj
 Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Non-Convex/collapsed_house.mtl
 Model files were downloaded successfully!
 Optimizing concavity angle...
-Tried psi = 10.0 deg, got err = 0.00
-Tried psi = 20.0 deg, got err = 0.01
-Tried psi = 30.0 deg, got err = 0.01
+Tried psi = 10.0 deg, got err = 0.02
+Tried psi = 20.0 deg, got err = 0.02
+Tried psi = 30.0 deg, got err = 0.02
 Tried psi = 40.0 deg, got err = 0.01
 Tried psi = 50.0 deg, got err = 0.01
-Tried psi = 60.0 deg, got err = 0.02
-Tried psi = 70.0 deg, got err = 0.02
-Tried psi = 80.0 deg, got err = 0.05
-Optimal concavity angle: 10.0 deg
-Optimizing concavity angle...
-Tried psi = 10.0 deg, got err = 0.00
-Tried psi = 20.0 deg, got err = 0.00
-Tried psi = 30.0 deg, got err = 0.00
-Tried psi = 40.0 deg, got err = 0.00
-Tried psi = 50.0 deg, got err = 0.00
-Tried psi = 60.0 deg, got err = 0.00
-Tried psi = 70.0 deg, got err = 0.00
+Tried psi = 60.0 deg, got err = 0.01
+Tried psi = 70.0 deg, got err = 0.01
 Tried psi = 80.0 deg, got err = 0.03
+Optimal concavity angle: 70.0 deg
+Optimizing concavity angle...
+Tried psi = 10.0 deg, got err = 0.00
+Tried psi = 20.0 deg, got err = 0.00
+Tried psi = 30.0 deg, got err = 0.00
+Tried psi = 40.0 deg, got err = 0.00
+Tried psi = 50.0 deg, got err = 0.00
+Tried psi = 60.0 deg, got err = 0.00
+Tried psi = 70.0 deg, got err = 0.00
+Tried psi = 80.0 deg, got err = 0.00
 Optimal concavity angle: 10.0 deg
 Optimizing concavity angle...
 Tried psi = 10.0 deg, got err = 0.00
@@ -672,57 +672,57 @@ Tried psi = 40.0 deg, got err = 0.00
 Tried psi = 50.0 deg, got err = 0.00
 Tried psi = 60.0 deg, got err = 0.00
 Tried psi = 70.0 deg, got err = 0.00
+Tried psi = 80.0 deg, got err = 0.00
+Optimal concavity angle: 10.0 deg
+Optimizing concavity angle...
+Tried psi = 10.0 deg, got err = 0.00
+Tried psi = 20.0 deg, got err = 0.00
+Tried psi = 30.0 deg, got err = 0.00
+Tried psi = 40.0 deg, got err = 0.00
+Tried psi = 50.0 deg, got err = 0.00
+Tried psi = 60.0 deg, got err = 0.00
+Tried psi = 70.0 deg, got err = 0.00
+Tried psi = 80.0 deg, got err = 0.00
+Optimal concavity angle: 10.0 deg
+Optimizing concavity angle...
+Tried psi = 10.0 deg, got err = 0.00
+Tried psi = 20.0 deg, got err = 0.00
+Tried psi = 30.0 deg, got err = 0.00
+Tried psi = 40.0 deg, got err = 0.00
+Tried psi = 50.0 deg, got err = 0.00
+Tried psi = 60.0 deg, got err = 0.00
+Tried psi = 70.0 deg, got err = 0.00
+Tried psi = 80.0 deg, got err = 0.00
+Optimal concavity angle: 10.0 deg
+Optimizing concavity angle...
+Tried psi = 10.0 deg, got err = 0.00
+Tried psi = 20.0 deg, got err = 0.00
+Tried psi = 30.0 deg, got err = 0.00
+Tried psi = 40.0 deg, got err = 0.00
+Tried psi = 50.0 deg, got err = 0.00
+Tried psi = 60.0 deg, got err = 0.00
+Tried psi = 70.0 deg, got err = 0.00
+Tried psi = 80.0 deg, got err = 0.00
+Optimal concavity angle: 10.0 deg
+Optimizing concavity angle...
+Tried psi = 10.0 deg, got err = 0.00
+Tried psi = 20.0 deg, got err = 0.00
+Tried psi = 30.0 deg, got err = 0.00
+Tried psi = 40.0 deg, got err = 0.00
+Tried psi = 50.0 deg, got err = 0.00
+Tried psi = 60.0 deg, got err = 0.00
+Tried psi = 70.0 deg, got err = 0.00
+Tried psi = 80.0 deg, got err = 0.00
+Optimal concavity angle: 10.0 deg
+Optimizing concavity angle...
+Tried psi = 10.0 deg, got err = 0.00
+Tried psi = 20.0 deg, got err = 0.00
+Tried psi = 30.0 deg, got err = 0.00
+Tried psi = 40.0 deg, got err = 0.00
+Tried psi = 50.0 deg, got err = 0.00
+Tried psi = 60.0 deg, got err = 0.00
+Tried psi = 70.0 deg, got err = 0.01
 Tried psi = 80.0 deg, got err = 0.01
-Optimal concavity angle: 10.0 deg
-Optimizing concavity angle...
-Tried psi = 10.0 deg, got err = 0.00
-Tried psi = 20.0 deg, got err = 0.00
-Tried psi = 30.0 deg, got err = 0.00
-Tried psi = 40.0 deg, got err = 0.00
-Tried psi = 50.0 deg, got err = 0.00
-Tried psi = 60.0 deg, got err = 0.00
-Tried psi = 70.0 deg, got err = 0.00
-Tried psi = 80.0 deg, got err = 0.00
-Optimal concavity angle: 10.0 deg
-Optimizing concavity angle...
-Tried psi = 10.0 deg, got err = 0.00
-Tried psi = 20.0 deg, got err = 0.00
-Tried psi = 30.0 deg, got err = 0.00
-Tried psi = 40.0 deg, got err = 0.00
-Tried psi = 50.0 deg, got err = 0.00
-Tried psi = 60.0 deg, got err = 0.00
-Tried psi = 70.0 deg, got err = 0.00
-Tried psi = 80.0 deg, got err = 0.02
-Optimal concavity angle: 10.0 deg
-Optimizing concavity angle...
-Tried psi = 10.0 deg, got err = 0.00
-Tried psi = 20.0 deg, got err = 0.00
-Tried psi = 30.0 deg, got err = 0.00
-Tried psi = 40.0 deg, got err = 0.00
-Tried psi = 50.0 deg, got err = 0.00
-Tried psi = 60.0 deg, got err = 0.00
-Tried psi = 70.0 deg, got err = 0.00
-Tried psi = 80.0 deg, got err = 0.00
-Optimal concavity angle: 10.0 deg
-Optimizing concavity angle...
-Tried psi = 10.0 deg, got err = 0.00
-Tried psi = 20.0 deg, got err = 0.00
-Tried psi = 30.0 deg, got err = 0.00
-Tried psi = 40.0 deg, got err = 0.00
-Tried psi = 50.0 deg, got err = 0.00
-Tried psi = 60.0 deg, got err = 0.00
-Tried psi = 70.0 deg, got err = 0.00
-Tried psi = 80.0 deg, got err = 0.00
-Optimal concavity angle: 10.0 deg
-Optimizing concavity angle...
-Tried psi = 10.0 deg, got err = 0.00
-Tried psi = 20.0 deg, got err = 0.01
-Tried psi = 30.0 deg, got err = 0.01
-Tried psi = 40.0 deg, got err = 0.01
-Tried psi = 50.0 deg, got err = 0.01
-Tried psi = 60.0 deg, got err = 0.02
-Tried psi = 70.0 deg, got err = 0.02
-Tried psi = 80.0 deg, got err = 0.04
 Optimal concavity angle: 10.0 deg
 </pre></div>
 </div>
@@ -781,6 +781,7 @@ Optimal concavity angle: 10.0 deg
 <span class="n">idate</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">utc</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 <span class="n">obs_time</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">hours</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">obs_dt</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">seconds</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">integration_time_s</span> <span class="o">=</span> <span class="n">obs_dt</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span>
 <span class="n">win_width</span> <span class="o">=</span> <span class="mi">1500</span>
 <span class="n">obj_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">opacity</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">feature_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">feature_edge_angle</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
@@ -838,14 +839,13 @@ Optimal concavity angle: 10.0 deg
                 <span class="n">attitude</span><span class="p">,</span>
                 <span class="n">brdf</span><span class="p">,</span>
                 <span class="n">dates</span><span class="p">,</span>
+                <span class="n">integration_time_s</span><span class="p">,</span>
                 <span class="n">use_engine</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">model_scale_factor</span><span class="o">=</span><span class="n">model_scale_factor</span><span class="p">,</span>
             <span class="p">)</span>
 
             <span class="n">lc_ccd_signal</span> <span class="o">=</span> <span class="n">lc_ccd_signal_sampler</span><span class="p">()</span>
-            <span class="n">lc_noisy_irrad</span> <span class="o">=</span> <span class="n">lc_ccd_signal</span> <span class="o">/</span> <span class="p">(</span>
-                <span class="n">aux_data</span><span class="p">[</span><span class="s1">&#39;sint&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">station</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">integration_time</span>
-            <span class="p">)</span>
+            <span class="n">lc_noisy_irrad</span> <span class="o">=</span> <span class="n">lc_ccd_signal</span> <span class="o">/</span> <span class="p">(</span><span class="n">aux_data</span><span class="p">[</span><span class="s1">&#39;sint&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">integration_time_s</span><span class="p">)</span>
             <span class="n">lc_noisy_unit_irrad</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="n">lc_noisy_irrad</span>
                 <span class="o">*</span> <span class="p">(</span><span class="n">aux_data</span><span class="p">[</span><span class="s1">&#39;rmag_station_to_sat&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e3</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
@@ -976,13 +976,16 @@ Optimal concavity angle: 10.0 deg
         <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (2 minutes 54.722 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (1 minutes 57.512 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-02-light-curve-inversion-aas-non-convex-inversion-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/94d46a7a9b02dcf8fb82551bd4a5c795/aas_non_convex_inversion.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">aas_non_convex_inversion.ipynb</span></code></a></p>
 </div>
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/5b1f3308dc3281b149e724d9308047e6/aas_non_convex_inversion.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">aas_non_convex_inversion.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/a1ec4827913cdac40d48b161518aa685/aas_non_convex_inversion.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">aas_non_convex_inversion.zip</span></code></a></p>
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
@@ -999,12 +1002,12 @@ Optimal concavity angle: 10.0 deg
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="multi_hypothesis_inversion.html"
+       href="egi_optimization.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Multiple Hypothesis Inversion</p>
+        <p class="prev-next-title">EGI Optimization</p>
       </div>
     </a>
     <a class="right-next"
@@ -1055,7 +1058,7 @@ Optimal concavity angle: 10.0 deg
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.0.2.
     <br/>
   </p>
 </div>

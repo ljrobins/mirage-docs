@@ -6,8 +6,8 @@ Plotting 2D and 3D Signed Distance Fields
 """
 
 import matplotlib.pyplot as plt
+import mesdf
 import numpy as np
-import pysdf
 import pyvista as pv
 
 import mirage as mr
@@ -16,7 +16,7 @@ import mirage.vis as mrv
 obj = mr.SpaceObject('stanford_bunny.obj').clean()
 obj.v -= np.mean(obj.v, axis=0)
 
-f = pysdf.SDF(obj.v, obj.f)
+f = mesdf.SDF(obj.v, obj.f)
 
 grid_width = 1.3 * np.max(mr.vecnorm(obj.v))
 grid_density = 150

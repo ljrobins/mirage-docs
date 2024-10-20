@@ -6,10 +6,11 @@ How simple can a Runge-Kutta method get to still yield "good" performance for at
 
 """
 
-import numpy as np
-import mirage as mr
-import mirage.vis as mrv
 import time
+
+import numpy as np
+
+import mirage as mr
 
 
 def omega_dot(w: np.ndarray, itensor: np.ndarray) -> np.ndarray:

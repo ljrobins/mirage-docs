@@ -27,7 +27,7 @@ Modeling the shape of the CCD image
 
 It's important to understand where each pixel in the CCD originates from in the far field
 
-.. GENERATED FROM PYTHON SOURCE LINES 10-37
+.. GENERATED FROM PYTHON SOURCE LINES 10-40
 
 .. code-block:: Python
 
@@ -39,12 +39,15 @@ It's important to understand where each pixel in the CCD originates from in the 
 
     station = mr.Station()
     x, y = np.meshgrid(
-        np.arange(station.telescope.sensor_pixels),
-        np.arange(station.telescope.sensor_pixels),
+        np.arange(station.telescope.ccd.sensor_pixels),
+        np.arange(station.telescope.ccd.sensor_pixels),
     )
     mr.tic('Mapping')
     xd, yx = station.telescope.pixel_distortion(
-        x, y, station.telescope.sensor_pixels // 2, station.telescope.sensor_pixels // 2
+        x,
+        y,
+        station.telescope.ccd.sensor_pixels // 2,
+        station.telescope.ccd.sensor_pixels // 2,
     )
     mr.toc()
 
@@ -71,16 +74,16 @@ It's important to understand where each pixel in the CCD originates from in the 
 
  .. code-block:: none
 
-    Mapping: 1.28e+00 seconds
+    Mapping: 6.89e-01 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-39
+.. GENERATED FROM PYTHON SOURCE LINES 41-42
 
 Corner of the image principal lines
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-74
+.. GENERATED FROM PYTHON SOURCE LINES 42-79
 
 .. code-block:: Python
 
@@ -118,6 +121,8 @@ Corner of the image principal lines
         fancybox=True,
         shadow=True,
     )
+    plt.xlabel('$x$ pixels')
+    plt.ylabel('$y$ pixels')
     plt.show()
 
 
@@ -134,7 +139,7 @@ Corner of the image principal lines
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 5.229 seconds)
+   **Total running time of the script:** (0 minutes 2.762 seconds)
 
 
 .. _sphx_glr_download_gallery_08-ccd_mapping_function.py:
@@ -150,6 +155,10 @@ Corner of the image principal lines
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: mapping_function.py <mapping_function.py>`
+
+    .. container:: sphx-glr-download sphx-glr-download-zip
+
+      :download:`Download zipped: mapping_function.zip <mapping_function.zip>`
 
 
 .. only:: html

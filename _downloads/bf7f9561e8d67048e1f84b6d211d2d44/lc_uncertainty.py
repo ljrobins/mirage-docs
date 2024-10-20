@@ -15,6 +15,7 @@ w0 = 1e-2 * mr.hat(np.array([[1.0, 2.0, 1.0]]))
 idate = mr.utc(2023, 2, 26, 0)
 obs_time = mr.minutes(20)
 obs_dt = mr.seconds(3)
+integration_time_s = obs_dt.total_seconds()
 
 obj_file = 'cube.obj'
 
@@ -36,7 +37,13 @@ dcms_of_t = mr.quat_to_dcm(q_of_t)
 
 obj = mr.SpaceObject(obj_file, identifier='goes 15')
 lc_ccd_signal_sampler, aux_data = station.observe_light_curve(
-    obj, attitude, brdf, dates, use_engine=False, model_scale_factor=0.5
+    obj,
+    attitude,
+    brdf,
+    dates,
+    integration_time_s,
+    use_engine=False,
+    model_scale_factor=0.5,
 )
 
 print(np.mean(aux_data['background_mean']))
@@ -46,9 +53,7 @@ plt.figure(figsize=(10, 5))
 
 plt.subplot(1, 2, 1)
 lcs_noisy_adu = np.array([lc_ccd_signal_sampler() for _ in range(1000)])
-lcs_noisy_irrad = lcs_noisy_adu / (
-    aux_data['sint'] * station.telescope.integration_time
-)
+lcs_noisy_irrad = lcs_noisy_adu / (aux_data['sint'] * integration_time_s)
 lcs_noisy_mag = lcs_noisy_irrad
 var_lcs = np.var(lcs_noisy_mag, axis=0)
 mean_lcs = np.mean(lcs_noisy_mag, axis=0)
@@ -93,10 +98,16 @@ plt.show()
 idate = mr.utc(2022, 11, 15, 0)
 dates, epsecs = mr.date_arange(idate, idate + obs_time, obs_dt, return_epsecs=True)
 
-for nights in np.arange(4):
+for nights in range(4):
     this_dates = dates + mr.days(nights * 60.0)
     lc_ccd_signal_sampler, aux_data = station.observe_light_curve(
-        obj, attitude, brdf, this_dates, use_engine=False, model_scale_factor=0.5
+        obj,
+        attitude,
+        brdf,
+        this_dates,
+        integration_time_s,
+        use_engine=False,
+        model_scale_factor=0.5,
     )
 
     print(np.mean(aux_data['background_mean']))
@@ -104,9 +115,7 @@ for nights in np.arange(4):
     plt.subplot(2, 2, nights + 1)
 
     lcs_noisy_adu = np.array([lc_ccd_signal_sampler() for _ in range(1000)])
-    lcs_noisy_irrad = lcs_noisy_adu / (
-        aux_data['sint'] * station.telescope.integration_time
-    )
+    lcs_noisy_irrad = lcs_noisy_adu / (aux_data['sint'] * integration_time_s)
     lcs_noisy_mag = mr.irradiance_to_apparent_magnitude(lcs_noisy_irrad)
     var_lcs = np.var(lcs_noisy_mag, axis=0)
     mean_lcs = np.mean(lcs_noisy_mag, axis=0)

@@ -15,12 +15,15 @@ import mirage as mr
 
 station = mr.Station()
 x, y = np.meshgrid(
-    np.arange(station.telescope.sensor_pixels),
-    np.arange(station.telescope.sensor_pixels),
+    np.arange(station.telescope.ccd.sensor_pixels),
+    np.arange(station.telescope.ccd.sensor_pixels),
 )
 mr.tic('Mapping')
 xd, yx = station.telescope.pixel_distortion(
-    x, y, station.telescope.sensor_pixels // 2, station.telescope.sensor_pixels // 2
+    x,
+    y,
+    station.telescope.ccd.sensor_pixels // 2,
+    station.telescope.ccd.sensor_pixels // 2,
 )
 mr.toc()
 
@@ -70,4 +73,6 @@ plt.legend(
     fancybox=True,
     shadow=True,
 )
+plt.xlabel('$x$ pixels')
+plt.ylabel('$y$ pixels')
 plt.show()

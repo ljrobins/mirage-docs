@@ -6,6 +6,7 @@ Comparing Durech and Kaasalainen's light curve inversion code to mine
 """
 
 import numpy as np
+import pyvista as pv
 
 import mirage as mr
 
@@ -21,8 +22,6 @@ ns = mr.hat(egi)
 mr.tic()
 obj = mr.construct_mesh_from_egi(egi, implementation='fortran')
 mr.toc()
-
-import pyvista as pv
 
 pl = pv.Plotter()
 pl.add_mesh(obj._mesh)

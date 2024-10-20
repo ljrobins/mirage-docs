@@ -57,6 +57,7 @@ q0 = np.array([0.0, 0.0, 0.0, 1.0])
 idate = mr.utc(2023, 3, 26, 5)
 obs_time = mr.hours(3)
 obs_dt = mr.seconds(10)
+integration_time_s = obs_dt.total_seconds()
 win_width = 1500
 obj_kwargs = dict(opacity=0.8, feature_edges=True, feature_edge_angle=10, line_width=1)
 
@@ -114,14 +115,13 @@ for noise in [False, True]:
                 attitude,
                 brdf,
                 dates,
+                integration_time_s,
                 use_engine=True,
                 model_scale_factor=model_scale_factor,
             )
 
             lc_ccd_signal = lc_ccd_signal_sampler()
-            lc_noisy_irrad = lc_ccd_signal / (
-                aux_data['sint'] * station.telescope.integration_time
-            )
+            lc_noisy_irrad = lc_ccd_signal / (aux_data['sint'] * integration_time_s)
             lc_noisy_unit_irrad = (
                 lc_noisy_irrad
                 * (aux_data['rmag_station_to_sat'] * 1e3) ** 2

@@ -4,15 +4,17 @@ Attitude Inversion Minima
 
 """
 
-import os
+import matplotlib.pyplot as plt
 import numpy as np
 import polars as pl
-import matplotlib.pyplot as plt
-import mirage as mr
 import pyvista as pv
+
+import mirage as mr
 import mirage.vis as mrv
 
-x = pl.read_parquet('/Users/liamrobinson/Documents/rhotater/saved.parquet')
+x = pl.read_parquet(
+    '/Users/liamrobinson/Documents/maintained-wip/rhotater/saved.parquet'
+)
 
 x = x.sort('fun')
 x = x.with_columns(jmag=np.linalg.norm(x['gradient'].to_numpy(), axis=1))
@@ -40,7 +42,6 @@ def compute_lc_from_x0(x0):
     w0 = x0[3:6] / teval.max()
     q_of_t, w_of_t = mr.propagate_attitude_torque_free(q0, w0, itensor, teval)
     c_of_t = mr.quat_to_dcm(q_of_t)
-    s_of_t = mr.quat_to_mrp(q_of_t)
 
     svb = mr.stack_mat_mult_vec(c_of_t, L)
     ovb = mr.stack_mat_mult_vec(c_of_t, O)

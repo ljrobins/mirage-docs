@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -50,8 +50,8 @@
     <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Face Uncertainty" href="face_uncertainty.html" />
-    <link rel="prev" title="Shape Uncertainty" href="poisson_shape_variance.html" />
+    <link rel="next" title="EGI Optimization" href="egi_optimization.html" />
+    <link rel="prev" title="Perfect Information Inversion" href="perfect_info_inversion.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -333,6 +333,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_ambiguities.html">Light Curve Ambiguities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/importance_sampling_cook_torrance.html">Importance Sampling Cook-Torrance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/box_wing_simple.html">Simple Box-Wing Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_units.html">Light Curve Units</a></li>
@@ -343,11 +344,8 @@ document.write(`
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Light Curve Inversion</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="support_optimization.html">Support Optimization Comparison</a></li>
 <li class="toctree-l2"><a class="reference internal" href="perfect_info_inversion.html">Perfect Information Inversion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="poisson_shape_variance.html">Shape Uncertainty</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Inversion PDF</a></li>
-<li class="toctree-l2"><a class="reference internal" href="face_uncertainty.html">Face Uncertainty</a></li>
 <li class="toctree-l2"><a class="reference internal" href="egi_optimization.html">EGI Optimization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multi_hypothesis_inversion.html">Multiple Hypothesis Inversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="aas_non_convex_inversion.html">Non-Convex Inversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="parametric_box_wing.html">Parametric Box-Wing Inversion</a></li>
 </ul>
@@ -365,24 +363,24 @@ document.write(`
 <li class="toctree-l1 has-children"><a class="reference internal" href="../04-environment/index.html">Environment</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/luminous_efficiency.html">Luminous Efficiency Function</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/twilight_model.html">Twilight Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/geoid_heights.html">Global Elevation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/airmass.html">Airmass Function Comparison</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/geoid_heights.html">Global Elevation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/astm_spectra.html">ASTM Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astronomical Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_zenith.html">Background Signals at Zenith</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/penumbra_plane.html">Penumbra Visualized</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/shadow_functions.html">Shadow Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/solar_spectrum.html">Solar Spectrum</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/atmospheric_transmission.html">Atmospheric Transmission</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/passbands.html">Passbands</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/solar_system.html">Solar System</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/star_catalogs.html">Star Catalogs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/astro_spectra.html">Astronomical Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/nightlights.html">Zenith Light Pollution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/single_star_spectrum.html">Calibrated Star Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_importance.html">Background Importance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/single_star_spectrum.html">Vega and Apparent Magnitudes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_signals.html">Background Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/reflected_albedo.html">Earth Albedo BRDF</a></li>
 </ul>
@@ -412,11 +410,13 @@ document.write(`
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../08-ccd/index.html">CCD Characterization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-ccd/qe_curves.html">Quantum Efficiency Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/vega_psf.html">Vega PSF</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/convolution_streaks.html">Convolution for Streaks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/noise_accum_gifs.html">Noise Sampling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../08-ccd/mapping_function.html">Mapping Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-ccd/digital_twin_compared.html">Digital Twin Animated</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/matched_imgs_gif.html">Digital Twin Animated</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-ccd/mapping_function.html">Mapping Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/stars_in_fov.html">Stars in FOV</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/airy_disk_gaussian_fit.html">Airy Disk Gaussian Fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/bias_frame.html">Bias Frames</a></li>
@@ -455,7 +455,7 @@ document.write(`
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../11-work-in-progress/index.html">Works In Progress</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../11-work-in-progress/inversion_gradient.html">EGI Jacobian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-work-in-progress/zod.html">Zodiacal Light</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../11-work-in-progress/rhotater_count_minima.html">Attitude Inversion Minima</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../11-work-in-progress/precise_orbit_determination.html">Precise Orbit Determination with Batch Least Squares</a></li>
 </ul>
@@ -553,6 +553,7 @@ to download the full example code.</p>
 <span class="n">idate</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">utc</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="n">obs_time</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">hours</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">obs_dt</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">seconds</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">integration_time_s</span> <span class="o">=</span> <span class="n">obs_dt</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span>
 
 <span class="n">obj</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">SpaceObject</span><span class="p">(</span><span class="s1">&#39;cube.obj&#39;</span><span class="p">,</span> <span class="n">identifier</span><span class="o">=</span><span class="s1">&#39;goes 15&#39;</span><span class="p">)</span>
 <span class="n">station</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">Station</span><span class="p">(</span><span class="n">preset</span><span class="o">=</span><span class="s1">&#39;pogs&#39;</span><span class="p">)</span>
@@ -575,7 +576,13 @@ to download the full example code.</p>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">msf</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model_scale_factor</span><span class="p">):</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
     <span class="n">lc_ccd_signal_sampler</span><span class="p">,</span> <span class="n">aux_data</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">observe_light_curve</span><span class="p">(</span>
-        <span class="n">obj</span><span class="p">,</span> <span class="n">attitude</span><span class="p">,</span> <span class="n">brdf</span><span class="p">,</span> <span class="n">dates</span><span class="p">,</span> <span class="n">use_engine</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">model_scale_factor</span><span class="o">=</span><span class="n">msf</span>
+        <span class="n">obj</span><span class="p">,</span>
+        <span class="n">attitude</span><span class="p">,</span>
+        <span class="n">brdf</span><span class="p">,</span>
+        <span class="n">dates</span><span class="p">,</span>
+        <span class="n">integration_time_s</span><span class="p">,</span>
+        <span class="n">use_engine</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">model_scale_factor</span><span class="o">=</span><span class="n">msf</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">sun_body</span> <span class="o">=</span> <span class="n">aux_data</span><span class="p">[</span><span class="s1">&#39;sun_vector_object_body&#39;</span><span class="p">]</span>
@@ -602,9 +609,7 @@ to download the full example code.</p>
     <span class="n">rec_objs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nper</span><span class="p">):</span>
         <span class="n">lc_ccd_signal</span> <span class="o">=</span> <span class="n">lc_ccd_signal_sampler</span><span class="p">()</span>
-        <span class="n">lc_noisy_irrad</span> <span class="o">=</span> <span class="n">lc_ccd_signal</span> <span class="o">/</span> <span class="p">(</span>
-            <span class="n">aux_data</span><span class="p">[</span><span class="s1">&#39;sint&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">station</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">integration_time</span>
-        <span class="p">)</span>
+        <span class="n">lc_noisy_irrad</span> <span class="o">=</span> <span class="n">lc_ccd_signal</span> <span class="o">/</span> <span class="p">(</span><span class="n">aux_data</span><span class="p">[</span><span class="s1">&#39;sint&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">integration_time_s</span><span class="p">)</span>
         <span class="n">lc_noisy_unit_irrad</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">lc_noisy_irrad</span>
             <span class="o">*</span> <span class="p">(</span><span class="n">aux_data</span><span class="p">[</span><span class="s1">&#39;rmag_station_to_sat&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e3</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
@@ -639,13 +644,16 @@ to download the full example code.</p>
 <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 19.762 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 14.823 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-02-light-curve-inversion-noisy-inversion-pdf-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/ce023ec1a42d77479c1be471f2b07f00/noisy_inversion_pdf.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">noisy_inversion_pdf.ipynb</span></code></a></p>
 </div>
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/a96ab81bf8f537b02aa100401929b7e6/noisy_inversion_pdf.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">noisy_inversion_pdf.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/3f7aa1812078706aa922b703573a56b3/noisy_inversion_pdf.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">noisy_inversion_pdf.zip</span></code></a></p>
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
@@ -662,20 +670,20 @@ to download the full example code.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="poisson_shape_variance.html"
+       href="perfect_info_inversion.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Shape Uncertainty</p>
+        <p class="prev-next-title">Perfect Information Inversion</p>
       </div>
     </a>
     <a class="right-next"
-       href="face_uncertainty.html"
+       href="egi_optimization.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Face Uncertainty</p>
+        <p class="prev-next-title">EGI Optimization</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -718,7 +726,7 @@ to download the full example code.</p>
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.0.2.
     <br/>
   </p>
 </div>

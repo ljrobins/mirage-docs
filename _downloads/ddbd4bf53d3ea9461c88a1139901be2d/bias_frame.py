@@ -42,7 +42,7 @@ for bias_fit_path in bias_fit_paths:
 bias_fit_paths = np.asarray(bias_fit_paths)[np.argsort(dates)]
 dates = np.sort(dates)
 
-for date, bias_fit_path in zip(dates, bias_fit_paths):
+for bias_fit_path in bias_fit_paths:
     with fits.open(bias_fit_path) as hdul:
         data = hdul[0].data
         temps.append(hdul[0].header['SET-TEMP'])

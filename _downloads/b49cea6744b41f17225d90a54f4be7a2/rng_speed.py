@@ -5,10 +5,13 @@ PRNG Speed
 Benchmarking the speed of various numpy pseudorandom number generators
 """
 
+from timeit import timeit
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+from numba import njit
 
 import mirage as mr
 
@@ -90,11 +93,6 @@ plt.show()
 
 # %%
 # Numba for sampling normals faster
-
-from timeit import timeit
-
-import matplotlib.pyplot as plt
-from numba import njit
 
 bit_gen = np.random.SFC64()
 next_d = bit_gen.cffi.next_double

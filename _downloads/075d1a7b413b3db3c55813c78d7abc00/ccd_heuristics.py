@@ -12,7 +12,7 @@ import mirage as mr
 z_obs = 0.0  # Point the telescope towards zenith
 station = mr.Station(preset='pogs')
 projected_irrad_per_pixel_area = mr.dms_to_rad(
-    0, 0, station.telescope.pixel_scale
+    0, 0, station.telescope.ccd.pixel_scale
 ) ** 2 * mr.mpsas_to_irradiance_per_steradian(22)
 sint_val = mr.sint(station, z_obs)[0]
 count_per_second_per_pixel = sint_val * projected_irrad_per_pixel_area
@@ -44,26 +44,26 @@ print(
 
 # %%
 # The size in square pixels of a large GEO satellite when observed from the surface of the Earth by POGS
-station.telescope.pixel_scale = 1
+station.telescope.ccd.pixel_scale = 1
 station.telescope.aperture_diameter = 0.5
 sat_radius_m = 20
 sat_dist_m = (36e3) * 1e3
-pscale = station.telescope.pixel_scale  # arcseconds / pixel
+pscale = station.telescope.ccd.pixel_scale  # arcseconds / pixel
 p_area_sterad = mr.dms_to_rad(0, 0, pscale) ** 2  # sterad / pixel ** 2
 angular_radius_of_sat_geo = np.arctan(sat_radius_m / sat_dist_m)
 angular_radius_of_sat_geo_pix = angular_radius_of_sat_geo / mr.dms_to_rad(
-    0, 0, station.telescope.pixel_scale
+    0, 0, station.telescope.ccd.pixel_scale
 )
 
 print(f'A GEO satellite is {2*angular_radius_of_sat_geo_pix:.1f} pixels wide from POGS')
 
 sat_radius_m = 0.3
 sat_dist_m = (1000) * 1e3
-pscale = station.telescope.pixel_scale  # arcseconds / pixel
+pscale = station.telescope.ccd.pixel_scale  # arcseconds / pixel
 p_area_sterad = mr.dms_to_rad(0, 0, pscale) ** 2  # sterad / pixel ** 2
 angular_radius_of_sat_leo = np.arctan(sat_radius_m / sat_dist_m)
 angular_radius_of_sat_leo_pix = angular_radius_of_sat_leo / mr.dms_to_rad(
-    0, 0, station.telescope.pixel_scale
+    0, 0, station.telescope.ccd.pixel_scale
 )
 
 print(f'A LEO satellite is {2*angular_radius_of_sat_leo_pix:.1f} pixels wide from POGS')
@@ -73,7 +73,7 @@ print(f'A LEO satellite is {2*angular_radius_of_sat_leo_pix:.1f} pixels wide fro
 
 rayleigh_crit_rad = 1.22 * 550e-9 / station.telescope.aperture_diameter
 rayleigh_crit_pix = rayleigh_crit_rad / mr.dms_to_rad(
-    0, 0, station.telescope.pixel_scale
+    0, 0, station.telescope.ccd.pixel_scale
 )
 print(
     f'For GEO the Airy disk is {rayleigh_crit_pix/angular_radius_of_sat_geo_pix:.1f}x wider than the object itself'

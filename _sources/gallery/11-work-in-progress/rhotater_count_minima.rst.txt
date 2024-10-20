@@ -21,20 +21,22 @@
 Attitude Inversion Minima
 =========================
 
-.. GENERATED FROM PYTHON SOURCE LINES 6-87
+.. GENERATED FROM PYTHON SOURCE LINES 6-88
 
 .. code-block:: Python
 
 
-    import os
+    import matplotlib.pyplot as plt
     import numpy as np
     import polars as pl
-    import matplotlib.pyplot as plt
-    import mirage as mr
     import pyvista as pv
+
+    import mirage as mr
     import mirage.vis as mrv
 
-    x = pl.read_parquet('/Users/liamrobinson/Documents/rhotater/saved.parquet')
+    x = pl.read_parquet(
+        '/Users/liamrobinson/Documents/maintained-wip/rhotater/saved.parquet'
+    )
 
     x = x.sort('fun')
     x = x.with_columns(jmag=np.linalg.norm(x['gradient'].to_numpy(), axis=1))
@@ -62,7 +64,6 @@ Attitude Inversion Minima
         w0 = x0[3:6] / teval.max()
         q_of_t, w_of_t = mr.propagate_attitude_torque_free(q0, w0, itensor, teval)
         c_of_t = mr.quat_to_dcm(q_of_t)
-        s_of_t = mr.quat_to_mrp(q_of_t)
 
         svb = mr.stack_mat_mult_vec(c_of_t, L)
         ovb = mr.stack_mat_mult_vec(c_of_t, O)
@@ -125,11 +126,11 @@ Attitude Inversion Minima
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 88-89
+.. GENERATED FROM PYTHON SOURCE LINES 89-90
 
 Now let's plot a histogram of solution loss function values
 
-.. GENERATED FROM PYTHON SOURCE LINES 89-110
+.. GENERATED FROM PYTHON SOURCE LINES 90-111
 
 .. code-block:: Python
 
@@ -173,11 +174,11 @@ Now let's plot a histogram of solution loss function values
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 111-112
+.. GENERATED FROM PYTHON SOURCE LINES 112-113
 
 And the distribution of solutions in MRP space
 
-.. GENERATED FROM PYTHON SOURCE LINES 112-127
+.. GENERATED FROM PYTHON SOURCE LINES 113-128
 
 .. code-block:: Python
 
@@ -208,11 +209,11 @@ And the distribution of solutions in MRP space
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 128-129
+.. GENERATED FROM PYTHON SOURCE LINES 129-130
 
 And the distribution of solutions in angular velocity space
 
-.. GENERATED FROM PYTHON SOURCE LINES 129-143
+.. GENERATED FROM PYTHON SOURCE LINES 130-144
 
 .. code-block:: Python
 
@@ -245,7 +246,7 @@ And the distribution of solutions in angular velocity space
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 18.765 seconds)
+   **Total running time of the script:** (0 minutes 10.424 seconds)
 
 
 .. _sphx_glr_download_gallery_11-work-in-progress_rhotater_count_minima.py:
@@ -261,6 +262,10 @@ And the distribution of solutions in angular velocity space
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: rhotater_count_minima.py <rhotater_count_minima.py>`
+
+    .. container:: sphx-glr-download sphx-glr-download-zip
+
+      :download:`Download zipped: rhotater_count_minima.zip <rhotater_count_minima.zip>`
 
 
 .. only:: html

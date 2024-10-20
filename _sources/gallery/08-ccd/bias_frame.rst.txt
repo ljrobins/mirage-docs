@@ -88,7 +88,7 @@ Characterizing the background bias of the POGS CCD
     bias_fit_paths = np.asarray(bias_fit_paths)[np.argsort(dates)]
     dates = np.sort(dates)
 
-    for date, bias_fit_path in zip(dates, bias_fit_paths):
+    for bias_fit_path in bias_fit_paths:
         with fits.open(bias_fit_path) as hdul:
             data = hdul[0].data
             temps.append(hdul[0].header['SET-TEMP'])
@@ -145,7 +145,7 @@ Characterizing the background bias of the POGS CCD
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 7.148 seconds)
+   **Total running time of the script:** (0 minutes 4.801 seconds)
 
 
 .. _sphx_glr_download_gallery_08-ccd_bias_frame.py:
@@ -161,6 +161,10 @@ Characterizing the background bias of the POGS CCD
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: bias_frame.py <bias_frame.py>`
+
+    .. container:: sphx-glr-download sphx-glr-download-zip
+
+      :download:`Download zipped: bias_frame.zip <bias_frame.zip>`
 
 
 .. only:: html

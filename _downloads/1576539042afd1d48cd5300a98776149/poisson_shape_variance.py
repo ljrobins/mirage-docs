@@ -92,7 +92,7 @@ plt.show()
 pl = pv.Plotter(shape=pl_shape)
 rec_objs = []
 
-for i in range(inversions):
+for _ in range(inversions):
     lc_this = lc_ccd_signal_sampler()
 
     egi_opt_initial, egi_opt = mr.optimize_egi(

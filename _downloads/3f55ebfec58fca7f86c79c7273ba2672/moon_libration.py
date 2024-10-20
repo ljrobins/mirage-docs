@@ -19,7 +19,7 @@ dates = mr.date_linspace(
 )
 pl = pv.Plotter()
 pl.open_gif('moon_librations.gif', fps=20, subrectangles=True)
-for i, date in enumerate(dates[:-1]):
+for date in dates[:-1]:
     mrv.plot_moon(pl, mode='eci', date=date)
     pl.camera.view_angle = 1.0  # The Moon's angular size from the Earth is about 0.5 deg, so let's double that FOV
     pl.camera.focal_point = pl.actors['moon'].user_matrix[

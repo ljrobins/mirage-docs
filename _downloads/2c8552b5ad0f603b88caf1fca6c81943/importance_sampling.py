@@ -7,6 +7,7 @@ Reducing the variance of Monte Carlo integration
 import matplotlib.pyplot as plt
 import numpy as np
 import sympy as sp
+from scipy.stats.sampling import TransformedDensityRejection
 
 # %%
 # Let's say we want to estimate the integral of an unknown function :math:`f(x)`
@@ -40,8 +41,6 @@ print(
 
 # %%
 # The fundamental idea of importance sampling is that our Monte Carlo result will be better if we take samples from a distribution that looks like the true function, dividing each sample by its pdf likelihood. To accomplish this, let's select a pdf that might help
-
-from scipy.stats.sampling import TransformedDensityRejection
 
 
 class NewPdf:
