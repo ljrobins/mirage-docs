@@ -347,7 +347,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../02-light_curve_inversion/noisy_inversion_pdf.html">Inversion PDF</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../02-light_curve_inversion/egi_optimization.html">EGI Optimization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../02-light_curve_inversion/aas_non_convex_inversion.html">Non-Convex Inversion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../02-light_curve_inversion/parametric_box_wing.html">Parametric Box-Wing Inversion</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../03-coordinate-systems/index.html">Coordinate Frames</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -413,8 +412,8 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/qe_curves.html">Quantum Efficiency Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/vega_psf.html">Vega PSF</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/convolution_streaks.html">Convolution for Streaks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../08-ccd/noise_accum_gifs.html">Noise Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/digital_twin_compared.html">Digital Twin Animated</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-ccd/noise_accum_gifs.html">Noise Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/matched_imgs_gif.html">Digital Twin Animated</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/mapping_function.html">Mapping Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/stars_in_fov.html">Stars in FOV</a></li>
@@ -422,8 +421,8 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/bias_frame.html">Bias Frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/airy_disk_diffraction.html">Airy Disk Diffraction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/ccd_heuristics.html">CCD Heuristics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../08-ccd/background_shape.html">Background Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/streaks.html">Streak Detection and Centroiding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-ccd/background_shape.html">Background Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/snr.html">Signal-to-Noise Ratio (SNR)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/synth_image_results.html">Synthetic Image Results</a></li>
 </ul>
@@ -555,137 +554,183 @@ to download the full example code.</p>
 <span class="n">mlp_bm</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">num_train</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Compute training LC: 3.57e-03 seconds
-Iteration 1, loss = 0.24003164
-Iteration 2, loss = 0.17039077
-Iteration 3, loss = 0.15032812
-Iteration 4, loss = 0.14594405
-Iteration 5, loss = 0.14292076
-Iteration 6, loss = 0.14338061
-Iteration 7, loss = 0.14001909
-Iteration 8, loss = 0.13964403
-Iteration 9, loss = 0.13741189
-Iteration 10, loss = 0.13792465
-Iteration 11, loss = 0.13606309
-Iteration 12, loss = 0.13509252
-Iteration 13, loss = 0.13228966
-Iteration 14, loss = 0.13058459
-Iteration 15, loss = 0.12871338
-Iteration 16, loss = 0.12683759
-Iteration 17, loss = 0.12500845
-Iteration 18, loss = 0.12246749
-Iteration 19, loss = 0.11959367
-Iteration 20, loss = 0.11881921
-Iteration 21, loss = 0.11437952
-Iteration 22, loss = 0.11281507
-Iteration 23, loss = 0.10809076
-Iteration 24, loss = 0.10467901
-Iteration 25, loss = 0.09957760
-Iteration 26, loss = 0.09635492
-Iteration 27, loss = 0.09155116
-Iteration 28, loss = 0.08881381
-Iteration 29, loss = 0.08435692
-Iteration 30, loss = 0.08034116
-Iteration 31, loss = 0.07468218
-Iteration 32, loss = 0.06999340
-Iteration 33, loss = 0.06694065
-Iteration 34, loss = 0.06230975
-Iteration 35, loss = 0.06414580
-Iteration 36, loss = 0.06123574
-Iteration 37, loss = 0.05694324
-Iteration 38, loss = 0.05455433
-Iteration 39, loss = 0.05236931
-Iteration 40, loss = 0.04863142
-Iteration 41, loss = 0.04654846
-Iteration 42, loss = 0.04436595
-Iteration 43, loss = 0.04419751
-Iteration 44, loss = 0.04160665
-Iteration 45, loss = 0.03947190
-Iteration 46, loss = 0.03754199
-Iteration 47, loss = 0.03640177
-Iteration 48, loss = 0.03423447
-Iteration 49, loss = 0.03386362
-Iteration 50, loss = 0.03314928
-Iteration 51, loss = 0.03225923
-Iteration 52, loss = 0.03153148
-Iteration 53, loss = 0.02954587
-Iteration 54, loss = 0.02895922
-Iteration 55, loss = 0.02902374
-Iteration 56, loss = 0.02828418
-Iteration 57, loss = 0.02636530
-Iteration 58, loss = 0.02474848
-Iteration 59, loss = 0.02447757
-Iteration 60, loss = 0.02262275
-Iteration 61, loss = 0.02265658
-Iteration 62, loss = 0.02346527
-Iteration 63, loss = 0.02053479
-Iteration 64, loss = 0.02088483
-Iteration 65, loss = 0.01892209
-Iteration 66, loss = 0.01702803
-Iteration 67, loss = 0.01865028
-Iteration 68, loss = 0.01772481
-Iteration 69, loss = 0.01554127
-Iteration 70, loss = 0.01523932
-Iteration 71, loss = 0.01550567
-Iteration 72, loss = 0.01494005
-Iteration 73, loss = 0.01453267
-Iteration 74, loss = 0.01370030
-Iteration 75, loss = 0.01283128
-Iteration 76, loss = 0.01217649
-Iteration 77, loss = 0.01199273
-Iteration 78, loss = 0.01200786
-Iteration 79, loss = 0.01174397
-Iteration 80, loss = 0.01051106
-Iteration 81, loss = 0.01037634
-Iteration 82, loss = 0.01036734
-Iteration 83, loss = 0.01070931
-Iteration 84, loss = 0.00960716
-Iteration 85, loss = 0.01040221
-Iteration 86, loss = 0.00931768
-Iteration 87, loss = 0.00925078
-Iteration 88, loss = 0.00831055
-Iteration 89, loss = 0.00816500
-Iteration 90, loss = 0.00820699
-Iteration 91, loss = 0.00895653
-Iteration 92, loss = 0.00922112
-Iteration 93, loss = 0.00826305
-Iteration 94, loss = 0.00858382
-Iteration 95, loss = 0.00764658
-Iteration 96, loss = 0.00727342
-Iteration 97, loss = 0.00682246
-Iteration 98, loss = 0.00710070
-Iteration 99, loss = 0.00640863
-Iteration 100, loss = 0.00614529
-Iteration 101, loss = 0.00823919
-Iteration 102, loss = 0.00663374
-Iteration 103, loss = 0.00620445
-Iteration 104, loss = 0.00564726
-Iteration 105, loss = 0.00526283
-Iteration 106, loss = 0.00482779
-Iteration 107, loss = 0.00515821
-Iteration 108, loss = 0.00477637
-Iteration 109, loss = 0.00482150
-Iteration 110, loss = 0.00465646
-Iteration 111, loss = 0.00421658
-Iteration 112, loss = 0.00442623
-Iteration 113, loss = 0.00456111
-Iteration 114, loss = 0.00476886
-Iteration 115, loss = 0.00455624
-Iteration 116, loss = 0.00402132
-Iteration 117, loss = 0.00365024
-Iteration 118, loss = 0.00360502
-Iteration 119, loss = 0.00357781
-Iteration 120, loss = 0.00367062
-Iteration 121, loss = 0.00377271
-Iteration 122, loss = 0.00372144
-Iteration 123, loss = 0.00360706
-Iteration 124, loss = 0.00438154
-Iteration 125, loss = 0.00380817
-Iteration 126, loss = 0.00363965
-Iteration 127, loss = 0.00370947
-Iteration 128, loss = 0.00369519
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Compute training LC: 1.79e-03 seconds
+Iteration 1, loss = 0.22863513
+Iteration 2, loss = 0.17675297
+Iteration 3, loss = 0.15571087
+Iteration 4, loss = 0.14970790
+Iteration 5, loss = 0.14575850
+Iteration 6, loss = 0.14401973
+Iteration 7, loss = 0.14294645
+Iteration 8, loss = 0.14147612
+Iteration 9, loss = 0.14091498
+Iteration 10, loss = 0.14055945
+Iteration 11, loss = 0.13875288
+Iteration 12, loss = 0.13767547
+Iteration 13, loss = 0.13685288
+Iteration 14, loss = 0.13570884
+Iteration 15, loss = 0.13477740
+Iteration 16, loss = 0.13366131
+Iteration 17, loss = 0.13273544
+Iteration 18, loss = 0.13114127
+Iteration 19, loss = 0.12942330
+Iteration 20, loss = 0.12770661
+Iteration 21, loss = 0.12547352
+Iteration 22, loss = 0.12342313
+Iteration 23, loss = 0.12191118
+Iteration 24, loss = 0.12027125
+Iteration 25, loss = 0.11668641
+Iteration 26, loss = 0.11315234
+Iteration 27, loss = 0.11160793
+Iteration 28, loss = 0.10723697
+Iteration 29, loss = 0.10442243
+Iteration 30, loss = 0.10390597
+Iteration 31, loss = 0.09688759
+Iteration 32, loss = 0.09247636
+Iteration 33, loss = 0.08723784
+Iteration 34, loss = 0.08347957
+Iteration 35, loss = 0.07624970
+Iteration 36, loss = 0.07279532
+Iteration 37, loss = 0.07294126
+Iteration 38, loss = 0.06707134
+Iteration 39, loss = 0.06209458
+Iteration 40, loss = 0.06085298
+Iteration 41, loss = 0.05852804
+Iteration 42, loss = 0.05402143
+Iteration 43, loss = 0.05311637
+Iteration 44, loss = 0.05124528
+Iteration 45, loss = 0.05105751
+Iteration 46, loss = 0.05189811
+Iteration 47, loss = 0.05067292
+Iteration 48, loss = 0.04917045
+Iteration 49, loss = 0.04650010
+Iteration 50, loss = 0.04339354
+Iteration 51, loss = 0.04059302
+Iteration 52, loss = 0.03887314
+Iteration 53, loss = 0.03789498
+Iteration 54, loss = 0.03905422
+Iteration 55, loss = 0.03529984
+Iteration 56, loss = 0.03223724
+Iteration 57, loss = 0.03176166
+Iteration 58, loss = 0.03182013
+Iteration 59, loss = 0.03102290
+Iteration 60, loss = 0.03409653
+Iteration 61, loss = 0.03030638
+Iteration 62, loss = 0.02813514
+Iteration 63, loss = 0.02515390
+Iteration 64, loss = 0.03009474
+Iteration 65, loss = 0.03148359
+Iteration 66, loss = 0.02453695
+Iteration 67, loss = 0.02353939
+Iteration 68, loss = 0.02213003
+Iteration 69, loss = 0.02175989
+Iteration 70, loss = 0.02103714
+Iteration 71, loss = 0.02021949
+Iteration 72, loss = 0.02159446
+Iteration 73, loss = 0.02021116
+Iteration 74, loss = 0.02087495
+Iteration 75, loss = 0.01853997
+Iteration 76, loss = 0.01757020
+Iteration 77, loss = 0.01642861
+Iteration 78, loss = 0.01626783
+Iteration 79, loss = 0.01590794
+Iteration 80, loss = 0.01533822
+Iteration 81, loss = 0.01416733
+Iteration 82, loss = 0.01346040
+Iteration 83, loss = 0.01259495
+Iteration 84, loss = 0.01249252
+Iteration 85, loss = 0.01242856
+Iteration 86, loss = 0.01178477
+Iteration 87, loss = 0.01162007
+Iteration 88, loss = 0.01175728
+Iteration 89, loss = 0.01183338
+Iteration 90, loss = 0.01114491
+Iteration 91, loss = 0.01037246
+Iteration 92, loss = 0.01025941
+Iteration 93, loss = 0.00956333
+Iteration 94, loss = 0.00982981
+Iteration 95, loss = 0.00992565
+Iteration 96, loss = 0.00938587
+Iteration 97, loss = 0.00982141
+Iteration 98, loss = 0.00884522
+Iteration 99, loss = 0.00937476
+Iteration 100, loss = 0.00791139
+Iteration 101, loss = 0.00755420
+Iteration 102, loss = 0.00821025
+Iteration 103, loss = 0.00730473
+Iteration 104, loss = 0.00718073
+Iteration 105, loss = 0.00700614
+Iteration 106, loss = 0.00825340
+Iteration 107, loss = 0.00788207
+Iteration 108, loss = 0.00781191
+Iteration 109, loss = 0.00924811
+Iteration 110, loss = 0.00835852
+Iteration 111, loss = 0.00759939
+Iteration 112, loss = 0.00668938
+Iteration 113, loss = 0.00591918
+Iteration 114, loss = 0.00567129
+Iteration 115, loss = 0.00549806
+Iteration 116, loss = 0.00569065
+Iteration 117, loss = 0.00522250
+Iteration 118, loss = 0.00524278
+Iteration 119, loss = 0.00478708
+Iteration 120, loss = 0.00499833
+Iteration 121, loss = 0.00486600
+Iteration 122, loss = 0.00502306
+Iteration 123, loss = 0.00505798
+Iteration 124, loss = 0.00455769
+Iteration 125, loss = 0.00478749
+Iteration 126, loss = 0.00442855
+Iteration 127, loss = 0.00444975
+Iteration 128, loss = 0.00424734
+Iteration 129, loss = 0.00445410
+Iteration 130, loss = 0.00458468
+Iteration 131, loss = 0.00410241
+Iteration 132, loss = 0.00393880
+Iteration 133, loss = 0.00393909
+Iteration 134, loss = 0.00388546
+Iteration 135, loss = 0.00368864
+Iteration 136, loss = 0.00379863
+Iteration 137, loss = 0.00347197
+Iteration 138, loss = 0.00380552
+Iteration 139, loss = 0.00359211
+Iteration 140, loss = 0.00367316
+Iteration 141, loss = 0.00340221
+Iteration 142, loss = 0.00351077
+Iteration 143, loss = 0.00371313
+Iteration 144, loss = 0.00364382
+Iteration 145, loss = 0.00321687
+Iteration 146, loss = 0.00309253
+Iteration 147, loss = 0.00392524
+Iteration 148, loss = 0.00424473
+Iteration 149, loss = 0.00368074
+Iteration 150, loss = 0.00306081
+Iteration 151, loss = 0.00291638
+Iteration 152, loss = 0.00272222
+Iteration 153, loss = 0.00273260
+Iteration 154, loss = 0.00256122
+Iteration 155, loss = 0.00257278
+Iteration 156, loss = 0.00233371
+Iteration 157, loss = 0.00248993
+Iteration 158, loss = 0.00244370
+Iteration 159, loss = 0.00255520
+Iteration 160, loss = 0.00242506
+Iteration 161, loss = 0.00246811
+Iteration 162, loss = 0.00224871
+Iteration 163, loss = 0.00209369
+Iteration 164, loss = 0.00247820
+Iteration 165, loss = 0.00237874
+Iteration 166, loss = 0.00217313
+Iteration 167, loss = 0.00207457
+Iteration 168, loss = 0.00216396
+Iteration 169, loss = 0.00225857
+Iteration 170, loss = 0.00211662
+Iteration 171, loss = 0.00240915
+Iteration 172, loss = 0.00208471
+Iteration 173, loss = 0.00213744
+Iteration 174, loss = 0.00236225
 Training loss did not improve more than tol=0.000100 for 10 consecutive epochs. Stopping.
-Fit against 1000 pts: : 3.08e+00 seconds
+Fit against 1000 pts: : 3.15e+00 seconds
 </pre></div>
 </div>
 <p>We can now simulate a torque-free attitude profile to inspect the quality of the fit</p>
@@ -710,8 +755,8 @@ Fit against 1000 pts: : 3.08e+00 seconds
 <span class="n">mr</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Evaluate trained model with sklearn: 1.33e-01 seconds
-Evaluate trained model with onnx: 1.43e-03 seconds
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Evaluate trained model with sklearn: 1.55e-03 seconds
+Evaluate trained model with onnx: 1.13e-03 seconds
 </pre></div>
 </div>
 <p>We can save both of these representations to file:</p>
@@ -726,7 +771,7 @@ Evaluate trained model with onnx: 1.43e-03 seconds
 <span class="n">mr</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Evaluate loaded model with onxx: 1.21e-03 seconds
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Evaluate loaded model with onxx: 8.09e-04 seconds
 </pre></div>
 </div>
 <p>And we do the same for the <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> <code class="docutils literal notranslate"><span class="pre">.plk</span></code> file we saved</p>
@@ -736,7 +781,7 @@ Evaluate trained model with onnx: 1.43e-03 seconds
 <span class="n">mr</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Evaluate loaded model with sklearn: 1.37e-02 seconds
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Evaluate loaded model with sklearn: 1.39e-02 seconds
 </pre></div>
 </div>
 <p>We can easily confirm that all four model evaluations have produced the same prediction</p>
@@ -746,10 +791,10 @@ Evaluate trained model with onnx: 1.43e-03 seconds
 <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">mdl_b_onnx</span> <span class="o">-</span> <span class="n">mdl_sklearn_loaded</span><span class="p">)))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>9.803612539549533e-07
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>8.564862485904712e-07
 0.0
 0.0
-9.803612539549533e-07
+8.564862485904712e-07
 </pre></div>
 </div>
 <p>We can now finish off by evaluating the true brightness in this attitude profile and plot the results</p>
@@ -775,199 +820,163 @@ Evaluate trained model with onnx: 1.43e-03 seconds
 <span class="n">mr</span><span class="o">.</span><span class="n">toc</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Compute training LC: 5.78e-01 seconds
-Iteration 1, loss = 0.19916559
-Iteration 2, loss = 0.15145301
-Iteration 3, loss = 0.13038130
-Iteration 4, loss = 0.12741581
-Iteration 5, loss = 0.12247030
-Iteration 6, loss = 0.12183764
-Iteration 7, loss = 0.11969218
-Iteration 8, loss = 0.11834307
-Iteration 9, loss = 0.11662133
-Iteration 10, loss = 0.11544974
-Iteration 11, loss = 0.11436158
-Iteration 12, loss = 0.11295722
-Iteration 13, loss = 0.11204554
-Iteration 14, loss = 0.11082225
-Iteration 15, loss = 0.10877638
-Iteration 16, loss = 0.10717450
-Iteration 17, loss = 0.10570623
-Iteration 18, loss = 0.10409493
-Iteration 19, loss = 0.10177233
-Iteration 20, loss = 0.10071173
-Iteration 21, loss = 0.09825967
-Iteration 22, loss = 0.09528121
-Iteration 23, loss = 0.09352938
-Iteration 24, loss = 0.09003099
-Iteration 25, loss = 0.08729175
-Iteration 26, loss = 0.08470569
-Iteration 27, loss = 0.08196357
-Iteration 28, loss = 0.07874974
-Iteration 29, loss = 0.07747214
-Iteration 30, loss = 0.07563363
-Iteration 31, loss = 0.07075577
-Iteration 32, loss = 0.06721651
-Iteration 33, loss = 0.06402469
-Iteration 34, loss = 0.06164439
-Iteration 35, loss = 0.05708354
-Iteration 36, loss = 0.05597467
-Iteration 37, loss = 0.05108963
-Iteration 38, loss = 0.04919290
-Iteration 39, loss = 0.04874157
-Iteration 40, loss = 0.04551492
-Iteration 41, loss = 0.04427431
-Iteration 42, loss = 0.04215469
-Iteration 43, loss = 0.04015163
-Iteration 44, loss = 0.03954043
-Iteration 45, loss = 0.03825142
-Iteration 46, loss = 0.03789754
-Iteration 47, loss = 0.03607507
-Iteration 48, loss = 0.03545925
-Iteration 49, loss = 0.03549971
-Iteration 50, loss = 0.03727566
-Iteration 51, loss = 0.03172963
-Iteration 52, loss = 0.03009141
-Iteration 53, loss = 0.02903818
-Iteration 54, loss = 0.02859120
-Iteration 55, loss = 0.02696663
-Iteration 56, loss = 0.02608813
-Iteration 57, loss = 0.02441638
-Iteration 58, loss = 0.02316920
-Iteration 59, loss = 0.02244456
-Iteration 60, loss = 0.02324489
-Iteration 61, loss = 0.02582142
-Iteration 62, loss = 0.02335841
-Iteration 63, loss = 0.02282382
-Iteration 64, loss = 0.02166635
-Iteration 65, loss = 0.02201869
-Iteration 66, loss = 0.01823042
-Iteration 67, loss = 0.01955075
-Iteration 68, loss = 0.01910996
-Iteration 69, loss = 0.01791822
-Iteration 70, loss = 0.01630146
-Iteration 71, loss = 0.01639868
-Iteration 72, loss = 0.01599290
-Iteration 73, loss = 0.01426070
-Iteration 74, loss = 0.01341884
-Iteration 75, loss = 0.01267941
-Iteration 76, loss = 0.01200319
-Iteration 77, loss = 0.01146218
-Iteration 78, loss = 0.01129495
-Iteration 79, loss = 0.01304624
-Iteration 80, loss = 0.01250818
-Iteration 81, loss = 0.01128880
-Iteration 82, loss = 0.01054352
-Iteration 83, loss = 0.01019227
-Iteration 84, loss = 0.01102079
-Iteration 85, loss = 0.00995865
-Iteration 86, loss = 0.00936145
-Iteration 87, loss = 0.00909913
-Iteration 88, loss = 0.00851930
-Iteration 89, loss = 0.00816062
-Iteration 90, loss = 0.00790792
-Iteration 91, loss = 0.00813990
-Iteration 92, loss = 0.00745901
-Iteration 93, loss = 0.00750988
-Iteration 94, loss = 0.00730929
-Iteration 95, loss = 0.00719653
-Iteration 96, loss = 0.00771336
-Iteration 97, loss = 0.00797556
-Iteration 98, loss = 0.00765823
-Iteration 99, loss = 0.00693065
-Iteration 100, loss = 0.00720773
-Iteration 101, loss = 0.00689123
-Iteration 102, loss = 0.00660444
-Iteration 103, loss = 0.00594398
-Iteration 104, loss = 0.00574787
-Iteration 105, loss = 0.00574118
-Iteration 106, loss = 0.00560719
-Iteration 107, loss = 0.00501990
-Iteration 108, loss = 0.00488525
-Iteration 109, loss = 0.00465671
-Iteration 110, loss = 0.00447407
-Iteration 111, loss = 0.00539153
-Iteration 112, loss = 0.00468263
-Iteration 113, loss = 0.00522889
-Iteration 114, loss = 0.00460719
-Iteration 115, loss = 0.00443370
-Iteration 116, loss = 0.00438757
-Iteration 117, loss = 0.00405115
-Iteration 118, loss = 0.00406574
-Iteration 119, loss = 0.00377107
-Iteration 120, loss = 0.00372779
-Iteration 121, loss = 0.00356136
-Iteration 122, loss = 0.00359109
-Iteration 123, loss = 0.00352840
-Iteration 124, loss = 0.00324452
-Iteration 125, loss = 0.00326982
-Iteration 126, loss = 0.00321866
-Iteration 127, loss = 0.00311955
-Iteration 128, loss = 0.00321996
-Iteration 129, loss = 0.00352399
-Iteration 130, loss = 0.00303685
-Iteration 131, loss = 0.00261172
-Iteration 132, loss = 0.00268140
-Iteration 133, loss = 0.00282691
-Iteration 134, loss = 0.00258236
-Iteration 135, loss = 0.00254212
-Iteration 136, loss = 0.00278997
-Iteration 137, loss = 0.00273079
-Iteration 138, loss = 0.00271475
-Iteration 139, loss = 0.00256310
-Iteration 140, loss = 0.00242705
-Iteration 141, loss = 0.00216409
-Iteration 142, loss = 0.00214530
-Iteration 143, loss = 0.00227592
-Iteration 144, loss = 0.00257598
-Iteration 145, loss = 0.00225138
-Iteration 146, loss = 0.00217247
-Iteration 147, loss = 0.00234527
-Iteration 148, loss = 0.00207391
-Iteration 149, loss = 0.00195256
-Iteration 150, loss = 0.00189469
-Iteration 151, loss = 0.00188713
-Iteration 152, loss = 0.00170921
-Iteration 153, loss = 0.00167316
-Iteration 154, loss = 0.00190851
-Iteration 155, loss = 0.00190875
-Iteration 156, loss = 0.00182730
-Iteration 157, loss = 0.00168989
-Iteration 158, loss = 0.00166010
-Iteration 159, loss = 0.00159107
-Iteration 160, loss = 0.00161426
-Iteration 161, loss = 0.00158644
-Iteration 162, loss = 0.00148080
-Iteration 163, loss = 0.00164458
-Iteration 164, loss = 0.00158100
-Iteration 165, loss = 0.00170160
-Iteration 166, loss = 0.00145966
-Iteration 167, loss = 0.00135724
-Iteration 168, loss = 0.00132112
-Iteration 169, loss = 0.00121158
-Iteration 170, loss = 0.00120500
-Iteration 171, loss = 0.00130475
-Iteration 172, loss = 0.00121825
-Iteration 173, loss = 0.00127731
-Iteration 174, loss = 0.00140711
-Iteration 175, loss = 0.00122125
-Iteration 176, loss = 0.00137000
-Iteration 177, loss = 0.00116210
-Iteration 178, loss = 0.00102193
-Iteration 179, loss = 0.00128639
-Iteration 180, loss = 0.00116877
-Iteration 181, loss = 0.00097254
-Iteration 182, loss = 0.00089670
-Iteration 183, loss = 0.00087020
-Iteration 184, loss = 0.00093336
-Iteration 185, loss = 0.00093816
-Iteration 186, loss = 0.00089786
-Iteration 187, loss = 0.00101867
-Iteration 188, loss = 0.00104801
-Iteration 189, loss = 0.00086505
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Compute training LC: 4.30e-01 seconds
+Iteration 1, loss = 0.29905913
+Iteration 2, loss = 0.14494127
+Iteration 3, loss = 0.15664452
+Iteration 4, loss = 0.13117617
+Iteration 5, loss = 0.12634293
+Iteration 6, loss = 0.12591977
+Iteration 7, loss = 0.12073647
+Iteration 8, loss = 0.12009891
+Iteration 9, loss = 0.11982630
+Iteration 10, loss = 0.11768812
+Iteration 11, loss = 0.11757527
+Iteration 12, loss = 0.11605857
+Iteration 13, loss = 0.11513477
+Iteration 14, loss = 0.11378795
+Iteration 15, loss = 0.11270602
+Iteration 16, loss = 0.11203345
+Iteration 17, loss = 0.11041755
+Iteration 18, loss = 0.10853000
+Iteration 19, loss = 0.10723594
+Iteration 20, loss = 0.10413469
+Iteration 21, loss = 0.10420223
+Iteration 22, loss = 0.10116386
+Iteration 23, loss = 0.09816342
+Iteration 24, loss = 0.09573270
+Iteration 25, loss = 0.09328099
+Iteration 26, loss = 0.09057446
+Iteration 27, loss = 0.08775869
+Iteration 28, loss = 0.08466376
+Iteration 29, loss = 0.08103654
+Iteration 30, loss = 0.07700724
+Iteration 31, loss = 0.07330968
+Iteration 32, loss = 0.06927110
+Iteration 33, loss = 0.06592915
+Iteration 34, loss = 0.06196300
+Iteration 35, loss = 0.05917752
+Iteration 36, loss = 0.05638410
+Iteration 37, loss = 0.05262837
+Iteration 38, loss = 0.05024821
+Iteration 39, loss = 0.04802875
+Iteration 40, loss = 0.04641178
+Iteration 41, loss = 0.04405190
+Iteration 42, loss = 0.04112422
+Iteration 43, loss = 0.04107678
+Iteration 44, loss = 0.03843430
+Iteration 45, loss = 0.03478729
+Iteration 46, loss = 0.03317579
+Iteration 47, loss = 0.03252326
+Iteration 48, loss = 0.03079300
+Iteration 49, loss = 0.02866580
+Iteration 50, loss = 0.02800208
+Iteration 51, loss = 0.02602720
+Iteration 52, loss = 0.02594834
+Iteration 53, loss = 0.02541626
+Iteration 54, loss = 0.02484129
+Iteration 55, loss = 0.02694257
+Iteration 56, loss = 0.02255576
+Iteration 57, loss = 0.02071868
+Iteration 58, loss = 0.01986496
+Iteration 59, loss = 0.01881515
+Iteration 60, loss = 0.01940376
+Iteration 61, loss = 0.01937973
+Iteration 62, loss = 0.01812010
+Iteration 63, loss = 0.01781040
+Iteration 64, loss = 0.01679402
+Iteration 65, loss = 0.01768787
+Iteration 66, loss = 0.01600412
+Iteration 67, loss = 0.01443198
+Iteration 68, loss = 0.01445073
+Iteration 69, loss = 0.01476481
+Iteration 70, loss = 0.01356901
+Iteration 71, loss = 0.01290901
+Iteration 72, loss = 0.01275349
+Iteration 73, loss = 0.01290271
+Iteration 74, loss = 0.01190944
+Iteration 75, loss = 0.01313146
+Iteration 76, loss = 0.01290330
+Iteration 77, loss = 0.01231006
+Iteration 78, loss = 0.01078058
+Iteration 79, loss = 0.01024938
+Iteration 80, loss = 0.00901288
+Iteration 81, loss = 0.00904648
+Iteration 82, loss = 0.00857345
+Iteration 83, loss = 0.00890067
+Iteration 84, loss = 0.00828226
+Iteration 85, loss = 0.00792782
+Iteration 86, loss = 0.00748860
+Iteration 87, loss = 0.00733766
+Iteration 88, loss = 0.00741522
+Iteration 89, loss = 0.00746203
+Iteration 90, loss = 0.00698690
+Iteration 91, loss = 0.00695080
+Iteration 92, loss = 0.00643394
+Iteration 93, loss = 0.00641683
+Iteration 94, loss = 0.00629428
+Iteration 95, loss = 0.00624336
+Iteration 96, loss = 0.00580942
+Iteration 97, loss = 0.00638502
+Iteration 98, loss = 0.00556508
+Iteration 99, loss = 0.00531401
+Iteration 100, loss = 0.00508597
+Iteration 101, loss = 0.00519677
+Iteration 102, loss = 0.00500361
+Iteration 103, loss = 0.00474875
+Iteration 104, loss = 0.00487282
+Iteration 105, loss = 0.00445866
+Iteration 106, loss = 0.00411243
+Iteration 107, loss = 0.00531339
+Iteration 108, loss = 0.00468349
+Iteration 109, loss = 0.00466848
+Iteration 110, loss = 0.00437189
+Iteration 111, loss = 0.00395270
+Iteration 112, loss = 0.00374916
+Iteration 113, loss = 0.00361738
+Iteration 114, loss = 0.00343211
+Iteration 115, loss = 0.00353641
+Iteration 116, loss = 0.00345664
+Iteration 117, loss = 0.00316829
+Iteration 118, loss = 0.00318209
+Iteration 119, loss = 0.00316215
+Iteration 120, loss = 0.00294785
+Iteration 121, loss = 0.00297547
+Iteration 122, loss = 0.00295249
+Iteration 123, loss = 0.00278854
+Iteration 124, loss = 0.00268866
+Iteration 125, loss = 0.00274782
+Iteration 126, loss = 0.00274607
+Iteration 127, loss = 0.00279785
+Iteration 128, loss = 0.00274324
+Iteration 129, loss = 0.00252513
+Iteration 130, loss = 0.00251593
+Iteration 131, loss = 0.00269305
+Iteration 132, loss = 0.00268887
+Iteration 133, loss = 0.00235643
+Iteration 134, loss = 0.00233565
+Iteration 135, loss = 0.00237026
+Iteration 136, loss = 0.00256978
+Iteration 137, loss = 0.00244157
+Iteration 138, loss = 0.00238433
+Iteration 139, loss = 0.00204206
+Iteration 140, loss = 0.00202793
+Iteration 141, loss = 0.00198388
+Iteration 142, loss = 0.00178192
+Iteration 143, loss = 0.00175065
+Iteration 144, loss = 0.00176247
+Iteration 145, loss = 0.00189964
+Iteration 146, loss = 0.00172608
+Iteration 147, loss = 0.00178344
+Iteration 148, loss = 0.00175112
+Iteration 149, loss = 0.00173464
+Iteration 150, loss = 0.00163097
+Iteration 151, loss = 0.00183660
+Iteration 152, loss = 0.00194456
+Iteration 153, loss = 0.00172624
 Training loss did not improve more than tol=0.000100 for 10 consecutive epochs. Stopping.
-Fit against 1000 pts: : 6.69e+00 seconds
-Evaluate trained model with onnx: 1.27e-02 seconds
+Fit against 1000 pts: : 8.18e+00 seconds
+Evaluate trained model with onnx: 1.62e-02 seconds
 </pre></div>
 </div>
 <p>We can now finish off by evaluating the true brightness in this attitude profile and plot the results</p>
@@ -984,13 +993,16 @@ Evaluate trained model with onnx: 1.27e-02 seconds
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_neural_network_brightness_002.png" srcset="../../_images/sphx_glr_neural_network_brightness_002.png, ../../_images/sphx_glr_neural_network_brightness_002_2_00x.png 2.00x" alt="Light Curves for cube.obj, 1000 Training Points" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 11.836 seconds)</p>
+<img src="../../_images/sphx_glr_neural_network_brightness_002.png" srcset="../../_images/sphx_glr_neural_network_brightness_002.png, ../../_images/sphx_glr_neural_network_brightness_002_2_00x.png 2.00x" alt="Light Curves for cube.obj, 1000 Training Points" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 12.620 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-01-light-curves-neural-network-brightness-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/4b699554da962c2d7e91e833c6e0d7f1/neural_network_brightness.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">neural_network_brightness.ipynb</span></code></a></p>
 </div>
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/5035dc7693f977950354727488bd1072/neural_network_brightness.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">neural_network_brightness.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/8f7fff0ed7e9a9f3177163b2f9886f8e/neural_network_brightness.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">neural_network_brightness.zip</span></code></a></p>
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>

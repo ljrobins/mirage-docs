@@ -12,7 +12,7 @@ from matplotlib.animation import FuncAnimation, PillowWriter
 import mirage as mr
 import mirage.vis as mrv
 
-fits_path = '/Volumes/Data 1/imgs/pogs/misc/00161295.48859.fit'
+fits_path = '/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/pogs/misc/00161295.48859.fit'
 
 info = mr.info_from_fits(fits_path)
 img = info['ccd_adu']

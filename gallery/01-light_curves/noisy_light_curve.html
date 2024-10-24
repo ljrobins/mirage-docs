@@ -347,7 +347,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../02-light_curve_inversion/noisy_inversion_pdf.html">Inversion PDF</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../02-light_curve_inversion/egi_optimization.html">EGI Optimization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../02-light_curve_inversion/aas_non_convex_inversion.html">Non-Convex Inversion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../02-light_curve_inversion/parametric_box_wing.html">Parametric Box-Wing Inversion</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../03-coordinate-systems/index.html">Coordinate Frames</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -413,8 +412,8 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/qe_curves.html">Quantum Efficiency Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/vega_psf.html">Vega PSF</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/convolution_streaks.html">Convolution for Streaks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../08-ccd/noise_accum_gifs.html">Noise Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/digital_twin_compared.html">Digital Twin Animated</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-ccd/noise_accum_gifs.html">Noise Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/matched_imgs_gif.html">Digital Twin Animated</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/mapping_function.html">Mapping Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/stars_in_fov.html">Stars in FOV</a></li>
@@ -422,8 +421,8 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/bias_frame.html">Bias Frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/airy_disk_diffraction.html">Airy Disk Diffraction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/ccd_heuristics.html">CCD Heuristics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../08-ccd/background_shape.html">Background Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/streaks.html">Streak Detection and Centroiding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-ccd/background_shape.html">Background Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/snr.html">Signal-to-Noise Ratio (SNR)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/synth_image_results.html">Synthetic Image Results</a></li>
 </ul>
@@ -543,6 +542,7 @@ to download the full example code.</p>
 </div>
 <p>Setting up analysis times</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">date_start</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">utc</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">integration_time_s</span> <span class="o">=</span> <span class="mf">10.0</span>
 <span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">epsecs</span><span class="p">)</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">date_arange</span><span class="p">(</span>
     <span class="n">date_start</span> <span class="o">-</span> <span class="n">mr</span><span class="o">.</span><span class="n">days</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">mr</span><span class="o">.</span><span class="n">seconds</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">return_epsecs</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
@@ -577,7 +577,12 @@ to download the full example code.</p>
 </div>
 <p>Computing the full noisy light curve</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">lc_noisy_sampler</span><span class="p">,</span> <span class="n">aux_data</span><span class="p">)</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">observe_light_curve</span><span class="p">(</span>
-    <span class="n">obj</span><span class="p">,</span> <span class="n">obj_attitude</span><span class="p">,</span> <span class="n">brdf</span><span class="p">,</span> <span class="n">dates</span><span class="p">,</span> <span class="n">use_engine</span><span class="o">=</span><span class="kc">True</span>
+    <span class="n">obj</span><span class="p">,</span>
+    <span class="n">obj_attitude</span><span class="p">,</span>
+    <span class="n">brdf</span><span class="p">,</span>
+    <span class="n">dates</span><span class="p">,</span>
+    <span class="n">integration_time_s</span><span class="o">=</span><span class="n">integration_time_s</span><span class="p">,</span>
+    <span class="n">use_engine</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">lc_noisy</span> <span class="o">=</span> <span class="n">lc_noisy_sampler</span><span class="p">()</span>
 </pre></div>
@@ -598,13 +603,16 @@ to download the full example code.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_noisy_light_curve_001.png" srcset="../../_images/sphx_glr_noisy_light_curve_001.png, ../../_images/sphx_glr_noisy_light_curve_001_2_00x.png 2.00x" alt="Light Curves for 36411" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 12.264 seconds)</p>
+<img src="../../_images/sphx_glr_noisy_light_curve_001.png" srcset="../../_images/sphx_glr_noisy_light_curve_001.png, ../../_images/sphx_glr_noisy_light_curve_001_2_00x.png 2.00x" alt="Light Curves for 36411" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 8.758 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-01-light-curves-noisy-light-curve-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/a6c921d10a8120da2fb0c60ff7614761/noisy_light_curve.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">noisy_light_curve.ipynb</span></code></a></p>
 </div>
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/689095b0cbd04e9102a6cb57b887596b/noisy_light_curve.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">noisy_light_curve.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/12d7e009079d4639d3b60079357912e8/noisy_light_curve.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">noisy_light_curve.zip</span></code></a></p>
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>

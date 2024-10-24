@@ -23,13 +23,14 @@ Live Satellites From Observer
 
 Plots satellites that would be visible from a station's telescope in real time
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-29
+.. GENERATED FROM PYTHON SOURCE LINES 7-30
 
 .. code-block:: Python
 
 
     import numpy as np
     import pyvista as pv
+    from alive_progress import alive_bar
 
     import mirage as mr
     import mirage.vis as mrv
@@ -56,12 +57,12 @@ Plots satellites that would be visible from a station's telescope in real time
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-32
+.. GENERATED FROM PYTHON SOURCE LINES 31-33
 
 Since I'm currently stuck in the Philadelphia airport, let's plot things from the perspective of there
 obs_lat, obs_lon = lat_lon_of_address("Philadelphia, PA")
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-34
+.. GENERATED FROM PYTHON SOURCE LINES 33-35
 
 .. code-block:: Python
 
@@ -74,11 +75,11 @@ obs_lat, obs_lon = lat_lon_of_address("Philadelphia, PA")
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-36
+.. GENERATED FROM PYTHON SOURCE LINES 36-37
 
 Let's impose a signal to noise ratio constraint, require satellites to be above the horizon, be illuminated, and have a visual magnitude brighter than 12
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-43
+.. GENERATED FROM PYTHON SOURCE LINES 37-44
 
 .. code-block:: Python
 
@@ -96,11 +97,11 @@ Let's impose a signal to noise ratio constraint, require satellites to be above 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-45
+.. GENERATED FROM PYTHON SOURCE LINES 45-46
 
 We can now plot everything!
 
-.. GENERATED FROM PYTHON SOURCE LINES 45-173
+.. GENERATED FROM PYTHON SOURCE LINES 46-178
 
 .. code-block:: Python
 
@@ -133,7 +134,7 @@ We can now plot everything!
     )
 
 
-    def show_scene(epsec: float):
+    def show_scene(epsec: float, integration_time_s: float):
         date = mr.today() + mr.seconds(epsec)  # Fig 5.38
         r_eci, v_eci, names = mr.propagate_catalog_to_dates(date, return_names=True)
         station_eci = station.j2000_at_dates(date)
@@ -162,6 +163,7 @@ We can now plot everything!
             dates=date,
             lc=lc_sphere,
             evaluate_all=False,
+            integration_time_s=integration_time_s,
         )
 
         mrv.scatter3(
@@ -227,9 +229,12 @@ We can now plot everything!
 
 
     pl.open_gif('test.gif')
-    for i in np.linspace(0, 80, 60):
-        show_scene(i)
-        pl.write_frame()
+    frames = 60
+    with alive_bar(frames) as bar:
+        for i in np.linspace(0, 80, frames):
+            show_scene(i, integration_time_s=10.0)
+            pl.write_frame()
+            bar()
 
     pl.close()
 
@@ -245,9 +250,7 @@ We can now plot everything!
 
  .. code-block:: none
 
-    File not found in storage, proceeding to download...
-    Downloading tsi_v02r01-preliminary_daily_s20240101_e20240331_c20240418.nc...
-    Using: https://www.ncei.noaa.gov/data/total-solar-irradiance/access/daily/tsi_v02r01-preliminary_daily_s20240101_e20240331_c20240418.nc
+    |████████████████████████████████████████| 60/60 [100%] in 12.9s (4.64/s) 
 
 
 
@@ -255,7 +258,7 @@ We can now plot everything!
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 19.448 seconds)
+   **Total running time of the script:** (0 minutes 15.693 seconds)
 
 
 .. _sphx_glr_download_gallery_07-observer_local_hemisphere.py:

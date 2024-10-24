@@ -7,6 +7,7 @@ Plots satellites that would be visible from a station's telescope in real time
 
 import numpy as np
 import pyvista as pv
+from alive_progress import alive_bar
 
 import mirage as mr
 import mirage.vis as mrv
@@ -71,7 +72,7 @@ mrv.plot3(
 )
 
 
-def show_scene(epsec: float):
+def show_scene(epsec: float, integration_time_s: float):
     date = mr.today() + mr.seconds(epsec)  # Fig 5.38
     r_eci, v_eci, names = mr.propagate_catalog_to_dates(date, return_names=True)
     station_eci = station.j2000_at_dates(date)
@@ -100,6 +101,7 @@ def show_scene(epsec: float):
         dates=date,
         lc=lc_sphere,
         evaluate_all=False,
+        integration_time_s=integration_time_s,
     )
 
     mrv.scatter3(
@@ -165,8 +167,11 @@ def show_scene(epsec: float):
 
 
 pl.open_gif('test.gif')
-for i in np.linspace(0, 80, 60):
-    show_scene(i)
-    pl.write_frame()
+frames = 60
+with alive_bar(frames) as bar:
+    for i in np.linspace(0, 80, frames):
+        show_scene(i, integration_time_s=10.0)
+        pl.write_frame()
+        bar()
 
 pl.close()

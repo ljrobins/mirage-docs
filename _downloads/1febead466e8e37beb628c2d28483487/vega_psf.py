@@ -15,7 +15,7 @@ import mirage.vis as mrv
 station = mr.Station()
 catalog = mr.GaiaSpectralStarCatalog(station)
 info = mr.info_from_fits(
-    '/Volumes/Data 1/imgs/pogs/data_cal_qe/00168954.Mouse_click_position.fit',
+    '/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/pogs/data_cal_qe/00168954.Mouse_click_position.fit',
 )
 
 cmap = colormaps['gray']

@@ -14,7 +14,9 @@ from astropy.io import fits
 
 import mirage as mr
 
-bias_frames_dir = '/Volumes/Data 1/imgs/pogs/bias_frames'
+bias_frames_dir = (
+    '/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/pogs/bias_frames'
+)
 bias_fit_paths = [
     os.path.join(bias_frames_dir, x)
     for x in os.listdir(bias_frames_dir)

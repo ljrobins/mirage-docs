@@ -13,7 +13,7 @@ import mirage as mr
 
 # info_path = "/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/2022-09-18_GPS_PRN14/ObservationData.mat"
 # info_path = '/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/2023-05-29 Telstar 19V/ObservationData.mat'
-info_path = '/Volumes/Data 1/imgs/pogs/2022/2022-09-18_GPS_PRN14/ObservationData.mat'
+info_path = '/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/pogs/2022-09-18/ObservationData.mat'
 add_distortion = True
 add_refraction = True
 station = mr.Station()

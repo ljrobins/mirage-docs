@@ -44,11 +44,12 @@ Plotting the general behavior of background signals for zodiac light, moonlight,
 
 Let's choose a point after sunset on the US east coast
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-17
+.. GENERATED FROM PYTHON SOURCE LINES 15-18
 
 .. code-block:: Python
 
     date = mr.utc(2023, 3, 1, 1)
+    integration_time_s = 1.0  # seconds
 
 
 
@@ -57,11 +58,11 @@ Let's choose a point after sunset on the US east coast
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-19
+.. GENERATED FROM PYTHON SOURCE LINES 19-20
 
 We can then generate the background signals for a set of spiral points
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-51
+.. GENERATED FROM PYTHON SOURCE LINES 20-53
 
 .. code-block:: Python
 
@@ -73,6 +74,7 @@ We can then generate the background signals for a set of spiral points
         station,
         pts,
         pts / 2 + 0.01,
+        integration_time_s,
     )
     ss = mr.integrated_starlight_signal(*tdargs)
 
@@ -109,11 +111,11 @@ We can then generate the background signals for a set of spiral points
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 52-53
+.. GENERATED FROM PYTHON SOURCE LINES 54-55
 
 A still frame
 
-.. GENERATED FROM PYTHON SOURCE LINES 53-59
+.. GENERATED FROM PYTHON SOURCE LINES 55-61
 
 .. code-block:: Python
 
@@ -138,7 +140,7 @@ A still frame
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 26.893 seconds)
+   **Total running time of the script:** (0 minutes 15.326 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_background_zenith.py:
@@ -154,6 +156,10 @@ A still frame
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: background_zenith.py <background_zenith.py>`
+
+    .. container:: sphx-glr-download sphx-glr-download-zip
+
+      :download:`Download zipped: background_zenith.zip <background_zenith.zip>`
 
 
 .. only:: html

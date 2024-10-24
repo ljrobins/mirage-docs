@@ -21,6 +21,7 @@ from PIL import Image
 # %%
 # Case 1: The light curve of a cube
 
+integration_time_s = 1.0  # seconds
 obj = mr.SpaceObject('cube.obj', identifier='GOES 15')
 
 pl = pv.Plotter()
@@ -216,6 +217,7 @@ lc, aux_data = station.observe_light_curve(
     attitude,
     brdf,
     dates,
+    integration_time_s=integration_time_s,
     use_engine=True,
     model_scale_factor=msf,
     save_imgs=True,
@@ -291,7 +293,13 @@ plt.show()
 # Without uncertainty
 plt.figure()
 lc, aux_data = station.observe_light_curve(
-    obj, attitude, brdf, dates, use_engine=True, model_scale_factor=msf
+    obj,
+    attitude,
+    brdf,
+    dates,
+    integration_time_s=integration_time_s,
+    use_engine=True,
+    model_scale_factor=msf,
 )
 
 lcs = np.array([lc() for i in range(1000)])
@@ -370,6 +378,7 @@ for combo in combos:
         obj_attitude=combo['attitude'],
         brdf=combo['brdf'],
         dates=dates,
+        integration_time_s=integration_time_s,
         use_engine=True,
     )
     lc = lc_sampler()

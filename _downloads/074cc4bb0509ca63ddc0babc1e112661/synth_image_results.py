@@ -14,7 +14,7 @@ from matplotlib import colormaps as cm
 import mirage as mr
 import mirage.vis as mrv
 
-info_path = '/Volumes/Data 1/imgs/pogs/2022/2022-09-18_GPS_PRN14/ObservationData.mat'
+info_path = '/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/pogs/2022-09-18/ObservationData.mat'
 # info_path = "/Users/liamrobinson/Documents/mirage/digitaltwin/data/ObservationData.mat"
 add_distortion = True
 add_refraction = True

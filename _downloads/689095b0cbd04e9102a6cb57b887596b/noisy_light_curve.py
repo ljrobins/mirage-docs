@@ -15,6 +15,7 @@ import mirage.vis as mrv
 # %%
 # Setting up analysis times
 date_start = mr.utc(2023, 5, 20, 20, 45, 0)
+integration_time_s = 10.0
 (dates, epsecs) = mr.date_arange(
     date_start - mr.days(1), date_start, mr.seconds(10), return_epsecs=True
 )
@@ -49,7 +50,12 @@ obj_attitude = mr.RbtfAttitude(
 # %%
 # Computing the full noisy light curve
 (lc_noisy_sampler, aux_data) = station.observe_light_curve(
-    obj, obj_attitude, brdf, dates, use_engine=True
+    obj,
+    obj_attitude,
+    brdf,
+    dates,
+    integration_time_s=integration_time_s,
+    use_engine=True,
 )
 lc_noisy = lc_noisy_sampler()
 

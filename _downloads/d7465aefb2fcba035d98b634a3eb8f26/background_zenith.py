@@ -13,6 +13,7 @@ import mirage.vis as mrv
 # %%
 # Let's choose a point after sunset on the US east coast
 date = mr.utc(2023, 3, 1, 1)
+integration_time_s = 1.0  # seconds
 
 # %%
 # We can then generate the background signals for a set of spiral points
@@ -24,6 +25,7 @@ tdargs = (
     station,
     pts,
     pts / 2 + 0.01,
+    integration_time_s,
 )
 ss = mr.integrated_starlight_signal(*tdargs)
 

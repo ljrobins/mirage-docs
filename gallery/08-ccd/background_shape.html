@@ -50,8 +50,8 @@
     <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Streak Detection and Centroiding" href="streaks.html" />
-    <link rel="prev" title="CCD Heuristics" href="ccd_heuristics.html" />
+    <link rel="next" title="Signal-to-Noise Ratio (SNR)" href="snr.html" />
+    <link rel="prev" title="Streak Detection and Centroiding" href="streaks.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -347,7 +347,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../02-light_curve_inversion/noisy_inversion_pdf.html">Inversion PDF</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../02-light_curve_inversion/egi_optimization.html">EGI Optimization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../02-light_curve_inversion/aas_non_convex_inversion.html">Non-Convex Inversion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../02-light_curve_inversion/parametric_box_wing.html">Parametric Box-Wing Inversion</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../03-coordinate-systems/index.html">Coordinate Frames</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -413,8 +412,8 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="qe_curves.html">Quantum Efficiency Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vega_psf.html">Vega PSF</a></li>
 <li class="toctree-l2"><a class="reference internal" href="convolution_streaks.html">Convolution for Streaks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="noise_accum_gifs.html">Noise Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="digital_twin_compared.html">Digital Twin Animated</a></li>
+<li class="toctree-l2"><a class="reference internal" href="noise_accum_gifs.html">Noise Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="matched_imgs_gif.html">Digital Twin Animated</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mapping_function.html">Mapping Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="stars_in_fov.html">Stars in FOV</a></li>
@@ -422,8 +421,8 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="bias_frame.html">Bias Frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="airy_disk_diffraction.html">Airy Disk Diffraction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_heuristics.html">CCD Heuristics</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Background Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaks.html">Streak Detection and Centroiding</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Background Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="snr.html">Signal-to-Noise Ratio (SNR)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="synth_image_results.html">Synthetic Image Results</a></li>
 </ul>
@@ -549,7 +548,7 @@ to download the full example code.</p>
 <p>Defining functions that compute the background of a CCD image</p>
 <p>Loading the CCD image</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span>
-    <span class="s1">&#39;/Volumes/Data 1/imgs/pogs/2022/2022-09-18_GPS_PRN14/00147425.fit&#39;</span>
+    <span class="s1">&#39;/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/pogs/single_examples/00147425.fit&#39;</span>
 <span class="p">)</span> <span class="k">as</span> <span class="n">hdul</span><span class="p">:</span>
     <span class="n">ccd_adu</span> <span class="o">=</span> <span class="n">hdul</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
 </pre></div>
@@ -584,7 +583,7 @@ to download the full example code.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_background_shape_001.png" srcset="../../_images/sphx_glr_background_shape_001.png, ../../_images/sphx_glr_background_shape_001_2_00x.png 2.00x" alt="background shape" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Parabola estimation: 1.63e-02 seconds
+<img src="../../_images/sphx_glr_background_shape_001.png" srcset="../../_images/sphx_glr_background_shape_001.png, ../../_images/sphx_glr_background_shape_001_2_00x.png 2.00x" alt="background shape" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Parabola estimation: 1.16e-02 seconds
 </pre></div>
 </div>
 <p>Plotting the parabolic fit to the background</p>
@@ -617,7 +616,8 @@ to download the full example code.</p>
 <img src="../../_images/sphx_glr_background_shape_003.png" srcset="../../_images/sphx_glr_background_shape_003.png, ../../_images/sphx_glr_background_shape_003_2_00x.png 2.00x" alt="Real backgrounds" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Residual variance: 114.29810870073597 [ADU^2]]
 </pre></div>
 </div>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">lims</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1730</span><span class="p">,</span> <span class="mi">1760</span><span class="p">],</span> <span class="p">[</span><span class="mi">1990</span><span class="p">,</span> <span class="mi">2020</span><span class="p">]]</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">obj_pos</span> <span class="o">=</span> <span class="mi">1286</span><span class="p">,</span> <span class="mi">1897</span>
+<span class="n">lims</span> <span class="o">=</span> <span class="p">[[</span><span class="n">obj_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">15</span><span class="p">,</span> <span class="n">obj_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">15</span><span class="p">],</span> <span class="p">[</span><span class="n">obj_pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">15</span><span class="p">,</span> <span class="n">obj_pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">15</span><span class="p">]]</span>
 <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
     <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">lims</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">lims</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">lims</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">lims</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
 <span class="p">)</span>
@@ -652,7 +652,7 @@ to download the full example code.</p>
   warnings.warn(
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 15.752 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 13.811 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-08-ccd-background-shape-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/07299f3b3791212bf094e514b8b4f4f9/background_shape.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">background_shape.ipynb</span></code></a></p>
@@ -678,20 +678,20 @@ to download the full example code.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="ccd_heuristics.html"
+       href="streaks.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">CCD Heuristics</p>
+        <p class="prev-next-title">Streak Detection and Centroiding</p>
       </div>
     </a>
     <a class="right-next"
-       href="streaks.html"
+       href="snr.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Streak Detection and Centroiding</p>
+        <p class="prev-next-title">Signal-to-Noise Ratio (SNR)</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

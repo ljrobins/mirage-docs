@@ -23,10 +23,9 @@ import mirage.vis as mrv
 # %%
 # Loading the CCD image
 with fits.open(
-    '/Volumes/Data 1/imgs/pogs/2022/2022-09-18_GPS_PRN14/00147425.fit'
+    '/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/pogs/single_examples/00147425.fit'
 ) as hdul:
     ccd_adu = hdul[0].data
-
 
 # %%
 # Plotting the background values as a function of the distance from the center of the image
@@ -88,7 +87,8 @@ plt.show()
 # %%
 #
 
-lims = [[1730, 1760], [1990, 2020]]
+obj_pos = 1286, 1897
+lims = [[obj_pos[0] - 15, obj_pos[0] + 15], [obj_pos[1] - 15, obj_pos[1] + 15]]
 x, y = np.meshgrid(
     np.arange(lims[0][1] - lims[0][0]), np.arange(lims[1][1] - lims[1][0])
 )

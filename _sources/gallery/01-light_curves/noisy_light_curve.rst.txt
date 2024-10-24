@@ -46,11 +46,12 @@ Simulates torque-free rigid body motion for a simple object and computes the ful
 
 Setting up analysis times
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-23
+.. GENERATED FROM PYTHON SOURCE LINES 17-24
 
 .. code-block:: Python
 
     date_start = mr.utc(2023, 5, 20, 20, 45, 0)
+    integration_time_s = 10.0
     (dates, epsecs) = mr.date_arange(
         date_start - mr.days(1), date_start, mr.seconds(10), return_epsecs=True
     )
@@ -63,11 +64,11 @@ Setting up analysis times
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-25
+.. GENERATED FROM PYTHON SOURCE LINES 25-26
 
 Setting up the scenario objects
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-30
+.. GENERATED FROM PYTHON SOURCE LINES 26-31
 
 .. code-block:: Python
 
@@ -83,11 +84,11 @@ Setting up the scenario objects
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-32
+.. GENERATED FROM PYTHON SOURCE LINES 32-33
 
 Defining observation constraints on the station
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-41
+.. GENERATED FROM PYTHON SOURCE LINES 33-42
 
 .. code-block:: Python
 
@@ -107,11 +108,11 @@ Defining observation constraints on the station
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-43
+.. GENERATED FROM PYTHON SOURCE LINES 43-44
 
 Defining the object's attitude profile and mass properties
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-49
+.. GENERATED FROM PYTHON SOURCE LINES 44-50
 
 .. code-block:: Python
 
@@ -128,16 +129,21 @@ Defining the object's attitude profile and mass properties
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 50-51
+.. GENERATED FROM PYTHON SOURCE LINES 51-52
 
 Computing the full noisy light curve
 
-.. GENERATED FROM PYTHON SOURCE LINES 51-56
+.. GENERATED FROM PYTHON SOURCE LINES 52-62
 
 .. code-block:: Python
 
     (lc_noisy_sampler, aux_data) = station.observe_light_curve(
-        obj, obj_attitude, brdf, dates, use_engine=True
+        obj,
+        obj_attitude,
+        brdf,
+        dates,
+        integration_time_s=integration_time_s,
+        use_engine=True,
     )
     lc_noisy = lc_noisy_sampler()
 
@@ -148,11 +154,11 @@ Computing the full noisy light curve
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-58
+.. GENERATED FROM PYTHON SOURCE LINES 63-64
 
 Extracting data and plotting results
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-71
+.. GENERATED FROM PYTHON SOURCE LINES 64-77
 
 .. code-block:: Python
 
@@ -184,7 +190,7 @@ Extracting data and plotting results
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 12.264 seconds)
+   **Total running time of the script:** (0 minutes 8.758 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_noisy_light_curve.py:
@@ -200,6 +206,10 @@ Extracting data and plotting results
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: noisy_light_curve.py <noisy_light_curve.py>`
+
+    .. container:: sphx-glr-download sphx-glr-download-zip
+
+      :download:`Download zipped: noisy_light_curve.zip <noisy_light_curve.zip>`
 
 
 .. only:: html

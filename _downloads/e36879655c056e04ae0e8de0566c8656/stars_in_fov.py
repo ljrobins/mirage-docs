@@ -13,7 +13,7 @@ import mirage.vis as mrv
 
 
 def plot_telescope_fov(station: mr.Station, look_dir: np.ndarray, up_dir: np.ndarray):
-    sp = station.telescope.sensor_pixels
+    sp = station.telescope.ccd.sensor_pixels
     xy1 = np.vstack((np.arange(sp), np.full(sp, 0))).T
     xy2 = np.vstack((np.arange(sp), np.full(sp, sp))).T
     xy3 = np.vstack((np.full(sp, 0), np.arange(sp))).T

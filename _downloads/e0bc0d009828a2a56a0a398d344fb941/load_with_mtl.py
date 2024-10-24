@@ -9,8 +9,8 @@ import numpy as np
 
 import mirage as mr
 
-obj_name = 'untitled.obj'
-obj_path = os.path.join('/Users/liamrobinson/Downloads/', obj_name)
+obj_name = 'cube.obj'
+obj_path = os.path.join(os.environ['MODELDIR'], obj_name)
 
 # %%
 # Let's take a look at what the obj file looks like
@@ -20,7 +20,7 @@ with open(obj_path, 'r') as f:
 
 # %%
 # And the mtl file
-with open(os.path.join(os.path.split(obj_path)[0], 'untitled.mtl'), 'r') as f:
+with open(os.path.join(os.path.split(obj_path)[0], 'cube.mtl'), 'r') as f:
     print(f.read())
 
 # %%

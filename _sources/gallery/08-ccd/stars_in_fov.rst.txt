@@ -36,7 +36,7 @@ Computing which stars are in the field of view
 
 
     def plot_telescope_fov(station: mr.Station, look_dir: np.ndarray, up_dir: np.ndarray):
-        sp = station.telescope.sensor_pixels
+        sp = station.telescope.ccd.sensor_pixels
         xy1 = np.vstack((np.arange(sp), np.full(sp, 0))).T
         xy2 = np.vstack((np.arange(sp), np.full(sp, sp))).T
         xy3 = np.vstack((np.full(sp, 0), np.arange(sp))).T
@@ -91,9 +91,9 @@ Computing which stars are in the field of view
  .. code-block:: none
 
     Number of stars in catalog: 16844164
-    Brute time total: 4.69e-01
-    Tree time total: 7.01e-04
-    Factor speedup: 668.7
+    Brute time total: 4.01e-01
+    Tree time total: 1.09e-03
+    Factor speedup: 366.1
 
 
 
@@ -135,7 +135,7 @@ Let's plot the tree solution
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.435 seconds)
+   **Total running time of the script:** (0 minutes 1.754 seconds)
 
 
 .. _sphx_glr_download_gallery_08-ccd_stars_in_fov.py:
@@ -151,6 +151,10 @@ Let's plot the tree solution
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: stars_in_fov.py <stars_in_fov.py>`
+
+    .. container:: sphx-glr-download sphx-glr-download-zip
+
+      :download:`Download zipped: stars_in_fov.zip <stars_in_fov.zip>`
 
 
 .. only:: html

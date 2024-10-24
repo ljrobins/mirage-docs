@@ -11,7 +11,9 @@ import pyvista as pv
 import mirage as mr
 import mirage.vis as mrv
 
-mr.set_model_directory('/Users/liamrobinson/Documents/mirage-models/accurate_sats')
+mr.set_model_directory(
+    '/Users/liamrobinson/Documents/maintained-research/mirage-models/accurate_sats'
+)
 space_objects = [
     mr.SpaceObject('matlib_tdrs.obj', identifier=19548),
     mr.SpaceObject('matlib_astra.obj', identifier=26853),  # ASTRA 2C
