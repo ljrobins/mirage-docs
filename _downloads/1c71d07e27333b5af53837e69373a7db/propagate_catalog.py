@@ -29,8 +29,6 @@ def plot_catalog_at_date(
     mrv.plot_earth(
         pl,
         date=date,
-        atmosphere=True,
-        night_lights=True,
     )
     mrv.scatter3(
         pl,

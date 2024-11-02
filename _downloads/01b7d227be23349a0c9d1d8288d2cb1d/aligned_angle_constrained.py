@@ -72,7 +72,7 @@ for i in range(data_points - 1):
         color='y',
         label='Sun',
     )
-    mrv.plot_earth(pl, date=date_space[i], atmosphere=True, night_lights=True)
+    mrv.plot_earth(pl, date=date_space[i])
     cam_light.position = pl.camera.position
     cam_light.focal_point = pl.camera.focal_point
     if i == 0:

@@ -36,8 +36,8 @@ Plotting the Earth with a variety of options
     import mirage as mr
     import mirage.vis as mrv
 
-    date = datetime.datetime(2022, 6, 4, 12, 0, 0, tzinfo=datetime.timezone.utc)
-    date_space_day = date + mr.days(np.linspace(0, 1, 50, endpoint=False))
+    d0 = datetime.datetime(2022, 6, 4, 12, 0, 0, tzinfo=datetime.timezone.utc)
+    date_space_day = d0 + mr.days(np.linspace(0, 1, 50, endpoint=False))
 
 
 
@@ -57,7 +57,7 @@ Just so that the thumbnail of this example is exciting, let's animate a full pho
     pl = pv.Plotter()
     pl.open_gif('earth_day.gif', fps=15)
     for date in date_space_day:
-        mrv.plot_earth(pl, date=date, night_lights=True, atmosphere=True)
+        mrv.plot_earth(pl, date=date)
         pl.camera.position = (40e3, 0.0, 0.0)
         pl.write_frame()
     pl.close()
@@ -78,7 +78,7 @@ Just so that the thumbnail of this example is exciting, let's animate a full pho
 
 Night lights with latitude and longitude lines
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-48
+.. GENERATED FROM PYTHON SOURCE LINES 31-46
 
 .. code-block:: Python
 
@@ -86,7 +86,6 @@ Night lights with latitude and longitude lines
     mrv.plot_earth(
         pl,
         date=date,
-        night_lights=True,
     )
     grid = mrv.celestial_grid(15, 15)
     mrv.plot3(
@@ -101,7 +100,6 @@ Night lights with latitude and longitude lines
 
 
 
-
 .. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_002.png
    :alt: plot earth
    :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_002.png
@@ -111,96 +109,10 @@ Night lights with latitude and longitude lines
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-50
-
-Star background
-
-.. GENERATED FROM PYTHON SOURCE LINES 50-58
-
-.. code-block:: Python
-
-    pl = pv.Plotter()
-    mrv.plot_earth(
-        pl,
-        date=date,
-        stars=True,
-    )
-    pl.show()
-
-
-
-
-.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_003.png
-   :alt: plot earth
-   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_003.png
-   :class: sphx-glr-single-img
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 59-60
-
-Country borders
-
-.. GENERATED FROM PYTHON SOURCE LINES 60-68
-
-.. code-block:: Python
-
-    pl = pv.Plotter()
-    mrv.plot_earth(
-        pl,
-        date=date,
-        borders=True,
-    )
-    pl.show()
-
-
-
-
-.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_004.png
-   :alt: plot earth
-   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_004.png
-   :class: sphx-glr-single-img
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 69-70
-
-All photorealistic settings
-
-.. GENERATED FROM PYTHON SOURCE LINES 70-80
-
-.. code-block:: Python
-
-    pl = pv.Plotter()
-    mrv.plot_earth(
-        pl,
-        date=date,
-        stars=True,
-        night_lights=True,
-        atmosphere=True,
-        high_def=True,
-    )
-    pl.show()
-
-
-
-.. image-sg:: /gallery/05-vis/images/sphx_glr_plot_earth_005.png
-   :alt: plot earth
-   :srcset: /gallery/05-vis/images/sphx_glr_plot_earth_005.png
-   :class: sphx-glr-single-img
-
-
-
-
-
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 32.218 seconds)
+   **Total running time of the script:** (0 minutes 20.425 seconds)
 
 
 .. _sphx_glr_download_gallery_05-vis_plot_earth.py:

@@ -28,7 +28,7 @@ f_shadow = 1 - mr.sun_irradiance_fraction(date, gpts)
 mr.toc()
 
 pl = pv.Plotter(window_size=(1600, 800))
-mrv.plot_earth(pl, date=date, atmosphere=True, night_lights=True, lighting=True)
+mrv.plot_earth(pl, date=date)
 mrv.scatter3(
     pl,
     gpts,

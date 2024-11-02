@@ -48,9 +48,7 @@ for i, fcn in enumerate(fcns):
     r[i, :] = fcn(date)
 
 pl = pv.Plotter()
-mrv.plot_earth(
-    pl, date=date, night_lights=True, elevation=True, atmosphere=True, lighting=False
-)
+mrv.plot_earth(pl, date=date, lighting=False)
 
 mag = 20000
 planet_dirs = mr.hat(r)

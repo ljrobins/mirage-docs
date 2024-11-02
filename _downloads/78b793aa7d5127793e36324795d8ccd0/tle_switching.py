@@ -42,7 +42,7 @@ r_newest = mr.tle_propagate_with_switching(
 # %%
 # We can plot these trajectories to show that they result in similar trajectories
 pl = pv.Plotter()
-mrv.plot_earth(pl, date=dtimes[0], mode='eci', night_lights=True, atmosphere=True)
+mrv.plot_earth(pl, date=dtimes[0], mode='eci')
 lw = 6
 mrv.plot3(pl, r_closest, color='c', lighting=False, line_width=lw)
 # mrv.plot3(pl, r_newest, color="m", lighting=False, line_width=lw)

@@ -320,16 +320,18 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/ground_track.html">Ground Tracks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/hifi_propagation.html">Propagating with Perturbations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/tle_switching.html">TLE Switching</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../00-orbits/iod.html">Classical IOD Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/propagate_catalog.html">Propagating the catalog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../00-orbits/iod.html">Classical IOD Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../00-orbits/restricted_circular_od.html">Restricted Circular IOD</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../01-light_curves/index.html">Light Curves</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noise_crimes.html">Noise Addition Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/convex_light_curve.html">Convex Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/rotate_panels_vid.html">Rotating Solar Panels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/support_unobservability.html">Support Unobservability</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/confirm_self_shadow.html">Self-Shadowing Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_ambiguities.html">Light Curve Ambiguities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/importance_sampling_cook_torrance.html">Importance Sampling Cook-Torrance</a></li>
@@ -371,8 +373,8 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/shadow_functions.html">Shadow Functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/vesuvius_terrain.html">Terrain Tiles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../04-environment/solar_spectrum.html">Solar Spectrum</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/atmospheric_transmission.html">Atmospheric Transmission</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/solar_spectrum.html">Solar Spectrum</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/passbands.html">Passbands</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/solar_system.html">Solar System</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/star_catalogs.html">Star Catalogs</a></li>
@@ -386,8 +388,8 @@ document.write(`
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../05-vis/index.html">Plotting Options</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../05-vis/moon_libration.html">Moon Librations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../05-vis/conic_sensor.html">Conic Sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../05-vis/plot_earth.html">Plotting Earth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-vis/conic_sensor.html">Conic Sensors</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../06-attitude/index.html">Attitude Kinematics and Dynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -448,6 +450,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/skellam.html">Skellam Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/random_nn_mean.html">Closest Average Random Nearest Neighbor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/importance_sampling.html">Importance Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/rng_speed.html">PRNG Speed</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/computer_graphics_background.html">Graphics Background</a></li>
@@ -717,42 +720,42 @@ input[type=range].anim-slider {
 </style>
 
 <div class="animation">
-  <img id="_anim_img5a5ae64995fd4063a75c3f914a131b83">
+  <img id="_anim_img60d244d2710747638766892cb62716ee">
   <div class="anim-controls">
-    <input id="_anim_slider5a5ae64995fd4063a75c3f914a131b83" type="range" class="anim-slider"
+    <input id="_anim_slider60d244d2710747638766892cb62716ee" type="range" class="anim-slider"
            name="points" min="0" max="1" step="1" value="0"
-           oninput="anim5a5ae64995fd4063a75c3f914a131b83.set_frame(parseInt(this.value));">
+           oninput="anim60d244d2710747638766892cb62716ee.set_frame(parseInt(this.value));">
     <div class="anim-buttons">
-      <button title="Decrease speed" aria-label="Decrease speed" onclick="anim5a5ae64995fd4063a75c3f914a131b83.slower()">
+      <button title="Decrease speed" aria-label="Decrease speed" onclick="anim60d244d2710747638766892cb62716ee.slower()">
           <i class="fa fa-minus"></i></button>
-      <button title="First frame" aria-label="First frame" onclick="anim5a5ae64995fd4063a75c3f914a131b83.first_frame()">
+      <button title="First frame" aria-label="First frame" onclick="anim60d244d2710747638766892cb62716ee.first_frame()">
         <i class="fa fa-fast-backward"></i></button>
-      <button title="Previous frame" aria-label="Previous frame" onclick="anim5a5ae64995fd4063a75c3f914a131b83.previous_frame()">
+      <button title="Previous frame" aria-label="Previous frame" onclick="anim60d244d2710747638766892cb62716ee.previous_frame()">
           <i class="fa fa-step-backward"></i></button>
-      <button title="Play backwards" aria-label="Play backwards" onclick="anim5a5ae64995fd4063a75c3f914a131b83.reverse_animation()">
+      <button title="Play backwards" aria-label="Play backwards" onclick="anim60d244d2710747638766892cb62716ee.reverse_animation()">
           <i class="fa fa-play fa-flip-horizontal"></i></button>
-      <button title="Pause" aria-label="Pause" onclick="anim5a5ae64995fd4063a75c3f914a131b83.pause_animation()">
+      <button title="Pause" aria-label="Pause" onclick="anim60d244d2710747638766892cb62716ee.pause_animation()">
           <i class="fa fa-pause"></i></button>
-      <button title="Play" aria-label="Play" onclick="anim5a5ae64995fd4063a75c3f914a131b83.play_animation()">
+      <button title="Play" aria-label="Play" onclick="anim60d244d2710747638766892cb62716ee.play_animation()">
           <i class="fa fa-play"></i></button>
-      <button title="Next frame" aria-label="Next frame" onclick="anim5a5ae64995fd4063a75c3f914a131b83.next_frame()">
+      <button title="Next frame" aria-label="Next frame" onclick="anim60d244d2710747638766892cb62716ee.next_frame()">
           <i class="fa fa-step-forward"></i></button>
-      <button title="Last frame" aria-label="Last frame" onclick="anim5a5ae64995fd4063a75c3f914a131b83.last_frame()">
+      <button title="Last frame" aria-label="Last frame" onclick="anim60d244d2710747638766892cb62716ee.last_frame()">
           <i class="fa fa-fast-forward"></i></button>
-      <button title="Increase speed" aria-label="Increase speed" onclick="anim5a5ae64995fd4063a75c3f914a131b83.faster()">
+      <button title="Increase speed" aria-label="Increase speed" onclick="anim60d244d2710747638766892cb62716ee.faster()">
           <i class="fa fa-plus"></i></button>
     </div>
-    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_select5a5ae64995fd4063a75c3f914a131b83"
+    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_select60d244d2710747638766892cb62716ee"
           class="anim-state">
-      <input type="radio" name="state" value="once" id="_anim_radio1_5a5ae64995fd4063a75c3f914a131b83"
+      <input type="radio" name="state" value="once" id="_anim_radio1_60d244d2710747638766892cb62716ee"
              >
-      <label for="_anim_radio1_5a5ae64995fd4063a75c3f914a131b83">Once</label>
-      <input type="radio" name="state" value="loop" id="_anim_radio2_5a5ae64995fd4063a75c3f914a131b83"
+      <label for="_anim_radio1_60d244d2710747638766892cb62716ee">Once</label>
+      <input type="radio" name="state" value="loop" id="_anim_radio2_60d244d2710747638766892cb62716ee"
              checked>
-      <label for="_anim_radio2_5a5ae64995fd4063a75c3f914a131b83">Loop</label>
-      <input type="radio" name="state" value="reflect" id="_anim_radio3_5a5ae64995fd4063a75c3f914a131b83"
+      <label for="_anim_radio2_60d244d2710747638766892cb62716ee">Loop</label>
+      <input type="radio" name="state" value="reflect" id="_anim_radio3_60d244d2710747638766892cb62716ee"
              >
-      <label for="_anim_radio3_5a5ae64995fd4063a75c3f914a131b83">Reflect</label>
+      <label for="_anim_radio3_60d244d2710747638766892cb62716ee">Reflect</label>
     </form>
   </div>
 </div>
@@ -762,9 +765,9 @@ input[type=range].anim-slider {
   /* Instantiate the Animation class. */
   /* The IDs given should match those used in the template above. */
   (function() {
-    var img_id = "_anim_img5a5ae64995fd4063a75c3f914a131b83";
-    var slider_id = "_anim_slider5a5ae64995fd4063a75c3f914a131b83";
-    var loop_select_id = "_anim_loop_select5a5ae64995fd4063a75c3f914a131b83";
+    var img_id = "_anim_img60d244d2710747638766892cb62716ee";
+    var slider_id = "_anim_slider60d244d2710747638766892cb62716ee";
+    var loop_select_id = "_anim_loop_select60d244d2710747638766892cb62716ee";
     var frames = new Array(10);
 
   frames[0] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAn4AAAHcCAYAAABI7KcYAAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90\
@@ -15186,12 +15189,12 @@ jUaj0TgQNPFrNBqNRqPROBA08Ws0Go1Go9E4EPwfqPNry7RIuw8AAAAASUVORK5CYII=\
     /* set a timeout to make sure all the above elements are created before
        the object is initialized. */
     setTimeout(function() {
-        anim5a5ae64995fd4063a75c3f914a131b83 = new Animation(frames, img_id, slider_id, 125.0,
+        anim60d244d2710747638766892cb62716ee = new Animation(frames, img_id, slider_id, 125.0,
                                  loop_select_id);
     }, 0);
   })()
 </script></div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Loading star catalog: 1.13e+00 seconds
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Loading star catalog: 1.56e+00 seconds
 0
 Applying 2.91e-02 deg of refraction
 fits_info[&quot;integration_time&quot;]=4.0
@@ -15202,7 +15205,7 @@ Applying a 3.66e-02 degree rotation to the telescope orientation
 AFTER QUEST: median error 2.78 pixels
 Objects in frame 1:
 NAVSTAR 80 (USA 309)
-Synthesizing CCD Image: 7.60e-01 seconds
+Synthesizing CCD Image: 7.57e-01 seconds
 0
 Applying 2.91e-02 deg of refraction
 fits_info[&quot;integration_time&quot;]=4.0
@@ -15213,7 +15216,7 @@ Applying a 3.66e-02 degree rotation to the telescope orientation
 AFTER QUEST: median error 2.78 pixels
 Objects in frame 1:
 NAVSTAR 80 (USA 309)
-Synthesizing CCD Image: 7.13e-01 seconds
+Synthesizing CCD Image: 6.68e-01 seconds
 0
 Applying 2.91e-02 deg of refraction
 fits_info[&quot;integration_time&quot;]=4.0
@@ -15224,7 +15227,7 @@ Applying a 3.66e-02 degree rotation to the telescope orientation
 AFTER QUEST: median error 2.78 pixels
 Objects in frame 1:
 NAVSTAR 80 (USA 309)
-Synthesizing CCD Image: 8.22e-01 seconds
+Synthesizing CCD Image: 6.61e-01 seconds
 0
 Applying 2.91e-02 deg of refraction
 fits_info[&quot;integration_time&quot;]=4.0
@@ -15235,7 +15238,7 @@ Applying a 3.66e-02 degree rotation to the telescope orientation
 AFTER QUEST: median error 2.78 pixels
 Objects in frame 1:
 NAVSTAR 80 (USA 309)
-Synthesizing CCD Image: 7.64e-01 seconds
+Synthesizing CCD Image: 6.28e-01 seconds
 1
 Applying 2.90e-02 deg of refraction
 fits_info[&quot;integration_time&quot;]=4.0
@@ -15246,7 +15249,7 @@ Applying a 3.48e-02 degree rotation to the telescope orientation
 AFTER QUEST: median error 1.85 pixels
 Objects in frame 1:
 NAVSTAR 80 (USA 309)
-Synthesizing CCD Image: 1.01e+00 seconds
+Synthesizing CCD Image: 9.81e-01 seconds
 2
 Applying 2.89e-02 deg of refraction
 fits_info[&quot;integration_time&quot;]=4.0
@@ -15257,7 +15260,7 @@ Applying a 3.82e-02 degree rotation to the telescope orientation
 AFTER QUEST: median error 1.77 pixels
 Objects in frame 1:
 NAVSTAR 80 (USA 309)
-Synthesizing CCD Image: 6.63e-01 seconds
+Synthesizing CCD Image: 6.47e-01 seconds
 3
 Applying 2.89e-02 deg of refraction
 fits_info[&quot;integration_time&quot;]=4.0
@@ -15268,7 +15271,7 @@ Applying a 3.59e-02 degree rotation to the telescope orientation
 AFTER QUEST: median error 2.17 pixels
 Objects in frame 1:
 NAVSTAR 80 (USA 309)
-Synthesizing CCD Image: 9.56e-01 seconds
+Synthesizing CCD Image: 9.42e-01 seconds
 4
 Applying 2.88e-02 deg of refraction
 fits_info[&quot;integration_time&quot;]=4.0
@@ -15279,7 +15282,7 @@ Applying a 3.93e-02 degree rotation to the telescope orientation
 AFTER QUEST: median error 2.10 pixels
 Objects in frame 1:
 NAVSTAR 80 (USA 309)
-Synthesizing CCD Image: 6.67e-01 seconds
+Synthesizing CCD Image: 6.54e-01 seconds
 5
 Applying 2.87e-02 deg of refraction
 fits_info[&quot;integration_time&quot;]=4.0
@@ -15290,7 +15293,7 @@ Applying a 4.22e-02 degree rotation to the telescope orientation
 AFTER QUEST: median error 1.91 pixels
 Objects in frame 1:
 NAVSTAR 80 (USA 309)
-Synthesizing CCD Image: 6.97e-01 seconds
+Synthesizing CCD Image: 6.75e-01 seconds
 6
 Applying 2.87e-02 deg of refraction
 fits_info[&quot;integration_time&quot;]=4.0
@@ -15301,7 +15304,7 @@ Applying a 3.89e-02 degree rotation to the telescope orientation
 AFTER QUEST: median error 1.98 pixels
 Objects in frame 1:
 NAVSTAR 80 (USA 309)
-Synthesizing CCD Image: 6.91e-01 seconds
+Synthesizing CCD Image: 6.67e-01 seconds
 7
 Applying 2.86e-02 deg of refraction
 fits_info[&quot;integration_time&quot;]=4.0
@@ -15312,7 +15315,7 @@ Applying a 3.76e-02 degree rotation to the telescope orientation
 AFTER QUEST: median error 1.49 pixels
 Objects in frame 1:
 NAVSTAR 80 (USA 309)
-Synthesizing CCD Image: 7.02e-01 seconds
+Synthesizing CCD Image: 6.55e-01 seconds
 8
 Applying 2.85e-02 deg of refraction
 fits_info[&quot;integration_time&quot;]=4.0
@@ -15323,7 +15326,7 @@ Applying a 3.64e-02 degree rotation to the telescope orientation
 AFTER QUEST: median error 2.16 pixels
 Objects in frame 1:
 NAVSTAR 80 (USA 309)
-Synthesizing CCD Image: 9.44e-01 seconds
+Synthesizing CCD Image: 9.16e-01 seconds
 9
 Applying 2.85e-02 deg of refraction
 fits_info[&quot;integration_time&quot;]=4.0
@@ -15335,7 +15338,7 @@ AFTER QUEST: median error 2.21 pixels
 Objects in frame 1:
 RESURS O1
 NAVSTAR 80 (USA 309)
-Synthesizing CCD Image: 6.99e-01 seconds
+Synthesizing CCD Image: 6.40e-01 seconds
 </pre></div>
 </div>
 <div class="line-block">
@@ -15401,7 +15404,7 @@ Synthesizing CCD Image: 6.99e-01 seconds
 <span class="n">anim</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;synth_imgs.gif&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (1 minutes 13.763 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (1 minutes 11.788 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-08-ccd-matched-imgs-gif-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/b86fad68b073d22ce62056c88aa91ed0/matched_imgs_gif.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">matched_imgs_gif.ipynb</span></code></a></p>

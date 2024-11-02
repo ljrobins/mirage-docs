@@ -44,7 +44,7 @@ plot_shadow_function_for_dates(galileo, galileo_dates)
 # %%
 # GRACE (LEO)
 
-grace = mr.SpaceObject('cube.obj', identifier='GRACE 1')
+grace = mr.SpaceObject('cube.obj', identifier='GRACE1')
 d0 = mr.utc(2007, 1, 20, 1, 27, 25)
 grace_dates = mr.date_linspace(d0 - mr.seconds(20), d0 + mr.seconds(20), 100)
 plot_shadow_function_for_dates(grace, grace_dates)

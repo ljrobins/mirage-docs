@@ -37,7 +37,7 @@ rv = rv.reshape((dates.size, 6, -1))
 mr.toc()
 
 pl = pv.Plotter()
-mrv.plot_earth(pl, date=dates[0], night_lights=True, atmosphere=True)
+mrv.plot_earth(pl, date=dates[0])
 for i in range(rv.shape[-1]):
     r = rv[:, :3, i]
     mrv.plot3(

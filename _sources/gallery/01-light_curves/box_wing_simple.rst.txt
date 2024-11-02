@@ -26,7 +26,7 @@ Simple Box-Wing Light Curves
 
 
 .. image-sg:: /gallery/01-light_curves/images/sphx_glr_box_wing_simple_001.png
-   :alt: Integrated Irradiance from GOES 17 in [W / $m^2$]
+   :alt: Integrated Irradiance from GOES 17
    :srcset: /gallery/01-light_curves/images/sphx_glr_box_wing_simple_001.png, /gallery/01-light_curves/images/sphx_glr_box_wing_simple_001_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
@@ -35,12 +35,16 @@ Simple Box-Wing Light Curves
 
  .. code-block:: none
 
-    2024-10-22 15:50:57.221 LightCurveEngine-mac-arm[36395:70690005] +[IMKClient subclass]: chose IMKClient_Legacy
-    2024-10-22 15:50:57.221 LightCurveEngine-mac-arm[36395:70690005] +[IMKInputSession subclass]: chose IMKInputSession_Legacy
+    Model file matlib_goes17.obj not found in current model folder ('/Users/liamrobinson/Documents/maintained-research/mirage-models/Non-Convex/'), checking model repository...
+    Attempting to download matlib_goes17.obj and its associated material file from the model repository...
+    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//accurate_sats/matlib_goes17.obj
+    Model files were downloaded successfully!
+    2024-11-02 00:50:29.507 LightCurveEngine-mac-arm[70835:125039661] +[IMKClient subclass]: chose IMKClient_Legacy
+    2024-11-02 00:50:29.507 LightCurveEngine-mac-arm[70835:125039661] +[IMKInputSession subclass]: chose IMKInputSession_Legacy
 
     /Users/liamrobinson/Documents/maintained-research/mirage/examples/01-light_curves/box_wing_simple.py:76: RuntimeWarning: invalid value encountered in scalar divide
       percent_err_at_peak = np.abs(lc_simp.max() - lc_fancy.max()) / lc_fancy.max() * 100
-    nan 0.023249934054803106
+    nan 0.03341901954547655
 
 
 
@@ -130,15 +134,15 @@ Simple Box-Wing Light Curves
     plt.plot(epsecs / 3600, lc_simp * f, 'c--', linewidth=2, label='Simplified')
     plt.grid()
     plt.legend()
-    plt.title('Integrated Irradiance from GOES 17 in [W / $m^2$]')
+    plt.title('Integrated Irradiance from GOES 17')
     plt.xlabel('Hours after 00:00 Oct 18, 2024 UTC')
-    plt.ylabel('Integrated Light Curve')
+    plt.ylabel('Integrated Light Curve [W / $m^2$]')
     plt.show()
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.905 seconds)
+   **Total running time of the script:** (0 minutes 2.563 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_box_wing_simple.py:

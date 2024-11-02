@@ -21,7 +21,7 @@
 Classical IOD Methods
 =====================
 
-.. GENERATED FROM PYTHON SOURCE LINES 6-63
+.. GENERATED FROM PYTHON SOURCE LINES 6-66
 
 
 
@@ -35,10 +35,10 @@ Classical IOD Methods
 
  .. code-block:: none
 
-    Gibbs: 1.26e-04 seconds
-    Herrick-Gibbs: 2.78e-05 seconds
-    Laplace: 3.61e-03 seconds
-    Gauss: 1.94e-03 seconds
+    Gibbs: 2.73e-04 seconds
+    Herrick-Gibbs: 6.10e-05 seconds
+    Laplace: 6.16e-03 seconds
+    Gauss: 3.99e-03 seconds
 
 
 
@@ -93,6 +93,9 @@ Classical IOD Methods
     pl = pv.Plotter()
     mrv.plot3(pl, obj_pos, line_width=10, lighting=False, color='r')
 
+    iod_pos_laplace = mr.integrate_orbit_dynamics(state2_laplace, dense_dates)[:, :3]
+    mrv.plot3(pl, iod_pos_laplace, line_width=10, lighting=False, color='magenta')
+
     iod_pos_gauss = mr.integrate_orbit_dynamics(state2_gauss, dense_dates)[:, :3]
     mrv.plot3(pl, iod_pos_gauss, line_width=10, lighting=False, color='lime')
 
@@ -110,7 +113,7 @@ Classical IOD Methods
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 4.601 seconds)
+   **Total running time of the script:** (0 minutes 5.327 seconds)
 
 
 .. _sphx_glr_download_gallery_00-orbits_iod.py:

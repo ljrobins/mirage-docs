@@ -47,6 +47,9 @@ obj_pos = obj.propagate(dense_dates)
 pl = pv.Plotter()
 mrv.plot3(pl, obj_pos, line_width=10, lighting=False, color='r')
 
+iod_pos_laplace = mr.integrate_orbit_dynamics(state2_laplace, dense_dates)[:, :3]
+mrv.plot3(pl, iod_pos_laplace, line_width=10, lighting=False, color='magenta')
+
 iod_pos_gauss = mr.integrate_orbit_dynamics(state2_gauss, dense_dates)[:, :3]
 mrv.plot3(pl, iod_pos_gauss, line_width=10, lighting=False, color='lime')
 

@@ -11,7 +11,7 @@ import numpy as np
 import mirage as mr
 import mirage.vis as mrv
 
-gammas = np.linspace(90, 130, 100)
+gammas = np.linspace(90, 130, 1000)
 
 mpsas = mr.twilight_zenith_mpsas(gammas)
 

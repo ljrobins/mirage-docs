@@ -44,7 +44,7 @@ def plot_sig(pl, s, cmap, scale=1):
 
 
 pl = pv.Plotter()
-(mrv.plot_earth(pl, mode='eci', night_lights=True, atmosphere=True, date=date),)
+(mrv.plot_earth(pl, mode='eci', date=date),)
 plot_sig(pl, ss, 'fire', scale=1.2)
 pl.camera.position = (35e3, 35e3, -8e3)
 
@@ -54,7 +54,7 @@ mrv.orbit_plotter(pl)
 # A still frame
 
 pl = pv.Plotter()
-(mrv.plot_earth(pl, mode='eci', night_lights=True, atmosphere=True, date=date),)
+(mrv.plot_earth(pl, mode='eci', date=date),)
 plot_sig(pl, ss, 'fire', scale=1.2)
 pl.camera.position = (35e3, 35e3, -8e3)
 pl.show()

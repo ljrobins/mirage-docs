@@ -34,9 +34,6 @@ def plot_bases_at_date(pl: pv.Plotter, d: datetime.datetime) -> None:
         pl,
         mode='eci',
         date=d,
-        night_lights=True,
-        atmosphere=True,
-        lighting=True,
     )
     mrv.plot_basis(
         pl,

@@ -30,7 +30,7 @@ mrv.plot_conic_sensor(
     show_edges=True,
     color='lime',
 )
-mrv.plot_earth(pl, date=date, night_lights=True, atmosphere=True, borders=True)
+mrv.plot_earth(pl, date=date, borders=True)
 mrv.scatter3(pl, r_sat[0, :], point_size=20)
 mrv.plot3(pl, r_sat, line_width=5, lighting=False)
 pl.camera.position = 2 * r_sat[0, :] + np.array([0.0, 10e3, 5e3])

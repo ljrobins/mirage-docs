@@ -91,7 +91,7 @@ Comparison plots for the synthetic and real images
 
  .. code-block:: none
 
-    Loading star catalog: 1.50e+00 seconds
+    Loading star catalog: 1.52e+00 seconds
     Applying 1.14e-02 deg of refraction
     fits_info["integration_time"]=4.0
     sim counts are too high by a factor of 1.10
@@ -101,9 +101,9 @@ Comparison plots for the synthetic and real images
     AFTER QUEST: median error 1.14 pixels
     Objects in frame 1:
     NAVSTAR 80 (USA 309)
-    Synthesizing CCD Image: 9.31e-01 seconds
+    Synthesizing CCD Image: 9.51e-01 seconds
 
-    <matplotlib.legend.Legend object at 0x432f04290>
+    <matplotlib.legend.Legend object at 0x3221e8410>
 
 
 
@@ -111,13 +111,12 @@ Comparison plots for the synthetic and real images
 
 Overlaying the two images
 
-.. GENERATED FROM PYTHON SOURCE LINES 60-104
+.. GENERATED FROM PYTHON SOURCE LINES 60-103
 
 .. code-block:: Python
 
 
-    # br_val = 1000 # for the geo obs
-    br_val = 1000  # For the gps obs
+    br_val = 1010  # For the gps obs
     n.img = n.img.astype(int)
     n.img[n.img <= br_val] = br_val + 1
     n.img -= br_val
@@ -183,11 +182,11 @@ Overlaying the two images
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 105-106
+.. GENERATED FROM PYTHON SOURCE LINES 104-105
 
 Subtracting the two images
 
-.. GENERATED FROM PYTHON SOURCE LINES 106-154
+.. GENERATED FROM PYTHON SOURCE LINES 105-153
 
 .. code-block:: Python
 
@@ -195,7 +194,7 @@ Subtracting the two images
     adu_err_stdev = np.abs(adu_err) / np.sqrt(np.abs(n.img_sym.astype(np.int64)))
     plt.figure(figsize=(8, 6))
     cm = cm.get_cmap('plasma')
-    max_sigma = 10
+    max_sigma = 30
 
     plt.subplot(2, 2, 1)
     plt.imshow(adu_err_stdev, cmap=cm)
@@ -254,7 +253,7 @@ Subtracting the two images
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 6.321 seconds)
+   **Total running time of the script:** (0 minutes 6.473 seconds)
 
 
 .. _sphx_glr_download_gallery_08-ccd_synth_image_results.py:

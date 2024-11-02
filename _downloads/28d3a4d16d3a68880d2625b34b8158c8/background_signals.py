@@ -49,8 +49,6 @@ def hemisphere_signal(
         pl,
         date=date,
         atmosphere=False,
-        lighting=True,
-        night_lights=True,
         borders=True,
     )
     r_dome = 500  # km

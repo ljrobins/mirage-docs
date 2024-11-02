@@ -20,7 +20,7 @@ r_eci = mr.propagate_satnum_to_dates(dates=date_space, satnum=25544)
 # %%
 # Let's scatter plot the object positions we've propagated
 pl = pv.Plotter()
-mrv.plot_earth(pl, date=date_space[0], night_lights=True, atmosphere=True)
+mrv.plot_earth(pl, date=date_space[0])
 mrv.plot3(
     pl,
     r_eci,

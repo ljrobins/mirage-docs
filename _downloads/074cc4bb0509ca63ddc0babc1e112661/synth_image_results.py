@@ -58,8 +58,7 @@ plt.legend(['Best linear fit', 'Data'])
 # %%
 # Overlaying the two images
 
-# br_val = 1000 # for the geo obs
-br_val = 1000  # For the gps obs
+br_val = 1010  # For the gps obs
 n.img = n.img.astype(int)
 n.img[n.img <= br_val] = br_val + 1
 n.img -= br_val
@@ -107,7 +106,7 @@ adu_err = n.img_sym.astype(np.int64) - n.img.astype(np.int64)
 adu_err_stdev = np.abs(adu_err) / np.sqrt(np.abs(n.img_sym.astype(np.int64)))
 plt.figure(figsize=(8, 6))
 cm = cm.get_cmap('plasma')
-max_sigma = 10
+max_sigma = 30
 
 plt.subplot(2, 2, 1)
 plt.imshow(adu_err_stdev, cmap=cm)

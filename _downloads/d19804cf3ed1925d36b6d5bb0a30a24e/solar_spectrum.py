@@ -42,6 +42,7 @@ ax1.scatter(epyrs + 2000, sc_at_one_au, s=1, color='C0')
 ax1.set_ylabel(r'$\left[\frac{W}{m^2}\right]$')
 ax1.set_xlabel('Year')
 plt.title('Total Solar Irradiance at 1 AU')
+plt.grid()
 
 plt.subplot(1, 2, 2)
 
@@ -59,7 +60,7 @@ plt.text(200, 1.5, 'UV', color='violet', fontsize=12)
 plt.title('Solar Spectrum')
 plt.xlabel('Wavelength [nm]')
 plt.ylabel('Irradiance [W/m$^2$/nm]')
-
+plt.grid()
 plt.tight_layout()
 plt.show()
 
@@ -70,4 +71,5 @@ plt.scatter(epyrs[-900:] + 2000, sc_at_earth_radius[-900:], s=1)
 plt.ylabel(r'$\left[\frac{W}{m^2}\right]$')
 plt.xlabel('Year')
 plt.title('Total Solar Irradiance at Earth')
+plt.grid()
 plt.show()
