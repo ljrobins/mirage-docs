@@ -15,15 +15,15 @@ import mirage as mr
 
 station = mr.Station()
 x, y = np.meshgrid(
-    np.arange(station.telescope.ccd.sensor_pixels),
-    np.arange(station.telescope.ccd.sensor_pixels),
+    np.arange(station.telescope.ccd.sensor_pixels[0]),
+    np.arange(station.telescope.ccd.sensor_pixels[1]),
 )
 mr.tic('Mapping')
 xd, yx = station.telescope.pixel_distortion(
     x,
     y,
-    station.telescope.ccd.sensor_pixels // 2,
-    station.telescope.ccd.sensor_pixels // 2,
+    station.telescope.ccd.sensor_pixels[0] // 2,
+    station.telescope.ccd.sensor_pixels[1] // 2,
 )
 mr.toc()
 

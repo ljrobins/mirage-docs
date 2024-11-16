@@ -23,7 +23,7 @@ Stars in FOV
 
 Computing which stars are in the field of view
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-62
+.. GENERATED FROM PYTHON SOURCE LINES 7-68
 
 .. code-block:: Python
 
@@ -37,10 +37,15 @@ Computing which stars are in the field of view
 
     def plot_telescope_fov(station: mr.Station, look_dir: np.ndarray, up_dir: np.ndarray):
         sp = station.telescope.ccd.sensor_pixels
-        xy1 = np.vstack((np.arange(sp), np.full(sp, 0))).T
-        xy2 = np.vstack((np.arange(sp), np.full(sp, sp))).T
-        xy3 = np.vstack((np.full(sp, 0), np.arange(sp))).T
-        xy4 = np.vstack((np.full(sp, sp), np.arange(sp))).T
+        xy1 = np.vstack((np.arange(sp[0]), np.full(sp[0], 0))).T
+        xy2 = np.vstack((np.arange(sp[0]), np.full(sp[0], sp[1]))).T
+        xy3 = np.vstack((np.full(sp[1], 0), np.arange(sp[1]))).T
+        xy4 = np.vstack((np.full(sp[1], sp[0]), np.arange(sp[1]))).T
+
+        print(xy1)
+        print(xy2)
+        print(xy3)
+        print(xy4)
 
         for xy in [xy1, xy2, xy3, xy4]:
             uvs = station.telescope.pixels_to_j2000_unit_vectors(look_dir, up_dir, xy)
@@ -49,6 +54,7 @@ Computing which stars are in the field of view
 
 
     station = mr.Station()
+    station.telescope.ccd.sensor_pixels[0] *= 1.5
     catalog = mr.GaiaStarCatalog(station, date=mr.now())
 
     print(f'Number of stars in catalog: {catalog._alpha.size}')
@@ -91,18 +97,18 @@ Computing which stars are in the field of view
  .. code-block:: none
 
     Number of stars in catalog: 16844164
-    Brute time total: 3.09e-01
-    Tree time total: 1.54e-03
-    Factor speedup: 201.3
+    Brute time total: 2.80e-01
+    Tree time total: 8.21e-04
+    Factor speedup: 341.4
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 63-64
+.. GENERATED FROM PYTHON SOURCE LINES 69-70
 
 Let's plot the tree solution
 
-.. GENERATED FROM PYTHON SOURCE LINES 64-78
+.. GENERATED FROM PYTHON SOURCE LINES 70-84
 
 .. code-block:: Python
 
@@ -129,13 +135,46 @@ Let's plot the tree solution
    :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    [[   0    0]
+     [   1    0]
+     [   2    0]
+     ...
+     [6141    0]
+     [6142    0]
+     [6143    0]]
+    [[   0 4096]
+     [   1 4096]
+     [   2 4096]
+     ...
+     [6141 4096]
+     [6142 4096]
+     [6143 4096]]
+    [[   0    0]
+     [   0    1]
+     [   0    2]
+     ...
+     [   0 4093]
+     [   0 4094]
+     [   0 4095]]
+    [[6144    0]
+     [6144    1]
+     [6144    2]
+     ...
+     [6144 4093]
+     [6144 4094]
+     [6144 4095]]
+
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.760 seconds)
+   **Total running time of the script:** (0 minutes 2.059 seconds)
 
 
 .. _sphx_glr_download_gallery_08-ccd_stars_in_fov.py:

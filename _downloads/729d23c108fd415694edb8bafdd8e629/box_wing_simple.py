@@ -5,8 +5,10 @@ Simple Box-Wing Light Curves
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pyvista as pv
 
 import mirage as mr
+import mirage.vis as mrv
 
 station = mr.Station()
 obj = mr.SpaceObject('matlib_goes17.obj', identifier='GOES 17')
@@ -85,3 +87,27 @@ plt.title('Integrated Irradiance from GOES 17')
 plt.xlabel('Hours after 00:00 Oct 18, 2024 UTC')
 plt.ylabel('Integrated Light Curve [W / $m^2$]')
 plt.show()
+
+# %%
+# Plotting the overall configuration
+
+obj = mr.SpaceObject('box_wing.obj')
+obj.shift_to_center_of_mass()
+obj.v[np.abs(obj.v[:, 0]) > 1.0, 0] *= 2
+obj = mr.SpaceObject(vertices_and_faces=(obj.v, obj.f))
+
+s = mr.hat(np.array([0.0, 0.5, 0.4]))
+nb = np.array([0.0, 1.0, 0.0])
+ang = mr.angle_between_vecs(s, nb)
+rotm = mr.r1(-ang)
+faces_to_rotate = mr.vecnorm(obj.face_centroids) > 0.58
+verts_to_rotate = np.unique(obj.f[faces_to_rotate.flatten()])
+obj.v[verts_to_rotate, :] = mr.stack_mat_mult_vec(rotm, obj.v[verts_to_rotate, :])
+obj = mr.SpaceObject(vertices_and_faces=(obj.v, obj.f))
+
+p = pv.Plotter()
+mrv.render_spaceobject(p, obj, scalars=obj.face_areas, cmap='blues')
+mrv.plot_arrow(p, [0, 0, 0], [0, 1, 0], label='Nadir', color='green', scale=1.5)
+mrv.plot_arrow(p, [0, 0, 0], s, label='Sun', color='yellow', scale=1.5)
+mrv.plot_arrow(p, [0, 0, 0], [0, 1.0, 0.3], label='Observer', scale=1.5, color='Red')
+p.show()

@@ -50,8 +50,8 @@
     <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="BRDFs in Action" href="brdf_renders.html" />
-    <link rel="prev" title="Importance Sampling Cook-Torrance" href="importance_sampling_cook_torrance.html" />
+    <link rel="next" title="Light Curve Uncertainty" href="lc_uncertainty.html" />
+    <link rel="prev" title="Light Curve Units" href="light_curve_units.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -335,10 +335,10 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="light_curve_ambiguities.html">Light Curve Ambiguities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="importance_sampling_cook_torrance.html">Importance Sampling Cook-Torrance</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Simple Box-Wing Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="neural_network_brightness.html">Neural Network Brightness</a></li>
 <li class="toctree-l2"><a class="reference internal" href="light_curve_units.html">Light Curve Units</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Simple Box-Wing Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lc_uncertainty.html">Light Curve Uncertainty</a></li>
 <li class="toctree-l2"><a class="reference internal" href="light_curves_types.html">Types of Light Curves</a></li>
 </ul>
@@ -369,6 +369,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/astm_spectra.html">ASTM Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_zenith.html">Background Signals at Zenith</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/scintillation.html">Atmospheric Scintillation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/penumbra_plane.html">Penumbra Visualized</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/shadow_functions.html">Shadow Functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
@@ -405,14 +406,16 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/light_time_delay.html">Light Time Delay</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/local_sidereal_time.html">Local Sidereal Time</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/atmos_refraction.html">Atmospheric Refraction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../07-observer/az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/pogs_hist.html">POGS Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/local_hemisphere.html">Live Satellites From Observer</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../08-ccd/index.html">CCD Characterization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/qe_curves.html">Quantum Efficiency Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-ccd/dilate_erode.html">Dilation and Erosion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/vega_psf.html">Vega PSF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-ccd/ccd_sens.html">POGS Sensitivity</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/convolution_streaks.html">Convolution for Streaks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/digital_twin_compared.html">Digital Twin Animated</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/noise_accum_gifs.html">Noise Sampling</a></li>
@@ -431,7 +434,6 @@ document.write(`
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../09-models/index.html">3D Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/introduce_concavity.html">Introducing Concavities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../09-models/merge_bracket.html">Shape Interpolation Bracket</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/load_with_mtl.html">Loading with MTL Properties</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/merge_biased.html">Merging with Bias</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/shape_interpolation.html">Shape Interpolation</a></li>
@@ -446,9 +448,10 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/super_fib.html">Quaternion Sampling Efficiency</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/wavelength_to_rgb.html">Wavelength to RGB</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../10-utility/kdtree_vs_balltree.html">KDTree vs BallTree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/metropolis_hastings.html">Metropolis Hastings MCMC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/kdtree_vs_balltree.html">KDTree vs BallTree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/skellam.html">Skellam Distribution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/random_nn_mean.html">Closest Average Random Nearest Neighbor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/importance_sampling.html">Importance Sampling</a></li>
@@ -465,6 +468,13 @@ document.write(`
 <li class="toctree-l1 has-children"><a class="reference internal" href="../12-rpo/index.html">Synthetic RPO</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../12-rpo/synthetic_rpo_images.html">Synthetic RPO</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../12-rpo/gps-iii-approach.html">Relative orbit sequence</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../13-attitude-2024/index.html">Attitude Inversion 2024</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../13-attitude-2024/flat_field_noise.html">Flat Fielding Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-attitude-2024/calibration_gain.html">CCD Gain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-attitude-2024/calibration.html">Subframes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-attitude-2024/sutherland.html">Sutherland-Hodgeman Clipping Algorithm</a></li>
 </ul>
 </details></li>
 </ul>
@@ -534,25 +544,12 @@ to download the full example code.</p>
 </div>
 <section class="sphx-glr-example-title" id="simple-box-wing-light-curves">
 <span id="sphx-glr-gallery-01-light-curves-box-wing-simple-py"></span><h1>Simple Box-Wing Light Curves<a class="headerlink" href="#simple-box-wing-light-curves" title="Link to this heading">#</a></h1>
-<img src="../../_images/sphx_glr_box_wing_simple_001.png" srcset="../../_images/sphx_glr_box_wing_simple_001.png, ../../_images/sphx_glr_box_wing_simple_001_2_00x.png 2.00x" alt="Integrated Irradiance from GOES 17" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Model file matlib_goes17.obj not found in current model folder (&#39;/Users/liamrobinson/Documents/maintained-research/mirage-models/Non-Convex/&#39;), checking model repository...
-Attempting to download matlib_goes17.obj and its associated material file from the model repository...
-Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//accurate_sats/matlib_goes17.obj
-Model files were downloaded successfully!
-2024-11-02 00:50:29.507 LightCurveEngine-mac-arm[70835:125039661] +[IMKClient subclass]: chose IMKClient_Legacy
-2024-11-02 00:50:29.507 LightCurveEngine-mac-arm[70835:125039661] +[IMKInputSession subclass]: chose IMKInputSession_Legacy
-
-/Users/liamrobinson/Documents/maintained-research/mirage/examples/01-light_curves/box_wing_simple.py:76: RuntimeWarning: invalid value encountered in scalar divide
-  percent_err_at_peak = np.abs(lc_simp.max() - lc_fancy.max()) / lc_fancy.max() * 100
-nan 0.03341901954547655
-</pre></div>
-</div>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
 
 <span class="kn">import</span> <span class="nn">mirage</span> <span class="k">as</span> <span class="nn">mr</span>
+<span class="kn">import</span> <span class="nn">mirage.vis</span> <span class="k">as</span> <span class="nn">mrv</span>
 
 <span class="n">station</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">Station</span><span class="p">()</span>
 <span class="n">obj</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">SpaceObject</span><span class="p">(</span><span class="s1">&#39;matlib_goes17.obj&#39;</span><span class="p">,</span> <span class="n">identifier</span><span class="o">=</span><span class="s1">&#39;GOES 17&#39;</span><span class="p">)</span>
@@ -633,7 +630,38 @@ nan 0.03341901954547655
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 2.563 seconds)</p>
+<img src="../../_images/sphx_glr_box_wing_simple_001.png" srcset="../../_images/sphx_glr_box_wing_simple_001.png, ../../_images/sphx_glr_box_wing_simple_001_2_00x.png 2.00x" alt="Integrated Irradiance from GOES 17" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>2024-11-05 11:45:26.120 LightCurveEngine-mac-arm[75659:7884823] +[IMKClient subclass]: chose IMKClient_Modern
+2024-11-05 11:45:26.120 LightCurveEngine-mac-arm[75659:7884823] +[IMKInputSession subclass]: chose IMKInputSession_Modern
+
+/Users/liamrobinson/Documents/maintained-research/mirage/examples/01-light_curves/box_wing_simple.py:78: RuntimeWarning: invalid value encountered in scalar divide
+  percent_err_at_peak = np.abs(lc_simp.max() - lc_fancy.max()) / lc_fancy.max() * 100
+nan 0.03341901294644534
+</pre></div>
+</div>
+<p>Plotting the overall configuration</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">obj</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">SpaceObject</span><span class="p">(</span><span class="s1">&#39;box_wing.obj&#39;</span><span class="p">)</span>
+<span class="n">obj</span><span class="o">.</span><span class="n">shift_to_center_of_mass</span><span class="p">()</span>
+<span class="n">obj</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">v</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span>
+<span class="n">obj</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">SpaceObject</span><span class="p">(</span><span class="n">vertices_and_faces</span><span class="o">=</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">f</span><span class="p">))</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">]))</span>
+<span class="n">nb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+<span class="n">ang</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">angle_between_vecs</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">nb</span><span class="p">)</span>
+<span class="n">rotm</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">r1</span><span class="p">(</span><span class="o">-</span><span class="n">ang</span><span class="p">)</span>
+<span class="n">faces_to_rotate</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">vecnorm</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">face_centroids</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.58</span>
+<span class="n">verts_to_rotate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">f</span><span class="p">[</span><span class="n">faces_to_rotate</span><span class="o">.</span><span class="n">flatten</span><span class="p">()])</span>
+<span class="n">obj</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">verts_to_rotate</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">stack_mat_mult_vec</span><span class="p">(</span><span class="n">rotm</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">verts_to_rotate</span><span class="p">,</span> <span class="p">:])</span>
+<span class="n">obj</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">SpaceObject</span><span class="p">(</span><span class="n">vertices_and_faces</span><span class="o">=</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">f</span><span class="p">))</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">render_spaceobject</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">scalars</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">face_areas</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;blues&#39;</span><span class="p">)</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">plot_arrow</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Nadir&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">plot_arrow</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">s</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Sun&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">mrv</span><span class="o">.</span><span class="n">plot_arrow</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Observer&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Red&#39;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_box_wing_simple_002.png" srcset="../../_images/sphx_glr_box_wing_simple_002.png" alt="box wing simple" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.865 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-01-light-curves-box-wing-simple-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/8092f33b887d8e98c6435b5f997609f4/box_wing_simple.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">box_wing_simple.ipynb</span></code></a></p>
@@ -659,20 +687,20 @@ nan 0.03341901954547655
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="importance_sampling_cook_torrance.html"
+       href="light_curve_units.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Importance Sampling Cook-Torrance</p>
+        <p class="prev-next-title">Light Curve Units</p>
       </div>
     </a>
     <a class="right-next"
-       href="brdf_renders.html"
+       href="lc_uncertainty.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">BRDFs in Action</p>
+        <p class="prev-next-title">Light Curve Uncertainty</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

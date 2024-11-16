@@ -14,10 +14,15 @@ import mirage.vis as mrv
 
 def plot_telescope_fov(station: mr.Station, look_dir: np.ndarray, up_dir: np.ndarray):
     sp = station.telescope.ccd.sensor_pixels
-    xy1 = np.vstack((np.arange(sp), np.full(sp, 0))).T
-    xy2 = np.vstack((np.arange(sp), np.full(sp, sp))).T
-    xy3 = np.vstack((np.full(sp, 0), np.arange(sp))).T
-    xy4 = np.vstack((np.full(sp, sp), np.arange(sp))).T
+    xy1 = np.vstack((np.arange(sp[0]), np.full(sp[0], 0))).T
+    xy2 = np.vstack((np.arange(sp[0]), np.full(sp[0], sp[1]))).T
+    xy3 = np.vstack((np.full(sp[1], 0), np.arange(sp[1]))).T
+    xy4 = np.vstack((np.full(sp[1], sp[0]), np.arange(sp[1]))).T
+
+    print(xy1)
+    print(xy2)
+    print(xy3)
+    print(xy4)
 
     for xy in [xy1, xy2, xy3, xy4]:
         uvs = station.telescope.pixels_to_j2000_unit_vectors(look_dir, up_dir, xy)
@@ -26,6 +31,7 @@ def plot_telescope_fov(station: mr.Station, look_dir: np.ndarray, up_dir: np.nda
 
 
 station = mr.Station()
+station.telescope.ccd.sensor_pixels[0] *= 1.5
 catalog = mr.GaiaStarCatalog(station, date=mr.now())
 
 print(f'Number of stars in catalog: {catalog._alpha.size}')

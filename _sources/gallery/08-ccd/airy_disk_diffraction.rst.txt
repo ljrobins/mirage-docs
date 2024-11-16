@@ -22,7 +22,7 @@ Airy Disk Diffraction
 =====================
 Plotting the Airy disk diffraction pattern
 
-.. GENERATED FROM PYTHON SOURCE LINES 6-47
+.. GENERATED FROM PYTHON SOURCE LINES 6-48
 
 .. code-block:: Python
 
@@ -35,16 +35,17 @@ Plotting the Airy disk diffraction pattern
 
     # Parameters
     telescope = mr.Telescope(preset='pogs')
-    telescope.sensor_pixels = 1000
+    telescope.sensor_pixels = np.array([1000, 750])
     telescope.pixel_scale = 0.05 / 20
 
     obj_pos = (
-        telescope.sensor_pixels // 2 + np.random.rand(),
-        telescope.sensor_pixels // 2 + np.random.rand(),
+        telescope.sensor_pixels[0] // 2 + np.random.rand(),
+        telescope.sensor_pixels[1] // 2 + np.random.rand(),
     )
     x_pix, y_pix = np.meshgrid(
-        np.arange(telescope.sensor_pixels), np.arange(telescope.sensor_pixels)
+        np.arange(telescope.sensor_pixels[0]), np.arange(telescope.sensor_pixels[1])
     )
+
     r_dist = np.sqrt((x_pix - obj_pos[0]) ** 2 + (y_pix - obj_pos[1]) ** 2)
     theta_grid_rad = mr.dms_to_rad(0, 0, r_dist * telescope.pixel_scale)
 
@@ -80,16 +81,16 @@ Plotting the Airy disk diffraction pattern
 
  .. code-block:: none
 
-    Elapsed time: 2.15e-02 seconds
+    Elapsed time: 1.64e-02 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-49
+.. GENERATED FROM PYTHON SOURCE LINES 49-50
 
 Plotting the same pattern at a range of wavelengths
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-74
+.. GENERATED FROM PYTHON SOURCE LINES 50-75
 
 .. code-block:: Python
 
@@ -130,11 +131,11 @@ Plotting the same pattern at a range of wavelengths
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 75-76
+.. GENERATED FROM PYTHON SOURCE LINES 76-77
 
 Plotting the same diffraction pattern at a range of wavelengths, weighted by the CCD quantum efficiency and Sun irradiance spectrum
 
-.. GENERATED FROM PYTHON SOURCE LINES 76-95
+.. GENERATED FROM PYTHON SOURCE LINES 77-96
 
 .. code-block:: Python
 
@@ -172,7 +173,7 @@ Plotting the same diffraction pattern at a range of wavelengths, weighted by the
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.557 seconds)
+   **Total running time of the script:** (0 minutes 1.382 seconds)
 
 
 .. _sphx_glr_download_gallery_08-ccd_airy_disk_diffraction.py:

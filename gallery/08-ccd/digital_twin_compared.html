@@ -335,10 +335,10 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_ambiguities.html">Light Curve Ambiguities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/importance_sampling_cook_torrance.html">Importance Sampling Cook-Torrance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/box_wing_simple.html">Simple Box-Wing Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_units.html">Light Curve Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/box_wing_simple.html">Simple Box-Wing Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/lc_uncertainty.html">Light Curve Uncertainty</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curves_types.html">Types of Light Curves</a></li>
 </ul>
@@ -369,6 +369,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/astm_spectra.html">ASTM Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_zenith.html">Background Signals at Zenith</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/scintillation.html">Atmospheric Scintillation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/penumbra_plane.html">Penumbra Visualized</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/shadow_functions.html">Shadow Functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
@@ -405,14 +406,16 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/light_time_delay.html">Light Time Delay</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/local_sidereal_time.html">Local Sidereal Time</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/atmos_refraction.html">Atmospheric Refraction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../07-observer/az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/pogs_hist.html">POGS Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/local_hemisphere.html">Live Satellites From Observer</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">CCD Characterization</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="qe_curves.html">Quantum Efficiency Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dilate_erode.html">Dilation and Erosion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vega_psf.html">Vega PSF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ccd_sens.html">POGS Sensitivity</a></li>
 <li class="toctree-l2"><a class="reference internal" href="convolution_streaks.html">Convolution for Streaks</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Digital Twin Animated</a></li>
 <li class="toctree-l2"><a class="reference internal" href="noise_accum_gifs.html">Noise Sampling</a></li>
@@ -431,7 +434,6 @@ document.write(`
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../09-models/index.html">3D Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/introduce_concavity.html">Introducing Concavities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../09-models/merge_bracket.html">Shape Interpolation Bracket</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/load_with_mtl.html">Loading with MTL Properties</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/merge_biased.html">Merging with Bias</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/shape_interpolation.html">Shape Interpolation</a></li>
@@ -446,9 +448,10 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/super_fib.html">Quaternion Sampling Efficiency</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/wavelength_to_rgb.html">Wavelength to RGB</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../10-utility/kdtree_vs_balltree.html">KDTree vs BallTree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/metropolis_hastings.html">Metropolis Hastings MCMC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/kdtree_vs_balltree.html">KDTree vs BallTree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/skellam.html">Skellam Distribution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/random_nn_mean.html">Closest Average Random Nearest Neighbor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/importance_sampling.html">Importance Sampling</a></li>
@@ -465,6 +468,13 @@ document.write(`
 <li class="toctree-l1 has-children"><a class="reference internal" href="../12-rpo/index.html">Synthetic RPO</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../12-rpo/synthetic_rpo_images.html">Synthetic RPO</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../12-rpo/gps-iii-approach.html">Relative orbit sequence</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../13-attitude-2024/index.html">Attitude Inversion 2024</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../13-attitude-2024/flat_field_noise.html">Flat Fielding Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-attitude-2024/calibration_gain.html">CCD Gain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-attitude-2024/calibration.html">Subframes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-attitude-2024/sutherland.html">Sutherland-Hodgeman Clipping Algorithm</a></li>
 </ul>
 </details></li>
 </ul>
@@ -535,16 +545,16 @@ to download the full example code.</p>
 <section class="sphx-glr-example-title" id="digital-twin-animated">
 <span id="sphx-glr-gallery-08-ccd-digital-twin-compared-py"></span><h1>Digital Twin Animated<a class="headerlink" href="#digital-twin-animated" title="Link to this heading">#</a></h1>
 <p>An animated gif of the real and simulated images taken by POGS</p>
-<img src="../../_images/sphx_glr_digital_twin_compared_001.png" srcset="../../_images/sphx_glr_digital_twin_compared_001.png, ../../_images/sphx_glr_digital_twin_compared_001_2_00x.png 2.00x" alt="Observed, Synthetic" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Loading star catalog: 1.18e+00 seconds
+<img src="../../_images/sphx_glr_digital_twin_compared_001.png" srcset="../../_images/sphx_glr_digital_twin_compared_001.png, ../../_images/sphx_glr_digital_twin_compared_001_2_00x.png 2.00x" alt="Observed, Synthetic" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Loading star catalog: 1.20e+00 seconds
 Applying 1.31e-02 deg of refraction
 fits_info[&quot;integration_time&quot;]=3.462
-sim counts are too high by a factor of 1.07
+sim counts are too high by a factor of 1.32
 BEFORE QUEST: median error 56.11 pixels
 Performing the QUEST fit with 141 stars
 Applying a 1.80e-02 degree rotation to the telescope orientation
 AFTER QUEST: median error 1.01 pixels
 NO OBJECTS IN FRAME
-Synthesizing CCD Image: 1.67e+00 seconds
+Synthesizing CCD Image: 1.42e+00 seconds
 </pre></div>
 </div>
 <div class="line-block">
@@ -562,7 +572,7 @@ Synthesizing CCD Image: 1.67e+00 seconds
 <span class="n">add_distortion</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="n">add_refraction</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="n">station</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">Station</span><span class="p">(</span><span class="n">preset</span><span class="o">=</span><span class="s1">&#39;pogs&#39;</span><span class="p">)</span>
-<span class="n">station</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">optical_loss_and_gain_to_adc</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">station</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">gain</span> <span class="o">=</span> <span class="mf">0.25</span>
 <span class="n">station</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">fwhm</span> <span class="o">=</span> <span class="mf">3.0</span>
 <span class="n">mr</span><span class="o">.</span><span class="n">tic</span><span class="p">(</span><span class="s1">&#39;Loading star catalog&#39;</span><span class="p">)</span>
 <span class="n">catalog</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">GaiaStarCatalog</span><span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="n">mr</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">mr</span><span class="o">.</span><span class="n">years</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
@@ -604,7 +614,7 @@ Synthesizing CCD Image: 1.67e+00 seconds
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 8.590 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 7.395 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-08-ccd-digital-twin-compared-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/b22878c9fca929fb5cce92dda862afe2/digital_twin_compared.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">digital_twin_compared.ipynb</span></code></a></p>

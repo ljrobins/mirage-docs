@@ -11,7 +11,7 @@ import mirage as mr
 import mirage.vis as mrv
 
 telescope = mr.Telescope(preset='pogs')
-telescope.sensor_pixels = 400
+telescope.sensor_pixels = np.array([400, 300])
 telescope.pixel_scale = 0.005
 telescope.fwhm = (
     telescope.airy_disk_fwhm(550) * mr.AstroConstants.rad_to_arcsecond
@@ -20,7 +20,7 @@ telescope.fwhm = (
 # %%
 # One dimensional falloff as a function of the distance from the center of the image
 c_all = 1000
-r_pix = np.linspace(0, telescope.sensor_pixels // 2, int(1e3))
+r_pix = np.linspace(0, telescope.sensor_pixels[0] // 2, int(1e3))
 theta_arcsec = r_pix * telescope.pixel_scale
 theta_rad = mr.dms_to_rad(0, 0, theta_arcsec)
 airy_pattern = telescope.airy_disk_pattern(c_all, theta_rad, 550)
@@ -37,11 +37,11 @@ plt.show()
 # Two dimensional renders
 
 obj_pos = (
-    telescope.sensor_pixels // 2 + np.random.rand(),
-    telescope.sensor_pixels // 2 + np.random.rand(),
+    telescope.sensor_pixels[0] // 2 + np.random.rand(),
+    telescope.sensor_pixels[1] // 2 + np.random.rand(),
 )
 x_pix, y_pix = np.meshgrid(
-    np.arange(telescope.sensor_pixels), np.arange(telescope.sensor_pixels)
+    np.arange(telescope.sensor_pixels[0]), np.arange(telescope.sensor_pixels[1])
 )
 r_dist = np.sqrt((x_pix - obj_pos[0]) ** 2 + (y_pix - obj_pos[1]) ** 2)
 theta_grid_rad = mr.dms_to_rad(0, 0, r_dist * telescope.pixel_scale)

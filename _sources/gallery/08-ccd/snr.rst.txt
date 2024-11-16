@@ -39,15 +39,15 @@ Investigating the SNR applied to CCD images
 
 
     telescope = mr.Telescope(preset='pogs')
-    telescope.sensor_pixels = 50
+    telescope.sensor_pixels = np.array([50, 50])
     telescope.pixel_scale = 0.2
 
     obj_pos = (
-        telescope.sensor_pixels // 2 - 0.5,
-        telescope.sensor_pixels // 2 - 0.5,
+        telescope.sensor_pixels[0] // 2 - 0.5,
+        telescope.sensor_pixels[1] // 2 - 0.5,
     )
     x_pix, y_pix = np.meshgrid(
-        np.arange(telescope.sensor_pixels), np.arange(telescope.sensor_pixels)
+        np.arange(telescope.sensor_pixels[0]), np.arange(telescope.sensor_pixels[1])
     )
     r_dist = np.sqrt((x_pix - obj_pos[0]) ** 2 + (y_pix - obj_pos[1]) ** 2)
     theta_grid_rad = mr.dms_to_rad(0, 0, r_dist * telescope.pixel_scale)
@@ -109,16 +109,16 @@ Investigating the SNR applied to CCD images
     Airy disk volume: 33076.2815
     Background mean: 3.0
     SNR from means: 43.28 
-    SNR from samples: 177.66
+    SNR from samples: 178.71
     Background mean: 30.0
     SNR from means: 23.84 
-    SNR from samples: 160.80
+    SNR from samples: 160.52
     Background mean: 300.0
     SNR from means: 8.45 
-    SNR from samples: 95.25
+    SNR from samples: 95.31
     Background mean: 1500.0
     SNR from means: 3.82 
-    SNR from samples: 48.25
+    SNR from samples: 48.28
 
 
 
@@ -181,7 +181,7 @@ Investigating the effect of integration time on SNR
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.431 seconds)
+   **Total running time of the script:** (0 minutes 0.438 seconds)
 
 
 .. _sphx_glr_download_gallery_08-ccd_snr.py:

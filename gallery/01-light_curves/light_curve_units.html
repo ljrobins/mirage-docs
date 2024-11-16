@@ -50,7 +50,7 @@
     <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Light Curve Uncertainty" href="lc_uncertainty.html" />
+    <link rel="next" title="Simple Box-Wing Light Curves" href="box_wing_simple.html" />
     <link rel="prev" title="Neural Network Brightness" href="neural_network_brightness.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -335,10 +335,10 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="light_curve_ambiguities.html">Light Curve Ambiguities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="importance_sampling_cook_torrance.html">Importance Sampling Cook-Torrance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="box_wing_simple.html">Simple Box-Wing Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="neural_network_brightness.html">Neural Network Brightness</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Light Curve Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="box_wing_simple.html">Simple Box-Wing Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lc_uncertainty.html">Light Curve Uncertainty</a></li>
 <li class="toctree-l2"><a class="reference internal" href="light_curves_types.html">Types of Light Curves</a></li>
 </ul>
@@ -369,6 +369,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/astm_spectra.html">ASTM Spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/space_weather.html">Space Weather</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/background_zenith.html">Background Signals at Zenith</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-environment/scintillation.html">Atmospheric Scintillation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/penumbra_plane.html">Penumbra Visualized</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/shadow_functions.html">Shadow Functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../04-environment/gaia_patched_catalog.html">GAIA Patched Catalog</a></li>
@@ -405,14 +406,16 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/light_time_delay.html">Light Time Delay</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/local_sidereal_time.html">Local Sidereal Time</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/atmos_refraction.html">Atmospheric Refraction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../07-observer/az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/pogs_hist.html">POGS Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-observer/az_el_parallel.html">Azimuth/Elevation Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../07-observer/local_hemisphere.html">Live Satellites From Observer</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../08-ccd/index.html">CCD Characterization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/qe_curves.html">Quantum Efficiency Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-ccd/dilate_erode.html">Dilation and Erosion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/vega_psf.html">Vega PSF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-ccd/ccd_sens.html">POGS Sensitivity</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/convolution_streaks.html">Convolution for Streaks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/digital_twin_compared.html">Digital Twin Animated</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/noise_accum_gifs.html">Noise Sampling</a></li>
@@ -431,7 +434,6 @@ document.write(`
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../09-models/index.html">3D Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/introduce_concavity.html">Introducing Concavities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../09-models/merge_bracket.html">Shape Interpolation Bracket</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/load_with_mtl.html">Loading with MTL Properties</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/merge_biased.html">Merging with Bias</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../09-models/shape_interpolation.html">Shape Interpolation</a></li>
@@ -446,9 +448,10 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/super_fib.html">Quaternion Sampling Efficiency</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/wavelength_to_rgb.html">Wavelength to RGB</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../10-utility/kdtree_vs_balltree.html">KDTree vs BallTree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/metropolis_hastings.html">Metropolis Hastings MCMC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/samplers.html">Samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/spherical_voronoi_interp.html">Spherical Voronoi Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/kdtree_vs_balltree.html">KDTree vs BallTree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/skellam.html">Skellam Distribution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/random_nn_mean.html">Closest Average Random Nearest Neighbor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/importance_sampling.html">Importance Sampling</a></li>
@@ -465,6 +468,13 @@ document.write(`
 <li class="toctree-l1 has-children"><a class="reference internal" href="../12-rpo/index.html">Synthetic RPO</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../12-rpo/synthetic_rpo_images.html">Synthetic RPO</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../12-rpo/gps-iii-approach.html">Relative orbit sequence</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../13-attitude-2024/index.html">Attitude Inversion 2024</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../13-attitude-2024/flat_field_noise.html">Flat Fielding Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-attitude-2024/calibration_gain.html">CCD Gain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-attitude-2024/calibration.html">Subframes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-attitude-2024/sutherland.html">Sutherland-Hodgeman Clipping Algorithm</a></li>
 </ul>
 </details></li>
 </ul>
@@ -573,12 +583,6 @@ to download the full example code.</p>
 <span class="c1"># Observing from the Purdue Optical Ground Station in New Mexico</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Model file matlib_hylas4.obj not found in current model folder (&#39;/Users/liamrobinson/Documents/maintained-research/mirage-models/Non-Convex/&#39;), checking model repository...
-Attempting to download matlib_hylas4.obj and its associated material file from the model repository...
-Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//accurate_sats/matlib_hylas4.obj
-Model files were downloaded successfully!
-</pre></div>
-</div>
 <p>Defining observation constraints on the station</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">station</span><span class="o">.</span><span class="n">constraints</span> <span class="o">=</span> <span class="p">[</span>
     <span class="n">mr</span><span class="o">.</span><span class="n">SnrConstraint</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
@@ -610,8 +614,8 @@ Model files were downloaded successfully!
 <span class="n">lc_noisy</span> <span class="o">=</span> <span class="n">lc_noisy_sampler</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>2024-11-02 00:50:45.549 LightCurveEngine-mac-arm[71071:125040783] +[IMKClient subclass]: chose IMKClient_Legacy
-2024-11-02 00:50:45.549 LightCurveEngine-mac-arm[71071:125040783] +[IMKInputSession subclass]: chose IMKInputSession_Legacy
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>2024-11-03 13:40:38.596 LightCurveEngine-mac-arm[24056:2257591] +[IMKClient subclass]: chose IMKClient_Modern
+2024-11-03 13:40:38.596 LightCurveEngine-mac-arm[24056:2257591] +[IMKInputSession subclass]: chose IMKInputSession_Modern
 </pre></div>
 </div>
 <p>Extracting data and plotting results</p>
@@ -669,7 +673,7 @@ Model files were downloaded successfully!
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_light_curve_units_001.png" srcset="../../_images/sphx_glr_light_curve_units_001.png, ../../_images/sphx_glr_light_curve_units_001_2_00x.png 2.00x" alt="Synthetic GOES 15 Light Curves" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 4.081 seconds)</p>
+<img src="../../_images/sphx_glr_light_curve_units_001.png" srcset="../../_images/sphx_glr_light_curve_units_001.png, ../../_images/sphx_glr_light_curve_units_001_2_00x.png 2.00x" alt="Synthetic GOES 15 Light Curves" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 3.119 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-01-light-curves-light-curve-units-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/536660a75d7b4cc244c6c59ce062186c/light_curve_units.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">light_curve_units.ipynb</span></code></a></p>
@@ -704,11 +708,11 @@ Model files were downloaded successfully!
       </div>
     </a>
     <a class="right-next"
-       href="lc_uncertainty.html"
+       href="box_wing_simple.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Light Curve Uncertainty</p>
+        <p class="prev-next-title">Simple Box-Wing Light Curves</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

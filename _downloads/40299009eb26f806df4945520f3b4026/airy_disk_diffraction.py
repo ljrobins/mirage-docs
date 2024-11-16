@@ -12,16 +12,17 @@ import mirage.vis as mrv
 
 # Parameters
 telescope = mr.Telescope(preset='pogs')
-telescope.sensor_pixels = 1000
+telescope.sensor_pixels = np.array([1000, 750])
 telescope.pixel_scale = 0.05 / 20
 
 obj_pos = (
-    telescope.sensor_pixels // 2 + np.random.rand(),
-    telescope.sensor_pixels // 2 + np.random.rand(),
+    telescope.sensor_pixels[0] // 2 + np.random.rand(),
+    telescope.sensor_pixels[1] // 2 + np.random.rand(),
 )
 x_pix, y_pix = np.meshgrid(
-    np.arange(telescope.sensor_pixels), np.arange(telescope.sensor_pixels)
+    np.arange(telescope.sensor_pixels[0]), np.arange(telescope.sensor_pixels[1])
 )
+
 r_dist = np.sqrt((x_pix - obj_pos[0]) ** 2 + (y_pix - obj_pos[1]) ** 2)
 theta_grid_rad = mr.dms_to_rad(0, 0, r_dist * telescope.pixel_scale)
 

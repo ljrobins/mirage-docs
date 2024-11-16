@@ -15,11 +15,11 @@ import mirage as mr
 import mirage.vis as mrv
 
 info_path = '/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/pogs/2022-09-18/ObservationData.mat'
-# info_path = "/Users/liamrobinson/Documents/mirage/digitaltwin/data/ObservationData.mat"
 add_distortion = True
 add_refraction = True
 station = mr.Station()
 station.telescope.fwhm = 3
+station.telescope.gain = 1 / 4
 mr.tic('Loading star catalog')
 catalog = mr.GaiaSpectralStarCatalog(station, mr.now())
 mr.toc()
@@ -38,8 +38,6 @@ res = mr.generate_matched_image(
     add_refraction,
     bias_variance=175,
 )
-data_mat = res['data_mat']
-sint_synth = mr.sint(station, np.pi / 2 - data_mat['el_rad_true'])
 
 n = SimpleNamespace(**res)
 
@@ -54,6 +52,9 @@ plt.grid()
 plt.xscale('log')
 plt.yscale('log')
 plt.legend(['Best linear fit', 'Data'])
+plt.show()
+
+# endd
 
 # %%
 # Overlaying the two images

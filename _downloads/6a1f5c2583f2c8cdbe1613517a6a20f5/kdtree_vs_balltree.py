@@ -6,6 +6,7 @@ Benchmarking tree searches in :math:`R^3`
 """
 
 import pyvista as pv
+from pykdtree.kdtree import KDTree as pyKD
 from scipy.spatial import KDTree as ssKD
 from sklearn.neighbors import BallTree as skBT
 from sklearn.neighbors import KDTree as skKD
@@ -28,20 +29,28 @@ mr.tic('scipy KDTree build')
 kt2 = ssKD(pts, 10)
 mr.toc()
 
+mr.tic('pykdtree KDTree build')
+kt3 = pyKD(pts, 10)
+mr.toc()
+
 # %%
 # Querying benchmarks
 
 qpts = mr.rand_points_in_ball(1.0, int(1e5))
-mr.tic()
+mr.tic('sklearn kdtree query')
 kt.query(qpts)
 mr.toc()
 
-mr.tic()
+mr.tic('sklearn balltree query')
 bt.query(qpts)
 mr.toc()
 
-mr.tic()
+mr.tic('scipy kdtree query')
 kt2.query(qpts)
+mr.toc()
+
+mr.tic('pykdtree kdtree query')
+kt3.query(qpts)
 mr.toc()
 
 # %%

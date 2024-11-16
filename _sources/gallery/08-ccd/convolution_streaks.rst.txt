@@ -33,7 +33,7 @@ Convolution for Streaks
     import mirage.vis as mrv
 
     telescope = mr.Telescope(preset='pogs')
-    telescope.sensor_pixels = 40
+    telescope.sensor_pixels = np.array([40, 40])
     telescope.pixel_scale = 0.05
     telescope.fwhm = (
         telescope.airy_disk_fwhm(550.0) * mr.AstroConstants.rad_to_arcsecond
@@ -42,7 +42,7 @@ Convolution for Streaks
     c_all = 10
     obj_pos = (20, 20)
     x_pix, y_pix = np.meshgrid(
-        np.arange(telescope.sensor_pixels), np.arange(telescope.sensor_pixels)
+        np.arange(telescope.sensor_pixels[0]), np.arange(telescope.sensor_pixels[1])
     )
     r_dist = np.sqrt((x_pix - obj_pos[0] + 0.5) ** 2 + (y_pix - obj_pos[1] + 0.5) ** 2)
     theta_grid_rad = mr.dms_to_rad(0, 0, r_dist * telescope.pixel_scale)
@@ -126,7 +126,7 @@ Visualize the Airy disk on the CCD grid
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.359 seconds)
+   **Total running time of the script:** (0 minutes 0.561 seconds)
 
 
 .. _sphx_glr_download_gallery_08-ccd_convolution_streaks.py:

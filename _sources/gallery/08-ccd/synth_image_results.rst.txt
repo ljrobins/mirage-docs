@@ -23,7 +23,7 @@ Synthetic Image Results
 
 Comparison plots for the synthetic and real images
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-58
+.. GENERATED FROM PYTHON SOURCE LINES 7-59
 
 .. code-block:: Python
 
@@ -38,11 +38,11 @@ Comparison plots for the synthetic and real images
     import mirage.vis as mrv
 
     info_path = '/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/pogs/2022-09-18/ObservationData.mat'
-    # info_path = "/Users/liamrobinson/Documents/mirage/digitaltwin/data/ObservationData.mat"
     add_distortion = True
     add_refraction = True
     station = mr.Station()
     station.telescope.fwhm = 3
+    station.telescope.gain = 1 / 4
     mr.tic('Loading star catalog')
     catalog = mr.GaiaSpectralStarCatalog(station, mr.now())
     mr.toc()
@@ -61,8 +61,6 @@ Comparison plots for the synthetic and real images
         add_refraction,
         bias_variance=175,
     )
-    data_mat = res['data_mat']
-    sint_synth = mr.sint(station, np.pi / 2 - data_mat['el_rad_true'])
 
     n = SimpleNamespace(**res)
 
@@ -77,6 +75,9 @@ Comparison plots for the synthetic and real images
     plt.xscale('log')
     plt.yscale('log')
     plt.legend(['Best linear fit', 'Data'])
+    plt.show()
+
+    # endd
 
 
 
@@ -91,27 +92,26 @@ Comparison plots for the synthetic and real images
 
  .. code-block:: none
 
-    Loading star catalog: 1.52e+00 seconds
+    Loading star catalog: 1.34e+00 seconds
     Applying 1.14e-02 deg of refraction
     fits_info["integration_time"]=4.0
-    sim counts are too high by a factor of 1.10
+    sim counts are too high by a factor of 1.35
     BEFORE QUEST: median error 84.77 pixels
     Performing the QUEST fit with 158 stars
     Applying a 1.96e-02 degree rotation to the telescope orientation
     AFTER QUEST: median error 1.14 pixels
     Objects in frame 1:
     NAVSTAR 80 (USA 309)
-    Synthesizing CCD Image: 9.51e-01 seconds
-
-    <matplotlib.legend.Legend object at 0x3221e8410>
+    Synthesizing CCD Image: 8.63e-01 seconds
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-60
+
+.. GENERATED FROM PYTHON SOURCE LINES 60-61
 
 Overlaying the two images
 
-.. GENERATED FROM PYTHON SOURCE LINES 60-103
+.. GENERATED FROM PYTHON SOURCE LINES 61-104
 
 .. code-block:: Python
 
@@ -182,11 +182,11 @@ Overlaying the two images
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 104-105
+.. GENERATED FROM PYTHON SOURCE LINES 105-106
 
 Subtracting the two images
 
-.. GENERATED FROM PYTHON SOURCE LINES 105-153
+.. GENERATED FROM PYTHON SOURCE LINES 106-154
 
 .. code-block:: Python
 
@@ -253,7 +253,7 @@ Subtracting the two images
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 6.473 seconds)
+   **Total running time of the script:** (0 minutes 7.799 seconds)
 
 
 .. _sphx_glr_download_gallery_08-ccd_synth_image_results.py:

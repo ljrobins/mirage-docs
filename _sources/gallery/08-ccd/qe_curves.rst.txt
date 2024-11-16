@@ -23,7 +23,7 @@ Quantum Efficiency Curves
 
 Comparing the quantum efficiencies for POGS and ZIMLAT
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-29
+.. GENERATED FROM PYTHON SOURCE LINES 7-31
 
 
 
@@ -50,9 +50,11 @@ Comparing the quantum efficiencies for POGS and ZIMLAT
     df_pogs = pl.read_csv(
         os.path.join(os.environ['DATADIR'], 'kaf16803_quantum_efficiency.csv')
     )
+    df_zimmain = pl.read_csv(os.path.join(os.environ['DATADIR'], 'qe_zl55cmos.csv'))
 
     plt.plot(df_zimlat['lambda_nm'], df_zimlat['qe'], label='ZIMLAT')
     plt.plot(df_pogs['lambda_nm'], df_pogs['qe'], label='POGS')
+    plt.plot(df_zimmain['lambda_nm'], df_zimmain['qe'], label='ZIMMAIN')
 
     plt.legend()
     plt.grid()
@@ -64,7 +66,7 @@ Comparing the quantum efficiencies for POGS and ZIMLAT
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.157 seconds)
+   **Total running time of the script:** (0 minutes 0.247 seconds)
 
 
 .. _sphx_glr_download_gallery_08-ccd_qe_curves.py:

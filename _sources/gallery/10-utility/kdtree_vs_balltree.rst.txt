@@ -23,12 +23,13 @@ KDTree vs BallTree
 
 Benchmarking tree searches in :math:`R^3`
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-31
+.. GENERATED FROM PYTHON SOURCE LINES 7-36
 
 .. code-block:: Python
 
 
     import pyvista as pv
+    from pykdtree.kdtree import KDTree as pyKD
     from scipy.spatial import KDTree as ssKD
     from sklearn.neighbors import BallTree as skBT
     from sklearn.neighbors import KDTree as skKD
@@ -51,6 +52,10 @@ Benchmarking tree searches in :math:`R^3`
     kt2 = ssKD(pts, 10)
     mr.toc()
 
+    mr.tic('pykdtree KDTree build')
+    kt3 = pyKD(pts, 10)
+    mr.toc()
+
 
 
 
@@ -59,33 +64,38 @@ Benchmarking tree searches in :math:`R^3`
 
  .. code-block:: none
 
-    sklearn KDTree build: 1.47e-03 seconds
-    sklearn BallTree build: 1.01e-03 seconds
-    scipy KDTree build: 1.11e-03 seconds
+    sklearn KDTree build: 1.00e-03 seconds
+    sklearn BallTree build: 9.61e-04 seconds
+    scipy KDTree build: 1.00e-03 seconds
+    pykdtree KDTree build: 3.91e-04 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-33
+.. GENERATED FROM PYTHON SOURCE LINES 37-38
 
 Querying benchmarks
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-47
+.. GENERATED FROM PYTHON SOURCE LINES 38-56
 
 .. code-block:: Python
 
 
     qpts = mr.rand_points_in_ball(1.0, int(1e5))
-    mr.tic()
+    mr.tic('sklearn kdtree query')
     kt.query(qpts)
     mr.toc()
 
-    mr.tic()
+    mr.tic('sklearn balltree query')
     bt.query(qpts)
     mr.toc()
 
-    mr.tic()
+    mr.tic('scipy kdtree query')
     kt2.query(qpts)
+    mr.toc()
+
+    mr.tic('pykdtree kdtree query')
+    kt3.query(qpts)
     mr.toc()
 
 
@@ -96,18 +106,19 @@ Querying benchmarks
 
  .. code-block:: none
 
-    Elapsed time: 2.43e-01 seconds
-    Elapsed time: 1.63e-01 seconds
-    Elapsed time: 3.56e-01 seconds
+    sklearn kdtree query: 2.37e-01 seconds
+    sklearn balltree query: 1.62e-01 seconds
+    scipy kdtree query: 3.58e-01 seconds
+    pykdtree kdtree query: 2.93e-02 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-49
+.. GENERATED FROM PYTHON SOURCE LINES 57-58
 
 KDTree
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-64
+.. GENERATED FROM PYTHON SOURCE LINES 58-73
 
 .. code-block:: Python
 
@@ -153,7 +164,7 @@ KDTree
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.022 seconds)
+   **Total running time of the script:** (0 minutes 2.224 seconds)
 
 
 .. _sphx_glr_download_gallery_10-utility_kdtree_vs_balltree.py:

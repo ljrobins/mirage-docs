@@ -16,15 +16,15 @@ def ccd_snr(signal_grid: np.ndarray, noise_grid: np.ndarray) -> float:
 
 
 telescope = mr.Telescope(preset='pogs')
-telescope.sensor_pixels = 50
+telescope.sensor_pixels = np.array([50, 50])
 telescope.pixel_scale = 0.2
 
 obj_pos = (
-    telescope.sensor_pixels // 2 - 0.5,
-    telescope.sensor_pixels // 2 - 0.5,
+    telescope.sensor_pixels[0] // 2 - 0.5,
+    telescope.sensor_pixels[1] // 2 - 0.5,
 )
 x_pix, y_pix = np.meshgrid(
-    np.arange(telescope.sensor_pixels), np.arange(telescope.sensor_pixels)
+    np.arange(telescope.sensor_pixels[0]), np.arange(telescope.sensor_pixels[1])
 )
 r_dist = np.sqrt((x_pix - obj_pos[0]) ** 2 + (y_pix - obj_pos[1]) ** 2)
 theta_grid_rad = mr.dms_to_rad(0, 0, r_dist * telescope.pixel_scale)
