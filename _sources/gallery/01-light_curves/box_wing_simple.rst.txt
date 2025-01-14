@@ -69,8 +69,8 @@ Simple Box-Wing Light Curves
     svb = mr.stack_mat_mult_vec(d_of_t, svi)
     ovb = mr.stack_mat_mult_vec(d_of_t, ovi)
 
-    s = mr.hat(svb)
-    o = mr.hat(ovb)
+    s = mr.hat(svi)
+    o = mr.hat(ovi)
     h = mr.hat(s + o)
     fr_pan = cd_pan / np.pi + cs_pan * (n_pan + 2) / (2 * np.pi) * mr.dot(s, h) ** n_pan / (
         4 * mr.dot(s, o)
@@ -124,12 +124,12 @@ Simple Box-Wing Light Curves
 
  .. code-block:: none
 
-    2024-11-05 11:45:26.120 LightCurveEngine-mac-arm[75659:7884823] +[IMKClient subclass]: chose IMKClient_Modern
-    2024-11-05 11:45:26.120 LightCurveEngine-mac-arm[75659:7884823] +[IMKInputSession subclass]: chose IMKInputSession_Modern
+    2024-12-10 00:49:38.565 LightCurveEngine-mac-arm[89576:62489987] +[IMKClient subclass]: chose IMKClient_Modern
+    2024-12-10 00:49:38.565 LightCurveEngine-mac-arm[89576:62489987] +[IMKInputSession subclass]: chose IMKInputSession_Modern
 
     /Users/liamrobinson/Documents/maintained-research/mirage/examples/01-light_curves/box_wing_simple.py:78: RuntimeWarning: invalid value encountered in scalar divide
       percent_err_at_peak = np.abs(lc_simp.max() - lc_fancy.max()) / lc_fancy.max() * 100
-    nan 0.03341901294644534
+    nan 0.03341901294568875
 
 
 
@@ -178,7 +178,7 @@ Plotting the overall configuration
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.865 seconds)
+   **Total running time of the script:** (0 minutes 1.766 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_box_wing_simple.py:

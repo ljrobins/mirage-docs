@@ -51,7 +51,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="mirage.sim package" href="mirage.sim.html" />
-    <link rel="prev" title="mirage package" href="mirage.html" />
+    <link rel="prev" title="mirage.papers package" href="mirage.papers.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -320,6 +320,7 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="mirage.html">mirage package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="mirage.papers.html">mirage.papers package</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">mirage.photo package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mirage.sim.html">mirage.sim package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mirage.synth.html">mirage.synth package</a></li>
@@ -486,9 +487,10 @@ document.write(`
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ccd_adu</strong> (<em>np.ndarray</em>) – CCD signal in counts (ADU)</p></li>
-<li><p><strong>reduction_factor</strong> (<em>int</em><em>, </em><em>optional</em>) – Factor to downscale image by before subtraction, upscaled again before return, defaults to 4</p></li>
+<li><p><strong>reduction_factor</strong> (<em>int</em><em>, </em><em>optional</em>) – Factor to downscale image by before subtraction, upscaled again before return, defaults to 8</p></li>
 <li><p><strong>box_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Size of the background boxes in pixels, defaults to 50</p></li>
 <li><p><strong>filter_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Size of the background filter in pixels, defaults to 3</p></li>
+<li><p><strong>sigma</strong> (<em>float</em><em>, </em><em>optional</em>) – Standard deviations above the background, counts all values below this threshold as background pixels, defaults to 3.0</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -649,7 +651,7 @@ document.write(`
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mirage.photo.vis.plot_fits">
-<span class="sig-prename descclassname"><span class="pre">mirage.photo.vis.</span></span><span class="sig-name descname"><span class="pre">plot_fits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ccd_adu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mirage.photo.vis.plot_fits" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">mirage.photo.vis.</span></span><span class="sig-name descname"><span class="pre">plot_fits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ccd_adu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mirage.photo.vis.plot_fits" title="Link to this definition">#</a></dt>
 <dd><p>Plots a CCD image, applying a log colormap to make it easier to see detail across scales</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -675,12 +677,12 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="mirage.html"
+       href="mirage.papers.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">mirage package</p>
+        <p class="prev-next-title">mirage.papers package</p>
       </div>
     </a>
     <a class="right-next"
@@ -780,7 +782,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2023-2024, Liam Robinson.
+      © Copyright 2023-2025, Liam Robinson.
       <br/>
     
   </p>

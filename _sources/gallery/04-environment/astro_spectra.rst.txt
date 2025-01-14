@@ -23,7 +23,7 @@ Astronomical Spectra
 
 A few useful spectra for simulating CCD measurements
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-51
+.. GENERATED FROM PYTHON SOURCE LINES 7-55
 
 .. code-block:: Python
 
@@ -35,13 +35,14 @@ A few useful spectra for simulating CCD measurements
     from astropy.io import fits
 
     import mirage as mr
-    import mirage.vis as mrv
 
     ltest = np.linspace(300, 1050, int(1e4))
 
     tee = mr.atmospheric_transmission(ltest, 0, 0)
-    ccd = mr.ChargeCoupledDevice(preset='pogs')
-    qe = ccd.quantum_efficiency(ltest)
+    ccd_pogs = mr.ChargeCoupledDevice(preset='pogs')
+    qe_pogs = ccd_pogs.quantum_efficiency(ltest)
+    ccd_zim = mr.ChargeCoupledDevice(preset='zimmain')
+    qe_zim = ccd_zim.quantum_efficiency(ltest)
     zm = mr.proof_zero_mag_stellar_spectrum(ltest)
     sm = mr.sun_spectrum(ltest)
 
@@ -49,45 +50,88 @@ A few useful spectra for simulating CCD measurements
 
 
     labels = [
-        ('Atmospheric transmission', 'nondim'),
-        ('Solar spectrum', r'$\left[ \frac{W}{m^2 \cdot nm} \right]$'),
-        ('Quantum efficiency', r'$\left[ \frac{W}{m^2 \cdot nm} \right]$'),
-        ('Zero magnitude spectrum', r'$\left[ \frac{W}{m^2 \cdot nm } \right]$'),
-        ('Airglow radiance', r'$\left[ \frac{W}{m^2 \cdot nm \cdot \text{ster}} \right]$'),
+        ('Atmospheric Transmission', 'nondim'),
+        ('Solar Spectrum', r'$\left[ \frac{W}{m^2 \cdot nm} \right]$'),
+        ('Airglow Radiance', r'$\left[ \frac{W}{m^2 \cdot nm \cdot \text{ster}} \right]$'),
+        ('POGS Quantum Efficiency', r'nondimensional'),
+        ('ZimMAIN Quantum Efficiency', r'nondimensional'),
+        ('Zero Magnitude Spectrum', r'$\left[ \frac{W}{m^2 \cdot nm } \right]$'),
     ]
 
-    specs = [tee, sm, qe, zm, ar]
+    specs = [tee, sm, ar, qe_pogs, qe_zim, zm]
     spectra_cols = [f'C{i}' for i in range(len(specs))]
 
-    plt.figure(figsize=(8, 6))
+
     for i, (col, y) in enumerate(zip(spectra_cols, specs)):
-        plt.subplot(2, 3, i + 1)
+        fig = plt.figure(figsize=(4, 4))
         plt.plot(ltest, y, color=col)
         plt.fill_between(ltest, y, color=col, alpha=0.1, label='_nolegend_')
-        mrv.texit(labels[i][0], 'Wavelength [nm]', labels[i][1])
+        plt.title(labels[i][0])
+        plt.xlabel('Wavelength [nm]')
+        plt.ylabel(labels[i][1])
         plt.xlim(ltest.min(), ltest.max())
+        plt.grid()
         plt.ylim(0, plt.ylim()[1])
-
-    plt.tight_layout()
-    plt.show()
-
-
-
-
-.. image-sg:: /gallery/04-environment/images/sphx_glr_astro_spectra_001.png
-   :alt: Atmospheric transmission, Solar spectrum, Quantum efficiency, Zero magnitude spectrum, Airglow radiance
-   :srcset: /gallery/04-environment/images/sphx_glr_astro_spectra_001.png, /gallery/04-environment/images/sphx_glr_astro_spectra_001_2_00x.png 2.00x
-   :class: sphx-glr-single-img
+        plt.tight_layout()
+        plt.show()
 
 
 
 
+.. rst-class:: sphx-glr-horizontal
 
-.. GENERATED FROM PYTHON SOURCE LINES 52-53
+
+    *
+
+      .. image-sg:: /gallery/04-environment/images/sphx_glr_astro_spectra_001.png
+         :alt: Atmospheric Transmission
+         :srcset: /gallery/04-environment/images/sphx_glr_astro_spectra_001.png, /gallery/04-environment/images/sphx_glr_astro_spectra_001_2_00x.png 2.00x
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /gallery/04-environment/images/sphx_glr_astro_spectra_002.png
+         :alt: Solar Spectrum
+         :srcset: /gallery/04-environment/images/sphx_glr_astro_spectra_002.png, /gallery/04-environment/images/sphx_glr_astro_spectra_002_2_00x.png 2.00x
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /gallery/04-environment/images/sphx_glr_astro_spectra_003.png
+         :alt: Airglow Radiance
+         :srcset: /gallery/04-environment/images/sphx_glr_astro_spectra_003.png, /gallery/04-environment/images/sphx_glr_astro_spectra_003_2_00x.png 2.00x
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /gallery/04-environment/images/sphx_glr_astro_spectra_004.png
+         :alt: POGS Quantum Efficiency
+         :srcset: /gallery/04-environment/images/sphx_glr_astro_spectra_004.png, /gallery/04-environment/images/sphx_glr_astro_spectra_004_2_00x.png 2.00x
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /gallery/04-environment/images/sphx_glr_astro_spectra_005.png
+         :alt: ZimMAIN Quantum Efficiency
+         :srcset: /gallery/04-environment/images/sphx_glr_astro_spectra_005.png, /gallery/04-environment/images/sphx_glr_astro_spectra_005_2_00x.png 2.00x
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /gallery/04-environment/images/sphx_glr_astro_spectra_006.png
+         :alt: Zero Magnitude Spectrum
+         :srcset: /gallery/04-environment/images/sphx_glr_astro_spectra_006.png, /gallery/04-environment/images/sphx_glr_astro_spectra_006_2_00x.png 2.00x
+         :class: sphx-glr-multi-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 56-57
 
 Loading and plotting the Vega (Alpha Lyrae) spectrum
 
-.. GENERATED FROM PYTHON SOURCE LINES 53-87
+.. GENERATED FROM PYTHON SOURCE LINES 57-91
 
 .. code-block:: Python
 
@@ -128,9 +172,9 @@ Loading and plotting the Vega (Alpha Lyrae) spectrum
 
 
 
-.. image-sg:: /gallery/04-environment/images/sphx_glr_astro_spectra_002.png
+.. image-sg:: /gallery/04-environment/images/sphx_glr_astro_spectra_007.png
    :alt: Vega Spectrum
-   :srcset: /gallery/04-environment/images/sphx_glr_astro_spectra_002.png, /gallery/04-environment/images/sphx_glr_astro_spectra_002_2_00x.png 2.00x
+   :srcset: /gallery/04-environment/images/sphx_glr_astro_spectra_007.png, /gallery/04-environment/images/sphx_glr_astro_spectra_007_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
 
@@ -140,7 +184,7 @@ Loading and plotting the Vega (Alpha Lyrae) spectrum
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.954 seconds)
+   **Total running time of the script:** (0 minutes 1.105 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_astro_spectra.py:

@@ -23,6 +23,8 @@ bias_fit_paths = [
     if (('-20' in x or '_temp_' not in x) and 'bias' in x.lower())
 ]
 
+region = [slice(200, 400), slice(200, 400)]
+
 means = []
 vars = []
 dates = []
@@ -49,7 +51,9 @@ for bias_fit_path in bias_fit_paths:
         data = hdul[0].data
         temps.append(hdul[0].header['SET-TEMP'])
 
-    dataf = data.flatten()
+    # plt.imshow(data[region[0], region[1]])
+    # plt.show()
+    dataf = data[region[0], region[1]].flatten()
     hot_pixels = dataf > roi[1]
     dead_pixels = dataf < roi[0]
     is_ok = ~hot_pixels & ~dead_pixels

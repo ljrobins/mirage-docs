@@ -12,13 +12,14 @@ import numpy as np
 from astropy.io import fits
 
 import mirage as mr
-import mirage.vis as mrv
 
 ltest = np.linspace(300, 1050, int(1e4))
 
 tee = mr.atmospheric_transmission(ltest, 0, 0)
-ccd = mr.ChargeCoupledDevice(preset='pogs')
-qe = ccd.quantum_efficiency(ltest)
+ccd_pogs = mr.ChargeCoupledDevice(preset='pogs')
+qe_pogs = ccd_pogs.quantum_efficiency(ltest)
+ccd_zim = mr.ChargeCoupledDevice(preset='zimmain')
+qe_zim = ccd_zim.quantum_efficiency(ltest)
 zm = mr.proof_zero_mag_stellar_spectrum(ltest)
 sm = mr.sun_spectrum(ltest)
 
@@ -26,27 +27,30 @@ ar = mr.airglow_radiance(ltest) * 1e-9
 
 
 labels = [
-    ('Atmospheric transmission', 'nondim'),
-    ('Solar spectrum', r'$\left[ \frac{W}{m^2 \cdot nm} \right]$'),
-    ('Quantum efficiency', r'$\left[ \frac{W}{m^2 \cdot nm} \right]$'),
-    ('Zero magnitude spectrum', r'$\left[ \frac{W}{m^2 \cdot nm } \right]$'),
-    ('Airglow radiance', r'$\left[ \frac{W}{m^2 \cdot nm \cdot \text{ster}} \right]$'),
+    ('Atmospheric Transmission', 'nondim'),
+    ('Solar Spectrum', r'$\left[ \frac{W}{m^2 \cdot nm} \right]$'),
+    ('Airglow Radiance', r'$\left[ \frac{W}{m^2 \cdot nm \cdot \text{ster}} \right]$'),
+    ('POGS Quantum Efficiency', r'nondimensional'),
+    ('ZimMAIN Quantum Efficiency', r'nondimensional'),
+    ('Zero Magnitude Spectrum', r'$\left[ \frac{W}{m^2 \cdot nm } \right]$'),
 ]
 
-specs = [tee, sm, qe, zm, ar]
+specs = [tee, sm, ar, qe_pogs, qe_zim, zm]
 spectra_cols = [f'C{i}' for i in range(len(specs))]
 
-plt.figure(figsize=(8, 6))
+
 for i, (col, y) in enumerate(zip(spectra_cols, specs)):
-    plt.subplot(2, 3, i + 1)
+    fig = plt.figure(figsize=(4, 4))
     plt.plot(ltest, y, color=col)
     plt.fill_between(ltest, y, color=col, alpha=0.1, label='_nolegend_')
-    mrv.texit(labels[i][0], 'Wavelength [nm]', labels[i][1])
+    plt.title(labels[i][0])
+    plt.xlabel('Wavelength [nm]')
+    plt.ylabel(labels[i][1])
     plt.xlim(ltest.min(), ltest.max())
+    plt.grid()
     plt.ylim(0, plt.ylim()[1])
-
-plt.tight_layout()
-plt.show()
+    plt.tight_layout()
+    plt.show()
 
 # %%
 # Loading and plotting the Vega (Alpha Lyrae) spectrum

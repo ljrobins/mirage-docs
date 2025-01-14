@@ -36,8 +36,7 @@ print(f'Gaussian volume: {np.sum(gaussian_pattern):.4f}')
 
 # %%
 # Visualize the Airy disk on the CCD grid
-plt.figure(figsize=(10, 4))
-plt.subplot(1, 3, 1)
+plt.figure(figsize=(4, 4))
 plt.imshow(
     gaussian_pattern,
     cmap='inferno',
@@ -45,12 +44,13 @@ plt.imshow(
 mrv.texit('$\kappa(x,y)$', 'x [pixels]', 'y [pixels]', grid=False)
 plt.colorbar(cax=mrv.get_cbar_ax())
 plt.clim(0, np.max(gaussian_pattern))
-plt.subplot(1, 3, 2)
+
+plt.figure(figsize=(4, 4))
 mrv.texit('$T(\phi=\pi/4)$', '$j$', '$i$', grid=False)
 plt.imshow(kernel, cmap='gray')
 plt.colorbar(cax=mrv.get_cbar_ax())
 
-plt.subplot(1, 3, 3)
+plt.figure(figsize=(4, 4))
 plt.imshow(res, cmap='inferno')
 mrv.texit('$T(\phi=\pi/4) \star \kappa(x,y)$', 'x [pixels]', 'y [pixels]', grid=False)
 plt.colorbar(cax=mrv.get_cbar_ax())

@@ -17,7 +17,7 @@ info_path = '/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/pogs/2
 add_distortion = True
 add_refraction = True
 station = mr.Station(preset='pogs')
-station.telescope.gain = 0.25
+station.telescope.gain = 5.1
 station.telescope.fwhm = 3.0
 mr.tic('Loading star catalog')
 catalog = mr.GaiaStarCatalog(station, mr.now() - mr.years(1))

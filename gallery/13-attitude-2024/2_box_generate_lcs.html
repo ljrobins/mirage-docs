@@ -1,0 +1,554 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Generate TDRS Light Curves &#8212; MIRAGE  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=98d29b3f" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gallery/13-attitude-2024/2_box_generate_lcs';</script>
+    <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/sid_logo_light.png" class="logo__image only-light" alt=""/>
+    <script>document.write(`<img src="../../_static/sid_logo_dark.png" class="logo__image only-dark" alt=""/>`);</script>
+  
+  
+    <p class="title logo__title">MIRAGE</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../modules.html">
+    mirage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../index.html">
+    Examples Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../modules.html">
+    mirage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../index.html">
+    Examples Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Generate...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-gallery-13-attitude-2024-2-box-generate-lcs-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="generate-tdrs-light-curves">
+<span id="sphx-glr-gallery-13-attitude-2024-2-box-generate-lcs-py"></span><h1>Generate TDRS Light Curves<a class="headerlink" href="#generate-tdrs-light-curves" title="Link to this heading">#</a></h1>
+<p>Creating and comparing light curves for two TDRS models</p>
+<div class="sphx-glr-script-out highlight-pytb notranslate"><div class="highlight"><pre><span></span><span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;/Users/liamrobinson/Documents/maintained-research/mirage/examples/13-attitude-2024/2_box_generate_lcs.py&quot;</span>, line <span class="m">85</span>, in <span class="n">&lt;module&gt;</span>
+<span class="w">    </span><span class="n">main</span><span class="p">()</span>
+  File <span class="nb">&quot;/Users/liamrobinson/Documents/maintained-research/mirage/examples/13-attitude-2024/2_box_generate_lcs.py&quot;</span>, line <span class="m">59</span>, in <span class="n">main</span>
+<span class="w">    </span><span class="n">p</span><span class="o">.</span><span class="n">screenshot</span><span class="p">(</span>
+  File <span class="nb">&quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/pyvista/plotting/plotter.py&quot;</span>, line <span class="m">6062</span>, in <span class="n">screenshot</span>
+<span class="w">    </span><span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_save_image</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">last_image</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">return_img</span><span class="p">)</span>
+<span class="w">           </span><span class="pm">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+  File <span class="nb">&quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/pyvista/plotting/plotter.py&quot;</span>, line <span class="m">5910</span>, in <span class="n">_save_image</span>
+<span class="w">    </span><span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+  File <span class="nb">&quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/PIL/Image.py&quot;</span>, line <span class="m">2600</span>, in <span class="n">save</span>
+<span class="w">    </span><span class="n">fp</span> <span class="o">=</span> <span class="n">builtins</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w+b&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="pm">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="gr">FileNotFoundError</span>: <span class="n">[Errno 2] No such file or directory: &#39;/Users/liamrobinson/Documents/maintained-research/mirage/examples/13-attitude-2024/Users/liamrobinson/Documents/maintained-research/mirage/examples/13-attitude-2024/figs/box_wings.png&#39;</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># isort: off</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># noqa</span>
+<span class="kn">import</span> <span class="nn">mirage</span> <span class="k">as</span> <span class="nn">mr</span>
+<span class="kn">import</span> <span class="nn">mirage.papers</span> <span class="k">as</span> <span class="nn">mrp</span>
+<span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
+<span class="kn">import</span> <span class="nn">mirage.vis</span> <span class="k">as</span> <span class="nn">mrv</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">date0</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">utc</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">length</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">minutes</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">cadence</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">seconds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">s0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.33333333</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.33333333</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.33333333</span><span class="p">])</span>
+    <span class="n">w0</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+    <span class="n">itensor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.345</span><span class="p">,</span> <span class="mf">1.034</span><span class="p">])</span>
+    <span class="n">integration_time_s</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+    <span class="n">station</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">Station</span><span class="p">()</span>
+    <span class="n">mr</span><span class="o">.</span><span class="n">set_model_directory</span><span class="p">(</span>
+        <span class="s1">&#39;/Users/liamrobinson/Documents/maintained-research/mirage-models/accurate_sats/&#39;</span>
+    <span class="p">)</span>
+    <span class="n">obj_true</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">SpaceObject</span><span class="p">(</span><span class="s1">&#39;matlib_hylas4.obj&#39;</span><span class="p">,</span> <span class="n">identifier</span><span class="o">=</span><span class="s1">&#39;TDRS 12&#39;</span><span class="p">)</span>
+    <span class="n">obj_simple</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">SpaceObject</span><span class="p">(</span><span class="s1">&#39;box_wing_antenna_tri.obj&#39;</span><span class="p">,</span> <span class="n">identifier</span><span class="o">=</span><span class="s1">&#39;TDRS 12&#39;</span><span class="p">)</span>
+
+    <span class="n">obj_true_mat</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">load_obj</span><span class="p">(</span><span class="n">obj_true</span><span class="o">.</span><span class="n">file_name</span><span class="p">)</span>
+    <span class="n">obj_true_mat</span><span class="o">.</span><span class="n">material_names</span><span class="p">[</span><span class="n">obj_true_mat</span><span class="o">.</span><span class="n">material_names</span> <span class="o">==</span> <span class="s1">&#39;starlink_panel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s1">&#39;solar_panel&#39;</span>
+    <span class="p">)</span>
+    <span class="n">obj_true_mat</span><span class="o">.</span><span class="n">material_names</span><span class="p">[</span><span class="n">obj_true_mat</span><span class="o">.</span><span class="n">material_names</span> <span class="o">==</span> <span class="s1">&#39;none&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;solar_panel&#39;</span>
+
+    <span class="n">obj_simple_mat</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">load_obj</span><span class="p">(</span><span class="n">obj_simple</span><span class="o">.</span><span class="n">file_name</span><span class="p">)</span>
+    <span class="n">obj_simple_mat</span><span class="o">.</span><span class="n">material_names</span><span class="p">[</span><span class="n">obj_simple_mat</span><span class="o">.</span><span class="n">material_names</span> <span class="o">==</span> <span class="s1">&#39;starlink_panel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s1">&#39;solar_panel&#39;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># %%</span>
+    <span class="c1"># Plotting the objects themselves</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">window_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1200</span><span class="p">,</span> <span class="mi">800</span><span class="p">))</span>
+    <span class="n">mrv</span><span class="o">.</span><span class="n">render_spaceobject</span><span class="p">(</span>
+        <span class="n">p</span><span class="p">,</span> <span class="n">obj_true_mat</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">scalars</span><span class="o">=</span><span class="n">obj_true_mat</span><span class="o">.</span><span class="n">material_names</span>
+    <span class="p">)</span>
+    <span class="n">mrv</span><span class="o">.</span><span class="n">render_spaceobject</span><span class="p">(</span>
+        <span class="n">p</span><span class="p">,</span> <span class="n">obj_simple_mat</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">scalars</span><span class="o">=</span><span class="n">obj_simple_mat</span><span class="o">.</span><span class="n">material_names</span>
+    <span class="p">)</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">add_axes</span><span class="p">(</span><span class="n">shaft_length</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">label_size</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">),</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">up</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">screenshot</span><span class="p">(</span>
+        <span class="s1">&#39;Users/liamrobinson/Documents/maintained-research/mirage/examples/13-attitude-2024/figs/box_wings.png&#39;</span>
+    <span class="p">)</span>
+
+    <span class="n">invert_obj_path</span> <span class="o">=</span> <span class="s1">&#39;/Users/liamrobinson/Documents/maintained-research/mirage-models/accurate_sats/box_wing_antenna_quad.obj&#39;</span>
+
+    <span class="n">mrp</span><span class="o">.</span><span class="n">generate_light_curves</span><span class="p">(</span>
+        <span class="n">station</span><span class="p">,</span>
+        <span class="n">obj_true</span><span class="p">,</span>
+        <span class="n">obj_simple</span><span class="p">,</span>
+        <span class="n">invert_obj_path</span><span class="p">,</span>
+        <span class="n">lc_length</span><span class="o">=</span><span class="n">length</span><span class="p">,</span>
+        <span class="n">lc_cadence</span><span class="o">=</span><span class="n">cadence</span><span class="p">,</span>
+        <span class="n">date0</span><span class="o">=</span><span class="n">date0</span><span class="p">,</span>
+        <span class="n">s0</span><span class="o">=</span><span class="n">s0</span><span class="p">,</span>
+        <span class="n">w0</span><span class="o">=</span><span class="n">w0</span><span class="p">,</span>
+        <span class="n">itensor</span><span class="o">=</span><span class="n">itensor</span><span class="p">,</span>
+        <span class="n">self_shadowing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">trial_name</span><span class="o">=</span><span class="s1">&#39;box_wing&#39;</span><span class="p">,</span>
+        <span class="n">model_name</span><span class="o">=</span><span class="s1">&#39;Box-Wing&#39;</span><span class="p">,</span>
+        <span class="n">make_plots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">integration_time_s</span><span class="o">=</span><span class="n">integration_time_s</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.250 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-13-attitude-2024-2-box-generate-lcs-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/6cab7dc713a49114b2f18e63666e8794/2_box_generate_lcs.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">2_box_generate_lcs.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/cec797b35cf3d90826cbb9682c6f7543/2_box_generate_lcs.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">2_box_generate_lcs.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/9030af8218d8cacd62af52c974edbf5d/2_box_generate_lcs.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">2_box_generate_lcs.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023-2025, Liam Robinson.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.0.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

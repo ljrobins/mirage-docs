@@ -19,11 +19,6 @@ def plot_telescope_fov(station: mr.Station, look_dir: np.ndarray, up_dir: np.nda
     xy3 = np.vstack((np.full(sp[1], 0), np.arange(sp[1]))).T
     xy4 = np.vstack((np.full(sp[1], sp[0]), np.arange(sp[1]))).T
 
-    print(xy1)
-    print(xy2)
-    print(xy3)
-    print(xy4)
-
     for xy in [xy1, xy2, xy3, xy4]:
         uvs = station.telescope.pixels_to_j2000_unit_vectors(look_dir, up_dir, xy)
         ras, decs = mr.eci_to_ra_dec(uvs)
@@ -39,7 +34,7 @@ print(f'Number of stars in catalog: {catalog._alpha.size}')
 look_dir = mr.hat(np.array([[1.0, 1.0, 0.0]]))
 up_dir = np.array([[0.0, 0.0, 1.0]])
 
-fov_rad = station.telescope.fov_deg * np.pi / 180
+fov_rad = np.max(station.telescope.fov_deg) * np.pi / 180
 
 mr.tic()
 brute_inds = np.argwhere(

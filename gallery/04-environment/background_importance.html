@@ -338,7 +338,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_renders.html">BRDFs in Action</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/neural_network_brightness.html">Neural Network Brightness</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_units.html">Light Curve Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/box_wing_simple.html">Simple Box-Wing Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/lc_uncertainty.html">Light Curve Uncertainty</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curves_types.html">Types of Light Curves</a></li>
 </ul>
@@ -415,7 +414,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/qe_curves.html">Quantum Efficiency Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/dilate_erode.html">Dilation and Erosion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/vega_psf.html">Vega PSF</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../08-ccd/ccd_sens.html">POGS Sensitivity</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/convolution_streaks.html">Convolution for Streaks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/digital_twin_compared.html">Digital Twin Animated</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/noise_accum_gifs.html">Noise Sampling</a></li>
@@ -429,7 +427,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/streaks.html">Streak Detection and Centroiding</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/background_shape.html">Background Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../08-ccd/snr.html">Signal-to-Noise Ratio (SNR)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../08-ccd/synth_image_results.html">Synthetic Image Results</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../09-models/index.html">3D Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -461,7 +458,6 @@ document.write(`
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../11-work-in-progress/index.html">Works In Progress</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../11-work-in-progress/zod.html">Zodiacal Light</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../11-work-in-progress/rhotater_count_minima.html">Attitude Inversion Minima</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../11-work-in-progress/precise_orbit_determination.html">Precise Orbit Determination with Batch Least Squares</a></li>
 </ul>
 </details></li>
@@ -475,6 +471,16 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../13-attitude-2024/calibration_gain.html">CCD Gain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../13-attitude-2024/calibration.html">Subframes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../13-attitude-2024/sutherland.html">Sutherland-Hodgeman Clipping Algorithm</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../14-digital-twin-2024/index.html">Digital Twin</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../14-digital-twin-2024/render_models.html">Rendered Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-digital-twin-2024/pogs_gen.html">Synthetic Image Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-digital-twin-2024/box_wing_simple.html">Simple Box-Wing Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-digital-twin-2024/test_gps.html">Parametric Box-Wing Inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-digital-twin-2024/zim_gen.html">Zimmerwald Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-digital-twin-2024/plot_results.html">Synthetic Image Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-digital-twin-2024/fit_gps2.html">Parametric Box-Wing Inversion</a></li>
 </ul>
 </details></li>
 </ul>
@@ -631,9 +637,10 @@ station = mr.Station(preset=”lmt”, lat_deg=33.776864, lon_deg=-84.363777) # 
 <span class="n">dates</span> <span class="o">=</span> <span class="n">dates</span><span class="p">[</span><span class="o">~</span><span class="n">is_light_dates</span><span class="p">]</span>
 <span class="n">hr_after_dark</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">date_to_epsec</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3600</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-
 <span class="n">sbs</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">p1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 
 <span class="k">for</span> <span class="n">signal</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">signals</span><span class="p">,</span> <span class="n">cs</span><span class="p">):</span>
     <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="p">(</span><span class="kc">False</span> <span class="k">if</span> <span class="n">s</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">signal</span> <span class="k">else</span> <span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">signals</span><span class="p">}</span>
@@ -644,13 +651,16 @@ station = mr.Station(preset=”lmt”, lat_deg=33.776864, lon_deg=-84.363777) # 
     <span class="n">label</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hr_after_dark</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">sb</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Hours after sunset&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Signal rate maximum [ADU / pix / s]&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">visible</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hr_after_dark</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sb</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Hours after sunset&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Signal rate mean [ADU / pix / s]&#39;</span><span class="p">)</span>
@@ -663,24 +673,28 @@ station = mr.Station(preset=”lmt”, lat_deg=33.776864, lon_deg=-84.363777) # 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_background_importance_001.png" srcset="../../_images/sphx_glr_background_importance_001.png, ../../_images/sphx_glr_background_importance_001_2_00x.png 2.00x" alt="background importance" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Moonlight: 2.78e+00 seconds
-Max:  4.42e+02
-Mean: 2.05e+01
-Airglow: 1.43e+00 seconds
-Max:  1.64e+00
-Mean: 7.69e-01
-Integrated_starlight: 1.37e+00 seconds
-Max:  1.53e+00
-Mean: 4.17e-02
-Zodiac: 2.00e+00 seconds
-Max:  1.39e+01
-Mean: 5.40e-01
-Pollution: 1.29e+00 seconds
-Max:  1.89e-02
-Mean: 7.77e-03
-Twilight: 4.58e+00 seconds
-Max:  2.99e+04
-Mean: 1.22e+03
+<ul class="sphx-glr-horizontal">
+<li><img src="../../_images/sphx_glr_background_importance_001.png" srcset="../../_images/sphx_glr_background_importance_001.png, ../../_images/sphx_glr_background_importance_001_2_00x.png 2.00x" alt="background importance" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_background_importance_002.png" srcset="../../_images/sphx_glr_background_importance_002.png, ../../_images/sphx_glr_background_importance_002_2_00x.png 2.00x" alt="background importance" class = "sphx-glr-multi-img"/></li>
+</ul>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Moonlight: 2.45e+00 seconds
+Max:  1.96e+02
+Mean: 9.13e+00
+Airglow: 1.25e+00 seconds
+Max:  7.28e-01
+Mean: 3.42e-01
+Integrated_starlight: 1.26e+00 seconds
+Max:  6.80e-01
+Mean: 1.85e-02
+Zodiac: 1.75e+00 seconds
+Max:  6.18e+00
+Mean: 2.40e-01
+Pollution: 1.12e+00 seconds
+Max:  8.42e-03
+Mean: 3.45e-03
+Twilight: 4.02e+00 seconds
+Max:  1.33e+04
+Mean: 5.44e+02
 </pre></div>
 </div>
 <p>Figuring out how likely a given look direction over the night will be dominated by a given source</p>
@@ -705,7 +719,7 @@ pollution 0.0
 twilight 19.42165505657638
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 14.063 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 13.081 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-04-environment-background-importance-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/a79d4cd80d2a83234de2ab7b3d3d931b/background_importance.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">background_importance.ipynb</span></code></a></p>
@@ -778,7 +792,7 @@ twilight 19.42165505657638
 
   <p class="copyright">
     
-      © Copyright 2023-2024, Liam Robinson.
+      © Copyright 2023-2025, Liam Robinson.
       <br/>
     
   </p>

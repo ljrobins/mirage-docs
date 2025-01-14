@@ -23,7 +23,7 @@ Comparing Runge-Kutta Methods
 
 How simple can a Runge-Kutta method get to still yield "good" performance for attitude propagation?
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-131
+.. GENERATED FROM PYTHON SOURCE LINES 8-134
 
 
 
@@ -32,10 +32,10 @@ How simple can a Runge-Kutta method get to still yield "good" performance for at
 
  .. code-block:: none
 
-    RK45 time: : 4.18e-01 seconds
-    RK2 is 1.18e+02 deg from RK45 in 1.5e-03 sec
-    RK3 is 1.41e+01 deg from RK45 in 2.6e-03 sec
-    RK4 is 3.10e-01 deg from RK45 in 3.4e-03 sec
+    RK45 time: : 6.63e-02 seconds
+    RK2 is 2.97e+00 deg from RK45 in 5.8e-04 sec
+    RK3 is 1.61e-01 deg from RK45 in 9.0e-04 sec
+    RK4 is 3.16e-02 deg from RK45 in 1.2e-03 sec
 
 
 
@@ -132,13 +132,13 @@ How simple can a Runge-Kutta method get to still yield "good" performance for at
 
 
     if __name__ == '__main__':
-        h = 0.1
-        ntimes = 100
+        h = 0.06666
+        ntimes = 40
         teval = np.linspace(0, h * ntimes, ntimes)
 
-        itensor = np.array([1.0, 2.0, 3.0])
+        itensor = np.array([1.0, 2.9, 3.0])
         s0 = np.array([1.0, 1.0, 1.0])
-        w0 = np.array([1.0, 4.0, 2.0])
+        w0 = np.array([2.0, 2.0, 2.0])
         q0 = mr.mrp_to_quat(s0)
         x0 = np.concatenate((s0, w0))
 
@@ -158,6 +158,9 @@ How simple can a Runge-Kutta method get to still yield "good" performance for at
         mr.toc()
         qf_rk45 = q_of_t[-1, :]
 
+        # mrv.vis_attitude_motion(mr.SpaceObject('box_wing.obj'), q_of_t, framerate=10)
+        # enddd
+
         ang_deg = np.rad2deg(mr.quat_ang(qf_rk45, qf_rk2))
         print(f'RK2 is {ang_deg:.2e} deg from RK45 in {dt2:.1e} sec')
 
@@ -173,7 +176,7 @@ How simple can a Runge-Kutta method get to still yield "good" performance for at
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.450 seconds)
+   **Total running time of the script:** (0 minutes 0.101 seconds)
 
 
 .. _sphx_glr_download_gallery_06-attitude_rk_low_order.py:

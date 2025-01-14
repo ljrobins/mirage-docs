@@ -19,7 +19,7 @@ add_distortion = True
 add_refraction = True
 station = mr.Station()
 station.telescope.fwhm = 3
-station.telescope.gain = 1 / 4
+station.telescope.gain = 5.1
 mr.tic('Loading star catalog')
 catalog = mr.GaiaSpectralStarCatalog(station, mr.now())
 mr.toc()

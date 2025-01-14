@@ -91,8 +91,7 @@ Visualize the Airy disk on the CCD grid
 
 .. code-block:: Python
 
-    plt.figure(figsize=(10, 4))
-    plt.subplot(1, 3, 1)
+    plt.figure(figsize=(4, 4))
     plt.imshow(
         gaussian_pattern,
         cmap='inferno',
@@ -100,12 +99,13 @@ Visualize the Airy disk on the CCD grid
     mrv.texit('$\kappa(x,y)$', 'x [pixels]', 'y [pixels]', grid=False)
     plt.colorbar(cax=mrv.get_cbar_ax())
     plt.clim(0, np.max(gaussian_pattern))
-    plt.subplot(1, 3, 2)
+
+    plt.figure(figsize=(4, 4))
     mrv.texit('$T(\phi=\pi/4)$', '$j$', '$i$', grid=False)
     plt.imshow(kernel, cmap='gray')
     plt.colorbar(cax=mrv.get_cbar_ax())
 
-    plt.subplot(1, 3, 3)
+    plt.figure(figsize=(4, 4))
     plt.imshow(res, cmap='inferno')
     mrv.texit('$T(\phi=\pi/4) \star \kappa(x,y)$', 'x [pixels]', 'y [pixels]', grid=False)
     plt.colorbar(cax=mrv.get_cbar_ax())
@@ -114,10 +114,29 @@ Visualize the Airy disk on the CCD grid
 
 
 
-.. image-sg:: /gallery/08-ccd/images/sphx_glr_convolution_streaks_001.png
-   :alt: $\kappa(x,y)$, $T(\phi=\pi/4)$, $T(\phi=\pi/4) \star \kappa(x,y)$
-   :srcset: /gallery/08-ccd/images/sphx_glr_convolution_streaks_001.png, /gallery/08-ccd/images/sphx_glr_convolution_streaks_001_2_00x.png 2.00x
-   :class: sphx-glr-single-img
+.. rst-class:: sphx-glr-horizontal
+
+
+    *
+
+      .. image-sg:: /gallery/08-ccd/images/sphx_glr_convolution_streaks_001.png
+         :alt: $\kappa(x,y)$
+         :srcset: /gallery/08-ccd/images/sphx_glr_convolution_streaks_001.png, /gallery/08-ccd/images/sphx_glr_convolution_streaks_001_2_00x.png 2.00x
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /gallery/08-ccd/images/sphx_glr_convolution_streaks_002.png
+         :alt: $T(\phi=\pi/4)$
+         :srcset: /gallery/08-ccd/images/sphx_glr_convolution_streaks_002.png, /gallery/08-ccd/images/sphx_glr_convolution_streaks_002_2_00x.png 2.00x
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /gallery/08-ccd/images/sphx_glr_convolution_streaks_003.png
+         :alt: $T(\phi=\pi/4) \star \kappa(x,y)$
+         :srcset: /gallery/08-ccd/images/sphx_glr_convolution_streaks_003.png, /gallery/08-ccd/images/sphx_glr_convolution_streaks_003_2_00x.png 2.00x
+         :class: sphx-glr-multi-img
 
 
 
@@ -126,7 +145,7 @@ Visualize the Airy disk on the CCD grid
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.561 seconds)
+   **Total running time of the script:** (0 minutes 0.401 seconds)
 
 
 .. _sphx_glr_download_gallery_08-ccd_convolution_streaks.py:

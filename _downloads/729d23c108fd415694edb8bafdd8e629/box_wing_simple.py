@@ -46,8 +46,8 @@ d_of_t = mr.quat_to_dcm(q_of_t)  # inertial to body
 svb = mr.stack_mat_mult_vec(d_of_t, svi)
 ovb = mr.stack_mat_mult_vec(d_of_t, ovi)
 
-s = mr.hat(svb)
-o = mr.hat(ovb)
+s = mr.hat(svi)
+o = mr.hat(ovi)
 h = mr.hat(s + o)
 fr_pan = cd_pan / np.pi + cs_pan * (n_pan + 2) / (2 * np.pi) * mr.dot(s, h) ** n_pan / (
     4 * mr.dot(s, o)

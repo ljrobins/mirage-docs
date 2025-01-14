@@ -93,9 +93,10 @@ is_light_dates = sun_ang_deg > 0.0
 dates = dates[~is_light_dates]
 hr_after_dark = mr.date_to_epsec(dates) / 3600
 
-plt.figure(figsize=(8, 4))
-
 sbs = []
+
+p1 = plt.figure(figsize=(4, 4))
+p2 = plt.figure(figsize=(4, 4))
 
 for signal, c in zip(signals, cs):
     kwargs = {s: (False if s is not signal else True) for s in signals}
@@ -106,13 +107,16 @@ for signal, c in zip(signals, cs):
     label = signal.replace('_', ' ').capitalize()
     if len(label.split(' ')) > 1:
         label = label.split(' ')[1].capitalize()
-    plt.subplot(1, 2, 1)
+
+    plt.figure(1)
     plt.plot(hr_after_dark, np.max(sb, axis=1), c=c, marker='+', label=label)
     plt.xlabel('Hours after sunset')
     plt.ylabel('Signal rate maximum [ADU / pix / s]')
     plt.yscale('log')
     plt.grid(visible=True)
-    plt.subplot(1, 2, 2)
+    plt.tight_layout()
+
+    plt.figure(2)
     plt.plot(hr_after_dark, np.mean(sb, axis=1), c=c, marker='+', label=label)
     plt.xlabel('Hours after sunset')
     plt.ylabel('Signal rate mean [ADU / pix / s]')

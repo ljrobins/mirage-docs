@@ -7,7 +7,6 @@ Using a method from :cite:`bhattacharyya2003` to find the mean distance to the k
 
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.special import gamma
 from sklearn.neighbors import BallTree
 
 import mirage as mr
@@ -21,6 +20,8 @@ def dist_to_nearest_neighbor(pts: np.ndarray) -> np.ndarray:
 def uniform_pts_expected_distance_to_nn(
     d: np.ndarray, n: np.ndarray, k: np.ndarray
 ) -> np.ndarray:
+    from scipy.special import gamma
+
     t1 = gamma(d / 2 + 1) ** (1 / d) / np.pi**0.5
     t2 = gamma(k + 1 / d) / gamma(k)
     t3 = (1 / n) ** (1 / d)

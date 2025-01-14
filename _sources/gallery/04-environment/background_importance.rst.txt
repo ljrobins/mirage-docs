@@ -131,7 +131,7 @@ station = mr.Station(preset="lmt", lat_deg=33.776864, lon_deg=-84.363777) # Atla
 
 Plotting the background signal for scattered moonlight
 
-.. GENERATED FROM PYTHON SOURCE LINES 76-127
+.. GENERATED FROM PYTHON SOURCE LINES 76-131
 
 .. code-block:: Python
 
@@ -155,9 +155,10 @@ Plotting the background signal for scattered moonlight
     dates = dates[~is_light_dates]
     hr_after_dark = mr.date_to_epsec(dates) / 3600
 
-    plt.figure(figsize=(8, 4))
-
     sbs = []
+
+    p1 = plt.figure(figsize=(4, 4))
+    p2 = plt.figure(figsize=(4, 4))
 
     for signal, c in zip(signals, cs):
         kwargs = {s: (False if s is not signal else True) for s in signals}
@@ -168,13 +169,16 @@ Plotting the background signal for scattered moonlight
         label = signal.replace('_', ' ').capitalize()
         if len(label.split(' ')) > 1:
             label = label.split(' ')[1].capitalize()
-        plt.subplot(1, 2, 1)
+
+        plt.figure(1)
         plt.plot(hr_after_dark, np.max(sb, axis=1), c=c, marker='+', label=label)
         plt.xlabel('Hours after sunset')
         plt.ylabel('Signal rate maximum [ADU / pix / s]')
         plt.yscale('log')
         plt.grid(visible=True)
-        plt.subplot(1, 2, 2)
+        plt.tight_layout()
+
+        plt.figure(2)
         plt.plot(hr_after_dark, np.mean(sb, axis=1), c=c, marker='+', label=label)
         plt.xlabel('Hours after sunset')
         plt.ylabel('Signal rate mean [ADU / pix / s]')
@@ -189,43 +193,55 @@ Plotting the background signal for scattered moonlight
 
 
 
-.. image-sg:: /gallery/04-environment/images/sphx_glr_background_importance_001.png
-   :alt: background importance
-   :srcset: /gallery/04-environment/images/sphx_glr_background_importance_001.png, /gallery/04-environment/images/sphx_glr_background_importance_001_2_00x.png 2.00x
-   :class: sphx-glr-single-img
+.. rst-class:: sphx-glr-horizontal
+
+
+    *
+
+      .. image-sg:: /gallery/04-environment/images/sphx_glr_background_importance_001.png
+         :alt: background importance
+         :srcset: /gallery/04-environment/images/sphx_glr_background_importance_001.png, /gallery/04-environment/images/sphx_glr_background_importance_001_2_00x.png 2.00x
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /gallery/04-environment/images/sphx_glr_background_importance_002.png
+         :alt: background importance
+         :srcset: /gallery/04-environment/images/sphx_glr_background_importance_002.png, /gallery/04-environment/images/sphx_glr_background_importance_002_2_00x.png 2.00x
+         :class: sphx-glr-multi-img
 
 
 .. rst-class:: sphx-glr-script-out
 
  .. code-block:: none
 
-    Moonlight: 2.78e+00 seconds
-    Max:  4.42e+02
-    Mean: 2.05e+01
-    Airglow: 1.43e+00 seconds
-    Max:  1.64e+00
-    Mean: 7.69e-01
-    Integrated_starlight: 1.37e+00 seconds
-    Max:  1.53e+00
-    Mean: 4.17e-02
-    Zodiac: 2.00e+00 seconds
-    Max:  1.39e+01
-    Mean: 5.40e-01
-    Pollution: 1.29e+00 seconds
-    Max:  1.89e-02
-    Mean: 7.77e-03
-    Twilight: 4.58e+00 seconds
-    Max:  2.99e+04
-    Mean: 1.22e+03
+    Moonlight: 2.45e+00 seconds
+    Max:  1.96e+02
+    Mean: 9.13e+00
+    Airglow: 1.25e+00 seconds
+    Max:  7.28e-01
+    Mean: 3.42e-01
+    Integrated_starlight: 1.26e+00 seconds
+    Max:  6.80e-01
+    Mean: 1.85e-02
+    Zodiac: 1.75e+00 seconds
+    Max:  6.18e+00
+    Mean: 2.40e-01
+    Pollution: 1.12e+00 seconds
+    Max:  8.42e-03
+    Mean: 3.45e-03
+    Twilight: 4.02e+00 seconds
+    Max:  1.33e+04
+    Mean: 5.44e+02
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 128-129
+.. GENERATED FROM PYTHON SOURCE LINES 132-133
 
 Figuring out how likely a given look direction over the night will be dominated by a given source
 
-.. GENERATED FROM PYTHON SOURCE LINES 129-141
+.. GENERATED FROM PYTHON SOURCE LINES 133-145
 
 .. code-block:: Python
 
@@ -262,7 +278,7 @@ Figuring out how likely a given look direction over the night will be dominated 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 14.063 seconds)
+   **Total running time of the script:** (0 minutes 13.081 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_background_importance.py:

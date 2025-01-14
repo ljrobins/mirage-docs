@@ -95,8 +95,7 @@ Let's use GAIA's calibrated spectra to compare with the CALSPEC spectra
     percent_error = np.abs((flux_cal - flux_true_cal_lam) / flux_true_cal_lam * 100)
     print(np.percentile(percent_error, [1, 50, 99]))
 
-    plt.figure(figsize=(7, 4))
-    plt.subplot(1, 2, 1)
+    plt.figure(figsize=(4, 4))
     plt.title('G191-B2B Absolute Spectra')
     plt.ylabel(r'$\left[ \frac{W}{m^2 \cdot nm} \right]$')
     plt.xlabel('Wavelength [nm]')
@@ -104,7 +103,8 @@ Let's use GAIA's calibrated spectra to compare with the CALSPEC spectra
     plt.plot(lam_true, flux_true, 'k', linewidth=3, label='CALSPEC')
     plt.plot(lam_cal, flux_cal, 'r--', linewidth=2, label='GaiaXPy')
     plt.xlim(lam_cal.min(), lam_cal.max())
-    plt.subplot(1, 2, 2)
+
+    plt.figure(figsize=(4, 4))
     plt.title('G191-B2B $G$-Band Spectra')
     plt.ylabel(r'$\left[ \frac{W}{m^2 \cdot nm} \right]$')
     plt.xlabel('Wavelength [nm]')
@@ -131,10 +131,22 @@ Let's use GAIA's calibrated spectra to compare with the CALSPEC spectra
 
 
 
-.. image-sg:: /gallery/04-environment/images/sphx_glr_single_star_spectrum_001.png
-   :alt: G191-B2B Absolute Spectra, G191-B2B $G$-Band Spectra
-   :srcset: /gallery/04-environment/images/sphx_glr_single_star_spectrum_001.png, /gallery/04-environment/images/sphx_glr_single_star_spectrum_001_2_00x.png 2.00x
-   :class: sphx-glr-single-img
+.. rst-class:: sphx-glr-horizontal
+
+
+    *
+
+      .. image-sg:: /gallery/04-environment/images/sphx_glr_single_star_spectrum_001.png
+         :alt: G191-B2B Absolute Spectra
+         :srcset: /gallery/04-environment/images/sphx_glr_single_star_spectrum_001.png, /gallery/04-environment/images/sphx_glr_single_star_spectrum_001_2_00x.png 2.00x
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /gallery/04-environment/images/sphx_glr_single_star_spectrum_002.png
+         :alt: G191-B2B $G$-Band Spectra
+         :srcset: /gallery/04-environment/images/sphx_glr_single_star_spectrum_002.png, /gallery/04-environment/images/sphx_glr_single_star_spectrum_002_2_00x.png 2.00x
+         :class: sphx-glr-multi-img
 
 
 .. rst-class:: sphx-glr-script-out
@@ -194,9 +206,9 @@ And the Viziers info for this star to correlate IDs https://simbad.cds.unistra.f
 
 
 
-.. image-sg:: /gallery/04-environment/images/sphx_glr_single_star_spectrum_002.png
+.. image-sg:: /gallery/04-environment/images/sphx_glr_single_star_spectrum_003.png
    :alt: G191-B2B Spectra
-   :srcset: /gallery/04-environment/images/sphx_glr_single_star_spectrum_002.png, /gallery/04-environment/images/sphx_glr_single_star_spectrum_002_2_00x.png 2.00x
+   :srcset: /gallery/04-environment/images/sphx_glr_single_star_spectrum_003.png, /gallery/04-environment/images/sphx_glr_single_star_spectrum_003_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
 
@@ -218,7 +230,7 @@ And the Viziers info for this star to correlate IDs https://simbad.cds.unistra.f
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 8.712 seconds)
+   **Total running time of the script:** (0 minutes 7.530 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_single_star_spectrum.py:

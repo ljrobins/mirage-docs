@@ -1,0 +1,960 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Case 3 &#8212; MIRAGE  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=98d29b3f" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gallery/13-attitude-2024/case3';</script>
+    <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/sid_logo_light.png" class="logo__image only-light" alt=""/>
+    <script>document.write(`<img src="../../_static/sid_logo_dark.png" class="logo__image only-dark" alt=""/>`);</script>
+  
+  
+    <p class="title logo__title">MIRAGE</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../modules.html">
+    mirage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../index.html">
+    Examples Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../modules.html">
+    mirage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../index.html">
+    Examples Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Case 3</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-gallery-13-attitude-2024-case3-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="case-3">
+<span id="sphx-glr-gallery-13-attitude-2024-case3-py"></span><h1>Case 3<a class="headerlink" href="#case-3" title="Link to this heading">#</a></h1>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[Taichi] Starting on arch=arm64
+/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/util.py:370: UserWarning: Taichi matrices/vectors with 16x3 &gt; 32 entries are not suggested. Matrices/vectors will be automatically unrolled at compile-time for performance. So the compilation time could be extremely long if the matrix size is too big. You may use a field to store a large matrix like this, e.g.:
+    x = ti.field(ti.f32, (16, 3)).
+ See https://docs.taichi-lang.org/docs/field#matrix-size for more details.
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/bin/sphinx-build&quot;, line 8, in &lt;module&gt;
+    sys.exit(main())
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/build.py&quot;, line 382, in main
+    return make_main(argv)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/build.py&quot;, line 217, in make_main
+    return make_mode.run_make_mode(argv[1:])
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/make_mode.py&quot;, line 176, in run_make_mode
+    return make.run_generic_build(args[0])
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/make_mode.py&quot;, line 164, in run_generic_build
+    return build_main(args + opts)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/build.py&quot;, line 332, in build_main
+    app = Sphinx(args.sourcedir, args.confdir, args.outputdir,
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/application.py&quot;, line 292, in __init__
+    self._init_builder()
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/application.py&quot;, line 366, in _init_builder
+    self.events.emit(&#39;builder-inited&#39;)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/events.py&quot;, line 100, in emit
+    results.append(listener.handler(self.app, *args))
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_gallery.py&quot;, line 787, in generate_gallery_rst
+    ) = generate_dir_rst(src_dir, target_dir, gallery_conf, seen_backrefs)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 598, in generate_dir_rst
+    results = parallel(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 599, in &lt;genexpr&gt;
+    p_fun(fname, target_dir, src_dir, gallery_conf) for fname in iterator
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1346, in generate_file_rst
+    output_blocks, time_elapsed = execute_script(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1164, in execute_script
+    execute_code_block(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1020, in execute_code_block
+    is_last_expr, mem_max = _exec_and_get_memory(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 858, in _exec_and_get_memory
+    mem_last, _ = call_memory(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1700, in _sg_call_memory_noop
+    return 0.0, func()
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 783, in __call__
+    exec(self.code, self.fake_main.__dict__)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/examples/13-attitude-2024/case3.py&quot;, line 11, in &lt;module&gt;
+    mrp.attitude_paper.run_inversion(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/mirage/papers/attitude_paper.py&quot;, line 337, in run_inversion
+    res = tater.direct_invert_attitude(
+  File &quot;/Users/liamrobinson/Documents/maintained-wip/rhotater/tater/handler.py&quot;, line 60, in direct_invert_attitude
+    x0 = initialize(
+  File &quot;/Users/liamrobinson/Documents/maintained-wip/rhotater/tater/handler.py&quot;, line 145, in initialize
+    load_finfo(obj_path)
+  File &quot;/Users/liamrobinson/Documents/maintained-wip/taichi-polyclip/ticlip/handler.py&quot;, line 40, in load_finfo
+    poly = PC3TYPE(0.0)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/matrix.py&quot;, line 1436, in __call__
+    return self._instantiate(entries)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/matrix.py&quot;, line 1530, in _instantiate
+    return self._instantiate_in_python_scope(entries)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/matrix.py&quot;, line 1517, in _instantiate_in_python_scope
+    return Matrix(
+
+  warnings.warn(Fore.YELLOW + Style.BRIGHT + msg + Style.RESET_ALL, warning_type)
+/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/util.py:370: UserWarning: Taichi matrices/vectors with 16x3 &gt; 32 entries are not suggested. Matrices/vectors will be automatically unrolled at compile-time for performance. So the compilation time could be extremely long if the matrix size is too big. You may use a field to store a large matrix like this, e.g.:
+    x = ti.field(ti.f32, (16, 3)).
+ See https://docs.taichi-lang.org/docs/field#matrix-size for more details.
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/bin/sphinx-build&quot;, line 8, in &lt;module&gt;
+    sys.exit(main())
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/build.py&quot;, line 382, in main
+    return make_main(argv)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/build.py&quot;, line 217, in make_main
+    return make_mode.run_make_mode(argv[1:])
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/make_mode.py&quot;, line 176, in run_make_mode
+    return make.run_generic_build(args[0])
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/make_mode.py&quot;, line 164, in run_generic_build
+    return build_main(args + opts)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/build.py&quot;, line 332, in build_main
+    app = Sphinx(args.sourcedir, args.confdir, args.outputdir,
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/application.py&quot;, line 292, in __init__
+    self._init_builder()
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/application.py&quot;, line 366, in _init_builder
+    self.events.emit(&#39;builder-inited&#39;)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/events.py&quot;, line 100, in emit
+    results.append(listener.handler(self.app, *args))
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_gallery.py&quot;, line 787, in generate_gallery_rst
+    ) = generate_dir_rst(src_dir, target_dir, gallery_conf, seen_backrefs)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 598, in generate_dir_rst
+    results = parallel(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 599, in &lt;genexpr&gt;
+    p_fun(fname, target_dir, src_dir, gallery_conf) for fname in iterator
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1346, in generate_file_rst
+    output_blocks, time_elapsed = execute_script(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1164, in execute_script
+    execute_code_block(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1020, in execute_code_block
+    is_last_expr, mem_max = _exec_and_get_memory(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 858, in _exec_and_get_memory
+    mem_last, _ = call_memory(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1700, in _sg_call_memory_noop
+    return 0.0, func()
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 783, in __call__
+    exec(self.code, self.fake_main.__dict__)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/examples/13-attitude-2024/case3.py&quot;, line 11, in &lt;module&gt;
+    mrp.attitude_paper.run_inversion(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/mirage/papers/attitude_paper.py&quot;, line 337, in run_inversion
+    res = tater.direct_invert_attitude(
+  File &quot;/Users/liamrobinson/Documents/maintained-wip/rhotater/tater/handler.py&quot;, line 60, in direct_invert_attitude
+    x0 = initialize(
+  File &quot;/Users/liamrobinson/Documents/maintained-wip/rhotater/tater/handler.py&quot;, line 145, in initialize
+    load_finfo(obj_path)
+  File &quot;/Users/liamrobinson/Documents/maintained-wip/taichi-polyclip/ticlip/handler.py&quot;, line 42, in load_finfo
+    FINFOFIELD[i].vi = P3STRUCT(polygon=poly, k=num_verts)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/struct.py&quot;, line 634, in __call__
+    data = dtype(data)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/matrix.py&quot;, line 1451, in __call__
+    return self._instantiate(entries)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/matrix.py&quot;, line 1530, in _instantiate
+    return self._instantiate_in_python_scope(entries)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/matrix.py&quot;, line 1517, in _instantiate_in_python_scope
+    return Matrix(
+
+  warnings.warn(Fore.YELLOW + Style.BRIGHT + msg + Style.RESET_ALL, warning_type)
+/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/util.py:370: UserWarning: Taichi matrices/vectors with 16x3 &gt; 32 entries are not suggested. Matrices/vectors will be automatically unrolled at compile-time for performance. So the compilation time could be extremely long if the matrix size is too big. You may use a field to store a large matrix like this, e.g.:
+    x = ti.field(ti.f32, (16, 3)).
+ See https://docs.taichi-lang.org/docs/field#matrix-size for more details.
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/bin/sphinx-build&quot;, line 8, in &lt;module&gt;
+    sys.exit(main())
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/build.py&quot;, line 382, in main
+    return make_main(argv)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/build.py&quot;, line 217, in make_main
+    return make_mode.run_make_mode(argv[1:])
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/make_mode.py&quot;, line 176, in run_make_mode
+    return make.run_generic_build(args[0])
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/make_mode.py&quot;, line 164, in run_generic_build
+    return build_main(args + opts)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/build.py&quot;, line 332, in build_main
+    app = Sphinx(args.sourcedir, args.confdir, args.outputdir,
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/application.py&quot;, line 292, in __init__
+    self._init_builder()
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/application.py&quot;, line 366, in _init_builder
+    self.events.emit(&#39;builder-inited&#39;)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/events.py&quot;, line 100, in emit
+    results.append(listener.handler(self.app, *args))
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_gallery.py&quot;, line 787, in generate_gallery_rst
+    ) = generate_dir_rst(src_dir, target_dir, gallery_conf, seen_backrefs)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 598, in generate_dir_rst
+    results = parallel(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 599, in &lt;genexpr&gt;
+    p_fun(fname, target_dir, src_dir, gallery_conf) for fname in iterator
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1346, in generate_file_rst
+    output_blocks, time_elapsed = execute_script(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1164, in execute_script
+    execute_code_block(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1020, in execute_code_block
+    is_last_expr, mem_max = _exec_and_get_memory(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 858, in _exec_and_get_memory
+    mem_last, _ = call_memory(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1700, in _sg_call_memory_noop
+    return 0.0, func()
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 783, in __call__
+    exec(self.code, self.fake_main.__dict__)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/examples/13-attitude-2024/case3.py&quot;, line 11, in &lt;module&gt;
+    mrp.attitude_paper.run_inversion(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/mirage/papers/attitude_paper.py&quot;, line 337, in run_inversion
+    res = tater.direct_invert_attitude(
+  File &quot;/Users/liamrobinson/Documents/maintained-wip/rhotater/tater/handler.py&quot;, line 60, in direct_invert_attitude
+    x0 = initialize(
+  File &quot;/Users/liamrobinson/Documents/maintained-wip/rhotater/tater/handler.py&quot;, line 145, in initialize
+    load_finfo(obj_path)
+  File &quot;/Users/liamrobinson/Documents/maintained-wip/taichi-polyclip/ticlip/handler.py&quot;, line 42, in load_finfo
+    FINFOFIELD[i].vi = P3STRUCT(polygon=poly, k=num_verts)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/struct.py&quot;, line 640, in __call__
+    struct = self.cast(entries)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/struct.py&quot;, line 767, in cast
+    entries[k] = dtype(struct._Struct__entries[k])
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/matrix.py&quot;, line 1451, in __call__
+    return self._instantiate(entries)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/matrix.py&quot;, line 1530, in _instantiate
+    return self._instantiate_in_python_scope(entries)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/matrix.py&quot;, line 1517, in _instantiate_in_python_scope
+    return Matrix(
+
+  warnings.warn(Fore.YELLOW + Style.BRIGHT + msg + Style.RESET_ALL, warning_type)
+/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/util.py:370: UserWarning: Taichi matrices/vectors with 16x3 &gt; 32 entries are not suggested. Matrices/vectors will be automatically unrolled at compile-time for performance. So the compilation time could be extremely long if the matrix size is too big. You may use a field to store a large matrix like this, e.g.:
+    x = ti.field(ti.f32, (16, 3)).
+ See https://docs.taichi-lang.org/docs/field#matrix-size for more details.
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/bin/sphinx-build&quot;, line 8, in &lt;module&gt;
+    sys.exit(main())
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/build.py&quot;, line 382, in main
+    return make_main(argv)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/build.py&quot;, line 217, in make_main
+    return make_mode.run_make_mode(argv[1:])
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/make_mode.py&quot;, line 176, in run_make_mode
+    return make.run_generic_build(args[0])
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/make_mode.py&quot;, line 164, in run_generic_build
+    return build_main(args + opts)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/build.py&quot;, line 332, in build_main
+    app = Sphinx(args.sourcedir, args.confdir, args.outputdir,
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/application.py&quot;, line 292, in __init__
+    self._init_builder()
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/application.py&quot;, line 366, in _init_builder
+    self.events.emit(&#39;builder-inited&#39;)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/events.py&quot;, line 100, in emit
+    results.append(listener.handler(self.app, *args))
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_gallery.py&quot;, line 787, in generate_gallery_rst
+    ) = generate_dir_rst(src_dir, target_dir, gallery_conf, seen_backrefs)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 598, in generate_dir_rst
+    results = parallel(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 599, in &lt;genexpr&gt;
+    p_fun(fname, target_dir, src_dir, gallery_conf) for fname in iterator
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1346, in generate_file_rst
+    output_blocks, time_elapsed = execute_script(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1164, in execute_script
+    execute_code_block(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1020, in execute_code_block
+    is_last_expr, mem_max = _exec_and_get_memory(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 858, in _exec_and_get_memory
+    mem_last, _ = call_memory(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1700, in _sg_call_memory_noop
+    return 0.0, func()
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 783, in __call__
+    exec(self.code, self.fake_main.__dict__)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/examples/13-attitude-2024/case3.py&quot;, line 11, in &lt;module&gt;
+    mrp.attitude_paper.run_inversion(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/mirage/papers/attitude_paper.py&quot;, line 337, in run_inversion
+    res = tater.direct_invert_attitude(
+  File &quot;/Users/liamrobinson/Documents/maintained-wip/rhotater/tater/handler.py&quot;, line 60, in direct_invert_attitude
+    x0 = initialize(
+  File &quot;/Users/liamrobinson/Documents/maintained-wip/rhotater/tater/handler.py&quot;, line 145, in initialize
+    load_finfo(obj_path)
+  File &quot;/Users/liamrobinson/Documents/maintained-wip/taichi-polyclip/ticlip/handler.py&quot;, line 42, in load_finfo
+    FINFOFIELD[i].vi = P3STRUCT(polygon=poly, k=num_verts)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/util.py&quot;, line 351, in wrapped
+    return func(*args, **kwargs)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/struct.py&quot;, line 591, in __getitem__
+    entries = {
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/struct.py&quot;, line 592, in &lt;dictcomp&gt;
+    k: v._host_access(self._pad_key(indices))[0] if isinstance(v, ScalarField) else v[indices]
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/util.py&quot;, line 351, in wrapped
+    return func(*args, **kwargs)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/struct.py&quot;, line 591, in __getitem__
+    entries = {
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/struct.py&quot;, line 592, in &lt;dictcomp&gt;
+    k: v._host_access(self._pad_key(indices))[0] if isinstance(v, ScalarField) else v[indices]
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/util.py&quot;, line 351, in wrapped
+    return func(*args, **kwargs)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/matrix.py&quot;, line 1367, in __getitem__
+    return Matrix([[_host_access[i * self.m + j] for j in range(self.m)] for i in range(self.n)])
+
+  warnings.warn(Fore.YELLOW + Style.BRIGHT + msg + Style.RESET_ALL, warning_type)
+/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/util.py:370: UserWarning: Taichi matrices/vectors with 16x3 &gt; 32 entries are not suggested. Matrices/vectors will be automatically unrolled at compile-time for performance. So the compilation time could be extremely long if the matrix size is too big. You may use a field to store a large matrix like this, e.g.:
+    x = ti.field(ti.f32, (16, 3)).
+ See https://docs.taichi-lang.org/docs/field#matrix-size for more details.
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/bin/sphinx-build&quot;, line 8, in &lt;module&gt;
+    sys.exit(main())
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/build.py&quot;, line 382, in main
+    return make_main(argv)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/build.py&quot;, line 217, in make_main
+    return make_mode.run_make_mode(argv[1:])
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/make_mode.py&quot;, line 176, in run_make_mode
+    return make.run_generic_build(args[0])
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/make_mode.py&quot;, line 164, in run_generic_build
+    return build_main(args + opts)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/build.py&quot;, line 332, in build_main
+    app = Sphinx(args.sourcedir, args.confdir, args.outputdir,
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/application.py&quot;, line 292, in __init__
+    self._init_builder()
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/application.py&quot;, line 366, in _init_builder
+    self.events.emit(&#39;builder-inited&#39;)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/events.py&quot;, line 100, in emit
+    results.append(listener.handler(self.app, *args))
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_gallery.py&quot;, line 787, in generate_gallery_rst
+    ) = generate_dir_rst(src_dir, target_dir, gallery_conf, seen_backrefs)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 598, in generate_dir_rst
+    results = parallel(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 599, in &lt;genexpr&gt;
+    p_fun(fname, target_dir, src_dir, gallery_conf) for fname in iterator
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1346, in generate_file_rst
+    output_blocks, time_elapsed = execute_script(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1164, in execute_script
+    execute_code_block(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1020, in execute_code_block
+    is_last_expr, mem_max = _exec_and_get_memory(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 858, in _exec_and_get_memory
+    mem_last, _ = call_memory(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1700, in _sg_call_memory_noop
+    return 0.0, func()
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 783, in __call__
+    exec(self.code, self.fake_main.__dict__)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/examples/13-attitude-2024/case3.py&quot;, line 11, in &lt;module&gt;
+    mrp.attitude_paper.run_inversion(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/mirage/papers/attitude_paper.py&quot;, line 337, in run_inversion
+    res = tater.direct_invert_attitude(
+  File &quot;/Users/liamrobinson/Documents/maintained-wip/rhotater/tater/handler.py&quot;, line 60, in direct_invert_attitude
+    x0 = initialize(
+  File &quot;/Users/liamrobinson/Documents/maintained-wip/rhotater/tater/handler.py&quot;, line 145, in initialize
+    load_finfo(obj_path)
+  File &quot;/Users/liamrobinson/Documents/maintained-wip/taichi-polyclip/ticlip/handler.py&quot;, line 43, in load_finfo
+    FINFOFIELD[i].fn = POINT3TYPE(*fn.astype(np.float32))
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/util.py&quot;, line 351, in wrapped
+    return func(*args, **kwargs)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/struct.py&quot;, line 591, in __getitem__
+    entries = {
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/struct.py&quot;, line 592, in &lt;dictcomp&gt;
+    k: v._host_access(self._pad_key(indices))[0] if isinstance(v, ScalarField) else v[indices]
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/util.py&quot;, line 351, in wrapped
+    return func(*args, **kwargs)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/struct.py&quot;, line 591, in __getitem__
+    entries = {
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/struct.py&quot;, line 592, in &lt;dictcomp&gt;
+    k: v._host_access(self._pad_key(indices))[0] if isinstance(v, ScalarField) else v[indices]
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/util.py&quot;, line 351, in wrapped
+    return func(*args, **kwargs)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/matrix.py&quot;, line 1367, in __getitem__
+    return Matrix([[_host_access[i * self.m + j] for j in range(self.m)] for i in range(self.n)])
+
+  warnings.warn(Fore.YELLOW + Style.BRIGHT + msg + Style.RESET_ALL, warning_type)
+/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/util.py:370: UserWarning: Taichi matrices/vectors with 16x3 &gt; 32 entries are not suggested. Matrices/vectors will be automatically unrolled at compile-time for performance. So the compilation time could be extremely long if the matrix size is too big. You may use a field to store a large matrix like this, e.g.:
+    x = ti.field(ti.f32, (16, 3)).
+ See https://docs.taichi-lang.org/docs/field#matrix-size for more details.
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/bin/sphinx-build&quot;, line 8, in &lt;module&gt;
+    sys.exit(main())
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/build.py&quot;, line 382, in main
+    return make_main(argv)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/build.py&quot;, line 217, in make_main
+    return make_mode.run_make_mode(argv[1:])
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/make_mode.py&quot;, line 176, in run_make_mode
+    return make.run_generic_build(args[0])
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/make_mode.py&quot;, line 164, in run_generic_build
+    return build_main(args + opts)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/build.py&quot;, line 332, in build_main
+    app = Sphinx(args.sourcedir, args.confdir, args.outputdir,
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/application.py&quot;, line 292, in __init__
+    self._init_builder()
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/application.py&quot;, line 366, in _init_builder
+    self.events.emit(&#39;builder-inited&#39;)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/events.py&quot;, line 100, in emit
+    results.append(listener.handler(self.app, *args))
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_gallery.py&quot;, line 787, in generate_gallery_rst
+    ) = generate_dir_rst(src_dir, target_dir, gallery_conf, seen_backrefs)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 598, in generate_dir_rst
+    results = parallel(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 599, in &lt;genexpr&gt;
+    p_fun(fname, target_dir, src_dir, gallery_conf) for fname in iterator
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1346, in generate_file_rst
+    output_blocks, time_elapsed = execute_script(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1164, in execute_script
+    execute_code_block(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1020, in execute_code_block
+    is_last_expr, mem_max = _exec_and_get_memory(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 858, in _exec_and_get_memory
+    mem_last, _ = call_memory(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1700, in _sg_call_memory_noop
+    return 0.0, func()
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 783, in __call__
+    exec(self.code, self.fake_main.__dict__)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/examples/13-attitude-2024/case3.py&quot;, line 11, in &lt;module&gt;
+    mrp.attitude_paper.run_inversion(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/mirage/papers/attitude_paper.py&quot;, line 337, in run_inversion
+    res = tater.direct_invert_attitude(
+  File &quot;/Users/liamrobinson/Documents/maintained-wip/rhotater/tater/handler.py&quot;, line 60, in direct_invert_attitude
+    x0 = initialize(
+  File &quot;/Users/liamrobinson/Documents/maintained-wip/rhotater/tater/handler.py&quot;, line 145, in initialize
+    load_finfo(obj_path)
+  File &quot;/Users/liamrobinson/Documents/maintained-wip/taichi-polyclip/ticlip/handler.py&quot;, line 44, in load_finfo
+    FINFOFIELD[i].fc = POINT3TYPE(*fc.astype(np.float32))
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/util.py&quot;, line 351, in wrapped
+    return func(*args, **kwargs)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/struct.py&quot;, line 591, in __getitem__
+    entries = {
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/struct.py&quot;, line 592, in &lt;dictcomp&gt;
+    k: v._host_access(self._pad_key(indices))[0] if isinstance(v, ScalarField) else v[indices]
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/util.py&quot;, line 351, in wrapped
+    return func(*args, **kwargs)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/struct.py&quot;, line 591, in __getitem__
+    entries = {
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/struct.py&quot;, line 592, in &lt;dictcomp&gt;
+    k: v._host_access(self._pad_key(indices))[0] if isinstance(v, ScalarField) else v[indices]
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/util.py&quot;, line 351, in wrapped
+    return func(*args, **kwargs)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/matrix.py&quot;, line 1367, in __getitem__
+    return Matrix([[_host_access[i * self.m + j] for j in range(self.m)] for i in range(self.n)])
+
+  warnings.warn(Fore.YELLOW + Style.BRIGHT + msg + Style.RESET_ALL, warning_type)
+/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/util.py:370: UserWarning: Taichi matrices/vectors with 16x3 &gt; 32 entries are not suggested. Matrices/vectors will be automatically unrolled at compile-time for performance. So the compilation time could be extremely long if the matrix size is too big. You may use a field to store a large matrix like this, e.g.:
+    x = ti.field(ti.f32, (16, 3)).
+ See https://docs.taichi-lang.org/docs/field#matrix-size for more details.
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/bin/sphinx-build&quot;, line 8, in &lt;module&gt;
+    sys.exit(main())
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/build.py&quot;, line 382, in main
+    return make_main(argv)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/build.py&quot;, line 217, in make_main
+    return make_mode.run_make_mode(argv[1:])
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/make_mode.py&quot;, line 176, in run_make_mode
+    return make.run_generic_build(args[0])
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/make_mode.py&quot;, line 164, in run_generic_build
+    return build_main(args + opts)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/cmd/build.py&quot;, line 332, in build_main
+    app = Sphinx(args.sourcedir, args.confdir, args.outputdir,
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/application.py&quot;, line 292, in __init__
+    self._init_builder()
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/application.py&quot;, line 366, in _init_builder
+    self.events.emit(&#39;builder-inited&#39;)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx/events.py&quot;, line 100, in emit
+    results.append(listener.handler(self.app, *args))
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_gallery.py&quot;, line 787, in generate_gallery_rst
+    ) = generate_dir_rst(src_dir, target_dir, gallery_conf, seen_backrefs)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 598, in generate_dir_rst
+    results = parallel(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 599, in &lt;genexpr&gt;
+    p_fun(fname, target_dir, src_dir, gallery_conf) for fname in iterator
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1346, in generate_file_rst
+    output_blocks, time_elapsed = execute_script(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1164, in execute_script
+    execute_code_block(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1020, in execute_code_block
+    is_last_expr, mem_max = _exec_and_get_memory(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 858, in _exec_and_get_memory
+    mem_last, _ = call_memory(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 1700, in _sg_call_memory_noop
+    return 0.0, func()
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/sphinx_gallery/gen_rst.py&quot;, line 783, in __call__
+    exec(self.code, self.fake_main.__dict__)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/examples/13-attitude-2024/case3.py&quot;, line 11, in &lt;module&gt;
+    mrp.attitude_paper.run_inversion(
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/mirage/papers/attitude_paper.py&quot;, line 337, in run_inversion
+    res = tater.direct_invert_attitude(
+  File &quot;/Users/liamrobinson/Documents/maintained-wip/rhotater/tater/handler.py&quot;, line 60, in direct_invert_attitude
+    x0 = initialize(
+  File &quot;/Users/liamrobinson/Documents/maintained-wip/rhotater/tater/handler.py&quot;, line 145, in initialize
+    load_finfo(obj_path)
+  File &quot;/Users/liamrobinson/Documents/maintained-wip/taichi-polyclip/ticlip/handler.py&quot;, line 45, in load_finfo
+    FINFOFIELD[i].a = _poly_area_r3(vi)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/util.py&quot;, line 351, in wrapped
+    return func(*args, **kwargs)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/struct.py&quot;, line 591, in __getitem__
+    entries = {
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/struct.py&quot;, line 592, in &lt;dictcomp&gt;
+    k: v._host_access(self._pad_key(indices))[0] if isinstance(v, ScalarField) else v[indices]
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/util.py&quot;, line 351, in wrapped
+    return func(*args, **kwargs)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/struct.py&quot;, line 591, in __getitem__
+    entries = {
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/struct.py&quot;, line 592, in &lt;dictcomp&gt;
+    k: v._host_access(self._pad_key(indices))[0] if isinstance(v, ScalarField) else v[indices]
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/util.py&quot;, line 351, in wrapped
+    return func(*args, **kwargs)
+  File &quot;/Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.11/site-packages/taichi/lang/matrix.py&quot;, line 1367, in __getitem__
+    return Matrix([[_host_access[i * self.m + j] for j in range(self.m)] for i in range(self.n)])
+
+  warnings.warn(Fore.YELLOW + Style.BRIGHT + msg + Style.RESET_ALL, warning_type)
+Reading /Users/liamrobinson/Documents/maintained-research/mirage-models/accurate_sats/spacelib.mtl
+shape: (10_000, 11)
+┌───────┬─────────────┬─────────────────┬─────────────────┬───┬───────┬─────────────────┬────────────────┬────────────────┐
+│ index ┆ fun         ┆ xk              ┆ x0              ┆ … ┆ geval ┆ gradient        ┆ hessian_invers ┆ lcs            │
+│ ---   ┆ ---         ┆ ---             ┆ ---             ┆   ┆ ---   ┆ ---             ┆ e              ┆ ---            │
+│ u32   ┆ f32         ┆ array[f32, 6]   ┆ array[f32, 6]   ┆   ┆ i32   ┆ array[f32, 6]   ┆ ---            ┆ array[f32, 30] │
+│       ┆             ┆                 ┆                 ┆   ┆       ┆                 ┆ array[f32, (6, ┆                │
+│       ┆             ┆                 ┆                 ┆   ┆       ┆                 ┆ 6)]            ┆                │
+╞═══════╪═════════════╪═════════════════╪═════════════════╪═══╪═══════╪═════════════════╪════════════════╪════════════════╡
+│ 3095  ┆ 347.913635  ┆ [0.289738,      ┆ [0.441198,      ┆ … ┆ 37    ┆ [653.076172,    ┆ [[0.000007,    ┆ [0.590834,     │
+│       ┆             ┆ -0.490009, …    ┆ -0.317293, …    ┆   ┆       ┆ 1104.736328, …  ┆ -3.2313e-7, …  ┆ 0.296446, …    │
+│       ┆             ┆ -6.597…         ┆ -5.228…         ┆   ┆       ┆ 30…             ┆ 0.00…          ┆ 0.46331…       │
+│ 6133  ┆ 349.569092  ┆ [-0.410908,     ┆ [0.119403,      ┆ … ┆ 74    ┆ [213.623047,    ┆ [[0.000025,    ┆ [0.515665,     │
+│       ┆             ┆ 0.934487, …     ┆ 0.469281, …     ┆   ┆       ┆ -192.260742, …  ┆ -0.000131, …   ┆ 0.396683, …    │
+│       ┆             ┆ 3.1358…         ┆ 5.32847…        ┆   ┆       ┆ 14…             ┆ 0.000…         ┆ 0.52957…       │
+│ 3617  ┆ 370.237335  ┆ [-0.414243,     ┆ [0.092692,      ┆ … ┆ 86    ┆ [85.449219,     ┆ [[0.000002,    ┆ [0.563432,     │
+│       ┆             ┆ 0.973973, …     ┆ -0.351074, …    ┆   ┆       ┆ -955.200195, …  ┆ 0.000005, …    ┆ 0.423474, …    │
+│       ┆             ┆ 3.0322…         ┆ 3.1840…         ┆   ┆       ┆ -21…            ┆ -0.000…        ┆ 0.54971…       │
+│ 9623  ┆ 373.9664    ┆ [0.811325,      ┆ [0.687332,      ┆ … ┆ 72    ┆ [-439.453125,   ┆ [[0.000003,    ┆ [0.489978,     │
+│       ┆             ┆ -0.053597, …    ┆ -0.451025, …    ┆   ┆       ┆ 619.506836, …   ┆ 5.3973e-7, …   ┆ 0.406448, …    │
+│       ┆             ┆ 3.1831…         ┆ 3.8335…         ┆   ┆       ┆ -3…             ┆ 4.639…         ┆ 0.48860…       │
+│ 3107  ┆ 384.683838  ┆ [0.326015,      ┆ [0.277769,      ┆ … ┆ 59    ┆ [1535.03418,    ┆ [[1.7295e-7,   ┆ [0.54644,      │
+│       ┆             ┆ -0.170149, …    ┆ -0.162702, …    ┆   ┆       ┆ -1129.150391, … ┆ 2.5010e-7, …   ┆ 0.385721, …    │
+│       ┆             ┆ 2.3380…         ┆ 11.487…         ┆   ┆       ┆ -…              ┆ 0.00…          ┆ 0.564082…      │
+│ …     ┆ …           ┆ …               ┆ …               ┆ … ┆ …     ┆ …               ┆ …              ┆ …              │
+│ 7119  ┆ 580286.625  ┆ [0.845663,      ┆ [0.599047,      ┆ … ┆ 11    ┆ [310937.5,      ┆ [[11.327097,   ┆ [0.750685,     │
+│       ┆             ┆ -0.06379, …     ┆ 0.01091, …      ┆   ┆       ┆ -1.4953e6, …    ┆ 7.776643, …    ┆ 2.775018, …    │
+│       ┆             ┆ -1.7881…        ┆ -1.79494…       ┆   ┆       ┆ 165625…         ┆ -0.81…         ┆ 0.0]           │
+│ 6156  ┆ 657540.5625 ┆ [1.109869,      ┆ [0.458515,      ┆ … ┆ 21    ┆ [-350000.0,     ┆ [[0.444553,    ┆ [1.697527,     │
+│       ┆             ┆ 0.328414, …     ┆ -0.158559, …    ┆   ┆       ┆ -181250.0, …    ┆ -0.125848, …   ┆ 0.0, …         │
+│       ┆             ┆ -3.7888…        ┆ -3.927…         ┆   ┆       ┆ -3750…          ┆ 0.130…         ┆ 2.80264]       │
+│ 2330  ┆ 834294.625  ┆ [0.047888,      ┆ [0.135106,      ┆ … ┆ 19    ┆ [-793750.0,     ┆ [[1.8965e-7,   ┆ [2.16787,      │
+│       ┆             ┆ -0.463102, …    ┆ -0.220493, …    ┆   ┆       ┆ -431250.0, …    ┆ -1.8275e-7, …  ┆ 2.120725, …    │
+│       ┆             ┆ 6.4084…         ┆ 6.5115…         ┆   ┆       ┆ 43750…          ┆ -9.…           ┆ 2.357633…      │
+│ 3434  ┆ 1.0459e6    ┆ [-0.499265,     ┆ [0.180974,      ┆ … ┆ 11    ┆ [195.3125, 0.0, ┆ [[0.546408,    ┆ [0.0, 0.0, …   │
+│       ┆             ┆ -0.270643, …    ┆ 0.472841, …     ┆   ┆       ┆ … 48.828125]    ┆ -0.49578, …    ┆ 0.0]           │
+│       ┆             ┆ 6.681…          ┆ 6.71888…        ┆   ┆       ┆                 ┆ -0.024…        ┆                │
+│ 2943  ┆ 1140541.5   ┆ [-0.127833,     ┆ [0.267186,      ┆ … ┆ 17    ┆ [-550000.0,     ┆ [[1.661083,    ┆ [4.771232,     │
+│       ┆             ┆ 0.675164, …     ┆ -0.247681, …    ┆   ┆       ┆ 487500.0, …     ┆ 0.882064, …    ┆ 3.463768, …    │
+│       ┆             ┆ 10.690…         ┆ 10.804…         ┆   ┆       ┆ 250000…         ┆ -1.050…        ┆ 5.39947…       │
+└───────┴─────────────┴─────────────────┴─────────────────┴───┴───────┴─────────────────┴────────────────┴────────────────┘
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">mirage.papers</span> <span class="k">as</span> <span class="nn">mrp</span>
+
+<span class="n">input_path</span> <span class="o">=</span> <span class="s1">&#39;/Users/liamrobinson/Documents/maintained-research/mirage/examples/13-attitude-2024/data/box_wing_input.parquet&#39;</span>
+<span class="n">output_path</span> <span class="o">=</span> <span class="s1">&#39;/Users/liamrobinson/Documents/maintained-research/mirage/examples/13-attitude-2024/data/box-wing-known-itensor-out.parquet&#39;</span>
+
+<span class="n">mrp</span><span class="o">.</span><span class="n">attitude_paper</span><span class="o">.</span><span class="n">run_inversion</span><span class="p">(</span>
+    <span class="n">input_path</span><span class="p">,</span>
+    <span class="n">output_path</span><span class="p">,</span>
+    <span class="n">n_particles</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e4</span><span class="p">),</span>
+    <span class="n">dimx</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+    <span class="n">loss_function</span><span class="o">=</span><span class="s1">&#39;log-likelihood&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (1 minutes 18.180 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-13-attitude-2024-case3-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/b347f6dda3396c30f7de765a15425365/case3.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">case3.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/af9be0d5865e2f4187d818e8b00f24b0/case3.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">case3.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/81be706c139bb84dffc00b7c7375da3d/case3.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">case3.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023-2025, Liam Robinson.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.0.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -32,14 +32,16 @@ print(
     f'A magnitude 8 star produces on average {total_star_counts:.2e} counts per second'
 )
 
+r_sph_meter = 3
 irrad_sphere = (
-    mr.normalized_light_curve_sphere(
-        cd_sphere=1.0, r_sphere_m=10, phase_angle_rad=np.pi / 2
+    mr.AstroConstants.sun_irradiance_vacuum
+    * mr.normalized_light_curve_sphere(
+        cd_sphere=0.5, r_sphere_m=r_sph_meter, phase_angle_rad=np.pi / 2
     )
     / (40e6) ** 2
 )
 print(
-    f'A 10-meter diffuse sphere in GEO produces on average {irrad_sphere*sint_val:.2e} counts per second'
+    f'A {r_sph_meter}-meter diffuse sphere in GEO produces on average {irrad_sphere*sint_val:.2e} counts per second'
 )
 
 # %%

@@ -23,7 +23,7 @@ Closest Average Random Nearest Neighbor
 
 Using a method from :cite:`bhattacharyya2003` to find the mean distance to the kth nearest neighbor for uniformly scattered points in n-dimensions
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-61
+.. GENERATED FROM PYTHON SOURCE LINES 7-62
 
 
 
@@ -50,25 +50,25 @@ Using a method from :cite:`bhattacharyya2003` to find the mean distance to the k
  .. code-block:: none
 
     expect: 0.009375
-    got: 0.005081
+    got: 0.005037
     expect: 0.04
-    got: 0.02601
+    got: 0.02616
     expect: 0.08552
-    got: 0.0629
+    got: 0.06297
     expect: 0.1378
-    got: 0.1098
+    got: 0.1091
     expect: 0.1921
-    got: 0.1619
+    got: 0.1623
     expect: 0.2462
-    got: 0.2173
+    got: 0.2172
     expect: 0.2988
-    got: 0.2751
+    got: 0.275
     expect: 0.3496
-    got: 0.3316
+    got: 0.331
     expect: 0.3984
-    got: 0.3885
+    got: 0.3874
     expect: 0.4451
-    got: 0.4434
+    got: 0.4444
 
 
 
@@ -82,7 +82,6 @@ Using a method from :cite:`bhattacharyya2003` to find the mean distance to the k
 
     import matplotlib.pyplot as plt
     import numpy as np
-    from scipy.special import gamma
     from sklearn.neighbors import BallTree
 
     import mirage as mr
@@ -96,6 +95,8 @@ Using a method from :cite:`bhattacharyya2003` to find the mean distance to the k
     def uniform_pts_expected_distance_to_nn(
         d: np.ndarray, n: np.ndarray, k: np.ndarray
     ) -> np.ndarray:
+        from scipy.special import gamma
+
         t1 = gamma(d / 2 + 1) ** (1 / d) / np.pi**0.5
         t2 = gamma(k + 1 / d) / gamma(k)
         t3 = (1 / n) ** (1 / d)
@@ -137,7 +138,7 @@ Using a method from :cite:`bhattacharyya2003` to find the mean distance to the k
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 3.099 seconds)
+   **Total running time of the script:** (0 minutes 3.195 seconds)
 
 
 .. _sphx_glr_download_gallery_10-utility_random_nn_mean.py:

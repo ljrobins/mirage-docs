@@ -2,7 +2,7 @@
 Subframes
 =========
 
-Displaying subframes of object signals, complete with their
+Computing and plotting calibration subframes (dark, bias, flat) for POGS. Also calibrates the star signal response.
 """
 
 import os
@@ -95,7 +95,6 @@ def calibration_df(
             'catalog_ind': inds.flatten(),
         }
     ).drop_nulls()
-    print(df)
 
     df = df.with_columns(file_path=[impath] * df.height)
     return df.unique(subset='catalog_ind', keep='none')
@@ -106,23 +105,6 @@ station = mr.Station()
 
 def calibrate_flat(flats_dir: str) -> np.ndarray:
     flats_paths = [os.path.join(flats_dir, f) for f in os.listdir(flats_dir)[:10]]
-
-    # info = mr.info_from_fits(flats_paths[0], telescope=station.telescope, minimal=True)
-    # flat = info['ccd_adu']
-    # flat_sub, background_map, br_mask, background_std = mrp.background_subtract(
-    #     flat, reduction_factor=2
-    # )
-
-    # win_mean = ndimage.uniform_filter(flat_sub, (20,20))
-    # win_sqr_mean = ndimage.uniform_filter(flat_sub**2, (20,20))
-    # win_var = win_sqr_mean - win_mean**2
-
-    # gain = (flat-1010) / win_var
-    # # plt.imshow(i)
-    # # plt.clim(np.percentile(i, [0,90]))
-    # plt.hist(gain.flatten(), bins=np.linspace(0,2,100), density=True)
-    # plt.show()
-    # endd
 
     flats = []
     for flat_path in flats_paths:
@@ -166,17 +148,19 @@ def calibrate_bias(bias_dir: str) -> tuple[np.ndarray, float]:
 
 
 median_bias, read_noise_std = calibrate_bias(
-    '/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/pogs/2024_11_12/biases'
+    '/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/pogs/2024/2024_11_12/biases'
 )
 print(f'Read noise standard deviation (ADU/pixel) {read_noise_std:.2f}')
 median_dark, dark_noise_lambda = calibrate_dark(
-    '/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/pogs/2024_11_12/darks',
+    '/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/pogs/2024/2024_11_12/darks',
     median_bias,
 )
 print(f'Dark noise mean (ADU / pixel / second) {dark_noise_lambda:.2f}')
 median_flat = calibrate_flat(
-    '/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/pogs/2024_11_12/flats'
+    '/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/pogs/2024/2024_11_12/flats'
 )
+
+np.save(os.path.join(os.environ['DATADIR'], 'pogs_flat.nogit.npy'), median_flat)
 
 plt.figure(figsize=(12, 4))
 plt.subplot(1, 3, 1)
@@ -200,7 +184,7 @@ plt.title('Median Flat')
 plt.xlabel('x pixels')
 plt.ylabel('y pixels')
 plt.tight_layout()
-# plt.show()
+plt.show()
 
 catalog = mr.GaiaSpectralStarCatalog(station)
 
@@ -263,8 +247,3 @@ plt.ylabel('Source count')
 plt.grid()
 plt.tight_layout()
 plt.show()
-
-# px, py = station.telescope.j2000_unit_vectors_to_pixels(
-#     look_dir_eci, up_dir_eci, uvs, add_distortion=True
-# )
-# plt.scatter(px, py)

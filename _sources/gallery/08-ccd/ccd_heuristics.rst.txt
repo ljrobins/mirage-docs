@@ -51,7 +51,7 @@ Examples to develop a better intuition for CCD counts from known sources
 
  .. code-block:: none
 
-    For a telescope pointed towards zenith of 22 MPSAS sky, each pixel counts on average 1.21 per second
+    For a telescope pointed towards zenith of 22 MPSAS sky, each pixel counts on average 1.61 per second
 
 
 
@@ -60,7 +60,7 @@ Examples to develop a better intuition for CCD counts from known sources
 
 We can also look at counts due to point sources. Note that these sources are actually spread across a few pixels, so the values are actually much lower on the CCD
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-45
+.. GENERATED FROM PYTHON SOURCE LINES 25-47
 
 .. code-block:: Python
 
@@ -74,14 +74,16 @@ We can also look at counts due to point sources. Note that these sources are act
         f'A magnitude 8 star produces on average {total_star_counts:.2e} counts per second'
     )
 
+    r_sph_meter = 3
     irrad_sphere = (
-        mr.normalized_light_curve_sphere(
-            cd_sphere=1.0, r_sphere_m=10, phase_angle_rad=np.pi / 2
+        mr.AstroConstants.sun_irradiance_vacuum
+        * mr.normalized_light_curve_sphere(
+            cd_sphere=0.5, r_sphere_m=r_sph_meter, phase_angle_rad=np.pi / 2
         )
         / (40e6) ** 2
     )
     print(
-        f'A 10-meter diffuse sphere in GEO produces on average {irrad_sphere*sint_val:.2e} counts per second'
+        f'A {r_sph_meter}-meter diffuse sphere in GEO produces on average {irrad_sphere*sint_val:.2e} counts per second'
     )
 
 
@@ -92,18 +94,18 @@ We can also look at counts due to point sources. Note that these sources are act
 
  .. code-block:: none
 
-    A magnitude 16 star produces on average 5.76e+02 counts per second
-    A magnitude 8 star produces on average 9.13e+05 counts per second
-    A 10-meter diffuse sphere in GEO produces on average 7.62e+02 counts per second
+    A magnitude 16 star produces on average 7.67e+02 counts per second
+    A magnitude 8 star produces on average 1.22e+06 counts per second
+    A 3-meter diffuse sphere in GEO produces on average 6.22e+04 counts per second
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-47
+.. GENERATED FROM PYTHON SOURCE LINES 48-49
 
 The size in square pixels of a large GEO satellite when observed from the surface of the Earth by POGS
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-71
+.. GENERATED FROM PYTHON SOURCE LINES 49-73
 
 .. code-block:: Python
 
@@ -145,11 +147,11 @@ The size in square pixels of a large GEO satellite when observed from the surfac
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 72-73
+.. GENERATED FROM PYTHON SOURCE LINES 74-75
 
 Airy disk size for GEO objects
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-84
+.. GENERATED FROM PYTHON SOURCE LINES 75-86
 
 .. code-block:: Python
 
@@ -181,7 +183,7 @@ Airy disk size for GEO objects
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.006 seconds)
+   **Total running time of the script:** (0 minutes 0.007 seconds)
 
 
 .. _sphx_glr_download_gallery_08-ccd_ccd_heuristics.py:

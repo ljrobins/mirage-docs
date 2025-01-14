@@ -92,6 +92,7 @@ def show_scene(epsec: float, integration_time_s: float):
     lc_sphere = (
         mr.normalized_light_curve_sphere(1, 1, phase_angle_rad)
         / (1e3 * obs_to_obj_rmag) ** 2
+        * mr.AstroConstants.sun_irradiance_vacuum
     )
 
     constraint_satisfaction = station.eval_constraints(

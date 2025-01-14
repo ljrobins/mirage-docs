@@ -29,10 +29,10 @@ class Material:
                 f'newmtl {self.name}',
                 'Ns 250.000000',
                 'Ka 1.000000 1.000000 1.000000',
-                f'Kd {self.cd:.6f} {self.cs:.6f} {self.n / 255.0:.6f}',
+                f'Kd {self.cd:.6f} {self.cs:.6f} {self.n / 1000.0:.6f}',
                 'Ks 0.500000 0.500000 0.500000',
                 'Ke 0.000000 0.000000 0.000000',
-                'Ni 1.450000',
+                f'Ni {self.n:.6f}',
                 'd 1.000000',
                 'illum 2\n',
             ]
@@ -96,7 +96,7 @@ def write_obj_file(obj: mr.SpaceObject, materials: list[Material]) -> None:
 mr.set_model_directory(
     '/Users/liamrobinson/Documents/maintained-research/mirage-models/accurate_sats'
 )
-obj = mr.SpaceObject('gps_iii.obj')
+obj = mr.SpaceObject('saturn_v_sii.obj')
 tree = KDTree(obj._mesh.points)
 point_material_selected = np.nan * np.zeros_like(obj._mesh.points[:, 0])
 cell_material_selected = np.nan * np.zeros_like(obj.f[:, 0])
@@ -106,9 +106,10 @@ other_materials = [
     Material('ocean_water', 0.48, 0.08, 16.45),
 ]
 materials = [
-    Material('aluminum', 0.4, 0.6, 5, 'slategrey'),
-    Material('mli', 0.1, 0.9, 20, 'gold'),
-    Material('solar_panel', 0.4, 0.6, 10, 'darkblue'),
+    Material('aluminum', 0.2, 0.6, 5, 'slategrey'),
+    Material('white_paint', 0.9, 0.1, 1, 'slategrey'),
+    Material('mli', 0.05, 0.8, 20, 'gold'),
+    Material('solar_panel', 0.15, 0.25, 10, 'darkblue'),
     Material('starlink_chassis', 0.34, 0.40, 8.9, 'grey'),
     Material('starlink_panel', 0.15, 0.25, 0.26, 'blue'),
 ]

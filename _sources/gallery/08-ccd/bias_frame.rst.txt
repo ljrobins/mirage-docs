@@ -23,7 +23,7 @@ Bias Frames
 
 Characterizing the background bias of the POGS CCD
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-100
+.. GENERATED FROM PYTHON SOURCE LINES 7-104
 
 
 
@@ -69,6 +69,8 @@ Characterizing the background bias of the POGS CCD
         if (('-20' in x or '_temp_' not in x) and 'bias' in x.lower())
     ]
 
+    region = [slice(200, 400), slice(200, 400)]
+
     means = []
     vars = []
     dates = []
@@ -95,7 +97,9 @@ Characterizing the background bias of the POGS CCD
             data = hdul[0].data
             temps.append(hdul[0].header['SET-TEMP'])
 
-        dataf = data.flatten()
+        # plt.imshow(data[region[0], region[1]])
+        # plt.show()
+        dataf = data[region[0], region[1]].flatten()
         hot_pixels = dataf > roi[1]
         dead_pixels = dataf < roi[0]
         is_ok = ~hot_pixels & ~dead_pixels
@@ -147,7 +151,7 @@ Characterizing the background bias of the POGS CCD
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 4.071 seconds)
+   **Total running time of the script:** (0 minutes 1.862 seconds)
 
 
 .. _sphx_glr_download_gallery_08-ccd_bias_frame.py:

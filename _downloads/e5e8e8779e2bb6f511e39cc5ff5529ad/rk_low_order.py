@@ -91,13 +91,13 @@ def integrate(x0: np.ndarray, h: float, intensor: np.ndarray, ntimes: int, metho
 
 
 if __name__ == '__main__':
-    h = 0.1
-    ntimes = 100
+    h = 0.06666
+    ntimes = 40
     teval = np.linspace(0, h * ntimes, ntimes)
 
-    itensor = np.array([1.0, 2.0, 3.0])
+    itensor = np.array([1.0, 2.9, 3.0])
     s0 = np.array([1.0, 1.0, 1.0])
-    w0 = np.array([1.0, 4.0, 2.0])
+    w0 = np.array([2.0, 2.0, 2.0])
     q0 = mr.mrp_to_quat(s0)
     x0 = np.concatenate((s0, w0))
 
@@ -116,6 +116,9 @@ if __name__ == '__main__':
     )
     mr.toc()
     qf_rk45 = q_of_t[-1, :]
+
+    # mrv.vis_attitude_motion(mr.SpaceObject('box_wing.obj'), q_of_t, framerate=10)
+    # enddd
 
     ang_deg = np.rad2deg(mr.quat_ang(qf_rk45, qf_rk2))
     print(f'RK2 is {ang_deg:.2e} deg from RK45 in {dt2:.1e} sec')
