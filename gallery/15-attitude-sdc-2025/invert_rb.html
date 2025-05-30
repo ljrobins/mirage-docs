@@ -1,0 +1,737 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Inversion Cases &#8212; MIRAGE  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=98d29b3f" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gallery/15-attitude-sdc-2025/invert_rb';</script>
+    <link rel="icon" href="../../_static/sid_logo_dark.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/sid_logo_light.png" class="logo__image only-light" alt=""/>
+    <script>document.write(`<img src="../../_static/sid_logo_dark.png" class="logo__image only-dark" alt=""/>`);</script>
+  
+  
+    <p class="title logo__title">MIRAGE</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../modules.html">
+    mirage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../index.html">
+    Examples Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../modules.html">
+    mirage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../index.html">
+    Examples Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Inversion Cases</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-gallery-15-attitude-sdc-2025-invert-rb-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="inversion-cases">
+<span id="sphx-glr-gallery-15-attitude-sdc-2025-invert-rb-py"></span><h1>Inversion Cases<a class="headerlink" href="#inversion-cases" title="Link to this heading">#</a></h1>
+<p>Running the attitude inversion for the chosen cases.</p>
+<img src="../../_images/sphx_glr_invert_rb_001.png" srcset="../../_images/sphx_glr_invert_rb_001.png, ../../_images/sphx_glr_invert_rb_001_2_00x.png 2.00x" alt="Light Curve for 1984-115C" class = "sphx-glr-single-img"/><img src="../../_images/sphx_glr_invert_rb_002.png" srcset="../../_images/sphx_glr_invert_rb_002.png" alt="invert rb" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>shape: (100, 7)
+┌───────────┬───────────────────┬──────────────┬──────────────────┬──────────────┬──────────┬────────┐
+│ obs_index ┆ start_date_utc    ┆ exp_time_us  ┆ fits_file        ┆ norad_cat_id ┆ flux_adu ┆ epsecs │
+│ ---       ┆ ---               ┆ ---          ┆ ---              ┆ ---          ┆ ---      ┆ ---    │
+│ u32       ┆ datetime[μs, UTC] ┆ duration[μs] ┆ str              ┆ i64          ┆ f64      ┆ f64    │
+╞═══════════╪═══════════════════╪══════════════╪══════════════════╪══════════════╪══════════╪════════╡
+│ 0         ┆ 2025-02-19        ┆ 5s           ┆ 00013630.0_DELTA ┆ 15402        ┆ 2798.5   ┆ 0.0    │
+│           ┆ 05:35:03.000002   ┆              ┆ _1_R_B_2__#154…  ┆              ┆          ┆        │
+│           ┆ UTC               ┆              ┆                  ┆              ┆          ┆        │
+│ 1         ┆ 2025-02-19        ┆ 5s           ┆ 00013631.0_DELTA ┆ 15402        ┆ 4687.0   ┆ 6.0    │
+│           ┆ 05:35:09.000002   ┆              ┆ _1_R_B_2__#154…  ┆              ┆          ┆        │
+│           ┆ UTC               ┆              ┆                  ┆              ┆          ┆        │
+│ 2         ┆ 2025-02-19        ┆ 5s           ┆ 00013632.0_DELTA ┆ 15402        ┆ 3599.5   ┆ 13.0   │
+│           ┆ 05:35:16.000002   ┆              ┆ _1_R_B_2__#154…  ┆              ┆          ┆        │
+│           ┆ UTC               ┆              ┆                  ┆              ┆          ┆        │
+│ 3         ┆ 2025-02-19        ┆ 5s           ┆ 00013633.0_DELTA ┆ 15402        ┆ 3189.0   ┆ 19.0   │
+│           ┆ 05:35:22.000002   ┆              ┆ _1_R_B_2__#154…  ┆              ┆          ┆        │
+│           ┆ UTC               ┆              ┆                  ┆              ┆          ┆        │
+│ 4         ┆ 2025-02-19        ┆ 5s           ┆ 00013634.0_DELTA ┆ 15402        ┆ 4275.0   ┆ 26.0   │
+│           ┆ 05:35:29.000002   ┆              ┆ _1_R_B_2__#154…  ┆              ┆          ┆        │
+│           ┆ UTC               ┆              ┆                  ┆              ┆          ┆        │
+│ …         ┆ …                 ┆ …            ┆ …                ┆ …            ┆ …        ┆ …      │
+│ 95        ┆ 2025-02-19        ┆ 5s           ┆ 00013725.0_DELTA ┆ 15402        ┆ 1400.0   ┆ 631.0  │
+│           ┆ 05:45:34.000002   ┆              ┆ _1_R_B_2__#154…  ┆              ┆          ┆        │
+│           ┆ UTC               ┆              ┆                  ┆              ┆          ┆        │
+│ 96        ┆ 2025-02-19        ┆ 5s           ┆ 00013726.0_DELTA ┆ 15402        ┆ 558.0    ┆ 638.0  │
+│           ┆ 05:45:41.000002   ┆              ┆ _1_R_B_2__#154…  ┆              ┆          ┆        │
+│           ┆ UTC               ┆              ┆                  ┆              ┆          ┆        │
+│ 97        ┆ 2025-02-19        ┆ 5s           ┆ 00013727.0_DELTA ┆ 15402        ┆ 1396.5   ┆ 644.0  │
+│           ┆ 05:45:47.000002   ┆              ┆ _1_R_B_2__#154…  ┆              ┆          ┆        │
+│           ┆ UTC               ┆              ┆                  ┆              ┆          ┆        │
+│ 98        ┆ 2025-02-19        ┆ 5s           ┆ 00013728.0_DELTA ┆ 15402        ┆ 2718.0   ┆ 651.0  │
+│           ┆ 05:45:54.000002   ┆              ┆ _1_R_B_2__#154…  ┆              ┆          ┆        │
+│           ┆ UTC               ┆              ┆                  ┆              ┆          ┆        │
+│ 99        ┆ 2025-02-19        ┆ 5s           ┆ 00013729.0_DELTA ┆ 15402        ┆ 4968.5   ┆ 658.0  │
+│           ┆ 05:46:01.000002   ┆              ┆ _1_R_B_2__#154…  ┆              ┆          ┆        │
+│           ┆ UTC               ┆              ┆                  ┆              ┆          ┆        │
+└───────────┴───────────────────┴──────────────┴──────────────────┴──────────────┴──────────┴────────┘
+16.2613092375 27.909147118749996
+1.7162915181754899 1.7162915181754899
+87752.33035026159
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">polars</span> <span class="k">as</span> <span class="nn">pl</span>
+<span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
+
+<span class="kn">import</span> <span class="nn">mirage.vis</span> <span class="k">as</span> <span class="nn">mrv</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;/Users/liamrobinson/Documents/maintained-wip/taichi-polyclip&#39;</span><span class="p">)</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;/Users/liamrobinson/Documents/maintained-wip/rhotater&#39;</span><span class="p">)</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;/Users/liamrobinson/Documents/maintained-public/tibfgs&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">mirage</span> <span class="k">as</span> <span class="nn">mr</span>
+
+<span class="c1"># def run_inversion(</span>
+<span class="c1">#     input_path: str,</span>
+<span class="c1">#     output_path: str,</span>
+<span class="c1">#     n_particles: int,</span>
+<span class="c1">#     loss_function: str,</span>
+<span class="c1">#     self_shadowing: bool,</span>
+<span class="c1">#     sigma_i: float,</span>
+<span class="c1"># ):</span>
+<span class="c1">#     state0 = np.array(df[&#39;state0&#39;].to_list())[0, :]</span>
+<span class="c1">#     w0mag = np.linalg.norm(state0[3:6])</span>
+
+<span class="c1">#     q0 = rand_quaternions(n_particles)</span>
+<span class="c1">#     s0 = quat_to_mrp(q0)</span>
+<span class="c1">#     w0 = rand_points_in_ball(1.5 * w0mag, n_particles)</span>
+<span class="c1">#     iy = np.random.normal(state0[-2], sigma_i, size=n_particles)</span>
+<span class="c1">#     iz = np.random.normal(state0[-1], sigma_i, size=n_particles)</span>
+<span class="c1">#     x0 = np.vstack((s0.T, w0.T, iy, iz)).T</span>
+
+<span class="c1">#     sigma_obs = df[&#39;sigma_obs_norm&#39;].to_numpy()</span>
+<span class="c1">#     lc_obs = df[&#39;flux_adu&#39;].to_numpy()</span>
+
+<span class="c1">#     svi = np.array(df[&#39;svi&#39;].to_list())</span>
+<span class="c1">#     epsecs = df[&#39;epsecs&#39;].to_numpy()</span>
+
+<span class="c1">#     ovi = np.array(df[&#39;ovi&#39;].to_list())</span>
+<span class="c1">#     obj_path = df[&#39;simple_model&#39;][0]</span>
+
+<span class="c1">#     ti.init(</span>
+<span class="c1">#         arch=ti.cpu,</span>
+<span class="c1">#         cfg_optimization=False,</span>
+<span class="c1">#         opt_level=1,</span>
+<span class="c1">#         fast_math=False,</span>
+<span class="c1">#         advanced_optimization=False,</span>
+<span class="c1">#         unrolling_limit=0,</span>
+<span class="c1">#     )</span>
+
+<span class="c1">#     tic(f&#39;Ran inversion with {n_particles} particles...&#39;)</span>
+<span class="c1">#     res = tater.direct_invert_attitude(</span>
+<span class="c1">#         svi,</span>
+<span class="c1">#         ovi,</span>
+<span class="c1">#         epsecs,</span>
+<span class="c1">#         lc_obs,</span>
+<span class="c1">#         x0,</span>
+<span class="c1">#         obj_file_path=obj_path,</span>
+<span class="c1">#         self_shadowing=self_shadowing,</span>
+<span class="c1">#         loss_function=loss_function,</span>
+<span class="c1">#         sigma_obs=sigma_obs,</span>
+<span class="c1">#     )</span>
+<span class="c1">#     res.write_parquet(output_path)</span>
+<span class="c1">#     ti.profiler.print_scoped_profiler_info()</span>
+<span class="c1">#     print(res)</span>
+<span class="c1">#     toc()</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span>
+        <span class="s1">&#39;/Users/liamrobinson/Documents/maintained-research/mirage/data/2025-02-19-DELTA_1_R_B_2-15402-00013630.parquet&#39;</span>
+    <span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;start_date_utc&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;start_date_utc&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">total_microseconds</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">fill_null</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">cum_sum</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;epsecs&#39;</span><span class="p">)</span>
+        <span class="o">/</span> <span class="mf">1e6</span>
+    <span class="p">)</span>
+    <span class="n">epsecs</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;epsecs&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">ides</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">satdef_from_identifier</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;norad_cat_id&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">ides</span>
+
+    <span class="n">obj</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">SpaceObject</span><span class="p">(</span>
+        <span class="s1">&#39;/Users/liamrobinson/Documents/maintained-research/mirage/examples/15-attitude-sdc-2025/star37e.obj&#39;</span><span class="p">,</span>
+        <span class="n">identifier</span><span class="o">=</span><span class="n">ides</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">station</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">Station</span><span class="p">()</span>
+
+    <span class="n">dates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;start_date_utc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">())</span>
+    <span class="n">integration_time_s</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;exp_time_us&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span>
+    <span class="c1"># integration_time_s = 0.1</span>
+
+    <span class="n">r_obj</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">propagate</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
+    <span class="n">r_obs</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">j2000_at_dates</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
+    <span class="n">r_sun</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">sun</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
+    <span class="n">R_ocross</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">vecnorm</span><span class="p">(</span><span class="n">r_sun</span><span class="p">)</span> <span class="o">/</span> <span class="n">mr</span><span class="o">.</span><span class="n">AstroConstants</span><span class="o">.</span><span class="n">au_to_km</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">vecnorm</span><span class="p">(</span><span class="n">r_obs</span> <span class="o">-</span> <span class="n">r_obj</span><span class="p">)</span>
+
+    <span class="n">ovi</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">hat</span><span class="p">(</span><span class="n">r_obs</span> <span class="o">-</span> <span class="n">r_obj</span><span class="p">)</span>
+    <span class="c1"># svi = mr.hat(r_sun - r_obj)</span>
+
+    <span class="n">az</span><span class="p">,</span> <span class="n">el</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">eci_to_az_el</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="o">-</span><span class="n">ovi</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">el</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
+    <span class="n">mrv</span><span class="o">.</span><span class="n">render_spaceobject</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">show_bounds</span><span class="p">()</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">up</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="n">m</span> <span class="o">=</span> <span class="mf">83.1</span>  <span class="c1"># empty mass, no propellant, kg</span>
+    <span class="n">diam_m</span> <span class="o">=</span> <span class="mf">0.93</span>
+    <span class="n">length_m</span> <span class="o">=</span> <span class="mf">1.69</span>  <span class="c1"># Approximated from the Star-37FM (https://space.skyrocket.de/doc_eng/star-37.htm)</span>
+
+    <span class="n">r2</span> <span class="o">=</span> <span class="n">diam_m</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># Radius of the outside of the shell</span>
+    <span class="n">r1</span> <span class="o">=</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="n">r2</span>  <span class="c1"># Radius of the inside of the shell</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">length_m</span>  <span class="c1"># Length of the cylidrical shell approximation</span>
+    <span class="n">itensor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">m</span> <span class="o">*</span> <span class="p">(</span><span class="n">r2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">r1</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+            <span class="mi">1</span> <span class="o">/</span> <span class="mi">12</span> <span class="o">*</span> <span class="n">m</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">r2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">r1</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">h</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+            <span class="mi">1</span> <span class="o">/</span> <span class="mi">12</span> <span class="o">*</span> <span class="n">m</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">r2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">r1</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">h</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">itensor</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">itensor</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+    <span class="n">iy_over_ix</span> <span class="o">=</span> <span class="n">itensor</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">itensor</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">iz_over_ix</span> <span class="o">=</span> <span class="n">itensor</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="n">itensor</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">iy_over_ix</span><span class="p">,</span> <span class="n">iz_over_ix</span><span class="p">)</span>
+
+    <span class="n">lambdas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">theta_z</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">angle_between_vecs</span><span class="p">(</span><span class="o">-</span><span class="n">ovi</span><span class="p">,</span> <span class="n">r_obs</span><span class="p">)</span>  <span class="c1"># Zenith angle</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">ccd</span><span class="o">.</span><span class="n">quantum_efficiency</span><span class="p">(</span><span class="n">lambdas</span><span class="p">)</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">atmospheric_transmission</span><span class="p">(</span><span class="n">lambdas</span><span class="p">,</span> <span class="n">theta_z</span><span class="p">,</span> <span class="n">altitudes</span><span class="o">=</span><span class="n">station</span><span class="o">.</span><span class="n">alt_km</span><span class="p">)</span>
+    <span class="n">I_odot</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">sun_spectrum</span><span class="p">(</span><span class="n">lambdas</span><span class="p">)</span>
+
+    <span class="n">inv_energy</span> <span class="o">=</span> <span class="n">lambdas</span> <span class="o">/</span> <span class="p">(</span>
+        <span class="mf">1e9</span>
+        <span class="o">*</span> <span class="n">mr</span><span class="o">.</span><span class="n">AstroConstants</span><span class="o">.</span><span class="n">planck_constant</span>
+        <span class="o">*</span> <span class="n">mr</span><span class="o">.</span><span class="n">AstroConstants</span><span class="o">.</span><span class="n">speed_of_light_vacuum</span>
+    <span class="p">)</span>
+
+    <span class="c1"># norm brightness has units m^2</span>
+    <span class="c1"># m^2 / m^2 / AU^2 / (W / m^2 / nm)</span>
+
+    <span class="n">norm_bright_to_mag</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">mr</span><span class="o">.</span><span class="n">apparent_magnitude_in_band</span><span class="p">(</span>
+        <span class="n">lambdas</span><span class="p">,</span> <span class="n">I_odot</span> <span class="o">/</span> <span class="n">R_ocross</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">r</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="mf">1e6</span><span class="p">),</span> <span class="n">band</span><span class="o">=</span><span class="s1">&#39;V&#39;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># plt.plot(lambdas, T[0,:], label=&#39;T&#39;)</span>
+    <span class="c1"># plt.plot(lambdas, Q, label=&#39;Q&#39;)</span>
+    <span class="c1"># plt.show()</span>
+    <span class="c1"># endd</span>
+
+    <span class="n">integral_term</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span>
+        <span class="n">Q</span> <span class="o">*</span> <span class="n">T</span> <span class="o">*</span> <span class="n">I_odot</span> <span class="o">*</span> <span class="n">inv_energy</span><span class="p">,</span> <span class="n">lambdas</span>
+    <span class="p">)</span>  <span class="c1"># W / m^2 * (s^2 / kg / m^2) / photon * nm</span>
+    <span class="n">outer_factor</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">station</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">aperture_area</span>
+        <span class="o">*</span> <span class="n">integration_time_s</span>
+        <span class="o">/</span> <span class="p">(</span><span class="n">station</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">gain</span> <span class="o">*</span> <span class="n">R_ocross</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="mf">1e6</span><span class="p">)</span>
+    <span class="p">)</span>  <span class="c1"># 1e6 to convert r in km to m, overall units m^2 * s / (m^2) = s</span>
+    <span class="n">normalized_brightness_to_counts</span> <span class="o">=</span> <span class="n">outer_factor</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="o">*</span> <span class="n">integral_term</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">normalized_brightness_to_counts</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># endd</span>
+
+    <span class="n">lc_adu_obs</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;flux_adu&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="n">lc_norm_obs</span> <span class="o">=</span> <span class="n">lc_adu_obs</span> <span class="o">/</span> <span class="n">normalized_brightness_to_counts</span>
+
+    <span class="c1"># fwhm_pixel_widths = station.telescope.fwhm / station.telescope.ccd.pixel_scale</span>
+    <span class="c1"># fwhm_sigma = fwhm_pixel_widths / (2 * np.sqrt(2 * np.log(2)))  # Pixels</span>
+    <span class="c1"># pixels_area = np.pi * (3 * fwhm_sigma) ** 2</span>
+    <span class="n">pixels_area</span> <span class="o">=</span> <span class="mi">100</span>
+
+    <span class="n">flat_field_k</span> <span class="o">=</span> <span class="mf">0.01</span>
+
+    <span class="n">ccd_signal</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">signal_spread</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">ccd_signal_vecnorm</span> <span class="o">=</span> <span class="n">mr</span><span class="o">.</span><span class="n">vecnorm</span><span class="p">(</span><span class="n">ccd_signal</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+
+    <span class="n">flat_field_noise_std</span> <span class="o">=</span> <span class="n">flat_field_k</span> <span class="o">*</span> <span class="n">ccd_signal_vecnorm</span> <span class="o">*</span> <span class="n">lc_adu_obs</span>
+
+    <span class="n">sensor_read_noise_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span>
+        <span class="n">epsecs</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">pixels_area</span><span class="p">)</span> <span class="o">*</span> <span class="n">station</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">ccd</span><span class="o">.</span><span class="n">read_noise</span>
+    <span class="p">)</span>  <span class="c1"># Gaussian, in ADU</span>
+    <span class="n">shot_noise_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">lc_adu_obs</span> <span class="o">/</span> <span class="n">station</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">gain</span><span class="p">)</span>  <span class="c1"># Poisson, in ADU</span>
+    <span class="n">background_noise_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+        <span class="n">station</span><span class="o">.</span><span class="n">sky_brightness</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="o">-</span><span class="n">ovi</span><span class="p">,</span> <span class="n">integration_time_s</span><span class="p">)</span> <span class="o">*</span> <span class="n">pixels_area</span>
+    <span class="p">)</span>  <span class="c1"># Poisson, in ADU</span>
+    <span class="n">scintillation_noise_std</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">lc_adu_obs</span>
+        <span class="o">*</span> <span class="n">station</span><span class="o">.</span><span class="n">scintillation_noise_std</span><span class="p">(</span><span class="n">theta_z</span><span class="p">,</span> <span class="n">integration_time_s</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="p">)</span>  <span class="c1"># Gaussian, in ADU</span>
+
+    <span class="n">sigma_obs_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+        <span class="n">sensor_read_noise_std</span><span class="o">**</span><span class="mi">2</span>
+        <span class="o">+</span> <span class="n">shot_noise_std</span><span class="o">**</span><span class="mi">2</span>
+        <span class="o">+</span> <span class="n">background_noise_std</span><span class="o">**</span><span class="mi">2</span>
+        <span class="o">+</span> <span class="n">scintillation_noise_std</span><span class="o">**</span><span class="mi">2</span>
+        <span class="o">+</span> <span class="n">flat_field_noise_std</span><span class="o">**</span><span class="mi">2</span>
+    <span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;epsecs&#39;</span><span class="p">],</span> <span class="n">norm_bright_to_mag</span><span class="p">(</span><span class="n">lc_norm_obs</span><span class="p">))</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;epsecs&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;flux_adu&#39;</span><span class="p">],</span> <span class="s1">&#39;+--&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
+        <span class="n">epsecs</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">lc_adu_obs</span> <span class="o">-</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">sigma_obs_counts</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">lc_adu_obs</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">sigma_obs_counts</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span>
+        <span class="n">edgecolor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Estimated $3\sigma$ bounds&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Light Curve for </span><span class="si">{</span><span class="n">ides</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Seconds past </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;start_date_utc&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Observed flux [ADU]&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.570 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-15-attitude-sdc-2025-invert-rb-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/0bbcfc3bc14c12d5f4898f09dc2c141d/invert_rb.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">invert_rb.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/3f258b9e1eb584b8fc661c4cc82edc3a/invert_rb.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">invert_rb.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/ed973a10326508d17fca9dfed6f3df10/invert_rb.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">invert_rb.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023-2025, Liam Robinson.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.0.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -50,7 +50,7 @@ flux_cal = spec[0]['flux'][0]
 passband = mr.passband_by_name(lam_cal, 'G')
 band_mag_from_cal_spec = mr.apparent_magnitude_in_band(lam_cal, flux_cal, 'G')
 print(
-    f"Calibrated G magnitude: {band_mag_from_cal_spec:.2f}, catalog error {band_mag_from_cal_spec - mags['G']:.3f}"
+    f'Calibrated G magnitude: {band_mag_from_cal_spec:.2f}, catalog error {band_mag_from_cal_spec - mags["G"]:.3f}'
 )
 
 # Computing the mean error
@@ -104,7 +104,7 @@ for band_name, mag_true in mags.items():
         lam_true, flux_true, band_name
     )
     print(
-        f'{band_name} magnitude: {band_mag_from_true_spec:.2f}, error {band_mag_from_true_spec-mag_true:.3f}'
+        f'{band_name} magnitude: {band_mag_from_true_spec:.2f}, error {band_mag_from_true_spec - mag_true:.3f}'
     )
 
     plt.subplot(2, 1, 1)

@@ -1,0 +1,103 @@
+"""
+Shadow Cache
+============
+"""
+
+import sys
+
+sys.path.append('/Users/liamrobinson/Documents/maintained-wip/taichi-polyclip')
+import matplotlib.pyplot as plt
+import numpy as np
+import taichi as ti
+import ticlip
+
+import mirage.vis as mrv
+
+
+def azel_to_ij(naz: int, nel: int, az: float, el: float):
+    i = int(np.floor(az / (np.pi * 2) * (naz - 1)))
+    j = int(np.floor((el + np.pi / 2) / np.pi * (nel - 1)))
+    return i, j
+
+
+def ij_to_az_el(naz: int, nel: int, i: int, j: int) -> np.ndarray:
+    az = i / naz * ti.math.pi * 2
+    el = j / nel * ti.math.pi - ti.math.pi / 2
+    return np.array((az, el))
+
+
+ti.init(
+    arch=ti.cpu,
+    cfg_optimization=False,
+    opt_level=1,
+    fast_math=False,
+    advanced_optimization=False,
+)
+
+obj_path = '/Users/liamrobinson/Documents/maintained-research/mirage-models/accurate_sats/box_wing_antenna_quad.obj'
+ticlip.load_finfo(obj_path)
+
+naz, nel = 75, 50
+cache = ticlip.gen_cache(naz, nel)
+cache_np = cache.to_numpy(dtype=np.uint32)
+assert np.allclose(
+    0.0, np.trace(cache_np, axis1=-1, axis2=-2).sum()
+)  # Make sure that no face is ever shadowing itself
+
+print(cache_np.sum(axis=0).sum(axis=0))
+cache_sum = cache_np.sum(axis=2).sum(axis=2)
+print(cache_sum.sum())
+
+deg_start = (215, -32)
+az, el = np.deg2rad(deg_start)
+i, j = azel_to_ij(naz, nel, az, el)
+azel_start = np.rad2deg(ij_to_az_el(naz, nel, i, j))
+# print(ij_to_az_el(naz, nel, i, j))
+
+azmax = az + 2 * np.pi / naz
+elmax = el + np.pi / nel
+extent = np.rad2deg(([az, azmax, el, elmax]))
+
+plt.figure(figsize=(6, 4))
+
+im = ticlip.plot_cache(cache)
+
+a1 = plt.gca()
+a1.add_patch(
+    plt.Rectangle(
+        azel_start,
+        width=360 / naz,
+        height=180 / nel,
+        fill=False,
+        edgecolor='red',
+        linewidth=2,
+    )
+)
+plt.title('Shadow Cache Density')
+plt.xlabel('Azimuth ($a$) [deg]')
+plt.ylabel('Elevation ($h$) [deg]')
+plt.colorbar(im, label='Number of Self-Shadowing Faces', cax=mrv.get_cbar_ax())
+plt.tight_layout()
+
+plt.figure(figsize=(4, 4))
+
+plt.gca().set_aspect(1)
+print(cache_np[i, j, :, :])
+plt.imshow(
+    cache_np[i, j, :, :], cmap='gray_r', alpha=cache_np[i, j, :, :].astype(np.float32)
+)
+old_lims = (-0.5, cache_np.shape[3] - 0.5)
+
+plt.vlines(np.arange(cache_np.shape[3] + 1) - 0.5, *old_lims, color='gray')
+plt.hlines(np.arange(cache_np.shape[3] + 1) - 0.5, *old_lims, color='gray')
+plt.xlim(old_lims)
+plt.ylim(old_lims)
+plt.scatter(np.nan, np.nan, c='k', label='Self-Shadowing')
+plt.title(rf'Cache Entry at $a = {deg_start[0]}^\circ$, $h = {deg_start[1]}^\circ$')
+plt.xlabel('Shadowed facet index')
+plt.ylabel('Shadowing facet index')
+plt.xticks(list(range(cache_np.shape[3])))
+plt.yticks(list(range(cache_np.shape[3])))
+
+plt.tight_layout()
+plt.show()

@@ -49,7 +49,7 @@ dist = mr.vecnorm(mesh.points)
 mesh.points[dist.flatten() > np.pi, :] = np.nan
 
 pl = pv.Plotter(lighting=None)
-pl.set_background('black')
+# pl.set_background('black')
 
 pl.add_mesh(
     mesh,

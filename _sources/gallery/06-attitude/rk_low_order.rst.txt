@@ -23,7 +23,7 @@ Comparing Runge-Kutta Methods
 
 How simple can a Runge-Kutta method get to still yield "good" performance for attitude propagation?
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-134
+.. GENERATED FROM PYTHON SOURCE LINES 8-138
 
 
 
@@ -32,10 +32,10 @@ How simple can a Runge-Kutta method get to still yield "good" performance for at
 
  .. code-block:: none
 
-    RK45 time: : 6.63e-02 seconds
-    RK2 is 2.97e+00 deg from RK45 in 5.8e-04 sec
-    RK3 is 1.61e-01 deg from RK45 in 9.0e-04 sec
-    RK4 is 3.16e-02 deg from RK45 in 1.2e-03 sec
+    RK45 time: : 1.79e-01 seconds
+    RK2 is 1.94e-01 deg from RK45 in 3.9e-02 sec
+    RK3 is 1.28e-03 deg from RK45 in 1.9e-02 sec
+    RK4 is 1.45e-04 deg from RK45 in 1.5e-02 sec
 
 
 
@@ -120,7 +120,8 @@ How simple can a Runge-Kutta method get to still yield "good" performance for at
         x0 = x0.copy()
 
         t1 = time.time()
-        for _ in range(ntimes):
+        for i in range(ntimes):
+            prev_diverged = np.any(np.isnan(x0))
             if method.lower() == 'rk2':
                 x0 = rk2_step(x0, h, itensor)
             if method.lower() == 'rk3':
@@ -128,17 +129,20 @@ How simple can a Runge-Kutta method get to still yield "good" performance for at
             if method.lower() == 'rk4':
                 x0 = rk4_step(x0, h, itensor)
 
+            if np.any(np.isnan(x0)) and not prev_diverged:
+                print(f'{method} diverged at timestemp {i}')
+
         return x0, time.time() - t1
 
 
     if __name__ == '__main__':
-        h = 0.06666
-        ntimes = 40
+        h = 5.0
+        ntimes = 400
         teval = np.linspace(0, h * ntimes, ntimes)
 
-        itensor = np.array([1.0, 2.9, 3.0])
+        itensor = np.array([1.0, 3.0, 3.0])
         s0 = np.array([1.0, 1.0, 1.0])
-        w0 = np.array([2.0, 2.0, 2.0])
+        w0 = 0.006 * np.array([1, 1, 1.0])
         q0 = mr.mrp_to_quat(s0)
         x0 = np.concatenate((s0, w0))
 
@@ -176,7 +180,7 @@ How simple can a Runge-Kutta method get to still yield "good" performance for at
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.101 seconds)
+   **Total running time of the script:** (0 minutes 0.282 seconds)
 
 
 .. _sphx_glr_download_gallery_06-attitude_rk_low_order.py:

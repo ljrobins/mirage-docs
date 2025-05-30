@@ -332,6 +332,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/support_unobservability.html">Support Unobservability</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/confirm_self_shadow.html">Self-Shadowing Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_anim.html">Blinn-Phong BRDF Animated</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_ambiguities.html">Light Curve Ambiguities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/importance_sampling_cook_torrance.html">Importance Sampling Cook-Torrance</a></li>
@@ -390,15 +391,18 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../05-vis/moon_libration.html">Moon Librations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../05-vis/plot_earth.html">Plotting Earth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../05-vis/conic_sensor.html">Conic Sensors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-vis/explosion.html">Cislunar Fragmentation</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../06-attitude/index.html">Attitude Kinematics and Dynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/constant_offset_surfaces.html">Constant Offset Surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/light_curve_iso_surfaces.html">Brightness Isosurfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/torque_free_axisymmetric.html">Torque-free Attitude Propagation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/rk_low_order.html">Comparing Runge-Kutta Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/pdf_angle_diff.html">Random Sphere Point Statistics</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -443,7 +447,6 @@ document.write(`
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../10-utility/index.html">Utility</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../10-utility/super_fib.html">Quaternion Sampling Efficiency</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/wavelength_to_rgb.html">Wavelength to RGB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/metropolis_hastings.html">Metropolis Hastings MCMC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/samplers.html">Samplers</a></li>
@@ -451,6 +454,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/kdtree_vs_balltree.html">KDTree vs BallTree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/skellam.html">Skellam Distribution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/random_nn_mean.html">Closest Average Random Nearest Neighbor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/super_fib.html">Quaternion Sampling Efficiency</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/importance_sampling.html">Importance Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/rng_speed.html">PRNG Speed</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/computer_graphics_background.html">Graphics Background</a></li>
@@ -468,6 +472,7 @@ document.write(`
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Attitude Inversion 2024</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="flat_field_noise.html">Flat Fielding Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_cache.html">Shadow Cache</a></li>
 <li class="toctree-l2"><a class="reference internal" href="calibration_gain.html">CCD Gain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="calibration.html">Subframes</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Sutherland-Hodgeman Clipping Algorithm</a></li>
@@ -478,9 +483,19 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../14-digital-twin-2024/pogs_gen.html">Synthetic Image Results</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../14-digital-twin-2024/box_wing_simple.html">Simple Box-Wing Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../14-digital-twin-2024/test_gps.html">Parametric Box-Wing Inversion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../14-digital-twin-2024/zim_gen.html">Zimmerwald Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../14-digital-twin-2024/plot_results.html">Synthetic Image Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-digital-twin-2024/zim_gen.html">Zimmerwald Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../14-digital-twin-2024/fit_gps2.html">Parametric Box-Wing Inversion</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../15-attitude-sdc-2025/index.html">European Space Debris Conference 2025</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../15-attitude-sdc-2025/animate_obs.html">Animating Subframes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-attitude-sdc-2025/results_synth.html">Synthetic Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-attitude-sdc-2025/plot_cache_rb.html">Shadow Caches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-attitude-sdc-2025/plot_models.html">Plotting models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-attitude-sdc-2025/synth_case_gen.html">Generating R/B Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-attitude-sdc-2025/results.html">Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-attitude-sdc-2025/plot_lcs.html">Plotting Light Curves</a></li>
 </ul>
 </details></li>
 </ul>
@@ -550,8 +565,7 @@ to download the full example code.</p>
 </div>
 <section class="sphx-glr-example-title" id="sutherland-hodgeman-clipping-algorithm">
 <span id="sphx-glr-gallery-13-attitude-2024-sutherland-py"></span><h1>Sutherland-Hodgeman Clipping Algorithm<a class="headerlink" href="#sutherland-hodgeman-clipping-algorithm" title="Link to this heading">#</a></h1>
-<img src="../../_images/sphx_glr_sutherland_001.png" srcset="../../_images/sphx_glr_sutherland_001.png, ../../_images/sphx_glr_sutherland_001_2_00x.png 2.00x" alt="Sutherland-Hodgeman Polygon Clipping, Step 1/4, Step 2/4, Step 3/4, Step 4/4" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[Taichi] version 1.7.2, llvm 15.0.7, commit 0131dce9, osx, python 3.11.10
-[Taichi] Starting on arch=arm64
+<img src="../../_images/sphx_glr_sutherland_001.png" srcset="../../_images/sphx_glr_sutherland_001.png, ../../_images/sphx_glr_sutherland_001_2_00x.png 2.00x" alt="Step 1/4, Step 2/4, Step 3/4, Step 4/4" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[Taichi] Starting on arch=arm64
 </pre></div>
 </div>
 <div class="line-block">
@@ -953,7 +967,7 @@ to download the full example code.</p>
         <span class="n">plot_poly</span><span class="p">(</span><span class="n">clipping_polygon</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Clipping polygon&#39;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
             <span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">clipping_polygon</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">clipping_polygon</span><span class="p">[(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span><span class="p">,</span> <span class="p">:]))</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
-            <span class="s1">&#39;c--&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;r--&#39;</span><span class="p">,</span>
             <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Clipping edge&#39;</span><span class="p">,</span>
         <span class="p">)</span>
@@ -965,20 +979,19 @@ to download the full example code.</p>
             <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.6</span><span class="p">,</span>
             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Clipped polygon&#39;</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$x$ distance units&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$y$ distance units&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Step </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">/4&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">get_xaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Step </span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s1">/4&#39;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">3.5</span><span class="p">,</span> <span class="mf">3.75</span><span class="p">)</span>
 
-    <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Sutherland-Hodgeman Polygon Clipping&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">))</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.242 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.631 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-13-attitude-2024-sutherland-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/39d72be6f2544ec99aee875fc8cded99/sutherland.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">sutherland.ipynb</span></code></a></p>

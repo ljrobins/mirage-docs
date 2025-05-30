@@ -37,7 +37,7 @@ print(f'{el[0]=} [rad]')
 # And easily invert that into the same unit vector direction
 eci_hat = station.az_el_to_eci(az, el, dates)
 print(
-    f'ECI vector reconstruction error: {np.linalg.norm(target_dir_eci[0,:] - eci_hat[0,:])}'
+    f'ECI vector reconstruction error: {np.linalg.norm(target_dir_eci[0, :] - eci_hat[0, :])}'
 )
 
 # %%

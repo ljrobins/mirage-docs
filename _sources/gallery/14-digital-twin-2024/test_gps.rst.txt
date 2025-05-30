@@ -21,7 +21,7 @@
 Parametric Box-Wing Inversion
 =============================
 
-.. GENERATED FROM PYTHON SOURCE LINES 6-129
+.. GENERATED FROM PYTHON SOURCE LINES 6-147
 
 
 
@@ -43,8 +43,18 @@ Parametric Box-Wing Inversion
          :class: sphx-glr-multi-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    22.33392596611726 61.70940638636476 21.87498451555803
 
 
+
+
+
+
+|
 
 .. code-block:: Python
 
@@ -84,6 +94,9 @@ Parametric Box-Wing Inversion
     ovi = mr.hat(station_pos_eci - object_pos_eci)
     z_obs = mr.angle_between_vecs(station_pos_eci, -ovi)
 
+    el = np.rad2deg(np.pi / 2 - z_obs).flatten()
+    print(el[0], el.max(), el.min())
+
     n_hat_pan = svi
     n_hat_box = -mr.hat(object_pos_eci)
 
@@ -120,10 +133,24 @@ Parametric Box-Wing Inversion
         isun = mr.total_solar_irradiance_at_dates(dates)
         lc_irrad = lc_norm / (rmag * 1e3) ** 2 * isun
 
-        spec = mr.scaled_solar_spectrum(1)
-        count_rate = mr.integrated_spectrum(station, z_obs, spectrum=spec)
+        lambdas = np.linspace(300, 1000, 100)
+        spec = mr.scaled_solar_spectrum(1, lambdas=lambdas)
+        atmos_trans = mr.atmospheric_transmission(lambdas, z_obs, station.alt_km)
+
+        spec_atmos = spec * atmos_trans
+        lc_irrad_spec = lc_irrad.reshape(-1, 1) * spec_atmos
+        g_mag = mr.apparent_magnitude_in_band(lambdas, lc_irrad_spec, band='G')
+
+        count_rate = mr.integrated_spectrum(
+            station,
+            z_obs,
+            lambdas=lambdas,
+            spectrum=spec_atmos,
+            include_atmospheric_transmission=False,
+        )
         lc_adu = count_rate * integration_time_s * lc_irrad
-        return lc_irrad, lc_adu
+
+        return g_mag, lc_adu
 
 
     a_pan = 28.5212  # m^2
@@ -135,7 +162,7 @@ Parametric Box-Wing Inversion
     lc_simp_norm = controlled_box_wing_normalized_light_curve(
         svi, ovi, brdf_box, brdf_wing, a_bus=a_bus, a_pan=a_pan
     )
-    lc_simp_irrad, lc_simp_adu = normalized_brightness_to_adu(
+    lc_simp_g_mag, lc_simp_adu = normalized_brightness_to_adu(
         lc_simp_norm, station, dates, z_obs, rmag, integration_time_s
     )
 
@@ -159,13 +186,14 @@ Parametric Box-Wing Inversion
     )
     plt.plot(
         epsecs / 3600,
-        mr.irradiance_to_apparent_magnitude(lc_simp_irrad),
+        lc_simp_g_mag,
         c='k',
         label='Fit (Cook-Torrance)',
     )
+    plt.gca().invert_yaxis()
     plt.title('Box-Wing Fit: Apparent Magnitude')
     plt.xlabel(f'Hours past {dates[0].strftime("%Y-%m-%d %H:%M:%S")} UTC')
-    plt.ylabel('Apparent Magnitude')
+    plt.ylabel('Apparent Gaia G-Band Magnitude')
     plt.grid()
 
     plt.tight_layout()
@@ -175,7 +203,7 @@ Parametric Box-Wing Inversion
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.737 seconds)
+   **Total running time of the script:** (0 minutes 1.501 seconds)
 
 
 .. _sphx_glr_download_gallery_14-digital-twin-2024_test_gps.py:

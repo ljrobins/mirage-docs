@@ -41,18 +41,18 @@ plt.imshow(
     gaussian_pattern,
     cmap='inferno',
 )
-mrv.texit('$\kappa(x,y)$', 'x [pixels]', 'y [pixels]', grid=False)
+mrv.texit(r'$\kappa(x,y)$', 'x [pixels]', 'y [pixels]', grid=False)
 plt.colorbar(cax=mrv.get_cbar_ax())
 plt.clim(0, np.max(gaussian_pattern))
 
 plt.figure(figsize=(4, 4))
-mrv.texit('$T(\phi=\pi/4)$', '$j$', '$i$', grid=False)
+mrv.texit(r'$T(\phi=\pi/4)$', '$j$', '$i$', grid=False)
 plt.imshow(kernel, cmap='gray')
 plt.colorbar(cax=mrv.get_cbar_ax())
 
 plt.figure(figsize=(4, 4))
 plt.imshow(res, cmap='inferno')
-mrv.texit('$T(\phi=\pi/4) \star \kappa(x,y)$', 'x [pixels]', 'y [pixels]', grid=False)
+mrv.texit(r'$T(\phi=\pi/4) \star \kappa(x,y)$', 'x [pixels]', 'y [pixels]', grid=False)
 plt.colorbar(cax=mrv.get_cbar_ax())
 plt.tight_layout()
 plt.show()

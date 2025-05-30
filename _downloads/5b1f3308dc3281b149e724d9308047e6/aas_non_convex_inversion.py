@@ -146,7 +146,7 @@ for noise in [False, True]:
 
             plt.scatter(epsecs, lc_ccd_signal)
             mrv.texit(
-                f"{'Noisy' if noise else ''} Light Curve: {obj_file[:-4]} {'SNR = ' + str(np.round(np.mean(snr),2)) if noise else ''}",
+                f'{"Noisy" if noise else ""} Light Curve: {obj_file[:-4]} {"SNR = " + str(np.round(np.mean(snr), 2)) if noise else ""}',
                 'Epoch seconds',
                 'ADU',
                 grid=False,

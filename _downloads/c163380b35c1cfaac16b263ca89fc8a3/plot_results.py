@@ -14,6 +14,8 @@ from matplotlib.colors import SymLogNorm
 import mirage.photo as mrp
 import mirage.vis as mrv
 
+# reg
+
 
 def plot_results(
     data: dict,
@@ -158,4 +160,18 @@ plot_results(
     [],
     obs_title_postfix='(Cloudy Night)',
     synth_title_postfix='(No Clouds)',
+)
+
+# %%
+# Plotting corrected ZimMAIN results
+
+data = np.load(
+    '/Users/liamrobinson/Documents/maintained-research/mirage/examples/14-digital-twin-2024/data/zim_corr.nogit.npz'
+)
+
+plot_results(
+    data,
+    [],
+    obs_title_postfix='(Cloudy Night)',
+    synth_title_postfix='(Cloud Corrected)',
 )

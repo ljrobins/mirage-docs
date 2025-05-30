@@ -51,7 +51,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Subframes" href="calibration.html" />
-    <link rel="prev" title="Flat Fielding Error" href="flat_field_noise.html" />
+    <link rel="prev" title="Shadow Cache" href="plot_cache.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -332,6 +332,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/support_unobservability.html">Support Unobservability</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/noisy_light_curve.html">Noisy Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/confirm_self_shadow.html">Self-Shadowing Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-light_curves/brdf_anim.html">Blinn-Phong BRDF Animated</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/engine_vs_convex.html">Convex vs Engine Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/light_curve_ambiguities.html">Light Curve Ambiguities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../01-light_curves/importance_sampling_cook_torrance.html">Importance Sampling Cook-Torrance</a></li>
@@ -390,15 +391,18 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../05-vis/moon_libration.html">Moon Librations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../05-vis/plot_earth.html">Plotting Earth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../05-vis/conic_sensor.html">Conic Sensors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-vis/explosion.html">Cislunar Fragmentation</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../06-attitude/index.html">Attitude Kinematics and Dynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/constant_offset_surfaces.html">Constant Offset Surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/euler_sequence.html">Euler Angle Sequence</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/vis_attitude_motion.html">Rigid Body Torque Free Attitudes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/aligned_angle_constrained.html">Aligned and Constrained</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/light_curve_iso_surfaces.html">Brightness Isosurfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/torque_free_axisymmetric.html">Torque-free Attitude Propagation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../06-attitude/rk_low_order.html">Comparing Runge-Kutta Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../06-attitude/pdf_angle_diff.html">Random Sphere Point Statistics</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../07-observer/index.html">Observer</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -443,7 +447,6 @@ document.write(`
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../10-utility/index.html">Utility</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/fitting_poisson_process.html">Fitting Poisson Variables</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../10-utility/super_fib.html">Quaternion Sampling Efficiency</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/wavelength_to_rgb.html">Wavelength to RGB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/metropolis_hastings.html">Metropolis Hastings MCMC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/samplers.html">Samplers</a></li>
@@ -451,6 +454,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/kdtree_vs_balltree.html">KDTree vs BallTree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/skellam.html">Skellam Distribution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/random_nn_mean.html">Closest Average Random Nearest Neighbor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-utility/super_fib.html">Quaternion Sampling Efficiency</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/importance_sampling.html">Importance Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/rng_speed.html">PRNG Speed</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10-utility/computer_graphics_background.html">Graphics Background</a></li>
@@ -468,6 +472,7 @@ document.write(`
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Attitude Inversion 2024</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="flat_field_noise.html">Flat Fielding Error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_cache.html">Shadow Cache</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">CCD Gain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="calibration.html">Subframes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sutherland.html">Sutherland-Hodgeman Clipping Algorithm</a></li>
@@ -478,9 +483,19 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../14-digital-twin-2024/pogs_gen.html">Synthetic Image Results</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../14-digital-twin-2024/box_wing_simple.html">Simple Box-Wing Light Curves</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../14-digital-twin-2024/test_gps.html">Parametric Box-Wing Inversion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../14-digital-twin-2024/zim_gen.html">Zimmerwald Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../14-digital-twin-2024/plot_results.html">Synthetic Image Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-digital-twin-2024/zim_gen.html">Zimmerwald Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../14-digital-twin-2024/fit_gps2.html">Parametric Box-Wing Inversion</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../15-attitude-sdc-2025/index.html">European Space Debris Conference 2025</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../15-attitude-sdc-2025/animate_obs.html">Animating Subframes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-attitude-sdc-2025/results_synth.html">Synthetic Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-attitude-sdc-2025/plot_cache_rb.html">Shadow Caches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-attitude-sdc-2025/plot_models.html">Plotting models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-attitude-sdc-2025/synth_case_gen.html">Generating R/B Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-attitude-sdc-2025/results.html">Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-attitude-sdc-2025/plot_lcs.html">Plotting Light Curves</a></li>
 </ul>
 </details></li>
 </ul>
@@ -814,7 +829,7 @@ m, b
     <span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">means</span><span class="p">)</span>
     <span class="n">variances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">variances</span><span class="p">)</span>
     <span class="n">m</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">l1_fit</span><span class="p">(</span><span class="n">means</span><span class="p">,</span> <span class="n">variances</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Gain: </span><span class="si">{</span><span class="mi">1</span><span class="o">/</span><span class="n">m</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Gain: </span><span class="si">{</span><span class="mi">1</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">m</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">means</span><span class="p">,</span> <span class="n">variances</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">means</span><span class="p">,</span> <span class="n">means</span> <span class="o">*</span> <span class="n">m</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;best fit&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
@@ -866,7 +881,7 @@ m, b
 <span class="n">calibrate_sky_flats_to_k</span><span class="p">(</span><span class="n">flats_dir</span><span class="p">,</span> <span class="n">gain</span><span class="p">,</span> <span class="n">read_noise</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 3.008 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 2.839 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-13-attitude-2024-calibration-gain-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/e305ca5fc3f2b7e9ad9512b617448aa1/calibration_gain.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">calibration_gain.ipynb</span></code></a></p>
@@ -892,12 +907,12 @@ m, b
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="flat_field_noise.html"
+       href="plot_cache.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Flat Fielding Error</p>
+        <p class="prev-next-title">Shadow Cache</p>
       </div>
     </a>
     <a class="right-next"

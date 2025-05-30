@@ -95,8 +95,15 @@ n.img_syn, br_map_synth, br_mask_synth, br_std_synth = mrp.background_subtract(
 print(f'Standard deviation of the background (observed): {br_std_img:.2f}')
 print(f'Standard deviation of the background (synthetic): {br_std_synth:.2f}')
 
+plt.figure()
+mrp.plot_fits(n.img_syn)
+
+plt.figure()
+mrp.plot_fits(n.img)
+plt.show()
+
 np.savez(
-    '/Users/liamrobinson/Documents/maintained-research/mirage/examples/14-digital-twin-2024/data/pogs.npz',
+    '/Users/liamrobinson/Documents/maintained-research/mirage/examples/14-digital-twin-2024/data/pogs.nogit.npz',
     img=n.img,
     img_syn=n.img_syn,
     br_std_img=br_std_img,

@@ -122,7 +122,7 @@ sns.scatterplot(x=ephr, y=lc_noisy_mag, linewidth=0.05, size=0.05)
 # sns.scatterplot(x=ephr, y=lc_clean_mag, linewidth=0.05, size=0.1, color="k")
 mrv.texit(
     '',
-    f"Hours after {date_start.strftime('%Y-%m-%d %H:%M:%S UTC')}",
+    f'Hours after {date_start.strftime("%Y-%m-%d %H:%M:%S UTC")}',
     '$m$ [nondim]',
 )
 plt.xlim((0, np.max(ephr)))

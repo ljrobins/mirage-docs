@@ -212,8 +212,8 @@ x = df.group_by('catalog_ind').agg(
     pl.col('observed_flux').std(ddof=0).alias('observed_std'),
 )
 # observed median / observed variance
-print(f"Gain ADU/e-: {(x['observed_std'] ** 2 / x['observed_median']).median()}")
-print(f"Gain e-/ADU: {(x['observed_median'] / x['observed_std'] ** 2).median()}")
+print(f'Gain ADU/e-: {(x["observed_std"] ** 2 / x["observed_median"]).median()}')
+print(f'Gain e-/ADU: {(x["observed_median"] / x["observed_std"] ** 2).median()}')
 predicted_flux_x = np.array(x['predicted_flux'].to_list())[:, 0]
 print(x)
 

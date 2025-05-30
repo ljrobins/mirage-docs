@@ -10,6 +10,7 @@ import os
 
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.interpolate import RegularGridInterpolator
 
 import mirage as mr
 import mirage.photo as mrp
@@ -18,9 +19,7 @@ file = '/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/aiub/ZigZag
 header, data = mrp.load_fits(file)
 intl_des = '2013-021D'
 
-# print('\n'.join([f'{k}: {v}' for k,v in header.items()]))
 cycle_time = header['ACT']
-# i = 85
 i = 85
 img = data[i].T  # Transpose to get its dimensions right
 timedelta_to_i = mr.seconds(i * cycle_time)
@@ -96,11 +95,11 @@ print(r_obs)
 print(phase_angle_rad)
 print(sint_val)
 
-r_sph_meter = 0.5
+r_sph_meter = 1
 irrad_sphere = (
     mr.AstroConstants.sun_irradiance_vacuum
     * mr.normalized_light_curve_sphere(
-        cd_sphere=0.3, r_sphere_m=r_sph_meter, phase_angle_rad=phase_angle_rad
+        cd_sphere=0.5, r_sphere_m=r_sph_meter, phase_angle_rad=phase_angle_rad
     )
     / (r_obs * 1e3) ** 2
 )[0, 0]
@@ -141,13 +140,6 @@ img_syn, _, _, img_syn_br_std = mrp.background_subtract(
     sigma=3.0,
     box_size=100,
 )
-# img_syn = (img_syn * flat_frame.T).astype(np.int16) # Apply the flat fielding effect
-# img_syn, _, _, img_syn_br_std = mrp.background_subtract(
-#     img_syn,
-#     reduction_factor=1,
-#     sigma=3.0,
-#     box_size=100,
-# )
 img, _, _, img_br_std = mrp.background_subtract(
     img, reduction_factor=1, sigma=3.0, box_size=100
 )
@@ -163,6 +155,79 @@ np.savez(
     br_std_synth=img_syn_br_std,
 )
 
+plt.figure()
+mrp.plot_fits(img_syn)
+
+plt.figure()
+mrp.plot_fits(img)
+plt.title(f'{i}')
+plt.show()
+
+r_sph_meter = 3
+irrad_sphere = (
+    mr.AstroConstants.sun_irradiance_vacuum
+    * mr.normalized_light_curve_sphere(
+        cd_sphere=1, r_sphere_m=r_sph_meter, phase_angle_rad=phase_angle_rad
+    )
+    / (r_obs * 1e3) ** 2
+)[0, 0]
+obj_signal = sint_val * irrad_sphere * integration_time_s
+
+flat_frame_interp = RegularGridInterpolator(
+    points=(np.arange(0, 2160, 2), np.arange(0, 2560, 2)),
+    values=flat_frame,
+    bounds_error=False,
+    fill_value=1.0,
+)
+
+mr.tic('Synthesizing CCD Image')
+img_syn = station.telescope.ccd.generate_ccd_image(
+    date_mid,
+    integration_time_s,
+    station,
+    look_dir_eci,
+    [dra, ddec],
+    obj_signal,
+    catalog,
+    up_dir_eci=up_dir_eci,
+    add_distortion=False,
+    noise=True,
+    sky_brightness=True,
+    binning=(2, 2),
+    flat_field=None,
+)
+img_syn = img_syn.reshape(img_syn.shape[0] // 2, 2, img_syn.shape[1] // 2, 2).sum(
+    axis=(1, 3)
+)
+img_syn, _, _, img_syn_br_std = mrp.background_subtract(
+    img_syn,
+    reduction_factor=1,
+    sigma=3.0,
+    box_size=100,
+)
+
+img_syn = img_syn.astype(np.float32)
+img_syn = img_syn * 0.002 + 100  # Attenuating for clouds
+img_syn = img_syn * flat_frame.T  # Apply the flat fielding effect
+
+# Subtract the background again
+img_syn, _, _, img_syn_br_std = mrp.background_subtract(
+    img_syn,
+    reduction_factor=1,
+    sigma=3.0,
+    box_size=100,
+)
+
+np.savez(
+    '/Users/liamrobinson/Documents/maintained-research/mirage/examples/14-digital-twin-2024/data/zim_corr.nogit.npz',
+    img=img,
+    img_syn=img_syn,
+    br_std_img=img_br_std,
+    br_std_synth=img_syn_br_std,
+)
+
+
+plt.figure()
 mrp.plot_fits(img_syn)
 
 plt.figure()

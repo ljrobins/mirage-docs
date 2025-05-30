@@ -21,7 +21,7 @@
 Simple Box-Wing Light Curves
 ============================
 
-.. GENERATED FROM PYTHON SOURCE LINES 5-101
+.. GENERATED FROM PYTHON SOURCE LINES 5-113
 
 
 
@@ -38,7 +38,7 @@ Simple Box-Wing Light Curves
     *
 
       .. image-sg:: /gallery/14-digital-twin-2024/images/sphx_glr_box_wing_simple_002.png
-         :alt: Apparent Magnitude of GOES 17
+         :alt: G-Band Apparent Magnitude of GOES 17
          :srcset: /gallery/14-digital-twin-2024/images/sphx_glr_box_wing_simple_002.png, /gallery/14-digital-twin-2024/images/sphx_glr_box_wing_simple_002_2_00x.png 2.00x
          :class: sphx-glr-multi-img
 
@@ -47,10 +47,7 @@ Simple Box-Wing Light Curves
 
  .. code-block:: none
 
-    2025-01-14 17:45:02.864 LightCurveEngine-mac-arm[96129:92725153] +[IMKClient subclass]: chose IMKClient_Modern
-    2025-01-14 17:45:02.864 LightCurveEngine-mac-arm[96129:92725153] +[IMKInputSession subclass]: chose IMKInputSession_Modern
-
-    3.2589705210411477 28.970679292357577
+    3.2589705210411477 28.972879729243168
 
 
 
@@ -81,12 +78,23 @@ Simple Box-Wing Light Curves
     svi = mr.sun(dates) - r_obj  # from obj to sun
     ovi = station.j2000_at_dates(dates) - r_obj  # from obj to obs
 
+    z_obs = mr.angle_between_vecs(station.j2000_at_dates(dates), -ovi)
+
     f = (
         mr.AstroConstants.sun_irradiance_vacuum
         / (mr.vecnorm(ovi) ** 2 * 1e6)
         / (mr.vecnorm(svi) / mr.AstroConstants.au_to_km) ** 2
     )
     f = f.flatten()
+
+    lambdas = np.linspace(300, 1000, 100)
+    spec = mr.scaled_solar_spectrum(1, lambdas=lambdas)
+    atmos_trans = mr.atmospheric_transmission(lambdas, z_obs, station.alt_km)
+
+    gmag_f = lambda exo_irrad: mr.apparent_magnitude_in_band(
+        lambdas, exo_irrad.reshape(-1, 1) * (spec * atmos_trans), band='G'
+    )
+
 
     attitude = mr.AlignedAndConstrainedAttitude(
         mr.hat(r_obj), mr.hat(svi), dates, axis_order=(2, 0, 1)
@@ -137,21 +145,22 @@ Simple Box-Wing Light Curves
     plt.figure(figsize=(4, 4))
     plt.plot(
         epsecs / 3600,
-        mr.irradiance_to_apparent_magnitude(lc_fancy * f),
+        gmag_f(lc_fancy * f),
         'k',
         linewidth=2.5,
         label='Full Rendered',
     )
     plt.plot(
         epsecs / 3600,
-        mr.irradiance_to_apparent_magnitude(lc_simp * f),
+        gmag_f(lc_simp * f),
         'c--',
         linewidth=2,
         label='Simplified',
     )
+    plt.gca().invert_yaxis()
     plt.grid()
     plt.legend()
-    plt.title('Apparent Magnitude of GOES 17')
+    plt.title('G-Band Apparent Magnitude of GOES 17')
     plt.xlabel('Hours after 00:00 Oct 18, 2024 UTC')
     plt.ylabel('Light Curve [nondim]')
     plt.tight_layout()
@@ -161,7 +170,7 @@ Simple Box-Wing Light Curves
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.634 seconds)
+   **Total running time of the script:** (0 minutes 2.559 seconds)
 
 
 .. _sphx_glr_download_gallery_14-digital-twin-2024_box_wing_simple.py:

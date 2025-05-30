@@ -38,7 +38,7 @@ fig, ax = plt.subplots(facecolor='k', figsize=(5, 5))
 
 imgs = []
 for i in range(t.size):
-    impath = os.path.join('out', f'frame{i+1}.png')
+    impath = os.path.join('out', f'frame{i + 1}.png')
     with Image.open(impath) as img:
         imgs.append(mr.rgba_to_f32(np.array(img)))
 imgs = np.nan_to_num(np.array(imgs))

@@ -39,6 +39,9 @@ object_pos_eci = obj.propagate(dates)
 ovi = mr.hat(station_pos_eci - object_pos_eci)
 z_obs = mr.angle_between_vecs(station_pos_eci, -ovi)
 
+el = np.rad2deg(np.pi / 2 - z_obs).flatten()
+print(el[0], el.max(), el.min())
+
 n_hat_pan = svi
 n_hat_box = -mr.hat(object_pos_eci)
 
@@ -75,10 +78,24 @@ def normalized_brightness_to_adu(
     isun = mr.total_solar_irradiance_at_dates(dates)
     lc_irrad = lc_norm / (rmag * 1e3) ** 2 * isun
 
-    spec = mr.scaled_solar_spectrum(1)
-    count_rate = mr.integrated_spectrum(station, z_obs, spectrum=spec)
+    lambdas = np.linspace(300, 1000, 100)
+    spec = mr.scaled_solar_spectrum(1, lambdas=lambdas)
+    atmos_trans = mr.atmospheric_transmission(lambdas, z_obs, station.alt_km)
+
+    spec_atmos = spec * atmos_trans
+    lc_irrad_spec = lc_irrad.reshape(-1, 1) * spec_atmos
+    g_mag = mr.apparent_magnitude_in_band(lambdas, lc_irrad_spec, band='G')
+
+    count_rate = mr.integrated_spectrum(
+        station,
+        z_obs,
+        lambdas=lambdas,
+        spectrum=spec_atmos,
+        include_atmospheric_transmission=False,
+    )
     lc_adu = count_rate * integration_time_s * lc_irrad
-    return lc_irrad, lc_adu
+
+    return g_mag, lc_adu
 
 
 a_pan = 28.5212  # m^2
@@ -90,7 +107,7 @@ a_bus = x_scale * z_scale
 lc_simp_norm = controlled_box_wing_normalized_light_curve(
     svi, ovi, brdf_box, brdf_wing, a_bus=a_bus, a_pan=a_pan
 )
-lc_simp_irrad, lc_simp_adu = normalized_brightness_to_adu(
+lc_simp_g_mag, lc_simp_adu = normalized_brightness_to_adu(
     lc_simp_norm, station, dates, z_obs, rmag, integration_time_s
 )
 
@@ -114,13 +131,14 @@ plt.scatter(
 )
 plt.plot(
     epsecs / 3600,
-    mr.irradiance_to_apparent_magnitude(lc_simp_irrad),
+    lc_simp_g_mag,
     c='k',
     label='Fit (Cook-Torrance)',
 )
+plt.gca().invert_yaxis()
 plt.title('Box-Wing Fit: Apparent Magnitude')
 plt.xlabel(f'Hours past {dates[0].strftime("%Y-%m-%d %H:%M:%S")} UTC')
-plt.ylabel('Apparent Magnitude')
+plt.ylabel('Apparent Gaia G-Band Magnitude')
 plt.grid()
 
 plt.tight_layout()

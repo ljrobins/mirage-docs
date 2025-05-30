@@ -24,9 +24,9 @@ pxs = p_skellam(xs, *lams)
 diff = s1 - s2
 
 print(f'Numerical  mean: {diff.mean():.3f}')
-print(f'Analytical mean: {lams[0]-lams[1]:.3f}\n')
+print(f'Analytical mean: {lams[0] - lams[1]:.3f}\n')
 print(f'Numerical  variance: {diff.var():.3f}')
-print(f'Analytical variance: {lams[0]+lams[1]:.3f}')
+print(f'Analytical variance: {lams[0] + lams[1]:.3f}')
 
 # %%
 # Let's plot these sampled random variables as well as the expected distribution of their difference

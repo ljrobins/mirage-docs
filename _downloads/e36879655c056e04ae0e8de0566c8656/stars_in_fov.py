@@ -57,8 +57,8 @@ tree_inds_in_fov = mr.unit_vector_inds_in_fov(
 t2 = mr.toc(return_elapsed_seconds=True)
 
 print(f'Brute time total: {brute_time:.2e}')
-print(f'Tree time total: {t1+t2:.2e}')
-print(f'Factor speedup: {brute_time/(t1+t2):.1f}')
+print(f'Tree time total: {t1 + t2:.2e}')
+print(f'Factor speedup: {brute_time / (t1 + t2):.1f}')
 
 # %%
 # Let's plot the tree solution

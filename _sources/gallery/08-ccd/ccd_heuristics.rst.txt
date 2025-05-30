@@ -83,7 +83,7 @@ We can also look at counts due to point sources. Note that these sources are act
         / (40e6) ** 2
     )
     print(
-        f'A {r_sph_meter}-meter diffuse sphere in GEO produces on average {irrad_sphere*sint_val:.2e} counts per second'
+        f'A {r_sph_meter}-meter diffuse sphere in GEO produces on average {irrad_sphere * sint_val:.2e} counts per second'
     )
 
 
@@ -96,7 +96,7 @@ We can also look at counts due to point sources. Note that these sources are act
 
     A magnitude 16 star produces on average 7.67e+02 counts per second
     A magnitude 8 star produces on average 1.22e+06 counts per second
-    A 3-meter diffuse sphere in GEO produces on average 6.22e+04 counts per second
+    A 3-meter diffuse sphere in GEO produces on average 9.90e+03 counts per second
 
 
 
@@ -105,7 +105,7 @@ We can also look at counts due to point sources. Note that these sources are act
 
 The size in square pixels of a large GEO satellite when observed from the surface of the Earth by POGS
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-73
+.. GENERATED FROM PYTHON SOURCE LINES 49-77
 
 .. code-block:: Python
 
@@ -120,7 +120,9 @@ The size in square pixels of a large GEO satellite when observed from the surfac
         0, 0, station.telescope.ccd.pixel_scale
     )
 
-    print(f'A GEO satellite is {2*angular_radius_of_sat_geo_pix:.1f} pixels wide from POGS')
+    print(
+        f'A GEO satellite is {2 * angular_radius_of_sat_geo_pix:.1f} pixels wide from POGS'
+    )
 
     sat_radius_m = 0.3
     sat_dist_m = (1000) * 1e3
@@ -131,7 +133,9 @@ The size in square pixels of a large GEO satellite when observed from the surfac
         0, 0, station.telescope.ccd.pixel_scale
     )
 
-    print(f'A LEO satellite is {2*angular_radius_of_sat_leo_pix:.1f} pixels wide from POGS')
+    print(
+        f'A LEO satellite is {2 * angular_radius_of_sat_leo_pix:.1f} pixels wide from POGS'
+    )
 
 
 
@@ -147,11 +151,11 @@ The size in square pixels of a large GEO satellite when observed from the surfac
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 74-75
+.. GENERATED FROM PYTHON SOURCE LINES 78-79
 
 Airy disk size for GEO objects
 
-.. GENERATED FROM PYTHON SOURCE LINES 75-86
+.. GENERATED FROM PYTHON SOURCE LINES 79-90
 
 .. code-block:: Python
 
@@ -161,10 +165,10 @@ Airy disk size for GEO objects
         0, 0, station.telescope.ccd.pixel_scale
     )
     print(
-        f'For GEO the Airy disk is {rayleigh_crit_pix/angular_radius_of_sat_geo_pix:.1f}x wider than the object itself'
+        f'For GEO the Airy disk is {rayleigh_crit_pix / angular_radius_of_sat_geo_pix:.1f}x wider than the object itself'
     )
     print(
-        f'For LEO the Airy disk is {rayleigh_crit_pix/angular_radius_of_sat_leo_pix:.1f}x wider than the object itself'
+        f'For LEO the Airy disk is {rayleigh_crit_pix / angular_radius_of_sat_leo_pix:.1f}x wider than the object itself'
     )
 
 
@@ -183,7 +187,7 @@ Airy disk size for GEO objects
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.007 seconds)
+   **Total running time of the script:** (0 minutes 0.021 seconds)
 
 
 .. _sphx_glr_download_gallery_08-ccd_ccd_heuristics.py:

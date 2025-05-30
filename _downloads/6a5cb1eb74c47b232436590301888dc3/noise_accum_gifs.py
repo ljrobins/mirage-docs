@@ -54,7 +54,7 @@ def animate(i):
     grid = np.random.normal(0, 1, (d, d))
     actor.set_data(grid)
     plt.tight_layout()
-    plt.title(f'Readout Sample {i+1}/{t.size}')
+    plt.title(f'Readout Sample {i + 1}/{t.size}')
     return (actor,)
 
 
@@ -79,7 +79,7 @@ def animate(i):
     grid = 0.5 - np.random.random((d, d))
     actor.set_data(grid)
     plt.tight_layout()
-    plt.title(f'Truncation Sample {i+1}/{t.size}')
+    plt.title(f'Truncation Sample {i + 1}/{t.size}')
     return (actor,)
 
 

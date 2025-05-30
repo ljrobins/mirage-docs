@@ -23,7 +23,7 @@ Zimmerwald Data
 
 Generating a synthetic image to compare with one taken by the Zimmerwald MAIN telescope
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-172
+.. GENERATED FROM PYTHON SOURCE LINES 7-237
 
 
 
@@ -44,12 +44,26 @@ Generating a synthetic image to compare with one taken by the Zimmerwald MAIN te
          :srcset: /gallery/14-digital-twin-2024/images/sphx_glr_zim_gen_002.png, /gallery/14-digital-twin-2024/images/sphx_glr_zim_gen_002_2_00x.png 2.00x
          :class: sphx-glr-multi-img
 
+    *
+
+      .. image-sg:: /gallery/14-digital-twin-2024/images/sphx_glr_zim_gen_003.png
+         :alt: zim gen
+         :srcset: /gallery/14-digital-twin-2024/images/sphx_glr_zim_gen_003.png, /gallery/14-digital-twin-2024/images/sphx_glr_zim_gen_003_2_00x.png 2.00x
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /gallery/14-digital-twin-2024/images/sphx_glr_zim_gen_004.png
+         :alt: 85
+         :srcset: /gallery/14-digital-twin-2024/images/sphx_glr_zim_gen_004.png, /gallery/14-digital-twin-2024/images/sphx_glr_zim_gen_004_2_00x.png 2.00x
+         :class: sphx-glr-multi-img
+
 
 .. rst-class:: sphx-glr-script-out
 
  .. code-block:: none
 
-    /Users/liamrobinson/Documents/maintained-research/mirage/mirage/orbit.py:503: UserWarning: Velocity is transformation is missing omega cross r term from TEME to J2000, but this is tiny
+    /Users/liamrobinson/Documents/maintained-research/mirage/mirage/orbit.py:504: UserWarning: Velocity is transformation is missing omega cross r term from TEME to J2000, but this is tiny
       warnings.warn(
     RA tracking rate: -241.745 arcsec/sec, Dec tracking rate: 422.568 arcsec/sec
     71.92084429254598
@@ -64,13 +78,15 @@ Generating a synthetic image to compare with one taken by the Zimmerwald MAIN te
     1851.2652170837423
     [[2.13045823]]
     6.324055866080483e+16
-    4.999374174743546e-12
-    158081.607882591
+    2.083072572809811e-12
+    65867.33661774624
     Objects in frame 1:
     AVUM DEB (ADAPTOR)
-    Synthesizing CCD Image: 1.54e+00 seconds
+    Synthesizing CCD Image: 1.48e+00 seconds
     Background std of synthetic image: 2.93
     Background std of real image: 1.95
+    Objects in frame 1:
+    AVUM DEB (ADAPTOR)
 
 
 
@@ -87,6 +103,7 @@ Generating a synthetic image to compare with one taken by the Zimmerwald MAIN te
 
     import matplotlib.pyplot as plt
     import numpy as np
+    from scipy.interpolate import RegularGridInterpolator
 
     import mirage as mr
     import mirage.photo as mrp
@@ -95,9 +112,7 @@ Generating a synthetic image to compare with one taken by the Zimmerwald MAIN te
     header, data = mrp.load_fits(file)
     intl_des = '2013-021D'
 
-    # print('\n'.join([f'{k}: {v}' for k,v in header.items()]))
     cycle_time = header['ACT']
-    # i = 85
     i = 85
     img = data[i].T  # Transpose to get its dimensions right
     timedelta_to_i = mr.seconds(i * cycle_time)
@@ -173,11 +188,11 @@ Generating a synthetic image to compare with one taken by the Zimmerwald MAIN te
     print(phase_angle_rad)
     print(sint_val)
 
-    r_sph_meter = 0.5
+    r_sph_meter = 1
     irrad_sphere = (
         mr.AstroConstants.sun_irradiance_vacuum
         * mr.normalized_light_curve_sphere(
-            cd_sphere=0.3, r_sphere_m=r_sph_meter, phase_angle_rad=phase_angle_rad
+            cd_sphere=0.5, r_sphere_m=r_sph_meter, phase_angle_rad=phase_angle_rad
         )
         / (r_obs * 1e3) ** 2
     )[0, 0]
@@ -218,13 +233,6 @@ Generating a synthetic image to compare with one taken by the Zimmerwald MAIN te
         sigma=3.0,
         box_size=100,
     )
-    # img_syn = (img_syn * flat_frame.T).astype(np.int16) # Apply the flat fielding effect
-    # img_syn, _, _, img_syn_br_std = mrp.background_subtract(
-    #     img_syn,
-    #     reduction_factor=1,
-    #     sigma=3.0,
-    #     box_size=100,
-    # )
     img, _, _, img_br_std = mrp.background_subtract(
         img, reduction_factor=1, sigma=3.0, box_size=100
     )
@@ -240,6 +248,79 @@ Generating a synthetic image to compare with one taken by the Zimmerwald MAIN te
         br_std_synth=img_syn_br_std,
     )
 
+    plt.figure()
+    mrp.plot_fits(img_syn)
+
+    plt.figure()
+    mrp.plot_fits(img)
+    plt.title(f'{i}')
+    plt.show()
+
+    r_sph_meter = 3
+    irrad_sphere = (
+        mr.AstroConstants.sun_irradiance_vacuum
+        * mr.normalized_light_curve_sphere(
+            cd_sphere=1, r_sphere_m=r_sph_meter, phase_angle_rad=phase_angle_rad
+        )
+        / (r_obs * 1e3) ** 2
+    )[0, 0]
+    obj_signal = sint_val * irrad_sphere * integration_time_s
+
+    flat_frame_interp = RegularGridInterpolator(
+        points=(np.arange(0, 2160, 2), np.arange(0, 2560, 2)),
+        values=flat_frame,
+        bounds_error=False,
+        fill_value=1.0,
+    )
+
+    mr.tic('Synthesizing CCD Image')
+    img_syn = station.telescope.ccd.generate_ccd_image(
+        date_mid,
+        integration_time_s,
+        station,
+        look_dir_eci,
+        [dra, ddec],
+        obj_signal,
+        catalog,
+        up_dir_eci=up_dir_eci,
+        add_distortion=False,
+        noise=True,
+        sky_brightness=True,
+        binning=(2, 2),
+        flat_field=None,
+    )
+    img_syn = img_syn.reshape(img_syn.shape[0] // 2, 2, img_syn.shape[1] // 2, 2).sum(
+        axis=(1, 3)
+    )
+    img_syn, _, _, img_syn_br_std = mrp.background_subtract(
+        img_syn,
+        reduction_factor=1,
+        sigma=3.0,
+        box_size=100,
+    )
+
+    img_syn = img_syn.astype(np.float32)
+    img_syn = img_syn * 0.002 + 100  # Attenuating for clouds
+    img_syn = img_syn * flat_frame.T  # Apply the flat fielding effect
+
+    # Subtract the background again
+    img_syn, _, _, img_syn_br_std = mrp.background_subtract(
+        img_syn,
+        reduction_factor=1,
+        sigma=3.0,
+        box_size=100,
+    )
+
+    np.savez(
+        '/Users/liamrobinson/Documents/maintained-research/mirage/examples/14-digital-twin-2024/data/zim_corr.nogit.npz',
+        img=img,
+        img_syn=img_syn,
+        br_std_img=img_br_std,
+        br_std_synth=img_syn_br_std,
+    )
+
+
+    plt.figure()
     mrp.plot_fits(img_syn)
 
     plt.figure()
@@ -250,7 +331,7 @@ Generating a synthetic image to compare with one taken by the Zimmerwald MAIN te
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 8.562 seconds)
+   **Total running time of the script:** (0 minutes 11.784 seconds)
 
 
 .. _sphx_glr_download_gallery_14-digital-twin-2024_zim_gen.py:

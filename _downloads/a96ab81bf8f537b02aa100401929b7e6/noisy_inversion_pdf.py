@@ -71,7 +71,7 @@ for i, msf in enumerate(model_scale_factor):
     mean_snr = np.mean(snr)
 
     pl.add_text(
-        f'Width {2*msf:.2f} m\nSNR = {mean_snr:.1f}',
+        f'Width {2 * msf:.2f} m\nSNR = {mean_snr:.1f}',
         font_size=12,
         font='courier',
         position='upper_left',

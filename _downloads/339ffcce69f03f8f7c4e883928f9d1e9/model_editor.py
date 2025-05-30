@@ -74,7 +74,7 @@ def write_obj_file(obj: mr.SpaceObject, materials: list[Material]) -> None:
                 f.write(
                     '\n'.join(
                         [
-                            f'f {f[0]+1}//{fni+1} {f[1]+1}//{fni+1} {f[2]+1}//{fni+1}'
+                            f'f {f[0] + 1}//{fni + 1} {f[1] + 1}//{fni + 1} {f[2] + 1}//{fni + 1}'
                             for f, fni in zip(obj.f[mtl_selected, :], mtl_selected)
                         ]
                     )
@@ -86,7 +86,7 @@ def write_obj_file(obj: mr.SpaceObject, materials: list[Material]) -> None:
             f.write(
                 '\n'.join(
                     [
-                        f'f {f[0]+1}//{fni+1} {f[1]+1}//{fni+1} {f[2]+1}//{fni+1}'
+                        f'f {f[0] + 1}//{fni + 1} {f[1] + 1}//{fni + 1} {f[2] + 1}//{fni + 1}'
                         for f, fni in zip(obj.f[unassigned_faces, :], unassigned_faces)
                     ]
                 )

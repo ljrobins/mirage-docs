@@ -79,7 +79,8 @@ def integrate(x0: np.ndarray, h: float, intensor: np.ndarray, ntimes: int, metho
     x0 = x0.copy()
 
     t1 = time.time()
-    for _ in range(ntimes):
+    for i in range(ntimes):
+        prev_diverged = np.any(np.isnan(x0))
         if method.lower() == 'rk2':
             x0 = rk2_step(x0, h, itensor)
         if method.lower() == 'rk3':
@@ -87,17 +88,20 @@ def integrate(x0: np.ndarray, h: float, intensor: np.ndarray, ntimes: int, metho
         if method.lower() == 'rk4':
             x0 = rk4_step(x0, h, itensor)
 
+        if np.any(np.isnan(x0)) and not prev_diverged:
+            print(f'{method} diverged at timestemp {i}')
+
     return x0, time.time() - t1
 
 
 if __name__ == '__main__':
-    h = 0.06666
-    ntimes = 40
+    h = 5.0
+    ntimes = 400
     teval = np.linspace(0, h * ntimes, ntimes)
 
-    itensor = np.array([1.0, 2.9, 3.0])
+    itensor = np.array([1.0, 3.0, 3.0])
     s0 = np.array([1.0, 1.0, 1.0])
-    w0 = np.array([2.0, 2.0, 2.0])
+    w0 = 0.006 * np.array([1, 1, 1.0])
     q0 = mr.mrp_to_quat(s0)
     x0 = np.concatenate((s0, w0))
 

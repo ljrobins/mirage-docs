@@ -22,12 +22,23 @@ r_obj = obj.propagate(dates)
 svi = mr.sun(dates) - r_obj  # from obj to sun
 ovi = station.j2000_at_dates(dates) - r_obj  # from obj to obs
 
+z_obs = mr.angle_between_vecs(station.j2000_at_dates(dates), -ovi)
+
 f = (
     mr.AstroConstants.sun_irradiance_vacuum
     / (mr.vecnorm(ovi) ** 2 * 1e6)
     / (mr.vecnorm(svi) / mr.AstroConstants.au_to_km) ** 2
 )
 f = f.flatten()
+
+lambdas = np.linspace(300, 1000, 100)
+spec = mr.scaled_solar_spectrum(1, lambdas=lambdas)
+atmos_trans = mr.atmospheric_transmission(lambdas, z_obs, station.alt_km)
+
+gmag_f = lambda exo_irrad: mr.apparent_magnitude_in_band(
+    lambdas, exo_irrad.reshape(-1, 1) * (spec * atmos_trans), band='G'
+)
+
 
 attitude = mr.AlignedAndConstrainedAttitude(
     mr.hat(r_obj), mr.hat(svi), dates, axis_order=(2, 0, 1)
@@ -78,21 +89,22 @@ plt.tight_layout()
 plt.figure(figsize=(4, 4))
 plt.plot(
     epsecs / 3600,
-    mr.irradiance_to_apparent_magnitude(lc_fancy * f),
+    gmag_f(lc_fancy * f),
     'k',
     linewidth=2.5,
     label='Full Rendered',
 )
 plt.plot(
     epsecs / 3600,
-    mr.irradiance_to_apparent_magnitude(lc_simp * f),
+    gmag_f(lc_simp * f),
     'c--',
     linewidth=2,
     label='Simplified',
 )
+plt.gca().invert_yaxis()
 plt.grid()
 plt.legend()
-plt.title('Apparent Magnitude of GOES 17')
+plt.title('G-Band Apparent Magnitude of GOES 17')
 plt.xlabel('Hours after 00:00 Oct 18, 2024 UTC')
 plt.ylabel('Light Curve [nondim]')
 plt.tight_layout()

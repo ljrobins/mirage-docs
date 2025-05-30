@@ -25,7 +25,7 @@ def plot_shadow_function_for_dates(obj, dates) -> None:
     plt.plot(dates, sf_mine, label='Krag 2003')
     mrv.texit(
         f'{obj.sat.name}',
-        f"Date UTC ({dates[0].strftime('%b %d %Y')})",
+        f'Date UTC ({dates[0].strftime("%b %d %Y")})',
         'Irradiance fraction',
     )
     plt.legend()

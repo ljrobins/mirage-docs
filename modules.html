@@ -387,8 +387,9 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="mirage.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="mirage.papers.html">mirage.papers package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="mirage.papers.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="mirage.papers.html#mirage-papers-attitude-paper-module">mirage.papers.attitude_paper module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="mirage.papers.html#module-contents">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mirage.papers.html#module-mirage.papers.attitude_paper">mirage.papers.attitude_paper module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mirage.papers.html#module-mirage.papers.sdc_2025">mirage.papers.sdc_2025 module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mirage.papers.html#module-mirage.papers">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.photo.html">mirage.photo package</a><ul>
@@ -501,6 +502,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.attitude.r2"><code class="docutils literal notranslate"><span class="pre">r2()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.attitude.r3"><code class="docutils literal notranslate"><span class="pre">r3()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.attitude.rand_quaternions"><code class="docutils literal notranslate"><span class="pre">rand_quaternions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.attitude.rbtf_profiles_to_comp_vector"><code class="docutils literal notranslate"><span class="pre">rbtf_profiles_to_comp_vector()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.attitude.rigid_rotation_dynamics"><code class="docutils literal notranslate"><span class="pre">rigid_rotation_dynamics()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.attitude.rv_add"><code class="docutils literal notranslate"><span class="pre">rv_add()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.attitude.rv_to_dcm"><code class="docutils literal notranslate"><span class="pre">rv_to_dcm()</span></code></a></li>
@@ -714,6 +716,7 @@ document.write(`
 <li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.lighting.Brdf.compute_reflection_matrix"><code class="docutils literal notranslate"><span class="pre">Brdf.compute_reflection_matrix()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.lighting.Brdf.eval"><code class="docutils literal notranslate"><span class="pre">Brdf.eval()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.lighting.Brdf.eval_normalized_brightness"><code class="docutils literal notranslate"><span class="pre">Brdf.eval_normalized_brightness()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.lighting.Brdf.use_mtl"><code class="docutils literal notranslate"><span class="pre">Brdf.use_mtl</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.lighting.Brdf.validate"><code class="docutils literal notranslate"><span class="pre">Brdf.validate()</span></code></a></li>
 </ul>
 </li>
@@ -788,6 +791,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.math.stack_mat_mult_vec"><code class="docutils literal notranslate"><span class="pre">stack_mat_mult_vec()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.math.tand"><code class="docutils literal notranslate"><span class="pre">tand()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.math.tilde"><code class="docutils literal notranslate"><span class="pre">tilde()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.math.triangle_depth_pdf"><code class="docutils literal notranslate"><span class="pre">triangle_depth_pdf()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.math.udot"><code class="docutils literal notranslate"><span class="pre">udot()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.math.unique_rows"><code class="docutils literal notranslate"><span class="pre">unique_rows()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.math.vecnorm"><code class="docutils literal notranslate"><span class="pre">vecnorm()</span></code></a></li>
@@ -834,11 +838,13 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.sampling.closest_fibonacci_index"><code class="docutils literal notranslate"><span class="pre">closest_fibonacci_index()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.sampling.fibonacci_sample_sphere"><code class="docutils literal notranslate"><span class="pre">fibonacci_sample_sphere()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.sampling.quaternion_fibonacci_sample"><code class="docutils literal notranslate"><span class="pre">quaternion_fibonacci_sample()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.sampling.rand_cone_edge_vectors"><code class="docutils literal notranslate"><span class="pre">rand_cone_edge_vectors()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.sampling.rand_cone_vectors"><code class="docutils literal notranslate"><span class="pre">rand_cone_vectors()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.sampling.rand_points_in_ball"><code class="docutils literal notranslate"><span class="pre">rand_points_in_ball()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.sampling.rand_points_in_cube"><code class="docutils literal notranslate"><span class="pre">rand_points_in_cube()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.sampling.rand_points_in_shell"><code class="docutils literal notranslate"><span class="pre">rand_points_in_shell()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.sampling.rand_unit_vectors"><code class="docutils literal notranslate"><span class="pre">rand_unit_vectors()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.sampling.random_offset_quaternions"><code class="docutils literal notranslate"><span class="pre">random_offset_quaternions()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.sampling.spiral_sample_sphere"><code class="docutils literal notranslate"><span class="pre">spiral_sample_sphere()</span></code></a></li>
 </ul>
 </li>
@@ -973,6 +979,7 @@ document.write(`
 <li class="toctree-l4"><a class="reference internal" href="mirage.html#mirage.station.Telescope.vectors_inertial_to_body"><code class="docutils literal notranslate"><span class="pre">Telescope.vectors_inertial_to_body()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="mirage.html#mirage.station.signal_spread"><code class="docutils literal notranslate"><span class="pre">signal_spread()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="mirage.html#module-mirage.time">mirage.time module</a><ul>

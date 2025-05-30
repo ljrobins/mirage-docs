@@ -30,7 +30,7 @@ solid_angle_sterad = np.deg2rad(1) ** 2
 lambdas = np.linspace(1e-8, 1e-6, int(1e2))
 strint = mr.proof_zero_mag_stellar_spectrum(lambdas)  # Approximately same as STRINT
 s10_to_irrad = (
-    10**-4 * solid_angle_sterad * np.rad2deg(1) ** 2 * np.trapz(strint, lambdas)
+    10**-4 * solid_angle_sterad * np.rad2deg(1) ** 2 * np.trapezoid(strint, lambdas)
 )
 m_s10 = mr.irradiance_to_apparent_magnitude(s10_to_irrad)
 s10_to_irrad_true = np.rad2deg(1) ** 2 * mr.apparent_magnitude_to_irradiance(10)
@@ -38,7 +38,7 @@ s10_to_irrad_true = np.rad2deg(1) ** 2 * mr.apparent_magnitude_to_irradiance(10)
 # %%
 # Let's first display the raw :math:`S_{10}` brightness of the patched catalog
 
-x = np.load(os.path.join(os.environ['SRCDIR'], '..', 'patched6.npz'))
+x = np.load(os.path.join(os.environ['DATADIR'], 'patched6.npz'))
 signal_3d = x['isl']
 lims = x['mag_lims']
 
@@ -57,7 +57,7 @@ plt.imshow(
 )
 
 mrv.texit(
-    'Patched GAIA Catalog $m_{G} \geq 14$',
+    r'Patched GAIA Catalog $m_{G} \geq 14$',
     'Right Ascension [deg]',
     'Declination [deg]',
     grid=False,

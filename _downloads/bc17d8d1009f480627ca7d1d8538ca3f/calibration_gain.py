@@ -62,7 +62,7 @@ def calibrate_sky_flats_to_gain(flats_dir: str) -> np.ndarray:
     means = np.array(means)
     variances = np.array(variances)
     m, b = l1_fit(means, variances)
-    print(f'Gain: {1/m}')
+    print(f'Gain: {1 / m}')
     plt.scatter(means, variances, marker='+')
     plt.plot(means, means * m + b, label='best fit', color='k')
     plt.legend()

@@ -399,7 +399,7 @@ if __name__ == '__main__':
         plot_poly(clipping_polygon, c='k', linewidth=4, label='Clipping polygon')
         plt.plot(
             *np.array((clipping_polygon[i, :], clipping_polygon[(i - 1) % 4, :])).T,
-            'c--',
+            'r--',
             linewidth=2,
             label='Clipping edge',
         )
@@ -411,13 +411,12 @@ if __name__ == '__main__':
             linewidth=1.6,
             label='Clipped polygon',
         )
-        plt.grid()
-        plt.xlabel('$x$ distance units')
-        plt.ylabel('$y$ distance units')
-        plt.title(f'Step {i+1}/4')
+        plt.gca().get_xaxis().set_visible(False)
+        plt.gca().get_yaxis().set_visible(False)
+
+        plt.title(f'Step {i + 1}/4')
         plt.ylim(-3.5, 3.75)
 
-    plt.gcf().suptitle('Sutherland-Hodgeman Polygon Clipping')
     plt.subplot(2, 2, 2)
     plt.legend(bbox_to_anchor=(1.05, 1.02))
     plt.tight_layout()

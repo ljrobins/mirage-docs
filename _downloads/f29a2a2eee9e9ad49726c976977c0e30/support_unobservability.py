@@ -38,7 +38,7 @@ r_plate2 = r_geo - 1e-3
 irradiance_fraction_difference = 1 - (r_plate2 / r_plate) ** 2
 
 print(
-    f'The irradiance due to the closer plate is {irradiance_fraction_difference*100}% different'
+    f'The irradiance due to the closer plate is {irradiance_fraction_difference * 100}% different'
 )
 
 # %%

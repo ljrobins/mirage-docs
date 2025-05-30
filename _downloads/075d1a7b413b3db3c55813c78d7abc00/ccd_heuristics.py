@@ -41,7 +41,7 @@ irrad_sphere = (
     / (40e6) ** 2
 )
 print(
-    f'A {r_sph_meter}-meter diffuse sphere in GEO produces on average {irrad_sphere*sint_val:.2e} counts per second'
+    f'A {r_sph_meter}-meter diffuse sphere in GEO produces on average {irrad_sphere * sint_val:.2e} counts per second'
 )
 
 # %%
@@ -57,7 +57,9 @@ angular_radius_of_sat_geo_pix = angular_radius_of_sat_geo / mr.dms_to_rad(
     0, 0, station.telescope.ccd.pixel_scale
 )
 
-print(f'A GEO satellite is {2*angular_radius_of_sat_geo_pix:.1f} pixels wide from POGS')
+print(
+    f'A GEO satellite is {2 * angular_radius_of_sat_geo_pix:.1f} pixels wide from POGS'
+)
 
 sat_radius_m = 0.3
 sat_dist_m = (1000) * 1e3
@@ -68,7 +70,9 @@ angular_radius_of_sat_leo_pix = angular_radius_of_sat_leo / mr.dms_to_rad(
     0, 0, station.telescope.ccd.pixel_scale
 )
 
-print(f'A LEO satellite is {2*angular_radius_of_sat_leo_pix:.1f} pixels wide from POGS')
+print(
+    f'A LEO satellite is {2 * angular_radius_of_sat_leo_pix:.1f} pixels wide from POGS'
+)
 
 # %%
 # Airy disk size for GEO objects
@@ -78,8 +82,8 @@ rayleigh_crit_pix = rayleigh_crit_rad / mr.dms_to_rad(
     0, 0, station.telescope.ccd.pixel_scale
 )
 print(
-    f'For GEO the Airy disk is {rayleigh_crit_pix/angular_radius_of_sat_geo_pix:.1f}x wider than the object itself'
+    f'For GEO the Airy disk is {rayleigh_crit_pix / angular_radius_of_sat_geo_pix:.1f}x wider than the object itself'
 )
 print(
-    f'For LEO the Airy disk is {rayleigh_crit_pix/angular_radius_of_sat_leo_pix:.1f}x wider than the object itself'
+    f'For LEO the Airy disk is {rayleigh_crit_pix / angular_radius_of_sat_leo_pix:.1f}x wider than the object itself'
 )

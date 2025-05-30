@@ -26,7 +26,7 @@ for frac1 in np.concatenate((np.linspace(0, 1, 20), np.linspace(1, 0, 20))):
     mr.toc()
     pl.add_mesh(obj_merged._mesh, color='lightblue', name='mesh', smooth_shading=True)
     pl.add_text(
-        f'{weights[0]*100:3.0f}% Icosahedron \n{weights[1]*100:3.0f}% Duck',
+        f'{weights[0] * 100:3.0f}% Icosahedron \n{weights[1] * 100:3.0f}% Duck',
         font='courier',
         name='label',
     )
@@ -50,7 +50,7 @@ for i, weight1 in enumerate(np.linspace(0, 1, 4)):
     pl.subplot(i // 2, i % 2)
     pl.add_mesh(obj_merged._mesh, color='lightblue', name='mesh', smooth_shading=True)
     pl.add_text(
-        f'{weights[0]*100:3.0f}% Icosahedron \n{weights[1]*100:3.0f}% Torus',
+        f'{weights[0] * 100:3.0f}% Icosahedron \n{weights[1] * 100:3.0f}% Torus',
         font='courier',
         name='label',
     )

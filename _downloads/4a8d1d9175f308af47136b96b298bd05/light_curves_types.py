@@ -169,7 +169,6 @@ ovi = ov - r_obj_j2k
 # pl = pv.Plotter()
 # mrv.render_observation_scenario(pl, dates, station, mr.hat(-ovi), sensor_extent_km=36e3, night_lights=True)
 # pl.show()
-# endd
 
 # %%
 # Plotting the spin and orientation over time
@@ -224,9 +223,10 @@ lc, aux_data = station.observe_light_curve(
     instances=1,
 )
 
+
 imgs = []
 for i in range(len(dates)):
-    imgs.append(2 * np.array(Image.open(f'out/frame{i+1}.png'))[:, :, 0])
+    imgs.append(2 * np.array(Image.open(f'out/frame{i + 1}.png'))[:, :, 0])
 
 # %%
 # save a gif animation of the images in the out/ directory
@@ -238,9 +238,10 @@ mrv.texit('Rendered Scene', '', '')
 plt.xticks([])
 plt.yticks([])
 plt.subplot(1, 2, 2)
-lci = lc()
+lci = lc().filled(np.nan)
 plt.plot(epsecs, lci)
 plt.yscale('log')
+
 pt = plt.scatter(epsecs[0], lci[0], color='r')
 plt.gca().set_aspect('auto')
 mrv.texit('Light Curve $I(t)$', 'Seconds after epoch', '[ADU]')

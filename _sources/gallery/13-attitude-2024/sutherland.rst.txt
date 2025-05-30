@@ -21,12 +21,12 @@
 Sutherland-Hodgeman Clipping Algorithm
 ======================================
 
-.. GENERATED FROM PYTHON SOURCE LINES 5-425
+.. GENERATED FROM PYTHON SOURCE LINES 5-424
 
 
 
 .. image-sg:: /gallery/13-attitude-2024/images/sphx_glr_sutherland_001.png
-   :alt: Sutherland-Hodgeman Polygon Clipping, Step 1/4, Step 2/4, Step 3/4, Step 4/4
+   :alt: Step 1/4, Step 2/4, Step 3/4, Step 4/4
    :srcset: /gallery/13-attitude-2024/images/sphx_glr_sutherland_001.png, /gallery/13-attitude-2024/images/sphx_glr_sutherland_001_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
@@ -35,7 +35,6 @@ Sutherland-Hodgeman Clipping Algorithm
 
  .. code-block:: none
 
-    [Taichi] version 1.7.2, llvm 15.0.7, commit 0131dce9, osx, python 3.11.10
     [Taichi] Starting on arch=arm64
 
 
@@ -444,7 +443,7 @@ Sutherland-Hodgeman Clipping Algorithm
             plot_poly(clipping_polygon, c='k', linewidth=4, label='Clipping polygon')
             plt.plot(
                 *np.array((clipping_polygon[i, :], clipping_polygon[(i - 1) % 4, :])).T,
-                'c--',
+                'r--',
                 linewidth=2,
                 label='Clipping edge',
             )
@@ -456,13 +455,12 @@ Sutherland-Hodgeman Clipping Algorithm
                 linewidth=1.6,
                 label='Clipped polygon',
             )
-            plt.grid()
-            plt.xlabel('$x$ distance units')
-            plt.ylabel('$y$ distance units')
-            plt.title(f'Step {i+1}/4')
+            plt.gca().get_xaxis().set_visible(False)
+            plt.gca().get_yaxis().set_visible(False)
+
+            plt.title(f'Step {i + 1}/4')
             plt.ylim(-3.5, 3.75)
 
-        plt.gcf().suptitle('Sutherland-Hodgeman Polygon Clipping')
         plt.subplot(2, 2, 2)
         plt.legend(bbox_to_anchor=(1.05, 1.02))
         plt.tight_layout()
@@ -471,7 +469,7 @@ Sutherland-Hodgeman Clipping Algorithm
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.242 seconds)
+   **Total running time of the script:** (0 minutes 0.631 seconds)
 
 
 .. _sphx_glr_download_gallery_13-attitude-2024_sutherland.py:

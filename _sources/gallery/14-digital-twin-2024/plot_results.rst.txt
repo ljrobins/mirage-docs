@@ -21,7 +21,7 @@
 Synthetic Image Results
 =======================
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-134
+.. GENERATED FROM PYTHON SOURCE LINES 7-136
 
 .. code-block:: Python
 
@@ -34,6 +34,8 @@ Synthetic Image Results
 
     import mirage.photo as mrp
     import mirage.vis as mrv
+
+    # reg
 
 
     def plot_results(
@@ -159,11 +161,11 @@ Synthetic Image Results
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 135-136
+.. GENERATED FROM PYTHON SOURCE LINES 137-138
 
 Plotting POGS results
 
-.. GENERATED FROM PYTHON SOURCE LINES 136-149
+.. GENERATED FROM PYTHON SOURCE LINES 138-151
 
 .. code-block:: Python
 
@@ -274,11 +276,11 @@ Plotting POGS results
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 150-151
+.. GENERATED FROM PYTHON SOURCE LINES 152-153
 
 Plotting ZimMAIN results
 
-.. GENERATED FROM PYTHON SOURCE LINES 151-162
+.. GENERATED FROM PYTHON SOURCE LINES 153-165
 
 .. code-block:: Python
 
@@ -293,6 +295,7 @@ Plotting ZimMAIN results
         obs_title_postfix='(Cloudy Night)',
         synth_title_postfix='(No Clouds)',
     )
+
 
 
 
@@ -318,7 +321,50 @@ Plotting ZimMAIN results
 
  .. code-block:: none
 
-    data["br_std_img"]=array(1.9459608), data["br_std_synth"]=array(2.93093109)
+    data["br_std_img"]=array(1.9459608), data["br_std_synth"]=array(2.93058066)
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 166-167
+
+Plotting corrected ZimMAIN results
+
+.. GENERATED FROM PYTHON SOURCE LINES 167-178
+
+.. code-block:: Python
+
+
+    data = np.load(
+        '/Users/liamrobinson/Documents/maintained-research/mirage/examples/14-digital-twin-2024/data/zim_corr.nogit.npz'
+    )
+
+    plot_results(
+        data,
+        [],
+        obs_title_postfix='(Cloudy Night)',
+        synth_title_postfix='(Cloud Corrected)',
+    )
+
+
+
+.. rst-class:: sphx-glr-horizontal
+
+
+    *
+
+      .. image-sg:: /gallery/14-digital-twin-2024/images/sphx_glr_plot_results_013.png
+         :alt: Observed Image (Cloudy Night)
+         :srcset: /gallery/14-digital-twin-2024/images/sphx_glr_plot_results_013.png, /gallery/14-digital-twin-2024/images/sphx_glr_plot_results_013_2_00x.png 2.00x
+         :class: sphx-glr-multi-img
+
+    *
+
+      .. image-sg:: /gallery/14-digital-twin-2024/images/sphx_glr_plot_results_014.png
+         :alt: Synthetic Image (Cloud Corrected)
+         :srcset: /gallery/14-digital-twin-2024/images/sphx_glr_plot_results_014.png, /gallery/14-digital-twin-2024/images/sphx_glr_plot_results_014_2_00x.png 2.00x
+         :class: sphx-glr-multi-img
+
 
 
 
@@ -326,7 +372,7 @@ Plotting ZimMAIN results
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 10.957 seconds)
+   **Total running time of the script:** (0 minutes 14.741 seconds)
 
 
 .. _sphx_glr_download_gallery_14-digital-twin-2024_plot_results.py:
