@@ -23,7 +23,7 @@ Propagating the catalog
 
 Load the full TLE catalog and propagate all objects to a given epoch
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-9
+.. GENERATED FROM PYTHON SOURCE LINES 14-17
 
 .. code-block:: Python
 
@@ -36,11 +36,12 @@ Load the full TLE catalog and propagate all objects to a given epoch
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 10-11
+
+.. GENERATED FROM PYTHON SOURCE LINES 18-19
 
 First, let's define a function that plots the catalog at a given date
 
-.. GENERATED FROM PYTHON SOURCE LINES 11-48
+.. GENERATED FROM PYTHON SOURCE LINES 19-57
 
 .. code-block:: Python
 
@@ -61,6 +62,7 @@ First, let's define a function that plots the catalog at a given date
         cmap: str = 'viridis',
         point_size: int = 3,
     ) -> None:
+        """Plot the catalog object positions at a given date."""
         r_eci, _ = mr.propagate_catalog_to_dates(date)
         mrv.plot_earth(
             pl,
@@ -88,12 +90,12 @@ First, let's define a function that plots the catalog at a given date
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-51
+.. GENERATED FROM PYTHON SOURCE LINES 58-60
 
 Space in 2023 compared with space in 2000
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 51-64
+.. GENERATED FROM PYTHON SOURCE LINES 60-73
 
 .. code-block:: Python
 
@@ -122,12 +124,12 @@ Space in 2023 compared with space in 2000
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-67
+.. GENERATED FROM PYTHON SOURCE LINES 74-76
 
 Space in 1980
 ~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 67-89
+.. GENERATED FROM PYTHON SOURCE LINES 76-98
 
 .. code-block:: Python
 
@@ -135,20 +137,20 @@ Space in 1980
     plot_catalog_at_date(
         pl,
         mr.today(),
-        scalars=lambda r: (mr.vecnorm(r) < 42100)
-        + (mr.vecnorm(r) < 21_000)
-        + (mr.vecnorm(r) < 42190),
+        scalars=lambda r: (
+            (mr.vecnorm(r) < 42100) + (mr.vecnorm(r) < 21_000) + (mr.vecnorm(r) < 42190)
+        ),
         cmap='glasbey',
         point_size=10,
     )
 
-    pl.open_gif('test.gif', fps=20)
+    pl.open_gif('out/catalog.gif', fps=20)
     nframes = 150
     t = np.linspace(0, 2 * np.pi, nframes, endpoint=False)
     path_pts = np.array([np.sin(t), np.cos(t), np.zeros_like(t)]).T
     path_pts[:, 2] += 0.5
     path_pts = mr.hat(path_pts) * 18e4
-    pl.camera.center = (0.0, 0.0, 0.0)
+    pl.camera.focal_point = (0.0, 0.0, 0.0)
     for pt in path_pts:
         pl.camera.position = pt
         pl.write_frame()
@@ -168,7 +170,7 @@ Space in 1980
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (1 minutes 25.363 seconds)
+   **Total running time of the script:** (1 minutes 13.207 seconds)
 
 
 .. _sphx_glr_download_gallery_00-orbits_propagate_catalog.py:

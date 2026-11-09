@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Rigid Body Torque Free Attitudes
 ================================
@@ -28,13 +35,13 @@ obj_attitude = mr.RbtfAttitude(
 )
 (q, w) = obj_attitude.propagate(epsecs)
 mrv.vis_attitude_motion(
-    obj, q, 'tess_unstable.gif', framerate=20, background_color='white'
+    obj, q, 'out/tess_unstable.gif', framerate=20, background_color='white'
 )
 
 # %%
 # Black version of unstable motion
 mrv.vis_attitude_motion(
-    obj, q, 'tess_unstable_black.gif', framerate=20, background_color='black'
+    obj, q, 'out/tess_unstable_black.gif', framerate=20, background_color='black'
 )
 
 # %%
@@ -45,7 +52,9 @@ obj_attitude = mr.RbtfAttitude(
     itensor=np.diag((1.0, 2.0, 2.0)),
 )
 (q, w) = obj_attitude.propagate(epsecs)
-mrv.vis_attitude_motion(obj, q, 'tess_sp.gif', framerate=20, background_color='white')
+mrv.vis_attitude_motion(
+    obj, q, 'out/tess_sp.gif', framerate=20, background_color='white'
+)
 
 # %%
 # Stable rotation about the first axis
@@ -56,5 +65,5 @@ obj_attitude = mr.RbtfAttitude(
 )
 (q, w) = obj_attitude.propagate(epsecs)
 mrv.vis_attitude_motion(
-    obj, q, 'tess_stable.gif', framerate=20, background_color='white'
+    obj, q, 'out/tess_stable.gif', framerate=20, background_color='white'
 )

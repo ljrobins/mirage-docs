@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "mirage",
+#     "gaiaxpy",
+# ]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Calibrated Star Spectra
 =======================

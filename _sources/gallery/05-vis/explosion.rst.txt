@@ -23,7 +23,7 @@ Cislunar Fragmentation
 
 Visualizing a fragmentation event (for fun)
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-34
+.. GENERATED FROM PYTHON SOURCE LINES 17-46
 
 .. code-block:: Python
 
@@ -32,6 +32,7 @@ Visualizing a fragmentation event (for fun)
     import numpy as np
     import pyvista as pv
     import taichi as ti
+    from taichi.lang.impl import get_runtime
     from matplotlib.colors import LinearSegmentedColormap
 
     import mirage as mr
@@ -45,6 +46,7 @@ Visualizing a fragmentation event (for fun)
     obj = mr.SpaceObject('cube.obj', identifier=44333)
     r_sat, v_sat = obj.propagate(dates - mr.hours(10), return_velocity=True)
 
+    # r_cat = mr.propagate_catalog_to_dates(dates[0])[0]
     r0, v0 = r_sat[0], v_sat[0]
 
     NICS = 1_000
@@ -58,26 +60,20 @@ Visualizing a fragmentation event (for fun)
 
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    /Users/liamrobinson/Documents/maintained-research/mirage/mirage/orbit.py:503: UserWarning: Velocity is transformation is missing omega cross r term from TEME to J2000, but this is tiny
-      warnings.warn(
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 35-36
+.. GENERATED FROM PYTHON SOURCE LINES 47-48
 
 Now let's propagate the particles
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-117
+.. GENERATED FROM PYTHON SOURCE LINES 48-139
 
 .. code-block:: Python
 
 
-    ti.init(arch=ti.cpu)
+    if get_runtime().prog is None:
+        ti.init(arch=ti.cpu)
 
     NTIMES = epsecs.size
     STYPE = ti.types.vector(6, dtype=ti.f32)
@@ -89,6 +85,7 @@ Now let's propagate the particles
 
     @ti.func
     def two_body_dynamics(state) -> STYPE:
+        """Return the two-body state derivative for a Cartesian state."""
         r = state[:3].norm()
         dx, dy, dz = state[3], state[4], state[5]
         ddx = -mr.AstroConstants.earth_mu * state[0] / r**3
@@ -99,6 +96,7 @@ Now let's propagate the particles
 
     @ti.func
     def rk4_step(x0, h) -> STYPE:
+        """Advance a Cartesian state by one fourth-order RK step."""
         k1 = h * two_body_dynamics(x0)
         k2 = h * two_body_dynamics(x0 + k1 / 2)
         k3 = h * two_body_dynamics(x0 + k2 / 2)
@@ -108,6 +106,7 @@ Now let's propagate the particles
 
     @ti.kernel
     def compute_trajectory(h: ti.f32) -> int:
+        """Integrate all fragment trajectories with a fixed step size."""
         for i in range(NICS):
             ti.loop_config(serialize=True)
             for j in range(NTIMES - 1):
@@ -117,6 +116,7 @@ Now let's propagate the particles
 
     compute_trajectory(np.diff(epsecs[:2])[0])
     traj = traj.to_numpy()
+    traj /= 2
 
     r_to_sat = traj[-1, -1, :3] - station.j2000_at_dates(date)
     look_dir_eci = mr.hat(r_to_sat)
@@ -133,6 +133,7 @@ Now let's propagate the particles
         show_edges=True,
         color='white',
     )
+    # mrv.scatter3(p, r_cat, point_size=10, lighting=False)
 
     hex_colors = [
         '#EBD99F',  # Dust
@@ -149,7 +150,11 @@ Now let's propagate the particles
 
     for t in traj:
         mrv.plot3(
-            p, t[:, :3], scalars=np.linalg.norm(t[0, 3:]), show_scalar_bar=True, cmap=cmap
+            p,
+            t[:, :3],
+            scalars=np.linalg.norm(t[0, 3:]),
+            show_scalar_bar=True,
+            cmap=cmap,
         )
 
     p.remove_scalar_bar()
@@ -166,19 +171,13 @@ Now let's propagate the particles
    :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    [Taichi] Starting on arch=arm64
-
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 5.128 seconds)
+   **Total running time of the script:** (0 minutes 19.754 seconds)
 
 
 .. _sphx_glr_download_gallery_05-vis_explosion.py:

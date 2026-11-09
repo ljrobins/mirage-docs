@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Plotting models
 ===============
@@ -5,17 +12,22 @@ Plotting models
 Plotting the 3D models used in the case studies
 """
 
+import os
+
 import numpy as np
 import pyvista as pv
 
 import mirage as mr
 import mirage.vis as mrv
 
+MODEL_DIR = os.path.join(
+    os.environ['SRCDIR'], '..', 'examples', '15-attitude-sdc-2025', 'models'
+)
+
 
 def main():
-    mr.set_model_directory(
-        '/Users/liamrobinson/Documents/maintained-research/mirage/examples/15-attitude-sdc-2025/models'
-    )
+    """Render the high-fidelity spacecraft models used in the SDC case study."""
+    mr.set_model_directory(MODEL_DIR)
     obj_true = mr.SpaceObject('echostar-ii-tri.obj')
 
     obj_true_mat = mr.load_obj(obj_true.file_name)

@@ -23,7 +23,7 @@ IAU-76 J2000 Reduction
 
 Converting an ITRF vector to J2000 using the IAU-76 nutation theory, comparing results to Vallado's Fundamentals of Astrodynamics 4th edition
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-12
+.. GENERATED FROM PYTHON SOURCE LINES 14-19
 
 .. code-block:: Python
 
@@ -39,11 +39,11 @@ Converting an ITRF vector to J2000 using the IAU-76 nutation theory, comparing r
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 13-14
+.. GENERATED FROM PYTHON SOURCE LINES 20-21
 
 Truth values presented here are copied from Vallado Example 3-15 (pg. 230)
 
-.. GENERATED FROM PYTHON SOURCE LINES 14-31
+.. GENERATED FROM PYTHON SOURCE LINES 21-38
 
 .. code-block:: Python
 
@@ -71,11 +71,11 @@ Truth values presented here are copied from Vallado Example 3-15 (pg. 230)
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-33
+.. GENERATED FROM PYTHON SOURCE LINES 39-40
 
 We can now compute these values for ourselves
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-40
+.. GENERATED FROM PYTHON SOURCE LINES 40-47
 
 .. code-block:: Python
 
@@ -93,11 +93,11 @@ We can now compute these values for ourselves
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-42
+.. GENERATED FROM PYTHON SOURCE LINES 48-49
 
 We can compute the error in the assorted quantities we computed
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-57
+.. GENERATED FROM PYTHON SOURCE LINES 49-64
 
 .. code-block:: Python
 
@@ -123,11 +123,11 @@ We can compute the error in the assorted quantities we computed
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-59
+.. GENERATED FROM PYTHON SOURCE LINES 65-66
 
 And assert that these errors are sufficiently small to the Vallado values
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-70
+.. GENERATED FROM PYTHON SOURCE LINES 66-77
 
 .. code-block:: Python
 
@@ -135,11 +135,11 @@ And assert that these errors are sufficiently small to the Vallado values
     assert np.abs(tt_error) < 1e-6, 'TT error > 1e-6 days'
     assert np.abs(ut1_minus_utc_error) < 1e-3, 'UT1-UTC error > 1e-3 sec'
     assert np.abs(gmst_error) < 1e-3, 'GMST error > 1e-3 sec'
-    assert all(np.abs(gast_error) < 1e-3), 'GAST error > 1e-3 sec'
-    assert all(np.abs(delta_psi_error) < 1e-3), 'DeltaPsi error > 1e-3 arcsec'
-    assert all(np.abs(delta_eps_error) < 1e-3), 'DeltaEpsilon error > 1e-3 arcsec'
+    assert np.all(np.abs(gast_error) < 1e-3), 'GAST error > 1e-3 sec'
+    assert np.all(np.abs(delta_psi_error) < 1e-3), 'DeltaPsi error > 1e-3 arcsec'
+    assert np.all(np.abs(delta_eps_error) < 1e-3), 'DeltaEpsilon error > 1e-3 arcsec'
     assert np.abs(eps_bar_error) < 1e-4, 'EpsilonBar error > 1e-4 arcsec'
-    assert all(np.abs(eps_error) < 1e-3), 'Epsilon error > 1e-4 arcsec'
+    assert np.all(np.abs(eps_error) < 1e-3), 'Epsilon error > 1e-4 arcsec'
 
 
 
@@ -149,12 +149,12 @@ And assert that these errors are sufficiently small to the Vallado values
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 71-73
+.. GENERATED FROM PYTHON SOURCE LINES 78-80
 
 As well as the individual frame transformations in the chain from ITRF to J2000.
 In each transformation, we start with the truth Vallado value so that the error does not accumulate from earlier transformations. This lets us see how much error each transformation introduces by itself
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-78
+.. GENERATED FROM PYTHON SOURCE LINES 80-85
 
 .. code-block:: Python
 
@@ -170,11 +170,11 @@ In each transformation, we start with the truth Vallado value so that the error 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-80
+.. GENERATED FROM PYTHON SOURCE LINES 86-87
 
 Likewise, we compute the componentwise errors in each transformation in meters
 
-.. GENERATED FROM PYTHON SOURCE LINES 80-86
+.. GENERATED FROM PYTHON SOURCE LINES 87-93
 
 .. code-block:: Python
 
@@ -191,18 +191,18 @@ Likewise, we compute the componentwise errors in each transformation in meters
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 87-88
+.. GENERATED FROM PYTHON SOURCE LINES 94-95
 
 And assert that these must also be small -- for now we use 1 meter as the target error accumulation per transformation
 
-.. GENERATED FROM PYTHON SOURCE LINES 88-93
+.. GENERATED FROM PYTHON SOURCE LINES 95-100
 
 .. code-block:: Python
 
-    assert all(np.abs(gtod_error) < 1), 'ITRF->GTOD error > 1 m'
-    assert all(np.abs(tod_error) < 1), 'GTID->TOD error > 1 m'
-    assert all(np.abs(mod_error) < 1), 'TOD->MOD error > 1 m'
-    assert all(np.abs(j2000_error) < 1), 'MOD->J2000 error > 1 m'
+    assert np.all(np.abs(gtod_error) < 1), 'ITRF->GTOD error > 1 m'
+    assert np.all(np.abs(tod_error) < 1), 'GTID->TOD error > 1 m'
+    assert np.all(np.abs(mod_error) < 1), 'TOD->MOD error > 1 m'
+    assert np.all(np.abs(j2000_error) < 1), 'MOD->J2000 error > 1 m'
 
 
 
@@ -211,11 +211,11 @@ And assert that these must also be small -- for now we use 1 meter as the target
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 94-95
+.. GENERATED FROM PYTHON SOURCE LINES 101-102
 
 Let's collect these error results
 
-.. GENERATED FROM PYTHON SOURCE LINES 95-112
+.. GENERATED FROM PYTHON SOURCE LINES 102-119
 
 .. code-block:: Python
 
@@ -244,29 +244,29 @@ Let's collect these error results
 
  .. code-block:: none
 
-    tt_error=-1.100584207103239e-11 [days]
-    ut1_minus_utc_error=-0.00047023129043577416 [sec]
-    gmst_error=-0.0004931977036903845 [sec]
-    gast_error=array([-0.00048926]) [sec]
+    tt_error=np.float64(-1.100584207103239e-11) [days]
+    ut1_minus_utc_error=np.float64(-0.00047023129043577416) [sec]
+    gmst_error=np.float64(-0.0004931977036903845) [sec]
+    gast_error=np.float64(-0.000489262533847068) [sec]
     delta_psi_error=array([-0.00014329]) [arcsec]
     delta_eps_error=array([0.00012739]) [arcsec]
-    eps_bar_error=8.974162852837253e-05 [arcsec]
+    eps_bar_error=np.float64(8.974162852837253e-05) [arcsec]
     eps_error=array([-0.00014287]) [arcsec]
 
 
     gtod_error=array([-0.00541334,  0.02784564, -0.03537874]) [m]
-    tod_error=array([ 2.71740207e-01, -2.25618291e-01, -4.99994712e-05]) [m]
+    tod_error=array([ 2.71740208e-01, -2.25618291e-01, -4.99994712e-05]) [m]
     mod_error=array([ 0.64090278,  0.12025729, -0.62743727]) [m]
     j2000_error=array([-0.6420751 , -0.12929804,  0.62820185]) [m]
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 113-114
+.. GENERATED FROM PYTHON SOURCE LINES 120-121
 
 We can now perform a simultaneous transformation that deals with all the sub-rotations behind the scenes
 
-.. GENERATED FROM PYTHON SOURCE LINES 114-125
+.. GENERATED FROM PYTHON SOURCE LINES 121-132
 
 .. code-block:: Python
 
@@ -291,16 +291,16 @@ We can now perform a simultaneous transformation that deals with all the sub-rot
 
     MINE: [5102.50988698 6123.01131736 6378.13626496]
     VALL: [5102.5096  6123.01153 6378.1363 ]
-    Transformation error: 0.3588836219175323 [m]
+    Transformation error: 0.3588836226447979 [m]
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 126-127
+.. GENERATED FROM PYTHON SOURCE LINES 133-134
 
 Finally, let's run the transformation in reverse to make sure we can both directions
 
-.. GENERATED FROM PYTHON SOURCE LINES 127-137
+.. GENERATED FROM PYTHON SOURCE LINES 134-144
 
 .. code-block:: Python
 
@@ -324,7 +324,7 @@ Finally, let's run the transformation in reverse to make sure we can both direct
 
     MINE: [-1033.47973396  7901.29520903  6380.35663073]
     VALL: [-1033.479383   7901.2952754  6380.3565958]
-    Transformation error: 0.35888362173668825 [m]
+    Transformation error: 0.35888362179083394 [m]
 
 
 
@@ -332,7 +332,7 @@ Finally, let's run the transformation in reverse to make sure we can both direct
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.010 seconds)
+   **Total running time of the script:** (0 minutes 0.062 seconds)
 
 
 .. _sphx_glr_download_gallery_03-coordinate-systems_itrf_to_j2000.py:

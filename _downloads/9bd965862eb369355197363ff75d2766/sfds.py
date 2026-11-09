@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "mirage",
+#     "mesdf",
+# ]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Signed Distance Fields
 ======================
@@ -85,6 +95,6 @@ for cval in np.linspace(np.min(sdf_vals), -np.min(sdf_vals), 10):
             scalar_bar_args=dict(title='SDF Value'),
         )
 
-pl.open_gif('sdf_orbit.gif')
+pl.open_gif('out/sdf_orbit.gif')
 path = pl.generate_orbital_path(n_points=36, shift=mesh.length / 3)
 pl.orbit_on_path(path, write_frames=True)

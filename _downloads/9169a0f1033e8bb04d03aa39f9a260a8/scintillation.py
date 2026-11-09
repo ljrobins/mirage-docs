@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Atmospheric Scintillation
 =========================
@@ -30,7 +37,7 @@ plt.vlines(
     np.array([-3 * sigmay, 3 * sigmay]) * 100,
     *prev_ylim,
     colors='k',
-    label='$\pm 3 \sigma$',
+    label=r'$\pm 3 \sigma$',
 )
 plt.ylim(*prev_ylim)
 plt.xlabel('Percent intensity deviation')

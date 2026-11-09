@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "mirage",
+#     "seaborn",
+# ]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Noisy Light Curves
 ==================
@@ -23,7 +33,7 @@ ephr = epsecs / 3600  # Epoch hours
 
 # %%
 # Setting up the scenario objects
-obj = mr.SpaceObject('hylas4.obj', identifier='goes 15')
+obj = mr.SpaceObject('hylas4.obj', identifier=36411)
 brdf = mr.Brdf('phong')
 station = mr.Station(preset='pogs')
 # Observing from the Purdue Optical Ground Station in New Mexico

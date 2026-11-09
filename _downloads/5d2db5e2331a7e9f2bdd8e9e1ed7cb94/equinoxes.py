@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Equinoxes and Solstices
 =======================
@@ -29,6 +36,7 @@ frame_conversion = mr.EarthFixedFrame('itrf', 'j2000')
 # %%
 # We can then plot the basis vectors at each of the selected times, labeling them in each subplot
 def plot_bases_at_date(pl: pv.Plotter, d: datetime.datetime) -> None:
+    """Plot the Earth-fixed basis vectors at a given date."""
     pl.add_text(d.strftime('%Y-%m-%d %H:%M:%S UTC'))
     mrv.plot_earth(
         pl,

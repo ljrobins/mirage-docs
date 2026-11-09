@@ -23,11 +23,11 @@ Mapping Model
 
 Modeling the shape of the CCD image
 
-.. GENERATED FROM PYTHON SOURCE LINES 9-10
+.. GENERATED FROM PYTHON SOURCE LINES 16-17
 
 It's important to understand where each pixel in the CCD originates from in the far field
 
-.. GENERATED FROM PYTHON SOURCE LINES 10-40
+.. GENERATED FROM PYTHON SOURCE LINES 17-47
 
 .. code-block:: Python
 
@@ -43,7 +43,7 @@ It's important to understand where each pixel in the CCD originates from in the 
         np.arange(station.telescope.ccd.sensor_pixels[1]),
     )
     mr.tic('Mapping')
-    xd, yx = station.telescope.pixel_distortion(
+    xd, yd = station.telescope.pixel_distortion(
         x,
         y,
         station.telescope.ccd.sensor_pixels[0] // 2,
@@ -51,7 +51,7 @@ It's important to understand where each pixel in the CCD originates from in the 
     )
     mr.toc()
 
-    dist = np.sqrt((x - xd) ** 2 + (y - yx) ** 2)
+    dist = np.sqrt((x - xd) ** 2 + (y - yd) ** 2)
 
     plt.figure()
     plt.imshow(dist, cmap='cool')
@@ -74,16 +74,16 @@ It's important to understand where each pixel in the CCD originates from in the 
 
  .. code-block:: none
 
-    Mapping: 1.48e+00 seconds
+    Mapping: 1.00e+01 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-42
+.. GENERATED FROM PYTHON SOURCE LINES 48-49
 
 Corner of the image principal lines
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-79
+.. GENERATED FROM PYTHON SOURCE LINES 49-86
 
 .. code-block:: Python
 
@@ -139,7 +139,7 @@ Corner of the image principal lines
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 3.795 seconds)
+   **Total running time of the script:** (0 minutes 33.220 seconds)
 
 
 .. _sphx_glr_download_gallery_08-ccd_mapping_function.py:

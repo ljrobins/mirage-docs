@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Shape Comparison Metrics
 ========================
@@ -23,11 +30,13 @@ p = mr.SpaceObject(vertices_and_faces=(v_vol1 + 0.2, p.f.copy()))
 
 
 def compute_in_sphere(p: mr.SpaceObject) -> Tuple[np.ndarray, float]:
+    """Find the largest sphere contained within the object."""
     if not np.isclose(p.volume, 1):
         v_vol1 = p.v / p.volume ** (1 / 3)
         p = mr.SpaceObject(vertices_and_faces=(v_vol1, p.f.copy()))
 
     def in_sphere_objective(x):
+        """Return the negative minimum support for a candidate sphere center."""
         p2 = mr.SpaceObject(vertices_and_faces=(p.v.copy() - x, p.f.copy()))
         return -np.min(p2.supports)
 
@@ -37,11 +46,13 @@ def compute_in_sphere(p: mr.SpaceObject) -> Tuple[np.ndarray, float]:
 
 
 def compute_out_sphere(p: mr.SpaceObject) -> Tuple[np.ndarray, float]:
+    """Find the smallest sphere that contains the object."""
     if not np.isclose(p.volume, 1):
         v_vol1 = p.v / p.volume ** (1 / 3)
         p = mr.SpaceObject(vertices_and_faces=(v_vol1, p.f.copy()))
 
     def out_sphere_objective(x):
+        """Return the maximum vertex distance for a candidate sphere center."""
         return np.max(mr.vecnorm(p.v - x))
 
     solver_kwargs = dict(jac='3-point', method='BFGS')
@@ -62,6 +73,7 @@ print(out_solx, out_solr)
 
 
 def delta_neighborhood(p1: mr.SpaceObject, p2: mr.SpaceObject) -> float:
+    """Return the Frueh-Oliker delta-neighborhood shape metric."""
     _, R1 = compute_out_sphere(p1)
     _, R2 = compute_out_sphere(p2)
     _, r1 = compute_in_sphere(p1)

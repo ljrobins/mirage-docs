@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Closest Average Random Nearest Neighbor
 =======================================
@@ -13,6 +20,7 @@ import mirage as mr
 
 
 def dist_to_nearest_neighbor(pts: np.ndarray) -> np.ndarray:
+    """Return the distance from each point to its nearest neighbor."""
     nn_ind = BallTree(pts).query(pts, k=2)[1][:, 1]
     return mr.vecnorm(pts - pts[nn_ind, :])
 
@@ -20,6 +28,7 @@ def dist_to_nearest_neighbor(pts: np.ndarray) -> np.ndarray:
 def uniform_pts_expected_distance_to_nn(
     d: np.ndarray, n: np.ndarray, k: np.ndarray
 ) -> np.ndarray:
+    """Return the expected nearest-neighbor distance for uniform points."""
     from scipy.special import gamma
 
     t1 = gamma(d / 2 + 1) ** (1 / d) / np.pi**0.5
@@ -40,7 +49,7 @@ zs = np.log10(uniform_pts_expected_distance_to_nn(dd, nn, k))
 levels = np.geomspace(zs.min(), zs.max(), 10)
 
 plt.contourf(ds, np.log10(ns), zs, levels=levels, cmap='plasma')
-plt.colorbar(label='Log distance to closest neighbor $\log_{10}(d)$')
+plt.colorbar(label=r'Log distance to closest neighbor $\log_{10}(d)$')
 plt.xlabel('Number of Dimensions')
 plt.ylabel('Log number of sampled points')
 plt.show()

@@ -25,7 +25,7 @@ Simulates and animates an aligned and constrained attitude profile
 
 .. note:: If you want to record a .mp4 video instead, try ``pl.open_movie("aligned_and_constrained.mov", framerate=30, quality=9)``
 
-.. GENERATED FROM PYTHON SOURCE LINES 9-84
+.. GENERATED FROM PYTHON SOURCE LINES 16-91
 
 
 
@@ -35,19 +35,8 @@ Simulates and animates an aligned and constrained attitude profile
    :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    /Users/liamrobinson/Documents/maintained-research/mirage/mirage/orbit.py:504: UserWarning: Velocity is transformation is missing omega cross r term from TEME to J2000, but this is tiny
-      warnings.warn(
 
 
-
-
-
-
-|
 
 .. code-block:: Python
 
@@ -58,7 +47,7 @@ Simulates and animates an aligned and constrained attitude profile
     import mirage as mr
     import mirage.vis as mrv
 
-    data_points = 100
+    data_points = 50
     obj = mr.SpaceObject('matlib_gps_iii.obj', identifier='NAVSTAR 80 (USA 309)')
     jd0, jdf = 2459840.6618391783, 2459840.9182615164
     date0, datef = mr.jd_to_date(jd0), mr.jd_to_date(jdf)
@@ -83,7 +72,7 @@ Simulates and animates an aligned and constrained attitude profile
     obs_in_body = mr.stack_mat_mult_vec(c, sat_nadir)
 
     pl = pv.Plotter()
-    pl.open_gif('aligned_and_constrained.gif', fps=20)
+    pl.open_gif('out/aligned_and_constrained.gif', fps=20)
 
     mrv.plot3(pl, r, color='cyan', line_width=10)
 
@@ -130,7 +119,7 @@ Simulates and animates an aligned and constrained attitude profile
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 40.741 seconds)
+   **Total running time of the script:** (1 minutes 32.071 seconds)
 
 
 .. _sphx_glr_download_gallery_06-attitude_aligned_angle_constrained.py:

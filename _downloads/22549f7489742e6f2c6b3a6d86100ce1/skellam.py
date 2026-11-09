@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Skellam Distribution
 ====================
@@ -14,10 +21,8 @@ lams = [10, 4]
 s1 = np.random.poisson(lam=lams[0], size=n)
 s2 = np.random.poisson(lam=lams[1], size=n)
 
-p_skellam = (
-    lambda x, lam1, lam2: np.exp(-lam1 - lam2)
-    * (lam1 / lam2) ** (x / 2)
-    * iv(x, 2 * np.sqrt(lam1 * lam2))
+p_skellam = lambda x, lam1, lam2: (
+    np.exp(-lam1 - lam2) * (lam1 / lam2) ** (x / 2) * iv(x, 2 * np.sqrt(lam1 * lam2))
 )
 xs = np.linspace(-20, 20)
 pxs = p_skellam(xs, *lams)

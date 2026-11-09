@@ -23,7 +23,7 @@ Closest Average Random Nearest Neighbor
 
 Using a method from :cite:`bhattacharyya2003` to find the mean distance to the kth nearest neighbor for uniformly scattered points in n-dimensions
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-62
+.. GENERATED FROM PYTHON SOURCE LINES 14-71
 
 
 
@@ -50,25 +50,25 @@ Using a method from :cite:`bhattacharyya2003` to find the mean distance to the k
  .. code-block:: none
 
     expect: 0.009375
-    got: 0.005037
+    got: 0.00504
     expect: 0.04
-    got: 0.02616
+    got: 0.02603
     expect: 0.08552
-    got: 0.06297
+    got: 0.06251
     expect: 0.1378
-    got: 0.1091
+    got: 0.11
     expect: 0.1921
-    got: 0.1623
+    got: 0.1621
     expect: 0.2462
-    got: 0.2172
+    got: 0.2177
     expect: 0.2988
-    got: 0.275
+    got: 0.2742
     expect: 0.3496
-    got: 0.331
+    got: 0.3321
     expect: 0.3984
-    got: 0.3874
+    got: 0.3868
     expect: 0.4451
-    got: 0.4444
+    got: 0.4436
 
 
 
@@ -88,6 +88,7 @@ Using a method from :cite:`bhattacharyya2003` to find the mean distance to the k
 
 
     def dist_to_nearest_neighbor(pts: np.ndarray) -> np.ndarray:
+        """Return the distance from each point to its nearest neighbor."""
         nn_ind = BallTree(pts).query(pts, k=2)[1][:, 1]
         return mr.vecnorm(pts - pts[nn_ind, :])
 
@@ -95,6 +96,7 @@ Using a method from :cite:`bhattacharyya2003` to find the mean distance to the k
     def uniform_pts_expected_distance_to_nn(
         d: np.ndarray, n: np.ndarray, k: np.ndarray
     ) -> np.ndarray:
+        """Return the expected nearest-neighbor distance for uniform points."""
         from scipy.special import gamma
 
         t1 = gamma(d / 2 + 1) ** (1 / d) / np.pi**0.5
@@ -115,7 +117,7 @@ Using a method from :cite:`bhattacharyya2003` to find the mean distance to the k
     levels = np.geomspace(zs.min(), zs.max(), 10)
 
     plt.contourf(ds, np.log10(ns), zs, levels=levels, cmap='plasma')
-    plt.colorbar(label='Log distance to closest neighbor $\log_{10}(d)$')
+    plt.colorbar(label=r'Log distance to closest neighbor $\log_{10}(d)$')
     plt.xlabel('Number of Dimensions')
     plt.ylabel('Log number of sampled points')
     plt.show()
@@ -138,7 +140,7 @@ Using a method from :cite:`bhattacharyya2003` to find the mean distance to the k
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 3.195 seconds)
+   **Total running time of the script:** (0 minutes 13.695 seconds)
 
 
 .. _sphx_glr_download_gallery_10-utility_random_nn_mean.py:

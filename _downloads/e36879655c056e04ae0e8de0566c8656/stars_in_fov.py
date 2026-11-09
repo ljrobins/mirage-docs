@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Stars in FOV
 ============
@@ -13,6 +20,7 @@ import mirage.vis as mrv
 
 
 def plot_telescope_fov(station: mr.Station, look_dir: np.ndarray, up_dir: np.ndarray):
+    """Plot the telescope field-of-view boundary in RA/Dec coordinates."""
     sp = station.telescope.ccd.sensor_pixels
     xy1 = np.vstack((np.arange(sp[0]), np.full(sp[0], 0))).T
     xy2 = np.vstack((np.arange(sp[0]), np.full(sp[0], sp[1]))).T
@@ -46,9 +54,9 @@ mr.tic()
 tree_inds = catalog._tree.query_radius(look_dir, 1.2 * fov_rad)[0]
 t1 = mr.toc(return_elapsed_seconds=True)
 
-assert (
-    brute_inds.size == np.intersect1d(brute_inds, tree_inds).size
-), 'Brute force and tree search returned different numbers of stars!'
+assert brute_inds.size == np.intersect1d(brute_inds, tree_inds).size, (
+    'Brute force and tree search returned different numbers of stars!'
+)
 
 mr.tic()
 tree_inds_in_fov = mr.unit_vector_inds_in_fov(

@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Precise Orbit Determination with Batch Least Squares
 ====================================================
@@ -36,6 +43,7 @@ ras_rad, decs_rad = mr.eci_to_ra_dec(lhats_pod)
 
 
 def angles_only_measurement_model(state: np.ndarray, dates: np.ndarray) -> np.ndarray:
+    """Return the predicted RA/Dec angles for a Cartesian state history."""
     assert (
         (state.shape[0] == len(dates))
         if isinstance(dates, np.ndarray)
@@ -50,6 +58,7 @@ def angles_only_measurement_model(state: np.ndarray, dates: np.ndarray) -> np.nd
 def angles_only_measurement_model_jacobian(
     state: np.ndarray, dates: np.ndarray
 ) -> np.ndarray:
+    """Return the Jacobian of the angle measurements with respect to the state."""
     assert (
         (state.shape[0] == len(dates))
         if isinstance(dates, np.ndarray)
@@ -90,6 +99,7 @@ def lumve(
     initial_state: np.ndarray,
     initial_covariance: np.ndarray,
 ) -> np.ndarray:
+    """Run an iterated batch least-squares orbit determination."""
     xk = initial_state
     Pk = initial_covariance
     for _ in range(10):

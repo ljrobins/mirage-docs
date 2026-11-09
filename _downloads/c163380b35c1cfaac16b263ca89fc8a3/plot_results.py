@@ -1,9 +1,22 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "mirage",
+#     "photutils",
+#     "scikit-image",
+# ]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Synthetic Image Results
 =======================
 
 
 """
+
+import os
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -14,7 +27,10 @@ from matplotlib.colors import SymLogNorm
 import mirage.photo as mrp
 import mirage.vis as mrv
 
-# reg
+EXAMPLE_DIR = os.path.join(
+    os.environ['SRCDIR'], '..', 'examples', '14-digital-twin-2024'
+)
+DATA_DIR = os.path.join(EXAMPLE_DIR, 'data')
 
 
 def plot_results(
@@ -23,6 +39,7 @@ def plot_results(
     obs_title_postfix: str = None,
     synth_title_postfix: str = None,
 ):
+    """Plot observed and synthetic images and their normalized residuals."""
     img = data['img']  # regen 3
     img_syn = data['img_syn']
     br_std_img = data['br_std_img']
@@ -90,15 +107,10 @@ def plot_results(
     )
 
     def plot_regions_error(rs, start):
+        """Plot the normalized error distribution for each selected region."""
         for i, (r, c) in enumerate(rs, start):
             adu_err_region = adu_err_stdev[r[0][1] : r[0][0], r[1][0] : r[1][1]]
             err_range = (adu_err_region.min(), adu_err_region.max())
-            print(
-                f'Median error sigma for region {i}: {np.median(adu_err_region.flatten())}'
-            )
-
-            fiddy_percent_bounds = np.percentile(adu_err_region.flatten(), [25, 75])
-            print(f'{fiddy_percent_bounds=}')
 
             plt.figure(figsize=(4, 4))
             norm = SymLogNorm(1, 1, *err_range)
@@ -136,24 +148,18 @@ def plot_results(
 # %%
 # Plotting POGS results
 
-data = np.load(
-    '/Users/liamrobinson/Documents/maintained-research/mirage/examples/14-digital-twin-2024/data/pogs.nogit.npz'
-)
+data = np.load(os.path.join(DATA_DIR, 'pogs.nogit.npz'))
 r1 = [(3000, 2750), (3150, 3400)]  # br
 r2 = [(750, 550), (250, 490)]  # dim star
 r3 = [(1000, 800), (250, 490)]  # bright star
 r4 = [(2025, 1950), (3000, 3075)]  # obj
 regions = [(r1, 'r'), (r2, 'lime'), (r3, 'c'), (r4, 'm')]
 
-print(f'{data["br_std_img"]=}, {data["br_std_synth"]=}')
 plot_results(data, regions)
 
 # %%
 # Plotting ZimMAIN results
-data = np.load(
-    '/Users/liamrobinson/Documents/maintained-research/mirage/examples/14-digital-twin-2024/data/zim.nogit.npz'
-)
-print(f'{data["br_std_img"]=}, {data["br_std_synth"]=}')
+data = np.load(os.path.join(DATA_DIR, 'zim.nogit.npz'))
 
 plot_results(
     data,
@@ -165,9 +171,7 @@ plot_results(
 # %%
 # Plotting corrected ZimMAIN results
 
-data = np.load(
-    '/Users/liamrobinson/Documents/maintained-research/mirage/examples/14-digital-twin-2024/data/zim_corr.nogit.npz'
-)
+data = np.load(os.path.join(DATA_DIR, 'zim_corr.nogit.npz'))
 
 plot_results(
     data,

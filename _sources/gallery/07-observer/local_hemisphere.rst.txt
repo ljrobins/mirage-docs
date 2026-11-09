@@ -23,7 +23,7 @@ Live Satellites From Observer
 
 Plots satellites that would be visible from a station's telescope in real time
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-30
+.. GENERATED FROM PYTHON SOURCE LINES 17-40
 
 .. code-block:: Python
 
@@ -57,12 +57,12 @@ Plots satellites that would be visible from a station's telescope in real time
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-33
+.. GENERATED FROM PYTHON SOURCE LINES 41-43
 
 Since I'm currently stuck in the Philadelphia airport, let's plot things from the perspective of there
 obs_lat, obs_lon = lat_lon_of_address("Philadelphia, PA")
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-35
+.. GENERATED FROM PYTHON SOURCE LINES 43-45
 
 .. code-block:: Python
 
@@ -75,19 +75,20 @@ obs_lat, obs_lon = lat_lon_of_address("Philadelphia, PA")
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-37
+.. GENERATED FROM PYTHON SOURCE LINES 46-47
 
 Let's impose a signal to noise ratio constraint, require satellites to be above the horizon, be illuminated, and have a visual magnitude brighter than 12
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-44
+.. GENERATED FROM PYTHON SOURCE LINES 47-55
 
 .. code-block:: Python
 
     station.constraints = [
         mr.SnrConstraint(5),
-        mr.ElevationConstraint(0),
+        mr.ElevationConstraint(20),
         mr.TargetIlluminatedConstraint(),
-        mr.VisualMagnitudeConstraint(12),
+        mr.VisualMagnitudeConstraint(6),
+        mr.ObserverEclipseConstraint(station),
     ]
 
 
@@ -97,11 +98,11 @@ Let's impose a signal to noise ratio constraint, require satellites to be above 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 45-46
+.. GENERATED FROM PYTHON SOURCE LINES 56-57
 
 We can now plot everything!
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-179
+.. GENERATED FROM PYTHON SOURCE LINES 57-198
 
 .. code-block:: Python
 
@@ -135,8 +136,11 @@ We can now plot everything!
 
 
     def show_scene(epsec: float, integration_time_s: float):
+        """Render the visible catalog objects and sky for one epoch."""
         date = mr.today() + mr.seconds(epsec)  # Fig 5.38
-        r_eci, v_eci, names = mr.propagate_catalog_to_dates(date, return_names=True)
+        r_eci, v_eci, nums, names = mr.propagate_catalog_to_dates(
+            date, return_names=True, return_satnums=True
+        )
         station_eci = station.j2000_at_dates(date)
         look_vec_eci = r_eci - station_eci
         look_dir_eci = mr.hat(look_vec_eci)
@@ -206,7 +210,12 @@ We can now plot everything!
 
         pl.add_point_labels(
             r_enu[constraint_satisfaction, :],
-            names[constraint_satisfaction],
+            [
+                f'{n} ({nu})'
+                for (n, nu) in zip(
+                    names[constraint_satisfaction], nums[constraint_satisfaction]
+                )
+            ],
             text_color='white',
             font_family='courier',
             shape_color='k',
@@ -229,10 +238,10 @@ We can now plot everything!
         pl.set_position((0.0, 0.0, -5.0))
 
 
-    pl.open_gif('test.gif')
+    pl.open_gif('out/local_horizon.gif')
     frames = 60
     with alive_bar(frames) as bar:
-        for i in np.linspace(0, 80, frames):
+        for i in np.linspace(0, 80, frames) + 10000:
             show_scene(i, integration_time_s=10.0)
             pl.write_frame()
             bar()
@@ -251,7 +260,7 @@ We can now plot everything!
 
  .. code-block:: none
 
-    |████████████████████████████████████████| 60/60 [100%] in 55.7s (1.08/s) 
+    |████████████████████████████████████████| 60/60 [100%] in 13.8s (4.34/s) 
 
 
 
@@ -259,7 +268,7 @@ We can now plot everything!
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (1 minutes 1.071 seconds)
+   **Total running time of the script:** (0 minutes 20.184 seconds)
 
 
 .. _sphx_glr_download_gallery_07-observer_local_hemisphere.py:

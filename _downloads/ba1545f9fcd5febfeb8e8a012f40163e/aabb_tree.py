@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 AABB Trees
 ==========
@@ -13,6 +20,7 @@ import mirage.vis as mrv
 
 
 def ray_triangle_intersection(ray_origin, ray_direction, vertices):
+    """Return the ray-triangle intersection parameters, or ``None`` if missed."""
     vertex0 = vertices[0, :]
     vertex1 = vertices[1, :]
     vertex2 = vertices[2, :]
@@ -41,6 +49,7 @@ def ray_triangle_intersection(ray_origin, ray_direction, vertices):
 
 
 def ray_box_intersection(ray_origin, ray_direction, box_lims):
+    """Return the entry point and distance for a ray and axis-aligned box."""
     box_min = np.array([box_lims[0], box_lims[2], box_lims[4]])
     box_max = np.array([box_lims[1], box_lims[3], box_lims[5]])
     t_min = np.zeros(3, dtype=np.float32)
@@ -70,6 +79,7 @@ def ray_box_intersection(ray_origin, ray_direction, box_lims):
 
 
 def points_in_box(points, bounds) -> np.ndarray[bool]:
+    """Return the indices of points contained within axis-aligned bounds."""
     check_pts = points[:, 0] > bounds[0]
     check_pts &= points[:, 0] < bounds[1]
     check_pts &= points[:, 1] > bounds[2]
@@ -83,6 +93,7 @@ def points_in_box(points, bounds) -> np.ndarray[bool]:
 def build_boxes(
     all_points: np.ndarray, split_verts: np.ndarray[int], max_depth: int, depth: int = 0
 ):
+    """Recursively partition points into a binary axis-aligned bounding-box tree."""
     if depth == max_depth:
         return
     boxes = {}
@@ -123,6 +134,7 @@ def build_boxes(
 
 
 def aggregate_children(pl, boxes, block):
+    """Recursively collect the child box meshes for visualization."""
     block.extend(
         [pv.Box(bounds=boxes['left_bounds']), pv.Box(bounds=boxes['right_bounds'])]
     )
@@ -133,6 +145,7 @@ def aggregate_children(pl, boxes, block):
 
 
 def trace_indices(ray_origin, ray_direction, face_indices, faces_vertices):
+    """Intersect a ray with the listed triangles and return all hits."""
     f, v = faces_vertices
     good_res = []
     for fi in face_indices:
@@ -144,6 +157,7 @@ def trace_indices(ray_origin, ray_direction, face_indices, faces_vertices):
 
 
 def trace_children(pl, ray_origin, ray_direction, boxes, faces_vertices):
+    """Traverse the AABB tree and trace the nearest child box."""
     lpt, ltime = ray_box_intersection(ray_origin, ray_direction, boxes['left_bounds'])
     rpt, rtime = ray_box_intersection(ray_origin, ray_direction, boxes['right_bounds'])
     go_left = None

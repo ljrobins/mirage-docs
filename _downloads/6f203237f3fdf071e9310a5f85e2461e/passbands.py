@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "mirage",
+#     "seaborn",
+# ]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Passbands
 =========
@@ -14,6 +24,7 @@ import mirage.vis as mrv
 
 
 def plot_passband(lambdas, vals, label, color):
+    """Plot a passband curve and fill the area beneath it."""
     ax = plt.gca()
     ax = sns.lineplot(x=lambdas, y=vals, color=color, alpha=0.5, label=label)
     ax.fill_between(lambdas, vals, color=color, alpha=0.1)

@@ -21,7 +21,7 @@
 Precise Orbit Determination with Batch Least Squares
 ====================================================
 
-.. GENERATED FROM PYTHON SOURCE LINES 5-13
+.. GENERATED FROM PYTHON SOURCE LINES 12-20
 
 .. code-block:: Python
 
@@ -40,11 +40,11 @@ Precise Orbit Determination with Batch Least Squares
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 14-15
+.. GENERATED FROM PYTHON SOURCE LINES 21-22
 
 First, let's define a station and a truth object
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-19
+.. GENERATED FROM PYTHON SOURCE LINES 22-26
 
 .. code-block:: Python
 
@@ -59,11 +59,11 @@ First, let's define a station and a truth object
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-21
+.. GENERATED FROM PYTHON SOURCE LINES 27-28
 
 Let's create three line of sight observations of the object
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-27
+.. GENERATED FROM PYTHON SOURCE LINES 28-34
 
 .. code-block:: Python
 
@@ -80,11 +80,11 @@ Let's create three line of sight observations of the object
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 28-29
+.. GENERATED FROM PYTHON SOURCE LINES 35-36
 
 Now we collect a lot more observations
 
-.. GENERATED FROM PYTHON SOURCE LINES 29-34
+.. GENERATED FROM PYTHON SOURCE LINES 36-41
 
 .. code-block:: Python
 
@@ -100,17 +100,18 @@ Now we collect a lot more observations
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-36
+.. GENERATED FROM PYTHON SOURCE LINES 42-43
 
 Let's compute the H matrix for this observation set. We know that the H matrix is defined as the partial derivatives of the observations with respect to the state vector.
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-109
+.. GENERATED FROM PYTHON SOURCE LINES 43-119
 
 .. code-block:: Python
 
 
 
     def angles_only_measurement_model(state: np.ndarray, dates: np.ndarray) -> np.ndarray:
+        """Return the predicted RA/Dec angles for a Cartesian state history."""
         assert (
             (state.shape[0] == len(dates))
             if isinstance(dates, np.ndarray)
@@ -125,6 +126,7 @@ Let's compute the H matrix for this observation set. We know that the H matrix i
     def angles_only_measurement_model_jacobian(
         state: np.ndarray, dates: np.ndarray
     ) -> np.ndarray:
+        """Return the Jacobian of the angle measurements with respect to the state."""
         assert (
             (state.shape[0] == len(dates))
             if isinstance(dates, np.ndarray)
@@ -165,6 +167,7 @@ Let's compute the H matrix for this observation set. We know that the H matrix i
         initial_state: np.ndarray,
         initial_covariance: np.ndarray,
     ) -> np.ndarray:
+        """Run an iterated batch least-squares orbit determination."""
         xk = initial_state
         Pk = initial_covariance
         for _ in range(10):
@@ -188,11 +191,11 @@ Let's compute the H matrix for this observation set. We know that the H matrix i
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 110-111
+.. GENERATED FROM PYTHON SOURCE LINES 120-121
 
 Now let's run the batch least squares algorithm
 
-.. GENERATED FROM PYTHON SOURCE LINES 111-123
+.. GENERATED FROM PYTHON SOURCE LINES 121-133
 
 .. code-block:: Python
 
@@ -218,7 +221,7 @@ Now let's run the batch least squares algorithm
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.028 seconds)
+   **Total running time of the script:** (0 minutes 1.625 seconds)
 
 
 .. _sphx_glr_download_gallery_11-work-in-progress_precise_orbit_determination.py:

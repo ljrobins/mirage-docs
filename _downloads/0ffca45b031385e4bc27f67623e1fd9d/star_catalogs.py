@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Star Catalogs
 =============
@@ -62,7 +69,7 @@ plt.show()
 t2 = mr.load_json_data('tycho2.json')
 alpha_rad, delta_rad = t2['j2000_ra'], t2['j2000_dec']
 mr.tic()
-alpha_rad_app, delta_rad_app = mr.apparent_star_positons(
+alpha_rad_app, delta_rad_app = mr.apparent_star_positions(
     mr.now(), station.lat_geod_rad, alpha_rad, delta_rad
 )
 mr.toc()

@@ -23,10 +23,12 @@ Satellite Lineup
 
 Plotting a variety of space objects against a soccer field background for size reference
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-45
+.. GENERATED FROM PYTHON SOURCE LINES 14-63
 
 .. code-block:: Python
 
+
+    import os
 
     import numpy as np
     import pyvista as pv
@@ -34,9 +36,19 @@ Plotting a variety of space objects against a soccer field background for size r
     import mirage as mr
     import mirage.vis as mrv
 
-    mr.set_model_directory(
-        '/Users/liamrobinson/Documents/maintained-research/mirage-models/accurate_sats'
+    ACCURATE_MODELS_DIR = os.environ.get(
+        'MIRAGE_ACCURATE_MODELS_DIR',
+        os.path.join(
+            os.environ['SRCDIR'],
+            '..',
+            '..',
+            'maintained-research',
+            'mirage-models',
+            'accurate_sats',
+        ),
     )
+
+    mr.set_model_directory(ACCURATE_MODELS_DIR)
     space_objects = [
         mr.SpaceObject('matlib_tdrs.obj', identifier=19548),
         mr.SpaceObject('matlib_astra.obj', identifier=26853),  # ASTRA 2C
@@ -63,26 +75,19 @@ Plotting a variety of space objects against a soccer field background for size r
 
 
     space_objects = sorted(space_objects, key=lambda so: np.max(mr.vecnorm(so.v)))
-    print([x.file_name for x in space_objects])
 
 
 
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    ['matlib_tess.obj', 'matlib_starlink_v1.obj', 'matlib_tdrs.obj', 'matlib_landsat8.obj', 'matlib_hispasat_30w-6.obj', 'matlib_saturn_v_sii.obj', 'matlib_telstar19v.obj', 'matlib_hylas4.obj', 'matlib_astra.obj']
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 46-47
+.. GENERATED FROM PYTHON SOURCE LINES 64-65
 
 Let's plot the sorted set of objects
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-66
+.. GENERATED FROM PYTHON SOURCE LINES 65-84
 
 .. code-block:: Python
 
@@ -120,7 +125,7 @@ Let's plot the sorted set of objects
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.210 seconds)
+   **Total running time of the script:** (0 minutes 6.671 seconds)
 
 
 .. _sphx_glr_download_gallery_09-models_satellite_lineup.py:

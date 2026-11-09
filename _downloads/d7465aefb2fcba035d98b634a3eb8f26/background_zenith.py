@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Background Signals at Zenith
 ============================
@@ -31,6 +38,7 @@ ss = mr.integrated_starlight_signal(*tdargs)
 
 
 def plot_sig(pl, s, cmap, scale=1):
+    """Plot a sky-brightness signal on the celestial grid."""
     mrv.scatter3(
         pl,
         scale * pts,

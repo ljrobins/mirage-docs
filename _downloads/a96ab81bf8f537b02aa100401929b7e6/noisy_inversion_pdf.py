@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Inversion PDF
 =============
@@ -27,7 +34,7 @@ obs_time = mr.hours(3)
 obs_dt = mr.seconds(10)
 integration_time_s = obs_dt.total_seconds()
 
-obj = mr.SpaceObject('cube.obj', identifier='goes 15')
+obj = mr.SpaceObject('cube.obj', identifier=36411)
 station = mr.Station(preset='pogs')
 brdf = mr.Brdf(name='phong', cd=0.5, cs=0.5, n=10)
 attitude = mr.RbtfAttitude(w0=w0, q0=q0, itensor=itensor)

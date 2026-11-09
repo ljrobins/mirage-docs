@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Background Signals
 ==================
@@ -22,6 +29,7 @@ def hemisphere_signal(
     date: datetime.datetime,
     signal_kwargs: dict,
 ) -> None:
+    """Plot one or more sky-brightness components over the visible hemisphere."""
     true_signals = [k for k in signal_kwargs.keys() if signal_kwargs[k]]
     if len(true_signals) == len(signal_kwargs.keys()):
         signal_type = 'All Signals'

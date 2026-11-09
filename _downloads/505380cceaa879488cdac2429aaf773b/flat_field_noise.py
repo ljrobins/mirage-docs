@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Flat Fielding Error
 ===================
@@ -11,6 +18,7 @@ import numpy as np
 
 
 def curve_for_k(mu_es: np.ndarray, k: float):
+    """Return median and variance curves for a flat-field coefficient ``k``."""
     adu_vars = []
     adu_meds = []
     for mu_e in mu_es:

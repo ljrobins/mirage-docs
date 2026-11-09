@@ -23,7 +23,7 @@ Zenith Light Pollution
 
 Plotting and querying a large dataset of zenith light pollution from the `Light Pollution Map <https://www.lightpollutionmap.info/help.html#FAQ31>`_, with the raw file `found here <https://www2.lightpollutionmap.info/data/viirs_2022_raw.zip>`_
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-17
+.. GENERATED FROM PYTHON SOURCE LINES 14-34
 
 .. code-block:: Python
 
@@ -33,22 +33,32 @@ Plotting and querying a large dataset of zenith light pollution from the `Light 
     import matplotlib.pyplot as plt
     import numpy as np
     import rasterio
+    from rasterio.enums import Resampling
 
     import mirage as mr
     import mirage.vis as mrv
 
 
+    def read_downsampled(path: str, target_width: int = 2048) -> np.ndarray:
+        """Reads the first raster band, downsampled to roughly ``target_width`` pixels wide."""
+        with rasterio.open(path, 'r') as f:
+            stride = max(1, f.width // target_width)
+            out_shape = (max(1, f.height // stride), max(1, f.width // stride))
+            return f.read(1, out_shape=out_shape, resampling=Resampling.average)
 
 
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-19
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 35-36
 
 Let's plot the zenith sky radiances as reported by the World Atlas 2015 dataset.
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-63
+.. GENERATED FROM PYTHON SOURCE LINES 36-75
 
 .. code-block:: Python
 
@@ -84,15 +94,10 @@ Let's plot the zenith sky radiances as reported by the World Atlas 2015 dataset.
 
     assert mr.candela_to_watt_per_sr(mr.watt_per_sr_to_candela(0.5)) == 0.5
 
-    with rasterio.open(data_file, 'r') as f:
-        mr.tic()
-        art_brightness = f.read().squeeze()  # mcd / m^2
-        mr.toc()
-        art_brightness_cd = art_brightness / 1e3
-
-        artifical_radiance_spectrum = mr.candela_to_watt_per_sr(
-            art_brightness_cd, lambdas=473.74960958
-        )  # w / m^2 / sr
+    mr.tic()
+    art_brightness = read_downsampled(data_file)  # mcd / m^2
+    mr.toc()
+    art_brightness_cd = art_brightness / 1e3
 
     z = art_brightness_cd
 
@@ -105,25 +110,25 @@ Let's plot the zenith sky radiances as reported by the World Atlas 2015 dataset.
  .. code-block:: none
 
     21.999999999847013
-    0.17116846497588067
-    7.610685153296766
+    0.13183358464943376
+    5.861733383767382
     2.507478397620592e-07
     1.6978902502946653e-06
-    1.697890250055416e-06
+    1.3077114294252159e-06
     22.001069112736992
     0.17116846478579997
     8.333333333333334
     42545170296.15221
-    Elapsed time: 1.41e+00 seconds
+    Elapsed time: 1.52e+01 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 64-65
+.. GENERATED FROM PYTHON SOURCE LINES 76-77
 
 Plotting zenith light pollution in MPSAS
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-82
+.. GENERATED FROM PYTHON SOURCE LINES 77-94
 
 .. code-block:: Python
 
@@ -156,11 +161,11 @@ Plotting zenith light pollution in MPSAS
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 83-84
+.. GENERATED FROM PYTHON SOURCE LINES 95-96
 
 Let's plot the ground-level radiances as observed by the VIIRS satellite
 
-.. GENERATED FROM PYTHON SOURCE LINES 84-105
+.. GENERATED FROM PYTHON SOURCE LINES 96-116
 
 .. code-block:: Python
 
@@ -169,21 +174,20 @@ Let's plot the ground-level radiances as observed by the VIIRS satellite
 
     if not os.path.exists(data_file):
         mr.save_file_from_url(
-            'ps://www2.lightpollutionmap.info/data/viirs_2022_raw.zip',
+            'https://www2.lightpollutionmap.info/data/viirs_2022_raw.zip',
             os.environ['DATADIR'],
         )
 
-    with rasterio.open(data_file, 'r') as f:
-        mr.tic()
-        x = f.read().squeeze()  # nW / cm^2 / sr
-        mr.toc()
-        x = x[::10, ::10] * 1e-9  # W / cm^2 / sr
-        x[np.isinf(np.abs(x))] = np.nan
-        x *= 1e4  # W / m^2 / sr
-        x = mr.irradiance_to_apparent_magnitude(
-            x / mr.AstroConstants.steradian_to_arcsecond2
-        )  # mag / arcsec^2
-        x[np.isnan(x) | np.isinf(x)] = 22.0
+    mr.tic()
+    x = read_downsampled(data_file)  # nW / cm^2 / sr
+    mr.toc()
+    x *= 1e-9  # W / cm^2 / sr
+    x[np.isinf(np.abs(x))] = np.nan
+    x *= 1e4  # W / m^2 / sr
+    x = mr.irradiance_to_apparent_magnitude(
+        x / mr.AstroConstants.steradian_to_arcsecond2
+    )  # mag / arcsec^2
+    x[np.isnan(x) | np.isinf(x)] = 22.0
 
 
 
@@ -193,16 +197,16 @@ Let's plot the ground-level radiances as observed by the VIIRS satellite
 
  .. code-block:: none
 
-    Elapsed time: 1.69e+01 seconds
+    Elapsed time: 3.72e+01 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 106-107
+.. GENERATED FROM PYTHON SOURCE LINES 117-118
 
 Plotting ground light pollution sources
 
-.. GENERATED FROM PYTHON SOURCE LINES 107-122
+.. GENERATED FROM PYTHON SOURCE LINES 118-133
 
 .. code-block:: Python
 
@@ -236,7 +240,7 @@ Plotting ground light pollution sources
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 47.353 seconds)
+   **Total running time of the script:** (0 minutes 59.852 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_nightlights.py:

@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 CCD Gain
 ========
@@ -21,15 +28,17 @@ def l1_fit(x, y):
     """
 
     def cost_function(params, x, y):
+        """Return the L1 residual for a line with slope ``m`` and intercept ``b``."""
         m, b = params
         return np.sum(np.abs(y - (m * x + b)))
 
     initial_guess = [1, 0]  # Initial guess for slope and intercept
     result = optimize.minimize(cost_function, initial_guess, args=(x, y))
-    return result.x  # m, b for y = mx * b
+    return result.x  # m, b for y = m * x + b
 
 
 def calibrate_sky_flats_to_gain(flats_dir: str) -> np.ndarray:
+    """Estimate the CCD gain from a sequence of sky-flat images."""
     # http://spiff.rit.edu/classes/phys445/lectures/gain/gain.html
     # Under "Measuring the gain -- a better technique"
     # as well as: https://www.mirametrics.com/tech_note_ccdgain.php
@@ -73,6 +82,7 @@ def calibrate_sky_flats_to_gain(flats_dir: str) -> np.ndarray:
 
 
 def calibrate_sky_flats_to_k(flats_dir: str, g: float, rc: float) -> np.ndarray:
+    """Estimate the flat-field variance coefficient from sky flats."""
     # as well as: https://www.mirametrics.com/tech_note_ccdgain.php
     flats_paths = [os.path.join(flats_dir, f) for f in os.listdir(flats_dir)]
 
@@ -95,7 +105,6 @@ def calibrate_sky_flats_to_k(flats_dir: str, g: float, rc: float) -> np.ndarray:
     means = np.array(means)
 
     m, b = l1_fit(means, ks)
-    print('m, b')
     plt.scatter(means, ks, marker='+')
     plt.plot(means, means * m + b, label='best fit', color='k')
     plt.legend()
@@ -107,7 +116,10 @@ def calibrate_sky_flats_to_k(flats_dir: str, g: float, rc: float) -> np.ndarray:
 
 region = (slice(430, 480), slice(370, 420))
 station = mr.Station()
-flats_dir = '/Users/liamrobinson/Downloads/2024_11_15/flat'
+flats_dir = os.environ.get(
+    'POGS_FLATS_DIR',
+    os.path.join(os.environ['SRCDIR'], '..', '..', 'fits', '2024_11_15', 'flat'),
+)
 read_noise = 10.24  # ADU
 gain = 5.6  # e-/ADU
 # calibrate_sky_flats_to_gain(flats_dir)

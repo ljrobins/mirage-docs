@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Brightness Isosurfaces
 ======================
@@ -11,8 +18,6 @@ import pyvista as pv
 import mirage as mr
 import mirage.vis as mrv
 
-# path = "/Users/liamrobinson/Documents/mirage/mlp_model_train_on_irradiance_cube_brdf_phong_cd_0.5_cs_0.5_n_5.0_layers_50_50_50_50_50_50_50_50_50_50.onnx"
-# mdl = mrs.MLPBrightnessModel(path=path)
 obj = mrv.SpaceObject('cube.obj')
 mdl = lambda svb, ovb: obj.convex_light_curve(
     mr.Brdf('phong', cd=0.5, cs=0.5, n=5.0), svb, ovb

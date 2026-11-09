@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Results
 =======
@@ -9,12 +16,17 @@ import matplotlib.pyplot as plt
 import numpy as np
 import polars as pl
 import pyvista as pv
-import vtk  # noqa
 
 import mirage as mr
 import mirage.vis as mrv
 
-f = '/Users/liamrobinson/Documents/maintained-research/mirage/examples/15-attitude-sdc-2025/data/'
+EXAMPLE_DIR = os.path.join(
+    os.environ['SRCDIR'], '..', 'examples', '15-attitude-sdc-2025'
+)
+DATA_DIR = os.path.join(EXAMPLE_DIR, 'data')
+FIG_DIR = os.path.join(EXAMPLE_DIR, 'figs')
+
+f = DATA_DIR
 
 dfs_delta = (
     pl.read_parquet(os.path.join(f, 'delta_in.parquet')),
@@ -36,13 +48,6 @@ for (df_in, df), label, bound in dfs_synth:
         x = df[c].to_numpy().copy()
         x[:, 3:6] /= df_in['epsecs'].max()
         df = df.with_columns(pl.Series(name=c, values=x))
-
-    print(
-        f'{label} max search omega in deg/s',
-        np.rad2deg(
-            np.linalg.norm(df['x0'].to_numpy()[:, 3:6], axis=1, keepdims=True).mean()
-        ),
-    )
 
     df_sols = df.with_columns((-pl.col('fun')).exp().alias('likelihood'))
     df_sols = df_sols.filter(pl.col('likelihood') > bound * df_sols['likelihood'][0])
@@ -79,9 +84,9 @@ for (df_in, df), label, bound in dfs_synth:
     lim = np.percentile(np.linalg.norm(np.rad2deg(x0[:, 3:6]), axis=1), 95)
 
     p.show_grid(
-        # xtitle='$\mathbf{\omega_{x,0}}$ [deg/s]',
-        # ytitle='$\mathbf{\omega_{y,0}}$ [deg/s]',
-        # ztitle='$\mathbf{\omega_{z,0}}$ [deg/s]',
+        # xtitle=r'$\mathbf{\omega_{x,0}}$ [deg/s]',
+        # ytitle=r'$\mathbf{\omega_{y,0}}$ [deg/s]',
+        # ztitle=r'$\mathbf{\omega_{z,0}}$ [deg/s]',
         font_family='times',
         font_size=10,
         bounds=np.array([-1, 1, -1, 1, -1, 1]) * lim,
@@ -89,11 +94,9 @@ for (df_in, df), label, bound in dfs_synth:
     p.camera.position = (
         cdist * lim * np.array(p.camera.position) / np.linalg.norm(p.camera.position)
     )
-    mrv.orbit_plotter(p, video_name=f'{label}_ang_vel.mp4')
+    mrv.orbit_plotter(p, video_name=f'out/{label}_ang_vel.mp4')
     p.show()
-    p.screenshot(
-        f'/Users/liamrobinson/Documents/maintained-research/mirage/examples/15-attitude-sdc-2025/figs/{label}_ang_vel.png'
-    )
+    p.screenshot(os.path.join(FIG_DIR, f'{label}_ang_vel.png'))
     p = pv.Plotter(window_size=window_size)
     mrv.scatter3(
         p,
@@ -112,9 +115,8 @@ for (df_in, df), label, bound in dfs_synth:
     p.camera.position = (
         cdist * np.array(p.camera.position) / np.linalg.norm(p.camera.position)
     )
-    mrv.orbit_plotter(p, video_name=f'{label}_sigma.mp4')
+    mrv.orbit_plotter(p, video_name=f'out/{label}_sigma.mp4')
     p.show()
-    # endd
 
     lc_obs = df_in['flux_adu'].to_numpy().flatten()
     sigma_obs_counts = df_in['sigma_obs_counts'].to_numpy().flatten()
@@ -126,9 +128,6 @@ for (df_in, df), label, bound in dfs_synth:
 
         t = df_in['epsecs'].to_numpy().flatten() / 60
         lc_est = d['lcs'].to_numpy().flatten()
-
-        print([np.round(x, 2) for x in d['xk'].to_list()[0]])
-        print(d['x0'][0][6:])
 
         lc_est = (
             lc_est / np.linalg.norm(lc_est) * np.linalg.norm(lc_obs[~np.isnan(lc_obs)])
@@ -154,7 +153,7 @@ for (df_in, df), label, bound in dfs_synth:
         alpha=0.4,
         color='gray',
         edgecolor=None,
-        label='Computed $\pm3\sigma$',
+        label=r'Computed $\pm3\sigma$',
     )
 
     plt.xlabel('Minutes past observation epoch')

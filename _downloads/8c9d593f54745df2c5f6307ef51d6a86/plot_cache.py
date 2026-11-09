@@ -3,15 +3,14 @@ Shadow Cache
 ============
 """
 
-import sys
+import os
 
-sys.path.append('/Users/liamrobinson/Documents/maintained-wip/taichi-polyclip')
 import matplotlib.pyplot as plt
 import numpy as np
 import taichi as ti
-import ticlip
 
 import mirage.vis as mrv
+from mirage import ticlip
 
 
 def azel_to_ij(naz: int, nel: int, az: float, el: float):
@@ -34,7 +33,12 @@ ti.init(
     advanced_optimization=False,
 )
 
-obj_path = '/Users/liamrobinson/Documents/maintained-research/mirage-models/accurate_sats/box_wing_antenna_quad.obj'
+obj_path = os.path.join(
+    os.environ['SRCDIR'],
+    '../../maintained-research/mirage-models/accurate_sats/box_wing_antenna_quad.obj',
+)
+
+
 ticlip.load_finfo(obj_path)
 
 naz, nel = 75, 50

@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Background Importance
 =====================
@@ -39,6 +46,7 @@ def hemisphere_signal(
     integration_time_s: float,
     signal_kwargs: dict,
 ) -> None:
+    """Compute the selected sky-brightness component over the visible hemisphere."""
     true_signals = [k for k in signal_kwargs.keys() if signal_kwargs[k]]
     if len(true_signals) == len(signal_kwargs.keys()):
         signal_type = 'All Signals'
@@ -85,9 +93,6 @@ cs = ['k', 'm', 'c', 'b', 'r', 'g']
 
 dates = mr.date_arange(date, date + mr.hours(14), mr.hours(0.5))
 sun_ang_deg = np.rad2deg(mr.sun_angle_to_horizon(dates, station.itrf)).flatten()
-is_astro_dark = sun_ang_deg < -18.0
-is_nautical_dark = ~is_astro_dark & (sun_ang_deg < -12.0)
-is_civil_dark = ~is_astro_dark & ~is_nautical_dark & (sun_ang_deg < -6.0)
 is_light_dates = sun_ang_deg > 0.0
 
 dates = dates[~is_light_dates]
@@ -95,8 +100,8 @@ hr_after_dark = mr.date_to_epsec(dates) / 3600
 
 sbs = []
 
-p1 = plt.figure(figsize=(4, 4))
-p2 = plt.figure(figsize=(4, 4))
+plt.figure(figsize=(4, 4))
+plt.figure(figsize=(4, 4))
 
 for signal, c in zip(signals, cs):
     kwargs = {s: (False if s is not signal else True) for s in signals}

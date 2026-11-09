@@ -22,7 +22,7 @@ ASTM Spectra
 ============
 Standardized Sun spectra at different airmasses
 
-.. GENERATED FROM PYTHON SOURCE LINES 6-37
+.. GENERATED FROM PYTHON SOURCE LINES 13-44
 
 
 
@@ -65,7 +65,7 @@ Standardized Sun spectra at different airmasses
     sun_direct_w_per_m2_nm = sun_spectra[:, 3]
     ss_proof = mr.sun_spectrum(lambdas_nm)
 
-    i0 = np.trapz(sun_vacuum_w_per_m2_nm, lambdas_nm)
+    i0 = np.trapezoid(sun_vacuum_w_per_m2_nm, lambdas_nm)
     print(i0)
     plt.plot(lambdas_nm, sun_vacuum_w_per_m2_nm)
     plt.plot(lambdas_nm, sun_global_w_per_m2_nm)
@@ -82,7 +82,7 @@ Standardized Sun spectra at different airmasses
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.159 seconds)
+   **Total running time of the script:** (0 minutes 0.635 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_astm_spectra.py:

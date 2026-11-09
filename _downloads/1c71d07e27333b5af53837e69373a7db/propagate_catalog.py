@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Propagating the catalog
 =========================
@@ -6,6 +13,7 @@ Load the full TLE catalog and propagate all objects to a given epoch
 """
 
 import datetime
+
 # %%
 # First, let's define a function that plots the catalog at a given date
 from typing import Callable
@@ -25,6 +33,7 @@ def plot_catalog_at_date(
     cmap: str = 'viridis',
     point_size: int = 3,
 ) -> None:
+    """Plot the catalog object positions at a given date."""
     r_eci, _ = mr.propagate_catalog_to_dates(date)
     mrv.plot_earth(
         pl,
@@ -68,20 +77,20 @@ pl = pv.Plotter()
 plot_catalog_at_date(
     pl,
     mr.today(),
-    scalars=lambda r: (mr.vecnorm(r) < 42100)
-    + (mr.vecnorm(r) < 21_000)
-    + (mr.vecnorm(r) < 42190),
+    scalars=lambda r: (
+        (mr.vecnorm(r) < 42100) + (mr.vecnorm(r) < 21_000) + (mr.vecnorm(r) < 42190)
+    ),
     cmap='glasbey',
     point_size=10,
 )
 
-pl.open_gif('test.gif', fps=20)
+pl.open_gif('out/catalog.gif', fps=20)
 nframes = 150
 t = np.linspace(0, 2 * np.pi, nframes, endpoint=False)
 path_pts = np.array([np.sin(t), np.cos(t), np.zeros_like(t)]).T
 path_pts[:, 2] += 0.5
 path_pts = mr.hat(path_pts) * 18e4
-pl.camera.center = (0.0, 0.0, 0.0)
+pl.camera.focal_point = (0.0, 0.0, 0.0)
 for pt in path_pts:
     pl.camera.position = pt
     pl.write_frame()

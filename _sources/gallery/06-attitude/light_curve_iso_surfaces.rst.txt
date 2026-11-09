@@ -23,7 +23,7 @@ Brightness Isosurfaces
 
 Plotting all orientations of a cube that produce a certian brightness value at a given phase angle
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-78
+.. GENERATED FROM PYTHON SOURCE LINES 14-83
 
 .. code-block:: Python
 
@@ -34,8 +34,6 @@ Plotting all orientations of a cube that produce a certian brightness value at a
     import mirage as mr
     import mirage.vis as mrv
 
-    # path = "/Users/liamrobinson/Documents/mirage/mlp_model_train_on_irradiance_cube_brdf_phong_cd_0.5_cs_0.5_n_5.0_layers_50_50_50_50_50_50_50_50_50_50.onnx"
-    # mdl = mrs.MLPBrightnessModel(path=path)
     obj = mrv.SpaceObject('cube.obj')
     mdl = lambda svb, ovb: obj.convex_light_curve(
         mr.Brdf('phong', cd=0.5, cs=0.5, n=5.0), svb, ovb
@@ -111,17 +109,29 @@ Plotting all orientations of a cube that produce a certian brightness value at a
 
  .. code-block:: none
 
-    Elapsed time: 1.17e+01 seconds
-    Mean brightness value: 0.7776920132760076
+    Elapsed time: 9.62e+01 seconds
+    Mean brightness value: 0.7776920132760073
+    /home/liam/Documents/mirage/examples/06-attitude/light_curve_iso_surfaces.py:70: PyVistaDeprecationWarning: 
+    /home/liam/Documents/mirage/.venv/lib/python3.13/site-packages/pyvista/core/utilities/misc.py:461: Arguments 'position', 'focal_point', 'color' must be passed as keyword arguments to function 'Light.__init__'.
+    From version 0.50, passing these as positional arguments will result in a TypeError.
+      light = pv.Light((-2, 2, 0), (0, 0, 0), 'white')
+    /home/liam/Documents/mirage/examples/06-attitude/light_curve_iso_surfaces.py:73: PyVistaDeprecationWarning: 
+    /home/liam/Documents/mirage/.venv/lib/python3.13/site-packages/pyvista/core/utilities/misc.py:461: Arguments 'position', 'focal_point', 'color' must be passed as keyword arguments to function 'Light.__init__'.
+    From version 0.50, passing these as positional arguments will result in a TypeError.
+      light = pv.Light((2, 0, 0), (0, 0, 0), (0.7, 0.0862, 0.0549))
+    /home/liam/Documents/mirage/examples/06-attitude/light_curve_iso_surfaces.py:76: PyVistaDeprecationWarning: 
+    /home/liam/Documents/mirage/.venv/lib/python3.13/site-packages/pyvista/core/utilities/misc.py:461: Arguments 'position', 'focal_point', 'color' must be passed as keyword arguments to function 'Light.__init__'.
+    From version 0.50, passing these as positional arguments will result in a TypeError.
+      light = pv.Light((0, 0, 10), (0, 0, 0), 'white')
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-80
+.. GENERATED FROM PYTHON SOURCE LINES 84-85
 
 Making a simpler render
 
-.. GENERATED FROM PYTHON SOURCE LINES 80-101
+.. GENERATED FROM PYTHON SOURCE LINES 85-106
 
 .. code-block:: Python
 
@@ -161,7 +171,7 @@ Making a simpler render
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 13.662 seconds)
+   **Total running time of the script:** (1 minutes 48.295 seconds)
 
 
 .. _sphx_glr_download_gallery_06-attitude_light_curve_iso_surfaces.py:

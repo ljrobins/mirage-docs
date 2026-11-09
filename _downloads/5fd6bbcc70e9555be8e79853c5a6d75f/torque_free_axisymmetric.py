@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Torque-free Attitude Propagation
 ================================
@@ -84,7 +91,7 @@ for i, grid in enumerate([t_num, t_ana, t_axi], 1):
         grid=False,
     )
     if i == 3:
-        cb = plt.colorbar(label='$\Delta t$ [sec]', cax=mrv.get_cbar_ax())
+        cb = plt.colorbar(label=r'$\Delta t$ [sec]', cax=mrv.get_cbar_ax())
         tics = cb.get_ticks()
         cb.set_ticklabels([f'$10^{t}$' for t in tics])
     plt.tight_layout()

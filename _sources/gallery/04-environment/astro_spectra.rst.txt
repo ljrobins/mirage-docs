@@ -23,7 +23,7 @@ Astronomical Spectra
 
 A few useful spectra for simulating CCD measurements
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-55
+.. GENERATED FROM PYTHON SOURCE LINES 14-69
 
 .. code-block:: Python
 
@@ -32,7 +32,6 @@ A few useful spectra for simulating CCD measurements
 
     import matplotlib.pyplot as plt
     import numpy as np
-    from astropy.io import fits
 
     import mirage as mr
 
@@ -45,9 +44,9 @@ A few useful spectra for simulating CCD measurements
     qe_zim = ccd_zim.quantum_efficiency(ltest)
     zm = mr.proof_zero_mag_stellar_spectrum(ltest)
     sm = mr.sun_spectrum(ltest)
+    vs = mr.vega_spectrum(ltest)
 
     ar = mr.airglow_radiance(ltest) * 1e-9
-
 
     labels = [
         ('Atmospheric Transmission', 'nondim'),
@@ -56,13 +55,16 @@ A few useful spectra for simulating CCD measurements
         ('POGS Quantum Efficiency', r'nondimensional'),
         ('ZimMAIN Quantum Efficiency', r'nondimensional'),
         ('Zero Magnitude Spectrum', r'$\left[ \frac{W}{m^2 \cdot nm } \right]$'),
+        ('Vega Spectrum', r'$\left[ \frac{W}{m^2 \cdot nm } \right]$'),
     ]
 
-    specs = [tee, sm, ar, qe_pogs, qe_zim, zm]
+    specs = [tee, sm, ar, qe_pogs, qe_zim, zm, vs]
     spectra_cols = [f'C{i}' for i in range(len(specs))]
 
-
     for i, (col, y) in enumerate(zip(spectra_cols, specs)):
+        if 'Vega' not in labels[i][0]:
+            continue
+
         fig = plt.figure(figsize=(4, 4))
         plt.plot(ltest, y, color=col)
         plt.fill_between(ltest, y, color=col, alpha=0.1, label='_nolegend_')
@@ -73,109 +75,80 @@ A few useful spectra for simulating CCD measurements
         plt.grid()
         plt.ylim(0, plt.ylim()[1])
         plt.tight_layout()
+        plt.savefig(
+            os.path.join(
+                os.environ['SRCDIR'], '..', 'scratch', 'phdthesis', 'figs', 'vega_spec.png'
+            )
+        )
         plt.show()
 
 
 
 
-.. rst-class:: sphx-glr-horizontal
-
-
-    *
-
-      .. image-sg:: /gallery/04-environment/images/sphx_glr_astro_spectra_001.png
-         :alt: Atmospheric Transmission
-         :srcset: /gallery/04-environment/images/sphx_glr_astro_spectra_001.png, /gallery/04-environment/images/sphx_glr_astro_spectra_001_2_00x.png 2.00x
-         :class: sphx-glr-multi-img
-
-    *
-
-      .. image-sg:: /gallery/04-environment/images/sphx_glr_astro_spectra_002.png
-         :alt: Solar Spectrum
-         :srcset: /gallery/04-environment/images/sphx_glr_astro_spectra_002.png, /gallery/04-environment/images/sphx_glr_astro_spectra_002_2_00x.png 2.00x
-         :class: sphx-glr-multi-img
-
-    *
-
-      .. image-sg:: /gallery/04-environment/images/sphx_glr_astro_spectra_003.png
-         :alt: Airglow Radiance
-         :srcset: /gallery/04-environment/images/sphx_glr_astro_spectra_003.png, /gallery/04-environment/images/sphx_glr_astro_spectra_003_2_00x.png 2.00x
-         :class: sphx-glr-multi-img
-
-    *
-
-      .. image-sg:: /gallery/04-environment/images/sphx_glr_astro_spectra_004.png
-         :alt: POGS Quantum Efficiency
-         :srcset: /gallery/04-environment/images/sphx_glr_astro_spectra_004.png, /gallery/04-environment/images/sphx_glr_astro_spectra_004_2_00x.png 2.00x
-         :class: sphx-glr-multi-img
-
-    *
-
-      .. image-sg:: /gallery/04-environment/images/sphx_glr_astro_spectra_005.png
-         :alt: ZimMAIN Quantum Efficiency
-         :srcset: /gallery/04-environment/images/sphx_glr_astro_spectra_005.png, /gallery/04-environment/images/sphx_glr_astro_spectra_005_2_00x.png 2.00x
-         :class: sphx-glr-multi-img
-
-    *
-
-      .. image-sg:: /gallery/04-environment/images/sphx_glr_astro_spectra_006.png
-         :alt: Zero Magnitude Spectrum
-         :srcset: /gallery/04-environment/images/sphx_glr_astro_spectra_006.png, /gallery/04-environment/images/sphx_glr_astro_spectra_006_2_00x.png 2.00x
-         :class: sphx-glr-multi-img
+.. image-sg:: /gallery/04-environment/images/sphx_glr_astro_spectra_001.png
+   :alt: Vega Spectrum
+   :srcset: /gallery/04-environment/images/sphx_glr_astro_spectra_001.png, /gallery/04-environment/images/sphx_glr_astro_spectra_001_2_00x.png 2.00x
+   :class: sphx-glr-single-img
 
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-57
+.. GENERATED FROM PYTHON SOURCE LINES 70-71
 
 Loading and plotting the Vega (Alpha Lyrae) spectrum
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-91
+.. GENERATED FROM PYTHON SOURCE LINES 71-116
 
 .. code-block:: Python
 
 
-    vega_spec_path = os.path.join(os.environ['DATADIR'], 'stars', 'alpha_lyr_mod_004.fits')
-    if not os.path.exists(vega_spec_path):
-        mr.save_file_from_url(
-            'https://archive.stsci.edu/hlsps/reference-atlases/cdbs/current_calspec/alpha_lyr_mod_004.fits',
-            os.path.join(os.environ['DATADIR'], 'stars'),
-        )
+    # vega_spec_path = os.path.join(os.environ['DATADIR'], 'stars', 'alpha_lyr_mod_004.fits')
+    # if not os.path.exists(vega_spec_path):
+    #     mr.save_file_from_url(
+    #         'https://archive.stsci.edu/hlsps/reference-atlases/cdbs/current_calspec/alpha_lyr_mod_004.fits',
+    #         os.path.join(os.environ['DATADIR'], 'stars'),
+    #     )
 
-    with fits.open(vega_spec_path) as hdul:
-        # https://archive.stsci.edu/hlsps/reference-atlases/cdbs/current_calspec/
-        data = np.vstack(hdul[1].data)
-        lambdas = data[:, 0] / 10
-        flux = data[:, 1]
-        valid = (lambdas > 300) & (lambdas < 1200)
-        flux = (
-            flux[valid] / 1e2
-        )  # converting from erg / s / cm^2 / Angstrom to W / m^2 / nm
-        lambdas = lambdas[valid]
-        np.savez(
-            os.path.join(os.environ['DATADIR'], 'stars', 'vega_spectrum.npz'),
-            lambdas=lambdas,
-            flux=flux,
-        )
+    # with fits.open(vega_spec_path) as hdul:
+    #     # https://archive.stsci.edu/hlsps/reference-atlases/cdbs/current_calspec/
+    #     data = np.vstack(hdul[1].data)
+    #     lambdas = data[:, 0] / 10
+    #     flux = data[:, 1]
+    #     valid = (lambdas > 300) & (lambdas < 1200)
+    #     flux = (
+    #         flux[valid] / 1e2
+    #     )  # converting from erg / s / cm^2 / Angstrom to W / m^2 / nm
+    #     lambdas = lambdas[valid]
+    #     np.savez(
+    #         os.path.join(os.environ['DATADIR'], 'stars', 'vega_spectrum.npz'),
+    #         lambdas=lambdas,
+    #         flux=flux,
+    #     )
 
-    y = mr.vega_spectrum(lambdas)
-    plt.plot(lambdas, y)
-    plt.xlabel('Wavelength [nm]')
-    plt.ylabel('Flux [W / m^2 / nm]')
-    plt.title('Vega Spectrum')
-    plt.grid()
-    plt.xlim(300, 1200)
-    plt.ylim(0, 1.02 * np.max(y))
-    plt.tight_layout()
-    plt.show()
+    # plt.plot(lambdas, y)
+    # plt.xlabel('Wavelength [nm]')
+    # plt.ylabel('Flux [W / m^2 / nm]')
+    # plt.title('Vega Spectrum')
+    # plt.grid()
+    # plt.xlim(300, 1200)
+    # plt.ylim(0, 1.02 * np.max(y))
+    # plt.tight_layout()
+    # plt.show()
+
+    # fig = plt.figure(figsize=(4, 4))
+    # plt.plot(ltest, y, color=col)
+    # plt.fill_between(ltest, y, color=col, alpha=0.1, label='_nolegend_')
+    # plt.title(labels[i][0])
+    # plt.xlabel('Wavelength [nm]')
+    # plt.ylabel(labels[i][1])
+    # plt.xlim(ltest.min(), ltest.max())
+    # plt.grid()
+    # plt.ylim(0, plt.ylim()[1])
+    # plt.tight_layout()
+    # plt.show()
 
 
-
-.. image-sg:: /gallery/04-environment/images/sphx_glr_astro_spectra_007.png
-   :alt: Vega Spectrum
-   :srcset: /gallery/04-environment/images/sphx_glr_astro_spectra_007.png, /gallery/04-environment/images/sphx_glr_astro_spectra_007_2_00x.png 2.00x
-   :class: sphx-glr-single-img
 
 
 
@@ -184,7 +157,7 @@ Loading and plotting the Vega (Alpha Lyrae) spectrum
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.105 seconds)
+   **Total running time of the script:** (0 minutes 0.733 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_astro_spectra.py:

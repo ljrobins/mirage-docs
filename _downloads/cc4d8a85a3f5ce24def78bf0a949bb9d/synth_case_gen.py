@@ -1,8 +1,18 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "mirage",
+#     "taichi",
+# ]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Generating R/B Light Curves
 ===========================
 
-Creating and comparing light curves for two rocket body models
+Creating the synthetic rocket-body light curves used in the SDC case study.
 """
 
 import os
@@ -11,11 +21,18 @@ import numpy as np
 import pyvista as pv
 
 import mirage as mr
-import mirage.papers as mrp
+import mirage.papers.sdc_2025 as mrp
 import mirage.vis as mrv
+
+EXAMPLE_DIR = os.path.join(
+    os.environ['SRCDIR'], '..', 'examples', '15-attitude-sdc-2025'
+)
+MODEL_DIR = os.path.join(EXAMPLE_DIR, 'models')
+FIG_DIR = os.path.join(EXAMPLE_DIR, 'figs')
 
 
 def main():
+    """Generate and plot the synthetic rocket-body light curves."""
     length = mr.minutes(5)
     cadence = mr.seconds(3)
     date0 = mr.utc(2025, 3, 8, 2, 0, 0)
@@ -23,12 +40,11 @@ def main():
     w0 = 0.03 * np.array([1.0, 2.0, 1.0])
     itensor = np.diag([1.0, 1.0, 0.25])
 
-    model_dir = '/Users/liamrobinson/Documents/maintained-research/mirage/examples/15-attitude-sdc-2025/models'
     station = mr.Station()
-    mr.set_model_directory(model_dir)
+    mr.set_model_directory(MODEL_DIR)
     obj_true = mr.SpaceObject('matlib_saturn_v_sii.obj', identifier=20662)
     obj_simple = mr.SpaceObject('saturn_simple_tri.obj', identifier=20662)
-    invert_obj_path = os.path.join(model_dir, 'saturn_simple.obj')
+    invert_obj_path = os.path.join(MODEL_DIR, 'saturn_simple.obj')
 
     obj_true_mat = mr.load_obj(obj_true.file_name)
     obj_true_mat.material_names[obj_true_mat.material_names == 'none'] = 'aluminum'
@@ -63,13 +79,30 @@ def main():
     p.camera.position = (0, 60, 0)
     p.camera.focal_point = (0, 0, 0)
     p.show()
-    p.screenshot(
-        '/Users/liamrobinson/Documents/maintained-research/mirage/examples/15-attitude-sdc-2025/figs/rocket_bodies.png'
-    )
+    p.screenshot(os.path.join(FIG_DIR, 'rocket_bodies.png'))
+
+    # mrp.generate_light_curves(
+    #     station,
+    #     obj_true,
+    #     obj_simple,
+    #     invert_obj_path,
+    #     lc_length=length,
+    #     lc_cadence=cadence,
+    #     integration_time_s=0.5,
+    #     date0=date0,
+    #     s0=s0,
+    #     w0=w0,
+    #     itensor=itensor,
+    #     self_shadowing=True,
+    #     trial_name='rocket_body_sdc',
+    #     model_name='Rocket Body',
+    #     make_plots=True,
+    #     model_scale=0.3,
+    # )
 
     mrp.generate_light_curves(
         station,
-        obj_true,
+        obj_simple,
         obj_simple,
         invert_obj_path,
         lc_length=length,
@@ -80,7 +113,7 @@ def main():
         w0=w0,
         itensor=itensor,
         self_shadowing=True,
-        trial_name='rocket_body_sdc',
+        trial_name='rocket_body_sdc_no_mm',
         model_name='Rocket Body',
         make_plots=True,
         model_scale=0.3,

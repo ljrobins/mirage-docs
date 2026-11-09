@@ -22,7 +22,7 @@ Signal-to-Noise Ratio (SNR)
 ===========================
 Investigating the SNR applied to CCD images
 
-.. GENERATED FROM PYTHON SOURCE LINES 6-73
+.. GENERATED FROM PYTHON SOURCE LINES 13-81
 
 .. code-block:: Python
 
@@ -35,6 +35,7 @@ Investigating the SNR applied to CCD images
 
 
     def ccd_snr(signal_grid: np.ndarray, noise_grid: np.ndarray) -> float:
+        """Compute the CCD signal-to-noise ratio from signal and noise grids."""
         return np.sum(signal_grid) / np.sqrt(np.sum(signal_grid) + np.sum(noise_grid))
 
 
@@ -109,25 +110,25 @@ Investigating the SNR applied to CCD images
     Airy disk volume: 33076.2815
     Background mean: 3.0
     SNR from means: 43.28 
-    SNR from samples: 178.71
+    SNR from samples: 178.36
     Background mean: 30.0
     SNR from means: 23.84 
-    SNR from samples: 160.52
+    SNR from samples: 161.81
     Background mean: 300.0
     SNR from means: 8.45 
-    SNR from samples: 95.31
+    SNR from samples: 95.34
     Background mean: 1500.0
     SNR from means: 3.82 
-    SNR from samples: 48.28
+    SNR from samples: 48.31
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 74-75
+.. GENERATED FROM PYTHON SOURCE LINES 82-83
 
 Investigating the effect of integration time on SNR
 
-.. GENERATED FROM PYTHON SOURCE LINES 75-104
+.. GENERATED FROM PYTHON SOURCE LINES 83-112
 
 .. code-block:: Python
 
@@ -157,7 +158,7 @@ Investigating the effect of integration time on SNR
 
     plt.plot(dts, snrs)
     plt.scatter(dts, snrs)
-    mrv.texit('', 'Integration Time (s)', 'SNR', ['$\sqrt{\Delta t} + \mathrm{SNR}_0$'])
+    mrv.texit('', 'Integration Time (s)', 'SNR', [r'$\sqrt{\Delta t} + \mathrm{SNR}_0$'])
     plt.tight_layout()
     plt.show()
 
@@ -181,7 +182,7 @@ Investigating the effect of integration time on SNR
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.438 seconds)
+   **Total running time of the script:** (0 minutes 1.584 seconds)
 
 
 .. _sphx_glr_download_gallery_08-ccd_snr.py:

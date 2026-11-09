@@ -36,7 +36,6 @@ def calibration_df(
 
     # plt.imshow(np.log10(np.abs(image_sub)+1), cmap='gray')
     # plt.show()
-    # endd
 
     mr.tic(f'{im_name}: object mask')
     obj_mask = mrp.object_mask(image_sub, background_std)
@@ -191,7 +190,7 @@ catalog = mr.GaiaSpectralStarCatalog(station)
 df = pl.DataFrame()
 
 # lights_dir = '/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/pogs/2024_11_12/lights'
-lights_dir = '/Users/liamrobinson/Downloads/2024_11_14/lights_100'
+lights_dir = '/Users/liamrobinson/Documents/fits/2024_11_14/lights_100'
 impaths = [os.path.join(lights_dir, f) for f in os.listdir(lights_dir)]
 
 dfs = []

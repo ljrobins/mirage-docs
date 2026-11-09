@@ -23,7 +23,7 @@ Stars in FOV
 
 Computing which stars are in the field of view
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-63
+.. GENERATED FROM PYTHON SOURCE LINES 14-71
 
 .. code-block:: Python
 
@@ -36,6 +36,7 @@ Computing which stars are in the field of view
 
 
     def plot_telescope_fov(station: mr.Station, look_dir: np.ndarray, up_dir: np.ndarray):
+        """Plot the telescope field-of-view boundary in RA/Dec coordinates."""
         sp = station.telescope.ccd.sensor_pixels
         xy1 = np.vstack((np.arange(sp[0]), np.full(sp[0], 0))).T
         xy2 = np.vstack((np.arange(sp[0]), np.full(sp[0], sp[1]))).T
@@ -69,9 +70,9 @@ Computing which stars are in the field of view
     tree_inds = catalog._tree.query_radius(look_dir, 1.2 * fov_rad)[0]
     t1 = mr.toc(return_elapsed_seconds=True)
 
-    assert (
-        brute_inds.size == np.intersect1d(brute_inds, tree_inds).size
-    ), 'Brute force and tree search returned different numbers of stars!'
+    assert brute_inds.size == np.intersect1d(brute_inds, tree_inds).size, (
+        'Brute force and tree search returned different numbers of stars!'
+    )
 
     mr.tic()
     tree_inds_in_fov = mr.unit_vector_inds_in_fov(
@@ -92,18 +93,18 @@ Computing which stars are in the field of view
  .. code-block:: none
 
     Number of stars in catalog: 16844164
-    Brute time total: 2.96e-01
-    Tree time total: 2.34e-03
-    Factor speedup: 126.3
+    Brute time total: 2.77e+00
+    Tree time total: 3.21e-03
+    Factor speedup: 862.9
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 64-65
+.. GENERATED FROM PYTHON SOURCE LINES 72-73
 
 Let's plot the tree solution
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-79
+.. GENERATED FROM PYTHON SOURCE LINES 73-87
 
 .. code-block:: Python
 
@@ -136,7 +137,7 @@ Let's plot the tree solution
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.368 seconds)
+   **Total running time of the script:** (0 minutes 10.751 seconds)
 
 
 .. _sphx_glr_download_gallery_08-ccd_stars_in_fov.py:

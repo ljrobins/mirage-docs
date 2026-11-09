@@ -22,7 +22,7 @@ Local Sidereal Time
 ===================
 Studying the yearly variations in sidereal time
 
-.. GENERATED FROM PYTHON SOURCE LINES 6-21
+.. GENERATED FROM PYTHON SOURCE LINES 13-28
 
 .. code-block:: Python
 
@@ -48,12 +48,12 @@ Studying the yearly variations in sidereal time
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-24
+.. GENERATED FROM PYTHON SOURCE LINES 29-31
 
-We can see that as expected, Greenwich passes LST = 0 at noon on the vernal equinox (~80 days into the year). Rephrased, this means that at noon on the vernal equinox, the local meridian at Greenwich is pointing in the direction of inertial :math:`\\hat{x}`, the first point of Aires, zero right ascension.
+We can see that as expected, Greenwich passes LST = 0 at noon on the vernal equinox (~80 days into the year). Rephrased, this means that at noon on the vernal equinox, the local meridian at Greenwich is pointing in the direction of inertial :math:`\\hat{x}`, the first point of Aries, zero right ascension.
 On the same date, the station in New Mexico is always facing 105 degrees earlier.
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-38
+.. GENERATED FROM PYTHON SOURCE LINES 31-45
 
 .. code-block:: Python
 
@@ -65,7 +65,7 @@ On the same date, the station in New Mexico is always facing 105 degrees earlier
         'Local Sidereal Time at 12:00 UTC',
         'Day of the year',
         'Sidereal time [hr]',
-        [f'$\lambda = {s.lon_deg:.2f}^\circ$' for s in stations],
+        [rf'$\lambda = {s.lon_deg:.2f}^\circ$' for s in stations],
     )
     plt.ylim(0, 24)
     plt.xlim(0, 366)
@@ -80,26 +80,17 @@ On the same date, the station in New Mexico is always facing 105 degrees earlier
    :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    /Users/liamrobinson/Documents/maintained-research/mirage/examples/07-observer/local_sidereal_time.py:32: SyntaxWarning: invalid escape sequence '\l'
-      [f'$\lambda = {s.lon_deg:.2f}^\circ$' for s in stations],
-    /Users/liamrobinson/Documents/maintained-research/mirage/examples/07-observer/local_sidereal_time.py:32: SyntaxWarning: invalid escape sequence '\c'
-      [f'$\lambda = {s.lon_deg:.2f}^\circ$' for s in stations],
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 39-40
+.. GENERATED FROM PYTHON SOURCE LINES 46-47
 
 For example, on June 2nd (day 153 of the year), the LST at 12:00 UTC is approximately 21.67/24 * 360 = 325 degrees. For an observation at ~6:00 UTC, we subtract another 6/24*360 degrees to yield LST = 235 degrees.
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.162 seconds)
+   **Total running time of the script:** (0 minutes 0.607 seconds)
 
 
 .. _sphx_glr_download_gallery_07-observer_local_sidereal_time.py:

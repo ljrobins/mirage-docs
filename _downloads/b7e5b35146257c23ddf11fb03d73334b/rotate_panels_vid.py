@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Rotating Solar Panels
 =====================
@@ -49,6 +56,7 @@ plt.yticks([])
 
 
 def animate(i):
+    """Update the animation with rendered frame ``i``."""
     actor.set_data(imgs[i])
     plt.tight_layout()
     return (actor,)

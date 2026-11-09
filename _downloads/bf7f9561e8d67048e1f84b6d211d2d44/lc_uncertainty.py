@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Light Curve Uncertainty
 =======================
@@ -35,7 +42,7 @@ diffuse_mag = mr.irradiance_to_apparent_magnitude(diffuse_irrad)
 q_of_t, w_of_t = attitude.propagate(epsecs)
 dcms_of_t = mr.quat_to_dcm(q_of_t)
 
-obj = mr.SpaceObject(obj_file, identifier='goes 15')
+obj = mr.SpaceObject(obj_file, identifier=36411)
 lc_ccd_signal_sampler, aux_data = station.observe_light_curve(
     obj,
     attitude,
@@ -45,9 +52,6 @@ lc_ccd_signal_sampler, aux_data = station.observe_light_curve(
     use_engine=False,
     model_scale_factor=0.5,
 )
-
-print(np.mean(aux_data['background_mean']))
-# endd
 
 plt.figure(figsize=(10, 5))
 
@@ -79,9 +83,9 @@ for stdev in [1, 2, 3]:
 mrv.texit(
     'Light Curve with Uncertainty',
     'Epoch seconds',
-    'Recieved irradiance [W/m$^2$]',
+    'Received irradiance [W/m$^2$]',
     grid=False,
-    legend=['Mean', '1$\sigma$', '2$\sigma$', '3$\sigma$'],
+    legend=['Mean', r'1$\sigma$', r'2$\sigma$', r'3$\sigma$'],
 )
 
 plt.subplot(1, 2, 2)
@@ -109,8 +113,6 @@ for nights in range(4):
         use_engine=False,
         model_scale_factor=0.5,
     )
-
-    print(np.mean(aux_data['background_mean']))
 
     plt.subplot(2, 2, nights + 1)
 
@@ -143,13 +145,15 @@ for nights in range(4):
         '',
         '',
         grid=False,
-        legend=['Mean', '1$\sigma$', '2$\sigma$', '3$\sigma$'] if nights == 0 else None,
+        legend=['Mean', r'1$\sigma$', r'2$\sigma$', r'3$\sigma$']
+        if nights == 0
+        else None,
     )
     plt.ylim(13, 18)
     plt.gca().invert_yaxis()
 
 plt.gcf().supxlabel('Seconds after midnight UTC')
-plt.gcf().supylabel('Recieved irradiance [W/m$^2$]')
+plt.gcf().supylabel('Received irradiance [W/m$^2$]')
 
 plt.tight_layout()
 plt.show()

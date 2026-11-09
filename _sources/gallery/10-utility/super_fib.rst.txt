@@ -23,12 +23,12 @@ Quaternion Sampling Efficiency
 
 Comparing methods for sampling quaternions, with an emphasis on distributing the quaternions uniformly throughout orientation space (in the cosine distance sense)
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-54
+.. GENERATED FROM PYTHON SOURCE LINES 17-65
 
 
 
 .. image-sg:: /gallery/10-utility/images/sphx_glr_super_fib_001.png
-   :alt: Quaternion Sampling Comparison
+   :alt: Quaternion Sampling Comparison (1e5)
    :srcset: /gallery/10-utility/images/sphx_glr_super_fib_001.png, /gallery/10-utility/images/sphx_glr_super_fib_001_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
@@ -41,6 +41,7 @@ Comparing methods for sampling quaternions, with an emphasis on distributing the
 
     import matplotlib.pyplot as plt
     import numpy as np
+
     # from sklearn.neighbors import BallTree
     from pykdtree.kdtree import KDTree
     from scipy.stats import norm
@@ -50,7 +51,7 @@ Comparing methods for sampling quaternions, with an emphasis on distributing the
     import mirage as mr
     import mirage.vis as mrv
 
-    n = int(1e3)
+    n = int(1e5)
     np.random.seed(1)
 
     Q = mr.quat_upper_hemisphere(mr.quaternion_fibonacci_sample(n))
@@ -68,7 +69,7 @@ Comparing methods for sampling quaternions, with an emphasis on distributing the
     cq = KDTree(Q).query(Q, k=2)[1][:, 1]
     ang3 = mr.quat_ang(Q, Q[cq, :], deg=True)
 
-    sampler = LHS(xlimits=np.array(4 * [[0, 1]]), random_state=1)
+    sampler = LHS(xlimits=np.array(4 * [[0, 1]]), seed=1)
     quantiles = sampler(n)
     Q = mr.quat_upper_hemisphere(mr.hat(norm(loc=0, scale=1).ppf(quantiles)))
     cq = KDTree(Q).query(Q, k=2)[1][:, 1]
@@ -79,7 +80,7 @@ Comparing methods for sampling quaternions, with an emphasis on distributing the
     plt.hist(ang3, bins=30, alpha=0.5, label='Halton', density=True)
     plt.hist(ang4, bins=30, alpha=0.5, label='LHS', density=True)
     mrv.texit(
-        'Quaternion Sampling Comparison',
+        'Quaternion Sampling Comparison (1e5)',
         'Angle to nearest neighbor [deg]',
         'Probability density',
     )
@@ -89,7 +90,7 @@ Comparing methods for sampling quaternions, with an emphasis on distributing the
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.211 seconds)
+   **Total running time of the script:** (0 minutes 2.205 seconds)
 
 
 .. _sphx_glr_download_gallery_10-utility_super_fib.py:

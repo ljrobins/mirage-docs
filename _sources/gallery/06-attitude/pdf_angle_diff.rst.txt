@@ -23,7 +23,7 @@ Random Sphere Point Statistics
 
 How does the geometry of the :math:`n`-sphere impact the statistics of uniform randomly sampled points on the surface?
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-57
+.. GENERATED FROM PYTHON SOURCE LINES 17-72
 
 .. code-block:: Python
 
@@ -38,9 +38,14 @@ How does the geometry of the :math:`n`-sphere impact the statistics of uniform r
     t = symbols('t')
     f_theta = 2 / pi * sin(t / 2) ** 2
     F_theta = integrate(f_theta, t)
+    print(F_theta)
+    print(F_theta.simplify())
     assert integrate(f_theta, (t, 0, pi)) == 1
     pdf = lambda theta: 2 / np.pi * np.sin(theta / 2) ** 2
     cdf = lambda theta: 2 * (theta / 2 - np.sin(theta / 2) * np.cos(theta / 2)) / np.pi
+
+    print(cdf(np.deg2rad(180)) - cdf(np.deg2rad(150)))
+    print(cdf(np.deg2rad(30)) - cdf(np.deg2rad(0)))
 
     # h = lambda p, theta: 1 / np.sqrt(np.pi) * gamma(p/2)/gamma((p-1)/2) * np.sin(theta) ** (p-2)
 
@@ -90,6 +95,10 @@ How does the geometry of the :math:`n`-sphere impact the statistics of uniform r
 
  .. code-block:: none
 
+    2*(t/2 - sin(t/2)*cos(t/2))/pi
+    (t - sin(t))/pi
+    0.325821609758562
+    0.007511723574771331
     For the 3-sphere
     Expected value [deg]:  126.47562611124161
     Stdev [deg]:  37.00714390212934
@@ -103,11 +112,11 @@ How does the geometry of the :math:`n`-sphere impact the statistics of uniform r
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-59
+.. GENERATED FROM PYTHON SOURCE LINES 73-74
 
 Doing the same for the 2-sphere
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-99
+.. GENERATED FROM PYTHON SOURCE LINES 74-114
 
 .. code-block:: Python
 
@@ -171,17 +180,17 @@ Doing the same for the 2-sphere
     Probability less than 90 degrees:  0.49999999999999994
     Probability less than 1 degrees:  7.615242180436521e-05
     Numerical mean [deg]:  90.01015092929406
-    Numerical median [deg]:  89.9641804362087
+    Numerical median [deg]:  89.96418043620872
     Numerical std [deg]:  39.15619992346243
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 100-101
+.. GENERATED FROM PYTHON SOURCE LINES 115-116
 
 And for the 1-sphere
 
-.. GENERATED FROM PYTHON SOURCE LINES 101-136
+.. GENERATED FROM PYTHON SOURCE LINES 116-151
 
 .. code-block:: Python
 
@@ -248,7 +257,7 @@ And for the 1-sphere
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 5.816 seconds)
+   **Total running time of the script:** (0 minutes 24.463 seconds)
 
 
 .. _sphx_glr_download_gallery_06-attitude_pdf_angle_diff.py:

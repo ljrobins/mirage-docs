@@ -23,7 +23,7 @@ CCD Gain
 
 Computing the gain of the POGS CCD from a set of twilight flats
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-115
+.. GENERATED FROM PYTHON SOURCE LINES 14-127
 
 
 
@@ -237,7 +237,6 @@ Computing the gain of the POGS CCD from a set of twilight flats
     No tracking rates in fits, setting zero (may be inaccurate)
     No tracking rates in fits, setting zero (may be inaccurate)
     No tracking rates in fits, setting zero (may be inaccurate)
-    m, b
 
 
 
@@ -265,15 +264,17 @@ Computing the gain of the POGS CCD from a set of twilight flats
         """
 
         def cost_function(params, x, y):
+            """Return the L1 residual for a line with slope ``m`` and intercept ``b``."""
             m, b = params
             return np.sum(np.abs(y - (m * x + b)))
 
         initial_guess = [1, 0]  # Initial guess for slope and intercept
         result = optimize.minimize(cost_function, initial_guess, args=(x, y))
-        return result.x  # m, b for y = mx * b
+        return result.x  # m, b for y = m * x + b
 
 
     def calibrate_sky_flats_to_gain(flats_dir: str) -> np.ndarray:
+        """Estimate the CCD gain from a sequence of sky-flat images."""
         # http://spiff.rit.edu/classes/phys445/lectures/gain/gain.html
         # Under "Measuring the gain -- a better technique"
         # as well as: https://www.mirametrics.com/tech_note_ccdgain.php
@@ -317,6 +318,7 @@ Computing the gain of the POGS CCD from a set of twilight flats
 
 
     def calibrate_sky_flats_to_k(flats_dir: str, g: float, rc: float) -> np.ndarray:
+        """Estimate the flat-field variance coefficient from sky flats."""
         # as well as: https://www.mirametrics.com/tech_note_ccdgain.php
         flats_paths = [os.path.join(flats_dir, f) for f in os.listdir(flats_dir)]
 
@@ -339,7 +341,6 @@ Computing the gain of the POGS CCD from a set of twilight flats
         means = np.array(means)
 
         m, b = l1_fit(means, ks)
-        print('m, b')
         plt.scatter(means, ks, marker='+')
         plt.plot(means, means * m + b, label='best fit', color='k')
         plt.legend()
@@ -351,7 +352,10 @@ Computing the gain of the POGS CCD from a set of twilight flats
 
     region = (slice(430, 480), slice(370, 420))
     station = mr.Station()
-    flats_dir = '/Users/liamrobinson/Downloads/2024_11_15/flat'
+    flats_dir = os.environ.get(
+        'POGS_FLATS_DIR',
+        os.path.join(os.environ['SRCDIR'], '..', '..', 'fits', '2024_11_15', 'flat'),
+    )
     read_noise = 10.24  # ADU
     gain = 5.6  # e-/ADU
     # calibrate_sky_flats_to_gain(flats_dir)
@@ -360,7 +364,7 @@ Computing the gain of the POGS CCD from a set of twilight flats
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.839 seconds)
+   **Total running time of the script:** (0 minutes 8.033 seconds)
 
 
 .. _sphx_glr_download_gallery_13-attitude-2024_calibration_gain.py:

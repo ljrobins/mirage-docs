@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Non-Convex Inversion
 ====================
@@ -23,7 +30,10 @@ def match_concavity_to_light_curve(
     ovb: np.ndarray,
     lc: np.ndarray,
 ) -> mr.SpaceObject:
+    """Optimize a concave depression to match an observed light curve."""
+
     def objective_function(psi_deg: float) -> float:
+        """Return the squared light-curve error for a concavity angle."""
         rec_obj_with_concavity = rec_convex_obj.introduce_concavity(
             err_egi_dir,
             psi_deg,
@@ -34,15 +44,12 @@ def match_concavity_to_light_curve(
             brdf, rec_obj_with_concavity, svb[::5, :], ovb[::5, :]
         )
         err = np.sum((lc.flatten()[::5] - lc_hat.flatten()) ** 2)
-        print(f'Tried psi = {psi_deg:.1f} deg, got err = {err:.2f}')
         return err
 
-    print('Optimizing concavity angle...')
     psis = np.arange(10, 90, 10)
     errs = np.array([objective_function(psi) for psi in psis])
 
     psi_opt = psis[np.argmin(errs)]
-    print(f'Optimal concavity angle: {psi_opt:.1f} deg')
     return rec_convex_obj.introduce_concavity(
         err_egi_dir, psi_opt, normal_selection_tolerance=np.pi / 2 - 0.5, linear_iter=3
     )
@@ -83,7 +90,6 @@ for noise in [False, True]:
             object_files = ['cube.obj', 'icosahedron.obj', 'cylinder.obj', 'gem.obj']
 
         # mrv.vis_attitude_motion(mr.SpaceObject(object_files[0]), q_of_t)
-        # endd
 
         station.constraints = [
             mr.SnrConstraint(3),
@@ -99,7 +105,7 @@ for noise in [False, True]:
             window_size=(int(win_width * 4 / 3), win_width // 4 * len(object_files)),
         )
         for i, obj_file in enumerate(object_files):
-            obj = mr.SpaceObject(obj_file, identifier='goes 15')
+            obj = mr.SpaceObject(obj_file, identifier=36411)
             max_vertex_disp = np.max(mr.vecnorm(obj._mesh.points))
             obj._mesh.scale(1 / max_vertex_disp, inplace=True)
 

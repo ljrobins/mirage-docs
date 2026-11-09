@@ -23,7 +23,7 @@ Skellam Distribution
 
 The difference of two Poisson distributions
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-31
+.. GENERATED FROM PYTHON SOURCE LINES 14-36
 
 .. code-block:: Python
 
@@ -37,10 +37,8 @@ The difference of two Poisson distributions
     s1 = np.random.poisson(lam=lams[0], size=n)
     s2 = np.random.poisson(lam=lams[1], size=n)
 
-    p_skellam = (
-        lambda x, lam1, lam2: np.exp(-lam1 - lam2)
-        * (lam1 / lam2) ** (x / 2)
-        * iv(x, 2 * np.sqrt(lam1 * lam2))
+    p_skellam = lambda x, lam1, lam2: (
+        np.exp(-lam1 - lam2) * (lam1 / lam2) ** (x / 2) * iv(x, 2 * np.sqrt(lam1 * lam2))
     )
     xs = np.linspace(-20, 20)
     pxs = p_skellam(xs, *lams)
@@ -59,20 +57,20 @@ The difference of two Poisson distributions
 
  .. code-block:: none
 
-    Numerical  mean: 6.000
+    Numerical  mean: 6.003
     Analytical mean: 6.000
 
-    Numerical  variance: 14.023
+    Numerical  variance: 13.991
     Analytical variance: 14.000
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-33
+.. GENERATED FROM PYTHON SOURCE LINES 37-38
 
 Let's plot these sampled random variables as well as the expected distribution of their difference
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-65
+.. GENERATED FROM PYTHON SOURCE LINES 38-70
 
 .. code-block:: Python
 
@@ -123,7 +121,7 @@ Let's plot these sampled random variables as well as the expected distribution o
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.351 seconds)
+   **Total running time of the script:** (0 minutes 2.118 seconds)
 
 
 .. _sphx_glr_download_gallery_10-utility_skellam.py:

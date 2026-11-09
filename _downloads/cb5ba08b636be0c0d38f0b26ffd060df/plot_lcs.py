@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Plotting Light Curves
 =====================
@@ -5,14 +12,24 @@ Plotting Light Curves
 Plotting the light curves used for inversion
 """
 
+import os
+
 import matplotlib.pyplot as plt
 import numpy as np
 import polars as pl
 
 import mirage as mr
 
+EXAMPLE_DIR = os.path.join(
+    os.environ['SRCDIR'], '..', 'examples', '15-attitude-sdc-2025'
+)
+REPO_DATA_DIR = os.path.join(os.environ['SRCDIR'], '..', 'data')
+DATA_DIR = os.path.join(EXAMPLE_DIR, 'data')
+MODEL_DIR = os.path.join(EXAMPLE_DIR, 'models')
+
 
 def main():
+    """Plot the observed light curves and derive SDC inversion inputs."""
     # ITENSOR FOR THE STAR-37E
     m = 83.1  # empty mass, no propellant, kg
     diam_m = 0.93
@@ -61,15 +78,15 @@ def main():
     echostar_ii_tensor = box_itensor + 2 * panel_itensor
 
     df1 = pl.read_parquet(
-        '/Users/liamrobinson/Documents/maintained-research/mirage/data/2025-03-02-DELTA_1_R_B_2-15402-00015271.parquet'
-        # '/Users/liamrobinson/Documents/maintained-research/mirage/data/2025-02-19-DELTA_1_R_B_2-15402-00013630.parquet'
+        os.path.join(REPO_DATA_DIR, '2025-03-02-DELTA_1_R_B_2-15402-00015271.parquet')
+        # os.path.join(REPO_DATA_DIR, '2025-02-19-DELTA_1_R_B_2-15402-00013630.parquet')
     )
     df2 = pl.read_parquet(
-        '/Users/liamrobinson/Documents/maintained-research/mirage/data/2025-02-26-ECHOSTAR_2-24313-00014800.parquet'
+        os.path.join(REPO_DATA_DIR, '2025-02-26-ECHOSTAR_2-24313-00014800.parquet')
     )
 
-    rb_opath = '/Users/liamrobinson/Documents/maintained-research/mirage/examples/15-attitude-sdc-2025/models/star37e-quad.obj'
-    echo_opath = '/Users/liamrobinson/Documents/maintained-research/mirage/examples/15-attitude-sdc-2025/models/echostar-ii-quad.obj'
+    rb_opath = os.path.join(MODEL_DIR, 'star37e-quad.obj')
+    echo_opath = os.path.join(MODEL_DIR, 'echostar-ii-quad.obj')
 
     frac_delta = 1
     frac_echo = 1 / 2
@@ -112,8 +129,6 @@ def main():
         print(
             f'We should search up to a maximum angular velocity of {np.rad2deg(max_ang):.2e}'
         )
-        print(f'{itensor=}')
-
         ides = mr.satdef_from_identifier(df['norad_cat_id'][0]).ides
 
         obj = mr.SpaceObject(
@@ -165,9 +180,8 @@ def main():
         # plt.plot(lambdas, T[0,:], label='T')
         # plt.plot(lambdas, Q, label='Q')
         # plt.show()
-        # endd
 
-        integral_term = np.trapz(
+        integral_term = np.trapezoid(
             Q * T * I_odot * inv_energy, lambdas
         )  # W / m^2 * (s^2 / kg / m^2) / photon * nm
         outer_factor = (
@@ -179,7 +193,6 @@ def main():
             outer_factor.flatten() * integral_term.flatten()
         )
         # print(normalized_brightness_to_counts[0])
-        # endd
 
         lc_adu_obs = df['flux_adu'].to_numpy()
         lc_norm_obs = lc_adu_obs / normalized_brightness_to_counts
@@ -232,7 +245,7 @@ def main():
         )
 
         df.gather_every(int(1 / frac_keep)).write_parquet(
-            f'/Users/liamrobinson/Documents/maintained-research/mirage/examples/15-attitude-sdc-2025/data/{label}_in.parquet'
+            os.path.join(DATA_DIR, f'{label}_in.parquet')
         )
 
         plt.figure(figsize=(10, 6))
@@ -252,7 +265,7 @@ def main():
             alpha=0.4,
             color='gray',
             edgecolor=None,
-            label='Computed $3\sigma$ bounds',
+            label=r'Computed $3\sigma$ bounds',
         )
         plt.ylim(plt.ylim()[0], ym)
         plt.ylabel('Observed V-Band Magnitude')
@@ -268,7 +281,7 @@ def main():
             alpha=0.4,
             color='gray',
             edgecolor=None,
-            label='Computed $3\sigma$ bounds',
+            label=r'Computed $3\sigma$ bounds',
         )
 
         plt.suptitle(f'Light Curves for {ides}')

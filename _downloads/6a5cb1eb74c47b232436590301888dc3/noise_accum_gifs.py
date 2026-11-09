@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Noise Sampling
 ==============
@@ -24,6 +31,7 @@ plt.yticks([])
 
 
 def animate(i):
+    """Accumulate one Poisson integration-noise sample per frame."""
     global grid
     grid += np.random.poisson(1, (d, d))
     actor.set_data(grid)
@@ -50,6 +58,7 @@ plt.yticks([])
 
 
 def animate(i):
+    """Replace the image with a new read-noise sample."""
     global grid
     grid = np.random.normal(0, 1, (d, d))
     actor.set_data(grid)
@@ -75,6 +84,7 @@ plt.yticks([])
 
 
 def animate(i):
+    """Replace the image with a new truncation-noise sample."""
     global grid
     grid = 0.5 - np.random.random((d, d))
     actor.set_data(grid)

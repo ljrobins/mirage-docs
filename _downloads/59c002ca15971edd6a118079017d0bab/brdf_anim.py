@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "colorcet",
+#     "mirage",
+# ]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Blinn-Phong BRDF Animated
 =========================
@@ -20,7 +30,7 @@ el_grid, az_grid = np.meshgrid(el_space, az_space)
 
 pl = pv.Plotter()
 
-pl.open_gif('brdf_anim.gif', fps=20)
+pl.open_gif('out/brdf_anim.gif', fps=20)
 nframes = 150
 t = np.linspace(0, 2 * np.pi, nframes, endpoint=False)
 
@@ -55,7 +65,7 @@ for i in range(nframes):
             (num**2, 1),
         )
     )
-    b = brdf.eval(L, O, N).reshape(xx.shape)
+    b = (brdf.eval(L, O, N) * mr.dot(L, N) * mr.dot(O, N)).reshape(xx.shape)
     mesh = pv.StructuredGrid(xx * b, yy * b, zz * b)
     pl.add_text(f'{brdf.name.upper()}', font_size=18, font='courier', color='black')
     pl.add_mesh(

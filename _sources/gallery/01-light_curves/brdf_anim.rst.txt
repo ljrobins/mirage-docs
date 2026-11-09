@@ -23,7 +23,7 @@ Blinn-Phong BRDF Animated
 
 Animating how the reflected radiance fraction changes
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-86
+.. GENERATED FROM PYTHON SOURCE LINES 17-96
 
 
 
@@ -54,7 +54,7 @@ Animating how the reflected radiance fraction changes
 
     pl = pv.Plotter()
 
-    pl.open_gif('brdf_anim.gif', fps=20)
+    pl.open_gif('out/brdf_anim.gif', fps=20)
     nframes = 150
     t = np.linspace(0, 2 * np.pi, nframes, endpoint=False)
 
@@ -89,7 +89,7 @@ Animating how the reflected radiance fraction changes
                 (num**2, 1),
             )
         )
-        b = brdf.eval(L, O, N).reshape(xx.shape)
+        b = (brdf.eval(L, O, N) * mr.dot(L, N) * mr.dot(O, N)).reshape(xx.shape)
         mesh = pv.StructuredGrid(xx * b, yy * b, zz * b)
         pl.add_text(f'{brdf.name.upper()}', font_size=18, font='courier', color='black')
         pl.add_mesh(
@@ -121,7 +121,7 @@ Animating how the reflected radiance fraction changes
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 16.765 seconds)
+   **Total running time of the script:** (1 minutes 15.497 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_brdf_anim.py:

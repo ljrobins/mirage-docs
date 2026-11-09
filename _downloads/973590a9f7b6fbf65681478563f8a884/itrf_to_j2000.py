@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 IAU-76 J2000 Reduction
 ======================
@@ -60,11 +67,11 @@ eps_error = (np.rad2deg(eps_mine) - eps_vallado) * mr.AstroConstants.deg_to_arcs
 assert np.abs(tt_error) < 1e-6, 'TT error > 1e-6 days'
 assert np.abs(ut1_minus_utc_error) < 1e-3, 'UT1-UTC error > 1e-3 sec'
 assert np.abs(gmst_error) < 1e-3, 'GMST error > 1e-3 sec'
-assert all(np.abs(gast_error) < 1e-3), 'GAST error > 1e-3 sec'
-assert all(np.abs(delta_psi_error) < 1e-3), 'DeltaPsi error > 1e-3 arcsec'
-assert all(np.abs(delta_eps_error) < 1e-3), 'DeltaEpsilon error > 1e-3 arcsec'
+assert np.all(np.abs(gast_error) < 1e-3), 'GAST error > 1e-3 sec'
+assert np.all(np.abs(delta_psi_error) < 1e-3), 'DeltaPsi error > 1e-3 arcsec'
+assert np.all(np.abs(delta_eps_error) < 1e-3), 'DeltaEpsilon error > 1e-3 arcsec'
 assert np.abs(eps_bar_error) < 1e-4, 'EpsilonBar error > 1e-4 arcsec'
-assert all(np.abs(eps_error) < 1e-3), 'Epsilon error > 1e-4 arcsec'
+assert np.all(np.abs(eps_error) < 1e-3), 'Epsilon error > 1e-4 arcsec'
 
 
 # %%
@@ -85,10 +92,10 @@ j2000_error = 1e3 * (j2000_mine - j2000_vallado)
 
 # %%
 # And assert that these must also be small -- for now we use 1 meter as the target error accumulation per transformation
-assert all(np.abs(gtod_error) < 1), 'ITRF->GTOD error > 1 m'
-assert all(np.abs(tod_error) < 1), 'GTID->TOD error > 1 m'
-assert all(np.abs(mod_error) < 1), 'TOD->MOD error > 1 m'
-assert all(np.abs(j2000_error) < 1), 'MOD->J2000 error > 1 m'
+assert np.all(np.abs(gtod_error) < 1), 'ITRF->GTOD error > 1 m'
+assert np.all(np.abs(tod_error) < 1), 'GTID->TOD error > 1 m'
+assert np.all(np.abs(mod_error) < 1), 'TOD->MOD error > 1 m'
+assert np.all(np.abs(j2000_error) < 1), 'MOD->J2000 error > 1 m'
 
 # %%
 # Let's collect these error results

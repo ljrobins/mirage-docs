@@ -91,8 +91,8 @@ Now, let's create two RA/Dec observations of the object
 
  .. code-block:: none
 
-    ra_truth = [2.18247321 2.1588651 ] [rad]
-    dec_truth = [-1.25881232 -1.31355334] [rad]
+    ra_truth = [2.21673776 2.24359529] [rad]
+    dec_truth = [-0.40295952 -0.36153302] [rad]
 
 
 
@@ -142,8 +142,8 @@ Now, let's add some noise to our observations
 
  .. code-block:: none
 
-    ra_obs = [2.18242872 2.15882789] [rad]
-    dec_obs = [-1.25880856 -1.3134719 ] [rad]
+    ra_obs = [2.21669718 2.24362531] [rad]
+    dec_obs = [-0.40289725 -0.36154378] [rad]
 
 
 
@@ -189,7 +189,7 @@ We know that the ranges to the object :math:`\rho_1` and :math:`\rho_2` are only
 We know that a circular orbit has a constant true anomaly rate, equal to the mean motion :math:`n = \sqrt{\mu/a^3}`
 This means that the angle between the true position vectors of the object at the two observation times is equal to the mean motion times the time between the observations
 
-.. GENERATED FROM PYTHON SOURCE LINES 81-89
+.. GENERATED FROM PYTHON SOURCE LINES 81-90
 
 .. code-block:: Python
 
@@ -197,8 +197,9 @@ This means that the angle between the true position vectors of the object at the
     dt = (dates[1] - dates[0]).total_seconds()
     c = mr.AstroConstants.speed_of_light_vacuum
 
-    phi_cm = lambda a: np.sqrt(mr.AstroConstants.earth_mu / a**3) * (
-        dt - rho_2(a) / np.inf + rho_1(a) / np.inf
+    phi_cm = lambda a: (
+        np.sqrt(mr.AstroConstants.earth_mu / a**3)
+        * (dt - rho_2(a) / np.inf + rho_1(a) / np.inf)
     )
 
 
@@ -208,11 +209,11 @@ This means that the angle between the true position vectors of the object at the
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 90-91
+.. GENERATED FROM PYTHON SOURCE LINES 91-92
 
 Additionally, the angle between between the position vectors must satisfy the law of cosines
 
-.. GENERATED FROM PYTHON SOURCE LINES 91-94
+.. GENERATED FROM PYTHON SOURCE LINES 92-95
 
 .. code-block:: Python
 
@@ -226,11 +227,11 @@ Additionally, the angle between between the position vectors must satisfy the la
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 95-96
+.. GENERATED FROM PYTHON SOURCE LINES 96-97
 
 For an arbitrary :math:`a`, the geometry and dynamics of the problem will not produce the same answer! We need to use a root-finding algorithm to find the value of :math:`a` that satisfies both equations
 
-.. GENERATED FROM PYTHON SOURCE LINES 96-114
+.. GENERATED FROM PYTHON SOURCE LINES 97-115
 
 .. code-block:: Python
 
@@ -254,27 +255,51 @@ For an arbitrary :math:`a`, the geometry and dynamics of the problem will not pr
 
 
 
-
-.. image-sg:: /gallery/00-orbits/images/sphx_glr_restricted_circular_od_001.png
-   :alt: restricted circular od
-   :srcset: /gallery/00-orbits/images/sphx_glr_restricted_circular_od_001.png, /gallery/00-orbits/images/sphx_glr_restricted_circular_od_001_2_00x.png 2.00x
-   :class: sphx-glr-single-img
-
-
 .. rst-class:: sphx-glr-script-out
 
- .. code-block:: none
+.. code-block:: pytb
 
-    a_est = 6804.522813883358 [km]
+    Traceback (most recent call last):
+      File "/home/liam/Documents/mirage/examples/00-orbits/restricted_circular_od.py", line 98, in <module>
+        sol = root_scalar(lambda a: phi_g(a) - phi_cm(a), bracket=r_lims)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      File "/home/liam/Documents/mirage/.venv/lib/python3.12/site-packages/scipy/optimize/_root_scalar.py", line 286, in root_scalar
+        r, sol = methodc(f, a, b, args=args, **kwargs)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      File "/home/liam/Documents/mirage/.venv/lib/python3.12/site-packages/scipy/optimize/_zeros_py.py", line 846, in brentq
+        r = _zeros._brentq(f, a, b, xtol, rtol, maxiter, args, full_output, disp)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      File "/home/liam/Documents/mirage/.venv/lib/python3.12/site-packages/scipy/optimize/_zeros_py.py", line 94, in f_raise
+        fx = f(x, *args)
+             ^^^^^^^^^^^
+      File "/home/liam/Documents/mirage/examples/00-orbits/restricted_circular_od.py", line 98, in <lambda>
+        sol = root_scalar(lambda a: phi_g(a) - phi_cm(a), bracket=r_lims)
+                                    ^^^^^^^^
+      File "/home/liam/Documents/mirage/examples/00-orbits/restricted_circular_od.py", line 93, in <lambda>
+        phi_g = lambda a: np.arccos(mr.dot(rhat_sat_1(a), rhat_sat_2(a))).flatten()
+                                           ^^^^^^^^^^^^^
+      File "/home/liam/Documents/mirage/examples/00-orbits/restricted_circular_od.py", line 75, in <lambda>
+        rhat_sat_1 = lambda a: mr.hat(r_sat_1(a))
+                                      ^^^^^^^^^^
+      File "/home/liam/Documents/mirage/examples/00-orbits/restricted_circular_od.py", line 73, in <lambda>
+        r_sat_1 = lambda a: rtopo1 + rho_1(a).reshape(-1, 1) * lhat1
+                                     ^^^^^^^^
+      File "/home/liam/Documents/mirage/examples/00-orbits/restricted_circular_od.py", line 66, in <lambda>
+        -mr.dot(lhat1, rtopo1)
+         ^^^^^^^^^^^^^^^^^^^^^
+      File "/home/liam/Documents/mirage/mirage/math.py", line 302, in dot
+        return np.sum(v1 * v2, axis=axis, keepdims=True)
+                      ~~~^~~~
+    TypeError: only 0-dimensional arrays can be converted to Python scalars
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 115-116
+.. GENERATED FROM PYTHON SOURCE LINES 116-117
 
 Now we can find the estimated position vectors at the two observation times
 
-.. GENERATED FROM PYTHON SOURCE LINES 116-119
+.. GENERATED FROM PYTHON SOURCE LINES 117-120
 
 .. code-block:: Python
 
@@ -282,17 +307,11 @@ Now we can find the estimated position vectors at the two observation times
     r_sat_2_est = r_sat_2(a_est)
 
 
-
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 120-121
+.. GENERATED FROM PYTHON SOURCE LINES 121-122
 
 From orbital mechanics, we know that the angular momentum direction is perpendicular to the orbital plane, and that the cross product of the position and velocity vectors is equal to the angular momentum vector
 
-.. GENERATED FROM PYTHON SOURCE LINES 121-124
+.. GENERATED FROM PYTHON SOURCE LINES 122-125
 
 .. code-block:: Python
 
@@ -300,17 +319,11 @@ From orbital mechanics, we know that the angular momentum direction is perpendic
     hhat_est = mr.hat(np.cross(r_sat_1_est, r_sat_2_est))
 
 
-
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 125-126
+.. GENERATED FROM PYTHON SOURCE LINES 126-127
 
 The velocity vector must be perpendicular to the position vector and the angular momentum vector, with magnitude equal to the circular velocity :math:`v_c = \sqrt{\mu/a}`
 
-.. GENERATED FROM PYTHON SOURCE LINES 126-134
+.. GENERATED FROM PYTHON SOURCE LINES 127-135
 
 .. code-block:: Python
 
@@ -323,23 +336,11 @@ The velocity vector must be perpendicular to the position vector and the angular
     print(f'v_est = {v_est} [km/s]')
 
 
-
-
-
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    v_est = [[ 4.07573796 -4.80140163 -4.34898295]] [km/s]
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 135-136
+.. GENERATED FROM PYTHON SOURCE LINES 136-137
 
 Let's see how well the estimated orbit matches the measurements
 
-.. GENERATED FROM PYTHON SOURCE LINES 136-148
+.. GENERATED FROM PYTHON SOURCE LINES 137-149
 
 .. code-block:: Python
 
@@ -356,26 +357,11 @@ Let's see how well the estimated orbit matches the measurements
     print(f'dec_error2 = {dec_synth2 - dec_obs[1]} [rad]')
 
 
-
-
-
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    ra_error1 = [0.] [rad]
-    dec_error1 = [0.] [rad]
-    ra_error2 = [4.4408921e-16] [rad]
-    dec_error2 = [0.] [rad]
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 149-150
+.. GENERATED FROM PYTHON SOURCE LINES 150-151
 
 Plotting the orbits
 
-.. GENERATED FROM PYTHON SOURCE LINES 150-168
+.. GENERATED FROM PYTHON SOURCE LINES 151-169
 
 .. code-block:: Python
 
@@ -398,29 +384,12 @@ Plotting the orbits
     pl.show()
 
 
-
-
-.. image-sg:: /gallery/00-orbits/images/sphx_glr_restricted_circular_od_002.png
-   :alt: restricted circular od
-   :srcset: /gallery/00-orbits/images/sphx_glr_restricted_circular_od_002.png
-   :class: sphx-glr-single-img
-
-
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    maximum position error = 1723.8576928098541 [km]
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 169-171
+.. GENERATED FROM PYTHON SOURCE LINES 170-172
 
 We could solve for other orbital elements:
 The inclination of the orbit is the angle between the angular momentum vector and the inertial z-axis
 
-.. GENERATED FROM PYTHON SOURCE LINES 171-175
+.. GENERATED FROM PYTHON SOURCE LINES 172-176
 
 .. code-block:: Python
 
@@ -429,24 +398,12 @@ The inclination of the orbit is the angle between the angular momentum vector an
     print(f'i_est = {i_est} [rad]')
 
 
-
-
-
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    i_est = 0.9003080879195137 [rad]
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 176-178
+.. GENERATED FROM PYTHON SOURCE LINES 177-179
 
 The cross product of the inertial z-axis with angular momentum vector is the ascending node vector.
 The right ascension of the ascending node is the angle between the ascending node vector and the inertial x-axis
 
-.. GENERATED FROM PYTHON SOURCE LINES 178-182
+.. GENERATED FROM PYTHON SOURCE LINES 179-183
 
 .. code-block:: Python
 
@@ -455,23 +412,11 @@ The right ascension of the ascending node is the angle between the ascending nod
     print(f'Omega_est = {Omega_est} [rad]')
 
 
-
-
-
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    Omega_est = 0.2874384404251377 [rad]
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 183-184
+.. GENERATED FROM PYTHON SOURCE LINES 184-185
 
 The argument of latitude is the angle between the ascending node vector and the position vector at the first observation time
 
-.. GENERATED FROM PYTHON SOURCE LINES 184-186
+.. GENERATED FROM PYTHON SOURCE LINES 185-187
 
 .. code-block:: Python
 
@@ -479,21 +424,9 @@ The argument of latitude is the angle between the ascending node vector and the 
     print(f'u_est = {u_est} [rad]')
 
 
-
-
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    u_est = 2.3821470202291364 [rad]
-
-
-
-
-
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 4.086 seconds)
+   **Total running time of the script:** (0 minutes 3.429 seconds)
 
 
 .. _sphx_glr_download_gallery_00-orbits_restricted_circular_od.py:

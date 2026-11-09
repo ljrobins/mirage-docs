@@ -23,7 +23,7 @@ Rigid Body Torque Free Attitudes
 
 Animates the attitude motion of an object in torque free motion
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-22
+.. GENERATED FROM PYTHON SOURCE LINES 14-29
 
 .. code-block:: Python
 
@@ -49,11 +49,11 @@ Animates the attitude motion of an object in torque free motion
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-24
+.. GENERATED FROM PYTHON SOURCE LINES 30-31
 
 Unstable rotation about the intermediate axis
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-34
+.. GENERATED FROM PYTHON SOURCE LINES 31-41
 
 .. code-block:: Python
 
@@ -64,7 +64,7 @@ Unstable rotation about the intermediate axis
     )
     (q, w) = obj_attitude.propagate(epsecs)
     mrv.vis_attitude_motion(
-        obj, q, 'tess_unstable.gif', framerate=20, background_color='white'
+        obj, q, 'out/tess_unstable.gif', framerate=20, background_color='white'
     )
 
 
@@ -79,16 +79,16 @@ Unstable rotation about the intermediate axis
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-36
+.. GENERATED FROM PYTHON SOURCE LINES 42-43
 
 Black version of unstable motion
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-40
+.. GENERATED FROM PYTHON SOURCE LINES 43-47
 
 .. code-block:: Python
 
     mrv.vis_attitude_motion(
-        obj, q, 'tess_unstable_black.gif', framerate=20, background_color='black'
+        obj, q, 'out/tess_unstable_black.gif', framerate=20, background_color='black'
     )
 
 
@@ -103,11 +103,11 @@ Black version of unstable motion
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-42
+.. GENERATED FROM PYTHON SOURCE LINES 48-49
 
 Spin and precession
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-50
+.. GENERATED FROM PYTHON SOURCE LINES 49-59
 
 .. code-block:: Python
 
@@ -117,7 +117,9 @@ Spin and precession
         itensor=np.diag((1.0, 2.0, 2.0)),
     )
     (q, w) = obj_attitude.propagate(epsecs)
-    mrv.vis_attitude_motion(obj, q, 'tess_sp.gif', framerate=20, background_color='white')
+    mrv.vis_attitude_motion(
+        obj, q, 'out/tess_sp.gif', framerate=20, background_color='white'
+    )
 
 
 
@@ -131,11 +133,11 @@ Spin and precession
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 51-52
+.. GENERATED FROM PYTHON SOURCE LINES 60-61
 
 Stable rotation about the first axis
 
-.. GENERATED FROM PYTHON SOURCE LINES 52-61
+.. GENERATED FROM PYTHON SOURCE LINES 61-70
 
 .. code-block:: Python
 
@@ -146,7 +148,7 @@ Stable rotation about the first axis
     )
     (q, w) = obj_attitude.propagate(epsecs)
     mrv.vis_attitude_motion(
-        obj, q, 'tess_stable.gif', framerate=20, background_color='white'
+        obj, q, 'out/tess_stable.gif', framerate=20, background_color='white'
     )
 
 
@@ -163,7 +165,7 @@ Stable rotation about the first axis
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 36.495 seconds)
+   **Total running time of the script:** (1 minutes 38.776 seconds)
 
 
 .. _sphx_glr_download_gallery_06-attitude_vis_attitude_motion.py:

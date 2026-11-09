@@ -23,7 +23,7 @@ Equinoxes and Solstices
 
 Visualizes the transformation from ITRF to J2000 over the course of a day and at special points of the year, highlighting the importance of the spring equinox
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-16
+.. GENERATED FROM PYTHON SOURCE LINES 14-23
 
 .. code-block:: Python
 
@@ -43,11 +43,11 @@ Visualizes the transformation from ITRF to J2000 over the course of a day and at
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-18
+.. GENERATED FROM PYTHON SOURCE LINES 24-25
 
 Let's set up a space of dates over a single day
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-24
+.. GENERATED FROM PYTHON SOURCE LINES 25-31
 
 .. code-block:: Python
 
@@ -64,11 +64,11 @@ Let's set up a space of dates over a single day
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-26
+.. GENERATED FROM PYTHON SOURCE LINES 32-33
 
 We can use :class:`mr.EarthFixedFrame` to set up the coordinate frame transformation we are about.
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-29
+.. GENERATED FROM PYTHON SOURCE LINES 33-36
 
 .. code-block:: Python
 
@@ -82,15 +82,16 @@ We can use :class:`mr.EarthFixedFrame` to set up the coordinate frame transforma
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-31
+.. GENERATED FROM PYTHON SOURCE LINES 37-38
 
 We can then plot the basis vectors at each of the selected times, labeling them in each subplot
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-67
+.. GENERATED FROM PYTHON SOURCE LINES 38-75
 
 .. code-block:: Python
 
     def plot_bases_at_date(pl: pv.Plotter, d: datetime.datetime) -> None:
+        """Plot the Earth-fixed basis vectors at a given date."""
         pl.add_text(d.strftime('%Y-%m-%d %H:%M:%S UTC'))
         mrv.plot_earth(
             pl,
@@ -138,12 +139,12 @@ We can then plot the basis vectors at each of the selected times, labeling them 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 68-70
+.. GENERATED FROM PYTHON SOURCE LINES 76-78
 
 It's easy to get confused about what the vernal equinox really *is*. Is it a time? Is it a direction?
 To dig into this, let's look at the transformation between ITRF and J2000 at noon on the equinoxes and solstices
 
-.. GENERATED FROM PYTHON SOURCE LINES 70-93
+.. GENERATED FROM PYTHON SOURCE LINES 78-101
 
 .. code-block:: Python
 
@@ -185,7 +186,7 @@ To dig into this, let's look at the transformation between ITRF and J2000 at noo
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 12.478 seconds)
+   **Total running time of the script:** (1 minutes 2.932 seconds)
 
 
 .. _sphx_glr_download_gallery_03-coordinate-systems_equinoxes.py:

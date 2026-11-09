@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Aligned and Constrained
 =======================
@@ -13,7 +20,7 @@ import pyvista as pv
 import mirage as mr
 import mirage.vis as mrv
 
-data_points = 100
+data_points = 50
 obj = mr.SpaceObject('matlib_gps_iii.obj', identifier='NAVSTAR 80 (USA 309)')
 jd0, jdf = 2459840.6618391783, 2459840.9182615164
 date0, datef = mr.jd_to_date(jd0), mr.jd_to_date(jdf)
@@ -38,7 +45,7 @@ sun_in_body = mr.stack_mat_mult_vec(c, sat_sun)
 obs_in_body = mr.stack_mat_mult_vec(c, sat_nadir)
 
 pl = pv.Plotter()
-pl.open_gif('aligned_and_constrained.gif', fps=20)
+pl.open_gif('out/aligned_and_constrained.gif', fps=20)
 
 mrv.plot3(pl, r, color='cyan', line_width=10)
 

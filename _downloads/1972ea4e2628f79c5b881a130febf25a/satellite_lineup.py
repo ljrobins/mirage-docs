@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Satellite Lineup
 ================
@@ -5,15 +12,27 @@ Satellite Lineup
 Plotting a variety of space objects against a soccer field background for size reference
 """
 
+import os
+
 import numpy as np
 import pyvista as pv
 
 import mirage as mr
 import mirage.vis as mrv
 
-mr.set_model_directory(
-    '/Users/liamrobinson/Documents/maintained-research/mirage-models/accurate_sats'
+ACCURATE_MODELS_DIR = os.environ.get(
+    'MIRAGE_ACCURATE_MODELS_DIR',
+    os.path.join(
+        os.environ['SRCDIR'],
+        '..',
+        '..',
+        'maintained-research',
+        'mirage-models',
+        'accurate_sats',
+    ),
 )
+
+mr.set_model_directory(ACCURATE_MODELS_DIR)
 space_objects = [
     mr.SpaceObject('matlib_tdrs.obj', identifier=19548),
     mr.SpaceObject('matlib_astra.obj', identifier=26853),  # ASTRA 2C
@@ -40,7 +59,6 @@ for i in range(len(space_objects)):
 
 
 space_objects = sorted(space_objects, key=lambda so: np.max(mr.vecnorm(so.v)))
-print([x.file_name for x in space_objects])
 
 # %%
 # Let's plot the sorted set of objects

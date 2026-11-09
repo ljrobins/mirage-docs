@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Wavelength to RGB
 =================
@@ -23,6 +30,7 @@ plt.show()
 
 
 def srgb_transfer(rgb):
+    """Apply the sRGB gamma transfer function to linear RGB values."""
     srgb_lo = rgb * 12.92
     srgb_hi = 1.055 * rgb ** (1 / 2.4) - 0.055
     SRGB = (rgb > 0.0031308) * srgb_hi + (rgb <= 0.0031308) * srgb_lo
@@ -30,6 +38,7 @@ def srgb_transfer(rgb):
 
 
 def srgb_transfer_inverse(srgb):
+    """Convert sRGB values back to linear RGB."""
     rgb_lo = srgb / 12.92
     rgb_hi = ((srgb + 0.055) / 1.055) ** 2.4
     linearRGB = (srgb > 0.04045) * rgb_hi + (srgb < 0.04045) * rgb_lo

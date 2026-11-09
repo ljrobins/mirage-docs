@@ -23,7 +23,7 @@ AABB Trees
 
 Building an axis-aligned bounding box (AABB) for a given trimesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-212
+.. GENERATED FROM PYTHON SOURCE LINES 14-226
 
 .. code-block:: Python
 
@@ -36,6 +36,7 @@ Building an axis-aligned bounding box (AABB) for a given trimesh
 
 
     def ray_triangle_intersection(ray_origin, ray_direction, vertices):
+        """Return the ray-triangle intersection parameters, or ``None`` if missed."""
         vertex0 = vertices[0, :]
         vertex1 = vertices[1, :]
         vertex2 = vertices[2, :]
@@ -64,6 +65,7 @@ Building an axis-aligned bounding box (AABB) for a given trimesh
 
 
     def ray_box_intersection(ray_origin, ray_direction, box_lims):
+        """Return the entry point and distance for a ray and axis-aligned box."""
         box_min = np.array([box_lims[0], box_lims[2], box_lims[4]])
         box_max = np.array([box_lims[1], box_lims[3], box_lims[5]])
         t_min = np.zeros(3, dtype=np.float32)
@@ -93,6 +95,7 @@ Building an axis-aligned bounding box (AABB) for a given trimesh
 
 
     def points_in_box(points, bounds) -> np.ndarray[bool]:
+        """Return the indices of points contained within axis-aligned bounds."""
         check_pts = points[:, 0] > bounds[0]
         check_pts &= points[:, 0] < bounds[1]
         check_pts &= points[:, 1] > bounds[2]
@@ -106,6 +109,7 @@ Building an axis-aligned bounding box (AABB) for a given trimesh
     def build_boxes(
         all_points: np.ndarray, split_verts: np.ndarray[int], max_depth: int, depth: int = 0
     ):
+        """Recursively partition points into a binary axis-aligned bounding-box tree."""
         if depth == max_depth:
             return
         boxes = {}
@@ -146,6 +150,7 @@ Building an axis-aligned bounding box (AABB) for a given trimesh
 
 
     def aggregate_children(pl, boxes, block):
+        """Recursively collect the child box meshes for visualization."""
         block.extend(
             [pv.Box(bounds=boxes['left_bounds']), pv.Box(bounds=boxes['right_bounds'])]
         )
@@ -156,6 +161,7 @@ Building an axis-aligned bounding box (AABB) for a given trimesh
 
 
     def trace_indices(ray_origin, ray_direction, face_indices, faces_vertices):
+        """Intersect a ray with the listed triangles and return all hits."""
         f, v = faces_vertices
         good_res = []
         for fi in face_indices:
@@ -167,6 +173,7 @@ Building an axis-aligned bounding box (AABB) for a given trimesh
 
 
     def trace_children(pl, ray_origin, ray_direction, boxes, faces_vertices):
+        """Traverse the AABB tree and trace the nearest child box."""
         lpt, ltime = ray_box_intersection(ray_origin, ray_direction, boxes['left_bounds'])
         rpt, rtime = ray_box_intersection(ray_origin, ray_direction, boxes['right_bounds'])
         go_left = None
@@ -245,16 +252,16 @@ Building an axis-aligned bounding box (AABB) for a given trimesh
 
  .. code-block:: none
 
-    Building AABB: 1.27e+00 seconds
+    Building AABB: 5.95e+00 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 213-214
+.. GENERATED FROM PYTHON SOURCE LINES 227-228
 
 Now that we have some boxes, let's see how much faster they make our raytracing
 
-.. GENERATED FROM PYTHON SOURCE LINES 214-241
+.. GENERATED FROM PYTHON SOURCE LINES 228-255
 
 .. code-block:: Python
 
@@ -298,8 +305,8 @@ Now that we have some boxes, let's see how much faster they make our raytracing
 
  .. code-block:: none
 
-    Brute force tracing: 2.66e+00 seconds
-    AABB tracing: 1.03e-02 seconds
+    Brute force tracing: 1.13e+01 seconds
+    AABB tracing: 2.79e-02 seconds
 
 
 
@@ -307,7 +314,7 @@ Now that we have some boxes, let's see how much faster they make our raytracing
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 4.672 seconds)
+   **Total running time of the script:** (0 minutes 22.268 seconds)
 
 
 .. _sphx_glr_download_gallery_09-models_aabb_tree.py:

@@ -23,7 +23,7 @@ Plotting models
 
 Plotting the 3D models used in the case studies
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-79
+.. GENERATED FROM PYTHON SOURCE LINES 14-91
 
 
 
@@ -51,17 +51,22 @@ Plotting the 3D models used in the case studies
 .. code-block:: Python
 
 
+    import os
+
     import numpy as np
     import pyvista as pv
 
     import mirage as mr
     import mirage.vis as mrv
 
+    MODEL_DIR = os.path.join(
+        os.environ['SRCDIR'], '..', 'examples', '15-attitude-sdc-2025', 'models'
+    )
+
 
     def main():
-        mr.set_model_directory(
-            '/Users/liamrobinson/Documents/maintained-research/mirage/examples/15-attitude-sdc-2025/models'
-        )
+        """Render the high-fidelity spacecraft models used in the SDC case study."""
+        mr.set_model_directory(MODEL_DIR)
         obj_true = mr.SpaceObject('echostar-ii-tri.obj')
 
         obj_true_mat = mr.load_obj(obj_true.file_name)
@@ -126,7 +131,7 @@ Plotting the 3D models used in the case studies
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.683 seconds)
+   **Total running time of the script:** (0 minutes 2.901 seconds)
 
 
 .. _sphx_glr_download_gallery_15-attitude-sdc-2025_plot_models.py:

@@ -22,7 +22,7 @@ Light Curve Uncertainty
 =======================
 Plotting a realistic light curve with uncertainty
 
-.. GENERATED FROM PYTHON SOURCE LINES 6-95
+.. GENERATED FROM PYTHON SOURCE LINES 13-99
 
 .. code-block:: Python
 
@@ -58,7 +58,7 @@ Plotting a realistic light curve with uncertainty
     q_of_t, w_of_t = attitude.propagate(epsecs)
     dcms_of_t = mr.quat_to_dcm(q_of_t)
 
-    obj = mr.SpaceObject(obj_file, identifier='goes 15')
+    obj = mr.SpaceObject(obj_file, identifier=36411)
     lc_ccd_signal_sampler, aux_data = station.observe_light_curve(
         obj,
         attitude,
@@ -68,9 +68,6 @@ Plotting a realistic light curve with uncertainty
         use_engine=False,
         model_scale_factor=0.5,
     )
-
-    print(np.mean(aux_data['background_mean']))
-    # endd
 
     plt.figure(figsize=(10, 5))
 
@@ -102,9 +99,9 @@ Plotting a realistic light curve with uncertainty
     mrv.texit(
         'Light Curve with Uncertainty',
         'Epoch seconds',
-        'Recieved irradiance [W/m$^2$]',
+        'Received irradiance [W/m$^2$]',
         grid=False,
-        legend=['Mean', '1$\sigma$', '2$\sigma$', '3$\sigma$'],
+        legend=['Mean', r'1$\sigma$', r'2$\sigma$', r'3$\sigma$'],
     )
 
     plt.subplot(1, 2, 2)
@@ -128,23 +125,16 @@ Plotting a realistic light curve with uncertainty
 
  .. code-block:: none
 
-    /Users/liamrobinson/Documents/maintained-research/mirage/examples/01-light_curves/lc_uncertainty.py:84: SyntaxWarning: invalid escape sequence '\s'
-      legend=['Mean', '1$\sigma$', '2$\sigma$', '3$\sigma$'],
-    /Users/liamrobinson/Documents/maintained-research/mirage/examples/01-light_curves/lc_uncertainty.py:84: SyntaxWarning: invalid escape sequence '\s'
-      legend=['Mean', '1$\sigma$', '2$\sigma$', '3$\sigma$'],
-    /Users/liamrobinson/Documents/maintained-research/mirage/examples/01-light_curves/lc_uncertainty.py:84: SyntaxWarning: invalid escape sequence '\s'
-      legend=['Mean', '1$\sigma$', '2$\sigma$', '3$\sigma$'],
     WARNING: no observation constraints assigned!
-    40725.799493609804
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 96-97
+.. GENERATED FROM PYTHON SOURCE LINES 100-101
 
 Sampling the same light curve on different nights throughout the month
 
-.. GENERATED FROM PYTHON SOURCE LINES 97-156
+.. GENERATED FROM PYTHON SOURCE LINES 101-160
 
 .. code-block:: Python
 
@@ -163,8 +153,6 @@ Sampling the same light curve on different nights throughout the month
             use_engine=False,
             model_scale_factor=0.5,
         )
-
-        print(np.mean(aux_data['background_mean']))
 
         plt.subplot(2, 2, nights + 1)
 
@@ -197,13 +185,15 @@ Sampling the same light curve on different nights throughout the month
             '',
             '',
             grid=False,
-            legend=['Mean', '1$\sigma$', '2$\sigma$', '3$\sigma$'] if nights == 0 else None,
+            legend=['Mean', r'1$\sigma$', r'2$\sigma$', r'3$\sigma$']
+            if nights == 0
+            else None,
         )
         plt.ylim(13, 18)
         plt.gca().invert_yaxis()
 
     plt.gcf().supxlabel('Seconds after midnight UTC')
-    plt.gcf().supylabel('Recieved irradiance [W/m$^2$]')
+    plt.gcf().supylabel('Received irradiance [W/m$^2$]')
 
     plt.tight_layout()
     plt.show()
@@ -220,22 +210,12 @@ Sampling the same light curve on different nights throughout the month
 
  .. code-block:: none
 
-    /Users/liamrobinson/Documents/maintained-research/mirage/examples/01-light_curves/lc_uncertainty.py:146: SyntaxWarning: invalid escape sequence '\s'
-      legend=['Mean', '1$\sigma$', '2$\sigma$', '3$\sigma$'] if nights == 0 else None,
-    /Users/liamrobinson/Documents/maintained-research/mirage/examples/01-light_curves/lc_uncertainty.py:146: SyntaxWarning: invalid escape sequence '\s'
-      legend=['Mean', '1$\sigma$', '2$\sigma$', '3$\sigma$'] if nights == 0 else None,
-    /Users/liamrobinson/Documents/maintained-research/mirage/examples/01-light_curves/lc_uncertainty.py:146: SyntaxWarning: invalid escape sequence '\s'
-      legend=['Mean', '1$\sigma$', '2$\sigma$', '3$\sigma$'] if nights == 0 else None,
     WARNING: no observation constraints assigned!
-    40702.22889884547
-    /Users/liamrobinson/Documents/maintained-research/mirage/.venv/lib/python3.12/site-packages/numpy/core/_methods.py:173: RuntimeWarning: invalid value encountered in subtract
-      x = asanyarray(arr - arrmean)
+    /home/liam/Documents/mirage/.venv/lib/python3.13/site-packages/numpy/_core/_methods.py:188: RuntimeWarning: invalid value encountered in subtract
+      x = um.subtract(arr, arrmean, out=...)
     WARNING: no observation constraints assigned!
-    40630.120822650046
     WARNING: no observation constraints assigned!
-    40573.89948136731
     WARNING: no observation constraints assigned!
-    52444.95496296702
 
 
 
@@ -243,7 +223,7 @@ Sampling the same light curve on different nights throughout the month
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 5.656 seconds)
+   **Total running time of the script:** (0 minutes 27.107 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_lc_uncertainty.py:

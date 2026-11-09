@@ -21,10 +21,12 @@
 Synthetic Image Results
 =======================
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-136
+.. GENERATED FROM PYTHON SOURCE LINES 18-148
 
 .. code-block:: Python
 
+
+    import os
 
     import matplotlib.pyplot as plt
     import numpy as np
@@ -35,7 +37,10 @@ Synthetic Image Results
     import mirage.photo as mrp
     import mirage.vis as mrv
 
-    # reg
+    EXAMPLE_DIR = os.path.join(
+        os.environ['SRCDIR'], '..', 'examples', '14-digital-twin-2024'
+    )
+    DATA_DIR = os.path.join(EXAMPLE_DIR, 'data')
 
 
     def plot_results(
@@ -44,6 +49,7 @@ Synthetic Image Results
         obs_title_postfix: str = None,
         synth_title_postfix: str = None,
     ):
+        """Plot observed and synthetic images and their normalized residuals."""
         img = data['img']  # regen 3
         img_syn = data['img_syn']
         br_std_img = data['br_std_img']
@@ -111,15 +117,10 @@ Synthetic Image Results
         )
 
         def plot_regions_error(rs, start):
+            """Plot the normalized error distribution for each selected region."""
             for i, (r, c) in enumerate(rs, start):
                 adu_err_region = adu_err_stdev[r[0][1] : r[0][0], r[1][0] : r[1][1]]
                 err_range = (adu_err_region.min(), adu_err_region.max())
-                print(
-                    f'Median error sigma for region {i}: {np.median(adu_err_region.flatten())}'
-                )
-
-                fiddy_percent_bounds = np.percentile(adu_err_region.flatten(), [25, 75])
-                print(f'{fiddy_percent_bounds=}')
 
                 plt.figure(figsize=(4, 4))
                 norm = SymLogNorm(1, 1, *err_range)
@@ -161,25 +162,22 @@ Synthetic Image Results
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 137-138
+.. GENERATED FROM PYTHON SOURCE LINES 149-150
 
 Plotting POGS results
 
-.. GENERATED FROM PYTHON SOURCE LINES 138-151
+.. GENERATED FROM PYTHON SOURCE LINES 150-160
 
 .. code-block:: Python
 
 
-    data = np.load(
-        '/Users/liamrobinson/Documents/maintained-research/mirage/examples/14-digital-twin-2024/data/pogs.nogit.npz'
-    )
+    data = np.load(os.path.join(DATA_DIR, 'pogs.nogit.npz'))
     r1 = [(3000, 2750), (3150, 3400)]  # br
     r2 = [(750, 550), (250, 490)]  # dim star
     r3 = [(1000, 800), (250, 490)]  # bright star
     r4 = [(2025, 1950), (3000, 3075)]  # obj
     regions = [(r1, 'r'), (r2, 'lime'), (r3, 'c'), (r4, 'm')]
 
-    print(f'{data["br_std_img"]=}, {data["br_std_synth"]=}')
     plot_results(data, regions)
 
 
@@ -259,35 +257,18 @@ Plotting POGS results
          :class: sphx-glr-multi-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    data["br_std_img"]=array(10.39386832), data["br_std_synth"]=array(8.65687165)
-    Median error sigma for region 1: -0.08515676614193557
-    fiddy_percent_bounds=array([-0.95832824,  0.95131815])
-    Median error sigma for region 2: -0.05604847776384868
-    fiddy_percent_bounds=array([-1.00556609,  0.91897236])
-    Median error sigma for region 3: -0.2267957862790211
-    fiddy_percent_bounds=array([-1.27827161,  0.83722067])
-    Median error sigma for region 4: -0.10729400541782001
-    fiddy_percent_bounds=array([-1.06903692,  0.95199798])
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 152-153
+.. GENERATED FROM PYTHON SOURCE LINES 161-162
 
 Plotting ZimMAIN results
 
-.. GENERATED FROM PYTHON SOURCE LINES 153-165
+.. GENERATED FROM PYTHON SOURCE LINES 162-171
 
 .. code-block:: Python
 
-    data = np.load(
-        '/Users/liamrobinson/Documents/maintained-research/mirage/examples/14-digital-twin-2024/data/zim.nogit.npz'
-    )
-    print(f'{data["br_std_img"]=}, {data["br_std_synth"]=}')
+    data = np.load(os.path.join(DATA_DIR, 'zim.nogit.npz'))
 
     plot_results(
         data,
@@ -317,27 +298,19 @@ Plotting ZimMAIN results
          :class: sphx-glr-multi-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    data["br_std_img"]=array(1.9459608), data["br_std_synth"]=array(2.93058066)
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 166-167
+.. GENERATED FROM PYTHON SOURCE LINES 172-173
 
 Plotting corrected ZimMAIN results
 
-.. GENERATED FROM PYTHON SOURCE LINES 167-178
+.. GENERATED FROM PYTHON SOURCE LINES 173-182
 
 .. code-block:: Python
 
 
-    data = np.load(
-        '/Users/liamrobinson/Documents/maintained-research/mirage/examples/14-digital-twin-2024/data/zim_corr.nogit.npz'
-    )
+    data = np.load(os.path.join(DATA_DIR, 'zim_corr.nogit.npz'))
 
     plot_results(
         data,
@@ -372,7 +345,7 @@ Plotting corrected ZimMAIN results
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 14.741 seconds)
+   **Total running time of the script:** (1 minutes 17.168 seconds)
 
 
 .. _sphx_glr_download_gallery_14-digital-twin-2024_plot_results.py:

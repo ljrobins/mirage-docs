@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Mapping Model
 =============
@@ -19,7 +26,7 @@ x, y = np.meshgrid(
     np.arange(station.telescope.ccd.sensor_pixels[1]),
 )
 mr.tic('Mapping')
-xd, yx = station.telescope.pixel_distortion(
+xd, yd = station.telescope.pixel_distortion(
     x,
     y,
     station.telescope.ccd.sensor_pixels[0] // 2,
@@ -27,7 +34,7 @@ xd, yx = station.telescope.pixel_distortion(
 )
 mr.toc()
 
-dist = np.sqrt((x - xd) ** 2 + (y - yx) ** 2)
+dist = np.sqrt((x - xd) ** 2 + (y - yd) ** 2)
 
 plt.figure()
 plt.imshow(dist, cmap='cool')

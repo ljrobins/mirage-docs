@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "mirage",
+#     "sympy",
+# ]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Importance Sampling
 ===================
@@ -45,10 +55,12 @@ print(
 
 class NewPdf:
     def pdf(self, x: float) -> float:
+        """Evaluate the proposal probability density at ``x``."""
         # Note that this is slightly
         return -6 * x**2 + 6 * x
 
     def dpdf(self, x: float) -> float:
+        """Evaluate the derivative of the proposal density."""
         return -12 * x + 6
 
 

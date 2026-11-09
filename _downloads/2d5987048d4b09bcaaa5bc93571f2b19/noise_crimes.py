@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Noise Addition Methods
 ======================
@@ -25,7 +32,7 @@ print(f'Notice that the median error is approximately zero: {np.median(err_m)}')
 plt.hist(err_m, bins=100, alpha=0.5, density=True)
 plt.vlines([mir, mir], *plt.ylim(), label=f'Mean error {mir:.2f}%')
 plt.xlabel('Percent error')
-plt.title(f'Gaussian noise ($\sigma={sigma}$) applied to magnitudes')
+plt.title(rf'Gaussian noise ($\sigma={sigma}$) applied to magnitudes')
 plt.ylabel('Probability density')
 plt.grid()
 plt.legend()

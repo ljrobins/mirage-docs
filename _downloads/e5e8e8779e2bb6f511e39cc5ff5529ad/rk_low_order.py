@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Comparing Runge-Kutta Methods
 =============================
@@ -14,6 +21,7 @@ import mirage as mr
 
 
 def omega_dot(w: np.ndarray, itensor: np.ndarray) -> np.ndarray:
+    """Return the Euler-equation angular acceleration."""
     wdot = np.array([0.0, 0.0, 0.0])
     wdot[0] = -1 / itensor[0] * (itensor[2] - itensor[1]) * w[1] * w[2]
     wdot[1] = -1 / itensor[1] * (itensor[0] - itensor[2]) * w[2] * w[0]
@@ -22,6 +30,7 @@ def omega_dot(w: np.ndarray, itensor: np.ndarray) -> np.ndarray:
 
 
 def mrp_kde(s: np.ndarray, w: np.ndarray) -> np.ndarray:
+    """Return the MRP kinematic differential equation right-hand side."""
     s1, s2, s3 = s[0], s[1], s[2]
     s12 = s1**2
     s22 = s2**2
@@ -42,10 +51,12 @@ def mrp_kde(s: np.ndarray, w: np.ndarray) -> np.ndarray:
 
 
 def tilde(v: np.ndarray) -> np.ndarray:
+    """Return the skew-symmetric cross-product matrix for ``v``."""
     return np.array([[0.0, -v[2], v[1]], [v[2], 0.0, -v[0]], [-v[1], v[0], 0.0]])
 
 
 def state_derivative_mrp(x, itensor):
+    """Evaluate the MRP attitude-state derivative."""
     xdot = 0 * x
     s = x[:3]
     w = x[3:6]
@@ -55,6 +66,7 @@ def state_derivative_mrp(x, itensor):
 
 
 def rk4_step(x0, h, itensor):
+    """Advance the attitude state by one classical fourth-order RK step."""
     k1 = h * state_derivative_mrp(x0, itensor)
     k2 = h * state_derivative_mrp(x0 + k1 / 2, itensor)
     k3 = h * state_derivative_mrp(x0 + k2 / 2, itensor)
@@ -63,12 +75,14 @@ def rk4_step(x0, h, itensor):
 
 
 def rk2_step(x0, h, itensor):
+    """Advance the attitude state by one second-order RK step."""
     k1 = h * state_derivative_mrp(x0, itensor)
     k2 = h * state_derivative_mrp(x0 + k1 / 2, itensor)
     return x0 + k2
 
 
 def rk3_step(x0, h, itensor):
+    """Advance the attitude state by one third-order RK step."""
     k1 = h * state_derivative_mrp(x0, itensor)
     k2 = h * state_derivative_mrp(x0 + k1 / 2, itensor)
     k3 = h * state_derivative_mrp(x0 + 2 * k2 - k1, itensor)
@@ -76,20 +90,17 @@ def rk3_step(x0, h, itensor):
 
 
 def integrate(x0: np.ndarray, h: float, intensor: np.ndarray, ntimes: int, method: str):
+    """Integrate the attitude state and return it with the elapsed time."""
     x0 = x0.copy()
 
     t1 = time.time()
-    for i in range(ntimes):
-        prev_diverged = np.any(np.isnan(x0))
+    for _ in range(ntimes):
         if method.lower() == 'rk2':
             x0 = rk2_step(x0, h, itensor)
         if method.lower() == 'rk3':
             x0 = rk3_step(x0, h, itensor)
         if method.lower() == 'rk4':
             x0 = rk4_step(x0, h, itensor)
-
-        if np.any(np.isnan(x0)) and not prev_diverged:
-            print(f'{method} diverged at timestemp {i}')
 
     return x0, time.time() - t1
 
@@ -122,7 +133,6 @@ if __name__ == '__main__':
     qf_rk45 = q_of_t[-1, :]
 
     # mrv.vis_attitude_motion(mr.SpaceObject('box_wing.obj'), q_of_t, framerate=10)
-    # enddd
 
     ang_deg = np.rad2deg(mr.quat_ang(qf_rk45, qf_rk2))
     print(f'RK2 is {ang_deg:.2e} deg from RK45 in {dt2:.1e} sec')

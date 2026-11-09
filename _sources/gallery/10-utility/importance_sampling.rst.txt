@@ -22,7 +22,7 @@ Importance Sampling
 ===================
 Reducing the variance of Monte Carlo integration
 
-.. GENERATED FROM PYTHON SOURCE LINES 6-12
+.. GENERATED FROM PYTHON SOURCE LINES 16-22
 
 .. code-block:: Python
 
@@ -39,11 +39,11 @@ Reducing the variance of Monte Carlo integration
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 13-14
+.. GENERATED FROM PYTHON SOURCE LINES 23-24
 
 Let's say we want to estimate the integral of an unknown function :math:`f(x)`
 
-.. GENERATED FROM PYTHON SOURCE LINES 14-26
+.. GENERATED FROM PYTHON SOURCE LINES 24-36
 
 .. code-block:: Python
 
@@ -71,11 +71,11 @@ Let's say we want to estimate the integral of an unknown function :math:`f(x)`
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-28
+.. GENERATED FROM PYTHON SOURCE LINES 37-38
 
 We can analytically compute the integral of this function
 
-.. GENERATED FROM PYTHON SOURCE LINES 28-31
+.. GENERATED FROM PYTHON SOURCE LINES 38-41
 
 .. code-block:: Python
 
@@ -95,11 +95,11 @@ We can analytically compute the integral of this function
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-33
+.. GENERATED FROM PYTHON SOURCE LINES 42-43
 
 A naive attempt at Monte Carlo integration would be to uniformly take samples of the function over the integral and average them
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-42
+.. GENERATED FROM PYTHON SOURCE LINES 43-52
 
 .. code-block:: Python
 
@@ -120,16 +120,16 @@ A naive attempt at Monte Carlo integration would be to uniformly take samples of
 
  .. code-block:: none
 
-    The naive Monte Carlo integral is 0.4992, -21.58% error
+    The naive Monte Carlo integral is 0.6406, 0.63% error
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-44
+.. GENERATED FROM PYTHON SOURCE LINES 53-54
 
 The fundamental idea of importance sampling is that our Monte Carlo result will be better if we take samples from a distribution that looks like the true function, dividing each sample by its pdf likelihood. To accomplish this, let's select a pdf that might help
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-60
+.. GENERATED FROM PYTHON SOURCE LINES 54-72
 
 .. code-block:: Python
 
@@ -137,10 +137,12 @@ The fundamental idea of importance sampling is that our Monte Carlo result will 
 
     class NewPdf:
         def pdf(self, x: float) -> float:
+            """Evaluate the proposal probability density at ``x``."""
             # Note that this is slightly
             return -6 * x**2 + 6 * x
 
         def dpdf(self, x: float) -> float:
+            """Evaluate the derivative of the proposal density."""
             return -12 * x + 6
 
 
@@ -156,11 +158,11 @@ The fundamental idea of importance sampling is that our Monte Carlo result will 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-62
+.. GENERATED FROM PYTHON SOURCE LINES 73-74
 
 Let's try Monte Carlo integration again with the new pdf
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-71
+.. GENERATED FROM PYTHON SOURCE LINES 74-83
 
 .. code-block:: Python
 
@@ -181,16 +183,16 @@ Let's try Monte Carlo integration again with the new pdf
 
  .. code-block:: none
 
-    The importance sampled integral is 0.6347, -0.29% error
+    The importance sampled integral is 0.6315, -0.80% error
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 72-73
+.. GENERATED FROM PYTHON SOURCE LINES 84-85
 
 Let's take a look at the points we sampled
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-84
+.. GENERATED FROM PYTHON SOURCE LINES 85-96
 
 .. code-block:: Python
 
@@ -220,7 +222,7 @@ Let's take a look at the points we sampled
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.472 seconds)
+   **Total running time of the script:** (0 minutes 2.402 seconds)
 
 
 .. _sphx_glr_download_gallery_10-utility_importance_sampling.py:

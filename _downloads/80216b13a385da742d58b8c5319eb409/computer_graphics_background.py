@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Graphics Background
 ===================
@@ -19,6 +26,7 @@ pv.set_plot_theme('document')
 def orthographic_frustum_as_pyvista_mesh(
     origin, direction, up, width, near, far
 ) -> pv.PolyData:
+    """Build a PyVista mesh for an orthographic camera frustum."""
     box = pv.Box()
     box.points[:, 0] *= width
     box.points[:, 1] *= width

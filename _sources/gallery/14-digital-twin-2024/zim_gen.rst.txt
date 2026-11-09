@@ -26,67 +26,32 @@ Generating a synthetic image to compare with one taken by the Zimmerwald MAIN te
 .. GENERATED FROM PYTHON SOURCE LINES 7-237
 
 
-
-.. rst-class:: sphx-glr-horizontal
-
-
-    *
-
-      .. image-sg:: /gallery/14-digital-twin-2024/images/sphx_glr_zim_gen_001.png
-         :alt: zim gen
-         :srcset: /gallery/14-digital-twin-2024/images/sphx_glr_zim_gen_001.png, /gallery/14-digital-twin-2024/images/sphx_glr_zim_gen_001_2_00x.png 2.00x
-         :class: sphx-glr-multi-img
-
-    *
-
-      .. image-sg:: /gallery/14-digital-twin-2024/images/sphx_glr_zim_gen_002.png
-         :alt: 85
-         :srcset: /gallery/14-digital-twin-2024/images/sphx_glr_zim_gen_002.png, /gallery/14-digital-twin-2024/images/sphx_glr_zim_gen_002_2_00x.png 2.00x
-         :class: sphx-glr-multi-img
-
-    *
-
-      .. image-sg:: /gallery/14-digital-twin-2024/images/sphx_glr_zim_gen_003.png
-         :alt: zim gen
-         :srcset: /gallery/14-digital-twin-2024/images/sphx_glr_zim_gen_003.png, /gallery/14-digital-twin-2024/images/sphx_glr_zim_gen_003_2_00x.png 2.00x
-         :class: sphx-glr-multi-img
-
-    *
-
-      .. image-sg:: /gallery/14-digital-twin-2024/images/sphx_glr_zim_gen_004.png
-         :alt: 85
-         :srcset: /gallery/14-digital-twin-2024/images/sphx_glr_zim_gen_004.png, /gallery/14-digital-twin-2024/images/sphx_glr_zim_gen_004_2_00x.png 2.00x
-         :class: sphx-glr-multi-img
-
-
 .. rst-class:: sphx-glr-script-out
 
- .. code-block:: none
+.. code-block:: pytb
 
-    /Users/liamrobinson/Documents/maintained-research/mirage/mirage/orbit.py:504: UserWarning: Velocity is transformation is missing omega cross r term from TEME to J2000, but this is tiny
-      warnings.warn(
-    RA tracking rate: -241.745 arcsec/sec, Dec tracking rate: 422.568 arcsec/sec
-    71.92084429254598
-    -133.07915570745402
-    [ 0.70734835 -0.5132297   0.48605923]
-    Object identity: 2013-021D
-    Observation midpoint: 2022-08-31 22:45:57.612325+00:00 UTC
-    Exposure time: 0.5 seconds
-    We are looking at RA/Dec (midpoint): (array([122.]), array([40.]), array([10.89643493])), (array([59.]), array([9.]), array([11.33693735]))
-    [-0.27677729  0.43162696  0.85854091]
-    [-0.00804722  0.89237167 -0.45122947]
-    1851.2652170837423
-    [[2.13045823]]
-    6.324055866080483e+16
-    2.083072572809811e-12
-    65867.33661774624
-    Objects in frame 1:
-    AVUM DEB (ADAPTOR)
-    Synthesizing CCD Image: 1.48e+00 seconds
-    Background std of synthetic image: 2.93
-    Background std of real image: 1.95
-    Objects in frame 1:
-    AVUM DEB (ADAPTOR)
+    Traceback (most recent call last):
+      File "/home/liam/Documents/mirage/examples/14-digital-twin-2024/zim_gen.py", line 19, in <module>
+        header, data = mrp.load_fits(file)
+                       ^^^^^^^^^^^^^^^^^^^
+      File "/home/liam/Documents/mirage/mirage/photo/io.py", line 27, in load_fits
+        with fits.open(fits_path) as f:
+             ^^^^^^^^^^^^^^^^^^^^
+      File "/home/liam/Documents/mirage/.venv/lib/python3.12/site-packages/astropy/io/fits/hdu/hdulist.py", line 220, in fitsopen
+        return HDUList.fromfile(
+               ^^^^^^^^^^^^^^^^^
+      File "/home/liam/Documents/mirage/.venv/lib/python3.12/site-packages/astropy/io/fits/hdu/hdulist.py", line 484, in fromfile
+        return cls._readfrom(
+               ^^^^^^^^^^^^^^
+      File "/home/liam/Documents/mirage/.venv/lib/python3.12/site-packages/astropy/io/fits/hdu/hdulist.py", line 1186, in _readfrom
+        fileobj = _File(
+                  ^^^^^^
+      File "/home/liam/Documents/mirage/.venv/lib/python3.12/site-packages/astropy/io/fits/file.py", line 240, in __init__
+        self._open_filename(fileobj, mode, overwrite)
+      File "/home/liam/Documents/mirage/.venv/lib/python3.12/site-packages/astropy/io/fits/file.py", line 700, in _open_filename
+        self._file = open(self.name, IO_FITS_MODES[mode])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    FileNotFoundError: [Errno 2] No such file or directory: '/Users/liamrobinson/Library/CloudStorage/OneDrive-purdue.edu/aiub/ZigZag/13021D_31082022_fullframe.fits'
 
 
 
@@ -200,7 +165,7 @@ Generating a synthetic image to compare with one taken by the Zimmerwald MAIN te
 
     obj_signal = sint_val * irrad_sphere * integration_time_s
     print(obj_signal)
-    # endd
+
 
     mr.tic('Synthesizing CCD Image')
     img_syn = station.telescope.ccd.generate_ccd_image(
@@ -221,9 +186,9 @@ Generating a synthetic image to compare with one taken by the Zimmerwald MAIN te
     mr.toc()
 
     # simulating binning
-    assert all(
-        [not x % 2 for x in img_syn.shape]
-    ), "One or more of the image's dimensions sizes is odd, cannot bin"
+    assert all([not x % 2 for x in img_syn.shape]), (
+        "One or more of the image's dimensions sizes is odd, cannot bin"
+    )
     img_syn = img_syn.reshape(img_syn.shape[0] // 2, 2, img_syn.shape[1] // 2, 2).sum(
         axis=(1, 3)
     )
@@ -331,7 +296,7 @@ Generating a synthetic image to compare with one taken by the Zimmerwald MAIN te
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 11.784 seconds)
+   **Total running time of the script:** (0 minutes 0.022 seconds)
 
 
 .. _sphx_glr_download_gallery_14-digital-twin-2024_zim_gen.py:

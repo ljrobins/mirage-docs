@@ -1,7 +1,16 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Relative orbit sequence
 ========================
 """
+
+# if running this for the first time, make sure you do: pip install pyembree embreex trimesh --no-deps
 
 import os
 
@@ -23,7 +32,7 @@ r_chase = rv_chase[:, :3]
 rv_chief = mr.integrate_orbit_dynamics(rv0_chase, dates)
 r_chief = rv_chief[:, :3]
 
-obj_chief = mr.SpaceObject('matlib_hylas4.obj', identifier='goes 15')
+obj_chief = mr.SpaceObject('matlib_hylas4.obj', identifier=36411)
 sv = mr.sun(dates)
 nadir = -mr.hat(r_chief)
 att_chief = mr.AlignedAndConstrainedAttitude(
@@ -75,6 +84,7 @@ im = plt.imshow(ims[0][:, :, 0], cmap='gray')
 
 
 def animate(i):
+    """Update the RPO animation with rendered frame ``i``."""
     im.set_data(ims[i][:, :, 0])
     return (im,)
 

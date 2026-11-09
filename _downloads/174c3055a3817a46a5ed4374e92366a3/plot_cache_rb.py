@@ -1,42 +1,66 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "mirage",
+#     "taichi",
+# ]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Shadow Caches
 =============
 """
 
-import sys
+import os
 
-sys.path.append('/Users/liamrobinson/Documents/maintained-wip/taichi-polyclip')
 import matplotlib.pyplot as plt
 import numpy as np
 import taichi as ti
-import ticlip
+from taichi.lang.impl import get_runtime
 
 import mirage.vis as mrv
+from mirage import ticlip
 
 
 def azel_to_ij(naz: int, nel: int, az: float, el: float):
+    """Convert azimuth/elevation angles to cache-grid indices."""
     i = int(np.floor(az / (np.pi * 2) * (naz - 1)))
     j = int(np.floor((el + np.pi / 2) / np.pi * (nel - 1)))
     return i, j
 
 
 def ij_to_az_el(naz: int, nel: int, i: int, j: int) -> np.ndarray:
+    """Convert cache-grid indices to azimuth/elevation angles."""
     az = i / naz * ti.math.pi * 2
     el = j / nel * ti.math.pi - ti.math.pi / 2
     return np.array((az, el))
 
 
-ti.init(
-    arch=ti.cpu,
-    cfg_optimization=False,
-    opt_level=1,
-    fast_math=False,
-    advanced_optimization=False,
-)
+# The docs configuration initializes Taichi before importing gallery modules.
+# Re-initializing it here invalidates fields declared by mirage.ticlip.
+if get_runtime().prog is None:
+    ti.init(
+        arch=ti.cpu,
+        cfg_optimization=False,
+        opt_level=1,
+        fast_math=False,
+        advanced_optimization=False,
+    )
 
-obj_path = '/Users/liamrobinson/Documents/maintained-research/mirage/examples/15-attitude-sdc-2025/models/star37e-quad.obj'
-# obj_path = '/Users/liamrobinson/Documents/maintained-research/mirage/examples/15-attitude-sdc-2025/models/echostar-ii-quad.obj'
-naz, nel = 500, 300
+obj_path = os.path.join(
+    os.environ['SRCDIR'], '../examples/15-attitude-sdc-2025/models/star37e-quad.obj'
+)
+# obj_path = os.path.join(
+#     os.environ['SRCDIR'],
+#     '..',
+#     'examples',
+#     '15-attitude-sdc-2025',
+#     'models',
+#     'echostar-ii-quad.obj',
+# )
+naz, nel = 200, 100
 
 finfo = ticlip.load_finfo(obj_path)
 

@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Importance Sampling Cook-Torrance
 =================================
@@ -61,7 +68,6 @@ print(np.sum(integrand_importance[ok]) / n_used_samples)
 # brdf_vals[is_below_horizon] = 0
 # print(np.sum(brdf_vals/p)/n_samples)
 
-# endd
 
 pl = pv.Plotter()
 pl.add_mesh(pv.Plane(direction=N))

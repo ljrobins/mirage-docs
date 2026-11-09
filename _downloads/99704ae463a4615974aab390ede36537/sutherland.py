@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "mirage",
+#     "taichi",
+# ]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Sutherland-Hodgeman Clipping Algorithm
 ======================================
@@ -10,9 +20,11 @@ import numpy as np
 import pyvista as pv
 import taichi as ti
 from matplotlib.patches import Polygon
+from taichi.lang.impl import get_runtime
 
 
 def plot_poly(edges: np.ndarray, **kwargs) -> None:
+    """Draw a closed polygon from an ordered array of vertices."""
     edges = np.array(edges)
     t = np.array(list(edge_iterator(edges)))
     edges = np.vstack((t[:, 0, :], t[0, 0, :]))
@@ -21,6 +33,7 @@ def plot_poly(edges: np.ndarray, **kwargs) -> None:
 
 
 def edge_iterator(edges: np.ndarray) -> np.ndarray:
+    """Yield consecutive vertex pairs, including the closing edge."""
     c = cycle(edges)
     current = None
     for i in range(edges.shape[0]):
@@ -33,13 +46,14 @@ def edge_iterator(edges: np.ndarray) -> np.ndarray:
         yield old, current
 
 
-ti.init(
-    arch=ti.cpu,
-    cfg_optimization=False,
-    opt_level=1,
-    fast_math=False,
-    advanced_optimization=False,
-)
+if get_runtime().prog is None:
+    ti.init(
+        arch=ti.cpu,
+        cfg_optimization=False,
+        opt_level=1,
+        fast_math=False,
+        advanced_optimization=False,
+    )
 
 NMAXV = 16  # Maximum vertices per polygon
 ti.f32 = ti.f32
@@ -65,6 +79,7 @@ rv = ti.types.vector(n=3, dtype=ti.f32)([0.2, 1.0, 0.2]).normalized()
 
 
 def _poly_area_r3(verts: np.ndarray) -> float:
+    """Return the area of a planar polygon in three dimensions."""
     a = 0.0
     if verts.shape[0] > 2:
         for i in range(verts.shape[0] - 2):
@@ -75,6 +90,7 @@ def _poly_area_r3(verts: np.ndarray) -> float:
 
 
 def load_finfo(obj_path) -> None:
+    """Load mesh polygons into the Taichi fields used by the clipping routines."""
     global FINFOFIELD, SMTYPE
 
     obj = pv.get_reader(obj_path).read().clean()
@@ -109,10 +125,12 @@ def load_finfo(obj_path) -> None:
 
 
 def gen_cache(naz: int, nel: int) -> ti.field:
+    """Build the self-shadowing cache over an azimuth/elevation grid."""
     cache = SMTYPE.field(shape=(naz, nel))
 
     @ti.kernel
     def gen_cache() -> int:
+        """Fill the shadow cache from the loaded face information."""
         ti.loop_config(serialize=True)
         for i, j in ti.ndrange(naz, nel):
             az = i / naz * ti.math.pi * 2
@@ -128,6 +146,7 @@ def gen_cache(naz: int, nel: int) -> ti.field:
 
 @ti.func
 def sph_to_cart(az: ti.f32, el: ti.f32) -> ti.math.vec3:
+    """Convert azimuth/elevation angles to a unit Cartesian vector."""
     cos_theta = ti.cos(el)
     x = cos_theta * ti.cos(az)
     y = cos_theta * ti.sin(az)
@@ -137,6 +156,7 @@ def sph_to_cart(az: ti.f32, el: ti.f32) -> ti.math.vec3:
 
 @ti.func
 def poly_on_poly_ti(t1: P3STRUCT, t3: P3STRUCT, v: ti.math.vec3) -> P2STRUCT:
+    """Project two polygons onto a view plane and return their overlap."""
     t3n = ti.math.cross(
         t3.polygon[1, :] - t3.polygon[0, :], t3.polygon[2, :] - t3.polygon[0, :]
     ).normalized()
@@ -163,6 +183,7 @@ def poly_on_poly_ti(t1: P3STRUCT, t3: P3STRUCT, v: ti.math.vec3) -> P2STRUCT:
 def proj_to_plane_along_dir(
     v0: ti.math.vec3, vd: ti.math.vec3, pv: ti.math.vec3, pn: ti.math.vec3
 ) -> ti.math.vec3:
+    """Project a point onto a plane along a specified direction."""
     pd = ti.math.dot(pv, pn)
     d2p = ti.math.dot(v0, pn) - pd
     dfac = ti.math.dot(vd, pn)
@@ -171,6 +192,7 @@ def proj_to_plane_along_dir(
 
 @ti.func
 def compute_overlaps(v: ti.math.vec3):
+    """Compute the pairwise self-shadowing matrix for view direction ``v``."""
     e1 = ti.math.cross(v, rv).normalized()
     e2 = ti.math.cross(v, e1)
 
@@ -204,6 +226,7 @@ def compute_overlaps(v: ti.math.vec3):
 
 @ti.func
 def all_areas_ti(p1: P2STRUCT, p2: P2STRUCT) -> tuple:
+    """Return polygon and intersection areas for two clipped polygons."""
     a1 = poly_area_ti(p1)
     a2 = poly_area_ti(p2)
     ai = intersection_area_ti(p1, p2)
@@ -216,6 +239,7 @@ def all_areas_ti(p1: P2STRUCT, p2: P2STRUCT) -> tuple:
 
 @ti.func
 def tri_area(v1: ti.math.vec2, v2: ti.math.vec2, v3: ti.math.vec2) -> float:
+    """Return the signed area of a triangle in two dimensions."""
     return 0.5 * ti.abs(
         v1[0] * (v2[1] - v3[1]) + v2[0] * (v3[1] - v1[1]) + v3[0] * (v1[1] - v2[1])
     )
@@ -223,6 +247,7 @@ def tri_area(v1: ti.math.vec2, v2: ti.math.vec2, v3: ti.math.vec2) -> float:
 
 @ti.func
 def poly_area_ti(p: P2STRUCT) -> ti.f32:
+    """Return the area of a polygon by summing triangles from its first vertex."""
     a = 0.0
     if p.k > 2:
         ti.loop_config(serialize=True)
@@ -233,12 +258,14 @@ def poly_area_ti(p: P2STRUCT) -> ti.f32:
 
 @ti.func
 def intersection_area_ti(p1: P2STRUCT, p2: P2STRUCT) -> ti.f32:
+    """Return the area of the intersection of two convex polygons."""
     clp = clip_ti(p1, p2)
     return poly_area_ti(clp)
 
 
 @ti.func
 def is_tri_ccw(v1: ti.math.vec2, v2: ti.math.vec2, v3: ti.math.vec2) -> bool:
+    """Return whether three 2D points are ordered counter-clockwise."""
     return (
         v1[0] * (v2[1] - v3[1]) + v2[0] * (v3[1] - v1[1]) + v3[0] * (v1[1] - v2[1])
     ) > 0
@@ -246,6 +273,7 @@ def is_tri_ccw(v1: ti.math.vec2, v2: ti.math.vec2, v3: ti.math.vec2) -> bool:
 
 @ti.func
 def is_inside(p1: ti.math.vec2, p2: ti.math.vec2, q: ti.math.vec2) -> ti.u1:
+    """Return whether point ``q`` lies on the inside side of an edge."""
     R = (p2[0] - p1[0]) * (q[1] - p1[1]) - (p2[1] - p1[1]) * (q[0] - p1[0])
     return R <= -1e-4
 
@@ -254,6 +282,7 @@ def is_inside(p1: ti.math.vec2, p2: ti.math.vec2, q: ti.math.vec2) -> ti.u1:
 def compute_intersection(
     p1: ti.math.vec2, p2: ti.math.vec2, p3: ti.math.vec2, p4: ti.math.vec2
 ) -> ti.math.vec2:
+    """Return the intersection point of two lines defined by point pairs."""
     v = POINT2TYPE(0.0)
     # if first line is vertical
     if p2[0] - p1[0] == 0:
@@ -295,6 +324,7 @@ def compute_intersection(
 
 @ti.kernel
 def clip_many_ti(sp: P2STRUCT, cp: P2STRUCT) -> P2STRUCT:
+    """Benchmark the clipping kernel by repeating it many times."""
     res = P2STRUCT()
     n = int(1e6)
     for _i in range(n):
@@ -304,11 +334,13 @@ def clip_many_ti(sp: P2STRUCT, cp: P2STRUCT) -> P2STRUCT:
 
 @ti.kernel
 def clip_one(sp: P2STRUCT, cp: P2STRUCT, side: int) -> P2STRUCT:
+    """Clip a subject polygon against one edge of a clipping polygon."""
     return clip_ti(sp, cp, side)
 
 
 @ti.func
 def clip_ti(sp: ti.template(), cp: ti.template(), side: int) -> ti.template():
+    """Clip a subject polygon against a convex clipping polygon."""
     k = sp.k
     n_clip_edges = cp.k
 

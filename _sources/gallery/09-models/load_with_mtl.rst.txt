@@ -21,7 +21,7 @@
 Loading with MTL Properties
 ===========================
 
-.. GENERATED FROM PYTHON SOURCE LINES 5-15
+.. GENERATED FROM PYTHON SOURCE LINES 12-22
 
 .. code-block:: Python
 
@@ -42,11 +42,11 @@ Loading with MTL Properties
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-17
+.. GENERATED FROM PYTHON SOURCE LINES 23-24
 
 Let's take a look at what the obj file looks like
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-21
+.. GENERATED FROM PYTHON SOURCE LINES 24-28
 
 .. code-block:: Python
 
@@ -113,11 +113,11 @@ Let's take a look at what the obj file looks like
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-23
+.. GENERATED FROM PYTHON SOURCE LINES 29-30
 
 And the mtl file
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-26
+.. GENERATED FROM PYTHON SOURCE LINES 30-33
 
 .. code-block:: Python
 
@@ -147,7 +147,7 @@ And the mtl file
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-36
+.. GENERATED FROM PYTHON SOURCE LINES 34-43
 
 We interpret:
 
@@ -159,7 +159,7 @@ We interpret:
 
 For more information on making an mesh in blender with per-face materials, see `this documentation page <https://docs.blender.org/manual/en/4.1/modeling/texts/editing.html#assigning-materials>`_
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-41
+.. GENERATED FROM PYTHON SOURCE LINES 43-48
 
 .. code-block:: Python
 
@@ -176,16 +176,16 @@ For more information on making an mesh in blender with per-face materials, see `
 
  .. code-block:: none
 
-    Pure python load time: 4.30e-04 seconds
+    Pure python load time: 2.05e-03 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-43
+.. GENERATED FROM PYTHON SOURCE LINES 49-50
 
-We can print the the cd, cs, and n attributes of the object, each of which should now have one entry per face
+We can print the cd, cs, and n attributes of the object, each of which should now have one entry per face
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-48
+.. GENERATED FROM PYTHON SOURCE LINES 50-55
 
 .. code-block:: Python
 
@@ -226,27 +226,27 @@ We can print the the cd, cs, and n attributes of the object, each of which shoul
            [0.8],
            [0.8],
            [0.8]])
-    obj.n=array([[10.],
-           [10.],
-           [10.],
-           [10.],
-           [10.],
-           [10.],
-           [10.],
-           [10.],
-           [10.],
-           [10.],
-           [10.],
-           [10.]])
+    obj.n=array([[0.8],
+           [0.8],
+           [0.8],
+           [0.8],
+           [0.8],
+           [0.8],
+           [0.8],
+           [0.8],
+           [0.8],
+           [0.8],
+           [0.8],
+           [0.8]])
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-50
+.. GENERATED FROM PYTHON SOURCE LINES 56-57
 
 Let's build a BRDF with these attributes. Note if validate=True, the BRDF initialization procedure will check for energy conservation
 
-.. GENERATED FROM PYTHON SOURCE LINES 50-53
+.. GENERATED FROM PYTHON SOURCE LINES 57-60
 
 .. code-block:: Python
 
@@ -260,11 +260,11 @@ Let's build a BRDF with these attributes. Note if validate=True, the BRDF initia
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 54-55
+.. GENERATED FROM PYTHON SOURCE LINES 61-62
 
 Now the BRDF will apply the material properties of each face when computing a convex LC
 
-.. GENERATED FROM PYTHON SOURCE LINES 55-63
+.. GENERATED FROM PYTHON SOURCE LINES 62-70
 
 .. code-block:: Python
 
@@ -284,16 +284,16 @@ Now the BRDF will apply the material properties of each face when computing a co
 
  .. code-block:: none
 
-    lc: 2.68e-04 seconds
+    lc: 2.21e-03 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 64-65
+.. GENERATED FROM PYTHON SOURCE LINES 71-72
 
 Notice that you can also mix and match uniform and varying properties. Here :math:`C_d` has one entry per face, but the other two properties are uniform
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-70
+.. GENERATED FROM PYTHON SOURCE LINES 72-77
 
 .. code-block:: Python
 
@@ -312,7 +312,7 @@ Notice that you can also mix and match uniform and varying properties. Here :mat
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.004 seconds)
+   **Total running time of the script:** (0 minutes 0.032 seconds)
 
 
 .. _sphx_glr_download_gallery_09-models_load_with_mtl.py:

@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "colorcet",
+#     "mirage",
+# ]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 BRDFs in Action
 ===============
@@ -14,13 +24,13 @@ import mirage as mr
 import mirage.vis as mrv
 
 brdfs = [
-    mr.Brdf('diffuse', 0.5, 0.0, 0),
-    mr.Brdf('oren-nayar', 0.5, 0.0, 0),
-    mr.Brdf('phong', 0.5, 0.5, 5),
-    mr.Brdf('blinn-phong', 0.5, 0.5, 5),
-    mr.Brdf('ashikhmin-shirley', 0.5, 0.5, 15),
-    mr.Brdf('cook-torrance', 0.5, 0.5, 0.3),
-    mr.Brdf('glossy', 0.5, 0.5, 0.9),
+    # mr.Brdf('diffuse', 0.5, 0.0, 0),
+    # mr.Brdf('oren-nayar', 0.5, 0.0, 0),
+    # mr.Brdf('phong', 0.5, 0.5, 5),
+    mr.Brdf('blinn-phong', 0.0, 0.5, 5),
+    # mr.Brdf('ashikhmin-shirley', 0.5, 0.5, 15),
+    mr.Brdf('cook-torrance', 0.0, 0.5, 0.3),
+    # mr.Brdf('glossy', 0.5, 0.5, 0.9),
 ]
 
 num = 200

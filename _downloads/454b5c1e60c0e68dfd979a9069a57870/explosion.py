@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "mirage",
+#     "taichi",
+# ]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Cislunar Fragmentation
 ======================
@@ -9,6 +19,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pyvista as pv
 import taichi as ti
+from taichi.lang.impl import get_runtime
 from matplotlib.colors import LinearSegmentedColormap
 
 import mirage as mr
@@ -22,6 +33,7 @@ station = mr.Station()
 obj = mr.SpaceObject('cube.obj', identifier=44333)
 r_sat, v_sat = obj.propagate(dates - mr.hours(10), return_velocity=True)
 
+# r_cat = mr.propagate_catalog_to_dates(dates[0])[0]
 r0, v0 = r_sat[0], v_sat[0]
 
 NICS = 1_000
@@ -34,7 +46,8 @@ s0p = np.hstack((r0p, v0p))
 # %%
 # Now let's propagate the particles
 
-ti.init(arch=ti.cpu)
+if get_runtime().prog is None:
+    ti.init(arch=ti.cpu)
 
 NTIMES = epsecs.size
 STYPE = ti.types.vector(6, dtype=ti.f32)
@@ -46,6 +59,7 @@ for i in range(NICS):
 
 @ti.func
 def two_body_dynamics(state) -> STYPE:
+    """Return the two-body state derivative for a Cartesian state."""
     r = state[:3].norm()
     dx, dy, dz = state[3], state[4], state[5]
     ddx = -mr.AstroConstants.earth_mu * state[0] / r**3
@@ -56,6 +70,7 @@ def two_body_dynamics(state) -> STYPE:
 
 @ti.func
 def rk4_step(x0, h) -> STYPE:
+    """Advance a Cartesian state by one fourth-order RK step."""
     k1 = h * two_body_dynamics(x0)
     k2 = h * two_body_dynamics(x0 + k1 / 2)
     k3 = h * two_body_dynamics(x0 + k2 / 2)
@@ -65,6 +80,7 @@ def rk4_step(x0, h) -> STYPE:
 
 @ti.kernel
 def compute_trajectory(h: ti.f32) -> int:
+    """Integrate all fragment trajectories with a fixed step size."""
     for i in range(NICS):
         ti.loop_config(serialize=True)
         for j in range(NTIMES - 1):
@@ -74,6 +90,7 @@ def compute_trajectory(h: ti.f32) -> int:
 
 compute_trajectory(np.diff(epsecs[:2])[0])
 traj = traj.to_numpy()
+traj /= 2
 
 r_to_sat = traj[-1, -1, :3] - station.j2000_at_dates(date)
 look_dir_eci = mr.hat(r_to_sat)
@@ -90,6 +107,7 @@ mrv.plot_conic_sensor(
     show_edges=True,
     color='white',
 )
+# mrv.scatter3(p, r_cat, point_size=10, lighting=False)
 
 hex_colors = [
     '#EBD99F',  # Dust
@@ -106,7 +124,11 @@ cmap = LinearSegmentedColormap.from_list('purdue', rgb_colors, N=256)
 
 for t in traj:
     mrv.plot3(
-        p, t[:, :3], scalars=np.linalg.norm(t[0, 3:]), show_scalar_bar=True, cmap=cmap
+        p,
+        t[:, :3],
+        scalars=np.linalg.norm(t[0, 3:]),
+        show_scalar_bar=True,
+        cmap=cmap,
     )
 
 p.remove_scalar_bar()

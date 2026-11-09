@@ -1,9 +1,22 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "embreex",
+#     "mirage",
+#     "trimesh",
+# ]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Synthetic RPO
 =============
 
 Generating and displaying synthetic images of a nearby space object
 """
+
+# if running this for the first time, make sure you do: pip install pyembree embreex trimesh --no-deps
 
 import json
 import os

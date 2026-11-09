@@ -23,7 +23,7 @@ Light Curve Units
 
 Expressing the same light curve in different units.
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-30
+.. GENERATED FROM PYTHON SOURCE LINES 17-41
 
 .. code-block:: Python
 
@@ -42,6 +42,7 @@ Expressing the same light curve in different units.
     def aligned_nadir_constrained_sun_attitude(
         obj: mr.SpaceObject, dates: np.ndarray[datetime.datetime, Any]
     ) -> mr.AlignedAndConstrainedAttitude:
+        """Construct an attitude aligned with nadir and constrained toward the Sun."""
         r_obj_j2k = obj.propagate(dates)
         sv = mr.sun(dates)
         nadir = -mr.hat(r_obj_j2k)
@@ -57,11 +58,11 @@ Expressing the same light curve in different units.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-32
+.. GENERATED FROM PYTHON SOURCE LINES 42-43
 
 Setting up analysis times
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-39
+.. GENERATED FROM PYTHON SOURCE LINES 43-50
 
 .. code-block:: Python
 
@@ -79,15 +80,15 @@ Setting up analysis times
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-41
+.. GENERATED FROM PYTHON SOURCE LINES 51-52
 
 Setting up the scenario objects
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-46
+.. GENERATED FROM PYTHON SOURCE LINES 52-57
 
 .. code-block:: Python
 
-    obj = mr.SpaceObject('matlib_hylas4.obj', identifier='goes 15')
+    obj = mr.SpaceObject('matlib_hylas4.obj', identifier=36411)
     brdf = mr.Brdf('phong')
     station = mr.Station(preset='pogs')
     # Observing from the Purdue Optical Ground Station in New Mexico
@@ -96,23 +97,14 @@ Setting up the scenario objects
 
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    Model file matlib_hylas4.obj not found in current model folder ('/Users/liamrobinson/Documents/maintained-research/mirage/mirage/resources/models'), checking model repository...
-    Attempting to download matlib_hylas4.obj and its associated material file from the model repository...
-    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//accurate_sats/matlib_hylas4.obj
-    Model files were downloaded successfully!
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 47-48
+.. GENERATED FROM PYTHON SOURCE LINES 58-59
 
 Defining observation constraints on the station
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-57
+.. GENERATED FROM PYTHON SOURCE LINES 59-68
 
 .. code-block:: Python
 
@@ -132,11 +124,11 @@ Defining observation constraints on the station
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-59
+.. GENERATED FROM PYTHON SOURCE LINES 69-70
 
 Defining the object's attitude profile and mass properties
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-61
+.. GENERATED FROM PYTHON SOURCE LINES 70-72
 
 .. code-block:: Python
 
@@ -149,11 +141,11 @@ Defining the object's attitude profile and mass properties
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-63
+.. GENERATED FROM PYTHON SOURCE LINES 73-74
 
 Computing the full noisy light curve
 
-.. GENERATED FROM PYTHON SOURCE LINES 63-77
+.. GENERATED FROM PYTHON SOURCE LINES 74-88
 
 .. code-block:: Python
 
@@ -175,22 +167,14 @@ Computing the full noisy light curve
 
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    2025-02-26 22:42:52.639 LightCurveEngine-mac-arm[39838:1419874] +[IMKClient subclass]: chose IMKClient_Modern
-    2025-02-26 22:42:52.639 LightCurveEngine-mac-arm[39838:1419874] +[IMKInputSession subclass]: chose IMKInputSession_Modern
 
 
 
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 78-79
+.. GENERATED FROM PYTHON SOURCE LINES 89-90
 
 Extracting data and plotting results
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-131
+.. GENERATED FROM PYTHON SOURCE LINES 90-142
 
 .. code-block:: Python
 
@@ -203,7 +187,7 @@ Extracting data and plotting results
     # sns.scatterplot(x=ephr, y=lc_clean, linewidth=0.05, size=0.05, color="k")
     plt.xlim((0, np.max(ephr)))
     mrv.texit(
-        'Synthetic GOES 15 Light Curves',
+        'Synthetic EWS-G2 Light Curves',
         '',
         r'$\left[\mathrm{ADU} \right]$',
         ['Measurements'],
@@ -250,7 +234,7 @@ Extracting data and plotting results
 
 
 .. image-sg:: /gallery/01-light_curves/images/sphx_glr_light_curve_units_001.png
-   :alt: Synthetic GOES 15 Light Curves
+   :alt: Synthetic EWS-G2 Light Curves
    :srcset: /gallery/01-light_curves/images/sphx_glr_light_curve_units_001.png, /gallery/01-light_curves/images/sphx_glr_light_curve_units_001_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
@@ -261,7 +245,7 @@ Extracting data and plotting results
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 8.162 seconds)
+   **Total running time of the script:** (0 minutes 7.932 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_light_curve_units.py:

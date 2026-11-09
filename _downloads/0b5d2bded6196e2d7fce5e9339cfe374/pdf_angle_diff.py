@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "mirage",
+#     "sympy",
+# ]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Random Sphere Point Statistics
 ==============================
@@ -15,9 +25,14 @@ import mirage as mr
 t = symbols('t')
 f_theta = 2 / pi * sin(t / 2) ** 2
 F_theta = integrate(f_theta, t)
+print(F_theta)
+print(F_theta.simplify())
 assert integrate(f_theta, (t, 0, pi)) == 1
 pdf = lambda theta: 2 / np.pi * np.sin(theta / 2) ** 2
 cdf = lambda theta: 2 * (theta / 2 - np.sin(theta / 2) * np.cos(theta / 2)) / np.pi
+
+print(cdf(np.deg2rad(180)) - cdf(np.deg2rad(150)))
+print(cdf(np.deg2rad(30)) - cdf(np.deg2rad(0)))
 
 # h = lambda p, theta: 1 / np.sqrt(np.pi) * gamma(p/2)/gamma((p-1)/2) * np.sin(theta) ** (p-2)
 

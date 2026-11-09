@@ -23,7 +23,7 @@ BRDFs in Action
 
 Plotting BRDF kernels and their rendered results
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-32
+.. GENERATED FROM PYTHON SOURCE LINES 17-42
 
 .. code-block:: Python
 
@@ -37,13 +37,13 @@ Plotting BRDF kernels and their rendered results
     import mirage.vis as mrv
 
     brdfs = [
-        mr.Brdf('diffuse', 0.5, 0.0, 0),
-        mr.Brdf('oren-nayar', 0.5, 0.0, 0),
-        mr.Brdf('phong', 0.5, 0.5, 5),
-        mr.Brdf('blinn-phong', 0.5, 0.5, 5),
-        mr.Brdf('ashikhmin-shirley', 0.5, 0.5, 15),
-        mr.Brdf('cook-torrance', 0.5, 0.5, 0.3),
-        mr.Brdf('glossy', 0.5, 0.5, 0.9),
+        # mr.Brdf('diffuse', 0.5, 0.0, 0),
+        # mr.Brdf('oren-nayar', 0.5, 0.0, 0),
+        # mr.Brdf('phong', 0.5, 0.5, 5),
+        mr.Brdf('blinn-phong', 0.0, 0.5, 5),
+        # mr.Brdf('ashikhmin-shirley', 0.5, 0.5, 15),
+        mr.Brdf('cook-torrance', 0.0, 0.5, 0.3),
+        # mr.Brdf('glossy', 0.5, 0.5, 0.9),
     ]
 
     num = 200
@@ -59,11 +59,11 @@ Plotting BRDF kernels and their rendered results
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-34
+.. GENERATED FROM PYTHON SOURCE LINES 43-44
 
 Now we can iterate through a range of specular exponents and BRDFs to visualize how the BRDF varies
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-75
+.. GENERATED FROM PYTHON SOURCE LINES 44-85
 
 .. code-block:: Python
 
@@ -120,11 +120,11 @@ Now we can iterate through a range of specular exponents and BRDFs to visualize 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 76-77
+.. GENERATED FROM PYTHON SOURCE LINES 86-87
 
 Plotting rendered result with the same BRDFs
 
-.. GENERATED FROM PYTHON SOURCE LINES 77-93
+.. GENERATED FROM PYTHON SOURCE LINES 87-103
 
 .. code-block:: Python
 
@@ -148,10 +148,20 @@ Plotting rendered result with the same BRDFs
 
 
 .. image-sg:: /gallery/01-light_curves/images/sphx_glr_brdf_renders_002.png
-   :alt: DIFFUSE, OREN-NAYAR, PHONG, BLINN-PHONG, ASHIKHMIN-SHIRLEY, COOK-TORRANCE, GLOSSY
+   :alt: BLINN-PHONG, COOK-TORRANCE
    :srcset: /gallery/01-light_curves/images/sphx_glr_brdf_renders_002.png, /gallery/01-light_curves/images/sphx_glr_brdf_renders_002_2_00x.png 2.00x
    :class: sphx-glr-single-img
 
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    Model file stanford_dragon.obj not found in current model folder ('/home/liam/Documents/mirage/mirage/resources/models'), checking model repository...
+    Attempting to download stanford_dragon.obj and its associated material file from the model repository...
+    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/refs/heads/main//Non-Convex/stanford_dragon.obj
+    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/refs/heads/main//Non-Convex/stanford_dragon.mtl
+    Model files were downloaded successfully!
 
 
 
@@ -159,7 +169,7 @@ Plotting rendered result with the same BRDFs
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 3.459 seconds)
+   **Total running time of the script:** (0 minutes 6.913 seconds)
 
 
 .. _sphx_glr_download_gallery_01-light_curves_brdf_renders.py:

@@ -82,8 +82,9 @@ rhat_sat_2 = lambda a: mr.hat(r_sat_2(a))
 dt = (dates[1] - dates[0]).total_seconds()
 c = mr.AstroConstants.speed_of_light_vacuum
 
-phi_cm = lambda a: np.sqrt(mr.AstroConstants.earth_mu / a**3) * (
-    dt - rho_2(a) / np.inf + rho_1(a) / np.inf
+phi_cm = lambda a: (
+    np.sqrt(mr.AstroConstants.earth_mu / a**3)
+    * (dt - rho_2(a) / np.inf + rho_1(a) / np.inf)
 )
 
 # %%

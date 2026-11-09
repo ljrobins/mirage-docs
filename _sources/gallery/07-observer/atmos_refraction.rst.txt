@@ -22,7 +22,7 @@ Atmospheric Refraction
 ======================
 Computing the effect of atmospheric refraction on observations
 
-.. GENERATED FROM PYTHON SOURCE LINES 6-37
+.. GENERATED FROM PYTHON SOURCE LINES 13-44
 
 
 
@@ -60,12 +60,12 @@ Computing the effect of atmospheric refraction on observations
     atmos_pressure = 1028.4463393  # mbar
     atmos_temp = 277.594  # Kelvin
 
-    apparent_el = mr.apparent_refacted_elevation(atmos_pressure, atmos_temp, true_el)
+    apparent_el = mr.apparent_refracted_elevation(atmos_pressure, atmos_temp, true_el)
 
     test_el_deg = 55.7
     test_el_rad = np.deg2rad(test_el_deg)
     app_el_deg = np.rad2deg(
-        mr.apparent_refacted_elevation(atmos_pressure, atmos_temp, test_el_rad)
+        mr.apparent_refracted_elevation(atmos_pressure, atmos_temp, test_el_rad)
     )
     delta_el_deg = app_el_deg - test_el_deg
     delta_el_arcsec = delta_el_deg * 3600
@@ -84,7 +84,7 @@ Computing the effect of atmospheric refraction on observations
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.137 seconds)
+   **Total running time of the script:** (0 minutes 0.576 seconds)
 
 
 .. _sphx_glr_download_gallery_07-observer_atmos_refraction.py:

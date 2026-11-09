@@ -23,7 +23,7 @@ Shape Interpolation
 
 Given two shapes as triangulated 3D models, how can we smoothly interpolate another model between them using signed distance fields
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-13
+.. GENERATED FROM PYTHON SOURCE LINES 17-23
 
 .. code-block:: Python
 
@@ -40,11 +40,11 @@ Given two shapes as triangulated 3D models, how can we smoothly interpolate anot
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 14-15
+.. GENERATED FROM PYTHON SOURCE LINES 24-25
 
 Animating the entire interpolation
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-36
+.. GENERATED FROM PYTHON SOURCE LINES 25-46
 
 .. code-block:: Python
 
@@ -53,7 +53,7 @@ Animating the entire interpolation
     obj2 = mr.SpaceObject('duck.obj').clean()
 
     pl = pv.Plotter()
-    pl.open_gif('shape_interpolation.gif')
+    pl.open_gif('out/shape_interpolation.gif')
 
     for frac1 in np.concatenate((np.linspace(0, 1, 20), np.linspace(1, 0, 20))):
         weights = np.array([1 - frac1, frac1]).astype(float)
@@ -82,59 +82,59 @@ Animating the entire interpolation
 
  .. code-block:: none
 
-    Model file duck.obj not found in current model folder ('/Users/liamrobinson/Documents/maintained-research/mirage/mirage/resources/models'), checking model repository...
+    Model file duck.obj not found in current model folder ('/home/liam/Documents/mirage/mirage/resources/models'), checking model repository...
     Attempting to download duck.obj and its associated material file from the model repository...
-    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Non-Convex/duck.obj
+    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/refs/heads/main//Non-Convex/duck.obj
     Model files were downloaded successfully!
-    Elapsed time: 5.45e-01 seconds
-    Elapsed time: 5.00e-01 seconds
-    Elapsed time: 4.58e-01 seconds
-    Elapsed time: 4.53e-01 seconds
-    Elapsed time: 4.41e-01 seconds
-    Elapsed time: 4.50e-01 seconds
-    Elapsed time: 4.42e-01 seconds
-    Elapsed time: 4.46e-01 seconds
-    Elapsed time: 4.37e-01 seconds
-    Elapsed time: 4.48e-01 seconds
-    Elapsed time: 4.42e-01 seconds
-    Elapsed time: 4.59e-01 seconds
-    Elapsed time: 4.27e-01 seconds
-    Elapsed time: 4.30e-01 seconds
-    Elapsed time: 4.29e-01 seconds
-    Elapsed time: 4.55e-01 seconds
-    Elapsed time: 4.59e-01 seconds
-    Elapsed time: 4.96e-01 seconds
-    Elapsed time: 4.60e-01 seconds
-    Elapsed time: 6.17e-01 seconds
-    Elapsed time: 5.51e-01 seconds
-    Elapsed time: 5.50e-01 seconds
-    Elapsed time: 4.79e-01 seconds
-    Elapsed time: 4.47e-01 seconds
-    Elapsed time: 4.46e-01 seconds
-    Elapsed time: 4.82e-01 seconds
-    Elapsed time: 4.53e-01 seconds
-    Elapsed time: 4.31e-01 seconds
-    Elapsed time: 4.57e-01 seconds
-    Elapsed time: 4.46e-01 seconds
-    Elapsed time: 4.80e-01 seconds
-    Elapsed time: 4.49e-01 seconds
-    Elapsed time: 4.90e-01 seconds
-    Elapsed time: 4.86e-01 seconds
-    Elapsed time: 4.61e-01 seconds
-    Elapsed time: 4.64e-01 seconds
-    Elapsed time: 4.57e-01 seconds
-    Elapsed time: 5.37e-01 seconds
-    Elapsed time: 5.02e-01 seconds
-    Elapsed time: 5.09e-01 seconds
+    Elapsed time: 1.64e+00 seconds
+    Elapsed time: 1.76e+00 seconds
+    Elapsed time: 1.65e+00 seconds
+    Elapsed time: 1.94e+00 seconds
+    Elapsed time: 1.84e+00 seconds
+    Elapsed time: 1.89e+00 seconds
+    Elapsed time: 1.72e+00 seconds
+    Elapsed time: 1.64e+00 seconds
+    Elapsed time: 1.71e+00 seconds
+    Elapsed time: 1.81e+00 seconds
+    Elapsed time: 1.75e+00 seconds
+    Elapsed time: 1.55e+00 seconds
+    Elapsed time: 1.67e+00 seconds
+    Elapsed time: 1.57e+00 seconds
+    Elapsed time: 1.51e+00 seconds
+    Elapsed time: 1.73e+00 seconds
+    Elapsed time: 1.68e+00 seconds
+    Elapsed time: 1.57e+00 seconds
+    Elapsed time: 1.58e+00 seconds
+    Elapsed time: 1.56e+00 seconds
+    Elapsed time: 1.54e+00 seconds
+    Elapsed time: 1.68e+00 seconds
+    Elapsed time: 1.56e+00 seconds
+    Elapsed time: 1.58e+00 seconds
+    Elapsed time: 1.63e+00 seconds
+    Elapsed time: 1.55e+00 seconds
+    Elapsed time: 1.58e+00 seconds
+    Elapsed time: 1.65e+00 seconds
+    Elapsed time: 1.77e+00 seconds
+    Elapsed time: 1.64e+00 seconds
+    Elapsed time: 1.50e+00 seconds
+    Elapsed time: 1.66e+00 seconds
+    Elapsed time: 1.61e+00 seconds
+    Elapsed time: 1.66e+00 seconds
+    Elapsed time: 1.68e+00 seconds
+    Elapsed time: 1.58e+00 seconds
+    Elapsed time: 1.76e+00 seconds
+    Elapsed time: 1.56e+00 seconds
+    Elapsed time: 1.57e+00 seconds
+    Elapsed time: 1.62e+00 seconds
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-38
+.. GENERATED FROM PYTHON SOURCE LINES 47-48
 
 Individual interpolation steps in a grid
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-58
+.. GENERATED FROM PYTHON SOURCE LINES 48-68
 
 .. code-block:: Python
 
@@ -171,10 +171,10 @@ Individual interpolation steps in a grid
 
  .. code-block:: none
 
-    Model file torus.obj not found in current model folder ('/Users/liamrobinson/Documents/maintained-research/mirage/mirage/resources/models'), checking model repository...
+    Model file torus.obj not found in current model folder ('/home/liam/Documents/mirage/mirage/resources/models'), checking model repository...
     Attempting to download torus.obj and its associated material file from the model repository...
-    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Non-Convex/torus.obj
-    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/main//Non-Convex/torus.mtl
+    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/refs/heads/main//Non-Convex/torus.obj
+    Requesting: https://raw.githubusercontent.com/ljrobins/mirage-models/refs/heads/main//Non-Convex/torus.mtl
     Model files were downloaded successfully!
 
 
@@ -183,7 +183,7 @@ Individual interpolation steps in a grid
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 30.127 seconds)
+   **Total running time of the script:** (1 minutes 27.404 seconds)
 
 
 .. _sphx_glr_download_gallery_09-models_shape_interpolation.py:

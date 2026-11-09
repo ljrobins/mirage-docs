@@ -1,3 +1,15 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "cffi",
+#     "mirage",
+#     "numba",
+#     "seaborn",
+# ]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 PRNG Speed
 ==========
@@ -101,6 +113,7 @@ state_addr = bit_gen.cffi.state_address
 
 @njit
 def normals_numba(n, state):
+    """Generate Gaussian samples from an SFC64 state using Numba."""
     out = np.empty(n)
     for i in range((n + 1) // 2):
         x1 = 2.0 * next_d(state) - 1.0
@@ -121,6 +134,7 @@ n = 4096**2
 
 
 def numbacall():
+    """Generate one benchmark-sized batch with the Numba sampler."""
     return normals_numba(n, state_addr)
 
 
@@ -128,6 +142,7 @@ rg = np.random.Generator(bit_gen)
 
 
 def numpycall():
+    """Generate one benchmark-sized batch with the NumPy sampler."""
     return rg.normal(size=n)
 
 

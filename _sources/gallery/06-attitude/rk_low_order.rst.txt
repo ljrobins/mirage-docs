@@ -23,7 +23,7 @@ Comparing Runge-Kutta Methods
 
 How simple can a Runge-Kutta method get to still yield "good" performance for attitude propagation?
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-138
+.. GENERATED FROM PYTHON SOURCE LINES 15-148
 
 
 
@@ -32,10 +32,10 @@ How simple can a Runge-Kutta method get to still yield "good" performance for at
 
  .. code-block:: none
 
-    RK45 time: : 1.79e-01 seconds
-    RK2 is 1.94e-01 deg from RK45 in 3.9e-02 sec
-    RK3 is 1.28e-03 deg from RK45 in 1.9e-02 sec
-    RK4 is 1.45e-04 deg from RK45 in 1.5e-02 sec
+    RK45 time: : 1.15e+00 seconds
+    RK2 is 1.94e-01 deg from RK45 in 2.7e-02 sec
+    RK3 is 1.28e-03 deg from RK45 in 6.4e-02 sec
+    RK4 is 1.44e-04 deg from RK45 in 1.2e-01 sec
 
 
 
@@ -55,6 +55,7 @@ How simple can a Runge-Kutta method get to still yield "good" performance for at
 
 
     def omega_dot(w: np.ndarray, itensor: np.ndarray) -> np.ndarray:
+        """Return the Euler-equation angular acceleration."""
         wdot = np.array([0.0, 0.0, 0.0])
         wdot[0] = -1 / itensor[0] * (itensor[2] - itensor[1]) * w[1] * w[2]
         wdot[1] = -1 / itensor[1] * (itensor[0] - itensor[2]) * w[2] * w[0]
@@ -63,6 +64,7 @@ How simple can a Runge-Kutta method get to still yield "good" performance for at
 
 
     def mrp_kde(s: np.ndarray, w: np.ndarray) -> np.ndarray:
+        """Return the MRP kinematic differential equation right-hand side."""
         s1, s2, s3 = s[0], s[1], s[2]
         s12 = s1**2
         s22 = s2**2
@@ -83,10 +85,12 @@ How simple can a Runge-Kutta method get to still yield "good" performance for at
 
 
     def tilde(v: np.ndarray) -> np.ndarray:
+        """Return the skew-symmetric cross-product matrix for ``v``."""
         return np.array([[0.0, -v[2], v[1]], [v[2], 0.0, -v[0]], [-v[1], v[0], 0.0]])
 
 
     def state_derivative_mrp(x, itensor):
+        """Evaluate the MRP attitude-state derivative."""
         xdot = 0 * x
         s = x[:3]
         w = x[3:6]
@@ -96,6 +100,7 @@ How simple can a Runge-Kutta method get to still yield "good" performance for at
 
 
     def rk4_step(x0, h, itensor):
+        """Advance the attitude state by one classical fourth-order RK step."""
         k1 = h * state_derivative_mrp(x0, itensor)
         k2 = h * state_derivative_mrp(x0 + k1 / 2, itensor)
         k3 = h * state_derivative_mrp(x0 + k2 / 2, itensor)
@@ -104,12 +109,14 @@ How simple can a Runge-Kutta method get to still yield "good" performance for at
 
 
     def rk2_step(x0, h, itensor):
+        """Advance the attitude state by one second-order RK step."""
         k1 = h * state_derivative_mrp(x0, itensor)
         k2 = h * state_derivative_mrp(x0 + k1 / 2, itensor)
         return x0 + k2
 
 
     def rk3_step(x0, h, itensor):
+        """Advance the attitude state by one third-order RK step."""
         k1 = h * state_derivative_mrp(x0, itensor)
         k2 = h * state_derivative_mrp(x0 + k1 / 2, itensor)
         k3 = h * state_derivative_mrp(x0 + 2 * k2 - k1, itensor)
@@ -117,20 +124,17 @@ How simple can a Runge-Kutta method get to still yield "good" performance for at
 
 
     def integrate(x0: np.ndarray, h: float, intensor: np.ndarray, ntimes: int, method: str):
+        """Integrate the attitude state and return it with the elapsed time."""
         x0 = x0.copy()
 
         t1 = time.time()
-        for i in range(ntimes):
-            prev_diverged = np.any(np.isnan(x0))
+        for _ in range(ntimes):
             if method.lower() == 'rk2':
                 x0 = rk2_step(x0, h, itensor)
             if method.lower() == 'rk3':
                 x0 = rk3_step(x0, h, itensor)
             if method.lower() == 'rk4':
                 x0 = rk4_step(x0, h, itensor)
-
-            if np.any(np.isnan(x0)) and not prev_diverged:
-                print(f'{method} diverged at timestemp {i}')
 
         return x0, time.time() - t1
 
@@ -163,7 +167,6 @@ How simple can a Runge-Kutta method get to still yield "good" performance for at
         qf_rk45 = q_of_t[-1, :]
 
         # mrv.vis_attitude_motion(mr.SpaceObject('box_wing.obj'), q_of_t, framerate=10)
-        # enddd
 
         ang_deg = np.rad2deg(mr.quat_ang(qf_rk45, qf_rk2))
         print(f'RK2 is {ang_deg:.2e} deg from RK45 in {dt2:.1e} sec')
@@ -180,7 +183,7 @@ How simple can a Runge-Kutta method get to still yield "good" performance for at
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.282 seconds)
+   **Total running time of the script:** (0 minutes 1.513 seconds)
 
 
 .. _sphx_glr_download_gallery_06-attitude_rk_low_order.py:

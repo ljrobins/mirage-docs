@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "mirage",
+#     "pyshp",
+# ]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Earth Albedo BRDF
 =================
@@ -33,14 +43,14 @@ mapshape = lon_grid.shape
 # %%
 # The surface BRDF function in `Blanc 2014 <https://hal-mines-paristech.archives-ouvertes.fr/file/index/docid/1024989/filename/2014_igarss_albedo_blanc.pdf>`_
 
-pws = (
-    lambda ts, fiso, fgeo, fvol: fiso
+pws = lambda ts, fiso, fgeo, fvol: (
+    fiso
     + fvol * (-0.007574 - 0.070987 * ts**2 + 0.307588 * ts**3)
     + fgeo * (-1.284909 - 0.166314 * ts**2 + 0.041840 * ts**3)
 )
 pbs = lambda ts, fiso, fgeo, fvol: fiso + 0.189184 * fvol - 1.377622 * fgeo
-albedo = lambda ts, fiso, fgeo, fvol: 0.5 * pws(ts, fiso, fgeo, fvol) + 0.5 * pbs(
-    ts, fiso, fgeo, fvol
+albedo = lambda ts, fiso, fgeo, fvol: (
+    0.5 * pws(ts, fiso, fgeo, fvol) + 0.5 * pbs(ts, fiso, fgeo, fvol)
 )
 
 # %%
@@ -140,9 +150,6 @@ mr.toc()
 print(f'{alb_irrad:.2e}')
 
 # %%
-# Defining a few useful functions to simplify the plotting process
-bcmap = 'PiYG'
-
 # %%
 # Plotting the albedo across the grid
 mrv.plot_map_with_grid(

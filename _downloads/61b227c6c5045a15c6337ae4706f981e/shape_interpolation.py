@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "mesdf",
+#     "mirage",
+# ]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Shape Interpolation
 ===================
@@ -17,7 +27,7 @@ obj1 = mr.SpaceObject('icosahedron.obj').clean()
 obj2 = mr.SpaceObject('duck.obj').clean()
 
 pl = pv.Plotter()
-pl.open_gif('shape_interpolation.gif')
+pl.open_gif('out/shape_interpolation.gif')
 
 for frac1 in np.concatenate((np.linspace(0, 1, 20), np.linspace(1, 0, 20))):
     weights = np.array([1 - frac1, frac1]).astype(float)

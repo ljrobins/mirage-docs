@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Zenith Light Pollution
 ======================
@@ -10,9 +17,19 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 import rasterio
+from rasterio.enums import Resampling
 
 import mirage as mr
 import mirage.vis as mrv
+
+
+def read_downsampled(path: str, target_width: int = 2048) -> np.ndarray:
+    """Reads the first raster band, downsampled to roughly ``target_width`` pixels wide."""
+    with rasterio.open(path, 'r') as f:
+        stride = max(1, f.width // target_width)
+        out_shape = (max(1, f.height // stride), max(1, f.width // stride))
+        return f.read(1, out_shape=out_shape, resampling=Resampling.average)
+
 
 # %%
 # Let's plot the zenith sky radiances as reported by the World Atlas 2015 dataset.
@@ -48,15 +65,10 @@ print(mr.AstroConstants.steradian_to_arcsecond2)
 
 assert mr.candela_to_watt_per_sr(mr.watt_per_sr_to_candela(0.5)) == 0.5
 
-with rasterio.open(data_file, 'r') as f:
-    mr.tic()
-    art_brightness = f.read().squeeze()  # mcd / m^2
-    mr.toc()
-    art_brightness_cd = art_brightness / 1e3
-
-    artifical_radiance_spectrum = mr.candela_to_watt_per_sr(
-        art_brightness_cd, lambdas=473.74960958
-    )  # w / m^2 / sr
+mr.tic()
+art_brightness = read_downsampled(data_file)  # mcd / m^2
+mr.toc()
+art_brightness_cd = art_brightness / 1e3
 
 z = art_brightness_cd
 
@@ -86,21 +98,20 @@ data_file = os.path.join(os.environ['DATADIR'], 'viirs_2022_raw.tif')
 
 if not os.path.exists(data_file):
     mr.save_file_from_url(
-        'ps://www2.lightpollutionmap.info/data/viirs_2022_raw.zip',
+        'https://www2.lightpollutionmap.info/data/viirs_2022_raw.zip',
         os.environ['DATADIR'],
     )
 
-with rasterio.open(data_file, 'r') as f:
-    mr.tic()
-    x = f.read().squeeze()  # nW / cm^2 / sr
-    mr.toc()
-    x = x[::10, ::10] * 1e-9  # W / cm^2 / sr
-    x[np.isinf(np.abs(x))] = np.nan
-    x *= 1e4  # W / m^2 / sr
-    x = mr.irradiance_to_apparent_magnitude(
-        x / mr.AstroConstants.steradian_to_arcsecond2
-    )  # mag / arcsec^2
-    x[np.isnan(x) | np.isinf(x)] = 22.0
+mr.tic()
+x = read_downsampled(data_file)  # nW / cm^2 / sr
+mr.toc()
+x *= 1e-9  # W / cm^2 / sr
+x[np.isinf(np.abs(x))] = np.nan
+x *= 1e4  # W / m^2 / sr
+x = mr.irradiance_to_apparent_magnitude(
+    x / mr.AstroConstants.steradian_to_arcsecond2
+)  # mag / arcsec^2
+x[np.isnan(x) | np.isinf(x)] = 22.0
 
 # %%
 # Plotting ground light pollution sources

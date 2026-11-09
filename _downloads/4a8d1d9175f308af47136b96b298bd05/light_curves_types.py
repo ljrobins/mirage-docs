@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Types of Light Curves
 =====================
@@ -22,14 +29,14 @@ from PIL import Image
 # Case 1: The light curve of a cube
 
 integration_time_s = 1.0  # seconds
-obj = mr.SpaceObject('cube.obj', identifier='GOES 15')
+obj = mr.SpaceObject('cube.obj', identifier=36411)
 
 pl = pv.Plotter()
 mrv.render_spaceobject(pl, obj)
 mrv.plot_basis(
     pl,
     np.eye(3),
-    labels=['$\hat{x}$', '$\hat{y}$', '$\hat{z}$'],
+    labels=[r'$\hat{x}$', r'$\hat{y}$', r'$\hat{z}$'],
     scale=np.max(mr.vecnorm(obj.v)),
     shape_opacity=0.5,
 )
@@ -50,8 +57,6 @@ dates, epsecs = mr.date_arange(
     idate, idate + mr.minutes(1), mr.seconds(1), return_epsecs=True
 )
 
-print(attitude.w0)
-print(idate)
 # %%
 # Determining inertial positions of the Sun, observer, and object
 r_obj_j2k = obj.propagate(dates)
@@ -74,15 +79,15 @@ mrv.texit('$q(t)$', 'Seconds after epoch', '', ['$q_1$', '$q_2$', '$q_3$', '$q_4
 plt.subplot(1, 4, 2)
 plt.plot(epsecs, w_of_t)
 mrv.texit(
-    '$\omega(t)$',
+    r'$\omega(t)$',
     'Seconds after epoch',
     r'$\left[ \frac{rad}{s} \right]$',
-    ['$\omega_1$', '$\omega_2$', '$\omega_3$'],
+    [r'$\omega_1$', r'$\omega_2$', r'$\omega_3$'],
 )
 plt.subplot(1, 4, 3)
 plt.plot(epsecs, svb)
 mrv.texit(
-    '${}^{\mathcal{B}}\mathbf{r}_{\mathrm{Sun}}(t) - {}^{\mathcal{B}}\mathbf{r}_{\mathrm{obj}}(t)$',
+    r'${}^{\mathcal{B}}\mathbf{r}_{\mathrm{Sun}}(t) - {}^{\mathcal{B}}\mathbf{r}_{\mathrm{obj}}(t)$',
     'Seconds after epoch',
     '[km]',
     ['$x$', '$y$', '$z$'],
@@ -90,7 +95,7 @@ mrv.texit(
 plt.subplot(1, 4, 4)
 plt.plot(epsecs, ovb)
 mrv.texit(
-    '${}^{\mathcal{B}}\mathbf{r}_{\mathrm{obs}}(t) - {}^{\mathcal{B}}\mathbf{r}_{\mathrm{obj}}(t)$',
+    r'${}^{\mathcal{B}}\mathbf{r}_{\mathrm{obs}}(t) - {}^{\mathcal{B}}\mathbf{r}_{\mathrm{obj}}(t)$',
     'Seconds after epoch',
     '[km]',
     ['$x$', '$y$', '$z$'],
@@ -113,7 +118,7 @@ mrv.texit('Reflection Matrix $G$', 'Normal index $i$', 'Time index $j$', grid=Fa
 # %%
 # Plotting the light curve
 plt.plot(epsecs, lc)
-mrv.texit('Normalized Light Curve $\hat{I}(t)$', 'Seconds after epoch', '[nondim]')
+mrv.texit(r'Normalized Light Curve $\hat{I}(t)$', 'Seconds after epoch', '[nondim]')
 # plt.show()
 
 # %%
@@ -127,7 +132,7 @@ mrv.render_spaceobject(pl, obj)
 mrv.plot_basis(
     pl,
     np.eye(3),
-    labels=['$\hat{x}$', '$\hat{y}$', '$\hat{z}$'],
+    labels=[r'$\hat{x}$', r'$\hat{y}$', r'$\hat{z}$'],
     scale=np.max(mr.vecnorm(obj.v)),
     shape_opacity=0.5,
 )
@@ -156,8 +161,6 @@ dates, epsecs = mr.date_arange(
     idate, idate + mr.minutes(30), mr.seconds(10), return_epsecs=True
 )
 
-print(idate)
-print(attitude.w0)
 # %%
 # Determining inertial positions of the Sun, observer, and object
 r_obj_j2k = obj.propagate(dates)
@@ -184,15 +187,15 @@ mrv.texit('$q(t)$', 'Seconds after epoch', '', ['$q_1$', '$q_2$', '$q_3$', '$q_4
 plt.subplot(1, 4, 2)
 plt.plot(epsecs, w_of_t)
 mrv.texit(
-    '$\omega(t)$',
+    r'$\omega(t)$',
     'Seconds after epoch',
     r'$\left[ \frac{rad}{s} \right]$',
-    ['$\omega_1$', '$\omega_2$', '$\omega_3$'],
+    [r'$\omega_1$', r'$\omega_2$', r'$\omega_3$'],
 )
 plt.subplot(1, 4, 3)
 plt.plot(epsecs, svb)
 mrv.texit(
-    '${}^{\mathcal{B}}\mathbf{r}_{\mathrm{Sun}}(t) - {}^{\mathcal{B}}\mathbf{r}_{\mathrm{obj}}(t)$',
+    r'${}^{\mathcal{B}}\mathbf{r}_{\mathrm{Sun}}(t) - {}^{\mathcal{B}}\mathbf{r}_{\mathrm{obj}}(t)$',
     'Seconds after epoch',
     '[km]',
     ['$x$', '$y$', '$z$'],
@@ -200,7 +203,7 @@ mrv.texit(
 plt.subplot(1, 4, 4)
 plt.plot(epsecs, ovb)
 mrv.texit(
-    '${}^{\mathcal{B}}\mathbf{r}_{\mathrm{obs}}(t) - {}^{\mathcal{B}}\mathbf{r}_{\mathrm{obj}}(t)$',
+    r'${}^{\mathcal{B}}\mathbf{r}_{\mathrm{obs}}(t) - {}^{\mathcal{B}}\mathbf{r}_{\mathrm{obj}}(t)$',
     'Seconds after epoch',
     '[km]',
     ['$x$', '$y$', '$z$'],
@@ -248,6 +251,7 @@ mrv.texit('Light Curve $I(t)$', 'Seconds after epoch', '[ADU]')
 
 
 def animate(i):
+    """Update the rendered scene and light-curve marker for frame ``i``."""
     im.set_data(imgs[i])
     pt.set_offsets((epsecs[i], lci[i]))
     return im, pt
@@ -273,7 +277,7 @@ for stdev in [1, 2, 3]:
         alpha=0.4 - 0.1 * stdev,
         color='b',
         edgecolor=None,
-        label=f'{stdev}$\sigma$',
+        label=rf'{stdev}$\sigma$',
     )
     plt.fill_between(
         epsecs,
@@ -320,6 +324,7 @@ plt.show()
 def aligned_nadir_constrained_sun_attitude(
     obj: mr.SpaceObject, dates: np.ndarray[datetime.datetime, Any]
 ) -> mr.AlignedAndConstrainedAttitude:
+    """Construct an attitude aligned with nadir and constrained toward the Sun."""
     r_obj_j2k = obj.propagate(dates)
     sv = mr.sun(dates)
     nadir = -mr.hat(r_obj_j2k)
@@ -358,7 +363,7 @@ combos = [
         size=1.16 / 2,
     ),
     dict(
-        name='Delta II Rocket Body',
+        name='Saturn V S-II Rocket Body',
         obj=mr.SpaceObject('matlib_saturn_v_sii.obj', identifier=34382),
         attitude=tumbling_attitude,
         brdf=brdf_phong,

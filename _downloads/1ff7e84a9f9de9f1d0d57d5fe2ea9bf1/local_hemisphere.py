@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "mirage",
+#     "geopy",
+# ]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Live Satellites From Observer
 =============================
@@ -36,9 +46,10 @@ station = mr.Station()
 # Let's impose a signal to noise ratio constraint, require satellites to be above the horizon, be illuminated, and have a visual magnitude brighter than 12
 station.constraints = [
     mr.SnrConstraint(5),
-    mr.ElevationConstraint(0),
+    mr.ElevationConstraint(20),
     mr.TargetIlluminatedConstraint(),
-    mr.VisualMagnitudeConstraint(12),
+    mr.VisualMagnitudeConstraint(6),
+    mr.ObserverEclipseConstraint(station),
 ]
 
 # %%
@@ -73,8 +84,11 @@ mrv.plot3(
 
 
 def show_scene(epsec: float, integration_time_s: float):
+    """Render the visible catalog objects and sky for one epoch."""
     date = mr.today() + mr.seconds(epsec)  # Fig 5.38
-    r_eci, v_eci, names = mr.propagate_catalog_to_dates(date, return_names=True)
+    r_eci, v_eci, nums, names = mr.propagate_catalog_to_dates(
+        date, return_names=True, return_satnums=True
+    )
     station_eci = station.j2000_at_dates(date)
     look_vec_eci = r_eci - station_eci
     look_dir_eci = mr.hat(look_vec_eci)
@@ -144,7 +158,12 @@ def show_scene(epsec: float, integration_time_s: float):
 
     pl.add_point_labels(
         r_enu[constraint_satisfaction, :],
-        names[constraint_satisfaction],
+        [
+            f'{n} ({nu})'
+            for (n, nu) in zip(
+                names[constraint_satisfaction], nums[constraint_satisfaction]
+            )
+        ],
         text_color='white',
         font_family='courier',
         shape_color='k',
@@ -167,10 +186,10 @@ def show_scene(epsec: float, integration_time_s: float):
     pl.set_position((0.0, 0.0, -5.0))
 
 
-pl.open_gif('test.gif')
+pl.open_gif('out/local_horizon.gif')
 frames = 60
 with alive_bar(frames) as bar:
-    for i in np.linspace(0, 80, frames):
+    for i in np.linspace(0, 80, frames) + 10000:
         show_scene(i, integration_time_s=10.0)
         pl.write_frame()
         bar()

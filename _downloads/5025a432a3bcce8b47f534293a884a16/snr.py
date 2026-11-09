@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Signal-to-Noise Ratio (SNR)
 ===========================
@@ -12,6 +19,7 @@ import mirage.vis as mrv
 
 
 def ccd_snr(signal_grid: np.ndarray, noise_grid: np.ndarray) -> float:
+    """Compute the CCD signal-to-noise ratio from signal and noise grids."""
     return np.sum(signal_grid) / np.sqrt(np.sum(signal_grid) + np.sum(noise_grid))
 
 
@@ -98,6 +106,6 @@ print(f'SNR ~ x^{m:.2f}')
 
 plt.plot(dts, snrs)
 plt.scatter(dts, snrs)
-mrv.texit('', 'Integration Time (s)', 'SNR', ['$\sqrt{\Delta t} + \mathrm{SNR}_0$'])
+mrv.texit('', 'Integration Time (s)', 'SNR', [r'$\sqrt{\Delta t} + \mathrm{SNR}_0$'])
 plt.tight_layout()
 plt.show()

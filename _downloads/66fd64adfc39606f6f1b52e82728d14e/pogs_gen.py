@@ -70,7 +70,6 @@ plt.title('Centroiding Errors After Image Alignment')
 plt.grid()
 plt.show()
 
-# endd
 
 # %%
 # Overlaying the two images

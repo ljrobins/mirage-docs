@@ -107,7 +107,7 @@ print(irrad_sphere)
 
 obj_signal = sint_val * irrad_sphere * integration_time_s
 print(obj_signal)
-# endd
+
 
 mr.tic('Synthesizing CCD Image')
 img_syn = station.telescope.ccd.generate_ccd_image(
@@ -128,9 +128,9 @@ flat_frame = np.load(os.path.join(os.environ['DATADIR'], 'zimmain_flat.nogit.npy
 mr.toc()
 
 # simulating binning
-assert all(
-    [not x % 2 for x in img_syn.shape]
-), "One or more of the image's dimensions sizes is odd, cannot bin"
+assert all([not x % 2 for x in img_syn.shape]), (
+    "One or more of the image's dimensions sizes is odd, cannot bin"
+)
 img_syn = img_syn.reshape(img_syn.shape[0] // 2, 2, img_syn.shape[1] // 2, 2).sum(
     axis=(1, 3)
 )

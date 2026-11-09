@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 ASTM Spectra
 ============
@@ -21,7 +28,7 @@ sun_global_w_per_m2_nm = sun_spectra[:, 2]
 sun_direct_w_per_m2_nm = sun_spectra[:, 3]
 ss_proof = mr.sun_spectrum(lambdas_nm)
 
-i0 = np.trapz(sun_vacuum_w_per_m2_nm, lambdas_nm)
+i0 = np.trapezoid(sun_vacuum_w_per_m2_nm, lambdas_nm)
 print(i0)
 plt.plot(lambdas_nm, sun_vacuum_w_per_m2_nm)
 plt.plot(lambdas_nm, sun_global_w_per_m2_nm)

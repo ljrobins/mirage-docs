@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "mirage",
+#     "shado",
+# ]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Shadow Functions
 ================
@@ -15,6 +25,7 @@ import mirage.vis as mrv
 
 
 def plot_shadow_function_for_dates(obj, dates) -> None:
+    """Compare two shadow-function models over a set of dates."""
     plt.figure(figsize=(8, 4))
     r = obj.propagate(dates)
     s = mr.sun(dates)

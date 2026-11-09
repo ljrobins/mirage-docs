@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Luminous Efficiency Function
 ============================
@@ -16,7 +23,9 @@ kcd = 1 / mr.candela_to_watt_per_sr(np.ones_like(lambdas), lambdas=lambdas)
 
 plt.plot(lambdas, kcd)
 mrv.texit(
-    'Luminous Efficiency Function $K_{cd}$', 'Wavelength $\lambda$ in [nm]', '$K_{cd}$'
+    r'Luminous Efficiency Function $K_{cd}$',
+    r'Wavelength $\lambda$ in [nm]',
+    r'$K_{cd}$',
 )
 
 plt.show()

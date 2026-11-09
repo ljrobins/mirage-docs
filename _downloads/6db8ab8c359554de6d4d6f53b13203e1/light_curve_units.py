@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "mirage",
+#     "seaborn",
+# ]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Light Curve Units
 =================
@@ -19,6 +29,7 @@ import mirage.vis as mrv
 def aligned_nadir_constrained_sun_attitude(
     obj: mr.SpaceObject, dates: np.ndarray[datetime.datetime, Any]
 ) -> mr.AlignedAndConstrainedAttitude:
+    """Construct an attitude aligned with nadir and constrained toward the Sun."""
     r_obj_j2k = obj.propagate(dates)
     sv = mr.sun(dates)
     nadir = -mr.hat(r_obj_j2k)
@@ -38,7 +49,7 @@ integration_time_s = 10.0  # Seconds
 
 # %%
 # Setting up the scenario objects
-obj = mr.SpaceObject('matlib_hylas4.obj', identifier='goes 15')
+obj = mr.SpaceObject('matlib_hylas4.obj', identifier=36411)
 brdf = mr.Brdf('phong')
 station = mr.Station(preset='pogs')
 # Observing from the Purdue Optical Ground Station in New Mexico
@@ -85,7 +96,7 @@ sns.scatterplot(x=ephr, y=lc_noisy, linewidth=0.05, size=0.1)
 # sns.scatterplot(x=ephr, y=lc_clean, linewidth=0.05, size=0.05, color="k")
 plt.xlim((0, np.max(ephr)))
 mrv.texit(
-    'Synthetic GOES 15 Light Curves',
+    'Synthetic EWS-G2 Light Curves',
     '',
     r'$\left[\mathrm{ADU} \right]$',
     ['Measurements'],

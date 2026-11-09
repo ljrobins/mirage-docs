@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Model Editor
 ============
@@ -14,9 +21,24 @@ from scipy.spatial import KDTree
 
 import mirage as mr
 
+ACCURATE_MODELS_DIR = os.environ.get(
+    'MIRAGE_ACCURATE_MODELS_DIR',
+    os.path.join(
+        os.environ['SRCDIR'],
+        '..',
+        '..',
+        'maintained-research',
+        'mirage-models',
+        'accurate_sats',
+    ),
+)
+
 
 class Material:
+    """Container for the BRDF parameters of a named material."""
+
     def __init__(self, name: str, cd: float, cs: float, n: float, color: str = None):
+        """Initialize a material with diffuse, specular, and color properties."""
         self.name = name
         self.cd = cd
         self.cs = cs
@@ -24,6 +46,7 @@ class Material:
         self.color = color if color is not None else 'white'
 
     def mtllib_str(self) -> str:
+        """Return this material as an MTL library entry."""
         return '\n'.join(
             [
                 f'newmtl {self.name}',
@@ -40,6 +63,7 @@ class Material:
 
 
 def write_mtl_file(materials: list[Material]) -> None:
+    """Write the material definitions to ``spacelib.mtl`` in ``MODELDIR``."""
     with open(os.path.join(os.environ['MODELDIR'], 'spacelib.mtl'), 'w') as f:
         header = '\n'.join(
             ['# Standard space materials', f'# Material Count: {n_mat}\n\n']
@@ -51,6 +75,7 @@ def write_mtl_file(materials: list[Material]) -> None:
 
 
 def write_obj_file(obj: mr.SpaceObject, materials: list[Material]) -> None:
+    """Write the model and its per-face material assignments to an OBJ file."""
     with open(
         os.path.join(os.environ['MODELDIR'], f'matlib_{obj.file_name}'), 'w'
     ) as f:
@@ -93,18 +118,12 @@ def write_obj_file(obj: mr.SpaceObject, materials: list[Material]) -> None:
             )
 
 
-mr.set_model_directory(
-    '/Users/liamrobinson/Documents/maintained-research/mirage-models/accurate_sats'
-)
+mr.set_model_directory(ACCURATE_MODELS_DIR)
 obj = mr.SpaceObject('saturn_v_sii.obj')
 tree = KDTree(obj._mesh.points)
 point_material_selected = np.nan * np.zeros_like(obj._mesh.points[:, 0])
 cell_material_selected = np.nan * np.zeros_like(obj.f[:, 0])
 
-other_materials = [
-    Material('generic_vegitation', 0.53, 0.28, 7.31),
-    Material('ocean_water', 0.48, 0.08, 16.45),
-]
 materials = [
     Material('aluminum', 0.2, 0.6, 5, 'slategrey'),
     Material('white_paint', 0.9, 0.1, 1, 'slategrey'),
@@ -127,6 +146,7 @@ obj_actor = None
 
 
 def render_obj(scale: float = 1.0):
+    """Render the model at the requested scale using the current material colors."""
     global obj_actor
     obj._mesh.points = obj.v * scale
     if 'obj' in pl.actors.keys():
@@ -143,6 +163,7 @@ def render_obj(scale: float = 1.0):
 
 
 def remove_selection():
+    """Remove the current picking selection actors from the plotter."""
     if '_picked_through_selection' in pl.actors.keys():
         pl.remove_actor(pl.actors['_picked_through_selection'])
 
@@ -151,24 +172,26 @@ def remove_selection():
 
 
 def toggle_through(state: bool) -> None:
+    """Enable or disable picking through the model surface."""
     remove_selection()
     pl.disable_picking()
     pl.enable_cell_picking(color='red', through=state)
 
 
 def toggle_update_all(state: bool) -> None:
+    """Control whether material edits only affect unassigned faces."""
     global ONLY_UPDATE_UNASSIGNED
     ONLY_UPDATE_UNASSIGNED = state
 
 
 def set_picked_as_material(material_value):
+    """Assign the currently picked faces to ``material_value``."""
     global obj_actor
     if pl.picked_cells is not None:
         dtol = 1e-3
         d, idx = tree.query(pl.picked_cells.points, k=10, distance_upper_bound=dtol)
         old_pts_selected = point_material_selected.copy()
         prev_unassigned_faces = np.isnan(np.sum(old_pts_selected[obj.f], axis=1))
-        print(prev_unassigned_faces)
         point_material_selected[idx[d < dtol]] = material_value
         if ONLY_UPDATE_UNASSIGNED:
             reset_inds = ~np.isnan(old_pts_selected)
@@ -241,6 +264,7 @@ for v, mtl in zip(_MATERIAL_VALS, materials):
 
 
 def update_model_scale(scale: float) -> None:
+    """Re-render the model with a new scale and update the plot bounds."""
     # print([x for x in dir(obj_actor) if 'point' in x.lower()])
     render_obj(scale)
     pl.show_bounds(
@@ -260,18 +284,22 @@ toggle_update_all(True)
 
 # Keyboard callbacks
 def view_x():
+    """View the model along the x-axis."""
     pl.view_yz()
 
 
 def view_y():
+    """View the model along the y-axis."""
     pl.view_xz()
 
 
 def view_z():
+    """View the model along the z-axis."""
     pl.view_xy()
 
 
 def reverse_camera():
+    """Mirror the camera position through the origin."""
     pl.camera.position = -np.array(pl.camera.position)
     pl.render()
 
@@ -285,6 +313,7 @@ update_model_scale(1)
 
 
 def preview_model(_) -> None:
+    """Write the edited model and render a short preview animation."""
     write_obj_file(obj, materials)
     write_mtl_file(materials)
     brdf = mr.Brdf('phong')

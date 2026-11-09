@@ -23,7 +23,7 @@ Background Importance
 
 Plotting the changes in background signal values over the course of one night
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-15
+.. GENERATED FROM PYTHON SOURCE LINES 14-22
 
 .. code-block:: Python
 
@@ -42,11 +42,11 @@ Plotting the changes in background signal values over the course of one night
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-17
+.. GENERATED FROM PYTHON SOURCE LINES 23-24
 
 Defining a function we can use to plot various background signals
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-67
+.. GENERATED FROM PYTHON SOURCE LINES 24-75
 
 .. code-block:: Python
 
@@ -75,6 +75,7 @@ Defining a function we can use to plot various background signals
         integration_time_s: float,
         signal_kwargs: dict,
     ) -> None:
+        """Compute the selected sky-brightness component over the visible hemisphere."""
         true_signals = [k for k in signal_kwargs.keys() if signal_kwargs[k]]
         if len(true_signals) == len(signal_kwargs.keys()):
             signal_type = 'All Signals'
@@ -107,12 +108,12 @@ Defining a function we can use to plot various background signals
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 68-70
+.. GENERATED FROM PYTHON SOURCE LINES 76-78
 
 Setting up observation conditions using an example Space Debris Telescope preset from Krag2003
 station = mr.Station(preset="lmt", lat_deg=33.776864, lon_deg=-84.363777) # Atlanta, GA
 
-.. GENERATED FROM PYTHON SOURCE LINES 70-74
+.. GENERATED FROM PYTHON SOURCE LINES 78-82
 
 .. code-block:: Python
 
@@ -127,11 +128,11 @@ station = mr.Station(preset="lmt", lat_deg=33.776864, lon_deg=-84.363777) # Atla
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 75-76
+.. GENERATED FROM PYTHON SOURCE LINES 83-84
 
 Plotting the background signal for scattered moonlight
 
-.. GENERATED FROM PYTHON SOURCE LINES 76-131
+.. GENERATED FROM PYTHON SOURCE LINES 84-136
 
 .. code-block:: Python
 
@@ -147,9 +148,6 @@ Plotting the background signal for scattered moonlight
 
     dates = mr.date_arange(date, date + mr.hours(14), mr.hours(0.5))
     sun_ang_deg = np.rad2deg(mr.sun_angle_to_horizon(dates, station.itrf)).flatten()
-    is_astro_dark = sun_ang_deg < -18.0
-    is_nautical_dark = ~is_astro_dark & (sun_ang_deg < -12.0)
-    is_civil_dark = ~is_astro_dark & ~is_nautical_dark & (sun_ang_deg < -6.0)
     is_light_dates = sun_ang_deg > 0.0
 
     dates = dates[~is_light_dates]
@@ -157,8 +155,8 @@ Plotting the background signal for scattered moonlight
 
     sbs = []
 
-    p1 = plt.figure(figsize=(4, 4))
-    p2 = plt.figure(figsize=(4, 4))
+    plt.figure(figsize=(4, 4))
+    plt.figure(figsize=(4, 4))
 
     for signal, c in zip(signals, cs):
         kwargs = {s: (False if s is not signal else True) for s in signals}
@@ -215,33 +213,33 @@ Plotting the background signal for scattered moonlight
 
  .. code-block:: none
 
-    Moonlight: 2.45e+00 seconds
+    Moonlight: 6.42e+00 seconds
     Max:  1.96e+02
     Mean: 9.13e+00
-    Airglow: 1.25e+00 seconds
+    Airglow: 6.41e-01 seconds
     Max:  7.28e-01
     Mean: 3.42e-01
-    Integrated_starlight: 1.26e+00 seconds
+    Integrated_starlight: 5.22e-01 seconds
     Max:  6.80e-01
     Mean: 1.85e-02
-    Zodiac: 1.75e+00 seconds
+    Zodiac: 3.21e+00 seconds
     Max:  6.18e+00
     Mean: 2.40e-01
-    Pollution: 1.12e+00 seconds
+    Pollution: 2.48e-01 seconds
     Max:  8.42e-03
     Mean: 3.45e-03
-    Twilight: 4.02e+00 seconds
-    Max:  1.33e+04
-    Mean: 5.44e+02
+    Twilight: 3.66e+00 seconds
+    Max:  1.02e+04
+    Mean: 4.19e+02
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 132-133
+.. GENERATED FROM PYTHON SOURCE LINES 137-138
 
 Figuring out how likely a given look direction over the night will be dominated by a given source
 
-.. GENERATED FROM PYTHON SOURCE LINES 133-145
+.. GENERATED FROM PYTHON SOURCE LINES 138-150
 
 .. code-block:: Python
 
@@ -265,12 +263,12 @@ Figuring out how likely a given look direction over the night will be dominated 
 
  .. code-block:: none
 
-    moonlight 80.22320892102245
+    moonlight 80.47297345801331
     airglow 0.0
-    integrated_starlight 0.0060638560973488
-    zodiac 0.3490721663038389
+    integrated_starlight 0.006063856097348786
+    zodiac 0.34907216630383897
     pollution 0.0
-    twilight 19.42165505657638
+    twilight 19.1718905195855
 
 
 
@@ -278,7 +276,7 @@ Figuring out how likely a given look direction over the night will be dominated 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 13.081 seconds)
+   **Total running time of the script:** (0 minutes 18.311 seconds)
 
 
 .. _sphx_glr_download_gallery_04-environment_background_importance.py:

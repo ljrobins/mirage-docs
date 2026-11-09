@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Loading with MTL Properties
 ===========================
@@ -39,7 +46,7 @@ obj = mr.load_obj(obj_path)
 mr.toc()
 
 # %%
-# We can print the the cd, cs, and n attributes of the object, each of which should now have one entry per face
+# We can print the cd, cs, and n attributes of the object, each of which should now have one entry per face
 
 print(f'{obj.cd=}')
 print(f'{obj.cs=}')

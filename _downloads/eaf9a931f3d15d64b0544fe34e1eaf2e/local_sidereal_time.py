@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Local Sidereal Time
 ===================
@@ -19,7 +26,7 @@ dates, epsecs = mr.date_arange(
 )
 
 # %%
-# We can see that as expected, Greenwich passes LST = 0 at noon on the vernal equinox (~80 days into the year). Rephrased, this means that at noon on the vernal equinox, the local meridian at Greenwich is pointing in the direction of inertial :math:`\\hat{x}`, the first point of Aires, zero right ascension.
+# We can see that as expected, Greenwich passes LST = 0 at noon on the vernal equinox (~80 days into the year). Rephrased, this means that at noon on the vernal equinox, the local meridian at Greenwich is pointing in the direction of inertial :math:`\\hat{x}`, the first point of Aries, zero right ascension.
 # On the same date, the station in New Mexico is always facing 105 degrees earlier.
 
 for station in stations:
@@ -29,7 +36,7 @@ mrv.texit(
     'Local Sidereal Time at 12:00 UTC',
     'Day of the year',
     'Sidereal time [hr]',
-    [f'$\lambda = {s.lon_deg:.2f}^\circ$' for s in stations],
+    [rf'$\lambda = {s.lon_deg:.2f}^\circ$' for s in stations],
 )
 plt.ylim(0, 24)
 plt.xlim(0, 366)

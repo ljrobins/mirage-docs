@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["mirage"]
+#
+# [tool.uv.sources]
+# mirage = { path = "../../", editable = true }
+# ///
 """
 Metropolis Hastings MCMC
 ========================
@@ -11,10 +18,8 @@ import numpy as np
 px = lambda x: np.exp(-(x**2)) * (2 + np.sin(5 * x) + np.sin(2 * x))
 
 sigma = 1.0
-q = (
-    lambda loc, x: 1
-    / (np.sqrt(2 * np.pi * sigma**2))
-    * np.exp(-1 / 2 * (x - loc) ** 2 / sigma**2)
+q = lambda loc, x: (
+    1 / (np.sqrt(2 * np.pi * sigma**2)) * np.exp(-1 / 2 * (x - loc) ** 2 / sigma**2)
 )
 q_sampler = lambda x: np.random.normal(loc=x, scale=sigma)
 
@@ -34,7 +39,7 @@ for i in range(n_samples):
         xns.append(xn)
 
 x = np.linspace(-3, 3, 1000)
-ps = np.trapz(px(x), x)
+ps = np.trapezoid(px(x), x)
 plt.plot(x, px(x) / ps, label='True density')
 plt.hist(xns, bins=50, density=True, label=f'MCMC density, {n_samples} samples')
 plt.title(r'$p(x) = \frac{1}{3.545} e^{-x^2}\left(2 + \sin 5x + \sin 2x\right)$')
